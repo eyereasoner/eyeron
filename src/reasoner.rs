@@ -510,7 +510,64 @@ pub enum ProofNode {
     Unproven { fact: Triple, reason: String },
 }
 
+/// A parsed program whose rule classification and forward-rule agenda can be
+/// reused across independent data batches.
+#[derive(Debug, Clone)]
+pub struct PreparedReasoner {
+    program: Document,
+    query_rules: Vec<Rule>,
+    active_rules: Vec<Rule>,
+    agenda_index: AgendaIndex,
+}
+
+impl PreparedReasoner {
+    pub fn new(program: Document) -> Self {
+        let query_rules = program.rules.iter().filter(|rule| rule.is_query).cloned().collect();
+        let active_rules: Vec<Rule> =
+            program.rules.iter().filter(|rule| !rule.is_query).cloned().collect();
+        let agenda_index = build_forward_agenda(&active_rules);
+        Self { program, query_rules, active_rules, agenda_index }
+    }
+
+    /// Run the prepared program with one independent data document.
+    ///
+    /// Facts derived by one call are not retained for the next call.
+    pub fn reason(&self, data: &Document, options: &ReasonerOptions) -> ReasonerResult {
+        let mut doc = data.clone();
+        doc.merge(self.program.clone());
+
+        if data.rules.is_empty() {
+            reason_with_plan(
+                &doc,
+                options,
+                self.query_rules.clone(),
+                self.active_rules.clone(),
+                self.agenda_index.clone(),
+            )
+        } else {
+            reason(&doc, options)
+        }
+    }
+
+    pub fn program(&self) -> &Document {
+        &self.program
+    }
+}
+
 pub fn reason(doc: &Document, options: &ReasonerOptions) -> ReasonerResult {
+    let query_rules: Vec<Rule> = doc.rules.iter().filter(|rule| rule.is_query).cloned().collect();
+    let active_rules: Vec<Rule> = doc.rules.iter().filter(|rule| !rule.is_query).cloned().collect();
+    let agenda_index = build_forward_agenda(&active_rules);
+    reason_with_plan(doc, options, query_rules, active_rules, agenda_index)
+}
+
+fn reason_with_plan(
+    doc: &Document,
+    options: &ReasonerOptions,
+    query_rules: Vec<Rule>,
+    mut active_rules: Vec<Rule>,
+    mut agenda_index: AgendaIndex,
+) -> ReasonerResult {
     let mut closure = Vec::<Triple>::new();
     let mut fact_index = FactIndex::default();
     let mut seen = HashSet::<Triple>::new();
@@ -529,9 +586,6 @@ pub fn reason(doc: &Document, options: &ReasonerOptions) -> ReasonerResult {
     // Evaluate normal rules to a fixpoint first, then run query rules against
     // the closure.  This avoids query rules such as `{ ?S ?P ?O } log:query
     // { ?S ?P ?O }` feeding their own rule-as-data back into the reasoner.
-    let query_rules: Vec<Rule> = doc.rules.iter().filter(|rule| rule.is_query).cloned().collect();
-    let mut active_rules: Vec<Rule> = doc.rules.iter().filter(|rule| !rule.is_query).cloned().collect();
-    let mut agenda_index = build_forward_agenda(&active_rules);
     let mut agenda_cursor = 0usize;
     let mut generated_rule_facts = HashSet::<Triple>::new();
     let mut derived = Vec::<Triple>::new();

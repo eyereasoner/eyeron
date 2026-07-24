@@ -133,6 +133,21 @@ python3 -m http.server
 
 Open <http://localhost:8000/playground.html>. The `cargo playground` alias runs the `eyeron-playground-build` helper, which rebuilds the `pkg/` WebAssembly package and removes generated files that are not needed by the playground.
 
+For repeated browser or RDF-JS inference, construct one `EyeronSession`. Its
+N3 program is parsed and its forward-rule index is built once; each `reason`
+call uses an independent data batch:
+
+```js
+const session = new EyeronSession(runtimeN3, false);
+const output = session.reason(messageNQuads, true, "nquads");
+const report = JSON.parse(session.reasonReport(nextMessageNQuads, true, "nquads"));
+session.free();
+```
+
+The constructor's second argument enables proof output. The two run arguments
+select RDF output and the input RDF syntax, matching `reasonWithData`.
+`reasonReport` includes iteration, matching, fact, and rule counts.
+
 ## Testing
 
 Run the complete optimized test suite with:

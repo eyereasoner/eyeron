@@ -5,7 +5,9 @@ use crate::parser::{is_rdf_message_log, parse_n3, parse_n3_with_source, parse_rd
 use crate::printing::{rdf_result_to_string, result_to_string};
 use crate::proof::proof_to_n3;
 use crate::rdf_compat::{parse_rdf12, RdfFormat};
-use crate::reasoner::{reason as reason_document, ReasonerError, ReasonerOptions, ReasonerResult};
+use crate::reasoner::{
+    reason as reason_document, PreparedReasoner, ReasonerError, ReasonerOptions, ReasonerResult,
+};
 
 #[wasm_bindgen(js_name = version)]
 pub fn version() -> String {
@@ -32,6 +34,103 @@ pub fn reason_with_data_report(program: &str, data: &str, proof: bool, rdf: bool
     match run_report(program, data, proof, rdf, rdf_format) {
         Ok(output) => format!("{{\"ok\":true,\"output\":{}}}", json_string(&output)),
         Err(err) => err.to_json(),
+    }
+}
+
+/// A reusable Wasm reasoner. The N3 program is parsed and its forward-rule
+/// agenda is built once in the constructor; each call receives a fresh,
+/// independent RDF data batch.
+#[wasm_bindgen(js_name = EyeronSession)]
+pub struct EyeronSession {
+    prepared: PreparedReasoner,
+    proof: bool,
+}
+
+#[wasm_bindgen(js_class = EyeronSession)]
+impl EyeronSession {
+    #[wasm_bindgen(constructor)]
+    pub fn new(program: &str, proof: bool) -> std::result::Result<EyeronSession, JsValue> {
+        let doc = parse_source(program, proof, false, "n3", "session-program")
+            .map_err(|err| JsValue::from_str(&err.with_source_location(program, "program")))?;
+        Ok(Self { prepared: PreparedReasoner::new(doc), proof })
+    }
+
+    /// Reason over a single independent data batch.
+    pub fn reason(
+        &self,
+        data: &str,
+        rdf: bool,
+        rdf_format: &str,
+    ) -> std::result::Result<String, JsValue> {
+        self.run(data, rdf, rdf_format)
+            .map(|run| run.output)
+            .map_err(|err| JsValue::from_str(&err.display))
+    }
+
+    /// Like `reason`, but returns the same structured JSON error envelope as
+    /// `reasonWithDataReport`, plus per-run reasoner statistics.
+    #[wasm_bindgen(js_name = reasonReport)]
+    pub fn reason_report(&self, data: &str, rdf: bool, rdf_format: &str) -> String {
+        match self.run(data, rdf, rdf_format) {
+            Ok(run) => format!(
+                "{{\"ok\":true,\"output\":{},\"statistics\":{{\"iterations\":{},\"matchSteps\":{},\"explicitFacts\":{},\"derivedFacts\":{},\"rules\":{}}}}}",
+                json_string(&run.output),
+                run.result.statistics.iterations,
+                run.result.statistics.match_steps,
+                run.result.explicit.len(),
+                run.result.derived.len(),
+                run.result.rules.len(),
+            ),
+            Err(err) => err.to_json(),
+        }
+    }
+
+    #[wasm_bindgen(getter, js_name = programRules)]
+    pub fn program_rules(&self) -> usize {
+        self.prepared.program().rules.len()
+    }
+
+    #[wasm_bindgen(getter, js_name = programFacts)]
+    pub fn program_facts(&self) -> usize {
+        self.prepared.program().facts.len()
+    }
+}
+
+struct SessionRun {
+    output: String,
+    result: ReasonerResult,
+}
+
+impl EyeronSession {
+    fn run(
+        &self,
+        data: &str,
+        rdf: bool,
+        rdf_format: &str,
+    ) -> std::result::Result<SessionRun, PlaygroundError> {
+        let data_doc = if data.trim().is_empty() {
+            crate::Document::new()
+        } else {
+            parse_source(data, false, rdf, rdf_format, "session-data")
+                .map_err(|err| PlaygroundError::from_error(err, data, "data", "session-data"))?
+        };
+        let mut prefixes = data_doc.prefixes.clone();
+        prefixes.extend(self.prepared.program().prefixes.clone());
+        let result = self.prepared.reason(
+            &data_doc,
+            &ReasonerOptions { proof: self.proof, ..ReasonerOptions::default() },
+        );
+        if !result.is_complete() {
+            return Err(PlaygroundError::from_reasoner(&result));
+        }
+        let output = if self.proof {
+            proof_to_n3(&prefixes, &result)
+        } else if rdf {
+            rdf_result_to_string(&prefixes, &result.derived)
+        } else {
+            result_to_string(&prefixes, &result.derived)
+        };
+        Ok(SessionRun { output, result })
     }
 }
 

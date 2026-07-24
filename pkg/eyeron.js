@@ -1,6 +1,125 @@
 /* @ts-self-types="./eyeron.d.ts" */
 
 /**
+ * A reusable Wasm reasoner. The N3 program is parsed and its forward-rule
+ * agenda is built once in the constructor; each call receives a fresh,
+ * independent RDF data batch.
+ */
+export class EyeronSession {
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        EyeronSessionFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_eyeronsession_free(ptr, 0);
+    }
+    /**
+     * @param {string} program
+     * @param {boolean} proof
+     */
+    constructor(program, proof) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(program, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.eyeronsession_new(retptr, ptr0, len0, proof);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            this.__wbg_ptr = r0;
+            EyeronSessionFinalization.register(this, this.__wbg_ptr, this);
+            return this;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * @returns {number}
+     */
+    get programFacts() {
+        const ret = wasm.eyeronsession_programFacts(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+     * @returns {number}
+     */
+    get programRules() {
+        const ret = wasm.eyeronsession_programRules(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+     * Reason over a single independent data batch.
+     * @param {string} data
+     * @param {boolean} rdf
+     * @param {string} rdf_format
+     * @returns {string}
+     */
+    reason(data, rdf, rdf_format) {
+        let deferred4_0;
+        let deferred4_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(data, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+            const len0 = WASM_VECTOR_LEN;
+            const ptr1 = passStringToWasm0(rdf_format, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+            const len1 = WASM_VECTOR_LEN;
+            wasm.eyeronsession_reason(retptr, this.__wbg_ptr, ptr0, len0, rdf, ptr1, len1);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+            var ptr3 = r0;
+            var len3 = r1;
+            if (r3) {
+                ptr3 = 0; len3 = 0;
+                throw takeObject(r2);
+            }
+            deferred4_0 = ptr3;
+            deferred4_1 = len3;
+            return getStringFromWasm0(ptr3, len3);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export3(deferred4_0, deferred4_1, 1);
+        }
+    }
+    /**
+     * Like `reason`, but returns the same structured JSON error envelope as
+     * `reasonWithDataReport`, plus per-run reasoner statistics.
+     * @param {string} data
+     * @param {boolean} rdf
+     * @param {string} rdf_format
+     * @returns {string}
+     */
+    reasonReport(data, rdf, rdf_format) {
+        let deferred3_0;
+        let deferred3_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(data, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+            const len0 = WASM_VECTOR_LEN;
+            const ptr1 = passStringToWasm0(rdf_format, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+            const len1 = WASM_VECTOR_LEN;
+            wasm.eyeronsession_reasonReport(retptr, this.__wbg_ptr, ptr0, len0, rdf, ptr1, len1);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred3_0 = r0;
+            deferred3_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export3(deferred3_0, deferred3_1, 1);
+        }
+    }
+}
+if (Symbol.dispose) EyeronSession.prototype[Symbol.dispose] = EyeronSession.prototype.free;
+
+/**
  * @param {string} input
  * @returns {string}
  */
@@ -159,7 +278,10 @@ export function version() {
 function __wbg_get_imports() {
     const import0 = {
         __proto__: null,
-        __wbg_now_486ec478726f0853: function() {
+        __wbg___wbindgen_throw_344f42d3211c4765: function(arg0, arg1) {
+            throw new Error(getStringFromWasm0(arg0, arg1));
+        },
+        __wbg_now_5f109ec573bbd5e9: function() {
             const ret = Date.now();
             return ret;
         },
@@ -174,6 +296,10 @@ function __wbg_get_imports() {
         "./eyeron_bg.js": import0,
     };
 }
+
+const EyeronSessionFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_eyeronsession_free(ptr, 1));
 
 function addHeapObject(obj) {
     if (heap_next === heap.length) heap.push(heap.length + 1);

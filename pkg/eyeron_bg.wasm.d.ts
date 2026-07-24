@@ -1,6 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
+export const __wbg_eyeronsession_free: (a: number, b: number) => void;
+export const eyeronsession_new: (a: number, b: number, c: number, d: number) => void;
+export const eyeronsession_programFacts: (a: number) => number;
+export const eyeronsession_programRules: (a: number) => number;
+export const eyeronsession_reason: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
+export const eyeronsession_reasonReport: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
 export const reason: (a: number, b: number, c: number) => void;
 export const reasonWithData: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
 export const reasonWithDataReport: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;

@@ -23,7 +23,7 @@ pub use printing::{document_debug, rdf12_json, rdf_result_to_string, result_to_s
 pub use proof::proof_to_n3;
 pub use reasoner::{
     reason as reason_document, CompletionStatus, ReasonerError, ReasonerLimit, ReasonerOptions,
-    ReasonerResult, ReasonerStatistics,
+    PreparedReasoner, ReasonerResult, ReasonerStatistics,
 };
 
 /// Parse an N3 string, run the forward reasoner, and return the N3 output for
@@ -96,6 +96,38 @@ mod tests {
         let out = reason(input).unwrap();
         assert_eq!(out, "ok");
     }
+
+    #[test]
+    fn prepared_reasoner_keeps_data_batches_independent() {
+        let program = parse_n3(
+            r#"
+                @prefix : <http://example.org/> .
+                { ?x :input ?value } => { ?x :output ?value } .
+            "#,
+            None,
+        )
+        .unwrap();
+        let prepared = PreparedReasoner::new(program);
+        let first = parse_n3(
+            "@prefix : <http://example.org/> . :first :input 1 .",
+            None,
+        )
+        .unwrap();
+        let second = parse_n3(
+            "@prefix : <http://example.org/> . :second :input 2 .",
+            None,
+        )
+        .unwrap();
+
+        let first_result = prepared.reason(&first, &ReasonerOptions::default());
+        let second_result = prepared.reason(&second, &ReasonerOptions::default());
+
+        assert!(result_to_string(&first.prefixes, &first_result.derived).contains(":first :output 1"));
+        let second_output = result_to_string(&second.prefixes, &second_result.derived);
+        assert!(second_output.contains(":second :output 2"));
+        assert!(!second_output.contains(":first"));
+    }
+
     #[test]
     fn rdf_message_log_preserves_utf8_literals() {
         let input = r#"
