@@ -2512,6 +2512,11 @@ fn eval_log_dtlit(subject: &Term, object: &Term, bindings: &Bindings, facts: &[T
     let s = rdf_or_native_list(subject, bindings, facts).map(Term::List).unwrap_or_else(|| resolve_pattern(subject, bindings));
     let o = resolve_pattern(object, bindings);
     match (&s, &o) {
+        (Term::List(parts), Term::Literal(lit)) if parts.len() == 2 => {
+            let pair = dtlit_pair(lit);
+            let mut b = bindings.clone();
+            if unify_term(&s, &pair, &mut b) { vec![canonicalize_bindings(&b)] } else { Vec::new() }
+        }
         (Term::List(parts), _) if parts.len() == 2 => {
             let Some(lex) = string_value(&resolve(&parts[0], bindings)) else { return Vec::new(); };
             let Term::Iri(dt) = resolve(&parts[1], bindings) else { return Vec::new(); };
@@ -2530,14 +2535,24 @@ fn eval_log_dtlit(subject: &Term, object: &Term, bindings: &Bindings, facts: &[T
             if unify_term(object, &lit, &mut b) { vec![canonicalize_bindings(&b)] } else { Vec::new() }
         }
         (Term::Var(name), Term::Literal(lit)) => {
-            let dt = lit.datatype.clone().unwrap_or_else(|| XSD_STRING_IRI.to_string());
-            let dt = if lit.language.is_some() { RDF_LANG_STRING_IRI.to_string() } else { dt };
-            let pair = Term::List(vec![Term::Literal(Literal::plain(lit.value.clone())), Term::Iri(dt)]);
+            let pair = dtlit_pair(lit);
             bind_one(bindings, name, pair).into_iter().map(|b| canonicalize_bindings(&b)).collect()
         }
         (Term::Var(_), Term::Var(_)) => vec![bindings.clone()],
         _ => Vec::new(),
     }
+}
+
+fn dtlit_pair(lit: &Literal) -> Term {
+    let datatype = if lit.language.is_some() {
+        RDF_LANG_STRING_IRI.to_string()
+    } else {
+        lit.datatype.clone().unwrap_or_else(|| XSD_STRING_IRI.to_string())
+    };
+    Term::List(vec![
+        Term::Literal(Literal::plain(lit.value.clone())),
+        Term::Iri(datatype),
+    ])
 }
 
 fn eval_log_langlit(subject: &Term, object: &Term, bindings: &Bindings, facts: &[Triple]) -> Vec<Bindings> {

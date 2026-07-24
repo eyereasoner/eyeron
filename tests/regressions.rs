@@ -59,6 +59,26 @@ fn partially_bound_native_list_patterns_use_all_bound_positions() {
     assert!(!output.contains(":case :value :v3"), "{output}");
 }
 
+#[test]
+fn log_dtlit_decomposes_a_literal_into_partially_bound_list_items() {
+    let source = r#"
+        @prefix : <#>.
+        @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+        {
+            (?lexical ?datatype) log:dtlit 5.
+        } => {
+            :result :is (?lexical ?datatype).
+        }.
+    "#;
+
+    let output = reason(source).unwrap();
+    assert!(
+        output.contains(":result :is (\"5\" xsd:integer)"),
+        "{output}"
+    );
+}
+
 fn stable_golden_lines(golden: &str) -> impl Iterator<Item = &str> {
     golden.lines().map(str::trim).filter(|line| {
         !line.is_empty()
