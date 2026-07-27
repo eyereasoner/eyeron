@@ -1,6 +1,6 @@
 # RDF Message window repair — fixing an open/closed door conflict
 
-This deck follows a small RDF Message window where one door is reported both open and closed. The [rules](../rdf-message-window-repair.n3) inspect the replayed [message log input](../input/rdf-message-window-repair.trig), the [golden output](../output/rdf-message-window-repair.md) shows the repaired conclusion, and [The Art of Eyeron](../../the-art-of-eyeron.md#17-rdf-messages) explains how `-r` exposes message payloads without silently merging them.
+This deck follows a small RDF Message window where one door is reported both open and closed. The [rules](../rdf-message-window-repair.n3) inspect the replayed [message log input](../input/rdf-message-window-repair.trig), the [golden output](../output/rdf-message-window-repair.md) shows the repaired conclusion.
 
 The goal is to show how Eyeron can reason over a replayed RDF Message Log, keep message boundaries visible, detect an inconsistency in a sliding window, and materialize a repaired conclusion instead of blindly merging contradictory facts.
 

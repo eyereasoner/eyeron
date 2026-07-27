@@ -1,6 +1,6 @@
 # RDF Message LDES Incremental Repair
 
-This deck walks through a stream that is large enough to make full recomputation unattractive. The [rules](../rdf-message-ldes-incremental.n3) consume the replayed LDES [message log input](../input/rdf-message-ldes-incremental.trig), the [golden output](../output/rdf-message-ldes-incremental.md) shows the incremental repair result, and [The Art of Eyeron](../../the-art-of-eyeron.md#17-rdf-messages) explains how `-r` turns RDF Message boundaries into facts for the rules.
+This deck walks through a stream that is large enough to make full recomputation unattractive. The [rules](../rdf-message-ldes-incremental.n3) consume the replayed LDES [message log input](../input/rdf-message-ldes-incremental.trig), the [golden output](../output/rdf-message-ldes-incremental.md) shows the incremental repair result.
 
 ## Why this example exists
 
@@ -44,8 +44,6 @@ MESSAGE
 ```
 
 Eyeron's `-r` mode preserves those message boundaries as `eymsg:` envelopes and payload graphs.  The rules inspect payloads with `log:includes`, so each member remains scoped to the message that emitted it.
-
-Book: [RDF Messages](../../the-art-of-eyeron.md#17-rdf-messages)
 
 ## Why LDES helps
 
