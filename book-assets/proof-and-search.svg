@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" role="img" aria-labelledby="title desc">
+  <title id="title">A proof is smaller than the search used to discover it</title>
+  <desc id="desc">A wide search tree includes failed and repeated branches, while the proof retains only the successful facts, rule, and conclusion.</desc>
+  <style>
+    .title{font:700 24px system-ui,sans-serif;fill:#20313c}.head{font:700 18px system-ui,sans-serif;fill:#334b5a}
+    .node{fill:#fff;stroke:#7e929e;stroke-width:2}.good{fill:#edf4f0;stroke:#668e78;stroke-width:3}
+    .bad{fill:#f6ece8;stroke:#bc795b;stroke-width:2}.edge{stroke:#96a6ae;stroke-width:2}.win{stroke:#668e78;stroke-width:4}
+    .label{font:14px system-ui,sans-serif;fill:#30434e}.small{font:13px system-ui,sans-serif;fill:#667780}
+  </style>
+  <rect width="960" height="460" rx="24" fill="#fbfaf7"/>
+  <text x="480" y="42" text-anchor="middle" class="title">Search explores; proof explains</text>
+  <line x1="490" y1="78" x2="490" y2="410" stroke="#ded8cf" stroke-width="2"/>
+  <text x="245" y="86" text-anchor="middle" class="head">search space</text>
+  <g>
+    <line x1="245" y1="132" x2="95" y2="215" class="edge"/><line x1="245" y1="132" x2="245" y2="215" class="win"/><line x1="245" y1="132" x2="395" y2="215" class="edge"/>
+    <line x1="95" y1="247" x2="52" y2="330" class="edge"/><line x1="95" y1="247" x2="138" y2="330" class="edge"/>
+    <line x1="245" y1="247" x2="212" y2="330" class="win"/><line x1="245" y1="247" x2="288" y2="330" class="edge"/>
+    <line x1="395" y1="247" x2="375" y2="330" class="edge"/><line x1="395" y1="247" x2="438" y2="330" class="edge"/>
+    <rect x="170" y="105" width="150" height="54" rx="12" class="node"/><text x="245" y="137" text-anchor="middle" class="label">goal</text>
+    <rect x="35" y="215" width="120" height="42" rx="10" class="bad"/><text x="95" y="241" text-anchor="middle" class="label">rule A</text>
+    <rect x="185" y="215" width="120" height="42" rx="10" class="good"/><text x="245" y="241" text-anchor="middle" class="label">rule B</text>
+    <rect x="335" y="215" width="120" height="42" rx="10" class="node"/><text x="395" y="241" text-anchor="middle" class="label">rule C</text>
+    <circle cx="52" cy="345" r="20" class="bad"/><text x="52" y="351" text-anchor="middle" class="label">×</text>
+    <circle cx="138" cy="345" r="20" class="bad"/><text x="138" y="351" text-anchor="middle" class="label">×</text>
+    <circle cx="212" cy="345" r="20" class="good"/><text x="212" y="351" text-anchor="middle" class="label">✓</text>
+    <circle cx="288" cy="345" r="20" class="bad"/><text x="288" y="351" text-anchor="middle" class="label">×</text>
+    <circle cx="375" cy="345" r="20" class="bad"/><text x="375" y="351" text-anchor="middle" class="label">×</text>
+    <circle cx="438" cy="345" r="20" class="node"/><text x="438" y="351" text-anchor="middle" class="label">…</text>
+    <text x="245" y="402" text-anchor="middle" class="small">failures and alternatives matter operationally</text>
+  </g>
+  <g transform="translate(545 105)">
+    <text x="180" y="-19" text-anchor="middle" class="head">retained explanation</text>
+    <rect x="90" width="180" height="52" rx="12" class="good"/><text x="180" y="31" text-anchor="middle" class="label">conclusion</text>
+    <line x1="180" y1="52" x2="180" y2="100" class="win"/>
+    <rect x="90" y="100" width="180" height="52" rx="12" class="good"/><text x="180" y="131" text-anchor="middle" class="label">rule + bindings</text>
+    <line x1="180" y1="152" x2="100" y2="215" class="win"/><line x1="180" y1="152" x2="260" y2="215" class="win"/>
+    <rect x="15" y="215" width="170" height="52" rx="12" class="good"/><text x="100" y="246" text-anchor="middle" class="label">source fact 1</text>
+    <rect x="175" y="215" width="170" height="52" rx="12" class="good"/><text x="260" y="246" text-anchor="middle" class="label">source fact 2</text>
+    <text x="180" y="310" text-anchor="middle" class="small">enough evidence to justify success</text>
+  </g>
+</svg>

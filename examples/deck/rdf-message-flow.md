@@ -1,6 +1,6 @@
 # RDF Message Logs in Eyeron — from stream to reasoning
 
-This deck reads alongside the [rules](../rdf-message-flow.n3) and the replayed [message log input](../input/rdf-message-flow.trig): the [golden output](../output/rdf-message-flow.md) shows what Eyeron derives once `-r` has exposed the RDF Message envelopes and payload graphs. The [README section](../../README.md#rdf-messages) explains that replay step in more detail.
+This deck reads alongside the [rules](../rdf-message-flow.n3) and the replayed [message log input](../input/rdf-message-flow.trig): the [golden output](../output/rdf-message-flow.md) shows what Eyeron derives once `-r` has exposed the RDF Message envelopes and payload graphs. [The Art of Eyeron](../../the-art-of-eyeron.md#17-rdf-messages) explains that replay step in more detail.
 
 The goal is to show, in plain language, how Eyeron can now read an RDF Message Log directly instead of asking the example data to describe its own message envelopes by hand.
 

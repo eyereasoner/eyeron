@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" role="img" aria-labelledby="title desc">
+  <title id="title">Quoted formulas preserve graph scope</title>
+  <desc id="desc">An outer graph contains a claim whose content is a quoted inner graph. Log includes inspects the inner graph and a rule derives an outer conclusion without merging the quoted fact into the outer graph.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#bd7547"/></marker>
+    <style>
+      .title{font:700 24px system-ui,sans-serif;fill:#20313c}.head{font:700 17px system-ui,sans-serif;fill:#fff}
+      .body{font:15px ui-monospace,monospace;fill:#263944}.note{font:14px system-ui,sans-serif;fill:#536671}
+      .arrow{stroke:#bd7547;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="960" height="460" rx="24" fill="#fbfaf7"/>
+  <text x="480" y="42" text-anchor="middle" class="title">Quotation keeps context intact</text>
+  <g transform="translate(55 80)">
+    <rect width="440" height="300" rx="22" fill="#eef2f4" stroke="#526b7a" stroke-width="3"/>
+    <path d="M0 22Q0 0 22 0H418Q440 0 440 22V52H0Z" fill="#334b5a"/>
+    <text x="22" y="33" class="head">outer graph</text>
+    <text x="28" y="92" class="body">:claim :content</text>
+    <g transform="translate(65 120)">
+      <rect width="330" height="118" rx="16" fill="#fff7eb" stroke="#bd7547" stroke-width="3" stroke-dasharray="9 6"/>
+      <text x="18" y="31" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#9b5833">quoted formula { … }</text>
+      <circle cx="54" cy="75" r="8" fill="#bd7547"/>
+      <circle cx="276" cy="75" r="8" fill="#334b5a"/>
+      <path d="M64 75H264" stroke="#7d8e98" stroke-width="3"/>
+      <text x="165" y="66" text-anchor="middle" class="body">a :Human</text>
+      <text x="54" y="101" text-anchor="middle" class="note">Socrates</text>
+      <text x="276" y="101" text-anchor="middle" class="note">Human</text>
+    </g>
+    <text x="220" y="272" text-anchor="middle" class="note">The quoted triple is data here—not an outer fact.</text>
+  </g>
+  <path d="M505 214H625" class="arrow"/>
+  <rect x="520" y="145" width="92" height="42" rx="21" fill="#fff" stroke="#bd7547" stroke-width="2"/>
+  <text x="566" y="172" text-anchor="middle" font-family="ui-monospace,monospace" font-size="14" fill="#8f502f">includes</text>
+  <g transform="translate(635 122)">
+    <rect width="270" height="205" rx="22" fill="#edf4f0" stroke="#70947f" stroke-width="3"/>
+    <path d="M0 22Q0 0 22 0H248Q270 0 270 22V52H0Z" fill="#426454"/>
+    <text x="20" y="33" class="head">derived outer fact</text>
+    <text x="28" y="97" class="body">:claim</text>
+    <text x="28" y="128" class="body">  :mentionsHuman</text>
+    <text x="28" y="159" class="body">  :Socrates</text>
+  </g>
+  <text x="480" y="420" text-anchor="middle" class="note">Inspection crosses the boundary deliberately; merging never happens implicitly.</text>
+</svg>
