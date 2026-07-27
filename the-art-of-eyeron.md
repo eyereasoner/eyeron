@@ -3199,7 +3199,7 @@ source
   │
   ▼
 lexer ──▶ parser ──▶ Document ──▶ reasoner ──┬──▶ derived output
-                                            └──▶ proof
+                                             └──▶ proof
 ```
 
 The native command line, Rust library, and WebAssembly interface are front ends
