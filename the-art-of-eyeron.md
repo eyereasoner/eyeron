@@ -143,6 +143,27 @@ change the rule.
 19. [Knowledge engineering as boundary design](#19-knowledge-engineering-as-boundary-design)
 20. [From examples to dependable systems](#20-from-examples-to-dependable-systems)
 
+### Part V — The craft of N3 reasoning
+
+21. [Logic, data, and control](#21-logic-data-and-control)
+22. [Constructing a theory](#22-constructing-a-theory)
+23. [Correctness and termination](#23-correctness-and-termination)
+24. [Improving a program](#24-improving-a-program)
+25. [Case study: an auditable decision service](#25-case-study-an-auditable-decision-service)
+
+### Part VI — Advanced relational design
+
+26. [Rules that produce rules](#26-rules-that-produce-rules)
+27. [Lists, trees, and symbolic evaluation](#27-lists-trees-and-symbolic-evaluation)
+28. [Mathematics made executable](#28-mathematics-made-executable)
+29. [Finite search and optimization](#29-finite-search-and-optimization)
+30. [Streams, state, and time](#30-streams-state-and-time)
+
+### Part VII — The reasoning laboratory
+
+31. [Testing a theory](#31-testing-a-theory)
+32. [A pattern language for Eyeron](#32-a-pattern-language-for-eyeron)
+
 ### Appendices
 
 - [A. Language summary](#appendix-a-language-summary)
@@ -814,6 +835,11 @@ account of direction, completion, evidence, and failure.
 
 ## 11. Forward and backward rules
 
+<figure>
+  <img src="book-assets/forward-backward.svg" alt="Forward reasoning grows a reusable closure from facts, while backward reasoning reduces a selected goal to supporting premises.">
+  <figcaption>Forward and backward rules express related logic but make different commitments about work, storage, and termination.</figcaption>
+</figure>
+
 A forward rule says “when this body is established, materialize that head”:
 
 ```n3
@@ -1014,6 +1040,11 @@ Eyeron chiefly addresses the middle and lower layers. Applications must still
 decide which sources and rules are authorized.
 
 ## 14. Termination, limits, and performance
+
+<figure>
+  <img src="book-assets/bounded-generation.svg" alt="An unbounded numeric generator continues forever, while an explicit limit makes the distance to termination decrease to zero.">
+  <figcaption>A safety limit can interrupt an infinite run; a domain bound explains why the run must finish.</figcaption>
+</figure>
 
 Forward reasoning terminates when only finitely many distinct facts can be
 generated and the reasoner reaches them. Common ways to preserve finiteness
@@ -1427,6 +1458,1399 @@ alignment of meaning and mechanism:
 
 A small reasoner is enough to express deep arguments. Its smallness is an
 advantage when the important seams remain visible.
+
+---
+
+# Part V — The craft of N3 reasoning
+
+The first four parts introduced the pieces. This part studies the activity of
+putting them together. The central question changes from “what does this
+construct do?” to “how should a theory be designed so that its meaning,
+execution, and evidence reinforce one another?”
+
+## 21. Logic, data, and control
+
+An Eyeron program combines three things that are easy to blur:
+
+- **data**, the explicit graph supplied to a run;
+- **logic**, the implications claimed by the rule set; and
+- **control**, the operational route by which matching and materialization
+  reach an answer.
+
+Consider two equivalent-looking paths to a risk classification:
+
+```n3
+@prefix : <http://example.org/craft#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+{
+    ?sensor :reading ?value.
+    ?value math:greaterThan 80.
+    ?sensor :installedAt ?site.
+} => {
+    ?site :risk :High.
+}.
+```
+
+and:
+
+```n3
+@prefix : <http://example.org/craft#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+{
+    ?sensor :installedAt ?site.
+    ?sensor :reading ?value.
+    ?value math:greaterThan 80.
+} => {
+    ?site :risk :High.
+}.
+```
+
+Their ground meaning is the same. Their intermediate work may differ. If only
+a few sensors have readings above 80 but millions have installation records,
+binding and testing the reading early can be more selective. If the input is
+indexed primarily by installed site and a caller already knows `?site`, the
+second order may be useful.
+
+The lesson is not a fixed rule that “tests go first.” A built-in test cannot run
+before its operands are bound. The lesson is to read the body as a sequence of
+increasingly specific bindings.
+
+### Binding ledgers
+
+For a difficult rule, write a ledger:
+
+| Step | Premise | Known before | Learned |
+| --- | --- | --- | --- |
+| 1 | `?s :reading ?v` | — | `?s`, `?v` |
+| 2 | `?v math:greaterThan 80` | `?v` | constraint succeeds |
+| 3 | `?s :installedAt ?site` | `?s` | `?site` |
+
+This is the N3 counterpart of tracing variable modes in a logic program or
+examining a join plan in a database.
+
+### Search trees and proof trees
+
+Matching may explore many candidates:
+
+```text
+reading 79  ── fails greaterThan
+reading 81  ── installation missing
+reading 95  ── installation found ── conclusion
+```
+
+The proof for the conclusion retains the successful support, not the discarded
+branches. Performance analysis studies the search tree. Explanation studies
+the proof tree. Confusing them leads either to bloated proofs or to inadequate
+performance diagnoses.
+
+### Control without semantic drift
+
+Reordering independent body premises normally preserves meaning. Adding a
+filter, changing formula scope, replacing a forward rule with a backward rule,
+or moving an operation across a completion boundary may not.
+
+Before a control improvement, state:
+
+1. the set of ground conclusions that must remain unchanged;
+2. the calling modes that matter;
+3. the completion assumptions;
+4. the proof dependencies that must remain visible; and
+5. the datasets over which the comparison will be made.
+
+Optimization without such a contract is merely rewriting.
+
+## 22. Constructing a theory
+
+The most reliable theories are grown from examples and meanings, not written
+top-down as a wall of implications.
+
+### Begin with ground sentences
+
+Suppose a service must decide whether a data-use request is permitted. Before
+writing variables, write concrete cases:
+
+```n3
+@prefix : <http://example.org/policy#>.
+
+:request17 :hasPurpose :Research.
+:request17 :hasConsent :consent9.
+:consent9 :status :Valid.
+```
+
+Say each sentence aloud:
+
+- request 17 declares Research as its purpose;
+- request 17 is associated with consent 9;
+- consent 9 currently has Valid status.
+
+The qualifiers matter. “Declares” is weaker than “has been independently
+verified.” “Currently” requires a time boundary that the simple vocabulary
+does not yet express.
+
+### Write the expected witness
+
+Now write the desired result:
+
+```n3
+:request17 :decision :Permit;
+    :decisionReason :ResearchWithValidConsent.
+```
+
+This witness does two jobs. It makes the target testable, and it reveals which
+information an explanation must carry.
+
+### Generalize only stable names
+
+Replace the request and consent resources with variables, but leave policy
+constants intact:
+
+```n3
+{
+    ?request :hasPurpose :Research;
+        :hasConsent ?consent.
+    ?consent :status :Valid.
+} => {
+    ?request :decision :Permit;
+        :decisionReason :ResearchWithValidConsent.
+}.
+```
+
+If `:Research` also becomes a variable, the rule silently changes from one
+policy case into all purposes. Generalization is a claim about uniformity; it
+should never be automatic.
+
+### Add the nearest counterexample
+
+Useful near misses include:
+
+```n3
+:request18 :hasPurpose :Marketing.
+:request18 :hasConsent :consent10.
+:consent10 :status :Valid.
+```
+
+and:
+
+```n3
+:request19 :hasPurpose :Research.
+:request19 :hasConsent :consent11.
+:consent11 :status :Expired.
+```
+
+Neither should receive the same permit. If one does, the rule has generalized
+past its intended meaning.
+
+### Grow through layers
+
+A maintainable theory separates:
+
+```text
+source vocabulary
+      ↓
+normalized domain concepts
+      ↓
+eligibility or classification
+      ↓
+decision and reason
+      ↓
+presentation
+```
+
+For example:
+
+```n3
+{
+    ?raw a :SubmittedConsent;
+        :submittedStatus "active".
+} => {
+    ?raw a :Consent;
+        :status :Valid.
+}.
+```
+
+The policy rule then depends on `:status :Valid`, not on every source spelling.
+Changing an adapter should not require rewriting policy logic.
+
+### Separate derive, validate, and present
+
+One rule should not usually normalize a source value, make a policy decision,
+and format a paragraph. Separate rules give each predicate a clearer meaning
+and produce more useful proofs.
+
+```text
+derive concepts → detect conflicts → derive verdict → format output
+```
+
+The graph between stages is an inspectable interface.
+
+### Construction checklist
+
+Before calling a first draft complete, ask:
+
+- Does every local predicate have one ground reading?
+- Is every variable in the head justified by the body?
+- Are existential witnesses intentional?
+- Are source facts distinguishable from normalized facts?
+- Is graph scope explicit?
+- Is absence checked only over a completed, bounded scope?
+- Does each important decision carry a reason?
+- Is there a near-miss test for every positive example?
+
+## 23. Correctness and termination
+
+Correctness has several layers. A program can terminate and derive the wrong
+facts. It can be logically plausible and never terminate. It can produce the
+right sample output while depending on the wrong source.
+
+### Soundness of one rule
+
+For:
+
+```n3
+{
+    ?x :parent ?p.
+    ?p :parent ?g.
+} => {
+    ?x :grandparent ?g.
+}.
+```
+
+soundness asks whether the domain definition of `:grandparent` truly follows
+from two `:parent` links. It may not if the first predicate includes adoptive
+parents but the target vocabulary intends only biological grandparents.
+
+Syntax cannot answer that question. Vocabulary documentation can.
+
+### Closure-level invariants
+
+State properties that every derived fact must satisfy:
+
+```text
+If x reaches y, there exists a non-empty edge path from x to y.
+If request r is permitted, r has exactly one recognized purpose and
+the required authorization is valid in the same evaluation context.
+```
+
+Then examine every rule that can produce the predicate. Each must preserve the
+invariant.
+
+### Completeness relative to a contract
+
+Completeness is always relative to intended inputs and supported inference.
+The two reachability rules in Chapter 5 are complete for non-empty paths over
+explicit `:edge` facts. They are not a universal graph-theory engine: they do
+not infer edges hidden in arbitrary quoted formulas or external documents.
+
+A useful completeness statement names:
+
+- the class of input documents;
+- the query or conclusion predicate;
+- the rule and built-in semantics assumed; and
+- the completion limits.
+
+### Termination by finite vocabulary
+
+If every conclusion uses only terms drawn from a finite input and finite rule
+set, then only finitely many ground triples can be formed. Duplicate
+suppression eventually yields a fixpoint.
+
+This argument fails when rules create:
+
+- unbounded numbers;
+- ever-longer strings;
+- nested lists or formulas of increasing depth;
+- fresh identities not stable per firing; or
+- generated rules whose shapes continue to grow.
+
+### Ranking functions
+
+Backward recursion needs a decreasing measure. In list recursion, the remaining
+list length may decrease. In graph traversal, a finite visited set may grow
+toward a bound. In bounded numeric generation, `limit - current` decreases.
+
+Write the measure explicitly:
+
+```text
+measure(state) = number of unvisited nodes
+```
+
+Then check that every recursive branch decreases it and cannot make it
+negative.
+
+### Aggregation and negative premises
+
+For collection and absence, correctness also depends on evaluation time. A
+result over an unfinished graph may be temporarily plausible and finally
+wrong. Eyeron's deferred phase supplies an operational guarantee, but the
+program must still supply a bounded population or quoted scope.
+
+### Integrity is not retraction
+
+This fuse:
+
+```n3
+{
+    ?r :decision :Permit;
+        :decision :Deny.
+} => {
+    ?r :inconsistent true.
+}.
+```
+
+does not retract either decision. It turns a contradiction into an explicit
+fact that downstream rules can see. In a monotonic reasoner, repair is usually
+represented by a new context, version, or decision status—not by pretending
+the earlier closure never existed.
+
+## 24. Improving a program
+
+Improvement should preserve the semantic contract while reducing work,
+clarifying proofs, or strengthening boundaries.
+
+### Strengthen selective premises
+
+Compare:
+
+```n3
+?x ?predicate ?value.
+```
+
+with:
+
+```n3
+?x :temperature ?value.
+```
+
+The first scans a much broader relation and says less. Constants are not merely
+performance hints; they express the intended vocabulary.
+
+### Introduce semantic helpers
+
+A repeated group of premises may deserve a name:
+
+```n3
+{
+    ?sensor :reading ?value.
+    ?value math:greaterThan 80.
+} => {
+    ?sensor :hasHighReading true.
+}.
+```
+
+Later rules can depend on `:hasHighReading`. This is valuable when the helper is
+a stable domain concept. It is harmful when it merely hides an arbitrary
+implementation fragment.
+
+### Move invariant work outward
+
+If an IRI or list is constructed identically for every candidate inside a broad
+join, derive it once in an earlier rule. Materialization can act like a named
+intermediate relation in a database.
+
+The tradeoff is space: reusable facts enlarge the closure. Measure whether
+recomputation or materialization is cheaper for the actual workload.
+
+### Choose forward versus backward deliberately
+
+A derived relation used by nearly every request may deserve forward
+materialization. A large relation queried only for one bound goal may be better
+as a backward rule.
+
+Changing direction can alter:
+
+- which facts appear in normal output;
+- when work occurs;
+- which proof records are available;
+- termination behavior; and
+- whether later forward rules can consume the relation.
+
+Test all five, not only the final Boolean.
+
+### Avoid premature textual output
+
+String formatting is often more expensive and less reusable than retaining
+structured facts. Move `log:outputString` to the presentation edge. An API
+consumer may not want prose at all.
+
+### Measure the right quantities
+
+Eyeron statistics include iterations, match steps, fact counts, and rule
+counts. Interpret them:
+
+- high iterations may indicate a long dependency chain;
+- high match steps may indicate broad joins;
+- rapidly growing facts may indicate an unsafe generator;
+- many rules may indicate generated-rule expansion.
+
+One statistic is rarely a diagnosis. Compare a baseline and a controlled
+revision over the same input.
+
+### Stop when the model is clear
+
+The fastest rule set is not always the best rule set. A small cost can be worth
+paying for a vocabulary boundary, a direct proof, or a simpler correctness
+argument. Optimization is complete when the operational requirement is met and
+the semantic structure remains easy to audit.
+
+## 25. Case study: an auditable decision service
+
+<figure>
+  <img src="book-assets/policy-pipeline.svg" alt="Source evidence flows through normalization and an integrity fuse into a verdict and reason, with proof support retained beneath every stage.">
+  <figcaption>An auditable decision is a sequence of explicit graph interfaces, not one opaque Boolean computation.</figcaption>
+</figure>
+
+We will assemble the preceding ideas into a small access decision.
+
+### Requirements
+
+A request may be permitted when:
+
+- it declares the Research purpose;
+- it references a valid consent;
+- the consent covers Research;
+- no conflict has been detected; and
+- the evaluation is complete.
+
+We want a machine verdict, an explicit reason, an integrity fuse, and a
+human-facing summary.
+
+### Source facts
+
+```n3
+@prefix : <http://example.org/decision#>.
+
+:request17 a :AccessRequest;
+    :declaredPurpose :Research;
+    :submittedConsent :consent9.
+
+:consent9 :submittedStatus "active";
+    :submittedScope "research".
+```
+
+Source predicates preserve what was submitted. They do not yet claim that the
+values are recognized.
+
+### Normalization
+
+```n3
+@prefix : <http://example.org/decision#>.
+
+{
+    ?consent :submittedStatus "active";
+        :submittedScope "research".
+} => {
+    ?consent a :Consent;
+        :status :Valid;
+        :coversPurpose :Research.
+}.
+```
+
+This is the knowledge boundary. A production service would identify the source
+authority, vocabulary version, and effective time.
+
+### Eligibility
+
+```n3
+@prefix : <http://example.org/decision#>.
+
+{
+    ?request a :AccessRequest;
+        :declaredPurpose :Research;
+        :submittedConsent ?consent.
+    ?consent a :Consent;
+        :status :Valid;
+        :coversPurpose :Research.
+} => {
+    ?request :eligibleBy :ResearchConsentRule.
+}.
+```
+
+The intermediate fact makes the successful policy condition inspectable.
+
+### Conflict detection
+
+```n3
+@prefix : <http://example.org/decision#>.
+
+{
+    ?consent :status :Valid;
+        :status :Revoked.
+} => {
+    ?consent :inconsistentStatus true.
+}.
+```
+
+In a complete system, further rules would propagate this conflict to requests
+that depend on the consent.
+
+### Scoped decision
+
+```n3
+@prefix : <http://example.org/decision#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+{
+    ?request :eligibleBy :ResearchConsentRule.
+    ?scope log:notIncludes { ?request :blockedBy ?reason. }.
+} => {
+    ?request :decision :Permit;
+        :decisionReason :ResearchWithValidConsent.
+}.
+```
+
+The blank scope asks about the completed current graph. This example is
+deliberately simple; a quoted evaluation formula would provide a stronger
+tenant or request boundary in a multi-request service.
+
+### Presentation
+
+```n3
+@prefix : <http://example.org/decision#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+{
+    ?request :decision ?decision;
+        :decisionReason ?reason.
+    ("Decision %s for %s because %s." ?decision ?request ?reason)
+        string:format ?line.
+} => {
+    ?request log:outputString ?line.
+}.
+```
+
+The structured verdict remains available even if the wording changes.
+
+### Test table
+
+| Case | Purpose | Consent | Conflict | Expected |
+| --- | --- | --- | --- | --- |
+| A | Research | valid, covers Research | none | Permit |
+| B | Marketing | valid, covers Research | none | no permit |
+| C | Research | expired | none | no permit |
+| D | Research | valid | blocked | no permit |
+| E | Research | valid and revoked | conflict | inconsistency |
+
+For each successful permit, preserve a proof. For each absence, test the
+positive blocking or ineligibility fact when possible; bare non-output is a
+weak diagnostic.
+
+### Deployment boundary
+
+Embed the normalized program in a prepared session. Evaluate each request batch
+independently unless the application deliberately supplies a shared context.
+Return completion status and proof references with the decision. Logging only
+the final word “Permit” is not an audit trail.
+
+---
+
+# Part VI — Advanced relational design
+
+N3 can treat graphs, lists, and even rules as data. These capabilities reward
+precision: every additional level of quotation introduces another scope, and
+every generated structure needs its own termination argument.
+
+## 26. Rules that produce rules
+
+<figure>
+  <img src="book-assets/generated-rules.svg" alt="A mapping declaration triggers an outer rule that generates an active inner rule, which later maps a source fact to a canonical fact.">
+  <figcaption>Generated rules have two firing times and two variable scopes.</figcaption>
+</figure>
+
+An ordinary rule concludes facts. N3 can also conclude a quoted implication
+that Eyeron promotes into an active rule.
+
+### A schema-driven rule
+
+Conceptually, a mapping declaration can generate an operational rule:
+
+```n3
+@prefix : <http://example.org/meta#>.
+
+:sourceName :mapsTo :canonicalName.
+
+{
+    ?sourceProperty :mapsTo ?targetProperty.
+} => {
+    {
+        ?resource ?sourceProperty ?value.
+    } => {
+        ?resource ?targetProperty ?value.
+    }.
+}.
+```
+
+Once generated, the inner rule can map facts using the declared property pair.
+The example demonstrates why formulas unify structurally and why blank-node and
+variable scopes in generated rules require care.
+
+### Quotation levels
+
+Read braces by level:
+
+```text
+outer body       matches the current closure
+outer head       constructs a rule
+inner body       will match when the generated rule runs
+inner head       will materialize its conclusion
+```
+
+A variable bound by the outer rule may specialize the generated rule. A
+variable belonging to the inner rule remains universally patterned within that
+rule. Accidental capture changes the generated program.
+
+### Why generate rules?
+
+Appropriate uses include:
+
+- schema mappings declared as data;
+- domain-specific rule templates;
+- controlled specialization;
+- rule exchange where the generated rule itself is evidence; and
+- metamodels that compile declarations into executable implications.
+
+Inappropriate uses include replacing a straightforward two-premise rule with
+metaprogramming merely because it is possible.
+
+### Safety obligations
+
+Generated rules expand the program during reasoning. Establish:
+
+1. a finite set of declarations that can generate them;
+2. deterministic identity for generated structures;
+3. a bound on distinct rule shapes;
+4. no uncontrolled cycle in which generated rules generate deeper rules; and
+5. tests for variable and blank-node scope.
+
+The repository examples `derived-rule.n3`,
+`derived-backward-rule.n3`, and `quoted-head-unquote.n3` are useful companions.
+
+### Rules as evidence
+
+A generated rule can preserve the policy or mapping that was in force for a
+derivation. This is valuable when rule generation is treated as compilation:
+the declaration is the source, the generated rule is an intermediate artifact,
+and the proof connects the final fact through both.
+
+## 27. Lists, trees, and symbolic evaluation
+
+<figure>
+  <img src="book-assets/symbolic-tree.svg" alt="The N3 list for two plus three times four is unfolded into an expression tree and evaluated from its leaves to fourteen.">
+  <figcaption>A list can encode syntax; an explicit evaluator relation gives that syntax meaning.</figcaption>
+</figure>
+
+N3 has no separate algebraic-data-type syntax, but lists and formulas can
+represent trees. A symbolic expression can be written as:
+
+```n3
+("add" 2 ("multiply" 3 4))
+```
+
+The first item is an operator and the remaining items are operands.
+
+### Evaluating a small expression
+
+```n3
+@prefix : <http://example.org/symbolic#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+{
+    (?a ?b) math:sum ?value.
+} => {
+    ("add" ?a ?b) :value ?value.
+}.
+
+{
+    (?a ?b) math:product ?value.
+} => {
+    ("multiply" ?a ?b) :value ?value.
+}.
+
+{
+    ?left :value ?a.
+    ?right :value ?b.
+    (?a ?b) math:sum ?value.
+} => {
+    ("add" ?left ?right) :value ?value.
+}.
+
+{
+    ?left :value ?a.
+    ?right :value ?b.
+    (?a ?b) math:product ?value.
+} => {
+    ("multiply" ?left ?right) :value ?value.
+}.
+```
+
+The base cases evaluate numeric operands. The recursive cases depend on
+previously derived subexpression values. A ground expression has finitely many
+subterms, so the closure can terminate.
+
+### Environments
+
+Variables in a symbolic language should not be confused with N3 variables.
+Represent an object-language variable as data:
+
+```n3
+("var" "x")
+```
+
+and an environment as graph facts or an association list:
+
+```n3
+(("x" 10) ("y" 4))
+```
+
+The evaluator relation then carries the environment explicitly. This prevents
+host-language unification from silently performing object-language lookup.
+
+### Rewriting
+
+Symbolic identities can produce normalized forms:
+
+```n3
+@prefix : <http://example.org/symbolic#>.
+
+{ ("add" ?x 0) :expression true. } => { ("add" ?x 0) :rewritesTo ?x. }.
+{ ("multiply" ?x 1) :expression true. } => { ("multiply" ?x 1) :rewritesTo ?x. }.
+```
+
+Termination requires an orientation. Both `x + 0 → x` and `x → x + 0` may be
+mathematically valid, but enabling both creates unbounded structural growth.
+A rewrite system needs a decreasing size or ordering measure.
+
+### Formulas as syntax
+
+Quoted formulas can represent programs or graph patterns. `log:includes`
+supports structural inspection; `log:conclusion` evaluates a contained theory.
+Keep the distinction:
+
+```text
+list/formula as syntax data
+        versus
+list/formula interpreted by a built-in or rule
+```
+
+An interpreter is an explicit relation between syntax, environment, and value.
+
+## 28. Mathematics made executable
+
+Mathematics enters Eyeron in two forms: built-ins compute established
+operations, while rules express reusable laws.
+
+### A theorem-shaped program
+
+The repository includes proofs such as uniqueness of a group inverse. The
+pattern is:
+
+```text
+axioms as facts or rules
+assumed witnesses
+equational or relational steps
+conclusion
+```
+
+The reasoner does not replace the mathematician's responsibility to state the
+axioms. It makes consequences and proof dependencies executable.
+
+### Computation as a lemma
+
+```n3
+@prefix : <http://example.org/math#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+{
+    ?rectangle :width ?w;
+        :height ?h.
+    (?w ?h) math:product ?area.
+} => {
+    ?rectangle :area ?area.
+}.
+```
+
+The multiplication built-in is a trusted computational step. The rule connects
+that step to the domain definition of rectangular area.
+
+### Witnesses and existential reading
+
+When Eyeron derives:
+
+```n3
+:rectangle17 :area 12.
+```
+
+the number 12 is a witness for the existential statement “there exists an area
+related to rectangle 17 by this definition.” Proof output records how it was
+computed.
+
+### Equality and structural unification
+
+Unification solves structural equations between term patterns. Mathematical
+equality is broader and domain-sensitive. `log:equalTo`, numeric `math:equalTo`,
+and RDF identity syntax have different intended uses.
+
+Do not replace a proof of algebraic equality with resource identity. Conversely,
+do not expect graph-resource identity to emerge merely because two numeric
+expressions evaluate to the same value.
+
+### Induction and recursive closure
+
+The reachability program embodies:
+
+- base: every edge is a path;
+- step: an edge followed by a path is a path.
+
+Its soundness proof is induction on constructed path length. Its termination
+proof is different: over a finite node set, only finitely many reachability
+pairs exist.
+
+Correct recursive programming needs both proofs.
+
+### Counterexamples
+
+Finite search is excellent at refuting universal conjectures within a bounded
+domain. To test “every relation with property P also has property Q,” generate
+finite candidates satisfying P and derive a counterexample when Q is absent in
+a completed candidate scope.
+
+Finding one witness disproves the universal claim. Finding none only says that
+the bounded search found none. Report the bound with the result.
+
+### Numerical humility
+
+Floating-point built-ins execute machine arithmetic. Rounding, trigonometric
+functions, and lexical conversion have representational limits. A proof that
+depends on them is conditional on those implemented operations, not a symbolic
+proof over exact real numbers.
+
+State tolerances and datatypes where numerical error matters.
+
+## 29. Finite search and optimization
+
+Forward closure can express search by materializing candidate states and the
+relations between them. Backward rules can solve selected goals without
+materializing every candidate.
+
+### Generate, constrain, describe
+
+A robust finite-search program has three layers:
+
+1. generate candidates from a bounded domain;
+2. constrain candidates with tests;
+3. describe surviving witnesses as result facts.
+
+Mixing all three into one opaque rule makes both cost and correctness harder to
+see.
+
+### State transitions
+
+Represent a state as a structured term or resource:
+
+```n3
+(:position :a :visited (:a))
+```
+
+A transition relates one state to the next. The rule should state the invariant
+preserved by every transition and the finite resource that decreases or grows
+toward a bound.
+
+### Dijkstra as relational design
+
+The packaged `examples/dijkstra.n3` represents queue entries and paths as
+lists. Backward rules:
+
+- take the least-cost queue item;
+- recognize the goal;
+- generate unvisited neighbors;
+- compute their costs;
+- append and sort the queue; and
+- recurse with an enlarged visited list.
+
+This is recognizably Dijkstra's algorithm, but its data flow remains relational.
+The important control commitments are visible in list order, sorting, and the
+visited test.
+
+### Optimization is ordering plus completeness
+
+To claim that a witness is optimal, a program needs:
+
+- a finite or otherwise complete candidate space;
+- a cost relation;
+- an ordering over comparable costs; and
+- a selection method that cannot skip a better candidate.
+
+Returning the first witness is not optimization unless the search order
+guarantees that the first is best.
+
+### Symmetry
+
+Search spaces often contain candidates equivalent under renaming or reversal.
+Choose a canonical representative:
+
+```text
+only generate pairs (x, y) where x < y
+```
+
+This reduces work, but the omitted symmetric cases must be reconstructible or
+irrelevant to the requested answer.
+
+### Fairness and starvation
+
+A deeply recursive backward branch can delay alternatives. Bounded inputs and
+ranking functions are the first defense. If a search requires a fairness
+guarantee that the execution strategy does not provide, redesign it as explicit
+state layers or forward closure.
+
+## 30. Streams, state, and time
+
+<figure>
+  <img src="book-assets/stream-modes.svg" alt="Independent message batches, ordered replay, and a stateful host are compared as three architectures with different owners of history.">
+  <figcaption>Streaming design begins by naming who owns cross-message state.</figcaption>
+</figure>
+
+Streaming introduces an apparent tension. RDF Messages are atomic, but many
+applications need conclusions over history.
+
+### Three architectures
+
+**Independent evaluation**
+
+```text
+program + message₁ → result₁
+program + message₂ → result₂
+```
+
+This is Eyeron's prepared streaming model. It is simple, parallelizable, and
+free of hidden cross-message state.
+
+**Replay evaluation**
+
+```text
+message log → ordered envelopes + quoted payloads → closure
+```
+
+Rules can compare messages while their contexts remain explicit.
+
+**Stateful application**
+
+```text
+prior application state + message → Eyeron batch → result → new state
+```
+
+The host owns persistence and deliberately selects which derived facts enter
+the next batch.
+
+### Do not smuggle state
+
+If an independently streamed rule seems to remember a previous message, the
+state is coming from somewhere: a global JS object, a reused mutable document,
+or an external store. Make that owner explicit.
+
+### Windows as data
+
+A time window can be represented by a quoted formula containing selected
+messages, along with start, end, and selection policy:
+
+```n3
+:window42 :from "2026-07-27T10:00:00Z";
+    :until "2026-07-27T10:05:00Z";
+    :content { ... }.
+```
+
+Rules inspect the formula. When the window changes, create a new context or
+version rather than retracting facts from an old monotonic closure.
+
+### Event time and processing time
+
+Event time belongs to the message domain. Processing time belongs to the
+system. They may differ because of delay, replay, or repair. Use distinct
+predicates and decide which one drives each rule.
+
+### Late and corrected data
+
+Monotonic reasoning handles corrections by adding statements:
+
+```text
+observation₂ corrects observation₁
+decision₂ supersedes decision₁
+```
+
+A current-view query can select the unsuperseded version within a completed
+scope. The historical facts remain available for audit.
+
+### Determinism
+
+For reproducible replay:
+
+- identify the rule-set version;
+- preserve message order and boundaries;
+- scope blank nodes per message;
+- avoid uncontrolled network dereferencing;
+- distinguish current time from recorded time; and
+- record completion limits.
+
+The same log and rule version should then produce the same closure and proof.
+
+---
+
+# Part VII — The reasoning laboratory
+
+A theory becomes dependable by remembering what has been learned about it.
+Tests preserve examples, invariants, performance expectations, proof shapes,
+and boundary behavior.
+
+## 31. Testing a theory
+
+<figure>
+  <img src="book-assets/testing-loop.svg" alt="A loop connects ground meaning, predicted closure, execution status, proof inspection, and preservation as a regression test.">
+  <figcaption>The reasoning laboratory turns each surprise into a stronger semantic contract.</figcaption>
+</figure>
+
+Testing a rule system is not merely comparing output files. It is checking a
+semantic contract from several directions.
+
+### Semantic test tables
+
+Begin with a table:
+
+| Input condition | Expected conclusion | Expected non-conclusion | Reason |
+| --- | --- | --- | --- |
+| Human | Mortal | — | subclass rule |
+| Robot | — | Mortal | body does not match |
+| valid Research consent | Permit | Deny | policy case |
+| valid and revoked consent | inconsistency | silent permit | fuse |
+
+The final column prevents a snapshot from becoming an unexplained oracle.
+
+### Positive observers
+
+Test important successes by deriving explicit markers:
+
+```n3
+{
+    :Socrates a :Mortal.
+} => {
+    :test :socratesMortal true.
+}.
+```
+
+This confirms that the expected fact participates in reasoning, not merely that
+its text happens to appear.
+
+### Negative observers
+
+Absence tests need a completed scope:
+
+```n3
+{
+    ?scope log:notIncludes { :Robot a :Mortal. }.
+} => {
+    :test :robotNotClassified true.
+}.
+```
+
+Use this only when closed-scope absence is the intended assertion.
+
+### Test multiple modes
+
+If a relation is used with different known arguments, test each mode:
+
+```text
+known subject → find objects
+known object  → find subjects
+fully ground  → verify
+```
+
+A backward relation may terminate in one mode and diverge or remain unready in
+another.
+
+### Property tests over finite domains
+
+Generate a bounded set and check invariants:
+
+- reachability is closed under path extension;
+- reversing twice returns the original list;
+- sorting preserves length and membership;
+- a decision never has both Permit and Deny without an inconsistency fact;
+- replay preserves message count and order.
+
+The domain bound belongs in the test report.
+
+### Metamorphic tests
+
+Some transformations should preserve results:
+
+- reorder input triples;
+- rename prefixes without changing IRIs;
+- add duplicate facts;
+- split one ordinary input graph across two merged files;
+- change irrelevant facts;
+- run the same prepared session batch twice.
+
+Other transformations should deliberately change results:
+
+- move a fact into a quoted formula;
+- change a datatype;
+- cross a numeric threshold;
+- reuse a blank-node label in another message;
+- add a blocking fact before deferred absence is evaluated.
+
+### Proof regression
+
+Answer regression checks *what*. Proof regression also checks *why*. Preserve
+proof goldens for:
+
+- policy decisions;
+- generated-rule conclusions;
+- backward-rule answers;
+- existential witnesses; and
+- scoped formula reasoning.
+
+Avoid making every incidental rendering detail a contract. Select proofs whose
+dependency structure matters.
+
+### Performance regression
+
+Record representative statistics and generous bounds. A performance test
+should detect a changed complexity class, not fail because one machine took
+three milliseconds longer.
+
+Useful fixtures include deep single-premise chains, broad joins, cyclic closure,
+list processing, and large message logs.
+
+### Release-quality matrix
+
+| Layer | What it protects |
+| --- | --- |
+| unit | lexer, parser, term, and built-in behavior |
+| regression | previously repaired semantic failures |
+| example golden | complete runnable programs |
+| proof golden | justification structure |
+| N3 conformance | language compatibility |
+| W3C RDF | RDF syntax and semantics profiles |
+| CLI | argument and stream behavior |
+| playground | Wasm packaging and browser contract |
+| application | domain policy and authority boundaries |
+
+Passing conformance does not replace application tests. Application tests do
+not replace conformance.
+
+### Debugging ritual
+
+For a failure:
+
+1. name one disputed ground fact;
+2. inspect its exact parsed terms;
+3. identify every rule that can produce it;
+4. trace body bindings and built-in readiness;
+5. identify ordinary, deferred, backward, or query phase;
+6. inspect completion status;
+7. inspect a proof for unexpected success; and
+8. preserve the reduced case.
+
+The last step turns debugging into accumulated engineering knowledge.
+
+## 32. A pattern language for Eyeron
+
+Patterns are recurring solutions with named tradeoffs. They are not macros and
+not laws. Their value is that a design discussion can say “use a scoped
+inspection here” and inherit a bundle of semantic questions.
+
+### Pattern 1: Ground sentence first
+
+**Problem:** A predicate name feels plausible but its exact meaning drifts.
+
+**Form:** Write two or three ground triples and translate each into one precise
+sentence before introducing variables.
+
+**Consequence:** Vocabulary mistakes appear before they are multiplied by
+rules.
+
+### Pattern 2: Normalize at the boundary
+
+**Problem:** Domain rules depend directly on many source spellings and schema
+versions.
+
+**Form:**
+
+```text
+source graph → adapter rules → canonical domain graph
+```
+
+**Consequence:** Policy proofs expose both source evidence and the normalization
+step. Adapters must be versioned and authorized.
+
+### Pattern 3: Carry the context
+
+**Problem:** A value is extracted from a quoted graph or message and loses its
+origin.
+
+**Form:**
+
+```n3
+{
+    ?envelope :payload ?graph.
+    ?graph log:includes { ?sensor :value ?value. }.
+} => {
+    ?envelope :observedValue ?value;
+        :observedSensor ?sensor.
+}.
+```
+
+**Consequence:** Later joins can distinguish equal-looking facts from different
+messages.
+
+### Pattern 4: Carry the reason
+
+**Problem:** A Boolean or verdict cannot explain which policy case applied.
+
+**Form:** Derive the verdict and a stable reason resource together.
+
+**Consequence:** Presentation and audit can evolve independently.
+
+### Pattern 5: Bounded generation
+
+**Problem:** A recursive rule can create an unbounded sequence.
+
+**Form:** Introduce an explicit finite domain or decreasing distance to a bound.
+
+**Consequence:** The termination argument becomes part of the model.
+
+### Pattern 6: Fixed-point closure
+
+**Problem:** A transitive or recursive relation must include consequences of its
+own results.
+
+**Form:** Supply a base rule and a recursive extension whose possible ground
+facts are finite.
+
+**Consequence:** Cycles are safe under duplicate suppression, but broad closure
+may be expensive.
+
+### Pattern 7: Completed-scope absence
+
+**Problem:** A decision depends on no matching blocker being present.
+
+**Form:** Use `log:notIncludes` over a clearly bounded formula or completed
+current graph.
+
+**Consequence:** Absence is local and phase-sensitive, not universal negation.
+
+### Pattern 8: Integrity fuse
+
+**Problem:** Monotonic sources can establish mutually incompatible states.
+
+**Form:** Derive an explicit inconsistency fact and require its absence before
+release or action.
+
+**Consequence:** Conflicts remain auditable instead of being resolved silently.
+
+### Pattern 9: Prepared program, independent batch
+
+**Problem:** The same rules process many datasets and reparsing dominates
+overhead.
+
+**Form:** Prepare rules and indexes once; reason over each data document in an
+independent session call.
+
+**Consequence:** Throughput improves without hidden state. Cross-batch memory
+must be owned elsewhere.
+
+### Pattern 10: Immutable evaluation context
+
+**Problem:** Policies, time, or source versions change, but old decisions must
+remain reproducible.
+
+**Form:** Create a new context identifying the inputs, rule version, and
+effective time. Derive a new decision rather than mutating the old closure.
+
+**Consequence:** “Current” becomes a query over versions; history stays intact.
+
+### Pattern 11: Symbolic term plus interpreter
+
+**Problem:** Application syntax is confused with N3 variables and execution.
+
+**Form:** Represent syntax as lists or formulas and define an explicit relation
+from syntax and environment to value.
+
+**Consequence:** Object-language and reasoner-language scopes remain distinct.
+
+### Pattern 12: Proof façade
+
+**Problem:** Internal helper facts make sense to implementers but not auditors.
+
+**Form:** Derive stable domain reasons at the boundary while retaining detailed
+proof support underneath.
+
+**Consequence:** Explanations remain understandable without discarding formal
+evidence.
+
+### Anti-patterns
+
+**Global soup**
+Merge every source and message into one graph, erasing provenance and scope.
+
+**Unbounded constructor**
+Create larger numbers, strings, lists, formulas, or rules without a finite
+measure.
+
+**Premature absence**
+Treat a missing fact in an unfinished or unbounded graph as false.
+
+**Identity by convenience**
+Use equality or `owl:sameAs` merely to make two vocabularies join.
+
+**Prose as database**
+Format conclusions into strings and require downstream code to parse them.
+
+**Magic built-in**
+Call a built-in before its usable inputs are bound and assume it enumerates an
+infinite domain.
+
+**Verdict without context**
+Return Permit or Deny without rule version, source boundary, completion status,
+reason, or proof.
+
+### Selecting patterns
+
+Patterns compose:
+
+```text
+Normalize at the boundary
+        ↓
+Immutable evaluation context
+        ↓
+Carry the context
+        ↓
+Integrity fuse
+        ↓
+Carry the reason
+        ↓
+Proof façade
+```
+
+Use the smallest combination that makes the domain contract explicit. More
+layers are not automatically more trustworthy; unnamed or untested layers can
+hide responsibility just as easily as they expose it.
+
+### Part VII review
+
+A release-quality Eyeron theory should answer:
+
+1. Which graph supplies each premise?
+2. Which variables are known before each built-in?
+3. Why is every recursive or generative path finite?
+4. Which operations wait for completed scope?
+5. How are conflict and correction represented monotonically?
+6. What does normal output omit?
+7. Which proof establishes the critical verdict?
+8. Which tests preserve that reasoning boundary?
+
+If those answers are concrete, the theory is no longer merely executable. It is
+inspectable, teachable, and maintainable.
 
 ---
 

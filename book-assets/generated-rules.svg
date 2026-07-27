@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" role="img" aria-labelledby="title desc">
+  <title id="title">A declaration generates a rule that later maps facts</title>
+  <desc id="desc">An outer rule consumes a maps-to declaration and emits an active inner rule. The generated rule later matches source facts and derives canonical facts.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#bd7547"/></marker>
+    <style>
+      .title{font:700 24px system-ui,sans-serif;fill:#20313c}.head{font:700 16px system-ui,sans-serif;fill:#fff}
+      .mono{font:14px ui-monospace,monospace;fill:#263944}.note{font:14px system-ui,sans-serif;fill:#5b6d77}
+      .arrow{stroke:#bd7547;stroke-width:4;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="960" height="470" rx="24" fill="#fbfaf7"/>
+  <text x="480" y="42" text-anchor="middle" class="title">Metareasoning has two firing times</text>
+  <g transform="translate(45 95)">
+    <rect width="210" height="120" rx="16" fill="#eef2f4" stroke="#526b7a" stroke-width="3"/>
+    <text x="105" y="32" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="700" fill="#344d5b">declaration</text>
+    <text x="105" y="70" text-anchor="middle" class="mono">:sourceName</text>
+    <text x="105" y="96" text-anchor="middle" class="mono">:mapsTo :name</text>
+  </g>
+  <path d="M265 155H350" class="arrow"/><text x="307" y="134" text-anchor="middle" class="note">outer rule fires</text>
+  <g transform="translate(365 75)">
+    <rect width="275" height="170" rx="18" fill="#fff7eb" stroke="#bd7547" stroke-width="3" stroke-dasharray="10 6"/>
+    <path d="M0 18Q0 0 18 0H257Q275 0 275 18V46H0Z" fill="#9b5d38"/>
+    <text x="137" y="30" text-anchor="middle" class="head">generated active rule</text>
+    <text x="28" y="80" class="mono">{ ?x :sourceName ?v }</text>
+    <text x="137" y="113" text-anchor="middle" class="mono">⇒</text>
+    <text x="28" y="146" class="mono">{ ?x :name ?v }</text>
+  </g>
+  <path d="M650 155H735" class="arrow"/><text x="692" y="134" text-anchor="middle" class="note">inner rule fires</text>
+  <g transform="translate(750 95)">
+    <rect width="165" height="120" rx="16" fill="#edf4f0" stroke="#668e78" stroke-width="3"/>
+    <text x="82" y="32" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="700" fill="#426454">canonical fact</text>
+    <text x="82" y="70" text-anchor="middle" class="mono">:Ada :name</text>
+    <text x="82" y="96" text-anchor="middle" class="mono">"Ada"</text>
+  </g>
+  <g transform="translate(300 300)">
+    <rect width="360" height="90" rx="16" fill="#eef2f4" stroke="#80939e" stroke-width="2"/>
+    <text x="180" y="34" text-anchor="middle" class="mono">:Ada :sourceName "Ada"</text>
+    <text x="180" y="65" text-anchor="middle" class="note">a later source fact supplies ?x and ?v</text>
+  </g>
+  <path d="M480 300V260" class="arrow"/>
+  <text x="480" y="430" text-anchor="middle" class="note">Outer bindings specialize the rule; inner variables remain local to its later matches.</text>
+</svg>
