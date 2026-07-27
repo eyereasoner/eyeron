@@ -13,7 +13,7 @@ the Eyereasoner family, built as a small and strong tool.
 
 ## Start here
 
-Read [The Art of Eyeron](the-art-of-eyeron.md) for the language, reasoning
+Read [The Art of Eyeron](https://eyereasoner.github.io/eyeron/the-art-of-eyeron) for the language, reasoning
 model, built-ins, proofs, RDF and RDF Message boundaries, APIs, command-line
 reference, implementation tour, and laboratories.
 
