@@ -761,3 +761,25 @@ fn blank_scope_log_not_includes_uses_existing_outer_bindings() {
     let output = reason(source).unwrap();
     assert!(!output.contains(":acceptedProperty :output"), "{output}");
 }
+
+#[test]
+fn blank_scope_log_not_includes_consults_backward_rules() {
+    let source = r#"
+        @prefix log: <http://www.w3.org/2000/10/swap/log#> .
+        @prefix : <http://example.org/> .
+
+        { ?value :class ?class } <= { ?value a ?class } .
+
+        :p a :Person .
+
+        { [] log:notIncludes { :p :class :Person } } => {
+            :result :is :wrong
+        } .
+    "#;
+
+    let output = reason(source).unwrap();
+    assert!(
+        !output.contains(":result :is :wrong"),
+        "log:notIncludes ignored a conclusion available from a backward rule:\n{output}"
+    );
+}

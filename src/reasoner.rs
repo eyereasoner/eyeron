@@ -2022,7 +2022,16 @@ fn eval_builtin(
         Term::Iri(ref iri) if iri == LOG_CONCLUSION => Some(eval_log_conclusion(&premise.s, &premise.o, bindings, budget)),
         Term::Iri(ref iri) if iri == LOG_CONJUNCTION => Some(eval_log_conjunction(&premise.s, &premise.o, bindings, facts)),
         Term::Iri(ref iri) if iri == LOG_INCLUDES => Some(eval_log_includes(&premise.s, &premise.o, bindings, facts, rules)),
-        Term::Iri(ref iri) if iri == LOG_NOT_INCLUDES => Some(eval_log_not_includes(premise, bindings, facts, rules, budget)),
+        Term::Iri(ref iri) if iri == LOG_NOT_INCLUDES => Some(eval_log_not_includes(
+            premise,
+            bindings,
+            facts,
+            fact_index,
+            rules,
+            depth,
+            backward_stack,
+            budget,
+        )),
         Term::Iri(ref iri) if iri == LOG_URI => Some(eval_log_uri(&premise.s, &premise.o, bindings)),
         Term::Iri(ref iri) if iri == LOG_RAW_TYPE => Some(eval_log_raw_type(&premise.s, &premise.o, bindings)),
         Term::Iri(ref iri) if iri == LOG_DTLIT => Some(eval_log_dtlit(&premise.s, &premise.o, bindings, facts)),
@@ -2365,7 +2374,10 @@ fn eval_log_not_includes(
     premise: &Triple,
     bindings: &Bindings,
     facts: &[Triple],
+    fact_index: Option<&FactIndex>,
     rules: &[Rule],
+    depth: usize,
+    backward_stack: &mut HashSet<String>,
     budget: &mut SearchBudget,
 ) -> Vec<Bindings> {
     let subj = resolve_pattern(&premise.s, bindings);
@@ -2376,28 +2388,38 @@ fn eval_log_not_includes(
     // witness would make later notIncludes guards with the same blank inspect
     // the dummy formula instead of the current graph.
     if matches!(premise.s, Term::Blank(_)) {
-        let mut scope = facts.to_vec();
-        for (idx, rule) in rules.iter().enumerate() {
-            let fact = rule_to_triple(rule, &format!("__not_includes_rulefact_{}__", idx));
-            if !scope.contains(&fact) { scope.push(fact); }
-        }
-        let mut matches = Vec::new();
-        match_formula_subset(&scope, &pattern, bindings, &mut matches);
-        return if matches.is_empty() { vec![bindings.clone()] } else { Vec::new() };
+        return if current_graph_matches_pattern(
+            &pattern,
+            bindings,
+            facts,
+            fact_index,
+            rules,
+            depth,
+            backward_stack,
+            budget,
+        ) {
+            Vec::new()
+        } else {
+            vec![bindings.clone()]
+        };
     }
     match subj {
         // An unbound formula subject denotes the current graph. Preserve the
         // argument-mode binding behavior by returning a witness only when that
         // witness when that graph does not include the requested pattern.
         Term::Var(name) => {
-            let mut scope = facts.to_vec();
-            for (idx, rule) in rules.iter().enumerate() {
-                let fact = rule_to_triple(rule, &format!("__not_includes_rulefact_{}__", idx));
-                if !scope.contains(&fact) { scope.push(fact); }
+            if current_graph_matches_pattern(
+                &pattern,
+                bindings,
+                facts,
+                fact_index,
+                rules,
+                depth,
+                backward_stack,
+                budget,
+            ) {
+                return Vec::new();
             }
-            let mut matches = Vec::new();
-            match_formula_subset(&scope, &pattern, bindings, &mut matches);
-            if !matches.is_empty() { return Vec::new(); }
             let witness = Term::Formula(vec![Triple::new(
                 Term::Iri("http://example.org/a".to_string()),
                 Term::Iri("http://example.org/b".to_string()),
@@ -2411,14 +2433,20 @@ fn eval_log_not_includes(
             }
         }
         Term::Blank(_) => {
-            let mut scope = facts.to_vec();
-            for (idx, rule) in rules.iter().enumerate() {
-                let fact = rule_to_triple(rule, &format!("__not_includes_rulefact_{}__", idx));
-                if !scope.contains(&fact) { scope.push(fact); }
+            if current_graph_matches_pattern(
+                &pattern,
+                bindings,
+                facts,
+                fact_index,
+                rules,
+                depth,
+                backward_stack,
+                budget,
+            ) {
+                Vec::new()
+            } else {
+                vec![bindings.clone()]
             }
-            let mut matches = Vec::new();
-            match_formula_subset(&scope, &pattern, bindings, &mut matches);
-            if matches.is_empty() { vec![bindings.clone()] } else { Vec::new() }
         }
         Term::Formula(scope) => {
             let mut solutions = Vec::new();
@@ -2439,6 +2467,32 @@ fn eval_log_not_includes(
         }
         _ => Vec::new(),
     }
+}
+
+fn current_graph_matches_pattern(
+    pattern: &[Triple],
+    bindings: &Bindings,
+    facts: &[Triple],
+    fact_index: Option<&FactIndex>,
+    rules: &[Rule],
+    depth: usize,
+    backward_stack: &mut HashSet<String>,
+    budget: &mut SearchBudget,
+) -> bool {
+    let mut solutions = Vec::new();
+    match_premise_at(
+        pattern,
+        facts,
+        fact_index,
+        rules,
+        0,
+        bindings.clone(),
+        depth,
+        backward_stack,
+        budget,
+        &mut solutions,
+    );
+    !solutions.is_empty()
 }
 
 fn eval_log_uri(subject: &Term, object: &Term, bindings: &Bindings) -> Vec<Bindings> {
