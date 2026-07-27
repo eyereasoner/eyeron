@@ -3194,13 +3194,10 @@ Eyeron's implementation is small enough to read as a second account of the
 semantics. At the highest level, it is a compiler pipeline followed by a
 database-style fixpoint:
 
-```text
-source
-  │
-  ▼
-lexer ──▶ parser ──▶ Document ──▶ reasoner ──┬──▶ derived output
-                                             └──▶ proof
-```
+<figure>
+  <img src="book-assets/implementation-pipeline.svg" alt="Source text passes through the lexer and parser into a Document, then through the reasoner into derived output or an N3 proof.">
+  <figcaption>The command line, Rust library, and WebAssembly API share one parsing and reasoning pipeline.</figcaption>
+</figure>
 
 The native command line, Rust library, and WebAssembly interface are front ends
 around this same core.
