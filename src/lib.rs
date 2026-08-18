@@ -1,9 +1,10 @@
-//! Eyeron core Notation3 reasoner.
+//! Eyeron reasoning core with N3/RDF and CLIF front-ends.
 //!
-//! This crate intentionally keeps the public API small: parse one or more N3
-//! sources, run forward-chaining rules, and render newly-derived triples.
+//! The original N3 APIs remain unchanged. The `clif` module adds the Horn/core
+//! Common Logic Interchange Format front-end used by the `cliron` binary.
 
 pub mod ast;
+pub mod clif;
 pub mod error;
 pub mod lexer;
 pub mod parser;
@@ -16,6 +17,7 @@ pub mod reasoner;
 pub mod wasm;
 
 pub use ast::{Document, Literal, Rule, SourceRef, Term, Triple};
+pub use clif::{parse_clif, parse_clif_with_source, reason_clif, triples_to_clif};
 pub use error::{EyeronError, Result};
 pub use parser::{is_rdf_message_log, parse_n3, parse_n3_with_source, parse_rdf_message_log};
 pub use rdf_compat::{parse_rdf12, RdfFormat};
