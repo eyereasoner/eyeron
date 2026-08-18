@@ -1,0 +1,31 @@
+name: Cliron
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/cliron.yml'
+      - 'Cargo.toml'
+      - 'src/lib.rs'
+      - 'src/ast.rs'
+      - 'src/error.rs'
+      - 'src/reasoner.rs'
+      - 'src/clif/**'
+      - 'src/bin/cliron.rs'
+      - 'examples/*.clif'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Test CLIF front-end
+        run: cargo test clif
+      - name: Run CLIF example
+        run: |
+          output="$(cargo run --quiet --bin cliron -- examples/socrates.clif)"
+          printf '%s\n' "$output"
+          grep -F '(Mortal Socrates)' <<<"$output"
