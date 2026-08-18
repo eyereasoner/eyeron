@@ -42,6 +42,25 @@ fn n3_lists_remain_first_class_in_rule_conclusions() {
 }
 
 #[test]
+fn list_append_infers_head_and_tail_from_known_result() {
+    let source = r#"
+        @prefix : <http://example.org/>.
+        @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+        {
+            ((?head) ?tail) list:append (1 2 3).
+        } => {
+            :result :head ?head;
+                    :tail ?tail.
+        }.
+    "#;
+
+    let output = reason(source).unwrap();
+    assert!(output.contains(":result :head 1"), "{output}");
+    assert!(output.contains(":result :tail (2 3)"), "{output}");
+}
+
+#[test]
 fn partially_bound_native_list_patterns_use_all_bound_positions() {
     let source = r#"
         @prefix : <http://example.org/>.

@@ -19,6 +19,21 @@ extern "C" {
 
 pub type Bindings = BTreeMap<String, Term>;
 
+#[cfg(test)]
+std::thread_local! {
+    static TEST_BROAD_FACT_SCANS: std::cell::Cell<usize> = std::cell::Cell::new(0);
+}
+
+#[cfg(test)]
+fn reset_test_broad_fact_scans() {
+    TEST_BROAD_FACT_SCANS.with(|count| count.set(0));
+}
+
+#[cfg(test)]
+fn test_broad_fact_scans() -> usize {
+    TEST_BROAD_FACT_SCANS.with(|count| count.get())
+}
+
 const DEFAULT_MAX_BACKWARD_DEPTH: usize = 32;
 const DEFAULT_MAX_BACKWARD_SOLUTIONS_PER_GOAL: usize = 1024;
 const DEFAULT_MAX_MATCH_STEPS: usize = 200_000;
@@ -248,7 +263,24 @@ impl FactIndex {
             }
         }
 
-        let indices = if pg && og {
+        let indices = if sg && pg && og {
+            // A fully bound goal can use either (subject, predicate) or
+            // (predicate, object).  Pick the smaller bucket instead of always
+            // preferring by_po: common objects such as rdf:type classes can
+            // have thousands of members, while by_sp is often a single fact.
+            // Choosing by_po unconditionally made the final grounded check in
+            // multi-pattern joins quadratic (GitHub issue #6).
+            match (
+                self.by_sp.get(&(s.clone(), p.clone())),
+                self.by_po.get(&(p.clone(), o.clone())),
+            ) {
+                (Some(sp), Some(po)) if sp.len() <= po.len() => Some(sp),
+                (Some(_), Some(po)) => Some(po),
+                // If either exact projection is absent, no fully bound triple
+                // can match, so fail without scanning the other projection.
+                _ => None,
+            }
+        } else if pg && og {
             self.by_po.get(&(p.clone(), o.clone()))
         } else if sg && pg {
             self.by_sp.get(&(s.clone(), p.clone()))
@@ -264,7 +296,11 @@ impl FactIndex {
             // (for example subject+object), fall back to a scan so correctness
             // is preserved.  Predicate-grounded misses can fail immediately.
             None if pg => Vec::new(),
-            None => facts.iter().collect(),
+            None => {
+                #[cfg(test)]
+                TEST_BROAD_FACT_SCANS.with(|count| count.set(count.get().saturating_add(1)));
+                facts.iter().collect()
+            }
         }
     }
 
@@ -1203,29 +1239,69 @@ fn match_premise_remaining(
     let mut fallback_index = None;
     let mut fallback_candidates = Vec::<Bindings>::new();
 
-    // First try the cheap, non-recursive paths: ordinary fact lookup, built-ins,
-    // and lazy rule-as-data facts.  Prefer premises that actually bind or test
-    // something.  Some N3 built-ins allow fully uninstantiated wildcards and
-    // return the input substitution unchanged; those are legal, but selecting
-    // them before a neighbouring list:iterate/fact goal can lose the chance to
-    // bind the variables needed by later tests.
-    for (idx, premise) in premises.iter().enumerate() {
-        if premise_is_speculative_builtin(premise, &bindings)
-            || aggregate_waits_for_sibling_binding(premise, &premises, idx, &bindings)
-        {
-            continue;
-        }
-        let candidates = match_one_premise(premise, facts, fact_index, rules, &bindings, depth, backward_stack, budget, false);
-        if candidates.is_empty() { continue; }
-        let progresses = candidates.iter().any(|b| bindings_progress(&bindings, b));
-        if progresses {
-            if best_index.is_none() || candidates.len() < best_candidates.len() {
-                best_index = Some(idx);
-                best_candidates = candidates;
+    // First try the cheap, non-recursive paths: built-ins, lazy rule-as-data
+    // facts, and ordinary fact lookups that the FactIndex can answer without a
+    // full closure scan.  This distinction is important for semi-naive joins.
+    //
+    // Consider the issue #6 body after `?Y a ?D` has triggered it:
+    //
+    //     ?R owl:onProperty ?P .
+    //     ?R owl:someValuesFrom ?D .
+    //     ?X ?P ?Y .
+    //
+    // `?X ?P ?Y` is not indexable yet because ?P is unbound.  The old matcher
+    // nevertheless scanned every fact to materialize its candidates merely so
+    // it could compare candidate-vector lengths with the two selective OWL
+    // premises.  Doing that once for every `?Y a ?D` fact made the join O(N^2).
+    // Defer such broad scans while any indexable premise can make progress; the
+    // onProperty premise binds ?P, after which the data edge is a by_po lookup.
+    //
+    // Some N3 built-ins allow fully uninstantiated wildcards and return the
+    // input substitution unchanged; those are legal, but selecting them before
+    // a neighbouring list:iterate/fact goal can lose the chance to bind the
+    // variables needed by later tests.
+    for broad_scan_pass in [false, true] {
+        for (idx, premise) in premises.iter().enumerate() {
+            if premise_is_speculative_builtin(premise, &bindings)
+                || aggregate_waits_for_sibling_binding(premise, &premises, idx, &bindings)
+            {
+                continue;
             }
-        } else if fallback_index.is_none() || candidates.len() < fallback_candidates.len() {
-            fallback_index = Some(idx);
-            fallback_candidates = candidates;
+            let needs_broad_scan = premise_needs_broad_fact_scan(premise, fact_index, &bindings);
+            if needs_broad_scan != broad_scan_pass {
+                continue;
+            }
+
+            let candidates = match_one_premise(
+                premise,
+                facts,
+                fact_index,
+                rules,
+                &bindings,
+                depth,
+                backward_stack,
+                budget,
+                false,
+            );
+            if candidates.is_empty() { continue; }
+            let progresses = candidates.iter().any(|b| bindings_progress(&bindings, b));
+            if progresses {
+                if best_index.is_none() || candidates.len() < best_candidates.len() {
+                    best_index = Some(idx);
+                    best_candidates = candidates;
+                }
+            } else if fallback_index.is_none() || candidates.len() < fallback_candidates.len() {
+                fallback_index = Some(idx);
+                fallback_candidates = candidates;
+            }
+        }
+
+        // Never pay for a full fact scan just to improve the ranking of an
+        // already productive indexed/builtin premise.  Recurse with that
+        // premise first; its bindings can turn a formerly broad sibling into a
+        // selective lookup on the next matcher level.
+        if best_index.is_some() || fallback_index.is_some() {
+            break;
         }
     }
 
@@ -1256,6 +1332,32 @@ fn match_premise_remaining(
     }
 }
 
+
+
+fn premise_needs_broad_fact_scan(
+    premise: &Triple,
+    fact_index: Option<&FactIndex>,
+    bindings: &Bindings,
+) -> bool {
+    // Without an index every ordinary fact premise is necessarily a scan, so
+    // there is no useful cheap-vs-broad distinction to make.
+    if fact_index.is_none() {
+        return false;
+    }
+
+    // Built-ins do not enumerate the ordinary fact closure through
+    // FactIndex::candidates.  Keep them in the cheap pass and let their own
+    // readiness checks decide whether they are runnable.
+    if is_builtin_premise(premise) {
+        return false;
+    }
+
+    // The lean FactIndex is keyed by predicate (plus optional subject/object).
+    // A concrete predicate therefore guarantees an indexed lookup.  An
+    // unresolved predicate would fall through to `facts.iter().collect()` and
+    // must be deferred while another premise can bind it.
+    !resolve_pattern(&premise.p, bindings).is_ground()
+}
 
 
 fn aggregate_waits_for_sibling_binding(
@@ -2833,7 +2935,9 @@ fn unify_list_terms_loose_numeric(left: &Term, right: &Term, bindings: &mut Bind
             let r_items = rdf_or_native_list_resolved(&r, facts, &mut HashSet::new());
             if let (Some(xs), Some(ys)) = (l_items, r_items) {
                 return xs.len() == ys.len()
-                    && xs.iter().zip(ys.iter()).all(|(x, y)| terms_equal_loose_numeric(x, y));
+                    && xs.iter().zip(ys.iter()).all(|(x, y)| {
+                        unify_list_terms_loose_numeric(x, y, bindings, facts)
+                    });
             }
             terms_equal_loose_numeric(&l, &r)
         }
@@ -2851,14 +2955,124 @@ fn terms_equal_loose_numeric(a: &Term, b: &Term) -> bool {
 fn eval_list_append(left: &Term, right: &Term, bindings: &Bindings, facts: &[Triple]) -> Vec<Bindings> {
     let Some(parts) = rdf_or_native_list(left, bindings, facts) else { return Vec::new(); };
 
+    // Fast path: preserve the existing deterministic concatenation behavior
+    // when every input part is already list-shaped/resolvable.  Fixed-shape
+    // native lists may still contain variables; unifying the concatenation
+    // with the result binds those element variables as before.
     let mut concatenated = Vec::new();
-    for part in parts {
-        let Some(items) = rdf_or_native_list(&part, bindings, facts) else { return Vec::new(); };
+    let mut all_parts_resolved = true;
+    for part in &parts {
+        let Some(items) = rdf_or_native_list(part, bindings, facts) else {
+            all_parts_resolved = false;
+            break;
+        };
         concatenated.extend(items);
     }
+    if all_parts_resolved {
+        let mut b = bindings.clone();
+        return if unify_listish_loose_numeric(right, concatenated, &mut b, facts) {
+            vec![canonicalize_bindings(&b)]
+        } else {
+            Vec::new()
+        };
+    }
 
-    let mut b = bindings.clone();
-    if unify_listish_loose_numeric(right, concatenated, &mut b, facts) { vec![canonicalize_bindings(&b)] } else { Vec::new() }
+    // Relational mode: if the result is known, infer unresolved whole-list
+    // parts by partitioning that result while respecting the fixed lengths of
+    // neighbouring list patterns.  This supports forms such as
+    // `((?head) ?tail) list:append (1 2 3)`, yielding ?head=1 and ?tail=(2 3).
+    let Some(result_items) = rdf_or_native_list(right, bindings, facts) else { return Vec::new(); };
+    let mut out = Vec::<Bindings>::new();
+    match_list_append_parts(&parts, &result_items, 0, 0, bindings, facts, &mut out);
+    out
+}
+
+fn match_list_append_parts(
+    parts: &[Term],
+    result_items: &[Term],
+    part_index: usize,
+    result_index: usize,
+    bindings: &Bindings,
+    facts: &[Triple],
+    out: &mut Vec<Bindings>,
+) {
+    if part_index == parts.len() {
+        if result_index == result_items.len() {
+            let solution = canonicalize_bindings(bindings);
+            if !out.contains(&solution) { out.push(solution); }
+        }
+        return;
+    }
+    if result_index > result_items.len() { return; }
+
+    let part = &parts[part_index];
+    let resolved = resolve_pattern(part, bindings);
+
+    // Known/fixed-shape parts consume exactly their list length.  A native list
+    // containing element variables is fixed-shape even though it is not ground.
+    if !matches!(resolved, Term::Var(_)) {
+        let Some(items) = rdf_or_native_list(part, bindings, facts) else { return; };
+        let len = items.len();
+        if result_index + len > result_items.len() { return; }
+        let mut next = bindings.clone();
+        if unify_listish_loose_numeric(
+            part,
+            result_items[result_index..result_index + len].to_vec(),
+            &mut next,
+            facts,
+        ) {
+            match_list_append_parts(
+                parts,
+                result_items,
+                part_index + 1,
+                result_index + len,
+                &next,
+                facts,
+                out,
+            );
+        }
+        return;
+    }
+
+    // An unresolved top-level variable denotes an unknown list segment.  The
+    // known result makes the search finite.  Reserve the minimum length needed
+    // by all remaining fixed-shape parts and try each possible segment length.
+    let Some(min_remaining) = list_append_minimum_len(&parts[part_index + 1..], bindings, facts) else { return; };
+    if result_index + min_remaining > result_items.len() { return; }
+    let max_len = result_items.len() - result_index - min_remaining;
+
+    for len in 0..=max_len {
+        let mut next = bindings.clone();
+        if !unify_listish_loose_numeric(
+            part,
+            result_items[result_index..result_index + len].to_vec(),
+            &mut next,
+            facts,
+        ) {
+            continue;
+        }
+        match_list_append_parts(
+            parts,
+            result_items,
+            part_index + 1,
+            result_index + len,
+            &next,
+            facts,
+            out,
+        );
+    }
+}
+
+fn list_append_minimum_len(parts: &[Term], bindings: &Bindings, facts: &[Triple]) -> Option<usize> {
+    let mut total = 0usize;
+    for part in parts {
+        let resolved = resolve_pattern(part, bindings);
+        if matches!(resolved, Term::Var(_)) {
+            continue;
+        }
+        total = total.checked_add(rdf_or_native_list(part, bindings, facts)?.len())?;
+    }
+    Some(total)
 }
 
 fn eval_list_iterate(left: &Term, right: &Term, bindings: &Bindings, facts: &[Triple]) -> Vec<Bindings> {
@@ -4313,5 +4527,95 @@ fn resolve_with_seen(term: &Term, bindings: &Bindings, seen: &mut HashSet<String
             )
         }).collect()),
         _ => term.clone(),
+    }
+}
+
+#[cfg(test)]
+mod reasoner_index_regression_tests {
+    use super::*;
+
+    #[test]
+    fn fully_bound_goal_uses_the_more_selective_fact_index_bucket() {
+        let rdf_type = Term::Iri(RDF_TYPE.to_string());
+        let class = Term::Iri("http://example.org/C".to_string());
+        let mut facts = Vec::<Triple>::new();
+        let mut index = FactIndex::default();
+
+        for n in 0..512 {
+            let fact = Triple::new(
+                Term::Iri(format!("http://example.org/item/{n}")),
+                rdf_type.clone(),
+                class.clone(),
+            );
+            let pos = facts.len();
+            facts.push(fact);
+            index.insert(pos, &facts[pos]);
+        }
+
+        let goal = Triple::new(
+            Term::Iri("http://example.org/item/257".to_string()),
+            rdf_type,
+            class,
+        );
+        let candidates = index.candidates(&facts, &goal, &Bindings::new());
+
+        assert_eq!(candidates.len(), 1, "a fully bound type check should not scan the whole class bucket");
+        assert_eq!(candidates[0], &goal);
+    }
+
+    #[test]
+    fn wildcard_predicate_join_is_deferred_until_predicate_is_bound() {
+        let premise = Triple::new(
+            Term::Var("X".to_string()),
+            Term::Var("P".to_string()),
+            Term::Var("Y".to_string()),
+        );
+        let index = FactIndex::default();
+        let mut bindings = Bindings::new();
+        bindings.insert("Y".to_string(), Term::Iri("http://example.org/y".to_string()));
+
+        assert!(premise_needs_broad_fact_scan(&premise, Some(&index), &bindings));
+
+        bindings.insert("P".to_string(), Term::Iri("http://example.org/p".to_string()));
+        assert!(!premise_needs_broad_fact_scan(&premise, Some(&index), &bindings));
+    }
+
+    #[test]
+    fn issue_6_join_does_not_repeat_full_fact_scans() {
+        let mut source = String::from(r#"
+            @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+            @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+            @prefix owl:  <http://www.w3.org/2002/07/owl#> .
+            @prefix :     <http://example.org/> .
+
+            :p rdfs:domain :C .
+            :R owl:onProperty :p ; owl:someValuesFrom :D .
+
+            {
+              ?R owl:onProperty ?P ; owl:someValuesFrom ?D .
+              ?X ?P ?Y .
+              ?Y a ?D
+            } => { ?X a ?R } .
+        "#);
+
+        for n in 0..128 {
+            source.push_str(&format!(":x{n} :p :y{n} . :y{n} a :D .\n"));
+        }
+
+        let document = parse_n3(&source, None).expect("issue #6 fixture should parse");
+        reset_test_broad_fact_scans();
+        let result = reason(&document, &ReasonerOptions::default());
+
+        assert!(result.is_complete(), "reasoning should complete: {:?}", result.errors);
+        let derived_restrictions = result.derived.iter().filter(|triple| {
+            triple.p == Term::Iri(RDF_TYPE.to_string())
+                && triple.o == Term::Iri("http://example.org/R".to_string())
+        }).count();
+        assert_eq!(derived_restrictions, 128);
+        assert_eq!(
+            test_broad_fact_scans(),
+            0,
+            "issue #6 must not scan the whole closure once per rdf:type trigger",
+        );
     }
 }
