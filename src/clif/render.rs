@@ -89,7 +89,14 @@ fn render_term(term: &Term) -> String {
 }
 
 fn render_name(value: &str) -> String {
-    let safe = !value.is_empty()
+    let reserved = matches!(
+        value,
+        "=" | "and" | "or" | "not" | "if" | "iff" | "forall" | "exists"
+            | "cl:text" | "cl:comment" | "cl:imports" | "cl:restrict"
+            | "cl:outdiscourse" | "cl:prefix" | "cl:prefx"
+    );
+    let safe = !reserved
+        && !value.is_empty()
         && !value.chars().any(|ch| ch.is_whitespace() || matches!(ch, '(' | ')' | '\'' | '"' | '\\'))
         && numeric_literal(value).is_none();
     if safe { value.to_string() } else { format!("\"{}\"", escape_quoted(value, '"')) }
