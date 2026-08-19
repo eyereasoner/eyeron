@@ -802,3 +802,77 @@ fn blank_scope_log_not_includes_consults_backward_rules() {
         "log:notIncludes ignored a conclusion available from a backward rule:\n{output}"
     );
 }
+
+#[test]
+fn forward_body_keeps_backward_answers_when_explicit_fact_also_matches() {
+    let source = r#"
+        @prefix : <http://example.org/> .
+
+        :source :piece (9) .
+        :source :alternative (2 3) .
+
+        { ?source :piece ?value } <= { ?source :alternative ?value } .
+
+        { :source :piece ?value } => { :result :value ?value } .
+    "#;
+
+    let output = reason(source).expect("issue #8 fixture should reason completely");
+    assert!(output.contains(":result :value (9)"), "{output}");
+    assert!(
+        output.contains(":result :value (2 3)"),
+        "an explicit fact must not shadow an additional backward derivation:\n{output}",
+    );
+}
+
+#[test]
+fn nested_backward_body_keeps_backward_answers_when_explicit_fact_also_matches() {
+    let source = r#"
+        @prefix : <http://example.org/> .
+
+        :source :piece (9) .
+        :source :alternative (2 3) .
+
+        { ?source :piece ?value } <= { ?source :alternative ?value } .
+        { :answer :sifted ?value } <= { :source :piece ?value } .
+
+        { :answer :sifted ?value } => { :result :value ?value } .
+    "#;
+
+    let output = reason(source).expect("issue #8 fixture should reason completely");
+    assert!(output.contains(":result :value (9)"), "{output}");
+    assert!(
+        output.contains(":result :value (2 3)"),
+        "nested backward reasoning lost the issue #8 derivation:\n{output}",
+    );
+}
+
+#[test]
+fn sift_repro_keeps_runnable_backward_goals_in_source_order() {
+    let source = r#"
+        @prefix math: <http://www.w3.org/2000/10/swap/math#> .
+        @prefix list: <http://www.w3.org/2000/10/swap/list#> .
+        @prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+        @prefix : <urn:laurence:calc#> .
+
+        { (?p ()) :remove () }     <= { ?p log:equalTo ?p } .
+        { (?p ?is) :remove ?out }  <= { ((?i) ?rest) list:append ?is .
+                                        (?i ?p) math:remainder ?r . ?r math:notEqualTo 0 .
+                                        (?p ?rest) :remove ?nis .
+                                        ((?i) ?nis) list:append ?out } .
+        { (?p ?is) :remove ?out }  <= { ((?i) ?rest) list:append ?is .
+                                        (?i ?p) math:remainder 0 .
+                                        (?p ?rest) :remove ?out } .
+        () :sift () .
+        { ?is :sift ?ps } <= { ((?i) ?rest) list:append ?is .
+                               (?i ?rest) :remove ?new .
+                               ?new :sift ?pt .
+                               ((?i) ?pt) list:append ?ps } .
+        { (2 3) :sift ?ps } => { :answer :sifted ?ps } .
+    "#;
+
+    let output = reason(source).expect("issue #8 sift fixture should reason completely");
+    assert!(
+        output.contains(":answer :sifted (2 3)"),
+        "the runnable :remove backward premise must run before the later () :sift () fact:\n{output}",
+    );
+}

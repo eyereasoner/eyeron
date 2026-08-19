@@ -1238,6 +1238,7 @@ fn match_premise_remaining(
     let mut best_candidates = Vec::<Bindings>::new();
     let mut fallback_index = None;
     let mut fallback_candidates = Vec::<Bindings>::new();
+    let mut best_includes_backward = false;
 
     // First try the cheap, non-recursive paths: built-ins, lazy rule-as-data
     // facts, and ordinary fact lookups that the FactIndex can answer without a
@@ -1320,11 +1321,25 @@ fn match_premise_remaining(
             if best_index.is_none() || candidates.len() < best_candidates.len() {
                 best_index = Some(idx);
                 best_candidates = candidates;
+                best_includes_backward = true;
             }
         }
     }
 
     let Some(idx) = best_index else { return; };
+    if !best_includes_backward {
+        best_candidates = include_backward_alternatives_for_selected_premise(
+            &premises[idx],
+            facts,
+            fact_index,
+            rules,
+            &bindings,
+            depth,
+            backward_stack,
+            budget,
+            best_candidates,
+        );
+    }
     let mut rest = premises;
     rest.remove(idx);
     for b in best_candidates {
@@ -1546,6 +1561,46 @@ fn backward_rules_may_derive_predicate(predicate: &Term, rules: &[Rule]) -> bool
                 }
             })
     })
+}
+
+fn include_backward_alternatives_for_selected_premise(
+    premise: &Triple,
+    facts: &[Triple],
+    fact_index: Option<&FactIndex>,
+    rules: &[Rule],
+    bindings: &Bindings,
+    depth: usize,
+    backward_stack: &mut HashSet<String>,
+    budget: &mut SearchBudget,
+    direct_candidates: Vec<Bindings>,
+) -> Vec<Bindings> {
+    if !should_try_backward_goal(premise, bindings) {
+        return direct_candidates;
+    }
+    let predicate = resolve_pattern(&premise.p, bindings);
+    if !backward_rules_may_derive_predicate(&predicate, rules) {
+        return direct_candidates;
+    }
+
+    // Candidate discovery is intentionally fact-first so the scheduler can
+    // rank premises without recursively expanding every backward goal.  Once a
+    // premise has actually been selected, however, fact matches are not the
+    // complete answer set: a backward rule with the same head predicate may
+    // contribute additional bindings.  Add only those backward alternatives so
+    // explicit facts do not shadow valid derivations (GitHub issue #8), while
+    // avoiding a second ordinary fact/index lookup for the selected premise.
+    let mut candidates = direct_candidates;
+    candidates.extend(solve_backward_goal(
+        premise,
+        facts,
+        fact_index,
+        rules,
+        bindings,
+        depth,
+        backward_stack,
+        budget,
+    ));
+    candidates
 }
 
 fn match_one_premise(
@@ -1800,28 +1855,53 @@ fn match_backward_premises_ordered(
     }
 
     // Eyeling tries backward bodies in source order and defers goals that are
-    // not runnable yet. Stop at the first productive goal instead of eagerly
-    // materializing every remaining goal's candidates to rank them.
+    // not runnable yet.  Preserve that order across ordinary facts *and*
+    // backward derivations.  A global "facts first, backward second" sweep is
+    // incomplete: in issue #8, after list:append binds the head/tail of (2 3),
+    // the next source premise is a runnable :remove backward goal.  Skipping it
+    // in favour of the later explicit base fact `() :sift ()` binds the
+    // intermediate list to () and makes the valid (2 3) derivation impossible.
     let mut selected = None;
-    for allow_backward in [false, true] {
+    for (remaining_index, premise_index) in remaining.iter().enumerate() {
+        let premise = &premises[*premise_index];
+        if premise_is_definitively_false(premise, facts, fact_index, rules, &bindings) {
+            return;
+        }
+        if premise_is_speculative_builtin(premise, &bindings) {
+            continue;
+        }
+
+        let predicate = resolve_pattern(&premise.p, &bindings);
+        let allow_backward = should_try_backward_goal(premise, &bindings)
+            && backward_rules_may_derive_predicate(&predicate, rules);
+        let candidates = match_one_premise(
+            premise, facts, fact_index, rules, &bindings, depth,
+            backward_stack, budget, allow_backward,
+        );
+        if !candidates.is_empty() {
+            selected = Some((remaining_index, candidates));
+            break;
+        }
+    }
+
+    // If every non-speculative premise was unready, retry in source order with
+    // the permissive path.  This retains the old fallback for built-ins whose
+    // argument modes cannot be established until no better premise remains.
+    if selected.is_none() {
         for (remaining_index, premise_index) in remaining.iter().enumerate() {
             let premise = &premises[*premise_index];
             if premise_is_definitively_false(premise, facts, fact_index, rules, &bindings) {
                 return;
             }
-            if !allow_backward && premise_is_speculative_builtin(premise, &bindings) {
-                continue;
-            }
             let candidates = match_one_premise(
                 premise, facts, fact_index, rules, &bindings, depth,
-                backward_stack, budget, allow_backward,
+                backward_stack, budget, true,
             );
             if !candidates.is_empty() {
                 selected = Some((remaining_index, candidates));
                 break;
             }
         }
-        if selected.is_some() { break; }
     }
 
     let Some((index, candidates)) = selected else { return; };
