@@ -23,6 +23,7 @@ struct CliOptions {
     stream: bool,
     stream_messages: bool,
     base_iri: Option<String>,
+    max_backward_depth: Option<usize>,
     files: Vec<String>,
 }
 
@@ -80,10 +81,7 @@ fn run() -> Result<()> {
         return Ok(());
     }
 
-    let reasoner_options = ReasonerOptions {
-        proof: opt.proof,
-        ..ReasonerOptions::default()
-    };
+    let reasoner_options = cli_reasoner_options(&opt, opt.proof);
     let result = reason(&merged, &reasoner_options);
     if let Some(summary) = result.incomplete_summary() {
         return Err(EyeronError::new(summary));
@@ -140,6 +138,7 @@ fn run_stream_messages(opt: &CliOptions) -> Result<()> {
         ));
     }
 
+    let reasoner_options = cli_reasoner_options(opt, false);
     for source in message_sources {
         let base = opt.base_iri.clone().or_else(|| {
             if is_http_url(&source) {
@@ -158,6 +157,7 @@ fn run_stream_messages(opt: &CliOptions) -> Result<()> {
                 &final_url,
                 base.as_deref(),
                 &program,
+                &reasoner_options,
             )?;
         } else if source == "-" {
             return Err(EyeronError::new(
@@ -170,6 +170,7 @@ fn run_stream_messages(opt: &CliOptions) -> Result<()> {
                 &source,
                 base.as_deref(),
                 &program,
+                &reasoner_options,
             )?;
         }
     }
@@ -181,6 +182,7 @@ fn stream_message_reader<R: BufRead>(
     label: &str,
     base: Option<&str>,
     program: &Document,
+    reasoner_options: &ReasonerOptions,
 ) -> Result<()> {
     let mut directives = String::new();
     let mut message = String::new();
@@ -213,6 +215,7 @@ fn stream_message_reader<R: BufRead>(
                 label,
                 message_index,
                 base,
+                reasoner_options,
             )?;
             message.clear();
             message_index += 1;
@@ -242,6 +245,7 @@ fn stream_message_reader<R: BufRead>(
             label,
             message_index,
             base,
+            reasoner_options,
         )?;
     }
     Ok(())
@@ -254,6 +258,7 @@ fn run_one_message(
     label: &str,
     index: usize,
     base: Option<&str>,
+    reasoner_options: &ReasonerOptions,
 ) -> Result<()> {
     let replay = format!("{directives}\nVERSION \"1.2-messages\"\n{message}");
     let message_label = format!("{label}#message-{index}");
@@ -261,11 +266,7 @@ fn run_one_message(
     let parsed = parse_rdf_message_log(&replay, base)
         .map_err(|err| EyeronError::new(err.with_source_location(&replay, &message_label)))?;
     merged.merge(parsed);
-    let options = ReasonerOptions {
-        proof: false,
-        ..ReasonerOptions::default()
-    };
-    let result = reason(&merged, &options);
+    let result = reason(&merged, reasoner_options);
     if let Some(summary) = result.incomplete_summary() {
         return Err(EyeronError::new(summary));
     }
@@ -275,6 +276,17 @@ fn run_one_message(
     );
     io::stdout().flush()?;
     Ok(())
+}
+
+fn cli_reasoner_options(opt: &CliOptions, proof: bool) -> ReasonerOptions {
+    let mut options = ReasonerOptions {
+        proof,
+        ..ReasonerOptions::default()
+    };
+    if let Some(max_backward_depth) = opt.max_backward_depth {
+        options.max_backward_depth = max_backward_depth;
+    }
+    options
 }
 
 fn parse_args(args: Vec<String>) -> Result<CliOptions> {
@@ -294,6 +306,19 @@ fn parse_args(args: Vec<String>) -> Result<CliOptions> {
             "-p" | "--proof" | "--proof-comments" => opt.proof = true,
             "-r" | "--rdf" => opt.rdf = true,
             "-s" | "--stream" => opt.stream = true,
+            "--max-backward-depth" => {
+                let flag = args[i].clone();
+                i += 1;
+                if i >= args.len() {
+                    return Err(EyeronError::new(format!("{} requires a value", flag)));
+                }
+                opt.max_backward_depth = Some(args[i].parse::<usize>().map_err(|_| {
+                    EyeronError::new(format!(
+                        "{} requires a non-negative integer, got {}",
+                        flag, args[i]
+                    ))
+                })?);
+            }
             "--builtin" | "--store" | "--store-path" => {
                 let flag = args[i].clone();
                 i += 1;
@@ -430,6 +455,10 @@ fn print_help() {
     );
     println!(
         "      --base-iri IRI            Base IRI used by parser modes that resolve relative IRIs"
+    );
+    println!(
+        "      --max-backward-depth N    Maximum recursive backward-rule depth (default: {})",
+        ReasonerOptions::default().max_backward_depth
     );
     println!("  -v, --version                 Print version");
     println!("  -h, --help                    Show this help");

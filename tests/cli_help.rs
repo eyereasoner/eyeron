@@ -16,11 +16,10 @@ fn no_arguments_is_the_same_as_short_help() {
 }
 
 #[test]
-fn reasoning_limit_flags_are_not_accepted() {
+fn internal_reasoning_limit_flags_are_not_accepted() {
     for flag in [
         "--max-iterations",
         "--max-match-steps",
-        "--max-backward-depth",
         "--max-backward-solutions",
     ] {
         let output = Command::new(env!("CARGO_BIN_EXE_eyeron"))
@@ -33,4 +32,39 @@ fn reasoning_limit_flags_are_not_accepted() {
         let stderr = String::from_utf8_lossy(&output.stderr);
         assert_eq!(stderr.as_ref(), format!("eyeron: unknown option {flag}\n"));
     }
+}
+
+#[test]
+fn max_backward_depth_is_a_supported_cli_option() {
+    let help = Command::new(env!("CARGO_BIN_EXE_eyeron"))
+        .arg("--help")
+        .output()
+        .expect("run eyeron --help");
+    assert!(help.status.success());
+    assert!(String::from_utf8_lossy(&help.stdout).contains("--max-backward-depth N"));
+
+    let output = Command::new(env!("CARGO_BIN_EXE_eyeron"))
+        .args(["--max-backward-depth", "64", "examples/socrates.n3"])
+        .output()
+        .expect("run eyeron with backward-depth override");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+#[test]
+fn max_backward_depth_rejects_non_numeric_values() {
+    let output = Command::new(env!("CARGO_BIN_EXE_eyeron"))
+        .args(["--max-backward-depth", "many", "examples/socrates.n3"])
+        .output()
+        .expect("run eyeron with invalid backward-depth override");
+
+    assert!(!output.status.success());
+    assert_eq!(output.stdout, b"");
+    assert_eq!(
+        String::from_utf8_lossy(&output.stderr),
+        "eyeron: --max-backward-depth requires a non-negative integer, got many\n"
+    );
 }

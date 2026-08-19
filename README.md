@@ -78,6 +78,14 @@ cargo run --release -- --rdf - < data.ttl
 
 Run `eyeron`, `eyeron -h`, or `eyeron --help` to display help. Running without arguments is equivalent to `-h`.
 
+Backward reasoning uses a conservative recursive-depth safety limit of 32 by default. For deliberately deep workloads, including benchmarks, raise it from the command line without changing the library default:
+
+```bash
+cargo run --release -- --max-backward-depth 256 examples/backward.n3
+```
+
+Higher limits can increase runtime and memory use on genuinely recursive searches, so the default remains unchanged.
+
 ## RDF Messages
 
 Eyeron recognizes RDF Message Logs containing a `VERSION "*-messages"` directive and `MESSAGE` or `@message .` boundaries.
