@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+# Exit immediately on errors, undefined variables, or failed pipeline commands.
+set -euo pipefail
+
+# Require exactly two arguments:
+#   $1: Release type — major, minor, or patch
+#   $2: Release message
+if [[ $# -ne 2 ]]; then
+  echo "Usage: $0 <major|minor|patch> \"<release message>\"" >&2
+  exit 1
+fi
+
+RELEASE_TYPE="$1"
+MESSAGE="$2"
+
+# Validate the release type.
+case "$RELEASE_TYPE" in
+  major|minor|patch)
+    ;;
+  *)
+    echo "Error: release type must be major, minor, or patch." >&2
+    exit 1
+    ;;
+esac
+
+# Ensure the release message is not empty.
+if [[ -z "${MESSAGE//[[:space:]]/}" ]]; then
+  echo "Error: release message cannot be empty." >&2
+  exit 1
+fi
+
+# Require cargo-edit for `cargo set-version`.
+if ! cargo set-version --help >/dev/null 2>&1; then
+  echo "Error: cargo set-version is required." >&2
+  echo "Install it with: cargo install cargo-edit" >&2
+  exit 1
+fi
+
+# Switch to the main branch and update it without creating a merge commit.
+git switch main
+git pull --ff-only
+
+# Update the Cargo package version.
+cargo set-version --bump "$RELEASE_TYPE"
+
+# Test the release and update Cargo.lock if necessary.
+cargo test --release
+
+# Read the updated package version using Cargo metadata.
+VERSION="$(
+  cargo metadata --no-deps --format-version 1 |
+    python3 -c '
+import json
+import sys
+
+metadata = json.load(sys.stdin)
+packages = metadata["packages"]
+
+if len(packages) != 1:
+    sys.exit("Error: expected exactly one Cargo package")
+
+print(packages[0]["version"])
+'
+)"
+
+VERSION="v$VERSION"
+
+# Commit the version changes and create an annotated Git tag.
+git add -A
+git commit -m "$MESSAGE"
+git tag -a "$VERSION" -m "$MESSAGE"
+
+# Push the main branch and the new release tag.
+git push origin main
+git push origin "$VERSION"
+
+echo "Released $VERSION: $MESSAGE"
