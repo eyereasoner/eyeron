@@ -134,7 +134,15 @@ SPARQL-RL distinguishes two graphs: the rule set's own `DATA { ... }` facts seed
 cargo run --release -- --data facts.ttl rules.srl
 ```
 
-Supported: `FILTER`, `SET(?v := expr)` (SRL's `BIND`), `NOT`/`NOT DATA` negation as failure with automatic stratification (an unstratifiable recursive negation is rejected with a clear error), property paths (`/` sequence, `^` inverse), RDF-star triple terms and reifiers, `run_once` rules (SPARQL 1.2 RL §4.4: a rule with `SET` or a blank node in its head fires at most once), and roughly fifty SPARQL built-in functions (string, numeric, date/time, XSD casts, RDF-star accessors). Not yet supported: backward/goal-directed query evaluation for SRL rule sets, and `--proof` output.
+Supported: `FILTER`, `SET(?v := expr)` (SRL's `BIND`), `NOT`/`NOT DATA` negation as failure with automatic stratification (an unstratifiable recursive negation is rejected with a clear error), property paths (`/` sequence, `^` inverse), RDF-star triple terms and reifiers, `run_once` rules (SPARQL 1.2 RL §4.4: a rule with `SET` or a blank node in its head fires at most once), and roughly fifty SPARQL built-in functions (string, numeric, date/time, XSD casts, RDF-star accessors). Not yet supported: `--proof` output for `.srl` input.
+
+Query a rule set directly with `--query`/`--query-file` instead of printing every derived fact:
+
+```bash
+cargo run --release -- --query '{ ?x :descendedFrom :C }' examples/family.srl
+```
+
+`--query-mode forward` (the default) runs the ordinary fixpoint reasoner and matches the pattern against the completed closure. `--query-mode backward` instead proves the pattern directly against the rule set via goal-directed SLD resolution, without materializing a closure first — useful for large data or genuinely recursive rule sets where full materialization would be wasteful.
 
 ## Rust library
 
@@ -250,7 +258,7 @@ More inputs are available under `examples/`, with expected results in `examples/
 - persistent stores and custom external built-in modules are not implemented;
 - proof output does not yet include every possible trace comment or explanation detail;
 - Eyeron implements the N3 features and built-ins listed above, not every extension in every historical N3 implementation;
-- SPARQL 1.2 RL support does not yet include backward/goal-directed query evaluation, `--proof` output, or a ported W3C SPARQL-RL conformance harness.
+- SPARQL 1.2 RL support does not yet include `--proof` output, `--query-mode auto` (only `forward`/`backward` are implemented), or a ported W3C SPARQL-RL conformance harness.
 
 ## Project layout
 
