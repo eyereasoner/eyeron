@@ -70,6 +70,12 @@ pub(crate) fn solve_body(clauses: &[Clause], bindings: Bindings, ctx: &BodyCtx, 
     solve_from(clauses, 0, false, bindings, ctx, on_solution)
 }
 
+/// Like `solve_body`, but for a `WHERE DATA { ... }` rule whose entire body
+/// reads the immutable base graph instead of the inference graph.
+pub(crate) fn solve_body_scoped(clauses: &[Clause], bindings: Bindings, use_base: bool, ctx: &BodyCtx, on_solution: &mut dyn FnMut(&Bindings) -> bool) -> bool {
+    solve_from(clauses, 0, use_base, bindings, ctx, on_solution)
+}
+
 /// True iff `clauses` has at least one solution under `bindings` (SPARQL-RL
 /// negation as failure: `NOT { ... }` / `NOT DATA { ... }`).
 fn has_any_solution(clauses: &[Clause], bindings: Bindings, use_base: bool, ctx: &BodyCtx) -> bool {

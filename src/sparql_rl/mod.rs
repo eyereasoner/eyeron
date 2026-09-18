@@ -15,8 +15,11 @@
 pub mod ast;
 pub mod eval;
 pub mod expr;
+pub mod forward;
 pub mod lexer;
 pub mod parser;
+pub mod stratify;
 
 pub use ast::{BinaryOp, Clause, Expr, PathExpr, SparqlRlProgram, SparqlRlRule, UnaryOp};
+pub use forward::reason;
 pub use parser::parse_sparql_rl;

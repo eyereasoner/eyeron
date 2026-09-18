@@ -4365,7 +4365,7 @@ fn canonicalize_bindings(bindings: &Bindings) -> Bindings {
         .collect()
 }
 
-fn instantiate_triple(
+pub(crate) fn instantiate_triple(
     t: &Triple,
     bindings: &Bindings,
     blank_map: &mut BTreeMap<String, Term>,
