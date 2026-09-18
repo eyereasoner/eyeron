@@ -2,6 +2,7 @@ use eyeron::error::{EyeronError, Result};
 use eyeron::printing::{document_debug, rdf_result_to_string, result_to_string};
 use eyeron::proof::proof_to_n3;
 use eyeron::reasoner::{reason, ReasonerOptions};
+use eyeron::sparql_rl::{self, SparqlRlProgram};
 use eyeron::Document;
 use eyeron::{
     is_rdf_message_log, parse_n3, parse_n3_with_source, parse_rdf12, parse_rdf_message_log,
@@ -25,6 +26,10 @@ struct CliOptions {
     base_iri: Option<String>,
     max_backward_depth: Option<usize>,
     files: Vec<String>,
+    /// `--data FILE` (repeatable): RDF documents forming the immutable base
+    /// graph for a SPARQL 1.2 RL run (`WHERE DATA`/`NOT DATA` read this,
+    /// not the rule set's own `DATA { ... }` facts).
+    data_files: Vec<String>,
 }
 
 fn main() {
@@ -51,6 +56,11 @@ fn run() -> Result<()> {
         return run_stream_messages(&opt);
     }
     let sources = read_sources(&opt.files)?;
+
+    if sources.iter().any(|(label, text)| is_sparql_rl_source(label, text)) {
+        return run_sparql_rl(&opt, &sources);
+    }
+
     let mut merged = Document::new();
     for (label, text) in &sources {
         let path_base = if label == "<stdin>" {
@@ -278,6 +288,94 @@ fn run_one_message(
     Ok(())
 }
 
+/// Whether `(label, text)` looks like a SPARQL 1.2 RL rule set: either the
+/// filename ends in `.srl`, or (for stdin/URLs, and as a fallback for
+/// files) the content itself looks like one (see
+/// `eyeron::sparql_rl::is_sparql_rl`).
+fn is_sparql_rl_source(label: &str, text: &str) -> bool {
+    let has_srl_extension = label
+        .split(['?', '#'])
+        .next()
+        .and_then(|path| Path::new(path).extension())
+        .is_some_and(|ext| ext.eq_ignore_ascii_case("srl"));
+    has_srl_extension || sparql_rl::is_sparql_rl(text)
+}
+
+fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
+    if opt.proof {
+        return Err(EyeronError::new("--proof is not yet supported for SPARQL 1.2 RL rule sets"));
+    }
+
+    let mut program = SparqlRlProgram::default();
+    for (label, text) in sources {
+        if !is_sparql_rl_source(label, text) {
+            return Err(EyeronError::new(format!(
+                "{} does not look like a SPARQL 1.2 RL rule set; mixing .srl and N3/RDF input in one run is not supported",
+                label
+            )));
+        }
+        let base = source_base_iri(opt, label);
+        let parsed = sparql_rl::parse_sparql_rl(text, base.as_deref())
+            .map_err(|err| EyeronError::new(err.with_source_location(text, label)))?;
+        sparql_rl::merge_programs(&mut program, parsed);
+    }
+
+    if opt.ast {
+        println!("{:#?}", program);
+        return Ok(());
+    }
+
+    let mut base_graph = Vec::new();
+    for data_file in &opt.data_files {
+        let text = if data_file == "-" {
+            let mut s = String::new();
+            io::stdin().read_to_string(&mut s)?;
+            s
+        } else if is_http_url(data_file) {
+            let response = ureq::get(data_file)
+                .call()
+                .map_err(|err| EyeronError::new(format!("failed to fetch {data_file}: {err}")))?;
+            response
+                .into_string()
+                .map_err(|err| EyeronError::new(format!("failed to read response from {data_file}: {err}")))?
+        } else {
+            fs::read_to_string(data_file)?
+        };
+        let format = rdf_format_for_source(data_file, true)?.ok_or_else(|| {
+            EyeronError::new(format!("cannot infer RDF format for --data {}; use .ttl, .nt, .nq, or .trig", data_file))
+        })?;
+        let base = source_base_iri(opt, data_file);
+        let doc = parse_rdf12(&text, base.as_deref(), format)
+            .map_err(|err| EyeronError::new(err.with_source_location(&text, data_file)))?;
+        base_graph.extend(doc.facts);
+    }
+
+    let reasoner_options = cli_reasoner_options(opt, false);
+    let result = sparql_rl::reason(&program, &base_graph, &reasoner_options)?;
+    if let Some(summary) = result.incomplete_summary() {
+        return Err(EyeronError::new(summary));
+    }
+    if opt.rdf {
+        print!("{}", rdf_result_to_string(&program.prefixes, &result.derived));
+    } else {
+        print!("{}", result_to_string(&program.prefixes, &result.derived));
+    }
+    Ok(())
+}
+
+fn source_base_iri(opt: &CliOptions, label: &str) -> Option<String> {
+    if let Some(base) = &opt.base_iri {
+        return Some(base.clone());
+    }
+    if label == "<stdin>" {
+        return None;
+    }
+    if is_http_url(label) {
+        return Some(label.to_string());
+    }
+    path_to_file_iri(label).ok()
+}
+
 fn cli_reasoner_options(opt: &CliOptions, proof: bool) -> ReasonerOptions {
     let mut options = ReasonerOptions {
         proof,
@@ -331,6 +429,14 @@ fn parse_args(args: Vec<String>) -> Result<CliOptions> {
                 );
             }
             "--stream-messages" => opt.stream_messages = true,
+            "--data" => {
+                let flag = args[i].clone();
+                i += 1;
+                if i >= args.len() {
+                    return Err(EyeronError::new(format!("{} requires a value", flag)));
+                }
+                opt.data_files.push(args[i].clone());
+            }
             "--base-iri" | "--base" => {
                 i += 1;
                 if i >= args.len() {
@@ -460,6 +566,10 @@ fn print_help() {
         "      --max-backward-depth N    Maximum recursive backward-rule depth (default: {})",
         ReasonerOptions::default().max_backward_depth
     );
+    println!("      --data FILE               RDF base graph for a SPARQL 1.2 RL run (repeatable; .srl input only)");
     println!("  -v, --version                 Print version");
     println!("  -h, --help                    Show this help");
+    println!();
+    println!("A .srl file (or content starting with RULE/DATA after PREFIX/BASE/VERSION/IMPORTS) is");
+    println!("run as a SPARQL 1.2 RL rule set instead of N3.");
 }
