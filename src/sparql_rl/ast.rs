@@ -178,7 +178,7 @@ pub fn expr_variables(expr: &Expr, out: &mut std::collections::BTreeSet<String>)
     }
 }
 
-fn term_variables(term: &Term, out: &mut std::collections::BTreeSet<String>) {
+pub fn term_variables(term: &Term, out: &mut std::collections::BTreeSet<String>) {
     match term {
         Term::Var(name) => {
             out.insert(name.clone());

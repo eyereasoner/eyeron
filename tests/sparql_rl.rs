@@ -99,3 +99,46 @@ fn unstratifiable_negation_is_rejected() {
     let err = reason(&program, &[], &ReasonerOptions::default()).unwrap_err();
     assert!(err.message.contains("stratification"), "{}", err.message);
 }
+
+fn run_cli(args: &[&str]) -> std::process::Output {
+    std::process::Command::new(env!("CARGO_BIN_EXE_eyeron")).args(args).output().expect("run eyeron")
+}
+
+#[test]
+fn cli_query_forward_mode_matches_backward_mode() {
+    let family = manifest_dir().join("examples/family.srl").to_str().unwrap().to_string();
+
+    let forward = run_cli(&["--query", "{ ?x :descendedFrom :C }", &family]);
+    assert!(forward.status.success(), "{}", String::from_utf8_lossy(&forward.stderr));
+    let forward_out = String::from_utf8_lossy(&forward.stdout);
+
+    let backward = run_cli(&["--query-mode", "backward", "--query", "{ ?x :descendedFrom :C }", &family]);
+    assert!(backward.status.success(), "{}", String::from_utf8_lossy(&backward.stderr));
+    let backward_out = String::from_utf8_lossy(&backward.stdout);
+
+    // Both query modes should report exactly the two people descended from
+    // :C, and — this is a regression check for a real bug caught during
+    // development — never leak an internal renamed rule variable
+    // (`__bw_...`) into the reported solution.
+    for out in [&forward_out, &backward_out] {
+        assert!(out.contains(":A"), "{out}");
+        assert!(out.contains(":X"), "{out}");
+        assert!(!out.contains("__bw_"), "{out}");
+        assert_eq!(out.lines().filter(|l| l.starts_with("?x")).count(), 2, "{out}");
+    }
+}
+
+#[test]
+fn cli_query_file_reads_pattern_from_a_file() {
+    let family = manifest_dir().join("examples/family.srl").to_str().unwrap().to_string();
+    let query_path = std::env::temp_dir().join("eyeron-sparql-rl-query-test.txt");
+    fs::write(&query_path, "{ :X :childOf ?p }").unwrap();
+
+    let output = run_cli(&["--query-file", query_path.to_str().unwrap(), &family]);
+    assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
+    let out = String::from_utf8_lossy(&output.stdout);
+    assert!(out.contains(":A"), "{out}");
+    assert!(out.contains(":B"), "{out}");
+
+    let _ = fs::remove_file(&query_path);
+}

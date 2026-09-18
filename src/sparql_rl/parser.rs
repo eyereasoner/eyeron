@@ -32,6 +32,32 @@ pub fn parse_sparql_rl(input: &str, base_iri: Option<&str>) -> Result<SparqlRlPr
     Parser::new(tokens, base_iri).parse_program()
 }
 
+/// Parse a raw SRL body pattern (as used by `--query`/`--query-file`, e.g.
+/// `{ ?x :parentOf ?y }` or just `?x :parentOf ?y`), returning its clauses
+/// and prefixes. Implemented by wrapping the input as `RULE {} WHERE
+/// { ... }` (prefixed with `PREFIX` declarations for `inherited_prefixes`,
+/// so a query pattern can use the prefixes already declared in the rule
+/// set it is being run against) and reusing the ordinary rule-body
+/// grammar, matching eyeleng's `parseQuery`.
+pub fn parse_query_body(input: &str, base_iri: Option<&str>, inherited_prefixes: &BTreeMap<String, String>) -> Result<(Vec<Clause>, BTreeMap<String, String>)> {
+    let trimmed = input.trim();
+    let mut wrapped = String::new();
+    for (prefix, iri) in inherited_prefixes {
+        wrapped.push_str(&format!("PREFIX {}: <{}>\n", prefix, iri));
+    }
+    if trimmed.starts_with('{') {
+        wrapped.push_str(&format!("RULE {{}} WHERE {}", trimmed));
+    } else {
+        wrapped.push_str(&format!("RULE {{}} WHERE {{ {} }}", trimmed));
+    }
+    let program = parse_sparql_rl(&wrapped, base_iri)?;
+    if program.rules.len() != 1 || !program.data.is_empty() {
+        return Err(EyeronError::new("expected exactly one raw body pattern"));
+    }
+    let rule = program.rules.into_iter().next().unwrap();
+    Ok((rule.body, program.prefixes))
+}
+
 fn looks_like_select_query(input: &str) -> bool {
     let trimmed = input.trim_start();
     let head: String = trimmed.chars().take(8).collect::<String>().to_ascii_uppercase();

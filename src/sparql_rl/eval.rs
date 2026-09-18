@@ -70,6 +70,32 @@ pub(crate) fn solve_body(clauses: &[Clause], bindings: Bindings, ctx: &BodyCtx, 
     solve_from(clauses, 0, false, bindings, ctx, on_solution)
 }
 
+/// Match `query_body` directly against a fixed set of facts (typically a
+/// forward reasoner's completed closure) with no rule recursion — the
+/// `--query-mode forward` reading of `--query`: "find everything matching
+/// this pattern in the fully-reasoned graph," as opposed to
+/// `super::backward::solve_query`'s goal-directed SLD resolution.
+pub fn query_facts(facts: &[Triple], base_graph: &[Triple], query_body: &[Clause]) -> Vec<Bindings> {
+    let index = build_index(facts);
+    let base_index = build_index(base_graph);
+    let eval_ctx = EvalCtx::new();
+    let ctx = BodyCtx::new(Graph { facts, index: &index }, Graph { facts: base_graph, index: &base_index }, &eval_ctx);
+    let mut out = Vec::new();
+    solve_body(query_body, Bindings::new(), &ctx, &mut |b| {
+        out.push(b.clone());
+        true
+    });
+    out
+}
+
+fn build_index(facts: &[Triple]) -> FactIndex {
+    let mut index = FactIndex::default();
+    for (i, t) in facts.iter().enumerate() {
+        index.insert(i, t);
+    }
+    index
+}
+
 /// Like `solve_body`, but for a `WHERE DATA { ... }` rule whose entire body
 /// reads the immutable base graph instead of the inference graph.
 pub(crate) fn solve_body_scoped(clauses: &[Clause], bindings: Bindings, use_base: bool, ctx: &BodyCtx, on_solution: &mut dyn FnMut(&Bindings) -> bool) -> bool {
@@ -150,7 +176,7 @@ fn solve_triple(pattern: &Triple, clauses: &[Clause], idx: usize, use_base: bool
 /// (`/`) and inverse (`^`) — no Kleene star/plus/alternation — so this
 /// expansion has no choice points of its own; all backtracking still
 /// happens at the leaf triple matches via `solve_triple`.
-fn expand_path(s: &Term, path: &PathExpr, o: &Term, fresh: &mut dyn FnMut() -> Term) -> Vec<Triple> {
+pub(crate) fn expand_path(s: &Term, path: &PathExpr, o: &Term, fresh: &mut dyn FnMut() -> Term) -> Vec<Triple> {
     match path {
         PathExpr::Iri(iri) => vec![Triple::new(s.clone(), Term::iri(iri.clone()), o.clone())],
         PathExpr::Inverse(inner) => expand_path(o, inner, s, fresh),

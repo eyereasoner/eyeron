@@ -30,6 +30,20 @@ struct CliOptions {
     /// graph for a SPARQL 1.2 RL run (`WHERE DATA`/`NOT DATA` read this,
     /// not the rule set's own `DATA { ... }` facts).
     data_files: Vec<String>,
+    query: Option<String>,
+    query_file: Option<String>,
+    query_mode: QueryMode,
+}
+
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+enum QueryMode {
+    /// Run the forward reasoner to a fixpoint, then match the query
+    /// pattern against the completed closure.
+    #[default]
+    Forward,
+    /// Prove the query pattern directly against the rule set via
+    /// goal-directed SLD resolution, without materializing a closure.
+    Backward,
 }
 
 fn main() {
@@ -351,6 +365,27 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
     }
 
     let reasoner_options = cli_reasoner_options(opt, false);
+
+    if let Some(query_text) = sparql_rl_query_text(opt)? {
+        let (query_body, _) = sparql_rl::parse_query_body(&query_text, opt.base_iri.as_deref(), &program.prefixes)
+            .map_err(|err| EyeronError::new(err.with_source_location(&query_text, "--query")))?;
+        let solutions = match opt.query_mode {
+            QueryMode::Backward => {
+                let options = sparql_rl::BackwardOptions { max_depth: reasoner_options.max_backward_depth, ..sparql_rl::BackwardOptions::default() };
+                sparql_rl::solve_query(&program, &base_graph, &query_body, options)
+            }
+            QueryMode::Forward => {
+                let result = sparql_rl::reason(&program, &base_graph, &reasoner_options)?;
+                if let Some(summary) = result.incomplete_summary() {
+                    return Err(EyeronError::new(summary));
+                }
+                sparql_rl::query_facts(&result.closure, &base_graph, &query_body)
+            }
+        };
+        print_sparql_rl_solutions(&program.prefixes, &solutions);
+        return Ok(());
+    }
+
     let result = sparql_rl::reason(&program, &base_graph, &reasoner_options)?;
     if let Some(summary) = result.incomplete_summary() {
         return Err(EyeronError::new(summary));
@@ -361,6 +396,30 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
         print!("{}", result_to_string(&program.prefixes, &result.derived));
     }
     Ok(())
+}
+
+fn sparql_rl_query_text(opt: &CliOptions) -> Result<Option<String>> {
+    match (&opt.query, &opt.query_file) {
+        (Some(_), Some(_)) => Err(EyeronError::new("--query and --query-file cannot be combined")),
+        (Some(text), None) => Ok(Some(text.clone())),
+        (None, Some(path)) => Ok(Some(fs::read_to_string(path)?)),
+        (None, None) => Ok(None),
+    }
+}
+
+fn print_sparql_rl_solutions(prefixes: &BTreeMap<String, String>, solutions: &[eyeron::reasoner::Bindings]) {
+    if solutions.is_empty() {
+        println!("(no solutions)");
+        return;
+    }
+    for (i, solution) in solutions.iter().enumerate() {
+        if i > 0 {
+            println!();
+        }
+        for (var, value) in solution {
+            println!("?{} {}", var, eyeron::printing::term_to_n3_object(value, prefixes));
+        }
+    }
 }
 
 fn source_base_iri(opt: &CliOptions, label: &str) -> Option<String> {
@@ -436,6 +495,39 @@ fn parse_args(args: Vec<String>) -> Result<CliOptions> {
                     return Err(EyeronError::new(format!("{} requires a value", flag)));
                 }
                 opt.data_files.push(args[i].clone());
+            }
+            "--query" => {
+                let flag = args[i].clone();
+                i += 1;
+                if i >= args.len() {
+                    return Err(EyeronError::new(format!("{} requires a value", flag)));
+                }
+                opt.query = Some(args[i].clone());
+            }
+            "--query-file" => {
+                let flag = args[i].clone();
+                i += 1;
+                if i >= args.len() {
+                    return Err(EyeronError::new(format!("{} requires a value", flag)));
+                }
+                opt.query_file = Some(args[i].clone());
+            }
+            "--query-mode" => {
+                let flag = args[i].clone();
+                i += 1;
+                if i >= args.len() {
+                    return Err(EyeronError::new(format!("{} requires a value", flag)));
+                }
+                opt.query_mode = match args[i].as_str() {
+                    "forward" => QueryMode::Forward,
+                    "backward" => QueryMode::Backward,
+                    other => {
+                        return Err(EyeronError::new(format!(
+                            "{} requires forward or backward, got {} (auto query planning is not yet implemented)",
+                            flag, other
+                        )))
+                    }
+                };
             }
             "--base-iri" | "--base" => {
                 i += 1;
@@ -567,6 +659,9 @@ fn print_help() {
         ReasonerOptions::default().max_backward_depth
     );
     println!("      --data FILE               RDF base graph for a SPARQL 1.2 RL run (repeatable; .srl input only)");
+    println!("      --query TEXT              Raw SPARQL-RL body pattern to query instead of printing derived facts (.srl only)");
+    println!("      --query-file FILE         Same as --query, read from a file");
+    println!("      --query-mode MODE         forward (default) or backward query evaluation");
     println!("  -v, --version                 Print version");
     println!("  -h, --help                    Show this help");
     println!();
