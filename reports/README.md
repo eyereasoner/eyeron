@@ -17,3 +17,13 @@ reports/w3c-rdf-earl.ttl
 ```
 
 The target milestone for this report is 1170/1170 tests passed across the 12 default RDF 1.1 / RDF 1.2 manifest roots.
+
+## SPARQL 1.2 RL
+
+`src/bin/w3c_sparql_rl.rs` fetches the live W3C SPARQL-RL manifest and writes `reports/w3c-sparql-rl-earl.ttl`. Unlike the RDF runner above, there is no local vendored mirror yet, so this always needs network access:
+
+```bash
+cargo run --release --bin w3c_sparql_rl
+```
+
+The target milestone for this report is 203/203 tests passed (matching the sibling JS implementation, eyeleng, which reports the same total).

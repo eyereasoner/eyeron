@@ -27,6 +27,7 @@ pub use backward::{solve_query, BackwardOptions};
 pub use eval::query_facts;
 pub use forward::reason;
 pub use parser::{parse_query_body, parse_sparql_rl};
+pub use stratify::stratify;
 pub use wellformed::check_rule as check_rule_well_formed;
 
 /// Content-sniff whether `input` looks like a SPARQL 1.2 RL rule set,

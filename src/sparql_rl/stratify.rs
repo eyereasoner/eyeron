@@ -36,7 +36,7 @@ struct Edge {
 /// every stratum's rules guaranteed to only ever negate patterns already
 /// fully resolved by an earlier stratum. Returns an error naming the cycle
 /// if the rule set is not stratifiable.
-pub(crate) fn stratify(rules: &[SparqlRlRule]) -> Result<Vec<Vec<usize>>> {
+pub fn stratify(rules: &[SparqlRlRule]) -> Result<Vec<Vec<usize>>> {
     let infos: Vec<RuleFacts> = rules.iter().map(rule_facts).collect();
     let n = rules.len();
 

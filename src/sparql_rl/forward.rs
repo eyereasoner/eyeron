@@ -32,10 +32,21 @@ use super::stratify::stratify;
 
 /// Run a parsed SPARQL 1.2 RL program forward to a fixpoint.
 ///
-/// `base_graph` is the immutable base graph (e.g. from `--data`); `WHERE
-/// DATA`/`NOT DATA` clauses read only this graph. `program.data` (the
-/// rule set's own `DATA { ... }` facts) seeds the inference graph instead,
-/// matching SPARQL 1.2 RL's two-graph model (see `super::eval::BodyCtx`).
+/// `base_graph` is the immutable base graph (e.g. from `--data`). `WHERE
+/// DATA`/`NOT DATA` clauses read *only* this graph. Ordinary body clauses
+/// read the union of it and the inference graph: rules are meant to
+/// reason *over* `--data` input, not merely alongside it, so `WHERE
+/// DATA`/`NOT DATA` narrow a clause to the immutable subset rather than
+/// excluding the base graph from ordinary matching. That union is purely
+/// a *matching* view, though — the base graph's own facts are never added
+/// to the inference graph itself. `program.data` (the rule set's own
+/// `DATA { ... }` facts) seeds the inference graph, which also grows with
+/// rule conclusions; `ReasonerResult::closure` is exactly this inference
+/// graph (`program.data` plus everything derived, but never the base
+/// graph), matching SPARQL 1.2 RL's two-graph model (see
+/// `super::eval::BodyCtx`) and the W3C SPARQL-RL test suite's `mf:result`
+/// convention (`src/bin/w3c_sparql_rl.rs` compares against `closure`, not
+/// `derived`, for exactly this reason).
 pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &ReasonerOptions) -> Result<ReasonerResult> {
     for (index, rule) in program.rules.iter().enumerate() {
         super::wellformed::check_rule(rule, index)?;
@@ -43,10 +54,10 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     let layers = stratify(&program.rules)?;
 
     let base_index = build_index(base_graph);
+    let explicit_seen: HashSet<Triple> = program.data.iter().cloned().collect();
 
     let mut inference_facts: Vec<Triple> = program.data.clone();
-    let mut seen: HashSet<Triple> = inference_facts.iter().cloned().collect();
-    let explicit_seen = seen.clone();
+    let mut seen: HashSet<Triple> = inference_facts.iter().cloned().chain(base_graph.iter().cloned()).collect();
     let mut fired_once: HashSet<usize> = HashSet::new();
     let eval_ctx = EvalCtx::new();
     let mut statistics = ReasonerStatistics::default();
@@ -54,9 +65,14 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
 
     'strata: for layer in &layers {
         loop {
-            let inference_index = build_index(&inference_facts);
+            // Ordinary clauses match against the union of the base graph
+            // and the inference graph so far; `WHERE DATA`/`NOT DATA`
+            // clauses still route to `base` alone via `BodyCtx`.
+            let mut match_facts = inference_facts.clone();
+            match_facts.extend(base_graph.iter().cloned());
+            let match_index = build_index(&match_facts);
             let base = Graph { facts: base_graph, index: &base_index };
-            let inference = Graph { facts: &inference_facts, index: &inference_index };
+            let inference = Graph { facts: &match_facts, index: &match_index };
             let ctx = BodyCtx::new(inference, base, &eval_ctx);
 
             let mut new_facts: Vec<Triple> = Vec::new();
@@ -83,7 +99,7 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
         }
     }
 
-    let derived: Vec<Triple> = inference_facts.iter().filter(|t| !explicit_seen.contains(*t)).cloned().collect();
+    let derived: Vec<Triple> = inference_facts.iter().filter(|t| !explicit_seen.contains(t)).cloned().collect();
 
     Ok(ReasonerResult {
         status,
@@ -100,8 +116,18 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
 }
 
 /// Evaluate one rule's body once against the current graphs, materializing
-/// its head for every solution found (or only the first, for a `run_once`
-/// rule). Returns whether the rule fired at least once this call.
+/// its head for *every* solution found. `rule.run_once` (SPARQL 1.2 RL
+/// §4.4: a `SET`/blank-node-head rule) does not mean "stop after the
+/// first solution" — the W3C eval suite's `eval-bnodes-03` expects a
+/// two-solution blank-node-head rule to still produce two distinct blank
+/// nodes. What "run once" actually governs is the *caller*'s bookkeeping
+/// (`forward_once` in `reason`): such a rule's body is evaluated exactly
+/// once across the whole run rather than being re-scanned on every
+/// fixpoint pass, which is safe because each solution's blank node is
+/// already a deterministic function of its bindings
+/// (`crate::reasoner::instantiate_triple`), so re-scanning could not have
+/// produced any solution this pass missed.
+/// Returns whether the rule fired at least once this call.
 fn fire_rule(rule: &SparqlRlRule, ctx: &BodyCtx, seen: &mut HashSet<Triple>, new_facts: &mut Vec<Triple>) -> bool {
     let mut fired = false;
     let mut materialize = |bindings: &Bindings| {
@@ -114,7 +140,7 @@ fn fire_rule(rule: &SparqlRlRule, ctx: &BodyCtx, seen: &mut HashSet<Triple>, new
             }
         }
         fired = true;
-        !rule.run_once
+        true
     };
 
     if rule.ground_data {
@@ -207,13 +233,31 @@ mod tests {
     }
 
     #[test]
-    fn run_once_rule_fires_at_most_once() {
+    fn run_once_rule_still_materializes_every_solution() {
+        // "run once" (SPARQL 1.2 RL §4.4) governs how many times the rule's
+        // *body* is scanned across the fixpoint (once, not re-scanned every
+        // pass), not how many of its solutions get materialized — a
+        // two-solution SET/blank-node-head rule still produces two facts.
+        // (Regression: an earlier implementation incorrectly stopped after
+        // the first solution; the W3C suite's eval-bnodes-03, "two data
+        // triples - four blank nodes", is what caught this.)
         let result = run(
             "PREFIX : <http://example/>\n\
              DATA {\n  :a :n 1 .\n  :b :n 2 .\n}\n\
              RULE { :counter :value ?n } WHERE { ?x :n ?n . SET(?tag := 1) }",
         );
-        let count = result.closure.iter().filter(|t| t.s == iri("counter") && t.p == iri("value")).count();
-        assert_eq!(count, 1);
+        let values: std::collections::BTreeSet<Triple> = result.closure.iter().filter(|t| t.s == iri("counter") && t.p == iri("value")).cloned().collect();
+        assert_eq!(values.len(), 2, "{:?}", result.closure);
+    }
+
+    #[test]
+    fn run_once_rule_with_blank_head_gets_a_distinct_blank_per_solution() {
+        let result = run(
+            "PREFIX : <http://example/>\n\
+             DATA {\n  :s :p :o1 .\n  :s :p :o2 .\n}\n\
+             RULE { [] :q \"Rule\" } WHERE { ?s :p ?o }",
+        );
+        let blanks: std::collections::BTreeSet<&crate::ast::Term> = result.closure.iter().filter(|t| t.p == iri("q")).map(|t| &t.s).collect();
+        assert_eq!(blanks.len(), 2, "{:?}", result.closure);
     }
 }
