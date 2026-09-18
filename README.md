@@ -108,6 +108,34 @@ cargo run --release -- --rdf --stream-messages \
 
 Each streamed message is evaluated independently. The current streaming path does not retain derived facts between messages and does not accept the message log through standard input.
 
+## SPARQL 1.2 RL
+
+Eyeron also implements **SPARQL 1.2 RL** ("SRL"), a W3C Working-Draft Datalog-style rule language (`RULE { head } WHERE [DATA] { body }`) that borrows SPARQL's lexical vocabulary — `PREFIX`/`BASE`, `FILTER`, property paths, RDF-star triple terms — but is not the SPARQL `SELECT`/`CONSTRUCT` query language. It is structurally much closer to N3's `{ body } => { head }` than to a SPARQL query.
+
+```
+PREFIX : <http://example/>
+
+DATA {
+  :A :fatherOf :X .
+}
+
+RULE { ?x :childOf ?y } WHERE { ?y :fatherOf ?x }
+```
+
+Run a `.srl` file the same way as an N3 file; Eyeron recognizes SPARQL-RL input by the `.srl` extension or by content-sniffing a `RULE`/`DATA` block:
+
+```bash
+cargo run --release -- examples/family.srl
+```
+
+SPARQL-RL distinguishes two graphs: the rule set's own `DATA { ... }` facts seed the *inference* graph (which also grows with rule conclusions), while `--data FILE` supplies an immutable *base* graph that only `WHERE DATA { ... }` and `NOT DATA { ... }` clauses read:
+
+```bash
+cargo run --release -- --data facts.ttl rules.srl
+```
+
+Supported: `FILTER`, `SET(?v := expr)` (SRL's `BIND`), `NOT`/`NOT DATA` negation as failure with automatic stratification (an unstratifiable recursive negation is rejected with a clear error), property paths (`/` sequence, `^` inverse), RDF-star triple terms and reifiers, `run_once` rules (SPARQL 1.2 RL §4.4: a rule with `SET` or a blank node in its head fires at most once), and roughly fifty SPARQL built-in functions (string, numeric, date/time, XSD casts, RDF-star accessors). Not yet supported: backward/goal-directed query evaluation for SRL rule sets, and `--proof` output.
+
 ## Rust library
 
 The high-level API parses N3, runs the reasoner, and returns newly derived output:
@@ -172,6 +200,7 @@ Run the focused regression, packaged-example, or playground checks independently
 cargo test --release --test regressions
 cargo test --release --test examples
 cargo test --release --test playground
+cargo test --release --test sparql_rl
 ```
 
 Refresh both vendored upstream test suites with:
@@ -220,16 +249,18 @@ More inputs are available under `examples/`, with expected results in `examples/
 - `log:content`, `log:semantics`, and `log:semanticsOrError` do not dereference arbitrary network resources; their external-resource behavior is deterministic and limited to the bundled conformance cases;
 - persistent stores and custom external built-in modules are not implemented;
 - proof output does not yet include every possible trace comment or explanation detail;
-- Eyeron implements the N3 features and built-ins listed above, not every extension in every historical N3 implementation.
+- Eyeron implements the N3 features and built-ins listed above, not every extension in every historical N3 implementation;
+- SPARQL 1.2 RL support does not yet include backward/goal-directed query evaluation, `--proof` output, or a ported W3C SPARQL-RL conformance harness.
 
 ## Project layout
 
 ```text
 src/                  Parser, reasoner, proof generation, output, CLI, and Wasm API
-examples/             N3 and RDF Message examples
+src/sparql_rl/        SPARQL 1.2 RL front end (lexer, parser, expression evaluator, forward reasoner)
+examples/             N3, RDF Message, and SPARQL-RL examples
 examples/output/      Expected derived output
 examples/proof/       Expected proof output
-tests/                CLI, regression, conformance, and W3C RDF tests
+tests/                CLI, regression, conformance, W3C RDF, and SPARQL-RL tests
 tools/                Playground build helper
 reports/              Generated and checked-in reports
 ```

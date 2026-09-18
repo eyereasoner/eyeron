@@ -96,6 +96,7 @@ The **closure** is the set of explicit and derived facts known so far. New facts
 | `src/main.rs` | Native command-line interface |
 | `src/wasm.rs` | WebAssembly/browser interface |
 | `src/bin/w3c_rdf.rs` | Helper binary for RDF conformance work |
+| `src/sparql_rl/` | SPARQL 1.2 RL front end: lexer, parser, expression evaluator, ordered clause evaluator, stratification, forward reasoner (see section 16) |
 | `tools/build_playground.rs` | Builds the browser playground package |
 | `examples/` | Example inputs, expected outputs, and proof outputs |
 | `tests/` | Integration, regression, CLI, N3, and W3C RDF tests |
@@ -394,5 +395,27 @@ Several broader computer science ideas appear in this project:
 - **Fixed-point computation:** forward chaining monotonically grows a set until it stops changing.
 - **Resource safety:** explicit limits turn nontermination into a structured incomplete result.
 - **Reusable core:** the CLI, library, and browser interfaces share one parser and reasoning engine.
+
+## 16. SPARQL 1.2 RL (`src/sparql_rl/`)
+
+SPARQL 1.2 RL ("SRL") is a second front end living entirely under `src/sparql_rl/`. It reads a different concrete syntax — `RULE { head } WHERE [DATA] { body }` instead of N3's `{ body } => { head }` — but is semantically the same kind of thing as the N3 path above: facts and rules go in, a forward fixpoint runs, derived triples come out. It is worth reading *after* the rest of this guide, both because it borrows several of the same ideas (an AST, a fixpoint loop, deterministic blank-node generation) and because it deliberately does **not** reuse `src/reasoner.rs`'s premise matcher, which is a useful contrast to study.
+
+### Why a second parser and a second body evaluator
+
+SRL borrows SPARQL's lexical vocabulary — `FILTER`, property paths, RDF-star triple terms — so its tokenizer and grammar are different enough from N3's that `src/sparql_rl/lexer.rs` and `src/sparql_rl/parser.rs` are separate, small, hand-written modules rather than extensions of `src/lexer.rs`/`src/parser.rs`. (One concrete reason: N3's word-reading does not stop at `/` or `^`, which SRL needs as standalone property-path operators.) The parser still reuses `crate::ast::{Term, Triple, Literal}` and the numeric/boolean-literal and RDF-star triple-term conventions from `crate::parser` wherever the shapes coincide, so the rest of the pipeline — printing, proofs — needs no SRL-specific cases.
+
+A more interesting divergence is the rule body itself. `crate::reasoner::match_premise_remaining` deliberately **reorders** an N3 rule's premises to try the most selective one first — a database-style query-planning optimization that is sound because ordinary N3 premises are just triple patterns with no notion of "before" and "after." SPARQL-RL's `FILTER`, `SET`, and `NOT` clauses break that assumption: each one may only reference variables that a *preceding* clause in source order has already bound. Reordering them would be unsound. `src/sparql_rl/eval.rs` therefore implements its own small, strictly left-to-right backtracking search (`solve_body`/`solve_from`), written as continuation-passing recursion since Rust has no generators. It still calls straight into `crate::reasoner::{FactIndex, match_triple, resolve_pattern}` for the actual triple lookups — the indexing and unification machinery is fully reused, only the *order* in which clauses are tried is different.
+
+### The pieces, in reading order
+
+1. **`ast.rs`** — `Expr` (the `FILTER`/`SET` expression tree), `PathExpr` (property paths: sequence and inverse only — SRL's grammar has no `*`/`+`/`?`/alternation), `Clause` (one body element: `Triple`, `Path`, `Filter`, `Set`, or `Not`), and `SparqlRlRule`/`SparqlRlProgram`. These are a separate type family from `crate::ast::Rule`/`Document`, precisely because of the ordering constraint above.
+2. **`expr.rs`** — a tree-walking evaluator for `Expr`, covering roughly fifty SPARQL built-in functions (string, numeric, date/time, XSD casts, RDF-star accessors) plus the usual operators. Every result is represented uniformly as a `Term` (booleans and numbers become `Literal`s), which is simpler than the reference JavaScript implementation this was ported from, where evaluation mixes raw primitives and term objects.
+3. **`eval.rs`** — the ordered clause evaluator described above. `Clause::Not`/`Clause::Path` are the two interesting cases: negation succeeds iff a recursive `solve_body` call over the negated sub-body finds zero solutions (classic negation as failure), and a property path is expanded into an ordinary chain of triple clauses with fresh join variables *at evaluation time*, so path matching needs no new machinery beyond what triple matching already provides.
+4. **`stratify.rs`** — a pure static analysis, unrelated to evaluation, that decides a safe rule execution order. It builds a dependency graph between rule heads and other rules' body patterns, computes strongly-connected components, and rejects a rule set where negation participates in a recursive cycle (an "unstratifiable" program, which has no single well-defined meaning). This exists because `NOT`'s soundness depends on the graph it searches being *finished*: a `NOT` clause must never run before every rule that could produce the pattern it negates has already reached a fixpoint.
+5. **`forward.rs`** — ties the previous four together: run `stratify`'s layers in order, and within each layer, run every rule's body to a local fixpoint (repeated passes until nothing new is added), reusing `crate::reasoner::instantiate_triple` to materialize each rule's head — the same helper N3 conclusions use, so head blank nodes get the same deterministic-per-firing identity already described in section 7.
+
+### What is not implemented yet
+
+Backward/goal-directed query evaluation for SRL rule sets (the N3 path's `solve_backward_goal` has no SRL counterpart yet), `--proof` output, and a ported W3C SPARQL-RL conformance harness (the sibling JavaScript implementation, eyeleng, has one; `src/bin/w3c_rdf.rs` is the template a Rust port would follow). `tests/sparql_rl.rs` is the current test entry point; run it with `cargo test --release --test sparql_rl`.
 
 The central idea to keep in mind is simple: Eyeron converts syntax into structured triples and rules, searches for consistent variable bindings, materializes new ground triples, and repeats until knowledge stops growing.
