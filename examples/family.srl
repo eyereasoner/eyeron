@@ -1,0 +1,14 @@
+# SPARQL 1.2 RL: forward chaining over DATA facts.
+# Adapted from eyeleng/examples/family.srl.
+PREFIX : <http://example/>
+
+DATA {
+  :A :fatherOf :X .
+  :B :motherOf :X .
+  :C :motherOf :A .
+}
+
+RULE { ?x :childOf ?y } WHERE { ?y :fatherOf ?x }
+RULE { ?x :childOf ?y } WHERE { ?y :motherOf ?x }
+RULE { ?x :descendedFrom ?y } WHERE { ?x :childOf ?y }
+RULE { ?x :descendedFrom ?y } WHERE { ?x :childOf ?z . ?z :descendedFrom ?y }

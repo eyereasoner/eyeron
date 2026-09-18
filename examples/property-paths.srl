@@ -1,0 +1,10 @@
+# SPARQL 1.2 RL: property paths (sequence `/` and inverse `^`).
+PREFIX : <http://example/>
+
+DATA {
+  :a :parentOf :b .
+  :b :parentOf :c .
+}
+
+RULE { ?x :grandparentOf ?z } WHERE { ?x :parentOf/:parentOf ?z }
+RULE { ?x :hasParent ?y } WHERE { ?x ^:parentOf ?y }

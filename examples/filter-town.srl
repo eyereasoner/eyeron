@@ -1,0 +1,10 @@
+# SPARQL 1.2 RL: FILTER over a numeric comparison.
+# Adapted from eyeleng/examples/spec-2-3-filtering.srl.
+PREFIX : <http://example.com/>
+
+DATA {
+  :town1 :population 1000 .
+  :town2 :population 2000 .
+}
+
+RULE { ?x a :largeTown } WHERE { ?x :population ?p . FILTER(?p > 1500) }
