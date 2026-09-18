@@ -20,12 +20,14 @@ pub mod forward;
 pub mod lexer;
 pub mod parser;
 pub mod stratify;
+pub mod wellformed;
 
 pub use ast::{BinaryOp, Clause, Expr, PathExpr, SparqlRlProgram, SparqlRlRule, UnaryOp};
 pub use backward::{solve_query, BackwardOptions};
 pub use eval::query_facts;
 pub use forward::reason;
 pub use parser::{parse_query_body, parse_sparql_rl};
+pub use wellformed::check_rule as check_rule_well_formed;
 
 /// Content-sniff whether `input` looks like a SPARQL 1.2 RL rule set,
 /// mirroring `crate::parser::is_rdf_message_log`'s approach: skip leading

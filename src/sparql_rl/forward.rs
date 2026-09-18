@@ -37,6 +37,9 @@ use super::stratify::stratify;
 /// rule set's own `DATA { ... }` facts) seeds the inference graph instead,
 /// matching SPARQL 1.2 RL's two-graph model (see `super::eval::BodyCtx`).
 pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &ReasonerOptions) -> Result<ReasonerResult> {
+    for (index, rule) in program.rules.iter().enumerate() {
+        super::wellformed::check_rule(rule, index)?;
+    }
     let layers = stratify(&program.rules)?;
 
     let base_index = build_index(base_graph);

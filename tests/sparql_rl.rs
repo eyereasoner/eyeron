@@ -93,8 +93,8 @@ fn select_query_syntax_is_rejected_with_a_clear_error() {
 #[test]
 fn unstratifiable_negation_is_rejected() {
     let source = "PREFIX : <http://example/>\n\
-                  RULE { ?x :p true } WHERE { NOT { ?x :q true } }\n\
-                  RULE { ?x :q true } WHERE { NOT { ?x :p true } }";
+                  RULE { ?x :p true } WHERE { ?x a :Thing . NOT { ?x :q true } }\n\
+                  RULE { ?x :q true } WHERE { ?x a :Thing . NOT { ?x :p true } }";
     let program = parse_sparql_rl(source, None).unwrap();
     let err = reason(&program, &[], &ReasonerOptions::default()).unwrap_err();
     assert!(err.message.contains("stratification"), "{}", err.message);
