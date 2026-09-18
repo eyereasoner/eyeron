@@ -165,7 +165,7 @@ fn blank_binding_name(name: &str) -> String {
     format!("_:{}", name)
 }
 
-fn resolve_pattern(term: &Term, bindings: &Bindings) -> Term {
+pub(crate) fn resolve_pattern(term: &Term, bindings: &Bindings) -> Term {
     resolve_pattern_with_seen(term, bindings, &mut HashSet::new())
 }
 
@@ -218,7 +218,7 @@ fn resolve_pattern_with_seen(term: &Term, bindings: &Bindings, seen: &mut HashSe
 
 
 #[derive(Debug, Default, Clone)]
-struct FactIndex {
+pub(crate) struct FactIndex {
     // Keep the index deliberately lean.  Earlier versions indexed each fact in
     // six maps (s, p, o, sp, po, so), which helped small examples but doubled
     // down on memory at deep-taxonomy-100000.  The hot paths in the packaged
@@ -234,14 +234,14 @@ struct FactIndex {
 }
 
 impl FactIndex {
-    fn insert(&mut self, idx: usize, triple: &Triple) {
+    pub(crate) fn insert(&mut self, idx: usize, triple: &Triple) {
         self.deep_list_s.get_mut().clear();
         self.by_p.entry(triple.p.clone()).or_default().push(idx);
         self.by_sp.entry((triple.s.clone(), triple.p.clone())).or_default().push(idx);
         self.by_po.entry((triple.p.clone(), triple.o.clone())).or_default().push(idx);
     }
 
-    fn candidates<'a>(&'a self, facts: &'a [Triple], pattern: &Triple, bindings: &Bindings) -> Vec<&'a Triple> {
+    pub(crate) fn candidates<'a>(&'a self, facts: &'a [Triple], pattern: &Triple, bindings: &Bindings) -> Vec<&'a Triple> {
         let s = resolve_pattern(&pattern.s, bindings);
         let p = resolve_pattern(&pattern.p, bindings);
         let o = resolve_pattern(&pattern.o, bindings);
@@ -2114,7 +2114,7 @@ fn rename_term(term: &Term, prefix: &str) -> Term {
     }
 }
 
-fn match_triple(pattern: &Triple, fact: &Triple, bindings: &mut Bindings) -> bool {
+pub(crate) fn match_triple(pattern: &Triple, fact: &Triple, bindings: &mut Bindings) -> bool {
     match_term(&pattern.s, &fact.s, bindings)
         && match_term(&pattern.p, &fact.p, bindings)
         && match_term(&pattern.o, &fact.o, bindings)
@@ -2162,7 +2162,7 @@ fn unify_triple(left: &Triple, right: &Triple, bindings: &mut Bindings) -> bool 
         && unify_term(&left.o, &right.o, bindings)
 }
 
-fn unify_term(left: &Term, right: &Term, bindings: &mut Bindings) -> bool {
+pub(crate) fn unify_term(left: &Term, right: &Term, bindings: &mut Bindings) -> bool {
     let left = resolve_pattern(left, bindings);
     // The right-hand side is normally a fact/value.  Its blank nodes are real
     // graph blanks and must remain concrete.  Treating them as pattern blanks
@@ -2742,7 +2742,7 @@ const LOG_LITERAL_IRI: &str = "http://www.w3.org/2000/10/swap/log#Literal";
 const LOG_OTHER_IRI: &str = "http://www.w3.org/2000/10/swap/log#Other";
 const RDF_LIST_IRI: &str = "http://www.w3.org/1999/02/22-rdf-syntax-ns#List";
 const RDF_LANG_STRING_IRI: &str = "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString";
-const XSD_STRING_IRI: &str = "http://www.w3.org/2001/XMLSchema#string";
+pub(crate) const XSD_STRING_IRI: &str = "http://www.w3.org/2001/XMLSchema#string";
 
 fn eval_log_dtlit(subject: &Term, object: &Term, bindings: &Bindings, facts: &[Triple]) -> Vec<Bindings> {
     let s = rdf_or_native_list(subject, bindings, facts).map(Term::List).unwrap_or_else(|| resolve_pattern(subject, bindings));
@@ -4211,12 +4211,12 @@ fn format_duration_seconds(seconds: f64) -> String {
 }
 
 #[derive(Debug, Clone, Copy)]
-struct Numeric {
-    value: f64,
-    integer: bool,
+pub(crate) struct Numeric {
+    pub(crate) value: f64,
+    pub(crate) integer: bool,
 }
 
-fn numeric_value(term: &Term) -> Option<Numeric> {
+pub(crate) fn numeric_value(term: &Term) -> Option<Numeric> {
     match term {
         Term::Literal(lit) => {
             let dt = lit.datatype.as_deref();
@@ -4235,7 +4235,7 @@ fn numeric_value(term: &Term) -> Option<Numeric> {
     }
 }
 
-fn numeric_literal(value: f64, prefer_integer: bool) -> Term {
+pub(crate) fn numeric_literal(value: f64, prefer_integer: bool) -> Term {
     if prefer_integer && value.fract() == 0.0 {
         Term::Literal(Literal {
             value: format!("{:.0}", value),
@@ -4266,7 +4266,7 @@ fn numeric_terms_equal(a: &Term, b: &Term) -> bool {
     }
 }
 
-fn terms_equal_semantic(a: &Term, b: &Term) -> bool {
+pub(crate) fn terms_equal_semantic(a: &Term, b: &Term) -> bool {
     match (a, b) {
         (Term::Literal(x), Term::Literal(y)) => literals_equal_semantic(x, y),
         (Term::List(xs), Term::List(ys)) if xs.len() == ys.len() => {

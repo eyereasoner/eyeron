@@ -11,6 +11,7 @@ pub mod rdf_compat;
 pub mod printing;
 pub mod proof;
 pub mod reasoner;
+pub mod sparql_rl;
 
 #[cfg(target_arch = "wasm32")]
 pub mod wasm;

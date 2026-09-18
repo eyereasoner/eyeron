@@ -1250,7 +1250,7 @@ fn same_variant(a: &TokenKind, b: &TokenKind) -> bool {
     std::mem::discriminant(a) == std::mem::discriminant(b)
 }
 
-fn number_literal(mut value: String) -> Term {
+pub(crate) fn number_literal(mut value: String) -> Term {
     if value.starts_with('+') { value.remove(0); }
     let datatype = if value.contains('e') || value.contains('E') {
         let parsed = value.parse::<f64>().unwrap_or(0.0);
@@ -1280,7 +1280,7 @@ fn trim_numeric_lexical(value: f64, decimal: bool) -> String {
     s
 }
 
-fn boolean_literal(value: bool) -> Term {
+pub(crate) fn boolean_literal(value: bool) -> Term {
     Term::Literal(Literal {
         value: if value { "true" } else { "false" }.to_string(),
         datatype: Some("http://www.w3.org/2001/XMLSchema#boolean".to_string()),
