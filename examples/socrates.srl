@@ -1,0 +1,12 @@
+PREFIX : <http://example.org/socrates#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+DATA {
+  :Socrates a :Human .
+  :Human rdfs:subClassOf :Mortal .
+}
+
+RULE { ?individual a ?superclass } WHERE {
+  ?individual a ?class .
+  ?class rdfs:subClassOf ?superclass .
+}

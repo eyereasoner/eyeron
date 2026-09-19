@@ -1,0 +1,16 @@
+PREFIX : <http://example/>
+
+DATA {
+  :alice :knows :bob, :carol ;
+         :score 8 .
+  :bob   :score 3 .
+}
+
+RULE {
+  ?friend :knownBy ?person ;
+          :scoredFor ?score .
+} WHERE {
+  ?person :knows ?friend ;
+          :score ?score .
+  FILTER(?score >= 5)
+}

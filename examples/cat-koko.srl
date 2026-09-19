@@ -1,0 +1,52 @@
+PREFIX : <https://eyereasoner.github.io/ns#>
+
+# =================================
+# Cat Koko
+# SRL translation of cat-koko.n3
+# =================================
+#
+# The N3 version contains a rule whose conclusion contains two rules:
+#
+#   { :Koko a :Animal } => {
+#     { :Koko a :Animal } => { _:x a :Cat } .
+#     { :Koko a :Animal } => { _:x a :BritishShortHair } .
+#   }.
+#
+# SRL does not have N3 formula terms or rule terms in rule heads.
+# So this SRL version translates the operational effect directly:
+#
+#   if :Koko is an :Animal, derive one fresh :Cat;
+#   if :Koko is an :Animal, derive one fresh :BritishShortHair.
+#
+# The two blank nodes are intentionally different. In the N3 source, the two
+# _:x labels occur in different quoted formula scopes, so they do not denote
+# the same blank node.
+
+DATA {
+  :Koko a :Animal .
+}
+
+RULE { _:cat a :Cat }
+WHERE {
+  :Koko a :Animal .
+}
+
+RULE { _:bsh a :BritishShortHair }
+WHERE {
+  :Koko a :Animal .
+}
+
+# Translation of:
+#
+#   ?X a :Cat .
+#   ?Y a :BritishShortHair .
+#   ?X log:notEqualTo ?Y.
+#
+# SRL uses a FILTER for the inequality test.
+
+RULE { :test :is true }
+WHERE {
+  ?X a :Cat .
+  ?Y a :BritishShortHair .
+  FILTER(?X != ?Y)
+}

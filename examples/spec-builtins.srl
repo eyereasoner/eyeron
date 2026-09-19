@@ -1,0 +1,16 @@
+PREFIX : <http://example/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :event :when "2026-05-15T10:20:30Z"^^xsd:dateTime .
+}
+
+RULE { :event :year ?year ; :month ?month ; :blank ?blank ; :tripleSubject ?subject }
+WHERE {
+  :event :when ?when .
+  SET(?year := YEAR(?when))
+  SET(?month := MONTH(?when))
+  SET(?blank := BNODE("event"))
+  SET(?triple := TRIPLE(:subject, :predicate, :object))
+  SET(?subject := SUBJECT(?triple))
+}

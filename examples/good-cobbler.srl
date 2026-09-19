@@ -1,0 +1,14 @@
+# Adapted from eyeling/examples/good-cobbler.n3
+# Term-logic-style list matching: Joe is represented as a good Cobbler.
+
+PREFIX : <http://example/eyeling/good-cobbler/>
+
+DATA {
+  :joe :is ( :good :Cobbler ) .
+}
+
+RULE { :test :goodAt ?trade }
+WHERE { ?person :is ( :good ?trade ) }
+
+RULE { ?person :classifiedAs ?trade }
+WHERE { ?person :is ( :good ?trade ) }

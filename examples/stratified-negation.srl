@@ -1,0 +1,15 @@
+PREFIX : <http://example/>
+
+DATA {
+  :alice a :Person ; :blocked true .
+  :bob a :Person .
+  :carol a :Person ; :flagged true .
+}
+
+# This rule is intentionally written before the producer of :blocked.
+# Stratified evaluation must still run the :blocked-producing rule first.
+RULE { ?x :eligible true }
+WHERE { ?x a :Person . NOT { ?x :blocked true } }
+
+RULE { ?x :blocked true }
+WHERE { ?x :flagged true }

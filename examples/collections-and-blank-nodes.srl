@@ -1,0 +1,12 @@
+PREFIX : <http://example/>
+
+DATA {
+  :alice :knows [ :name "Bob" ; :tag "friend" ] .
+  :team :members ( :alice :bob :carol ) .
+}
+
+RULE { ?person :knowsNamed ?name }
+WHERE { ?person :knows [ :name ?name ] }
+
+RULE { :team :firstMember ?first }
+WHERE { :team :members/rdf:first ?first }

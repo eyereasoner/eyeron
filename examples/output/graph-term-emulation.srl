@@ -1,0 +1,22 @@
+_:b1 rdf:first <<(:alice :knows :bob)>> .
+_:b1 rdf:rest _:b2 .
+_:b2 rdf:first <<(:bob :knows :carol)>> .
+_:b2 rdf:rest rdf:nil .
+_:b3 rdf:first <<(:alice :likes :tea)>> .
+_:b3 rdf:rest rdf:nil .
+:g1 :listCell _:b1 .
+:g1 :listCell _:b2 .
+:g1 :listCell rdf:nil .
+:g1 :mentions :alice .
+:g1 :mentions :bob .
+:g1 :mentions :carol .
+:g1 :quotedTriples _:b1 .
+:g1 a :GraphTerm .
+:g1 a :SocialGraphTerm .
+:g2 :listCell _:b3 .
+:g2 :listCell rdf:nil .
+:g2 :mentions :alice .
+:g2 :mentions :tea .
+:g2 :quotedTriples _:b3 .
+:g2 a :GraphTerm .
+:note1 :aboutGraphTerm :g1 .

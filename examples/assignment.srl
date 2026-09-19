@@ -1,0 +1,12 @@
+PREFIX : <http://example/>
+
+DATA {
+  :alice :score 7 .
+  :bob :score 3 .
+}
+
+RULE { ?x :grade ?grade } WHERE {
+  ?x :score ?score .
+  FILTER(?score >= 5)
+  SET(?grade := concat("pass-", str(?score)))
+}

@@ -1,0 +1,20 @@
+VERSION "1.2"
+PREFIX : <http://example/>
+
+DATA {
+  :alice :level 'gold' .
+  :bob :level 'bronze' .
+  :carol :level 'platinum' .
+}
+
+RULE { ?x :priority true }
+WHERE {
+  ?x :level ?level .
+  FILTER(?level IN ('gold', 'platinum'))
+}
+
+RULE { ?x :ordinary true }
+WHERE {
+  ?x :level ?level .
+  FILTER(?level NOT IN ('gold', 'platinum'))
+}

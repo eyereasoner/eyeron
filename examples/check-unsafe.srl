@@ -1,0 +1,10 @@
+PREFIX : <http://example/>
+
+DATA { :alice :knows :bob . }
+
+# Static analysis warns that ?someone is never bound by the body.
+RULE {
+  ?someone :seen true .
+} WHERE {
+  :alice :knows :bob .
+}

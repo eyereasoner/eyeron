@@ -1,0 +1,10 @@
+PREFIX : <http://example/>
+
+DATA { :alice :score 10 . }
+
+# This is intentionally invalid: ?score is used before it is bound.
+RULE { :alice :bad true }
+WHERE {
+  FILTER(?score > 5)
+  :alice :score ?score .
+}

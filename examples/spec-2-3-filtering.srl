@@ -1,0 +1,9 @@
+PREFIX : <http://example.com/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :town1 :population 1000 .
+  :town2 :population 2000 .
+}
+
+RULE { ?x rdf:type :largeTown } WHERE { ?x :population ?p . FILTER(?p > 1500) }

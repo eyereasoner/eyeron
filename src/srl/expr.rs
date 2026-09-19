@@ -19,6 +19,7 @@
 
 use std::cell::Cell;
 use std::cmp::Ordering;
+use std::collections::BTreeSet;
 
 use crate::ast::{Literal, Term, Triple};
 use crate::n3::parser::boolean_literal;
@@ -434,6 +435,16 @@ fn eval_call(name: &str, args: &[Expr], bindings: &Bindings, ctx: &EvalCtx) -> E
         let cond = eval_expr(&args[0], bindings, ctx)?;
         return eval_expr(if boolean_value(&cond) { &args[1] } else { &args[2] }, bindings, ctx);
     }
+    // A non-standard extension shared with eyeleng's own reference
+    // implementation: any call whose IRI's local name is "sudoku"
+    // (regardless of namespace) solves a 9x9 puzzle.
+    if local_name(name).eq_ignore_ascii_case("sudoku") {
+        if args.len() != 1 {
+            return Err(err(format!("SUDOKU expects 1 argument, got {}", args.len())));
+        }
+        let v = eval_expr(&args[0], bindings, ctx)?;
+        return solve_sudoku(&string_value(&v));
+    }
     if let Some(datatype) = xsd_cast_datatype(name) {
         if args.len() != 1 {
             return Err(err(format!("{} expects 1 argument, got {}", name, args.len())));
@@ -740,6 +751,109 @@ fn timezone_duration(lexical: &str) -> EvalResult {
     Ok(Term::Literal(Literal { value: format!("{}PT{}", sign, body), datatype: Some(XSD_DAY_TIME_DURATION.to_string()), language: None }))
 }
 
+/// The IRI's final `/`-segment (there is never a `#` in practice for a
+/// custom function call), used to dispatch the `sudoku` extension by name
+/// regardless of namespace, matching eyeleng's own `localName(name)`
+/// convention.
+fn local_name(iri: &str) -> &str {
+    iri.rsplit('#').next().unwrap_or(iri).rsplit('/').next().unwrap_or(iri)
+}
+
+/// Solves a 9x9 Sudoku puzzle given as an 81-character string (`.` or `0`
+/// for a blank cell, `1`-`9` for a given), returning the solved 81-character
+/// string, or an empty string if the puzzle has no solution. Ported from
+/// eyeleng's `solveSudoku`/`solveSudokuCells` (minimum-remaining-candidates
+/// backtracking search).
+fn solve_sudoku(puzzle: &str) -> EvalResult {
+    let text = puzzle.trim();
+    if text.chars().count() != 81 || !text.chars().all(|c| c == '.' || c.is_ascii_digit()) {
+        return Err(err("SUDOKU expects an 81-character puzzle string containing digits or dots"));
+    }
+    let mut cells = [0u8; 81];
+    for (i, ch) in text.chars().enumerate() {
+        cells[i] = if ch == '.' { 0 } else { ch as u8 - b'0' };
+    }
+    let peers = sudoku_peers();
+    for (i, &value) in cells.iter().enumerate() {
+        if value == 0 {
+            continue;
+        }
+        if peers[i].iter().any(|&p| cells[p] == value) {
+            return Err(err("SUDOKU puzzle has conflicting givens"));
+        }
+    }
+    let solved = if solve_sudoku_cells(&mut cells, peers) { cells.iter().map(|&v| char::from(b'0' + v)).collect() } else { String::new() };
+    Ok(str_literal(solved))
+}
+
+fn solve_sudoku_cells(cells: &mut [u8; 81], peers: &'static [Vec<usize>; 81]) -> bool {
+    let mut best_index = None;
+    let mut best_candidates = Vec::new();
+    for (i, &value) in cells.iter().enumerate() {
+        if value != 0 {
+            continue;
+        }
+        let candidates = sudoku_candidates(cells, &peers[i]);
+        if candidates.is_empty() {
+            return false;
+        }
+        if best_index.is_none() || candidates.len() < best_candidates.len() {
+            best_index = Some(i);
+            best_candidates = candidates;
+            if best_candidates.len() == 1 {
+                break;
+            }
+        }
+    }
+    let Some(index) = best_index else { return true };
+    for value in best_candidates {
+        cells[index] = value;
+        if solve_sudoku_cells(cells, peers) {
+            return true;
+        }
+        cells[index] = 0;
+    }
+    false
+}
+
+fn sudoku_candidates(cells: &[u8; 81], peers: &[usize]) -> Vec<u8> {
+    let mut used = [false; 10];
+    for &p in peers {
+        let value = cells[p];
+        if value != 0 {
+            used[value as usize] = true;
+        }
+    }
+    (1..=9u8).filter(|&v| !used[v as usize]).collect()
+}
+
+fn sudoku_peers() -> &'static [Vec<usize>; 81] {
+    use std::sync::OnceLock;
+    static PEERS: OnceLock<[Vec<usize>; 81]> = OnceLock::new();
+    PEERS.get_or_init(|| {
+        std::array::from_fn(|index| {
+            let row = index / 9;
+            let col = index % 9;
+            let box_row = (row / 3) * 3;
+            let box_col = (col / 3) * 3;
+            let mut set = BTreeSet::new();
+            for c in 0..9 {
+                set.insert(row * 9 + c);
+            }
+            for r in 0..9 {
+                set.insert(r * 9 + col);
+            }
+            for r in box_row..box_row + 3 {
+                for c in box_col..box_col + 3 {
+                    set.insert(r * 9 + c);
+                }
+            }
+            set.remove(&index);
+            set.into_iter().collect()
+        })
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -861,5 +975,23 @@ mod tests {
             args: vec![Expr::Term(Term::Literal(Literal { value: "2024-03-05T10:15:30Z".to_string(), datatype: Some(XSD_DATE_TIME.to_string()), language: None }))],
         };
         assert_eq!(eval_expr(&year, &b(), &ctx).unwrap(), number_literal("2024".into()));
+    }
+
+    #[test]
+    fn sudoku_solves_by_local_name_regardless_of_namespace() {
+        let ctx = EvalCtx::new();
+        let puzzle = "100007090030020008009600500005300900010080002600004000300000010040000007007000300";
+        let call = Expr::Call { name: "http://example/eyeling/sudoku/sudoku".to_string(), args: vec![Expr::Term(Term::Literal(Literal::plain(puzzle)))] };
+        let solved = eval_expr(&call, &b(), &ctx).unwrap();
+        assert_eq!(solved, Term::Literal(Literal::plain("162857493534129678789643521475312986913586742628794135356478219241935867897261354")));
+    }
+
+    #[test]
+    fn sudoku_rejects_conflicting_givens() {
+        let ctx = EvalCtx::new();
+        let mut conflicting = "11".to_string();
+        conflicting.push_str(&"0".repeat(79));
+        let call = Expr::Call { name: "SUDOKU".to_string(), args: vec![Expr::Term(Term::Literal(Literal::plain(conflicting)))] };
+        assert!(eval_expr(&call, &b(), &ctx).is_err());
     }
 }

@@ -1,0 +1,13 @@
+PREFIX : <http://example/>
+
+DATA { :alice :person true . }
+
+RULE { ?x :in true } WHERE {
+  ?x :person true .
+  NOT { ?x :out true }
+}
+
+RULE { ?x :out true } WHERE {
+  ?x :person true .
+  NOT { ?x :in true }
+}

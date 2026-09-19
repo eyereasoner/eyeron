@@ -354,6 +354,7 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
             .map_err(|err| EyeronError::new(err.with_source_location(text, label)))?;
         srl::merge_programs(&mut program, parsed);
     }
+    resolve_sparql_rl_imports(&mut program)?;
 
     if opt.ast {
         println!("{:#?}", program);
@@ -750,6 +751,61 @@ fn path_to_file_iri(path: &str) -> std::result::Result<String, ()> {
         if s.starts_with('/') { "" } else { "/" },
         percent_encode_path(&s)
     ))
+}
+
+/// Resolves `program.imports` (each already an absolute `file://` or
+/// `http(s)://` IRI, per `resolve_iri` in `srl::parser`) by fetching,
+/// parsing, and merging every imported rule set, transitively following
+/// any further `IMPORTS` those bring in. Each IRI is loaded at most once.
+fn resolve_sparql_rl_imports(program: &mut SparqlRlProgram) -> Result<()> {
+    let mut loaded: std::collections::HashSet<String> = std::collections::HashSet::new();
+    let mut pending: Vec<String> = std::mem::take(&mut program.imports);
+    while let Some(target) = pending.pop() {
+        if !loaded.insert(target.clone()) {
+            continue;
+        }
+        let text = if is_http_url(&target) {
+            let response = ureq::get(&target)
+                .call()
+                .map_err(|err| EyeronError::new(format!("failed to fetch imported rule set {target}: {err}")))?;
+            response
+                .into_string()
+                .map_err(|err| EyeronError::new(format!("failed to read imported rule set {target}: {err}")))?
+        } else {
+            let path = file_iri_to_path(&target)
+                .ok_or_else(|| EyeronError::new(format!("cannot resolve imported rule set IRI {target}")))?;
+            fs::read_to_string(&path).map_err(|err| EyeronError::new(format!("failed to read imported rule set {}: {err}", path.display())))?
+        };
+        let parsed = srl::parse_sparql_rl(&text, Some(&target)).map_err(|err| EyeronError::new(err.with_source_location(&text, &target)))?;
+        pending.extend(parsed.imports.clone());
+        srl::merge_programs(program, parsed);
+    }
+    Ok(())
+}
+
+/// Reverses `path_to_file_iri`: strips the `file://` scheme and
+/// percent-decodes the path.
+fn file_iri_to_path(iri: &str) -> Option<std::path::PathBuf> {
+    let rest = iri.strip_prefix("file://")?;
+    Some(std::path::PathBuf::from(percent_decode_path(rest)))
+}
+
+fn percent_decode_path(path: &str) -> String {
+    let bytes = path.as_bytes();
+    let mut out = Vec::with_capacity(bytes.len());
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] == b'%' && i + 2 < bytes.len() {
+            if let Ok(byte) = u8::from_str_radix(&path[i + 1..i + 3], 16) {
+                out.push(byte);
+                i += 3;
+                continue;
+            }
+        }
+        out.push(bytes[i]);
+        i += 1;
+    }
+    String::from_utf8_lossy(&out).into_owned()
 }
 
 fn percent_encode_path(path: &str) -> String {

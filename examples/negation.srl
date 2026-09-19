@@ -1,0 +1,12 @@
+PREFIX : <http://example/>
+
+DATA {
+  :alice a :Person .
+  :bob a :Person .
+  :bob :blocked true .
+}
+
+RULE { ?x :eligible true } WHERE {
+  ?x a :Person .
+  NOT { ?x :blocked true }
+}

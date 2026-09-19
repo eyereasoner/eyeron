@@ -1,0 +1,20 @@
+# Adapted from eyeling/examples/backward.n3
+# Eyeling writes a backward rule for "more interesting than". In SRL we express
+# the same numeric guard as a forward rule with FILTER.
+
+PREFIX : <http://example/eyeling/backward/>
+
+DATA {
+  :five :value 5 .
+  :three :value 3 .
+}
+
+RULE { ?x :moreInterestingThan ?y }
+WHERE {
+  ?x :value ?left .
+  ?y :value ?right .
+  FILTER(?left > ?right)
+}
+
+RULE { ?x :isIndeedMoreInterestingThan ?y }
+WHERE { ?x :moreInterestingThan ?y }

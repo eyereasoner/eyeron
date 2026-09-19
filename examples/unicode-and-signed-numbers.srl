@@ -1,0 +1,9 @@
+PREFIX : <http://example/>
+
+DATA {
+  :sample :text "A\u0042\U00000043" .
+  :thermo :delta -12 .
+}
+
+RULE { :sample :unicodeDecoded true } WHERE { :sample :text "ABC" }
+RULE { :thermo :belowZero true } WHERE { :thermo :delta ?d . FILTER(?d < 0) }

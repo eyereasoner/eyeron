@@ -1,0 +1,17 @@
+PREFIX : <http://example.com/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :X1 rdf:type :Place ;
+      :population 1000 .
+
+  :X2 rdf:type :Place ;
+      :population 2000 .
+
+  :X3 rdf:type :Place .
+}
+
+RULE { ?x rdf:type :UnclassifiedSize } WHERE {
+  ?x rdf:type :Place .
+  NOT { ?x :population ?p . }
+}

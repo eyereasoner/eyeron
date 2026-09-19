@@ -1,0 +1,13 @@
+PREFIX : <http://example/>
+
+DATA { :msg :text "bonjour"@fr . }
+
+RULE { :msg :sameLanguageLiteral true }
+WHERE {
+  :msg :text ?text .
+  SET(?copy := STRLANG("bonjour", "fr"))
+  FILTER sameTerm(?text, ?copy)
+}
+
+RULE { :clock :snapshot ?t }
+WHERE { SET(?t := NOW()) }

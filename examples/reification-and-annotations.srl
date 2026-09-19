@@ -1,0 +1,12 @@
+PREFIX : <http://example/>
+
+DATA {
+  :alice :says :hello {| :source :chat ; :certainty 0.9 |} .
+  << :bob :says :hi ~ :bobClaim >> :source :email .
+}
+
+RULE { ?speaker :statementSource ?source }
+WHERE {
+  ?claim rdf:reifies <<(?speaker :says ?object)>> .
+  ?claim :source ?source .
+}

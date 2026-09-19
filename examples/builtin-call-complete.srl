@@ -1,0 +1,115 @@
+# A compact smoke test for the full BuiltInCall production in the SPARQL 1.2 RL grammar.
+BASE <http://example/base/>
+PREFIX : <http://example/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :thing :text "Hello World"@en ;
+         :directed "bonjour"@fr--ltr ;
+         :number -3.7 ;
+         :when "2026-05-15T10:20:30+02:30"^^xsd:dateTime ;
+         :iriText "local" .
+}
+
+RULE {
+  :thing :str ?str ;
+         :lang ?lang ;
+         :langdir ?langdir ;
+         :datatype ?datatype ;
+         :iri ?iri ;
+         :uri ?uri ;
+         :blank ?blank ;
+         :abs ?abs ;
+         :ceil ?ceil ;
+         :floor ?floor ;
+         :round ?round ;
+         :concat ?concat ;
+         :emptyConcat ?emptyConcat ;
+         :substr ?substr ;
+         :strlen ?strlen ;
+         :replace ?replace ;
+         :ucase ?ucase ;
+         :lcase ?lcase ;
+         :encoded ?encoded ;
+         :before ?before ;
+         :after ?after ;
+         :year ?year ;
+         :month ?month ;
+         :day ?day ;
+         :hours ?hours ;
+         :minutes ?minutes ;
+         :seconds ?seconds ;
+         :timezone ?timezone ;
+         :tz ?tz ;
+         :now ?now ;
+         :uuid ?uuid ;
+         :struuid ?struuid ;
+         :ifResult ?ifResult ;
+         :strlang ?strlang ;
+         :strlangdir ?strlangdir ;
+         :strdt ?strdt ;
+         :triple ?triple ;
+         :subject ?subject ;
+         :predicate ?predicate ;
+         :object ?object .
+}
+WHERE {
+  :thing :text ?text ; :directed ?directed ; :number ?number ; :when ?when ; :iriText ?iriText .
+
+  FILTER LANGMATCHES(LANG(?text), "en")
+  FILTER CONTAINS(STR(?text), "World")
+  FILTER STRSTARTS(STR(?text), "Hello")
+  FILTER STRENDS(STR(?text), "World")
+  FILTER REGEX(STR(?text), "hello", "i")
+  FILTER isIRI(IRI(?iriText))
+  FILTER isURI(URI(?iriText))
+  FILTER isBLANK(BNODE("stable"))
+  FILTER isLITERAL(?text)
+  FILTER isNUMERIC(?number)
+  FILTER hasLANG(?text)
+  FILTER hasLANGDIR(?directed)
+
+  SET(?str := STR(?text))
+  SET(?lang := LANG(?text))
+  SET(?langdir := LANGDIR(?directed))
+  SET(?datatype := DATATYPE(?text))
+  SET(?iri := IRI(?iriText))
+  SET(?uri := URI(?iriText))
+  SET(?blank := BNODE())
+  SET(?abs := ABS(?number))
+  SET(?ceil := CEIL(?number))
+  SET(?floor := FLOOR(?number))
+  SET(?round := ROUND(?number))
+  SET(?concat := CONCAT("A", "B", "C"))
+  SET(?emptyConcat := CONCAT())
+  SET(?substr := SUBSTR(?str, 2, 3))
+  SET(?strlen := STRLEN(?str))
+  SET(?replace := REPLACE(?str, "World", "SRL"))
+  SET(?ucase := UCASE(?str))
+  SET(?lcase := LCASE(?str))
+  SET(?encoded := ENCODE_FOR_URI("a b"))
+  SET(?before := STRBEFORE(?str, " "))
+  SET(?after := STRAFTER(?str, " "))
+  SET(?year := YEAR(?when))
+  SET(?month := MONTH(?when))
+  SET(?day := DAY(?when))
+  SET(?hours := HOURS(?when))
+  SET(?minutes := MINUTES(?when))
+  SET(?seconds := SECONDS(?when))
+  SET(?timezone := TIMEZONE(?when))
+  SET(?tz := TZ(?when))
+  SET(?now := NOW())
+  SET(?uuid := UUID())
+  SET(?struuid := STRUUID())
+  SET(?ifResult := IF(?number < 0, "negative", "positive"))
+  SET(?strlang := STRLANG("hello", "en"))
+  SET(?strlangdir := STRLANGDIR("bonjour", "fr", "ltr"))
+  SET(?strdt := STRDT("42", xsd:integer))
+  FILTER sameTerm(?strlang, "hello"@en)
+  FILTER sameTerm(?strlangdir, "bonjour"@fr--ltr)
+  SET(?triple := TRIPLE(:s, :p, :o))
+  FILTER isTRIPLE(?triple)
+  SET(?subject := SUBJECT(?triple))
+  SET(?predicate := PREDICATE(?triple))
+  SET(?object := OBJECT(?triple))
+}

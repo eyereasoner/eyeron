@@ -1,0 +1,27 @@
+# Translated from eyeling/examples/annotation.n3
+# Uses SRL/RDF 1.2 reifier syntax to attach provenance to a statement.
+
+PREFIX : <http://example/eyeling/annotation/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :a :name "Alice" ~ :t {| :statedBy :bob ; :recorded "2021-07-07"^^xsd:date |} .
+}
+
+RULE { :test :hasStatement true }
+WHERE { :a :name "Alice" }
+
+RULE { :test :hasNamedStatement ?statement }
+WHERE { ?statement rdf:reifies <<(:a :name "Alice")>> }
+
+RULE { :test :statementAuthor ?who }
+WHERE {
+  ?statement rdf:reifies <<(:a :name "Alice")>> .
+  ?statement :statedBy ?who .
+}
+
+RULE { :test :statementDate ?date }
+WHERE {
+  ?statement rdf:reifies <<(:a :name "Alice")>> .
+  ?statement :recorded ?date .
+}

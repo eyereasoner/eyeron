@@ -1,0 +1,429 @@
+# Translated from eyeling/examples/odrl-dpv-risk-ranked.n3
+# Source: https://raw.githubusercontent.com/eyereasoner/eyeling/refs/heads/main/examples/odrl-dpv-risk-ranked.n3
+#
+# This SRL adaptation keeps the ODRL/DPV risk model and ranked explainable
+# report. N3 formula graphs and log:includes/log:notIncludes are represented as
+# ordinary policy triples plus SRL NOT blocks that check for missing safeguards.
+# N3 formula-valued :suggestAdd patches are translated into human-readable
+# :suggestionText strings because SRL has no quoted formula object syntax.
+
+PREFIX : <http://example/odrl-dpv-risk-ranked#>
+PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+PREFIX dpv: <https://w3id.org/dpv#>
+PREFIX risk: <https://w3id.org/dpv/risk#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX tosl: <http://example/tosl#>
+
+DATA {
+  # Consumer profile (needs)
+  :ConsumerExample a :ConsumerProfile, odrl:Party ;
+    dct:title "Example consumer profile" ;
+    :hasNeed :Need_DataCannotBeRemoved,
+      :Need_ChangeOnlyWithPriorNotice,
+      :Need_NoSharingWithoutConsent,
+      :Need_DataPortability .
+
+  :Need_DataCannotBeRemoved a :Need ;
+    :importance 20 ;
+    dct:description "Provider must not remove the consumer account/data." .
+
+  :Need_ChangeOnlyWithPriorNotice a :Need ;
+    :importance 15 ;
+    :minNoticeDays 14 ;
+    dct:description "Agreement may change only with prior notice (>= 14 days)." .
+
+  :Need_NoSharingWithoutConsent a :Need ;
+    :importance 12 ;
+    dct:description "No data sharing without explicit consent." .
+
+  :Need_DataPortability a :Need ;
+    :importance 10 ;
+    dct:description "Consumer must be able to export their data." .
+
+  # Agreement (ODRL policy + clauses)
+  :Agreement1 a :Agreement ;
+    dct:title "Example Agreement" ;
+    :policy :Policy1 .
+
+  :Policy1 a odrl:Policy ;
+    odrl:permission :PermDeleteAccount, :PermChangeTerms, :PermShareData ;
+    odrl:prohibition :ProhibitExportData .
+
+  # Clause C1: remove account/data without safeguards
+  :PermDeleteAccount a odrl:Permission ;
+    odrl:assigner :Provider ;
+    odrl:assignee :ConsumerExample ;
+    odrl:action tosl:removeAccount ;
+    odrl:target :UserAccount ;
+    :clause :ClauseC1 .
+
+  # Clause C2: change terms with noticeDays >= 3 (too short for the consumer)
+  :PermChangeTerms a odrl:Permission ;
+    odrl:assigner :Provider ;
+    odrl:assignee :ConsumerExample ;
+    odrl:action tosl:changeTerms ;
+    odrl:target :AgreementText ;
+    odrl:duty [
+      a odrl:Duty ;
+      odrl:action odrl:inform ;
+      odrl:constraint [
+        a odrl:Constraint ;
+        odrl:leftOperand tosl:noticeDays ;
+        odrl:operator odrl:gteq ;
+        odrl:rightOperand 3
+      ]
+    ] ;
+    :clause :ClauseC2 .
+
+  # Clause C3: share data without explicit consent safeguard
+  :PermShareData a odrl:Permission ;
+    odrl:assigner :Provider ;
+    odrl:assignee :ConsumerExample ;
+    odrl:action tosl:shareData ;
+    odrl:target :UserData ;
+    :clause :ClauseC3 .
+
+  # Clause C4: prohibit export (hurts portability)
+  :ProhibitExportData a odrl:Prohibition ;
+    odrl:assigner :Provider ;
+    odrl:assignee :ConsumerExample ;
+    odrl:action tosl:exportData ;
+    odrl:target :UserData ;
+    :clause :ClauseC4 .
+
+  :ClauseC1 a :Clause ;
+    :clauseId "C1" ;
+    :text "Provider may remove the user account (and associated data) at its discretion." .
+
+  :ClauseC2 a :Clause ;
+    :clauseId "C2" ;
+    :text "Provider may change terms by informing users at least 3 days in advance." .
+
+  :ClauseC3 a :Clause ;
+    :clauseId "C3" ;
+    :text "Provider may share user data with partners for business purposes." .
+
+  :ClauseC4 a :Clause ;
+    :clauseId "C4" ;
+    :text "Users are not permitted to export their data." .
+
+  :ProcessContext1 a dpv:Process ;
+    dct:source :Agreement1 ;
+    dct:title "Service operation under Agreement1" .
+}
+
+# R1: remove account/data WITHOUT notice constraint AND WITHOUT inform duty
+RULE {
+  :DeleteAccountNoSafeguardsSourceC1 a risk:RiskSource, risk:LegalComplianceRisk ;
+    dct:source :PermDeleteAccount ;
+    dct:description "Account removal permitted without notice safeguards." .
+
+  :DeleteAccountNoSafeguardsRiskC1 a dpv:Risk,
+      risk:UnwantedDataDeletion,
+      risk:DataUnavailable,
+      risk:DataErasureError,
+      risk:DataLoss ;
+    dct:source :PermDeleteAccount ;
+    risk:hasRiskSource :DeleteAccountNoSafeguardsSourceC1 ;
+    dpv:hasConsequence risk:DataLoss, risk:DataUnavailable, risk:CustomerConfidenceLoss ;
+    dpv:hasImpact risk:FinancialLoss, risk:NonMaterialDamage ;
+    :aboutClause ?clause ;
+    :scoreRaw ?raw ;
+    :violatesNeed :Need_DataCannotBeRemoved ;
+    dct:description ?why .
+
+  :ProcessContext1 dpv:hasRisk :DeleteAccountNoSafeguardsRiskC1 .
+
+  :MitigateDeleteNoticeC1 a dpv:RiskMitigationMeasure ;
+    dct:description "Add a notice constraint (minimum noticeDays) before account removal." ;
+    dpv:mitigatesRisk :DeleteAccountNoSafeguardsRiskC1 ;
+    :suggestionText "Add odrl:constraint with tosl:noticeDays >= 14 to :PermDeleteAccount." .
+
+  :MitigateDeleteInformC1 a dpv:RiskMitigationMeasure ;
+    dct:description "Add a duty to inform the consumer prior to account removal." ;
+    dpv:mitigatesRisk :DeleteAccountNoSafeguardsRiskC1 ;
+    :suggestionText "Add odrl:duty [ odrl:action odrl:inform ] to :PermDeleteAccount." .
+
+  :DeleteAccountNoSafeguardsRiskC1 dpv:isMitigatedByMeasure :MitigateDeleteNoticeC1, :MitigateDeleteInformC1 .
+}
+WHERE {
+  :Agreement1 :policy :Policy1 .
+  :ConsumerExample :hasNeed :Need_DataCannotBeRemoved .
+  :Need_DataCannotBeRemoved :importance ?w .
+  :PermDeleteAccount a odrl:Permission ;
+    odrl:action tosl:removeAccount ;
+    :clause ?clause .
+  NOT {
+    :PermDeleteAccount odrl:constraint ?noticeConstraint .
+    ?noticeConstraint odrl:leftOperand tosl:noticeDays .
+  }
+  NOT {
+    :PermDeleteAccount odrl:duty ?informDuty .
+    ?informDuty odrl:action odrl:inform .
+  }
+  ?clause :clauseId ?cid ; :text ?txt .
+  SET(?raw := 90 + ?w)
+  SET(?why := CONCAT("Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause ", ?cid, ": ", ?txt))
+}
+
+# R2: change terms noticeDays is below consumer requirement
+RULE {
+  :NoticeTooShortSourceC2 a risk:RiskSource, risk:PolicyRisk ;
+    dct:source :PermChangeTerms ;
+    dct:description "Notice for changing terms is shorter than consumer requirement." .
+
+  :NoticeTooShortRiskC2 a dpv:Risk, risk:PolicyRisk, risk:CustomerConfidenceLoss ;
+    dct:source :PermChangeTerms ;
+    risk:hasRiskSource :NoticeTooShortSourceC2 ;
+    dpv:hasConsequence risk:CustomerConfidenceLoss ;
+    dpv:hasImpact risk:NonMaterialDamage ;
+    :aboutClause ?clause ;
+    :scoreRaw ?raw ;
+    :violatesNeed :Need_ChangeOnlyWithPriorNotice ;
+    dct:description ?why .
+
+  :ProcessContext1 dpv:hasRisk :NoticeTooShortRiskC2 .
+
+  :MitigateNoticeTooShortC2 a dpv:RiskMitigationMeasure ;
+    dct:description "Increase minimum noticeDays in the inform duty to meet the consumer requirement." ;
+    dpv:mitigatesRisk :NoticeTooShortRiskC2 ;
+    :suggestionText "Set the :PermChangeTerms inform-duty noticeDays constraint to >= 14." .
+
+  :NoticeTooShortRiskC2 dpv:isMitigatedByMeasure :MitigateNoticeTooShortC2 .
+}
+WHERE {
+  :Agreement1 :policy :Policy1 .
+  :ConsumerExample :hasNeed :Need_ChangeOnlyWithPriorNotice .
+  :Need_ChangeOnlyWithPriorNotice :importance ?w ; :minNoticeDays ?req .
+  :PermChangeTerms a odrl:Permission ;
+    odrl:action tosl:changeTerms ;
+    odrl:duty ?duty ;
+    :clause ?clause .
+  ?duty odrl:action odrl:inform ;
+    odrl:constraint ?constraint .
+  ?constraint odrl:leftOperand tosl:noticeDays ;
+    odrl:rightOperand ?days .
+  FILTER(?days < ?req)
+  ?clause :clauseId ?cid ; :text ?txt .
+  SET(?raw := 70 + ?w)
+  SET(?why := CONCAT("Risk: terms may change with notice (", STR(?days), " days) below consumer requirement (", STR(?req), " days). Clause ", ?cid, ": ", ?txt))
+}
+
+# R3: share data WITHOUT explicit consent constraint
+RULE {
+  :ShareNoConsentSourceC3 a risk:RiskSource, risk:PolicyRisk ;
+    dct:source :PermShareData ;
+    dct:description "Data sharing permitted without explicit consent constraint." .
+
+  :ShareNoConsentRiskC3 a dpv:Risk, risk:UnwantedDisclosureData, risk:CustomerConfidenceLoss ;
+    dct:source :PermShareData ;
+    risk:hasRiskSource :ShareNoConsentSourceC3 ;
+    dpv:hasConsequence risk:CustomerConfidenceLoss ;
+    dpv:hasImpact risk:NonMaterialDamage, risk:FinancialLoss ;
+    :aboutClause ?clause ;
+    :scoreRaw ?raw ;
+    :violatesNeed :Need_NoSharingWithoutConsent ;
+    dct:description ?why .
+
+  :ProcessContext1 dpv:hasRisk :ShareNoConsentRiskC3 .
+
+  :MitigateShareConsentC3 a dpv:RiskMitigationMeasure ;
+    dct:description "Add an explicit consent constraint before data sharing." ;
+    dpv:mitigatesRisk :ShareNoConsentRiskC3 ;
+    :suggestionText "Add odrl:constraint with tosl:consent = true to :PermShareData." .
+
+  :ShareNoConsentRiskC3 dpv:isMitigatedByMeasure :MitigateShareConsentC3 .
+}
+WHERE {
+  :Agreement1 :policy :Policy1 .
+  :ConsumerExample :hasNeed :Need_NoSharingWithoutConsent .
+  :Need_NoSharingWithoutConsent :importance ?w .
+  :PermShareData a odrl:Permission ;
+    odrl:action tosl:shareData ;
+    :clause ?clause .
+  NOT {
+    :PermShareData odrl:constraint ?consentConstraint .
+    ?consentConstraint odrl:leftOperand tosl:consent ;
+      odrl:operator odrl:eq ;
+      odrl:rightOperand true .
+  }
+  ?clause :clauseId ?cid ; :text ?txt .
+  SET(?raw := 85 + ?w)
+  SET(?why := CONCAT("Risk: user data sharing is permitted without an explicit consent constraint. Clause ", ?cid, ": ", ?txt))
+}
+
+# R4: prohibit export (no portability)
+RULE {
+  :NoPortabilitySourceC4 a risk:RiskSource, risk:PolicyRisk ;
+    dct:source :ProhibitExportData ;
+    dct:description "Data export is prohibited, reducing portability." .
+
+  :NoPortabilityRiskC4 a dpv:Risk, risk:PolicyRisk, risk:CustomerConfidenceLoss ;
+    dct:source :ProhibitExportData ;
+    risk:hasRiskSource :NoPortabilitySourceC4 ;
+    dpv:hasConsequence risk:CustomerConfidenceLoss ;
+    dpv:hasImpact risk:NonMaterialDamage ;
+    :aboutClause ?clause ;
+    :scoreRaw ?raw ;
+    :violatesNeed :Need_DataPortability ;
+    dct:description ?why .
+
+  :ProcessContext1 dpv:hasRisk :NoPortabilityRiskC4 .
+
+  :MitigatePortabilityC4 a dpv:RiskMitigationMeasure ;
+    dct:description "Add a permission allowing data export (or remove the prohibition) to support portability." ;
+    dpv:mitigatesRisk :NoPortabilityRiskC4 ;
+    :suggestionText "Add an odrl:permission for tosl:exportData, or remove :ProhibitExportData." .
+
+  :NoPortabilityRiskC4 dpv:isMitigatedByMeasure :MitigatePortabilityC4 .
+}
+WHERE {
+  :Agreement1 :policy :Policy1 .
+  :ConsumerExample :hasNeed :Need_DataPortability .
+  :Need_DataPortability :importance ?w .
+  :ProhibitExportData a odrl:Prohibition ;
+    odrl:action tosl:exportData ;
+    :clause ?clause .
+  ?clause :clauseId ?cid ; :text ?txt .
+  SET(?raw := 60 + ?w)
+  SET(?why := CONCAT("Risk: portability is restricted because exporting user data is prohibited. Clause ", ?cid, ": ", ?txt))
+}
+
+# Score normalization + DPV-RISK severity/level
+RULE { ?risk :score 100 }
+WHERE {
+  ?risk a dpv:Risk ; :scoreRaw ?raw .
+  FILTER(?raw > 100)
+}
+
+RULE { ?risk :score ?raw }
+WHERE {
+  ?risk a dpv:Risk ; :scoreRaw ?raw .
+  FILTER(?raw <= 100)
+}
+
+RULE {
+  ?risk dpv:hasSeverity risk:HighSeverity ;
+    dpv:hasRiskLevel risk:HighRisk ;
+    :severityLabel "HighSeverity" ;
+    :riskLevelLabel "HighRisk" .
+}
+WHERE {
+  ?risk a dpv:Risk ; :score ?score .
+  FILTER(?score > 79)
+}
+
+RULE {
+  ?risk dpv:hasSeverity risk:ModerateSeverity ;
+    dpv:hasRiskLevel risk:ModerateRisk ;
+    :severityLabel "ModerateSeverity" ;
+    :riskLevelLabel "ModerateRisk" .
+}
+WHERE {
+  ?risk a dpv:Risk ; :score ?score .
+  FILTER(?score < 80 && ?score > 49)
+}
+
+RULE {
+  ?risk dpv:hasSeverity risk:LowSeverity ;
+    dpv:hasRiskLevel risk:LowRisk ;
+    :severityLabel "LowSeverity" ;
+    :riskLevelLabel "LowRisk" .
+}
+WHERE {
+  ?risk a dpv:Risk ; :score ?score .
+  FILTER(?score < 50)
+}
+
+# Ranked explainable output (rank encoded in the report-line subject IRIs)
+RULE { :ReportLine00 log:outputString ?line }
+WHERE {
+  :Agreement1 dct:title ?agreementTitle .
+  :ConsumerExample dct:title ?profileTitle .
+  SET(?line := CONCAT("\n=== Ranked DPV Risk Report ===\nAgreement: ", ?agreementTitle, "\nProfile: ", ?profileTitle, "\n"))
+}
+
+RULE { :ReportLine01A_Risk log:outputString ?line }
+WHERE {
+  :DeleteAccountNoSafeguardsRiskC1 :score ?score ;
+    :riskLevelLabel ?level ;
+    :severityLabel ?severity ;
+    :aboutClause ?clause ;
+    dct:description ?why .
+  ?clause :clauseId ?cid .
+  SET(?line := CONCAT("score=", STR(?score), " (", ?level, ", ", ?severity, ") clause ", ?cid, "\n ", ?why, "\n"))
+}
+
+RULE { :ReportLine01B_MitigationA log:outputString ?line }
+WHERE {
+  :DeleteAccountNoSafeguardsRiskC1 dpv:isMitigatedByMeasure :MitigateDeleteNoticeC1 ; :aboutClause ?clause .
+  :MitigateDeleteNoticeC1 dct:description ?description .
+  ?clause :clauseId ?cid .
+  SET(?line := CONCAT(" - mitigation for clause ", ?cid, ": ", ?description, "\n"))
+}
+
+RULE { :ReportLine01C_MitigationB log:outputString ?line }
+WHERE {
+  :DeleteAccountNoSafeguardsRiskC1 dpv:isMitigatedByMeasure :MitigateDeleteInformC1 ; :aboutClause ?clause .
+  :MitigateDeleteInformC1 dct:description ?description .
+  ?clause :clauseId ?cid .
+  SET(?line := CONCAT(" - mitigation for clause ", ?cid, ": ", ?description, "\n"))
+}
+
+RULE { :ReportLine02A_Risk log:outputString ?line }
+WHERE {
+  :ShareNoConsentRiskC3 :score ?score ;
+    :riskLevelLabel ?level ;
+    :severityLabel ?severity ;
+    :aboutClause ?clause ;
+    dct:description ?why .
+  ?clause :clauseId ?cid .
+  SET(?line := CONCAT("score=", STR(?score), " (", ?level, ", ", ?severity, ") clause ", ?cid, "\n ", ?why, "\n"))
+}
+
+RULE { :ReportLine02B_Mitigation log:outputString ?line }
+WHERE {
+  :ShareNoConsentRiskC3 dpv:isMitigatedByMeasure :MitigateShareConsentC3 ; :aboutClause ?clause .
+  :MitigateShareConsentC3 dct:description ?description .
+  ?clause :clauseId ?cid .
+  SET(?line := CONCAT(" - mitigation for clause ", ?cid, ": ", ?description, "\n"))
+}
+
+RULE { :ReportLine03A_Risk log:outputString ?line }
+WHERE {
+  :NoticeTooShortRiskC2 :score ?score ;
+    :riskLevelLabel ?level ;
+    :severityLabel ?severity ;
+    :aboutClause ?clause ;
+    dct:description ?why .
+  ?clause :clauseId ?cid .
+  SET(?line := CONCAT("score=", STR(?score), " (", ?level, ", ", ?severity, ") clause ", ?cid, "\n ", ?why, "\n"))
+}
+
+RULE { :ReportLine03B_Mitigation log:outputString ?line }
+WHERE {
+  :NoticeTooShortRiskC2 dpv:isMitigatedByMeasure :MitigateNoticeTooShortC2 ; :aboutClause ?clause .
+  :MitigateNoticeTooShortC2 dct:description ?description .
+  ?clause :clauseId ?cid .
+  SET(?line := CONCAT(" - mitigation for clause ", ?cid, ": ", ?description, "\n"))
+}
+
+RULE { :ReportLine04A_Risk log:outputString ?line }
+WHERE {
+  :NoPortabilityRiskC4 :score ?score ;
+    :riskLevelLabel ?level ;
+    :severityLabel ?severity ;
+    :aboutClause ?clause ;
+    dct:description ?why .
+  ?clause :clauseId ?cid .
+  SET(?line := CONCAT("score=", STR(?score), " (", ?level, ", ", ?severity, ") clause ", ?cid, "\n ", ?why, "\n"))
+}
+
+RULE { :ReportLine04B_Mitigation log:outputString ?line }
+WHERE {
+  :NoPortabilityRiskC4 dpv:isMitigatedByMeasure :MitigatePortabilityC4 ; :aboutClause ?clause .
+  :MitigatePortabilityC4 dct:description ?description .
+  ?clause :clauseId ?cid .
+  SET(?line := CONCAT(" - mitigation for clause ", ?cid, ": ", ?description, "\n"))
+}

@@ -1,0 +1,12 @@
+# Translated from eyeling/examples/equals.n3
+# The N3 example writes :X = :Y, which eyeling treats as owl:sameAs.
+# In SRL we state owl:sameAs explicitly.
+
+PREFIX : <http://example/eyeling/equals/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+DATA {
+  :X owl:sameAs :Y .
+}
+
+RULE { :test :is true } WHERE { :X owl:sameAs :Y }

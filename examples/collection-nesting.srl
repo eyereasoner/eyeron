@@ -1,0 +1,21 @@
+# Translated from eyeling/examples/collection.n3
+# Keeps the collection/blank-node structure, but uses SRL rules instead of
+# eyeling's Markdown-output query idiom.
+
+PREFIX : <http://example/eyeling/collection/>
+
+DATA {
+  :root :nested ( 1 [ :p :q ] ( 2 ) ) .
+}
+
+RULE { :test :first ?first }
+WHERE { :root :nested/rdf:first ?first }
+
+RULE { :test :second ?second }
+WHERE { :root :nested/rdf:rest/rdf:first ?second }
+
+RULE { :test :secondProperty ?object }
+WHERE { :root :nested/rdf:rest/rdf:first/:p ?object }
+
+RULE { :test :thirdFirst ?item }
+WHERE { :root :nested/rdf:rest/rdf:rest/rdf:first/rdf:first ?item }

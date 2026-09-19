@@ -1,0 +1,37 @@
+# Translated from eyeling/examples/alignment-demo.n3
+# Minimal SKOS-style alignment: several source concepts roll up to one
+# reference reporting class through broader/broadMatch links.
+
+PREFIX ex: <http://example/eyeling/alignment/>
+PREFIX ref: <http://example/eyeling/ref/>
+PREFIX tel: <http://example/eyeling/telraam/>
+PREFIX anpr: <http://example/eyeling/anpr/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+DATA {
+  ref:Car a skos:Concept ; skos:prefLabel "Car (reference reporting class)"@en .
+  tel:Car a skos:Concept ; skos:prefLabel "Telraam car"@en .
+  tel:HeavyVehicle a skos:Concept ; skos:prefLabel "Telraam heavy vehicle"@en .
+  anpr:VehicleWithPlate a skos:Concept ; skos:prefLabel "ANPR: vehicle with plate"@en .
+  anpr:PassengerCar a skos:Concept ;
+    skos:prefLabel "ANPR: passenger car"@en ;
+    skos:broader anpr:VehicleWithPlate .
+
+  tel:Car skos:broadMatch ref:Car .
+  tel:HeavyVehicle skos:broadMatch ref:Car .
+  anpr:VehicleWithPlate skos:broadMatch ref:Car .
+}
+
+RULE { ?a skos:broader ?b } WHERE { ?a skos:broadMatch ?b }
+RULE { ?b skos:narrower ?n } WHERE { ?n skos:broader ?b }
+RULE { ?n skos:broaderTransitive ?b } WHERE { ?n skos:broader ?b }
+RULE { ?n skos:narrowerTransitive ?c } WHERE { ?n skos:narrower ?c }
+RULE { ?a skos:broaderTransitive ?c }
+WHERE { ?a skos:broaderTransitive ?b . ?b skos:broaderTransitive ?c }
+RULE { ?a skos:narrowerTransitive ?c }
+WHERE { ?a skos:narrowerTransitive ?b . ?b skos:narrowerTransitive ?c }
+RULE { ?b skos:narrowerTransitive ?a } WHERE { ?a skos:broaderTransitive ?b }
+RULE { ?b skos:broaderTransitive ?a } WHERE { ?a skos:narrowerTransitive ?b }
+RULE { ?c ex:narrowerOrEqualOf ?c } WHERE { ?c a skos:Concept }
+RULE { ?c ex:narrowerOrEqualOf ?b } WHERE { ?c skos:broaderTransitive ?b }
+RULE { ?x ex:rollsUpTo ref:Car } WHERE { ?x ex:narrowerOrEqualOf ref:Car }

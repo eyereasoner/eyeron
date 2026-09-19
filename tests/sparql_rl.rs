@@ -58,6 +58,21 @@ fn property_paths_matches_golden() {
     assert_matches_golden("property-paths.srl");
 }
 
+/// Ported eyeleng examples excluded from this smoke test: four are
+/// designed to be rejected at parse/reason time (`tests/sparql_rl_examples.rs`
+/// checks their exact error instead), and three take far longer than a
+/// smoke test should (`tests/sparql_rl_examples.rs`'s
+/// `EXCLUDED_FOR_PERFORMANCE` doc comment has the details).
+const SMOKE_TEST_EXCLUSIONS: &[&str] = &[
+    "check-unsafe",
+    "unstratified-negation",
+    "variable-predicate-dependency",
+    "well-formedness-error",
+    "deep-taxonomy-10000",
+    "deep-taxonomy-100000",
+    "relational-cube-lookup",
+];
+
 #[test]
 fn every_packaged_srl_example_parses_and_reasons_without_error() {
     let dir = manifest_dir().join("examples");
@@ -68,6 +83,9 @@ fn every_packaged_srl_example_parses_and_reasons_without_error() {
             continue;
         }
         let name = path.file_name().unwrap().to_str().unwrap();
+        if SMOKE_TEST_EXCLUSIONS.contains(&path.file_stem().and_then(|s| s.to_str()).unwrap_or_default()) {
+            continue;
+        }
         let source = fs::read_to_string(&path).unwrap();
         let program = parse_sparql_rl(&source, None).unwrap_or_else(|err| panic!("parsing {name}: {err}"));
         let result = reason(&program, &[], &ReasonerOptions::default()).unwrap_or_else(|err| panic!("reasoning over {name}: {err}"));

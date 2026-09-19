@@ -1,0 +1,12 @@
+PREFIX : <http://example.com/>
+
+DATA {
+  :route1 :distanceMiles 10 .
+  :route2 :distanceMiles 5 .
+}
+
+RULE { ?x :distanceKm ?kilometers }
+WHERE {
+  ?x :distanceMiles ?miles .
+  SET ( ?kilometers := ?miles * 1.60934 )
+}

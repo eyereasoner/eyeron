@@ -1,0 +1,177 @@
+PREFIX : <http://example/>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+
+# Deep Taxonomy - depth 10 - SRL conversion
+# Source default prefix was written as "@prefix : ."; this file uses http://example/.
+
+DATA {
+  :ind a :N0 .
+}
+
+RULE { :test :is true . }
+WHERE {
+  :ind a :A2 .
+}
+
+RULE {
+  ?X a :N1 .
+  ?X a :I1 .
+  ?X a :J1 .
+}
+WHERE {
+  ?X a :N0 .
+}
+
+RULE {
+  ?X a :N2 .
+  ?X a :I2 .
+  ?X a :J2 .
+}
+WHERE {
+  ?X a :N1 .
+}
+
+RULE {
+  ?X a :N3 .
+  ?X a :I3 .
+  ?X a :J3 .
+}
+WHERE {
+  ?X a :N2 .
+}
+
+RULE {
+  ?X a :N4 .
+  ?X a :I4 .
+  ?X a :J4 .
+}
+WHERE {
+  ?X a :N3 .
+}
+
+RULE {
+  ?X a :N5 .
+  ?X a :I5 .
+  ?X a :J5 .
+}
+WHERE {
+  ?X a :N4 .
+}
+
+RULE {
+  ?X a :N6 .
+  ?X a :I6 .
+  ?X a :J6 .
+}
+WHERE {
+  ?X a :N5 .
+}
+
+RULE {
+  ?X a :N7 .
+  ?X a :I7 .
+  ?X a :J7 .
+}
+WHERE {
+  ?X a :N6 .
+}
+
+RULE {
+  ?X a :N8 .
+  ?X a :I8 .
+  ?X a :J8 .
+}
+WHERE {
+  ?X a :N7 .
+}
+
+RULE {
+  ?X a :N9 .
+  ?X a :I9 .
+  ?X a :J9 .
+}
+WHERE {
+  ?X a :N8 .
+}
+
+RULE {
+  ?X a :N10 .
+  ?X a :I10 .
+  ?X a :J10 .
+}
+WHERE {
+  ?X a :N9 .
+}
+
+RULE { ?X a :A2 . }
+WHERE {
+  ?X a :N10 .
+}
+
+# ARC checks
+
+RULE { :arc :check1 "C1 OK - the starting classification N0 is present." . }
+WHERE {
+  :ind a :N0 .
+}
+
+RULE { :arc :check2 "C2 OK - the first expansion produced N1 together with side labels I1 and J1." . }
+WHERE {
+  :ind a :N1 .
+  :ind a :I1 .
+  :ind a :J1 .
+}
+
+RULE { :arc :check3 "C3 OK - the chain reaches the midpoint N5 and still carries both side-label branches." . }
+WHERE {
+  :ind a :N5 .
+  :ind a :I5 .
+  :ind a :J5 .
+}
+
+RULE { :arc :check4 "C4 OK - the final taxonomy step from N9 to N10 was completed." . }
+WHERE {
+  :ind a :N9 .
+  :ind a :N10 .
+}
+
+RULE { :arc :check5 "C5 OK - once N10 is reached, the terminal class A2 is derived." . }
+WHERE {
+  :ind a :N10 .
+  :ind a :A2 .
+}
+
+RULE { :arc :check6 "C6 OK - the success flag is raised only after the terminal class A2 is present." . }
+WHERE {
+  :ind a :A2 .
+  :test :is true .
+}
+
+# ARC report
+
+RULE {
+  :report log:outputString """Deep Taxonomy - deep classification benchmark
+
+Answer
+The test succeeds: starting from one individual classified as N0, the rules eventually classify it as N10 and then as A2.
+
+Reason Why
+Each rule moves the same individual one level deeper in the taxonomy and also adds two side labels. Because that chain continues all the way from N0 to N10, the final rule deriving A2 fires, and that in turn makes the test true.
+
+Check
+C1 OK - the starting classification N0 is present.
+C2 OK - the first expansion produced N1 together with side labels I1 and J1.
+C3 OK - the chain reaches the midpoint N5 and still carries both side-label branches.
+C4 OK - the final taxonomy step from N9 to N10 was completed.
+C5 OK - once N10 is reached, the terminal class A2 is derived.
+C6 OK - the success flag is raised only after the terminal class A2 is present.""" .
+}
+WHERE {
+  :test :is true .
+  :arc :check1 ?C1 .
+  :arc :check2 ?C2 .
+  :arc :check3 ?C3 .
+  :arc :check4 ?C4 .
+  :arc :check5 ?C5 .
+  :arc :check6 ?C6 .
+}

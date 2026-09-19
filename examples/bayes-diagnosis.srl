@@ -1,0 +1,47 @@
+# Adapted from eyeling/examples/bayes-diagnosis.n3
+# A compact Bayesian-style diagnostic scoring example. Values are illustrative
+# only and not medical advice.
+
+PREFIX : <http://example/eyeling/diagnosis/>
+
+DATA {
+  :COVID19 a :Disease ;
+    :prior 0.05 ; :pFever 0.70 ; :pDryCough 0.65 ; :pLossOfSmell 0.40 ;
+    :pNoSneezing 0.85 ; :pShortBreath 0.20 .
+
+  :Influenza a :Disease ;
+    :prior 0.03 ; :pFever 0.80 ; :pDryCough 0.50 ; :pLossOfSmell 0.05 ;
+    :pNoSneezing 0.80 ; :pShortBreath 0.10 .
+
+  :AllergicRhinitis a :Disease ;
+    :prior 0.10 ; :pFever 0.05 ; :pDryCough 0.15 ; :pLossOfSmell 0.10 ;
+    :pNoSneezing 0.20 ; :pShortBreath 0.05 .
+
+  :BacterialPneumonia a :Disease ;
+    :prior 0.01 ; :pFever 0.70 ; :pDryCough 0.60 ; :pLossOfSmell 0.02 ;
+    :pNoSneezing 0.95 ; :pShortBreath 0.60 .
+}
+
+RULE { ?d :unnormalizedScore ?score }
+WHERE {
+  ?d a :Disease ;
+    :prior ?prior ;
+    :pFever ?fever ;
+    :pDryCough ?cough ;
+    :pLossOfSmell ?smell ;
+    :pNoSneezing ?noSneezing ;
+    :pShortBreath ?breath .
+  SET(?score := ?prior * ?fever * ?cough * ?smell * ?noSneezing * ?breath)
+}
+
+RULE { ?d :screenedIn true }
+WHERE { ?d :unnormalizedScore ?score . FILTER(?score >= 0.001) }
+
+RULE { ?d :rank "high" }
+WHERE { ?d :unnormalizedScore ?score . FILTER(?score >= 0.0015) }
+
+RULE { ?d :rank "medium" }
+WHERE { ?d :unnormalizedScore ?score . FILTER(?score >= 0.0005 && ?score < 0.0015) }
+
+RULE { ?d :rank "low" }
+WHERE { ?d :unnormalizedScore ?score . FILTER(?score < 0.0005) }

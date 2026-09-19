@@ -1,0 +1,12 @@
+PREFIX : <http://example.com/>
+
+DATA {
+  :A :fatherOf :X .
+  :B :motherOf :X .
+  :C :motherOf :A .
+}
+
+RULE { ?x :childOf ?y } WHERE { ?y :fatherOf ?x }
+RULE { ?x :childOf ?y } WHERE { ?y :motherOf ?x }
+RULE { ?x :descendedFrom ?y } WHERE { ?x :childOf ?y }
+RULE { ?x :descendedFrom ?y } WHERE { ?x :childOf ?z . ?z :descendedFrom ?y }

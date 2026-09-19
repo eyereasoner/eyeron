@@ -1,0 +1,19 @@
+PREFIX : <http://example/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :n1 :value -3.5 .
+  :n2 :value 7 .
+  :msg :text "bonjour"@fr--ltr .
+}
+
+RULE { ?x :negative true } WHERE {
+  ?x :value ?v .
+  FILTER isNUMERIC(?v) .
+  FILTER(?v < 0)
+}
+
+RULE { :msg :languageDirection ?dir } WHERE {
+  :msg :text ?text .
+  SET(?dir := LANGDIR(?text))
+}

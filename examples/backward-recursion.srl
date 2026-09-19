@@ -1,0 +1,14 @@
+# Adapted from eyeling/examples/backward-recursion.n3
+# Recursive ancestor rules translated from <= to ordinary SRL derivation rules.
+
+PREFIX : <urn:example#>
+
+DATA {
+  :a :parent :b .
+  :b :parent :c .
+  :c :parent :d .
+}
+
+RULE { ?x :ancestor ?y } WHERE { ?x :parent ?y }
+RULE { ?x :ancestor ?z } WHERE { ?x :parent ?y . ?y :ancestor ?z }
+RULE { :a :reaches ?who } WHERE { :a :ancestor ?who }

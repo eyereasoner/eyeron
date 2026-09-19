@@ -1,0 +1,83 @@
+PREFIX : <http://example/graph-term-list/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Emulating N3 graph terms as closed RDF list values.
+#
+# In Notation3, a graph term is a quoted graph/formula used as a term:
+#
+#   { :alice :knows :bob. :bob :knows :carol }
+#
+# The important point is that the quoted graph is closed. It is not an open
+# container to which rules should add more statements.
+#
+# Therefore this SRL encoding does NOT use:
+#
+#   :g1 :statement <<(...)>> .
+#
+# because that is too easy to misuse as an extensible membership relation.
+#
+# Instead, the graph term points to one RDF list value. The list is the quoted
+# graph term representation, and its items are RDF 1.2 quoted triples.
+
+DATA {
+  :g1 a :GraphTerm ;
+      :quotedTriples (
+        <<(:alice :knows :bob)>>
+        <<(:bob :knows :carol)>>
+      ) .
+
+  :g2 a :GraphTerm ;
+      :quotedTriples (
+        <<(:alice :likes :tea)>>
+      ) .
+
+  # Example of using the graph term as a term:
+  # this says that :note1 is about the closed quoted graph :g1.
+  :note1 :aboutGraphTerm :g1 .
+}
+
+# Helper index over the RDF list cells.
+# This reads the closed list value; it does not add to or replace the list.
+RULE { ?g :listCell ?cell }
+WHERE {
+  ?g :quotedTriples ?cell .
+}
+
+RULE { ?g :listCell ?rest }
+WHERE {
+  ?g :listCell ?cell .
+  ?cell rdf:rest ?rest .
+}
+
+# Test rule: classify a graph term if its closed list contains a quoted
+# triple with predicate :knows.  The result is metadata ABOUT the graph term.
+RULE { ?g a :SocialGraphTerm }
+WHERE {
+  ?g a :GraphTerm ;
+     :listCell ?cell .
+  ?cell rdf:first <<(?s :knows ?o)>> .
+}
+
+# Another safe test: derive who is mentioned by the closed graph term.
+RULE { ?g :mentions ?s }
+WHERE {
+  ?g a :GraphTerm ;
+     :listCell ?cell .
+  ?cell rdf:first <<(?s ?p ?o)>> .
+}
+
+RULE { ?g :mentions ?o }
+WHERE {
+  ?g a :GraphTerm ;
+     :listCell ?cell .
+  ?cell rdf:first <<(?s ?p ?o)>> .
+}
+
+# Expected derived facts include:
+#
+#   :g1 a :SocialGraphTerm .
+#   :g1 :mentions :alice, :bob, :carol .
+#   :g2 :mentions :alice, :tea .
+#
+# No rule derives rdf:first, rdf:rest, or :quotedTriples, so the graph-term
+# list remains closed.

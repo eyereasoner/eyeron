@@ -1,0 +1,18 @@
+# Adapted from eyeling/examples/collection.n3
+# Keeps the list + blank-node shape from the N3 example and materializes a few
+# path-based facts from it.
+
+PREFIX : <http://example/eyeling/collection-basic/>
+
+DATA {
+  :root :p2 ( 1 [ :p :q ] ( 2 ) ) .
+}
+
+RULE { :test :first ?first }
+WHERE { :root :p2/rdf:first ?first }
+
+RULE { :test :blankNodeProperty ?value }
+WHERE { :root :p2/rdf:rest/rdf:first/:p ?value }
+
+RULE { :test :nestedFirst ?value }
+WHERE { :root :p2/rdf:rest/rdf:rest/rdf:first/rdf:first ?value }

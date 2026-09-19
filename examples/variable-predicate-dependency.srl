@@ -1,0 +1,11 @@
+PREFIX : <http://example/>
+
+DATA {
+  :a :source :blocked .
+}
+
+# This intentionally violates stratification.  The second rule depends on the
+# first through a variable predicate, and the first negatively depends on the
+# second through :blocked.
+RULE { ?x ?p true } WHERE { ?x :source ?p . NOT { ?x :blocked true } }
+RULE { ?x :blocked true } WHERE { ?x ?anyPredicate true }

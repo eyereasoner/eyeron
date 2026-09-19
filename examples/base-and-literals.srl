@@ -1,0 +1,20 @@
+BASE <http://example/base/>
+PREFIX : <>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :alice :name "Alice Smith"@en ;
+         :age "22"^^xsd:integer .
+  :bob   :name "Bob"@nl ;
+         :age "17"^^xsd:integer .
+}
+
+RULE {
+  ?person :adult true ;
+          :slug ?slug .
+} WHERE {
+  ?person :name ?name ;
+          :age ?age .
+  FILTER(datatype(?age) = xsd:integer && ?age >= 18 && lang(?name) = "en")
+  SET(?slug := REPLACE(LCASE(STR(?name)), " ", "-"))
+}

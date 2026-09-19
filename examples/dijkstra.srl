@@ -1,0 +1,33 @@
+# Adapted from eyeling/examples/dijkstra.n3
+# A small weighted-path example. SRL currently has no aggregate min, so the
+# example scores named candidate paths and marks dominated paths explicitly.
+
+PREFIX : <http://example/eyeling/dijkstra/>
+
+DATA {
+  :ab a :Path ; :from :A ; :to :B ; :cost 2 .
+  :ac a :Path ; :from :A ; :to :C ; :cost 5 .
+  :abc a :CandidatePath ; :from :A ; :via :B ; :to :C ; :leftCost 2 ; :rightCost 1 .
+  :abd a :CandidatePath ; :from :A ; :via :B ; :to :D ; :leftCost 2 ; :rightCost 7 .
+  :acd a :CandidatePath ; :from :A ; :via :C ; :to :D ; :leftCost 5 ; :rightCost 2 .
+  :abcd a :CandidatePath ; :from :A ; :via :B ; :to :D ; :leftCost 2 ; :rightCost 3 .
+}
+
+RULE { ?path a :Path ; :cost ?total }
+WHERE {
+  ?path a :CandidatePath ; :leftCost ?left ; :rightCost ?right .
+  SET(?total := ?left + ?right)
+}
+
+RULE { ?path :dominated true }
+WHERE {
+  ?path a :Path ; :from ?from ; :to ?to ; :cost ?cost .
+  ?better a :Path ; :from ?from ; :to ?to ; :cost ?betterCost .
+  FILTER(?betterCost < ?cost)
+}
+
+RULE { ?path :best true }
+WHERE {
+  ?path a :Path .
+  NOT { ?path :dominated true }
+}

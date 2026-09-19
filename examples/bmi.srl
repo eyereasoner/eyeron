@@ -1,0 +1,66 @@
+# Adapted from eyeling/examples/bmi.n3
+# Normalizes metric input, computes BMI, assigns an adult BMI category, and
+# derives a healthy-weight band for the given height.
+
+PREFIX : <http://example/eyeling/bmi/>
+
+DATA {
+  :Input :unitSystem "metric" ; :weight 72.0 ; :height 178.0 .
+}
+
+RULE { :Case :weightKg ?weight ; :heightM ?heightM }
+WHERE {
+  :Input :unitSystem "metric" ; :weight ?weight ; :height ?heightCm .
+  SET(?heightM := ?heightCm / 100.0)
+}
+
+RULE {
+  :Case :heightSquared ?heightSquared ;
+        :bmi ?bmi ;
+        :bmiRounded ?bmiRounded ;
+        :healthyMinKg ?healthyMin ;
+        :healthyMaxKg ?healthyMax ;
+        :healthyMinKgRounded ?healthyMinRounded ;
+        :healthyMaxKgRounded ?healthyMaxRounded .
+}
+WHERE {
+  :Case :weightKg ?weight ; :heightM ?heightM .
+  SET(?heightSquared := ?heightM * ?heightM)
+  SET(?bmi := ?weight / ?heightSquared)
+  SET(?bmiRounded := ROUND(?bmi * 100.0) / 100.0)
+  SET(?healthyMin := 18.5 * ?heightSquared)
+  SET(?healthyMax := 24.9 * ?heightSquared)
+  SET(?healthyMinRounded := ROUND(?healthyMin * 10.0) / 10.0)
+  SET(?healthyMaxRounded := ROUND(?healthyMax * 10.0) / 10.0)
+}
+
+RULE { :Decision :category "Underweight" }
+WHERE { :Case :bmi ?bmi . FILTER(?bmi < 18.5) }
+
+RULE { :Decision :category "Normal" }
+WHERE { :Case :bmi ?bmi . FILTER(?bmi >= 18.5 && ?bmi < 25.0) }
+
+RULE { :Decision :category "Overweight" }
+WHERE { :Case :bmi ?bmi . FILTER(?bmi >= 25.0 && ?bmi < 30.0) }
+
+RULE { :Decision :category "Obesity I" }
+WHERE { :Case :bmi ?bmi . FILTER(?bmi >= 30.0 && ?bmi < 35.0) }
+
+RULE { :Decision :category "Obesity II" }
+WHERE { :Case :bmi ?bmi . FILTER(?bmi >= 35.0 && ?bmi < 40.0) }
+
+RULE { :Decision :category "Obesity III" }
+WHERE { :Case :bmi ?bmi . FILTER(?bmi >= 40.0) }
+
+RULE {
+  :Answer :bmi ?bmiRounded ;
+          :category ?category ;
+          :healthyMinKg ?healthyMinRounded ;
+          :healthyMaxKg ?healthyMaxRounded .
+}
+WHERE {
+  :Case :bmiRounded ?bmiRounded ;
+        :healthyMinKgRounded ?healthyMinRounded ;
+        :healthyMaxKgRounded ?healthyMaxRounded .
+  :Decision :category ?category .
+}
