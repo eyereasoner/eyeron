@@ -208,6 +208,14 @@ cargo test --release
 
 The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the bundled Notation3 conformance suite, the local W3C RDF 1.1/1.2 manifest mirror, and the live W3C SPARQL 1.2 RL manifest (203/203; this one needs network access, unlike the other suites here).
 
+`cargo test` runs each test target as a separate process and prints each one's own pass/fail total, with no built-in way to sum them. For one grand total and elapsed time across every binary, run:
+
+```bash
+./scripts/test-all
+```
+
+This runs the same `cargo test --release` (forwarding any extra arguments, e.g. `./scripts/test-all --test examples`), shows its normal output unchanged, and appends a `Grand total: ok. N passed; ...` line at the end.
+
 Run the focused regression, packaged-example, or playground checks independently with:
 
 ```bash

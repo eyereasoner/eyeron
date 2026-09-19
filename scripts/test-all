@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# Runs the full test suite (as `cargo test --release` does) and appends a
+# grand total across every test binary.
+#
+# Cargo has no built-in way to do this: `cargo test` runs each `[[test]]`
+# target (and the lib's own unit tests) as a *separate process*, and each
+# one prints its own "test result: ok. N passed; M failed; ..." line with
+# no aggregation across binaries. This script runs the real `cargo test
+# --release`, shows its normal live output unchanged, then parses every
+# "test result: " line out of it (both the default libtest harness and the
+# project's own harness = false runners emit exactly this line, so no
+# special-casing is needed) and sums them into one final line.
+
+set -uo pipefail
+
+repo_root=$(git rev-parse --show-toplevel)
+cd "$repo_root"
+
+log=$(mktemp)
+trap 'rm -f "$log"' EXIT
+
+started=$(date +%s.%N)
+cargo test --release "$@" 2>&1 | tee "$log"
+status=${PIPESTATUS[0]}
+elapsed=$(awk -v s="$started" -v e="$(date +%s.%N)" 'BEGIN { printf "%.2f", e - s }')
+
+# Strip ANSI color codes (some runners colour "ok"/"FAILED") before parsing.
+# Match "test result: " (the default libtest harness, and this project's own
+# harness = false runners for w3c_rdf/w3c_sparql_rl, which deliberately
+# mirror that exact phrase) as well as tests/examples.rs's own
+# "example result: " summary line, so every test binary's total is counted.
+totals=$(sed -E 's/\x1b\[[0-9;]*m//g' "$log" | awk '
+  /^[A-Za-z_]+ result: / {
+    binaries++
+    for (i = 1; i <= NF; i++) {
+      if ($i == "passed;") passed += $(i - 1)
+      if ($i == "failed;") failed += $(i - 1)
+      if ($i == "ignored;") ignored += $(i - 1)
+    }
+  }
+  END { printf "%d %d %d %d", passed, failed, ignored, binaries }
+')
+read -r passed failed ignored binaries <<< "$totals"
+
+echo
+if [[ "$status" -eq 0 && "$failed" -eq 0 ]]; then
+  echo "=== Grand total: ok. ${passed} passed; ${failed} failed; ${ignored} ignored across ${binaries} test binaries (${elapsed}s) ==="
+else
+  echo "=== Grand total: FAILED. ${passed} passed; ${failed} failed; ${ignored} ignored across ${binaries} test binaries (${elapsed}s) ==="
+fi
+
+exit "$status"
