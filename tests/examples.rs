@@ -1,10 +1,14 @@
-mod support;
+#[path = "support/golden_n3.rs"]
+mod golden_n3;
+#[path = "support/report.rs"]
+mod report;
 
 use eyeron::{parse_n3, parse_n3_with_source, proof_to_n3, reason_document, ReasonerOptions};
+use golden_n3::check_golden_documents;
+use report::{green, progress_line, red};
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
-use support::{check_golden_documents, green, progress_line, red};
 
 /// Top-level `.n3` examples with no golden to check output against, and
 /// why: `alma-rdf-messages.n3` needs a remote, 9GB+ RDF Message Log its own

@@ -1,7 +1,11 @@
 //! Integration tests for every packaged top-level `.srl` example
 //! (`examples/*.srl`) — both eyeron's own hand-written fixtures and the
-//! suite ported from the sibling `eyeleng` project. Every example is
-//! covered by exactly one of: `every_error_example_fails_with_its_expected_message`,
+//! suite ported from the sibling `eyeleng` project. This uses a custom
+//! harness (`harness = false` in `Cargo.toml`, matching `tests/examples.rs`)
+//! so each example prints its own progress line the same way N3 examples
+//! do, instead of being folded into one opaque `#[test] ... ok` line under
+//! the default libtest harness. Every example is covered by exactly one
+//! of: `every_error_example_fails_with_its_expected_message`,
 //! `every_nondeterministic_example_runs`, or
 //! `every_example_with_a_golden_matches_by_graph_isomorphism`, and
 //! `every_packaged_example_is_accounted_for` enforces that partition so a
@@ -24,15 +28,37 @@
 //! scale to their size in reasonable test time (see docs/sparql-rl.md's
 //! Known limitations).
 
+#[path = "support/report.rs"]
+mod report;
+
 use eyeron::ast::{Literal, Term, Triple};
 use eyeron::srl::{parse_sparql_rl, reason};
 use eyeron::{parse_n3, ReasonerOptions};
+use report::{green, progress_line, red};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::Path;
 
 fn manifest_dir() -> &'static Path {
     Path::new(env!("CARGO_MANIFEST_DIR"))
+}
+
+fn main() {
+    let started = std::time::Instant::now();
+    every_error_example_fails_with_its_expected_message();
+    every_nondeterministic_example_runs();
+    let checked = every_example_with_a_golden_matches_by_graph_isomorphism();
+    every_packaged_example_is_accounted_for();
+
+    progress_line(&format!(
+        "\nsparql_rl_examples result: {}. {checked} passed; 0 failed; finished in {:.2}s",
+        green("ok"),
+        started.elapsed().as_secs_f64()
+    ));
+}
+
+fn report_case(name: &str, status: &str, started: std::time::Instant) {
+    progress_line(&format!("example examples/{name}.srl ... {status} ({:.3}s)", started.elapsed().as_secs_f64()));
 }
 
 fn read(path: &Path) -> String {
@@ -119,70 +145,101 @@ fn program_for(name: &str) -> eyeron::srl::SparqlRlProgram {
     program
 }
 
-#[test]
-fn every_error_example_fails_with_its_expected_message() {
-    for (name, expected_substring) in ERROR_EXAMPLES {
-        let source = source_for(name);
-        let program = parse_sparql_rl(&source, None).unwrap_or_else(|err| panic!("{name}: unexpected parse error: {err}"));
-        let err = reason(&program, &[], &ReasonerOptions::default()).expect_err(&format!("{name} was expected to fail but succeeded"));
-        assert!(
-            err.message.to_ascii_lowercase().contains(expected_substring),
-            "{name}: error {:?} did not contain {:?}",
-            err.message,
-            expected_substring
-        );
+fn run_reported<F: FnOnce() -> Result<(), String>>(name: &str, check: F) {
+    let started = std::time::Instant::now();
+    match check() {
+        Ok(()) => report_case(name, &green("ok"), started),
+        Err(msg) => {
+            report_case(name, &red("fail"), started);
+            panic!("{msg}");
+        }
     }
 }
 
-#[test]
-fn every_example_with_a_golden_matches_by_graph_isomorphism() {
-    let mut checked = 0;
-    for name in example_names() {
-        if ERROR_EXAMPLES.iter().any(|(n, _)| *n == name) {
-            continue;
-        }
-        let golden_path = manifest_dir().join("examples/output").join(format!("{name}.srl"));
-        assert!(golden_path.exists(), "{name}: every non-error, non-excluded .srl example must have a golden, missing {}", golden_path.display());
-        let program = program_for(&name);
-        let result = reason(&program, &[], &ReasonerOptions::default()).unwrap_or_else(|err| panic!("{name}: reasoning error: {err}"));
-        assert!(result.incomplete_summary().is_none(), "{name}: {:?}", result.incomplete_summary());
+fn check_error_example(name: &str, expected_substring: &str) -> Result<(), String> {
+    let source = source_for(name);
+    let program = parse_sparql_rl(&source, None).map_err(|err| format!("{name}: unexpected parse error: {err}"))?;
+    let err = match reason(&program, &[], &ReasonerOptions::default()) {
+        Ok(_) => return Err(format!("{name} was expected to fail but succeeded")),
+        Err(err) => err,
+    };
+    if err.message.to_ascii_lowercase().contains(expected_substring) {
+        Ok(())
+    } else {
+        Err(format!("{name}: error {:?} did not contain {:?}", err.message, expected_substring))
+    }
+}
 
-        // Golden files (ported from eyeleng's own example suite) use the
-        // ruleset's own PREFIX names but do not redeclare them, so parse
-        // them together with a preamble built from the parsed program's
-        // own prefix map rather than as a standalone N3 document.
-        let golden_text = read(&golden_path);
-        let preamble: String = program.prefixes.iter().map(|(name, iri)| format!("@prefix {name}: <{iri}> .\n")).collect();
-        let expected = parse_n3(&format!("{preamble}{golden_text}"), None).unwrap_or_else(|err| panic!("golden for {name} is not valid N3: {err}")).facts;
+fn every_error_example_fails_with_its_expected_message() {
+    for (name, expected_substring) in ERROR_EXAMPLES {
+        run_reported(name, || check_error_example(name, expected_substring));
+    }
+}
 
-        assert!(
-            graphs_isomorphic(&result.closure, &expected),
+fn check_golden_example(name: &str) -> Result<(), String> {
+    let golden_path = manifest_dir().join("examples/output").join(format!("{name}.srl"));
+    if !golden_path.exists() {
+        return Err(format!("{name}: every non-error, non-excluded .srl example must have a golden, missing {}", golden_path.display()));
+    }
+    let program = program_for(name);
+    let result = reason(&program, &[], &ReasonerOptions::default()).map_err(|err| format!("{name}: reasoning error: {err}"))?;
+    if let Some(summary) = result.incomplete_summary() {
+        return Err(format!("{name}: {summary:?}"));
+    }
+
+    // Golden files (ported from eyeleng's own example suite) use the
+    // ruleset's own PREFIX names but do not redeclare them, so parse
+    // them together with a preamble built from the parsed program's
+    // own prefix map rather than as a standalone N3 document.
+    let golden_text = read(&golden_path);
+    let preamble: String = program.prefixes.iter().map(|(name, iri)| format!("@prefix {name}: <{iri}> .\n")).collect();
+    let expected = parse_n3(&format!("{preamble}{golden_text}"), None).map_err(|err| format!("golden for {name} is not valid N3: {err}"))?.facts;
+
+    if graphs_isomorphic(&result.closure, &expected) {
+        Ok(())
+    } else {
+        Err(format!(
             "{name}: closure does not match its golden\nactual ({} triples):\n{}\nexpected ({} triples):\n{}",
             result.closure.len(),
             result.closure.iter().map(|t| format!("{t:?}")).collect::<Vec<_>>().join("\n"),
             expected.len(),
             expected.iter().map(|t| format!("{t:?}")).collect::<Vec<_>>().join("\n"),
-        );
+        ))
+    }
+}
+
+fn every_example_with_a_golden_matches_by_graph_isomorphism() -> usize {
+    let mut checked = 0;
+    for name in example_names() {
+        if ERROR_EXAMPLES.iter().any(|(n, _)| *n == name) {
+            continue;
+        }
+        run_reported(&name, || check_golden_example(&name));
         checked += 1;
     }
     let expected = example_names().len() - ERROR_EXAMPLES.len();
     assert_eq!(checked, expected, "expected every non-error, non-excluded .srl example ({expected}) to have a golden checked, got {checked}");
+    checked
 }
 
-#[test]
-fn every_nondeterministic_example_runs() {
-    for name in EXCLUDED_FOR_NONDETERMINISM {
-        let source = source_for(name);
-        let program = parse_sparql_rl(&source, None).unwrap_or_else(|err| panic!("{name}: parse error: {err}"));
-        let result = reason(&program, &[], &ReasonerOptions::default()).unwrap_or_else(|err| panic!("{name}: reasoning error: {err}"));
-        assert!(result.incomplete_summary().is_none(), "{name}: {:?}", result.incomplete_summary());
-    }
-    for name in EXCLUDED_FOR_MESSAGE_LOG_ENCODING {
-        let program = program_for(name);
+fn check_nondeterministic_example(name: &str) -> Result<(), String> {
+    let base_graph = if EXCLUDED_FOR_MESSAGE_LOG_ENCODING.contains(&name) {
         let log_text = read(&manifest_dir().join("examples/rdf-messages.trig"));
-        let base_graph = eyeron::parse_rdf_message_log(&log_text, None).unwrap_or_else(|err| panic!("failed to parse examples/rdf-messages.trig: {err}")).facts;
-        let result = reason(&program, &base_graph, &ReasonerOptions::default()).unwrap_or_else(|err| panic!("{name}: reasoning error: {err}"));
-        assert!(result.incomplete_summary().is_none(), "{name}: {:?}", result.incomplete_summary());
+        eyeron::parse_rdf_message_log(&log_text, None).map_err(|err| format!("failed to parse examples/rdf-messages.trig: {err}"))?.facts
+    } else {
+        Vec::new()
+    };
+    let program = program_for(name);
+    let result = reason(&program, &base_graph, &ReasonerOptions::default()).map_err(|err| format!("{name}: reasoning error: {err}"))?;
+    match result.incomplete_summary() {
+        None => Ok(()),
+        Some(summary) => Err(format!("{name}: {summary:?}")),
+    }
+}
+
+fn every_nondeterministic_example_runs() {
+    for name in EXCLUDED_FOR_NONDETERMINISM.iter().chain(EXCLUDED_FOR_MESSAGE_LOG_ENCODING) {
+        run_reported(name, || check_nondeterministic_example(name));
     }
 }
 
@@ -193,7 +250,6 @@ fn every_nondeterministic_example_runs() {
 /// caught as dead code: those three example names were never actually
 /// copied into `examples/`, so filtering them out of `example_names()`
 /// silently filtered nothing).
-#[test]
 fn every_packaged_example_is_accounted_for() {
     let all = all_srl_example_names();
     assert!(all.len() >= 50, "expected at least 50 packaged .srl examples on disk, found {}", all.len());

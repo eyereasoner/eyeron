@@ -6,10 +6,12 @@
 # Cargo has no built-in way to do this: `cargo test` runs each `[[test]]`
 # target (and the lib's own unit tests) as a *separate process*, and each
 # one prints its own "test result: ok. N passed; M failed; ..." line (or,
-# for tests/examples.rs's custom harness, "example result: ...") with no
-# aggregation across binaries. This script runs the real `cargo test
-# --release`, shows its normal live output, then parses every such summary
-# line out of it and sums them into one final line.
+# for the custom harnesses that print one line per packaged example —
+# tests/examples.rs, tests/sparql_rl_examples.rs, tests/eye.rs — their own
+# "example result: ..."/"sparql_rl_examples result: ..."/"eye result: ..."
+# line) with no aggregation across binaries. This script runs the real
+# `cargo test --release`, shows its normal live output, then parses every
+# such summary line out of it and sums them into one final line.
 #
 # It also reports the much larger conformance-case counts several of those
 # "passed" checks each roll up (a single "13 passed" for the W3C RDF
@@ -21,7 +23,7 @@
 #   - Piping cargo's output into `tee` makes stdout/stderr look like a pipe,
 #     not a terminal, to every test binary's own --color=auto detection, so
 #     color mostly disappears once you wrap the command at all.
-#   - This project's own harnesses (tests/support/mod.rs, src/bin/w3c_rdf.rs,
+#   - This project's own harnesses (tests/support/report.rs, src/bin/w3c_rdf.rs,
 #     src/bin/w3c_sparql_rl.rs and their tests/*/runner.rs counterparts)
 #     already check the CARGO_TERM_COLOR env var and default to colored
 #     output, so exporting CARGO_TERM_COLOR=always alone fixes those; the
