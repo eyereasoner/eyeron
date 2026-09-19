@@ -40,53 +40,98 @@ fn dependencies(body: &[Goal], closed: bool) -> Vec<Dependency> {
     out
 }
 
-/// Indexes one relation's rules by their head's first argument, when that
-/// argument is ground in the rule itself (the common shape for a large,
-/// flat fact table such as `hasRoute("AIRPORT_1", "AIRPORT_2").`), so
-/// `engine::evaluate_table` can skip every rule that provably cannot unify
-/// with a call instead of attempting all of them — for a predicate with
-/// tens of thousands of facts (as in `path-discovery.eye`'s full air-route
-/// data), the difference between "attempt ~40" and "attempt ~40,000" per
-/// call. `open` holds rules whose own first argument is a variable (or
-/// which have no arguments at all): such a rule can unify with any call
-/// regardless of the call's first argument, so it is always a candidate.
-/// Both fields store indices into the predicate's own `Vec<Rule>`, each
-/// list kept in original definition order.
+/// Indexes one relation's rules by their head's ground argument positions,
+/// so `engine::evaluate_table` can skip every rule that provably cannot
+/// unify with a call instead of attempting all of them. Rules are first
+/// grouped by their *exact set* of ground positions -- a predicate such as
+/// `a(?individual, class1000).` (used by the per-level-unrolled
+/// `deep-taxonomy-*.eye` benchmarks, one clause per class) groups every
+/// recursive clause together under "position 1 is ground" (the
+/// discriminating position is the *second* argument there, not the
+/// first), separately from a fact like `a(ind, n0).` grouped under
+/// "positions 0 and 1 are both ground". Within a group, rules are further
+/// keyed by their value at that group's own first ground position.
+///
+/// This grouping is what keeps `candidates` correct, not just fast: a
+/// naive single first-argument index would, for a call with *no* ground
+/// argument at all (e.g. a top-level `ask arc(?check, ?message)`
+/// enumerating every solution), wrongly exclude every rule with a ground
+/// head, since no call argument would ever probe a matching bucket. Here,
+/// a group whose own discriminating position the call does not (or
+/// cannot usefully) narrow is included in full instead of silently
+/// dropped, so a rule is only ever excluded when the call is ground at a
+/// position the rule is *also* ground at and they disagree -- the exact
+/// `unify` check afterward is what decides a real match; this is only a
+/// safe over-approximation of it.
 #[derive(Default)]
-pub struct FirstArgIndex {
-    by_key: HashMap<String, Vec<usize>>,
-    open: Vec<usize>,
+pub struct ArgIndex {
+    groups: Vec<ArgGroup>,
 }
 
-impl FirstArgIndex {
+#[derive(Default)]
+struct ArgGroup {
+    /// The ground argument positions shared by every rule in this group,
+    /// ascending; empty means "no ground argument at all" (always a
+    /// candidate, regardless of the call).
+    positions: Vec<usize>,
+    /// Keyed by `term_key` of each rule's value at `positions[0]` (unused,
+    /// single bucket under `""`, when `positions` is empty).
+    by_key: HashMap<String, Vec<usize>>,
+}
+
+impl ArgIndex {
     fn build(rules: &[Rule]) -> Self {
-        let mut index = FirstArgIndex::default();
+        let mut index = ArgIndex::default();
+        let mut group_of: HashMap<Vec<usize>, usize> = HashMap::new();
         for (i, rule) in rules.iter().enumerate() {
-            match &rule.head {
-                Term::Struct(_, args) if args.first().is_some_and(ground) => {
-                    index.by_key.entry(term_key(&args[0])).or_default().push(i);
-                }
-                _ => index.open.push(i),
-            }
+            let args: &[Term] = match &rule.head {
+                Term::Struct(_, args) => args,
+                _ => &[],
+            };
+            let positions: Vec<usize> = args.iter().enumerate().filter(|(_, a)| ground(a)).map(|(pos, _)| pos).collect();
+            let group_idx = *group_of.entry(positions.clone()).or_insert_with(|| {
+                index.groups.push(ArgGroup { positions: positions.clone(), by_key: HashMap::new() });
+                index.groups.len() - 1
+            });
+            let group = &mut index.groups[group_idx];
+            let key = group.positions.first().map(|&pos| term_key(&args[pos])).unwrap_or_default();
+            group.by_key.entry(key).or_default().push(i);
         }
         index
     }
 
-    /// Rule indices that could possibly unify with a call whose own first
-    /// argument's `term_key` is `call_key`, in original definition order.
-    pub fn candidates(&self, call_key: &str) -> Vec<usize> {
-        let mut indices = self.open.clone();
-        if let Some(matching) = self.by_key.get(call_key) {
-            indices.extend(matching.iter().copied());
-            indices.sort_unstable();
+    /// Rule indices that could possibly unify with a call whose own
+    /// arguments are `call_args`, ascending.
+    pub fn candidates(&self, call_args: &[Term]) -> Vec<usize> {
+        let mut indices = Vec::new();
+        for group in &self.groups {
+            let Some(&first_pos) = group.positions.first() else {
+                // No ground position at all: always a candidate.
+                indices.extend(group.by_key.values().flatten().copied());
+                continue;
+            };
+            match call_args.get(first_pos).filter(|arg| ground(arg)) {
+                // The call is ground at this group's discriminating
+                // position: narrow to the exact matching bucket.
+                Some(arg) => {
+                    if let Some(matching) = group.by_key.get(&term_key(arg)) {
+                        indices.extend(matching.iter().copied());
+                    }
+                }
+                // The call has no value there to narrow by (unbound, or
+                // shorter arity than expected): include the whole group
+                // rather than risk missing a match.
+                None => indices.extend(group.by_key.values().flatten().copied()),
+            }
         }
+        indices.sort_unstable();
         indices
     }
 }
 
 pub struct Analyzed {
     pub predicates: HashMap<String, Vec<Rule>>,
-    pub predicate_index: HashMap<String, FirstArgIndex>,
+    pub predicate_index: HashMap<String, ArgIndex>,
     pub strata: HashMap<String, usize>,
     /// Relation signatures in first-declaration order (the order
     /// `--check`'s `stratum/2` facts are reported in — a plain `HashMap`
@@ -108,7 +153,7 @@ pub fn analyze(rules: Vec<Rule>) -> Result<Analyzed> {
         }
         predicates.entry(name).or_default().push(rule.clone());
     }
-    let predicate_index: HashMap<String, FirstArgIndex> = predicates.iter().map(|(name, rules)| (name.clone(), FirstArgIndex::build(rules))).collect();
+    let predicate_index: HashMap<String, ArgIndex> = predicates.iter().map(|(name, rules)| (name.clone(), ArgIndex::build(rules))).collect();
 
     let edges: Vec<(String, Dependency)> =
         rules.iter().flat_map(|rule| dependencies(&rule.body, false).into_iter().map(move |dep| (signature(&rule.head), dep))).collect();

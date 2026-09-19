@@ -1,37 +1,12 @@
 # Eyelang result format 2
-query(1, [call(direct_subclass(n(49), n(50)))], []).
-result(1, complete, 1).
-answer(1, []).
-query(2, [call(direct_subclass(n(49), i(50)))], []).
+query(1, [call(arc(?v0, ?v1))], [binding("check", ?v0), binding("message", ?v1)]).
+result(1, complete, 6).
+answer(1, [binding("check", check1), binding("message", "C1 OK - the starting classification n0 is present.")]).
+answer(1, [binding("check", check2), binding("message", "C2 OK - the first expansion produced n1 together with side labels i1 and j1.")]).
+answer(1, [binding("check", check3), binding("message", "C3 OK - the chain reaches the midpoint n50 and still carries both side-label branches.")]).
+answer(1, [binding("check", check4), binding("message", "C4 OK - the final taxonomy step from n99 to n100 was completed.")]).
+answer(1, [binding("check", check5), binding("message", "C5 OK - once n100 is reached, the terminal class a2 is derived.")]).
+answer(1, [binding("check", check6), binding("message", "C6 OK - the success flag is raised only after the terminal class a2 is present.")]).
+query(2, [call(holds_result(test, true))], []).
 result(2, complete, 1).
 answer(2, []).
-query(3, [call(direct_subclass(n(49), j(50)))], []).
-result(3, complete, 1).
-answer(3, []).
-query(4, [call(subsumed(n(0), n(100)))], []).
-result(4, complete, 1).
-answer(4, []).
-query(5, [call(classified_as(ind, i(50)))], []).
-result(5, complete, 1).
-answer(5, []).
-query(6, [call(classified_as(ind, j(100)))], []).
-result(6, complete, 1).
-answer(6, []).
-query(7, [call(classified_as(ind, a2))], []).
-result(7, complete, 1).
-answer(7, []).
-query(8, [absent(subsumed(i(50), n(100)))], []).
-result(8, complete, 1).
-answer(8, []).
-query(9, [absent(subsumed(i(50), j(50)))], []).
-result(9, complete, 1).
-answer(9, []).
-query(10, [absent(classified_as(ind, i(101)))], []).
-result(10, complete, 1).
-answer(10, []).
-query(11, [absent(direct_subclass(n(-1), n(0)))], []).
-result(11, complete, 1).
-answer(11, []).
-query(12, [absent(subsumed(a2, n(100)))], []).
-result(12, complete, 1).
-answer(12, []).

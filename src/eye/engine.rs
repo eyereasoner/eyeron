@@ -39,7 +39,15 @@ pub struct Limits {
 
 impl Default for Limits {
     fn default() -> Self {
-        Self { max_steps: 1_000_000, max_tables: 100_000, max_answers: 100_000 }
+        // High enough that a long backward-chained derivation (e.g.
+        // `deep-taxonomy-100000.eye`, which tables one call per taxonomy
+        // level: ~1.6M steps, ~200K tables, ~200K answers) can finish
+        // without tripping these safety nets, with headroom to spare;
+        // each table/step is now O(1) thanks to `analyze::ArgIndex`, so
+        // raising these only lengthens how long a genuinely
+        // non-terminating program runs before being reported incomplete,
+        // not how much work a terminating one does.
+        Self { max_steps: 5_000_000, max_tables: 1_000_000, max_answers: 1_000_000 }
     }
 }
 
@@ -479,15 +487,6 @@ fn try_rule(ctx: Ctx, program: &Analyzed, table_id: TableId, call: &Term, rule_h
     })
 }
 
-/// A call's own first argument, if it is a non-empty `Struct` -- used to
-/// probe `analyze::FirstArgIndex` for the rules that could possibly unify.
-fn call_first_arg(call: &Term) -> Option<&Term> {
-    match call {
-        Term::Struct(_, args) => args.first(),
-        _ => None,
-    }
-}
-
 fn evaluate_table(ctx: Ctx, program: &Analyzed, table_id: TableId) -> Result<()> {
     let call = ctx.arena.borrow().tables[table_id].call.clone();
     let is_query = matches!(&call, Term::Struct(name, _) if name == "$query");
@@ -500,9 +499,13 @@ fn evaluate_table(ctx: Ctx, program: &Analyzed, table_id: TableId) -> Result<()>
     } else {
         let signature = analyze::signature(&call);
         let Some(rules) = program.predicates.get(&signature) else { return Ok(()) };
-        let candidate_indices: Vec<usize> = match (program.predicate_index.get(&signature), call_first_arg(&call)) {
-            (Some(index), Some(arg)) if ground(arg) => index.candidates(&term_key(arg)),
-            _ => (0..rules.len()).collect(),
+        let call_args = match &call {
+            Term::Struct(_, args) => args.as_slice(),
+            _ => &[],
+        };
+        let candidate_indices: Vec<usize> = match program.predicate_index.get(&signature) {
+            Some(index) => index.candidates(call_args),
+            None => (0..rules.len()).collect(),
         };
         for i in candidate_indices {
             let rule = &rules[i];

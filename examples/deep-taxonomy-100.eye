@@ -1,37 +1,325 @@
 # Eyelang example: deep-taxonomy-100.
-# Classes are terms so the generated hierarchy remains compact without losing
-# its shape. At every step N(level) has three direct superclasses: the next
-# spine class N(next), and the terminal, incomparable side classes I(next) and
-# J(next). The final spine class is directly below A2.
-direct_subclass(n(?level), n(?next)) if ?level >= 0, ?level < 100, let ?next = ?level + 1.
-direct_subclass(n(?level), i(?next)) if ?level >= 0, ?level < 100, let ?next = ?level + 1.
-direct_subclass(n(?level), j(?next)) if ?level >= 0, ?level < 100, let ?next = ?level + 1.
-direct_subclass(n(100), a2).
+# Adjacent rules mirror the Eyeling N3 deep-taxonomy chain (ported the same way
+# eyeprolog's own deep-taxonomy examples are): one `a/2` predicate derives an
+# individual's classification one level at a time via a plain fact per level, so
+# classifying `ind` as a2 genuinely chains through every intervening level --
+# matching the .n3/.srl versions of this benchmark -- instead of a closed-form
+# arithmetic shortcut. Each step derives the next taxonomy class together with
+# two side labels; the final spine class is directly below a2.
+a(ind, n0).
 
-# Closed forms of the transitive closure of the generated hierarchy. These are
-# the logical subsumption consequences of the direct edges above, expressed in
-# O(1) space so the 100000-level benchmark remains runnable by the reference
-# interpreter. The calling mode requires both class terms to be ground.
-subsumed(?class, ?class).
-subsumed(n(?lower), n(?upper)) if ?lower >= 0, ?lower < ?upper, ?upper <= 100.
-subsumed(n(?lower), i(?branch)) if ?lower >= 0, ?lower < ?branch, ?branch <= 100.
-subsumed(n(?lower), j(?branch)) if ?lower >= 0, ?lower < ?branch, ?branch <= 100.
-subsumed(n(?lower), a2) if ?lower >= 0, ?lower <= 100.
+a(?x, n1) if a(?x, n0).
+a(?x, i1) if a(?x, n0).
+a(?x, j1) if a(?x, n0).
+a(?x, n2) if a(?x, n1).
+a(?x, i2) if a(?x, n1).
+a(?x, j2) if a(?x, n1).
+a(?x, n3) if a(?x, n2).
+a(?x, i3) if a(?x, n2).
+a(?x, j3) if a(?x, n2).
+a(?x, n4) if a(?x, n3).
+a(?x, i4) if a(?x, n3).
+a(?x, j4) if a(?x, n3).
+a(?x, n5) if a(?x, n4).
+a(?x, i5) if a(?x, n4).
+a(?x, j5) if a(?x, n4).
+a(?x, n6) if a(?x, n5).
+a(?x, i6) if a(?x, n5).
+a(?x, j6) if a(?x, n5).
+a(?x, n7) if a(?x, n6).
+a(?x, i7) if a(?x, n6).
+a(?x, j7) if a(?x, n6).
+a(?x, n8) if a(?x, n7).
+a(?x, i8) if a(?x, n7).
+a(?x, j8) if a(?x, n7).
+a(?x, n9) if a(?x, n8).
+a(?x, i9) if a(?x, n8).
+a(?x, j9) if a(?x, n8).
+a(?x, n10) if a(?x, n9).
+a(?x, i10) if a(?x, n9).
+a(?x, j10) if a(?x, n9).
+a(?x, n11) if a(?x, n10).
+a(?x, i11) if a(?x, n10).
+a(?x, j11) if a(?x, n10).
+a(?x, n12) if a(?x, n11).
+a(?x, i12) if a(?x, n11).
+a(?x, j12) if a(?x, n11).
+a(?x, n13) if a(?x, n12).
+a(?x, i13) if a(?x, n12).
+a(?x, j13) if a(?x, n12).
+a(?x, n14) if a(?x, n13).
+a(?x, i14) if a(?x, n13).
+a(?x, j14) if a(?x, n13).
+a(?x, n15) if a(?x, n14).
+a(?x, i15) if a(?x, n14).
+a(?x, j15) if a(?x, n14).
+a(?x, n16) if a(?x, n15).
+a(?x, i16) if a(?x, n15).
+a(?x, j16) if a(?x, n15).
+a(?x, n17) if a(?x, n16).
+a(?x, i17) if a(?x, n16).
+a(?x, j17) if a(?x, n16).
+a(?x, n18) if a(?x, n17).
+a(?x, i18) if a(?x, n17).
+a(?x, j18) if a(?x, n17).
+a(?x, n19) if a(?x, n18).
+a(?x, i19) if a(?x, n18).
+a(?x, j19) if a(?x, n18).
+a(?x, n20) if a(?x, n19).
+a(?x, i20) if a(?x, n19).
+a(?x, j20) if a(?x, n19).
+a(?x, n21) if a(?x, n20).
+a(?x, i21) if a(?x, n20).
+a(?x, j21) if a(?x, n20).
+a(?x, n22) if a(?x, n21).
+a(?x, i22) if a(?x, n21).
+a(?x, j22) if a(?x, n21).
+a(?x, n23) if a(?x, n22).
+a(?x, i23) if a(?x, n22).
+a(?x, j23) if a(?x, n22).
+a(?x, n24) if a(?x, n23).
+a(?x, i24) if a(?x, n23).
+a(?x, j24) if a(?x, n23).
+a(?x, n25) if a(?x, n24).
+a(?x, i25) if a(?x, n24).
+a(?x, j25) if a(?x, n24).
+a(?x, n26) if a(?x, n25).
+a(?x, i26) if a(?x, n25).
+a(?x, j26) if a(?x, n25).
+a(?x, n27) if a(?x, n26).
+a(?x, i27) if a(?x, n26).
+a(?x, j27) if a(?x, n26).
+a(?x, n28) if a(?x, n27).
+a(?x, i28) if a(?x, n27).
+a(?x, j28) if a(?x, n27).
+a(?x, n29) if a(?x, n28).
+a(?x, i29) if a(?x, n28).
+a(?x, j29) if a(?x, n28).
+a(?x, n30) if a(?x, n29).
+a(?x, i30) if a(?x, n29).
+a(?x, j30) if a(?x, n29).
+a(?x, n31) if a(?x, n30).
+a(?x, i31) if a(?x, n30).
+a(?x, j31) if a(?x, n30).
+a(?x, n32) if a(?x, n31).
+a(?x, i32) if a(?x, n31).
+a(?x, j32) if a(?x, n31).
+a(?x, n33) if a(?x, n32).
+a(?x, i33) if a(?x, n32).
+a(?x, j33) if a(?x, n32).
+a(?x, n34) if a(?x, n33).
+a(?x, i34) if a(?x, n33).
+a(?x, j34) if a(?x, n33).
+a(?x, n35) if a(?x, n34).
+a(?x, i35) if a(?x, n34).
+a(?x, j35) if a(?x, n34).
+a(?x, n36) if a(?x, n35).
+a(?x, i36) if a(?x, n35).
+a(?x, j36) if a(?x, n35).
+a(?x, n37) if a(?x, n36).
+a(?x, i37) if a(?x, n36).
+a(?x, j37) if a(?x, n36).
+a(?x, n38) if a(?x, n37).
+a(?x, i38) if a(?x, n37).
+a(?x, j38) if a(?x, n37).
+a(?x, n39) if a(?x, n38).
+a(?x, i39) if a(?x, n38).
+a(?x, j39) if a(?x, n38).
+a(?x, n40) if a(?x, n39).
+a(?x, i40) if a(?x, n39).
+a(?x, j40) if a(?x, n39).
+a(?x, n41) if a(?x, n40).
+a(?x, i41) if a(?x, n40).
+a(?x, j41) if a(?x, n40).
+a(?x, n42) if a(?x, n41).
+a(?x, i42) if a(?x, n41).
+a(?x, j42) if a(?x, n41).
+a(?x, n43) if a(?x, n42).
+a(?x, i43) if a(?x, n42).
+a(?x, j43) if a(?x, n42).
+a(?x, n44) if a(?x, n43).
+a(?x, i44) if a(?x, n43).
+a(?x, j44) if a(?x, n43).
+a(?x, n45) if a(?x, n44).
+a(?x, i45) if a(?x, n44).
+a(?x, j45) if a(?x, n44).
+a(?x, n46) if a(?x, n45).
+a(?x, i46) if a(?x, n45).
+a(?x, j46) if a(?x, n45).
+a(?x, n47) if a(?x, n46).
+a(?x, i47) if a(?x, n46).
+a(?x, j47) if a(?x, n46).
+a(?x, n48) if a(?x, n47).
+a(?x, i48) if a(?x, n47).
+a(?x, j48) if a(?x, n47).
+a(?x, n49) if a(?x, n48).
+a(?x, i49) if a(?x, n48).
+a(?x, j49) if a(?x, n48).
+a(?x, n50) if a(?x, n49).
+a(?x, i50) if a(?x, n49).
+a(?x, j50) if a(?x, n49).
+a(?x, n51) if a(?x, n50).
+a(?x, i51) if a(?x, n50).
+a(?x, j51) if a(?x, n50).
+a(?x, n52) if a(?x, n51).
+a(?x, i52) if a(?x, n51).
+a(?x, j52) if a(?x, n51).
+a(?x, n53) if a(?x, n52).
+a(?x, i53) if a(?x, n52).
+a(?x, j53) if a(?x, n52).
+a(?x, n54) if a(?x, n53).
+a(?x, i54) if a(?x, n53).
+a(?x, j54) if a(?x, n53).
+a(?x, n55) if a(?x, n54).
+a(?x, i55) if a(?x, n54).
+a(?x, j55) if a(?x, n54).
+a(?x, n56) if a(?x, n55).
+a(?x, i56) if a(?x, n55).
+a(?x, j56) if a(?x, n55).
+a(?x, n57) if a(?x, n56).
+a(?x, i57) if a(?x, n56).
+a(?x, j57) if a(?x, n56).
+a(?x, n58) if a(?x, n57).
+a(?x, i58) if a(?x, n57).
+a(?x, j58) if a(?x, n57).
+a(?x, n59) if a(?x, n58).
+a(?x, i59) if a(?x, n58).
+a(?x, j59) if a(?x, n58).
+a(?x, n60) if a(?x, n59).
+a(?x, i60) if a(?x, n59).
+a(?x, j60) if a(?x, n59).
+a(?x, n61) if a(?x, n60).
+a(?x, i61) if a(?x, n60).
+a(?x, j61) if a(?x, n60).
+a(?x, n62) if a(?x, n61).
+a(?x, i62) if a(?x, n61).
+a(?x, j62) if a(?x, n61).
+a(?x, n63) if a(?x, n62).
+a(?x, i63) if a(?x, n62).
+a(?x, j63) if a(?x, n62).
+a(?x, n64) if a(?x, n63).
+a(?x, i64) if a(?x, n63).
+a(?x, j64) if a(?x, n63).
+a(?x, n65) if a(?x, n64).
+a(?x, i65) if a(?x, n64).
+a(?x, j65) if a(?x, n64).
+a(?x, n66) if a(?x, n65).
+a(?x, i66) if a(?x, n65).
+a(?x, j66) if a(?x, n65).
+a(?x, n67) if a(?x, n66).
+a(?x, i67) if a(?x, n66).
+a(?x, j67) if a(?x, n66).
+a(?x, n68) if a(?x, n67).
+a(?x, i68) if a(?x, n67).
+a(?x, j68) if a(?x, n67).
+a(?x, n69) if a(?x, n68).
+a(?x, i69) if a(?x, n68).
+a(?x, j69) if a(?x, n68).
+a(?x, n70) if a(?x, n69).
+a(?x, i70) if a(?x, n69).
+a(?x, j70) if a(?x, n69).
+a(?x, n71) if a(?x, n70).
+a(?x, i71) if a(?x, n70).
+a(?x, j71) if a(?x, n70).
+a(?x, n72) if a(?x, n71).
+a(?x, i72) if a(?x, n71).
+a(?x, j72) if a(?x, n71).
+a(?x, n73) if a(?x, n72).
+a(?x, i73) if a(?x, n72).
+a(?x, j73) if a(?x, n72).
+a(?x, n74) if a(?x, n73).
+a(?x, i74) if a(?x, n73).
+a(?x, j74) if a(?x, n73).
+a(?x, n75) if a(?x, n74).
+a(?x, i75) if a(?x, n74).
+a(?x, j75) if a(?x, n74).
+a(?x, n76) if a(?x, n75).
+a(?x, i76) if a(?x, n75).
+a(?x, j76) if a(?x, n75).
+a(?x, n77) if a(?x, n76).
+a(?x, i77) if a(?x, n76).
+a(?x, j77) if a(?x, n76).
+a(?x, n78) if a(?x, n77).
+a(?x, i78) if a(?x, n77).
+a(?x, j78) if a(?x, n77).
+a(?x, n79) if a(?x, n78).
+a(?x, i79) if a(?x, n78).
+a(?x, j79) if a(?x, n78).
+a(?x, n80) if a(?x, n79).
+a(?x, i80) if a(?x, n79).
+a(?x, j80) if a(?x, n79).
+a(?x, n81) if a(?x, n80).
+a(?x, i81) if a(?x, n80).
+a(?x, j81) if a(?x, n80).
+a(?x, n82) if a(?x, n81).
+a(?x, i82) if a(?x, n81).
+a(?x, j82) if a(?x, n81).
+a(?x, n83) if a(?x, n82).
+a(?x, i83) if a(?x, n82).
+a(?x, j83) if a(?x, n82).
+a(?x, n84) if a(?x, n83).
+a(?x, i84) if a(?x, n83).
+a(?x, j84) if a(?x, n83).
+a(?x, n85) if a(?x, n84).
+a(?x, i85) if a(?x, n84).
+a(?x, j85) if a(?x, n84).
+a(?x, n86) if a(?x, n85).
+a(?x, i86) if a(?x, n85).
+a(?x, j86) if a(?x, n85).
+a(?x, n87) if a(?x, n86).
+a(?x, i87) if a(?x, n86).
+a(?x, j87) if a(?x, n86).
+a(?x, n88) if a(?x, n87).
+a(?x, i88) if a(?x, n87).
+a(?x, j88) if a(?x, n87).
+a(?x, n89) if a(?x, n88).
+a(?x, i89) if a(?x, n88).
+a(?x, j89) if a(?x, n88).
+a(?x, n90) if a(?x, n89).
+a(?x, i90) if a(?x, n89).
+a(?x, j90) if a(?x, n89).
+a(?x, n91) if a(?x, n90).
+a(?x, i91) if a(?x, n90).
+a(?x, j91) if a(?x, n90).
+a(?x, n92) if a(?x, n91).
+a(?x, i92) if a(?x, n91).
+a(?x, j92) if a(?x, n91).
+a(?x, n93) if a(?x, n92).
+a(?x, i93) if a(?x, n92).
+a(?x, j93) if a(?x, n92).
+a(?x, n94) if a(?x, n93).
+a(?x, i94) if a(?x, n93).
+a(?x, j94) if a(?x, n93).
+a(?x, n95) if a(?x, n94).
+a(?x, i95) if a(?x, n94).
+a(?x, j95) if a(?x, n94).
+a(?x, n96) if a(?x, n95).
+a(?x, i96) if a(?x, n95).
+a(?x, j96) if a(?x, n95).
+a(?x, n97) if a(?x, n96).
+a(?x, i97) if a(?x, n96).
+a(?x, j97) if a(?x, n96).
+a(?x, n98) if a(?x, n97).
+a(?x, i98) if a(?x, n97).
+a(?x, j98) if a(?x, n97).
+a(?x, n99) if a(?x, n98).
+a(?x, i99) if a(?x, n98).
+a(?x, j99) if a(?x, n98).
+a(?x, n100) if a(?x, n99).
+a(?x, i100) if a(?x, n99).
+a(?x, j100) if a(?x, n99).
+a(?x, a2) if a(?x, n100).
 
-asserted_type(ind, n(0)).
-classified_as(?individual, ?class) if asserted_type(?individual, ?base), subsumed(?base, ?class).
+holds_result(test, true) if a(ind, a2).
 
-# Spine reachability, both side branches, terminal classification, and branch
-# incomparability are all observable acceptance conditions.
-ask direct_subclass(n(49), n(50)).
-ask direct_subclass(n(49), i(50)).
-ask direct_subclass(n(49), j(50)).
-ask subsumed(n(0), n(100)).
-ask classified_as(ind, i(50)).
-ask classified_as(ind, j(100)).
-ask classified_as(ind, a2).
-ask not subsumed(i(50), n(100)).
-ask not subsumed(i(50), j(50)).
-ask not classified_as(ind, i(101)).
-ask not direct_subclass(n(-1), n(0)).
-ask not subsumed(a2, n(100)).
+# Spine reachability, both side branches, terminal classification, and the
+# success flag are all observable acceptance conditions.
+arc(check1, "C1 OK - the starting classification n0 is present.") if a(ind, n0).
+arc(check2, "C2 OK - the first expansion produced n1 together with side labels i1 and j1.") if a(ind, n1), a(ind, i1), a(ind, j1).
+arc(check3, "C3 OK - the chain reaches the midpoint n50 and still carries both side-label branches.") if a(ind, n50), a(ind, i50), a(ind, j50).
+arc(check4, "C4 OK - the final taxonomy step from n99 to n100 was completed.") if a(ind, n99), a(ind, n100).
+arc(check5, "C5 OK - once n100 is reached, the terminal class a2 is derived.") if a(ind, n100), a(ind, a2).
+arc(check6, "C6 OK - the success flag is raised only after the terminal class a2 is present.") if a(ind, a2), holds_result(test, true).
+
+ask arc(?check, ?message).
+ask holds_result(test, true).

@@ -1,110 +1,128 @@
 # Eyelang result format 2
-query(1, [call(direct_subclass(n(4), n(5)))], []).
-result(1, complete, 1).
-answer(1, []).
-why(1, [], 2).
-query(2, [call(direct_subclass(n(4), i(5)))], []).
+query(1, [call(arc(?v0, ?v1))], [binding("check", ?v0), binding("message", ?v1)]).
+result(1, complete, 6).
+answer(1, [binding("check", check1), binding("message", "C1 OK - the starting classification n0 is present.")]).
+why(1, [binding("check", check1), binding("message", "C1 OK - the starting classification n0 is present.")], 4).
+answer(1, [binding("check", check2), binding("message", "C2 OK - the first expansion produced n1 together with side labels i1 and j1.")]).
+why(1, [binding("check", check2), binding("message", "C2 OK - the first expansion produced n1 together with side labels i1 and j1.")], 11).
+answer(1, [binding("check", check3), binding("message", "C3 OK - the chain reaches the midpoint n5 and still carries both side-label branches.")]).
+why(1, [binding("check", check3), binding("message", "C3 OK - the chain reaches the midpoint n5 and still carries both side-label branches.")], 21).
+answer(1, [binding("check", check4), binding("message", "C4 OK - the final taxonomy step from n9 to n10 was completed.")]).
+why(1, [binding("check", check4), binding("message", "C4 OK - the final taxonomy step from n9 to n10 was completed.")], 24).
+answer(1, [binding("check", check5), binding("message", "C5 OK - once n10 is reached, the terminal class a2 is derived.")]).
+why(1, [binding("check", check5), binding("message", "C5 OK - once n10 is reached, the terminal class a2 is derived.")], 26).
+answer(1, [binding("check", check6), binding("message", "C6 OK - the success flag is raised only after the terminal class a2 is present.")]).
+why(1, [binding("check", check6), binding("message", "C6 OK - the success flag is raised only after the terminal class a2 is present.")], 29).
+query(2, [call(holds_result(test, true))], []).
 result(2, complete, 1).
 answer(2, []).
-why(2, [], 4).
-query(3, [call(direct_subclass(n(4), j(5)))], []).
-result(3, complete, 1).
-answer(3, []).
-why(3, [], 6).
-query(4, [call(subsumed(n(0), n(10)))], []).
-result(4, complete, 1).
-answer(4, []).
-why(4, [], 8).
-query(5, [call(classified_as(ind, i(5)))], []).
-result(5, complete, 1).
-answer(5, []).
-why(5, [], 12).
-query(6, [call(classified_as(ind, j(10)))], []).
-result(6, complete, 1).
-answer(6, []).
-why(6, [], 16).
-query(7, [call(classified_as(ind, a2))], []).
-result(7, complete, 1).
-answer(7, []).
-why(7, [], 20).
-query(8, [absent(subsumed(i(5), n(10)))], []).
-result(8, complete, 1).
-answer(8, []).
-why(8, [], 21).
-query(9, [absent(subsumed(i(5), j(5)))], []).
-result(9, complete, 1).
-answer(9, []).
-why(9, [], 22).
-query(10, [absent(classified_as(ind, i(11)))], []).
-result(10, complete, 1).
-answer(10, []).
-why(10, [], 24).
-query(11, [absent(direct_subclass(n(-1), n(0)))], []).
-result(11, complete, 1).
-answer(11, []).
-why(11, [], 25).
-query(12, [absent(subsumed(a2, n(10)))], []).
-result(12, complete, 1).
-answer(12, []).
-why(12, [], 26).
-clause(1, direct_subclass(n(var("level")), n(var("next"))), [compare(">=", var("level"), 0), compare("<", var("level"), 10), calculate(var("next"), binary("+", value(var("level")), value(1)))]).
-clause(2, direct_subclass(n(var("level")), i(var("next"))), [compare(">=", var("level"), 0), compare("<", var("level"), 10), calculate(var("next"), binary("+", value(var("level")), value(1)))]).
-clause(3, direct_subclass(n(var("level")), j(var("next"))), [compare(">=", var("level"), 0), compare("<", var("level"), 10), calculate(var("next"), binary("+", value(var("level")), value(1)))]).
-clause(6, subsumed(n(var("lower")), n(var("upper"))), [compare(">=", var("lower"), 0), compare("<", var("lower"), var("upper")), compare("<=", var("upper"), 10)]).
-clause(7, subsumed(n(var("lower")), i(var("branch"))), [compare(">=", var("lower"), 0), compare("<", var("lower"), var("branch")), compare("<=", var("branch"), 10)]).
-clause(8, subsumed(n(var("lower")), j(var("branch"))), [compare(">=", var("lower"), 0), compare("<", var("lower"), var("branch")), compare("<=", var("branch"), 10)]).
-clause(9, subsumed(n(var("lower")), a2), [compare(">=", var("lower"), 0), compare("<=", var("lower"), 10)]).
-clause(10, asserted_type(ind, n(0)), []).
-clause(11, classified_as(var("individual"), var("class")), [call(asserted_type(var("individual"), var("base"))), call(subsumed(var("base"), var("class")))]).
-substitution(1, [binding("level", 4), binding("next", 5)]).
-proof(1, direct_subclass(n(4), n(5)), rule(1), [compared(">=", 4, 0), compared("<", 4, 10), calculated(5, binary("+", value(4), value(1)))]).
-substitution(2, []).
-proof(2, solution([]), query, [uses(1, direct_subclass(n(4), n(5)))]).
-substitution(3, [binding("level", 4), binding("next", 5)]).
-proof(3, direct_subclass(n(4), i(5)), rule(2), [compared(">=", 4, 0), compared("<", 4, 10), calculated(5, binary("+", value(4), value(1)))]).
-substitution(4, []).
-proof(4, solution([]), query, [uses(3, direct_subclass(n(4), i(5)))]).
-substitution(5, [binding("level", 4), binding("next", 5)]).
-proof(5, direct_subclass(n(4), j(5)), rule(3), [compared(">=", 4, 0), compared("<", 4, 10), calculated(5, binary("+", value(4), value(1)))]).
-substitution(6, []).
-proof(6, solution([]), query, [uses(5, direct_subclass(n(4), j(5)))]).
-substitution(7, [binding("lower", 0), binding("upper", 10)]).
-proof(7, subsumed(n(0), n(10)), rule(6), [compared(">=", 0, 0), compared("<", 0, 10), compared("<=", 10, 10)]).
-substitution(8, []).
-proof(8, solution([]), query, [uses(7, subsumed(n(0), n(10)))]).
+why(2, [], 43).
+clause(1, a(ind, n0), []).
+clause(2, a(var("x"), n1), [call(a(var("x"), n0))]).
+clause(3, a(var("x"), i1), [call(a(var("x"), n0))]).
+clause(4, a(var("x"), j1), [call(a(var("x"), n0))]).
+clause(5, a(var("x"), n2), [call(a(var("x"), n1))]).
+clause(8, a(var("x"), n3), [call(a(var("x"), n2))]).
+clause(11, a(var("x"), n4), [call(a(var("x"), n3))]).
+clause(14, a(var("x"), n5), [call(a(var("x"), n4))]).
+clause(15, a(var("x"), i5), [call(a(var("x"), n4))]).
+clause(16, a(var("x"), j5), [call(a(var("x"), n4))]).
+clause(17, a(var("x"), n6), [call(a(var("x"), n5))]).
+clause(20, a(var("x"), n7), [call(a(var("x"), n6))]).
+clause(23, a(var("x"), n8), [call(a(var("x"), n7))]).
+clause(26, a(var("x"), n9), [call(a(var("x"), n8))]).
+clause(29, a(var("x"), n10), [call(a(var("x"), n9))]).
+clause(32, a(var("x"), a2), [call(a(var("x"), n10))]).
+clause(33, holds_result(test, true), [call(a(ind, a2))]).
+clause(34, arc(check1, "C1 OK - the starting classification n0 is present."), [call(a(ind, n0))]).
+clause(35, arc(check2, "C2 OK - the first expansion produced n1 together with side labels i1 and j1."), [call(a(ind, n1)), call(a(ind, i1)), call(a(ind, j1))]).
+clause(36, arc(check3, "C3 OK - the chain reaches the midpoint n5 and still carries both side-label branches."), [call(a(ind, n5)), call(a(ind, i5)), call(a(ind, j5))]).
+clause(37, arc(check4, "C4 OK - the final taxonomy step from n9 to n10 was completed."), [call(a(ind, n9)), call(a(ind, n10))]).
+clause(38, arc(check5, "C5 OK - once n10 is reached, the terminal class a2 is derived."), [call(a(ind, n10)), call(a(ind, a2))]).
+clause(39, arc(check6, "C6 OK - the success flag is raised only after the terminal class a2 is present."), [call(a(ind, a2)), call(holds_result(test, true))]).
+substitution(1, []).
+proof(1, a(ind, n0), rule(1), []).
+substitution(2, [binding("x", ind)]).
+proof(2, a(ind, n1), rule(2), [uses(1, a(ind, n0))]).
+substitution(3, []).
+proof(3, arc(check1, "C1 OK - the starting classification n0 is present."), rule(34), [uses(1, a(ind, n0))]).
+substitution(4, [binding("check", check1), binding("message", "C1 OK - the starting classification n0 is present.")]).
+proof(4, solution([check1, "C1 OK - the starting classification n0 is present."]), query, [uses(3, arc(check1, "C1 OK - the starting classification n0 is present."))]).
+substitution(5, [binding("x", ind)]).
+proof(5, a(ind, i1), rule(3), [uses(1, a(ind, n0))]).
+substitution(6, [binding("x", ind)]).
+proof(6, a(ind, n2), rule(5), [uses(2, a(ind, n1))]).
+substitution(7, [binding("x", ind)]).
+proof(7, a(ind, j1), rule(4), [uses(1, a(ind, n0))]).
+substitution(8, [binding("x", ind)]).
+proof(8, a(ind, n3), rule(8), [uses(6, a(ind, n2))]).
 substitution(9, []).
-proof(9, asserted_type(ind, n(0)), rule(10), []).
-substitution(10, [binding("lower", 0), binding("branch", 5)]).
-proof(10, subsumed(n(0), i(5)), rule(7), [compared(">=", 0, 0), compared("<", 0, 5), compared("<=", 5, 10)]).
-substitution(11, [binding("individual", ind), binding("class", i(5)), binding("base", n(0))]).
-proof(11, classified_as(ind, i(5)), rule(11), [uses(9, asserted_type(ind, n(0))), uses(10, subsumed(n(0), i(5)))]).
-substitution(12, []).
-proof(12, solution([]), query, [uses(11, classified_as(ind, i(5)))]).
-substitution(13, []).
-proof(13, asserted_type(ind, n(0)), rule(10), []).
-substitution(14, [binding("lower", 0), binding("branch", 10)]).
-proof(14, subsumed(n(0), j(10)), rule(8), [compared(">=", 0, 0), compared("<", 0, 10), compared("<=", 10, 10)]).
-substitution(15, [binding("individual", ind), binding("class", j(10)), binding("base", n(0))]).
-proof(15, classified_as(ind, j(10)), rule(11), [uses(13, asserted_type(ind, n(0))), uses(14, subsumed(n(0), j(10)))]).
-substitution(16, []).
-proof(16, solution([]), query, [uses(15, classified_as(ind, j(10)))]).
-substitution(17, []).
-proof(17, asserted_type(ind, n(0)), rule(10), []).
-substitution(18, [binding("lower", 0)]).
-proof(18, subsumed(n(0), a2), rule(9), [compared(">=", 0, 0), compared("<=", 0, 10)]).
-substitution(19, [binding("individual", ind), binding("class", a2), binding("base", n(0))]).
-proof(19, classified_as(ind, a2), rule(11), [uses(17, asserted_type(ind, n(0))), uses(18, subsumed(n(0), a2))]).
-substitution(20, []).
-proof(20, solution([]), query, [uses(19, classified_as(ind, a2))]).
-substitution(21, []).
-proof(21, solution([]), query, [absent(subsumed(i(5), n(10)), complete)]).
+proof(9, arc(check2, "C2 OK - the first expansion produced n1 together with side labels i1 and j1."), rule(35), [uses(2, a(ind, n1)), uses(5, a(ind, i1)), uses(7, a(ind, j1))]).
+substitution(10, [binding("x", ind)]).
+proof(10, a(ind, n4), rule(11), [uses(8, a(ind, n3))]).
+substitution(11, [binding("check", check2), binding("message", "C2 OK - the first expansion produced n1 together with side labels i1 and j1.")]).
+proof(11, solution([check2, "C2 OK - the first expansion produced n1 together with side labels i1 and j1."]), query, [uses(9, arc(check2, "C2 OK - the first expansion produced n1 together with side labels i1 and j1."))]).
+substitution(12, [binding("x", ind)]).
+proof(12, a(ind, n5), rule(14), [uses(10, a(ind, n4))]).
+substitution(13, [binding("x", ind)]).
+proof(13, a(ind, n6), rule(17), [uses(12, a(ind, n5))]).
+substitution(14, [binding("x", ind)]).
+proof(14, a(ind, i5), rule(15), [uses(10, a(ind, n4))]).
+substitution(15, [binding("x", ind)]).
+proof(15, a(ind, n7), rule(20), [uses(13, a(ind, n6))]).
+substitution(16, [binding("x", ind)]).
+proof(16, a(ind, n8), rule(23), [uses(15, a(ind, n7))]).
+substitution(17, [binding("x", ind)]).
+proof(17, a(ind, j5), rule(16), [uses(10, a(ind, n4))]).
+substitution(18, [binding("x", ind)]).
+proof(18, a(ind, n9), rule(26), [uses(16, a(ind, n8))]).
+substitution(19, []).
+proof(19, arc(check3, "C3 OK - the chain reaches the midpoint n5 and still carries both side-label branches."), rule(36), [uses(12, a(ind, n5)), uses(14, a(ind, i5)), uses(17, a(ind, j5))]).
+substitution(20, [binding("x", ind)]).
+proof(20, a(ind, n10), rule(29), [uses(18, a(ind, n9))]).
+substitution(21, [binding("check", check3), binding("message", "C3 OK - the chain reaches the midpoint n5 and still carries both side-label branches.")]).
+proof(21, solution([check3, "C3 OK - the chain reaches the midpoint n5 and still carries both side-label branches."]), query, [uses(19, arc(check3, "C3 OK - the chain reaches the midpoint n5 and still carries both side-label branches."))]).
 substitution(22, []).
-proof(22, solution([]), query, [absent(subsumed(i(5), j(5)), complete)]).
-substitution(23, []).
-proof(23, asserted_type(ind, n(0)), rule(10), []).
-substitution(24, []).
-proof(24, solution([]), query, [absent(classified_as(ind, i(11)), complete)]).
+proof(22, arc(check4, "C4 OK - the final taxonomy step from n9 to n10 was completed."), rule(37), [uses(18, a(ind, n9)), uses(20, a(ind, n10))]).
+substitution(23, [binding("x", ind)]).
+proof(23, a(ind, a2), rule(32), [uses(20, a(ind, n10))]).
+substitution(24, [binding("check", check4), binding("message", "C4 OK - the final taxonomy step from n9 to n10 was completed.")]).
+proof(24, solution([check4, "C4 OK - the final taxonomy step from n9 to n10 was completed."]), query, [uses(22, arc(check4, "C4 OK - the final taxonomy step from n9 to n10 was completed."))]).
 substitution(25, []).
-proof(25, solution([]), query, [absent(direct_subclass(n(-1), n(0)), complete)]).
-substitution(26, []).
-proof(26, solution([]), query, [absent(subsumed(a2, n(10)), complete)]).
+proof(25, arc(check5, "C5 OK - once n10 is reached, the terminal class a2 is derived."), rule(38), [uses(20, a(ind, n10)), uses(23, a(ind, a2))]).
+substitution(26, [binding("check", check5), binding("message", "C5 OK - once n10 is reached, the terminal class a2 is derived.")]).
+proof(26, solution([check5, "C5 OK - once n10 is reached, the terminal class a2 is derived."]), query, [uses(25, arc(check5, "C5 OK - once n10 is reached, the terminal class a2 is derived."))]).
+substitution(27, []).
+proof(27, holds_result(test, true), rule(33), [uses(23, a(ind, a2))]).
+substitution(28, []).
+proof(28, arc(check6, "C6 OK - the success flag is raised only after the terminal class a2 is present."), rule(39), [uses(23, a(ind, a2)), uses(27, holds_result(test, true))]).
+substitution(29, [binding("check", check6), binding("message", "C6 OK - the success flag is raised only after the terminal class a2 is present.")]).
+proof(29, solution([check6, "C6 OK - the success flag is raised only after the terminal class a2 is present."]), query, [uses(28, arc(check6, "C6 OK - the success flag is raised only after the terminal class a2 is present."))]).
+substitution(30, []).
+proof(30, a(ind, n0), rule(1), []).
+substitution(31, [binding("x", ind)]).
+proof(31, a(ind, n1), rule(2), [uses(30, a(ind, n0))]).
+substitution(32, [binding("x", ind)]).
+proof(32, a(ind, n2), rule(5), [uses(31, a(ind, n1))]).
+substitution(33, [binding("x", ind)]).
+proof(33, a(ind, n3), rule(8), [uses(32, a(ind, n2))]).
+substitution(34, [binding("x", ind)]).
+proof(34, a(ind, n4), rule(11), [uses(33, a(ind, n3))]).
+substitution(35, [binding("x", ind)]).
+proof(35, a(ind, n5), rule(14), [uses(34, a(ind, n4))]).
+substitution(36, [binding("x", ind)]).
+proof(36, a(ind, n6), rule(17), [uses(35, a(ind, n5))]).
+substitution(37, [binding("x", ind)]).
+proof(37, a(ind, n7), rule(20), [uses(36, a(ind, n6))]).
+substitution(38, [binding("x", ind)]).
+proof(38, a(ind, n8), rule(23), [uses(37, a(ind, n7))]).
+substitution(39, [binding("x", ind)]).
+proof(39, a(ind, n9), rule(26), [uses(38, a(ind, n8))]).
+substitution(40, [binding("x", ind)]).
+proof(40, a(ind, n10), rule(29), [uses(39, a(ind, n9))]).
+substitution(41, [binding("x", ind)]).
+proof(41, a(ind, a2), rule(32), [uses(40, a(ind, n10))]).
+substitution(42, []).
+proof(42, holds_result(test, true), rule(33), [uses(41, a(ind, a2))]).
+substitution(43, []).
+proof(43, solution([]), query, [uses(42, holds_result(test, true))]).
