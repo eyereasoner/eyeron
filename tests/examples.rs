@@ -6,6 +6,16 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use support::{check_golden_documents, green, progress_line, red};
 
+/// Top-level `.n3` examples with no golden to check output against, and
+/// why: `alma-rdf-messages.n3` needs a remote, 9GB+ RDF Message Log its own
+/// header comment says is deliberately not checked into the repo;
+/// `collection.n3`'s entire derived output is `log:outputString` Markdown
+/// decoration (headers and file links), which `support::stable_report_lines`
+/// strips as noise before comparing a `.md` golden, leaving nothing
+/// substantive a golden could check. Both are still parsed by
+/// `every_top_level_n3_example_parses`.
+const PARSE_ONLY_EXAMPLES: &[&str] = &["alma-rdf-messages", "collection"];
+
 fn main() {
     let started = std::time::Instant::now();
     proof_goldens_are_valid_n3_documents();
@@ -13,12 +23,27 @@ fn main() {
     selected_proof_examples_match_eyeling_style_goldens();
     every_top_level_n3_example_parses();
     let count = all_packaged_example_goldens_match_expected_lines();
+    every_n3_example_is_accounted_for(count);
 
     progress_line(&format!(
         "\nexample result: {}. {count} passed; 0 failed; finished in {:.2}s",
         green("ok"),
         started.elapsed().as_secs_f64()
     ));
+}
+
+/// Guards against a top-level `.n3` example silently getting neither a
+/// golden check nor a documented reason why not, by requiring every file to
+/// be exactly one or the other.
+fn every_n3_example_is_accounted_for(golden_checked: usize) {
+    let examples_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("examples");
+    let total = sorted_n3_files(&examples_dir, "examples").len();
+    assert_eq!(
+        total,
+        golden_checked + PARSE_ONLY_EXAMPLES.len(),
+        "expected every one of the {total} top-level .n3 examples to either match a golden ({golden_checked} did) or be listed in PARSE_ONLY_EXAMPLES ({} are); update whichever list is out of date",
+        PARSE_ONLY_EXAMPLES.len()
+    );
 }
 
 fn proof_goldens_are_valid_n3_documents() {

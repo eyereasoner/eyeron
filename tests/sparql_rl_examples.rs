@@ -1,22 +1,35 @@
-//! Integration tests for every packaged `.srl` example ported from the
-//! sibling `eyeleng` project's own example suite, checked against its
-//! golden output (`examples/output/*.srl`, N3/Turtle triple syntax) with
-//! blank-node-aware graph isomorphism — unlike `tests/sparql_rl.rs`'s
-//! `fact_set` helper, this compares the reasoner's structured `closure`
-//! (the full inference graph: `DATA { ... }` facts plus everything
-//! derived) directly, rather than round-tripping through printed text.
-//! That distinction matters for examples whose closure includes a
-//! `log:outputString` fact: `crate::n3::printing`'s writers render that as
-//! plain human-readable text instead of a triple (a convention shared
-//! with the N3 front end), which would make text-based comparison
-//! spuriously fail even though the underlying facts are correct.
+//! Integration tests for every packaged top-level `.srl` example
+//! (`examples/*.srl`) — both eyeron's own hand-written fixtures and the
+//! suite ported from the sibling `eyeleng` project. Every example is
+//! covered by exactly one of: `every_error_example_fails_with_its_expected_message`,
+//! `every_nondeterministic_example_runs`, or
+//! `every_example_with_a_golden_matches_by_graph_isomorphism`, and
+//! `every_packaged_example_is_accounted_for` enforces that partition so a
+//! new example can never silently end up untested. Golden comparison is
+//! against `examples/output/*.srl` (N3/Turtle triple syntax) by
+//! blank-node-aware graph isomorphism over the reasoner's structured
+//! `closure` (the full inference graph: `DATA { ... }` facts plus
+//! everything derived), rather than round-tripping through printed text —
+//! needed because an example whose closure includes a `log:outputString`
+//! fact would otherwise be rendered as plain human-readable text instead
+//! of a triple (a convention shared with the N3 front end), spuriously
+//! failing a text-based comparison even though the underlying facts are
+//! correct. `tests/sparql_rl.rs` covers CLI flags and rule-set-level
+//! behavior (content-sniffing, `--query`, stratification rejection on an
+//! inline rule set) rather than packaged examples.
+//!
+//! Three of eyeleng's own examples (`deep-taxonomy-10000.srl`,
+//! `deep-taxonomy-100000.srl`, `relational-cube-lookup.srl`) were never
+//! copied into `examples/` at all: eyeron's forward reasoner does not
+//! scale to their size in reasonable test time (see docs/sparql-rl.md's
+//! Known limitations).
 
 use eyeron::ast::{Literal, Term, Triple};
 use eyeron::srl::{parse_sparql_rl, reason};
 use eyeron::{parse_n3, ReasonerOptions};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 fn manifest_dir() -> &'static Path {
     Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -34,15 +47,6 @@ const ERROR_EXAMPLES: &[(&str, &str)] = &[
     ("variable-predicate-dependency", "stratification condition violated"),
     ("well-formedness-error", "before it is bound"),
 ];
-
-/// Examples excluded from this suite because Eyeron's current SPARQL 1.2
-/// RL forward reasoner does not scale to their size in reasonable test
-/// time (see docs/sparql-rl.md's Known limitations): long rule chains and
-/// large data volumes both take much longer than their N3/Eyelang
-/// counterparts of the same shape, which use different fixpoint
-/// strategies (an agenda path for long single-premise chains, and tabled
-/// resolution, respectively).
-const EXCLUDED_FOR_PERFORMANCE: &[&str] = &["deep-taxonomy-10000", "deep-taxonomy-100000", "relational-cube-lookup"];
 
 /// Examples excluded from golden comparison because their output is
 /// inherently non-reproducible: they call `NOW()`, `UUID()`/`STRUUID()`,
@@ -67,28 +71,23 @@ const EXCLUDED_FOR_NONDETERMINISM: &[&str] = &["builtin-call-complete", "now-and
 /// extension).
 const EXCLUDED_FOR_MESSAGE_LOG_ENCODING: &[&str] = &["rdf-messages"];
 
-/// `family.srl`, `property-paths.srl`, `filter-town.srl`, and
-/// `negation-orphan.srl` predate this ported suite: they are eyeron's own
-/// original fixtures, already covered by `tests/sparql_rl.rs`'s golden
-/// checks against `result.derived` rather than `result.closure`.
-/// Excluded here to avoid re-checking them under this suite's different
-/// (closure-based) golden convention.
-const EXCLUDED_PREEXISTING: &[&str] = &["family", "property-paths", "filter-town", "negation-orphan"];
-
-fn example_names() -> Vec<String> {
+fn all_srl_example_names() -> BTreeSet<String> {
     let dir = manifest_dir().join("examples");
-    let mut names: Vec<String> = fs::read_dir(&dir)
+    fs::read_dir(&dir)
         .unwrap_or_else(|err| panic!("failed to read {}: {}", dir.display(), err))
         .filter_map(|entry| entry.ok())
         .map(|entry| entry.path())
         .filter(|path| path.extension().and_then(|ext| ext.to_str()) == Some("srl"))
         .map(|path| path.file_stem().and_then(|s| s.to_str()).expect("utf8 example name").to_string())
-        .filter(|name| !EXCLUDED_FOR_PERFORMANCE.contains(&name.as_str()))
+        .collect()
+}
+
+fn example_names() -> Vec<String> {
+    let names: Vec<String> = all_srl_example_names()
+        .into_iter()
         .filter(|name| !EXCLUDED_FOR_NONDETERMINISM.contains(&name.as_str()))
         .filter(|name| !EXCLUDED_FOR_MESSAGE_LOG_ENCODING.contains(&name.as_str()))
-        .filter(|name| !EXCLUDED_PREEXISTING.contains(&name.as_str()))
         .collect();
-    names.sort();
     names
 }
 
@@ -143,9 +142,7 @@ fn every_example_with_a_golden_matches_by_graph_isomorphism() {
             continue;
         }
         let golden_path = manifest_dir().join("examples/output").join(format!("{name}.srl"));
-        if !golden_path.exists() {
-            continue;
-        }
+        assert!(golden_path.exists(), "{name}: every non-error, non-excluded .srl example must have a golden, missing {}", golden_path.display());
         let program = program_for(&name);
         let result = reason(&program, &[], &ReasonerOptions::default()).unwrap_or_else(|err| panic!("{name}: reasoning error: {err}"));
         assert!(result.incomplete_summary().is_none(), "{name}: {:?}", result.incomplete_summary());
@@ -168,7 +165,8 @@ fn every_example_with_a_golden_matches_by_graph_isomorphism() {
         );
         checked += 1;
     }
-    assert!(checked >= 44, "expected at least 44 packaged .srl examples with goldens to be checked, got {checked}");
+    let expected = example_names().len() - ERROR_EXAMPLES.len();
+    assert_eq!(checked, expected, "expected every non-error, non-excluded .srl example ({expected}) to have a golden checked, got {checked}");
 }
 
 #[test]
@@ -188,13 +186,38 @@ fn every_nondeterministic_example_runs() {
     }
 }
 
+/// Guards against a packaged `.srl` example silently falling through every
+/// bucket above (no golden, not an error example, not in either exclusion
+/// list) and against a stale exclusion-list entry naming a file that no
+/// longer exists (which is exactly how `EXCLUDED_FOR_PERFORMANCE` was
+/// caught as dead code: those three example names were never actually
+/// copied into `examples/`, so filtering them out of `example_names()`
+/// silently filtered nothing).
 #[test]
 fn every_packaged_example_is_accounted_for() {
-    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("examples");
-    let total = fs::read_dir(&root).unwrap().filter(|e| e.as_ref().unwrap().path().extension().and_then(|e| e.to_str()) == Some("srl")).count();
-    // 4 hand-written eyeron fixtures (family/filter-town/negation-orphan/property-paths)
-    // + the ported eyeleng suite, regardless of any exclusion applied above.
-    assert!(total >= 50, "expected at least 50 packaged .srl examples on disk, found {total}");
+    let all = all_srl_example_names();
+    assert!(all.len() >= 50, "expected at least 50 packaged .srl examples on disk, found {}", all.len());
+
+    for (name, _) in ERROR_EXAMPLES {
+        assert!(all.contains(*name), "ERROR_EXAMPLES names {name:?}, which does not exist under examples/");
+    }
+    for name in EXCLUDED_FOR_NONDETERMINISM {
+        assert!(all.contains(*name), "EXCLUDED_FOR_NONDETERMINISM names {name:?}, which does not exist under examples/");
+    }
+    for name in EXCLUDED_FOR_MESSAGE_LOG_ENCODING {
+        assert!(all.contains(*name), "EXCLUDED_FOR_MESSAGE_LOG_ENCODING names {name:?}, which does not exist under examples/");
+    }
+
+    let unaccounted: Vec<&String> = all
+        .iter()
+        .filter(|name| {
+            let has_golden = manifest_dir().join("examples/output").join(format!("{name}.srl")).exists();
+            let is_error = ERROR_EXAMPLES.iter().any(|(n, _)| *n == name.as_str());
+            let is_excluded = EXCLUDED_FOR_NONDETERMINISM.contains(&name.as_str()) || EXCLUDED_FOR_MESSAGE_LOG_ENCODING.contains(&name.as_str());
+            !has_golden && !is_error && !is_excluded
+        })
+        .collect();
+    assert!(unaccounted.is_empty(), "packaged .srl examples with no golden, error expectation, or documented exclusion: {unaccounted:?}");
 }
 
 // ---- Blank-node-aware triple-set isomorphism, duplicated (rather than

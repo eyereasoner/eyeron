@@ -85,9 +85,7 @@ fn every_example_with_a_plain_golden_matches_exactly() {
             continue;
         }
         let golden_path = manifest_dir().join("examples/output").join(format!("{name}.eye"));
-        if !golden_path.exists() {
-            continue;
-        }
+        assert!(golden_path.exists(), "{name}: every non-error .eye example must have a plain golden, missing {}", golden_path.display());
         let source = effective_source(&name);
         let result = run_source(&source);
         let actual = eye::output::format_result(&result, false);
@@ -95,7 +93,8 @@ fn every_example_with_a_plain_golden_matches_exactly() {
         assert_eq!(actual, expected, "example {name} (plain) did not match its golden");
         checked += 1;
     }
-    assert!(checked >= 70, "expected at least 70 plain-output goldens to be checked, got {checked}");
+    let total = example_names().len();
+    assert_eq!(checked, total - ERROR_EXAMPLES.len(), "expected every non-error .eye example ({} of {total}) to have a plain golden, got {checked}", total - ERROR_EXAMPLES.len());
 }
 
 #[test]
@@ -106,9 +105,7 @@ fn every_example_with_a_proof_golden_matches_exactly() {
             continue;
         }
         let golden_path = manifest_dir().join("examples/proof").join(format!("{name}.eye"));
-        if !golden_path.exists() {
-            continue;
-        }
+        assert!(golden_path.exists(), "{name}: every non-error .eye example must have a proof golden, missing {}", golden_path.display());
         let source = effective_source(&name);
         let result = run_source(&source);
         let actual = eye::output::format_result(&result, true);
@@ -116,7 +113,8 @@ fn every_example_with_a_proof_golden_matches_exactly() {
         assert_eq!(actual, expected, "example {name} (proof) did not match its golden");
         checked += 1;
     }
-    assert!(checked >= 70, "expected at least 70 proof goldens to be checked, got {checked}");
+    let total = example_names().len();
+    assert_eq!(checked, total - ERROR_EXAMPLES.len(), "expected every non-error .eye example ({} of {total}) to have a proof golden, got {checked}", total - ERROR_EXAMPLES.len());
 }
 
 #[test]

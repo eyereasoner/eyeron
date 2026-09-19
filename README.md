@@ -100,7 +100,7 @@ Run the complete optimized test suite with:
 cargo test --release
 ```
 
-The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the bundled Notation3 conformance suite, the local W3C RDF 1.1/1.2 manifest mirror, the local W3C SPARQL 1.2 RL manifest mirror (203/203), eyeleng's own ~50-example SPARQL-RL suite ported into `examples/*.srl` (`tests/sparql_rl_examples.rs`), and every packaged Eyelang example (`tests/eye.rs`) against its expected output and proof documents.
+The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the bundled Notation3 conformance suite, the local W3C RDF 1.1/1.2 manifest mirror, the local W3C SPARQL 1.2 RL manifest mirror (203/203), every packaged SPARQL-RL example (`tests/sparql_rl_examples.rs`, ~50 of them ported from eyeleng's own suite), and every packaged Eyelang example (`tests/eye.rs`) against its expected output and proof documents.
 
 `cargo test` runs each test target as a separate process and prints each one's own pass/fail total, with no built-in way to sum them. For one grand total and elapsed time across every binary, run:
 

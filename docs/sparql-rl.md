@@ -81,4 +81,4 @@ cargo run --release --bin w3c_sparql_rl
 - `--proof` output is not yet implemented for `.srl` input.
 - `--query-mode auto` is not implemented (only `forward`/`backward`).
 - `IMPORTS` is resolved by the CLI only (see above); the WASM playground does not wire it up standalone.
-- The forward reasoner does not scale to very long single-premise rule chains or very large data volumes as well as N3's own agenda-based fixpoint or Eyelang's tabled evaluator do for the same shape of problem; a handful of packaged examples this large are excluded from the automated example suite for that reason (see `tests/sparql_rl_examples.rs`'s `EXCLUDED_FOR_PERFORMANCE`).
+- The forward reasoner does not scale to very long single-premise rule chains or very large data volumes as well as N3's own agenda-based fixpoint or Eyelang's tabled evaluator do for the same shape of problem; three of eyeleng's own examples this large (`deep-taxonomy-10000.srl`, `deep-taxonomy-100000.srl`, `relational-cube-lookup.srl`) were not ported into `examples/` for that reason.

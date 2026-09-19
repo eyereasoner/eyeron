@@ -1,98 +1,18 @@
-//! Integration tests for the SPARQL 1.2 RL front end: parses each packaged
-//! `.srl` example, runs it forward to a fixpoint through the same CLI-facing
-//! entry points `main.rs` uses, and checks the derived triples against a
-//! golden file in `examples/output/`, following the same
-//! examples-with-goldens convention `tests/examples.rs` uses for N3.
+//! CLI-flag and rule-set-level behavior tests for the SPARQL 1.2 RL front
+//! end: content-sniffing, malformed/rejected input, and `--query`/
+//! `--query-file`/`--query-mode`. Every packaged `.srl` example (including
+//! eyeron's own `family.srl`/`filter-town.srl`/`negation-orphan.srl`/
+//! `property-paths.srl` fixtures) is covered instead by
+//! `tests/sparql_rl_examples.rs`, which is also where to add a test for a
+//! new packaged example.
 
 use eyeron::srl::{parse_sparql_rl, reason};
-use eyeron::{parse_n3, result_to_string, ReasonerOptions, Triple};
-use std::collections::HashSet;
+use eyeron::ReasonerOptions;
 use std::fs;
 use std::path::Path;
 
 fn manifest_dir() -> &'static Path {
     Path::new(env!("CARGO_MANIFEST_DIR"))
-}
-
-/// Parse `n3_text` (plain triples, no rules) and return its fact set. Used
-/// to compare actual vs. golden output without needing full graph
-/// isomorphism, since none of the packaged SRL examples produce blank
-/// nodes.
-fn fact_set(n3_text: &str) -> HashSet<Triple> {
-    parse_n3(n3_text, None).unwrap_or_else(|err| panic!("invalid N3: {err}\n{n3_text}")).facts.into_iter().collect()
-}
-
-fn run_example(name: &str) -> String {
-    let source_path = manifest_dir().join("examples").join(name);
-    let source = fs::read_to_string(&source_path).unwrap_or_else(|err| panic!("reading {}: {err}", source_path.display()));
-    let program = parse_sparql_rl(&source, None).unwrap_or_else(|err| panic!("parsing {}: {err}", source_path.display()));
-    let result = reason(&program, &[], &ReasonerOptions::default()).unwrap_or_else(|err| panic!("reasoning over {}: {err}", source_path.display()));
-    assert!(result.incomplete_summary().is_none(), "{}: {:?}", name, result.incomplete_summary());
-    result_to_string(&program.prefixes, &result.derived)
-}
-
-fn assert_matches_golden(name: &str) {
-    let golden_path = manifest_dir().join("examples/output").join(name);
-    let golden = fs::read_to_string(&golden_path).unwrap_or_else(|err| panic!("reading golden {}: {err}", golden_path.display()));
-    let actual = run_example(name);
-    assert_eq!(fact_set(&actual), fact_set(&golden), "{name}: derived facts do not match the golden\nactual:\n{actual}\nexpected:\n{golden}");
-}
-
-#[test]
-fn family_forward_chaining_matches_golden() {
-    assert_matches_golden("family.srl");
-}
-
-#[test]
-fn filter_town_matches_golden() {
-    assert_matches_golden("filter-town.srl");
-}
-
-#[test]
-fn negation_orphan_matches_golden() {
-    assert_matches_golden("negation-orphan.srl");
-}
-
-#[test]
-fn property_paths_matches_golden() {
-    assert_matches_golden("property-paths.srl");
-}
-
-/// Ported eyeleng examples excluded from this smoke test: four are
-/// designed to be rejected at parse/reason time (`tests/sparql_rl_examples.rs`
-/// checks their exact error instead), and three take far longer than a
-/// smoke test should (`tests/sparql_rl_examples.rs`'s
-/// `EXCLUDED_FOR_PERFORMANCE` doc comment has the details).
-const SMOKE_TEST_EXCLUSIONS: &[&str] = &[
-    "check-unsafe",
-    "unstratified-negation",
-    "variable-predicate-dependency",
-    "well-formedness-error",
-    "deep-taxonomy-10000",
-    "deep-taxonomy-100000",
-    "relational-cube-lookup",
-];
-
-#[test]
-fn every_packaged_srl_example_parses_and_reasons_without_error() {
-    let dir = manifest_dir().join("examples");
-    let mut checked = 0;
-    for entry in fs::read_dir(&dir).unwrap() {
-        let path = entry.unwrap().path();
-        if path.extension().and_then(|e| e.to_str()) != Some("srl") {
-            continue;
-        }
-        let name = path.file_name().unwrap().to_str().unwrap();
-        if SMOKE_TEST_EXCLUSIONS.contains(&path.file_stem().and_then(|s| s.to_str()).unwrap_or_default()) {
-            continue;
-        }
-        let source = fs::read_to_string(&path).unwrap();
-        let program = parse_sparql_rl(&source, None).unwrap_or_else(|err| panic!("parsing {name}: {err}"));
-        let result = reason(&program, &[], &ReasonerOptions::default()).unwrap_or_else(|err| panic!("reasoning over {name}: {err}"));
-        assert!(result.incomplete_summary().is_none(), "{name}: {:?}", result.incomplete_summary());
-        checked += 1;
-    }
-    assert!(checked >= 4, "expected at least 4 packaged .srl examples, found {checked}");
 }
 
 #[test]
