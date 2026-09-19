@@ -10,7 +10,8 @@
 //! (see `eval`) rather than routing through the N3 engine's
 //! selectivity-reordering premise matcher.
 //!
-//! See `SOURCE_CODE_GUIDE.md` for how this module relates to the N3 path.
+//! See `docs/sparql-rl.md`'s implementation notes for how this module
+//! relates to the N3 path.
 
 pub mod ast;
 pub mod backward;

@@ -1,8 +1,8 @@
 //! Eyelang ("eye") front end: a small Prolog/Datalog-style logic
 //! programming language, file extension `.eye`. Unlike the N3 and
 //! SPARQL-RL front ends, Eyelang is not an RDF triple language — see
-//! `term` for its value domain and `SOURCE_CODE_GUIDE.md` for how this
-//! module relates to the others.
+//! `term` for its value domain and `docs/eyelang.md`'s implementation
+//! notes for how this module relates to the others.
 
 pub mod analyze;
 pub mod ast;
