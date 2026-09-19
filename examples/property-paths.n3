@@ -1,0 +1,12 @@
+# N3 example: property-paths.
+# Companion to property-paths.eye/.srl: N3 has no dedicated path-expression
+# syntax (`/`, `^`), so the sequence and inverse paths are expanded here
+# into ordinary joined/flipped triple patterns, matching the .eye
+# companion's direct relational expansion.
+@prefix : <http://example/>.
+
+:a :parentOf :b.
+:b :parentOf :c.
+
+{?x :parentOf ?y. ?y :parentOf ?z} => {?x :grandparentOf ?z}.
+{?x :parentOf ?y} => {?y :hasParent ?x}.

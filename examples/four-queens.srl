@@ -1,0 +1,19 @@
+# Companion to four-queens.n3/.eye: genuine finite search, but bounded to
+# the fixed 4x4 board (SRL is pure forward Datalog with no backtracking
+# search or recursive list accumulation the way N3's backward chaining or
+# Eyelang's tabled evaluator have), via one non-recursive join over all
+# four queen positions with explicit row-distinctness and non-attacking-
+# diagonal FILTER constraints, rather than a general placeable-size
+# recursive search.
+PREFIX : <http://example/>
+
+DATA {
+  :r1 :n 1 . :r2 :n 2 . :r3 :n 3 . :r4 :n 4 .
+}
+
+RULE { [] a :Solution ; :q1 ?a ; :q2 ?b ; :q3 ?c ; :q4 ?d }
+WHERE {
+  ?ra :n ?a . ?rb :n ?b . ?rc :n ?c . ?rd :n ?d .
+  FILTER(?a != ?b && ?a != ?c && ?a != ?d && ?b != ?c && ?b != ?d && ?c != ?d)
+  FILTER(ABS(?a - ?b) != 1 && ABS(?a - ?c) != 2 && ABS(?a - ?d) != 3 && ABS(?b - ?c) != 1 && ABS(?b - ?d) != 2 && ABS(?c - ?d) != 1)
+}

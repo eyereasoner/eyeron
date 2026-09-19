@@ -1,0 +1,15 @@
+# N3 example: reification-and-annotations.
+# Companion to reification-and-annotations.eye/.srl: like reifiers.n3, a
+# reified statement is a quoted formula (`{...}`) attached to its claim.
+# Alice's statement is both asserted as an ordinary fact and separately
+# reified with a source and a certainty annotation; Bob's is only reified
+# -- describing his statement must not assert it, matching the source's
+# own asymmetry (its `ask statement(bob, says, hi)` finds nothing).
+@prefix : <http://example/>.
+
+:alice :says :hello.
+[] :statement {:alice :says :hello}; :source :chat; :certainty 0.9.
+
+:bobClaim :statement {:bob :says :hi}; :source :email.
+
+{?claim :statement {?speaker :says ?object}. ?claim :source ?source} => {?speaker :statementSource ?source}.

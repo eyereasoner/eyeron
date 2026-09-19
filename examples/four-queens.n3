@@ -1,0 +1,38 @@
+# N3 example: four-queens.
+# Companion to four-queens.eye: genuine finite backtracking search using
+# explicit row facts (there is no numeric range-generator builtin to
+# mirror eyelang's range(1, size, ?row)), reaching both of the classic
+# 4-queens solutions via backward chaining, exactly matching
+# four-queens.eye's own two answers and their order.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/four-queens#>.
+
+:r1 a :Row; :n 1.
+:r2 a :Row; :n 2.
+:r3 a :Row; :n 3.
+:r4 a :Row; :n 4.
+
+{(?row () ?distance) :safe true} <= true.
+{(?row ?placed ?distance) :safe true} <= {
+    ?placed list:firstRest (?other ?rest).
+    ?row log:notEqualTo ?other.
+    (?row ?other) math:difference ?diff.
+    ?diff math:absoluteValue ?delta.
+    ?delta log:notEqualTo ?distance.
+    (?distance 1) math:sum ?next.
+    (?row ?rest ?next) :safe true.
+}.
+
+{(0 ?placed) :place ?placed} <= true.
+{(?remaining ?placed) :place ?rows} <= {
+    ?remaining math:greaterThan 0.
+    ?rowRes a :Row. ?rowRes :n ?row.
+    (?row ?placed 1) :safe true.
+    (?remaining 1) math:difference ?next.
+    ?newPlaced list:firstRest (?row ?placed).
+    (?next ?newPlaced) :place ?rows.
+}.
+
+{(4 ()) :place ?rows} => {:query :solution ?rows}.

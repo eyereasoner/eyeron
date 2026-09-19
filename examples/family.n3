@@ -1,0 +1,14 @@
+# N3 example: family.
+# Companion to family.eye/.srl: family relations derived by ordinary
+# forward-chaining rules, matching the recursive descendedFrom definition
+# in both siblings.
+@prefix : <http://example/>.
+
+:A :fatherOf :X.
+:B :motherOf :X.
+:C :motherOf :A.
+
+{?y :fatherOf ?x} => {?x :childOf ?y}.
+{?y :motherOf ?x} => {?x :childOf ?y}.
+{?x :childOf ?y} => {?x :descendedFrom ?y}.
+{?x :childOf ?z. ?z :descendedFrom ?y} => {?x :descendedFrom ?y}.

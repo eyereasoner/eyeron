@@ -1,0 +1,16 @@
+# N3 example: backward-recursion.
+# Companion to backward-recursion.eye/.srl: recursive ancestor relation
+# defined via N3 backward chaining (<=), ported from
+# ../eyeling/examples/backward-recursion.n3, extended with the same
+# three-generation parent chain (:a -> :b -> :c -> :d) as the .eye/.srl
+# companions.
+@prefix : <urn:example#>.
+
+:a :parent :b.
+:b :parent :c.
+:c :parent :d.
+
+{?x :ancestor ?y} <= {?x :parent ?y}.
+{?x :ancestor ?z} <= {?x :parent ?y. ?y :ancestor ?z}.
+
+{:a :ancestor ?who} => {:a :reaches ?who}.
