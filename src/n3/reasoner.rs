@@ -4191,14 +4191,20 @@ fn format_datetime_utc(seconds: i64, millis: u32) -> String {
     format!("{year:04}-{month:02}-{day:02}T{:02}:{:02}:{:02}.{millis:03}+00:00", sod / 3600, sod % 3600 / 60, sod % 60)
 }
 
+/// The current wall-clock time as `(unix seconds, milliseconds)`. `SystemTime::now()`
+/// panics unconditionally on `wasm32-unknown-unknown` (there is no clock
+/// syscall without a JS bridge), so the wasm32 build instead calls through
+/// to JS's `Date.now()`. `pub(crate)` so other front ends needing "now"
+/// (e.g. `crate::srl::expr`'s `NOW()`) share this instead of re-panicking
+/// with their own `SystemTime::now()` call.
 #[cfg(not(target_arch = "wasm32"))]
-fn current_unix_time() -> Option<(i64, u32)> {
+pub(crate) fn current_unix_time() -> Option<(i64, u32)> {
     let now = SystemTime::now().duration_since(UNIX_EPOCH).ok()?;
     Some((now.as_secs() as i64, now.subsec_millis()))
 }
 
 #[cfg(target_arch = "wasm32")]
-fn current_unix_time() -> Option<(i64, u32)> {
+pub(crate) fn current_unix_time() -> Option<(i64, u32)> {
     let millis = javascript_date_now();
     if !millis.is_finite() || millis < 0.0 { return None; }
     let whole = millis.floor() as u64;

@@ -272,10 +272,10 @@
   <body>
     <main class="page">
       <header>
-        <h1>The Eyeron N3 Playground</h1>
+        <h1>The Eyeron Playground</h1>
         <p>
           Run <a href="https://github.com/eyereasoner/eyeron" target="_blank" rel="noopener noreferrer">eyeron</a>
-          in your browser with the same N3-first reasoner core.
+          in your browser — Notation3 (N3), SPARQL 1.2 RL, and Eyelang — with the same native reasoner core, compiled to WebAssembly.
         </p>
         <p class="hint">Version <strong id="version">…</strong></p>
       </header>
@@ -285,11 +285,17 @@
           <div class="panel-header">
             <div>
               <h2 class="section-title">Program and data</h2>
-              <span class="hint">Load a bundled example, edit the N3 program, and optionally add RDF/TriG data.</span>
+              <span class="hint">Choose a format, load a bundled example or write your own, and (for N3) optionally add RDF/TriG data.</span>
             </div>
             <span id="engine-summary" class="status">Engine: eyeron</span>
           </div>
           <div class="example-row">
+            <label for="language">Format</label>
+            <select id="language" aria-label="Choose the input format">
+              <option value="n3">Notation3 (.n3)</option>
+              <option value="srl">SPARQL 1.2 RL (.srl)</option>
+              <option value="eye">Eyelang (.eye)</option>
+            </select>
             <label for="examples">Example</label>
             <select id="examples" aria-label="Load a bundled example">
               <option value="">Choose an example…</option>
@@ -297,36 +303,50 @@
           </div>
           <h2 class="section-title">Rules / program</h2>
           <textarea id="input" spellcheck="false"></textarea>
-          <div class="data-editor" style="margin-top:0.8rem">
+          <div class="data-editor n3-only-row" style="margin-top:0.8rem">
             <h2 class="section-title">Inline data / RDF Message log</h2>
             <textarea id="data" spellcheck="false"></textarea>
           </div>
           <details class="advanced-panel">
             <summary>Advanced options</summary>
             <div class="advanced-panel-body">
-              <p class="advanced-note">These mirror the Eyeling playground workflow: keep reusable knowledge in the background, reason over the editor, and optionally provide RDF Message logs separately.</p>
-              <div class="option-row">
+              <p class="advanced-note n3-only-row">These mirror the Eyeling playground workflow: keep reusable knowledge in the background, reason over the editor, and optionally provide RDF Message logs separately.</p>
+              <div class="option-row srl-only-row eye-only-row">
+                <div class="option-copy">
+                  <label for="format-query">Query</label>
+                  <span class="hint">SPARQL-RL: a body pattern (<code>{ ?x :descendedFrom :C }</code>) to match against the closure instead of printing every derived fact. Eyelang: a goal (<code>ancestor(alice, ?who)</code>) appended as an extra <code>ask</code> statement.</span>
+                  <input id="format-query" type="text" placeholder="leave blank to run the program's own output/questions" style="margin-top:0.4rem; width:100%;" />
+                </div>
+              </div>
+              <div class="option-row eye-only-row">
+                <input id="eye-json" type="checkbox" />
+                <div class="option-copy">
+                  <label for="eye-json">JSON output</label>
+                  <span class="hint">Render a JSON representation instead of Eyelang result-format-2 syntax.</span>
+                </div>
+              </div>
+              <div class="option-row n3-only-row">
                 <input id="engine-eyeling" type="checkbox" />
                 <div class="option-copy">
                   <label for="engine-eyeling">Use Eyeling instead of eyeron</label>
                   <span class="hint">Enables the browser Eyeling engine for log:query output, log:outputString rendering, and Eyeling-compatible proof/RDF execution.</span>
                 </div>
               </div>
-              <div class="option-row">
+              <div class="option-row n3-only-row eye-only-row">
                 <input id="proof" type="checkbox" />
                 <div class="option-copy">
                   <label for="proof">Proof explanations</label>
                   <span class="hint">Emit proof output instead of only inferred conclusions.</span>
                 </div>
               </div>
-              <div class="option-row">
+              <div class="option-row n3-only-row">
                 <input id="rdf" type="checkbox" />
                 <div class="option-copy">
                   <label for="rdf">RDF/TriG compatibility</label>
                   <span class="hint">Parse RDF syntax and use the selected RDF format.</span>
                 </div>
               </div>
-              <div class="source-row">
+              <div class="source-row n3-only-row">
                 <label for="rdf-format">RDF format</label>
                 <select id="rdf-format" title="RDF format used when RDF/TriG mode is enabled">
                   <option value="auto">auto RDF format</option>
@@ -336,40 +356,40 @@
                   <option value="nquads">N-Quads</option>
                 </select>
               </div>
-              <div class="source-row">
+              <div class="source-row n3-only-row">
                 <label for="program-url">Program URL</label>
                 <input id="program-url" type="url" placeholder="https://.../rules.n3" />
                 <button id="load-program-url" class="secondary" type="button">Load</button>
               </div>
-              <div class="option-row">
+              <div class="option-row n3-only-row">
                 <input id="load-as-background" type="checkbox" />
                 <div class="option-copy">
                   <label for="load-as-background">Load URL as background knowledge</label>
                   <span class="hint">The next Program URL load is kept separate and merged only when reasoning runs.</span>
                 </div>
               </div>
-              <div class="background-strip">
+              <div class="background-strip n3-only-row">
                 <span id="background-status" class="hint">No background knowledge loaded.</span>
                 <button id="clear-background" class="secondary mini-button" type="button" disabled>Clear background</button>
               </div>
-              <div class="source-row">
+              <div class="source-row n3-only-row">
                 <label for="data-url">Data URL</label>
                 <input id="data-url" type="url" placeholder="https://.../input.trig" />
                 <button id="load-data-url" class="secondary" type="button">Load</button>
               </div>
-              <div class="source-row" id="message-log-url-row">
+              <div class="source-row n3-only-row" id="message-log-url-row">
                 <label for="message-log-url">Message log URL</label>
                 <input id="message-log-url" type="url" placeholder="https://.../messages.trig" />
                 <button id="load-message-log-url" class="secondary" type="button">Load</button>
               </div>
-              <div class="option-row">
+              <div class="option-row n3-only-row">
                 <input id="stream-messages" type="checkbox" />
                 <div class="option-copy">
                   <label for="stream-messages">Stream RDF Messages</label>
                   <span class="hint">Uses the inline data or Message log URL as message input. Eyeling mode can use message-oriented examples; eyeron receives the log as RDF/TriG data.</span>
                 </div>
               </div>
-              <div class="option-row">
+              <div class="option-row n3-only-row">
                 <input id="enforce-https" type="checkbox" checked />
                 <div class="option-copy">
                   <label for="enforce-https">Enforce HTTPS for dereferencing</label>
@@ -397,6 +417,9 @@
           </div>
           <p class="hint">
             Build the browser module with <code>wasm-pack build --target web --out-dir pkg</code>, then serve this directory over HTTP.
+          </p>
+          <p class="hint eye-only-row">
+            Two Eyelang examples expect companion input the playground does not wire up standalone: <code>proof-audit.eye</code> (needs <code>examples/proof/socrates.eye</code> prepended) and <code>rdf12-interoperability.eye</code> (needs <code>--rdf-input examples/rdf12-interoperability.nq</code>) — run those from the command line instead.
           </p>
         </div>
 
@@ -453,7 +476,7 @@
       ]);
       let oversizedStateShareUrlForGist = '';
 
-      const bundledExamples = [
+      const bundledExamplesN3 = [
         "age.n3",
         "alignment-demo.n3",
         "alma-rdf-messages.n3",
@@ -524,7 +547,103 @@
         "vulnerability-impact.n3",
         "whitehead-becoming.n3",
         "witch.n3"
-];
+      ];
+
+      const bundledExamplesSrl = [
+        "family.srl",
+        "filter-town.srl",
+        "negation-orphan.srl",
+        "property-paths.srl",
+      ];
+
+      const bundledExamplesEye = [
+        "aggregation.eye",
+        "alignment-demo.eye",
+        "ancestor.eye",
+        "annotation-evidence.eye",
+        "assignment.eye",
+        "backward-recursion.eye",
+        "backward.eye",
+        "base-and-literals.eye",
+        "bayes-diagnosis.eye",
+        "bmi.eye",
+        "builtin-call-complete.eye",
+        "cat-koko.eye",
+        "check-unsafe.eye",
+        "collection-nesting.eye",
+        "collection.eye",
+        "collections-and-blank-nodes.eye",
+        "context-association.eye",
+        "critical-path-schedule.eye",
+        "cyclic-reachability.eye",
+        "deep-taxonomy-10.eye",
+        "deep-taxonomy-100.eye",
+        "deep-taxonomy-1000.eye",
+        "deep-taxonomy-10000.eye",
+        "deep-taxonomy-100000.eye",
+        "derivative.eye",
+        "dijkstra.eye",
+        "dog-license.eye",
+        "equals-same-as.eye",
+        "family-cousins.eye",
+        "family.eye",
+        "fibonacci.eye",
+        "filter-function-and-langdir.eye",
+        "four-queens.eye",
+        "good-cobbler.eye",
+        "grammar.eye",
+        "graph-join.eye",
+        "graph-term-emulation.eye",
+        "gray-code-counter.eye",
+        "hanoi.eye",
+        "if-then.eye",
+        "import-lib.eye",
+        "import-main.eye",
+        "lists.eye",
+        "modular-exponentiation.eye",
+        "negation.eye",
+        "now-and-language-builtins.eye",
+        "odrl-dpv-risk-ranked.eye",
+        "peano-arithmetic.eye",
+        "policy.eye",
+        "proof-audit.eye",
+        "property-paths.eye",
+        "query.eye",
+        "rdf-messages.eye",
+        "rdf12-interoperability.eye",
+        "reification-and-annotations.eye",
+        "reifiers.eye",
+        "relational-cube-lookup.eye",
+        "shortest-path.eye",
+        "socrates.eye",
+        "spec-2-1-basic-usage.eye",
+        "spec-2-1-descended-from.eye",
+        "spec-2-2-recursion.eye",
+        "spec-2-3-filtering.eye",
+        "spec-2-4-negation.eye",
+        "spec-2-5-assignment.eye",
+        "spec-4-1-rule-syntax.eye",
+        "spec-builtins.eye",
+        "stratified-negation.eye",
+        "sudoku.eye",
+        "turtle-shortcuts.eye",
+        "type-inference.eye",
+        "unicode-and-signed-numbers.eye",
+        "unstratified-negation.eye",
+        "variable-predicate-dependency.eye",
+        "version-and-in.eye",
+        "well-formedness-error.eye",
+        "wolf-goat-cabbage.eye",
+      ];
+
+      const bundledExamplesByLanguage = { n3: bundledExamplesN3, srl: bundledExamplesSrl, eye: bundledExamplesEye };
+      const bundledExamples = [...bundledExamplesN3, ...bundledExamplesSrl, ...bundledExamplesEye];
+
+      function languageForExampleName(name) {
+        if (bundledExamplesSrl.includes(name)) return 'srl';
+        if (bundledExamplesEye.includes(name)) return 'eye';
+        return 'n3';
+      }
 
       const input = CodeMirror.fromTextArea(document.getElementById('input'), {
         mode: 'turtle',
@@ -548,7 +667,10 @@
 
       const runButton = document.getElementById('run');
       const exampleButton = document.getElementById('example');
+      const languageSelect = document.getElementById('language');
       const exampleSelect = document.getElementById('examples');
+      const formatQueryInput = document.getElementById('format-query');
+      const eyeJsonCheckbox = document.getElementById('eye-json');
       const copyShareLinkButton = document.getElementById('copy-share-link');
       const createGistShareButton = document.getElementById('create-gist-share');
       const pauseButton = document.getElementById('pause');
@@ -628,13 +750,15 @@
       }
 
       function populateExamples() {
+        const names = bundledExamplesByLanguage[languageSelect.value] || bundledExamplesN3;
         exampleSelect.innerHTML = '<option value="">Choose an example…</option>';
-        for (const name of bundledExamples) {
+        for (const name of names) {
           const option = document.createElement('option');
           option.value = name;
           option.textContent = name;
           exampleSelect.appendChild(option);
         }
+        exampleSelect.value = bundledExamplesByLanguage[languageSelect.value]?.includes(currentExample) ? currentExample : '';
       }
 
       function escapeHtml(value) {
@@ -1101,6 +1225,10 @@
       async function loadExample(name) {
         if (!name) return;
         setStatus('Loading example…');
+        const language = languageForExampleName(name);
+        languageSelect.value = language;
+        populateExamples();
+        syncLanguageVisibility();
         const response = await fetch(exampleUrl(name), { cache: 'no-store' });
         if (!response.ok) throw new Error('Could not load examples/' + name + ' (' + response.status + ')');
         const text = await response.text();
@@ -1110,9 +1238,10 @@
         dataUrlInput.value = '';
         messageLogUrlInput.value = '';
         setExampleMarker(name, text);
-        const companionLoaded = await tryLoadCompanionInput(exampleUrl(name));
+        const companionLoaded = language === 'n3' && (await tryLoadCompanionInput(exampleUrl(name)));
         setStatus(companionLoaded ? 'Loaded example with companion RDF/TriG input' : 'Loaded examples/' + name, 'status ok');
         localStorage.setItem('eyeron.playground.example', name);
+        localStorage.setItem('eyeron.playground.language', language);
         localStorage.setItem('eyeron.playground.input', text);
         localStorage.setItem('eyeron.playground.data', data.getValue());
         localStorage.setItem('eyeron.playground.programUrl', '');
@@ -1601,6 +1730,8 @@
           messageLogUrlInput.value = shared.messageLogUrl || '';
           streamMessagesCheckbox.checked = !!shared.streamMessages;
           enforceHttpsCheckbox.checked = shared.enforceHttps !== false;
+          formatQueryInput.value = shared.formatQuery || '';
+          eyeJsonCheckbox.checked = !!shared.eyeJson;
           backgroundKnowledgeText = shared.background || '';
           backgroundKnowledgeSource = shared.backgroundSource || '';
           backgroundKnowledgeRdfMode = !!backgroundKnowledgeText && urlLooksRdfCompatibleInput(backgroundKnowledgeSource);
@@ -1608,6 +1739,9 @@
           if (shared.example) {
             await loadExample(shared.example);
           } else {
+            languageSelect.value = shared.language && bundledExamplesByLanguage[shared.language] ? shared.language : 'n3';
+            populateExamples();
+            syncLanguageVisibility();
             input.setValue(typeof shared.input === 'string' ? shared.input : defaultProgram);
             data.setValue(typeof shared.data === 'string' ? shared.data : '');
             setExampleMarker('', '');
@@ -1638,14 +1772,20 @@
         messageLogUrlInput.value = localStorage.getItem('eyeron.playground.messageLogUrl') || '';
         streamMessagesCheckbox.checked = localStorage.getItem('eyeron.playground.streamMessages') === '1';
         enforceHttpsCheckbox.checked = localStorage.getItem('eyeron.playground.enforceHttps') !== '0';
+        formatQueryInput.value = localStorage.getItem('eyeron.playground.formatQuery') || '';
+        eyeJsonCheckbox.checked = localStorage.getItem('eyeron.playground.eyeJson') === '1';
         backgroundKnowledgeText = localStorage.getItem('eyeron.playground.background') || '';
         backgroundKnowledgeSource = localStorage.getItem('eyeron.playground.backgroundSource') || '';
         backgroundKnowledgeRdfMode = !!backgroundKnowledgeText && urlLooksRdfCompatibleInput(backgroundKnowledgeSource);
         updateBackgroundStatus();
+        const savedLanguage = localStorage.getItem('eyeron.playground.language') || 'n3';
+        languageSelect.value = bundledExamplesByLanguage[savedLanguage] ? savedLanguage : 'n3';
         const savedExample = localStorage.getItem('eyeron.playground.example') || '';
         if (savedExample && savedInput) {
           setExampleMarker(savedExample, savedInput);
         }
+        populateExamples();
+        syncLanguageVisibility();
         syncEngineSummary();
       }
 
@@ -1665,11 +1805,24 @@
       }
 
       function selectedEngine() {
-        return engineEyelingCheckbox.checked ? 'eyeling' : 'eyeron';
+        // Eyeling is an alternate N3-only engine; SPARQL-RL and Eyelang
+        // always run through eyeron's own wasm module regardless of the
+        // (hidden, but possibly still-checked from an earlier N3 session)
+        // "Use Eyeling" checkbox.
+        return languageSelect.value === 'n3' && engineEyelingCheckbox.checked ? 'eyeling' : 'eyeron';
       }
 
       function syncEngineSummary() {
-        engineSummary.textContent = 'Engine: ' + selectedEngine();
+        engineSummary.textContent = 'Engine: ' + selectedEngine() + ' (' + languageSelect.value + ')';
+      }
+
+      function syncLanguageVisibility() {
+        const lang = languageSelect.value;
+        const activeClass = { n3: 'n3-only-row', srl: 'srl-only-row', eye: 'eye-only-row' }[lang] || 'n3-only-row';
+        document.querySelectorAll('.n3-only-row, .srl-only-row, .eye-only-row').forEach((el) => {
+          el.style.display = el.classList.contains(activeClass) ? '' : 'none';
+        });
+        syncEngineSummary();
       }
 
       async function loadEyeling() {
@@ -1837,6 +1990,27 @@
         }
       }
 
+      function reportFromThrow(err) {
+        const message = String(err && err.message ? err.message : err);
+        return { ok: false, error: { code: 'error', message, display: message, editor: 'program', line: null, column: null } };
+      }
+
+      function runSrl() {
+        try {
+          return { ok: true, output: eyeronModule.reasonSrl(input.getValue(), formatQueryInput.value.trim()) };
+        } catch (err) {
+          return reportFromThrow(err);
+        }
+      }
+
+      function runEye() {
+        try {
+          return { ok: true, output: eyeronModule.reasonEye(input.getValue(), proofCheckbox.checked, eyeJsonCheckbox.checked, formatQueryInput.value.trim()) };
+        } catch (err) {
+          return reportFromThrow(err);
+        }
+      }
+
       function runEyeron() {
         const rawReport = eyeronModule.reasonWithDataReport
           ? eyeronModule.reasonWithDataReport(
@@ -1875,6 +2049,9 @@
         localStorage.setItem('eyeron.playground.background', backgroundKnowledgeText);
         localStorage.setItem('eyeron.playground.backgroundSource', backgroundKnowledgeSource);
         localStorage.setItem('eyeron.playground.example', currentExample || '');
+        localStorage.setItem('eyeron.playground.language', languageSelect.value);
+        localStorage.setItem('eyeron.playground.formatQuery', formatQueryInput.value.trim());
+        localStorage.setItem('eyeron.playground.eyeJson', eyeJsonCheckbox.checked ? '1' : '0');
 
         runButton.disabled = true;
         runPaused = false;
@@ -1896,7 +2073,7 @@
               pausedRunResult.elapsedMs = performance.now() - startedAt;
             }
           } else {
-            const report = runEyeron();
+            const report = languageSelect.value === 'srl' ? runSrl() : languageSelect.value === 'eye' ? runEye() : runEyeron();
             if (report.ok) {
               setOutputText(report.output || '', 'auto');
               setRuntimeStats(derivedCountFromReport(report), performance.now() - startedAt);
@@ -1997,7 +2174,15 @@
           setStatus(String(err && err.message ? err.message : err), 'status error');
         }
       });
+      languageSelect.addEventListener('change', () => {
+        populateExamples();
+        syncLanguageVisibility();
+        localStorage.setItem('eyeron.playground.language', languageSelect.value);
+      });
       exampleButton.addEventListener('click', () => {
+        languageSelect.value = 'n3';
+        populateExamples();
+        syncLanguageVisibility();
         if (rdfCheckbox.checked) {
           data.setValue(trigExample);
           input.setValue(queryExample);

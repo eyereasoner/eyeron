@@ -25,6 +25,22 @@ export class EyeronSession {
 
 export function reason(input: string): string;
 
+/**
+ * Run an Eyelang (`.eye` syntax) program and return its "Eyelang result
+ * format 2" output — or a JSON rendering when `json` is set. `query`,
+ * when non-blank, is appended as an extra `ask` statement before running
+ * (matching the `--query` CLI flag).
+ */
+export function reasonEye(input: string, proof: boolean, json: boolean, query: string): string;
+
+/**
+ * Run a SPARQL 1.2 RL rule set (`.srl` syntax) and return its derived
+ * facts, or — when `query` is non-blank — the bindings for that query
+ * body pattern matched against the completed closure (forward
+ * query mode; there is no browser-side backward mode yet).
+ */
+export function reasonSrl(input: string, query: string): string;
+
 export function reasonWithData(program: string, data: string, proof: boolean, rdf: boolean, rdf_format: string): string;
 
 export function reasonWithDataReport(program: string, data: string, proof: boolean, rdf: boolean, rdf_format: string): string;
@@ -44,6 +60,8 @@ export interface InitOutput {
     readonly eyeronsession_reason: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly eyeronsession_reasonReport: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly reason: (a: number, b: number, c: number) => void;
+    readonly reasonEye: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
+    readonly reasonSrl: (a: number, b: number, c: number, d: number, e: number) => void;
     readonly reasonWithData: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
     readonly reasonWithDataReport: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
     readonly reasonWithOptions: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;

@@ -103,11 +103,10 @@ impl Default for EvalCtx {
 }
 
 fn now_iso8601() -> String {
-    let since_epoch = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .unwrap_or_default();
-    let secs = since_epoch.as_secs();
-    let (year, month, day, hour, minute, second) = civil_from_unix(secs as i64);
+    // `SystemTime::now()` panics unconditionally on wasm32-unknown-unknown;
+    // `current_unix_time` already handles that (see its doc comment).
+    let (secs, _millis) = crate::n3::reasoner::current_unix_time().unwrap_or((0, 0));
+    let (year, month, day, hour, minute, second) = civil_from_unix(secs);
     format!("{:04}-{:02}-{:02}T{:02}:{:02}:{:02}Z", year, month, day, hour, minute, second)
 }
 

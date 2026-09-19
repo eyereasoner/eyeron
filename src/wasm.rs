@@ -2,7 +2,7 @@ use wasm_bindgen::prelude::*;
 
 use crate::error::{EyeronError, Result};
 use crate::n3::parser::{is_rdf_message_log, parse_n3, parse_n3_with_source, parse_rdf_message_log};
-use crate::n3::printing::{rdf_result_to_string, result_to_string};
+use crate::n3::printing::{rdf_result_to_string, result_to_string, term_to_n3_object};
 use crate::n3::proof::proof_to_n3;
 use crate::n3::rdf_compat::{parse_rdf12, RdfFormat};
 use crate::n3::reasoner::{
@@ -93,6 +93,72 @@ impl EyeronSession {
     #[wasm_bindgen(getter, js_name = programFacts)]
     pub fn program_facts(&self) -> usize {
         self.prepared.program().facts.len()
+    }
+}
+
+/// Run a SPARQL 1.2 RL rule set (`.srl` syntax) and return its derived
+/// facts, or — when `query` is non-blank — the bindings for that query
+/// body pattern matched against the completed closure (forward
+/// query mode; there is no browser-side backward mode yet).
+#[wasm_bindgen(js_name = reasonSrl)]
+pub fn reason_srl(input: &str, query: &str) -> std::result::Result<String, JsValue> {
+    run_srl(input, query).map_err(|err| JsValue::from_str(&err))
+}
+
+fn run_srl(input: &str, query: &str) -> std::result::Result<String, String> {
+    let program = crate::srl::parse_sparql_rl(input, None).map_err(|err| err.with_source_location(input, "program"))?;
+    let base_graph: Vec<crate::ast::Triple> = Vec::new();
+    let options = ReasonerOptions::default();
+    let result = crate::srl::reason(&program, &base_graph, &options).map_err(|err| err.to_string())?;
+    if let Some(summary) = result.incomplete_summary() {
+        return Err(summary);
+    }
+    let trimmed_query = query.trim();
+    if trimmed_query.is_empty() {
+        return Ok(result_to_string(&program.prefixes, &result.derived));
+    }
+    let (query_body, _) =
+        crate::srl::parse_query_body(trimmed_query, None, &program.prefixes).map_err(|err| err.with_source_location(trimmed_query, "query"))?;
+    let solutions = crate::srl::query_facts(&result.closure, &base_graph, &query_body);
+    Ok(format_sparql_rl_solutions(&program.prefixes, &solutions))
+}
+
+fn format_sparql_rl_solutions(prefixes: &std::collections::BTreeMap<String, String>, solutions: &[crate::n3::reasoner::Bindings]) -> String {
+    if solutions.is_empty() {
+        return "(no solutions)\n".to_string();
+    }
+    let mut out = String::new();
+    for (i, solution) in solutions.iter().enumerate() {
+        if i > 0 {
+            out.push('\n');
+        }
+        for (var, value) in solution {
+            out.push_str(&format!("?{} {}\n", var, term_to_n3_object(value, prefixes)));
+        }
+    }
+    out
+}
+
+/// Run an Eyelang (`.eye` syntax) program and return its "Eyelang result
+/// format 2" output — or a JSON rendering when `json` is set. `query`,
+/// when non-blank, is appended as an extra `ask` statement before running
+/// (matching the `--query` CLI flag).
+#[wasm_bindgen(js_name = reasonEye)]
+pub fn reason_eye(input: &str, proof: bool, json: bool, query: &str) -> std::result::Result<String, JsValue> {
+    run_eye(input, proof, json, query).map_err(|err| JsValue::from_str(&err))
+}
+
+fn run_eye(input: &str, proof: bool, json: bool, query: &str) -> std::result::Result<String, String> {
+    let mut source = input.to_string();
+    let trimmed_query = query.trim();
+    if !trimmed_query.is_empty() {
+        source.push_str(&format!("\nask {}.\n", trimmed_query.trim_end_matches('.')));
+    }
+    let result = crate::eye::run(&source, crate::eye::Limits::default()).map_err(|err| err.with_source_location(&source, "program"))?;
+    if json {
+        Ok(crate::eye::output::run_result_json(&result))
+    } else {
+        Ok(crate::eye::output::format_result(&result, proof))
     }
 }
 

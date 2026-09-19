@@ -340,8 +340,56 @@ pub fn query_variables(body: &[Goal]) -> Vec<Term> {
     vars.into_iter().map(|(_, t)| t).collect()
 }
 
+/// Decode a `"..."` token's JSON string escapes by hand rather than via
+/// `serde_json` (unavailable on the `wasm32` target — the same constraint
+/// `output.rs`'s `--json` rendering works around).
 fn decode_string(raw: &str) -> std::result::Result<String, String> {
-    serde_json::from_str::<String>(raw).map_err(|_| "Invalid string escape".to_string())
+    let inner = raw.strip_prefix('"').and_then(|s| s.strip_suffix('"')).ok_or_else(|| "Invalid string escape".to_string())?;
+    let mut out = String::with_capacity(inner.len());
+    let mut chars = inner.chars().peekable();
+    while let Some(ch) = chars.next() {
+        if ch != '\\' {
+            out.push(ch);
+            continue;
+        }
+        match chars.next() {
+            Some('"') => out.push('"'),
+            Some('\\') => out.push('\\'),
+            Some('/') => out.push('/'),
+            Some('b') => out.push('\u{8}'),
+            Some('f') => out.push('\u{c}'),
+            Some('n') => out.push('\n'),
+            Some('r') => out.push('\r'),
+            Some('t') => out.push('\t'),
+            Some('u') => {
+                let high = read_hex4(&mut chars)?;
+                if (0xD800..=0xDBFF).contains(&high) {
+                    if chars.next() != Some('\\') || chars.next() != Some('u') {
+                        return Err("Invalid surrogate pair escape".to_string());
+                    }
+                    let low = read_hex4(&mut chars)?;
+                    if !(0xDC00..=0xDFFF).contains(&low) {
+                        return Err("Invalid surrogate pair escape".to_string());
+                    }
+                    let code = 0x10000 + ((high - 0xD800) << 10) + (low - 0xDC00);
+                    out.push(char::from_u32(code).ok_or_else(|| "Invalid \\u escape".to_string())?);
+                } else {
+                    out.push(char::from_u32(high).ok_or_else(|| "Invalid \\u escape".to_string())?);
+                }
+            }
+            _ => return Err("Invalid string escape".to_string()),
+        }
+    }
+    Ok(out)
+}
+
+fn read_hex4(chars: &mut std::iter::Peekable<std::str::Chars>) -> std::result::Result<u32, String> {
+    let mut value = 0u32;
+    for _ in 0..4 {
+        let digit = chars.next().and_then(|c| c.to_digit(16)).ok_or_else(|| "Invalid \\u escape".to_string())?;
+        value = value * 16 + digit;
+    }
+    Ok(value)
 }
 
 fn parse_number(text: &str) -> std::result::Result<Term, String> {
