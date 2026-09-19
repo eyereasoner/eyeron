@@ -1,0 +1,19 @@
+# N3 example: unstratified-negation.
+# Companion to unstratified-negation.eye/.srl: an intentional negative
+# cycle (in depends on not out; out depends on not in).
+#
+# Unlike Eyelang and SRL, which both statically reject this rule set as
+# unstratifiable, N3 has no stratification analysis at all -- its
+# negation-as-failure (log:notIncludes) is instead handled by an ad hoc
+# "defer until the ordinary closure saturates, then resume" mechanism.
+# For a genuine cycle like this one, that mechanism does not detect the
+# problem; it just settles on whichever side's check happens to resolve
+# first (here, :In), an implementation-order-dependent result rather than
+# a principled rejection or a properly stratified answer.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/unstratified-negation#>.
+
+:alice a :Person.
+
+{?x a :Person. ?SCOPE log:notIncludes {?x a :Out}.} => {?x a :In}.
+{?x a :Person. ?SCOPE log:notIncludes {?x a :In}.} => {?x a :Out}.

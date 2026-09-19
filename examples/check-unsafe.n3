@@ -1,0 +1,15 @@
+# N3 example: check-unsafe.
+# Companion to check-unsafe.eye/.srl: like the source warning, ?someone
+# is deliberately not bound by the antecedent.
+#
+# A third distinct behavior for the same unsafe pattern: SRL statically
+# rejects the rule set with an "unbound head variable" error; Eyelang (by
+# design, matching its own upstream reference behavior) runs it and
+# leaks the literal unbound variable into the answer; N3, confirmed by
+# testing, silently derives nothing at all -- no error, no leaked
+# variable, and no :Seen fact for any binding of ?someone.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/check-unsafe#>.
+
+:alice :knows :bob.
+
+{:alice :knows :bob} => {?someone a :Seen}.

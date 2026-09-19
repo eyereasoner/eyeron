@@ -1,0 +1,13 @@
+# N3 example: spec-2-2-recursion.
+# Companion to spec-2-2-recursion.eye/.srl: adds the transitive case on
+# top of spec-2-1-descended-from.n3.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/spec-2-2-recursion#>.
+
+:A :fatherOf :X.
+:B :motherOf :X.
+:C :motherOf :A.
+
+{?y :fatherOf ?x} => {?x :childOf ?y}.
+{?y :motherOf ?x} => {?x :childOf ?y}.
+{?x :childOf ?y} => {?x :descendedFrom ?y}.
+{?x :childOf ?y. ?y :descendedFrom ?z} => {?x :descendedFrom ?z}.

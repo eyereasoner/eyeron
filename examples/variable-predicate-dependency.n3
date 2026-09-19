@@ -1,0 +1,23 @@
+# N3 example: variable-predicate-dependency.
+# Companion to variable-predicate-dependency.eye/.srl: an intentional
+# negative cycle (derived depends on not blocked; blocked depends on
+# derived), expressed with fixed predicate names the way
+# variable-predicate-dependency.eye's own comment explains its version
+# is (the variable-predicate aspect is SPARQL-RL specific; the cycle is
+# the point of the test either way).
+#
+# Unlike Eyelang and SRL, which both statically reject this as
+# unstratifiable, N3 has no stratification analysis; its deferred
+# log:notIncludes mechanism instead derives BOTH :Derived and :Blocked --
+# checking that :Blocked did not hold yet at the point it deferred, then
+# firing :Derived, only for the second (ordinary, non-negated) rule to
+# add :Blocked immediately afterward, retroactively invalidating the
+# premise :Derived relied on. This is exactly the kind of unsound result
+# stratification exists to rule out.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/variable-predicate-dependency#>.
+
+:a :source :blocked.
+
+{?x :source :blocked. ?SCOPE log:notIncludes {?x a :Blocked}.} => {?x a :Derived}.
+{?x a :Derived} => {?x a :Blocked}.

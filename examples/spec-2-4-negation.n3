@@ -1,0 +1,10 @@
+# N3 example: spec-2-4-negation.
+# Companion to spec-2-4-negation.eye/.srl: negation as failure.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/spec-2-4-negation#>.
+
+:x1 a :Place; :population 1000.
+:x2 a :Place; :population 2000.
+:x3 a :Place.
+
+{?x a :Place. ?SCOPE log:notIncludes {?x :population ?p}.} => {?x a :UnclassifiedSize}.

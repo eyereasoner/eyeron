@@ -1,0 +1,15 @@
+# N3 example: well-formedness-error.
+# Companion to well-formedness-error.eye/.srl: the source rule body
+# deliberately uses a comparison before the variable it compares is
+# bound. Both Eyelang and SRL statically reject this as ill-formed
+# (strictly-ordered body evaluation). N3 has no such requirement: its
+# premise matcher reorders clauses by selectivity rather than evaluating
+# strictly left to right (confirmed by testing), so the very same clause
+# order that SRL/Eyelang reject here is accepted and correctly finds
+# :alice a :Bad regardless.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/well-formedness-error#>.
+
+:alice :score 10.
+
+{?score math:greaterThan 5. :alice :score ?score.} => {:alice a :Bad}.

@@ -1,0 +1,11 @@
+# Companion to rule-matching.n3/.eye: the source rule exploits N3's
+# reflective capability where an implication is itself a first-class,
+# quotable term that a rule can pattern-match -- including matching
+# itself. SRL has no such rule reflection, so this instead reifies
+# "there is an implication" as an ordinary fact and derives the same
+# conclusion from its existence.
+PREFIX : <http://example/>
+
+DATA { :rule1 a :Implication . }
+
+RULE { :result :is true } WHERE { ?r a :Implication }

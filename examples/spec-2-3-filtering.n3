@@ -1,0 +1,9 @@
+# N3 example: spec-2-3-filtering.
+# Companion to spec-2-3-filtering.eye/.srl.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/spec-2-3-filtering#>.
+
+:town1 :population 1000.
+:town2 :population 2000.
+
+{?x :population ?p. ?p math:greaterThan 1500.} => {?x a :largeTown}.
