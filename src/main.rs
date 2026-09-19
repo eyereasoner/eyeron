@@ -847,7 +847,4 @@ fn print_help() {
     println!("      --query-mode MODE         forward (default) or backward query evaluation");
     println!("  -v, --version                 Print version");
     println!("  -h, --help                    Show this help");
-    println!();
-    println!("A .srl file (or content starting with RULE/DATA after PREFIX/BASE/VERSION/IMPORTS) is");
-    println!("run as a SPARQL 1.2 RL rule set instead of N3.");
 }
