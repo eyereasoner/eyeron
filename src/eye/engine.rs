@@ -26,7 +26,7 @@ use std::collections::{BTreeMap, HashMap};
 use crate::error::{EyeronError, Result};
 
 use super::analyze::{self, Analyzed};
-use super::ast::{Expr, Goal, Rule};
+use super::ast::{Expr, Goal};
 use super::builtins;
 use super::term::{self, ground, instantiate, term_key, unify, variables_in, Bindings, Term, VarCounter};
 
@@ -479,6 +479,15 @@ fn try_rule(ctx: Ctx, program: &Analyzed, table_id: TableId, call: &Term, rule_h
     })
 }
 
+/// A call's own first argument, if it is a non-empty `Struct` -- used to
+/// probe `analyze::FirstArgIndex` for the rules that could possibly unify.
+fn call_first_arg(call: &Term) -> Option<&Term> {
+    match call {
+        Term::Struct(_, args) => args.first(),
+        _ => None,
+    }
+}
+
 fn evaluate_table(ctx: Ctx, program: &Analyzed, table_id: TableId) -> Result<()> {
     let call = ctx.arena.borrow().tables[table_id].call.clone();
     let is_query = matches!(&call, Term::Struct(name, _) if name == "$query");
@@ -490,8 +499,13 @@ fn evaluate_table(ctx: Ctx, program: &Analyzed, table_id: TableId) -> Result<()>
         try_rule(ctx, program, table_id, &call, &root_head, &root_body, RuleTag::Query)?;
     } else {
         let signature = analyze::signature(&call);
-        let rules: Vec<Rule> = program.predicates.get(&signature).cloned().unwrap_or_default();
-        for rule in &rules {
+        let Some(rules) = program.predicates.get(&signature) else { return Ok(()) };
+        let candidate_indices: Vec<usize> = match (program.predicate_index.get(&signature), call_first_arg(&call)) {
+            (Some(index), Some(arg)) if ground(arg) => index.candidates(&term_key(arg)),
+            _ => (0..rules.len()).collect(),
+        };
+        for i in candidate_indices {
+            let rule = &rules[i];
             try_rule(ctx, program, table_id, &call, &rule.head, &rule.body, RuleTag::Rule(rule.id))?;
         }
     }

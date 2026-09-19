@@ -10,7 +10,7 @@ use crate::error::{EyeronError, Result};
 
 use super::ast::{Goal, Rule};
 use super::builtins::is_builtin_relation;
-use super::term::Term;
+use super::term::{ground, term_key, Term};
 
 pub fn signature(term: &Term) -> String {
     match term {
@@ -40,8 +40,53 @@ fn dependencies(body: &[Goal], closed: bool) -> Vec<Dependency> {
     out
 }
 
+/// Indexes one relation's rules by their head's first argument, when that
+/// argument is ground in the rule itself (the common shape for a large,
+/// flat fact table such as `hasRoute("AIRPORT_1", "AIRPORT_2").`), so
+/// `engine::evaluate_table` can skip every rule that provably cannot unify
+/// with a call instead of attempting all of them — for a predicate with
+/// tens of thousands of facts (as in `path-discovery.eye`'s full air-route
+/// data), the difference between "attempt ~40" and "attempt ~40,000" per
+/// call. `open` holds rules whose own first argument is a variable (or
+/// which have no arguments at all): such a rule can unify with any call
+/// regardless of the call's first argument, so it is always a candidate.
+/// Both fields store indices into the predicate's own `Vec<Rule>`, each
+/// list kept in original definition order.
+#[derive(Default)]
+pub struct FirstArgIndex {
+    by_key: HashMap<String, Vec<usize>>,
+    open: Vec<usize>,
+}
+
+impl FirstArgIndex {
+    fn build(rules: &[Rule]) -> Self {
+        let mut index = FirstArgIndex::default();
+        for (i, rule) in rules.iter().enumerate() {
+            match &rule.head {
+                Term::Struct(_, args) if args.first().is_some_and(ground) => {
+                    index.by_key.entry(term_key(&args[0])).or_default().push(i);
+                }
+                _ => index.open.push(i),
+            }
+        }
+        index
+    }
+
+    /// Rule indices that could possibly unify with a call whose own first
+    /// argument's `term_key` is `call_key`, in original definition order.
+    pub fn candidates(&self, call_key: &str) -> Vec<usize> {
+        let mut indices = self.open.clone();
+        if let Some(matching) = self.by_key.get(call_key) {
+            indices.extend(matching.iter().copied());
+            indices.sort_unstable();
+        }
+        indices
+    }
+}
+
 pub struct Analyzed {
     pub predicates: HashMap<String, Vec<Rule>>,
+    pub predicate_index: HashMap<String, FirstArgIndex>,
     pub strata: HashMap<String, usize>,
     /// Relation signatures in first-declaration order (the order
     /// `--check`'s `stratum/2` facts are reported in — a plain `HashMap`
@@ -63,6 +108,7 @@ pub fn analyze(rules: Vec<Rule>) -> Result<Analyzed> {
         }
         predicates.entry(name).or_default().push(rule.clone());
     }
+    let predicate_index: HashMap<String, FirstArgIndex> = predicates.iter().map(|(name, rules)| (name.clone(), FirstArgIndex::build(rules))).collect();
 
     let edges: Vec<(String, Dependency)> =
         rules.iter().flat_map(|rule| dependencies(&rule.body, false).into_iter().map(move |dep| (signature(&rule.head), dep))).collect();
@@ -85,7 +131,7 @@ pub fn analyze(rules: Vec<Rule>) -> Result<Analyzed> {
             }
         }
         if !changed {
-            return Ok(Analyzed { predicates, strata, predicate_order });
+            return Ok(Analyzed { predicates, predicate_index, strata, predicate_order });
         }
     }
     Err(EyeronError::new("Recursion through not or collect is not stratified"))

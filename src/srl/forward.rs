@@ -14,21 +14,45 @@
 //! `run_once`-sourced) dependencies always point to a strictly earlier
 //! stratum, a `NOT`/`NOT DATA` clause evaluated in a later stratum always
 //! sees a fully-resolved view of whatever it negates — this is what makes
-//! the ordinary (not semi-naive) re-evaluate-every-pass loop below safe for
-//! negation, at the cost of re-discovering already-known solutions each
-//! pass (a known, documented performance simplification, not a
-//! correctness one).
+//! it safe to skip rules on later passes purely based on whether a body
+//! *positive* pattern could match one of the previous pass's new facts
+//! (see `RuleActivation` below): a `NOT` clause's truth value can never
+//! change within a stratum's own loop, so it never needs to gate retries.
+//!
+//! Each stratum's first pass always runs every rule in it unconditionally
+//! (there is no "previous pass" yet to have activated anything). From the
+//! second pass on, only rules whose `RuleActivation` entry says the
+//! previous pass's new facts could feed one of their own body patterns are
+//! retried — the same "which rule could this new fact possibly help"
+//! rule-activation index `crate::n3::reasoner`'s own agenda-based fixpoint
+//! already uses for N3, adapted here to whole-rule (not per-premise)
+//! granularity because SPARQL-RL bodies are re-solved as a unit rather than
+//! incrementally per premise. Combined with maintaining the matching graph
+//! (base graph ∪ inference facts) as one persistent, incrementally-indexed
+//! `Vec`/`FactIndex` instead of cloning and fully re-indexing it every
+//! pass, this turns what was an O(passes × rules) rescan plus an
+//! O(passes × facts) reindex — quadratic in the number of rules/facts for
+//! a long single-premise rule chain such as `deep-taxonomy-100000.srl` —
+//! into work roughly proportional to the number of rule firings and facts
+//! actually produced. It is still not full semi-naive evaluation: an
+//! activated rule's body is re-solved from scratch against the whole
+//! current graph rather than joined incrementally against just the new
+//! delta, so a rule with several body patterns that fires on a large,
+//! slowly-growing relation can still cost more than strict semi-naive
+//! would. That remaining gap is a performance simplification, not a
+//! correctness one — already-seen facts are still deduplicated via `seen`
+//! before being added to `new_facts`.
 
-use std::collections::{BTreeMap, HashSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 
-use crate::ast::Triple;
+use crate::ast::{Term, Triple};
 use crate::error::Result;
 use crate::n3::reasoner::{instantiate_triple, Bindings, CompletionStatus, FactIndex, ReasonerOptions, ReasonerResult, ReasonerStatistics};
 
 use super::ast::{SparqlRlProgram, SparqlRlRule};
 use super::eval::{solve_body, solve_body_scoped, BodyCtx, Graph};
 use super::expr::EvalCtx;
-use super::stratify::stratify;
+use super::stratify::{rule_positive_patterns, stratify};
 
 /// Run a parsed SPARQL 1.2 RL program forward to a fixpoint.
 ///
@@ -52,6 +76,7 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
         super::wellformed::check_rule(rule, index)?;
     }
     let layers = stratify(&program.rules)?;
+    let activation = RuleActivation::build(&program.rules);
 
     let base_index = build_index(base_graph);
     let explicit_seen: HashSet<Triple> = program.data.iter().cloned().collect();
@@ -63,20 +88,41 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     let mut statistics = ReasonerStatistics::default();
     let mut status = CompletionStatus::Complete;
 
+    // Ordinary clauses match against the union of the base graph and the
+    // inference graph; `WHERE DATA`/`NOT DATA` clauses still route to
+    // `base` alone via `BodyCtx`. Unlike the base graph (fixed), this view
+    // grows every pass, but it is grown by *inserting* each pass's new
+    // facts into a persistent index rather than rebuilding one from
+    // scratch, so its maintenance cost is proportional to the number of
+    // facts ever added, not to (passes × facts-so-far).
+    let mut match_facts: Vec<Triple> = base_graph.to_vec();
+    match_facts.extend(inference_facts.iter().cloned());
+    let mut match_index = build_index(&match_facts);
+
     'strata: for layer in &layers {
+        let layer_members: HashSet<usize> = layer.iter().copied().collect();
+        let always_in_layer: BTreeSet<usize> = activation.always.iter().copied().filter(|idx| layer_members.contains(idx)).collect();
+        let mut previous_new_facts: Vec<Triple> = Vec::new();
+        let mut first_pass = true;
+
         loop {
-            // Ordinary clauses match against the union of the base graph
-            // and the inference graph so far; `WHERE DATA`/`NOT DATA`
-            // clauses still route to `base` alone via `BodyCtx`.
-            let mut match_facts = inference_facts.clone();
-            match_facts.extend(base_graph.iter().cloned());
-            let match_index = build_index(&match_facts);
             let base = Graph { facts: base_graph, index: &base_index };
             let inference = Graph { facts: &match_facts, index: &match_index };
             let ctx = BodyCtx::new(inference, base, &eval_ctx);
 
+            let rules_to_try: Vec<usize> = if first_pass {
+                layer.clone()
+            } else {
+                let mut triggered = always_in_layer.clone();
+                for fact in &previous_new_facts {
+                    activation.triggered_by(fact, &mut triggered);
+                }
+                triggered.retain(|idx| layer_members.contains(idx));
+                triggered.into_iter().collect()
+            };
+
             let mut new_facts: Vec<Triple> = Vec::new();
-            for &rule_idx in layer {
+            for rule_idx in rules_to_try {
                 let rule = &program.rules[rule_idx];
                 if rule.run_once && fired_once.contains(&rule_idx) {
                     continue;
@@ -88,10 +134,16 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
             }
 
             statistics.iterations += 1;
+            first_pass = false;
             if new_facts.is_empty() {
                 break;
             }
-            inference_facts.extend(new_facts);
+            for fact in &new_facts {
+                match_index.insert(match_facts.len(), fact);
+                match_facts.push(fact.clone());
+            }
+            inference_facts.extend(new_facts.iter().cloned());
+            previous_new_facts = new_facts;
             if statistics.iterations >= options.max_iterations {
                 status = CompletionStatus::Incomplete;
                 break 'strata;
@@ -113,6 +165,62 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
         proofs: Vec::new(),
         rules: Vec::new(),
     })
+}
+
+/// Indexes each rule's own positive top-level body patterns by shape
+/// (ground predicate, plus whichever of subject/object are also ground) so
+/// that a newly derived fact can cheaply look up exactly which rules it
+/// might newly satisfy, mirroring `crate::n3::reasoner::AgendaIndex` (which
+/// solves the same problem per-premise for the N3 forward fixpoint).
+#[derive(Default)]
+struct RuleActivation {
+    /// Rules with a body pattern whose predicate is itself a variable: any
+    /// new fact of any shape might satisfy it, so it is always retried.
+    always: BTreeSet<usize>,
+    by_p: HashMap<Term, BTreeSet<usize>>,
+    by_sp: HashMap<(Term, Term), BTreeSet<usize>>,
+    by_po: HashMap<(Term, Term), BTreeSet<usize>>,
+}
+
+impl RuleActivation {
+    fn build(rules: &[SparqlRlRule]) -> Self {
+        let mut out = RuleActivation::default();
+        for (rule_idx, rule) in rules.iter().enumerate() {
+            for pattern in rule_positive_patterns(rule) {
+                if !pattern.p.is_ground() {
+                    out.always.insert(rule_idx);
+                    continue;
+                }
+                let s_ground = pattern.s.is_ground();
+                let o_ground = pattern.o.is_ground();
+                if !s_ground && !o_ground {
+                    out.by_p.entry(pattern.p.clone()).or_default().insert(rule_idx);
+                }
+                if s_ground {
+                    out.by_sp.entry((pattern.s.clone(), pattern.p.clone())).or_default().insert(rule_idx);
+                }
+                if o_ground {
+                    out.by_po.entry((pattern.p.clone(), pattern.o.clone())).or_default().insert(rule_idx);
+                }
+            }
+        }
+        out
+    }
+
+    /// Extends `out` with every rule (besides the always-retried set,
+    /// tracked separately by the caller) whose body pattern shape matches
+    /// `fact`.
+    fn triggered_by(&self, fact: &Triple, out: &mut BTreeSet<usize>) {
+        if let Some(rules) = self.by_p.get(&fact.p) {
+            out.extend(rules.iter().copied());
+        }
+        if let Some(rules) = self.by_sp.get(&(fact.s.clone(), fact.p.clone())) {
+            out.extend(rules.iter().copied());
+        }
+        if let Some(rules) = self.by_po.get(&(fact.p.clone(), fact.o.clone())) {
+            out.extend(rules.iter().copied());
+        }
+    }
 }
 
 /// Evaluate one rule's body once against the current graphs, materializing

@@ -22,11 +22,18 @@
 //! behavior (content-sniffing, `--query`, stratification rejection on an
 //! inline rule set) rather than packaged examples.
 //!
-//! Three of eyeleng's own examples (`deep-taxonomy-10000.srl`,
-//! `deep-taxonomy-100000.srl`, `relational-cube-lookup.srl`) were never
-//! copied into `examples/` at all: eyeron's forward reasoner does not
-//! scale to their size in reasonable test time (see docs/sparql-rl.md's
-//! Known limitations).
+//! `deep-taxonomy-10000.srl` and `deep-taxonomy-100000.srl` — eyeleng's own
+//! two deepest taxonomy benchmarks — are packaged and covered like any
+//! other example; they used to be left out because stratification and the
+//! forward fixpoint were both quadratic in the rule count for a long
+//! single-premise chain like this one, but `super::stratify`'s
+//! `TemplateIndex` and `super::forward`'s `RuleActivation` fixed that (see
+//! their doc comments), so both now finish this suite in well under the
+//! `cargo test` budget. `relational-cube-lookup.srl` (a different shape of
+//! stress test, not a long chain) is still not copied into `examples/` for
+//! the original reason: eyeron's forward reasoner does not scale to its
+//! size in reasonable test time (see docs/sparql-rl.md's Known
+//! limitations).
 
 #[path = "support/report.rs"]
 mod report;

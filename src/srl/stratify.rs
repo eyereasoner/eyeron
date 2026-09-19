@@ -39,11 +39,12 @@ struct Edge {
 pub fn stratify(rules: &[SparqlRlRule]) -> Result<Vec<Vec<usize>>> {
     let infos: Vec<RuleFacts> = rules.iter().map(rule_facts).collect();
     let n = rules.len();
+    let template_index = TemplateIndex::build(&infos);
 
     let mut edge_map: BTreeMap<(usize, usize), bool> = BTreeMap::new();
     for (from_idx, from) in infos.iter().enumerate() {
-        add_edges(&mut edge_map, from_idx, &from.positive_patterns, &infos, from.run_once);
-        add_edges_closed(&mut edge_map, from_idx, &from.negative_patterns, &infos);
+        add_edges(&mut edge_map, from_idx, &from.positive_patterns, &template_index, from.run_once);
+        add_edges_closed(&mut edge_map, from_idx, &from.negative_patterns, &template_index);
     }
     let edges: Vec<Edge> = edge_map.into_iter().map(|((from, to), closed)| Edge { from, to, closed }).collect();
 
@@ -75,10 +76,10 @@ pub fn stratify(rules: &[SparqlRlRule]) -> Result<Vec<Vec<usize>>> {
     Ok(stratification_layers(n, &edges))
 }
 
-fn add_edges(edge_map: &mut BTreeMap<(usize, usize), bool>, from_idx: usize, patterns: &[Triple], infos: &[RuleFacts], run_once: bool) {
+fn add_edges(edge_map: &mut BTreeMap<(usize, usize), bool>, from_idx: usize, patterns: &[Triple], template_index: &TemplateIndex, run_once: bool) {
     for pattern in patterns {
-        for (to_idx, to) in infos.iter().enumerate() {
-            if to.head_templates.iter().any(|template| can_possibly_generate(template, pattern)) {
+        for &(to_idx, ref template) in template_index.candidates(pattern) {
+            if can_possibly_generate(template, pattern) {
                 let entry = edge_map.entry((from_idx, to_idx)).or_insert(false);
                 *entry = *entry || run_once;
             }
@@ -86,18 +87,107 @@ fn add_edges(edge_map: &mut BTreeMap<(usize, usize), bool>, from_idx: usize, pat
     }
 }
 
-fn add_edges_closed(edge_map: &mut BTreeMap<(usize, usize), bool>, from_idx: usize, patterns: &[Triple], infos: &[RuleFacts]) {
+fn add_edges_closed(edge_map: &mut BTreeMap<(usize, usize), bool>, from_idx: usize, patterns: &[Triple], template_index: &TemplateIndex) {
     for pattern in patterns {
-        for (to_idx, to) in infos.iter().enumerate() {
-            if to.head_templates.iter().any(|template| can_possibly_generate(template, pattern)) {
+        for &(to_idx, ref template) in template_index.candidates(pattern) {
+            if can_possibly_generate(template, pattern) {
                 edge_map.insert((from_idx, to_idx), true);
             }
         }
     }
 }
 
+/// Indexes every rule's `head_templates` (the triples its head could
+/// generate) by shape -- ground predicate, plus whether its object is also
+/// ground -- so `add_edges`/`add_edges_closed` can look up just the
+/// templates a given body pattern could possibly depend on, instead of
+/// testing it against every rule's every head template. That previous
+/// all-pairs scan was `O(rules^2)` regardless of how few dependency edges
+/// actually exist, which made stratifying a long single-premise rule chain
+/// such as `deep-taxonomy-100000.srl` the dominant cost of the whole run
+/// even though the N3/Eyelang equivalents of the same benchmark have
+/// nothing resembling it (`crate::n3::reasoner` has no stratification
+/// step at all). Lookups here are an over-approximation of
+/// `can_possibly_generate`'s exact per-position term compatibility (in
+/// particular, they never look at the subject, and a body pattern's own
+/// non-ground predicate or object falls back to every template sharing —
+/// or, for a non-ground predicate, every template regardless of
+/// predicate); every candidate is still re-checked with the exact
+/// function before an edge is recorded, so this can only make the search
+/// space smaller, never change which edges are found.
+#[derive(Default)]
+struct TemplateIndex {
+    /// `(rule_idx, template)` pairs, in no particular order; every other
+    /// field stores indices into this `Vec`.
+    entries: Vec<(usize, Triple)>,
+    /// Entries whose template has a non-ground predicate: compatible with
+    /// any pattern regardless of predicate, so always a candidate.
+    wildcard_predicate: Vec<usize>,
+    /// Ground predicate, non-ground object: compatible with any pattern
+    /// sharing that predicate regardless of the pattern's own object.
+    by_p_open_object: BTreeMap<Term, Vec<usize>>,
+    /// Ground predicate, ground object: compatible only with a pattern
+    /// whose object is either equal or itself non-ground.
+    by_po: BTreeMap<(Term, Term), Vec<usize>>,
+    /// Every entry with this ground predicate, regardless of its object's
+    /// groundness -- the fallback used when the *pattern's* own object is
+    /// non-ground (so it could match a ground-object template too).
+    by_p_all: BTreeMap<Term, Vec<usize>>,
+}
+
+impl TemplateIndex {
+    fn build(infos: &[RuleFacts]) -> Self {
+        let mut index = TemplateIndex::default();
+        for (rule_idx, info) in infos.iter().enumerate() {
+            for template in &info.head_templates {
+                let entry_idx = index.entries.len();
+                index.entries.push((rule_idx, template.clone()));
+                if !template.p.is_ground() {
+                    index.wildcard_predicate.push(entry_idx);
+                    continue;
+                }
+                index.by_p_all.entry(template.p.clone()).or_default().push(entry_idx);
+                if template.o.is_ground() {
+                    index.by_po.entry((template.p.clone(), template.o.clone())).or_default().push(entry_idx);
+                } else {
+                    index.by_p_open_object.entry(template.p.clone()).or_default().push(entry_idx);
+                }
+            }
+        }
+        index
+    }
+
+    fn candidates(&self, pattern: &Triple) -> Vec<&(usize, Triple)> {
+        let mut indices: Vec<usize> = self.wildcard_predicate.clone();
+        if !pattern.p.is_ground() {
+            indices.extend(self.by_p_all.values().flatten().copied());
+        } else if !pattern.o.is_ground() {
+            if let Some(entries) = self.by_p_all.get(&pattern.p) {
+                indices.extend(entries.iter().copied());
+            }
+        } else {
+            if let Some(entries) = self.by_p_open_object.get(&pattern.p) {
+                indices.extend(entries.iter().copied());
+            }
+            if let Some(entries) = self.by_po.get(&(pattern.p.clone(), pattern.o.clone())) {
+                indices.extend(entries.iter().copied());
+            }
+        }
+        indices.into_iter().map(|i| &self.entries[i]).collect()
+    }
+}
+
 fn rule_display_name(rules: &[SparqlRlRule], index: usize) -> String {
     rules[index].name.clone().unwrap_or_else(|| format!("rule#{}", index + 1))
+}
+
+/// A rule's own top-level positive body triple patterns (property paths
+/// expanded to their per-segment predicate IRIs; patterns nested inside a
+/// `NOT`/`NOT DATA` excluded). Exposed for `super::forward`'s rule-activation
+/// index, which needs the same "what could feed this rule's body" shape
+/// this module already computes for dependency-edge purposes.
+pub(crate) fn rule_positive_patterns(rule: &SparqlRlRule) -> Vec<Triple> {
+    rule_facts(rule).positive_patterns
 }
 
 struct RuleFacts {

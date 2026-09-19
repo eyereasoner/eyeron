@@ -14,21 +14,27 @@ use super::ast::{Expr, Goal, Location, Program, Query, Rule};
 use super::lexer::{tokenize, Token, TokenKind};
 use super::term::{self, ground, variables_in, Term, VarCounter};
 
-fn line_col(source: &str, offset: usize) -> (usize, usize) {
-    let mut line = 1usize;
-    let mut col = 1usize;
-    for (i, ch) in source.char_indices() {
-        if i >= offset {
-            break;
-        }
-        if ch == '\n' {
-            line += 1;
-            col = 1;
-        } else {
-            col += 1;
-        }
-    }
-    (line, col)
+/// Byte offsets where each line begins (`line_starts[0]` is always `0`,
+/// for line 1). Computed once per source document and reused by every
+/// `line_col` call, instead of each call rescanning from the start of the
+/// file: `Parser::location` runs once per top-level statement, and a
+/// from-the-start scan there made parsing a large, one-fact-per-line
+/// program (such as a full port of `deep-taxonomy-100000.n3`'s scale)
+/// quadratic in the source length.
+fn line_starts(source: &str) -> Vec<usize> {
+    let mut starts = vec![0usize];
+    starts.extend(source.char_indices().filter(|(_, ch)| *ch == '\n').map(|(i, _)| i + 1));
+    starts
+}
+
+/// `line_starts` must be `line_starts(source)`'s own result for `source`.
+/// Finds `offset`'s line via binary search, then counts characters from
+/// that line's start to `offset` for the column -- bounded by one line's
+/// length rather than the whole file.
+fn line_col(source: &str, line_starts: &[usize], offset: usize) -> (usize, usize) {
+    let line_index = line_starts.partition_point(|&start| start <= offset) - 1;
+    let column = source[line_starts[line_index]..offset].chars().count() + 1;
+    (line_index + 1, column)
 }
 
 const BINARY_PRECEDENCE: &[(&str, u8)] = &[("+", 10), ("-", 10), ("*", 20), ("/", 20), ("//", 20), ("%", 20)];
@@ -39,6 +45,7 @@ fn precedence(op: &str) -> Option<u8> {
 
 struct Parser<'a> {
     source: &'a str,
+    line_starts: Vec<usize>,
     tokens: Vec<Token>,
     pos: usize,
     scope: HashMap<String, Term>,
@@ -101,7 +108,7 @@ impl<'a> Parser<'a> {
     }
 
     fn location(&self) -> Location {
-        let (line, column) = line_col(self.source, self.peek().offset);
+        let (line, column) = line_col(self.source, &self.line_starts, self.peek().offset);
         Location { line, column }
     }
 
@@ -411,7 +418,7 @@ fn parse_number(text: &str) -> std::result::Result<Term, String> {
 /// never collide with parse-time ones.
 pub fn parse(source: &str, counter: &mut VarCounter) -> Result<Program> {
     let tokens = tokenize(source)?;
-    let mut parser = Parser { source, tokens, pos: 0, scope: HashMap::new(), counter };
+    let mut parser = Parser { source, line_starts: line_starts(source), tokens, pos: 0, scope: HashMap::new(), counter };
     parser.parse_program()
 }
 

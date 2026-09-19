@@ -477,7 +477,16 @@ pub struct ReasonerOptions {
 impl Default for ReasonerOptions {
     fn default() -> Self {
         Self {
-            max_iterations: 10_000,
+            // High enough that `srl::forward::reason`'s pass-per-chain-link
+            // fixpoint (see its module docs) can finish a long
+            // single-premise rule chain such as `deep-taxonomy-100000.srl`
+            // (~100,010 passes) without tripping this safety net; each
+            // pass past the point where nothing new fires is O(1) thanks
+            // to that module's rule-activation tracking, so raising this
+            // only lengthens how long a genuinely non-terminating rule set
+            // is given before being reported incomplete, not how much
+            // work a terminating one does.
+            max_iterations: 200_000,
             max_match_steps: DEFAULT_MAX_MATCH_STEPS,
             max_backward_depth: DEFAULT_MAX_BACKWARD_DEPTH,
             max_backward_solutions_per_goal: DEFAULT_MAX_BACKWARD_SOLUTIONS_PER_GOAL,
