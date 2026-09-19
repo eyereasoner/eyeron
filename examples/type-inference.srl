@@ -1,0 +1,34 @@
+# Companion to type-inference.n3/.eye: a monomorphic lambda-calculus type
+# relation, bounded to the demo's own one fixed term,
+# app(lam(x, var(x)), int_lit(42)) (SRL is pure forward Datalog with no
+# unification-based type-variable refinement, so a fully general
+# environment/lookup-based type checker -- needed for the source's other
+# query, the type of lam(x, var(x)) alone, left as fun(?arg, ?arg) with
+# ?arg unresolved -- is not expressible; type-inference.n3 keeps only the
+# other, fully-resolving query for the same reason).
+PREFIX : <http://example/>
+
+DATA {
+  :app1 a :App ; :fn :lam1 ; :arg :lit1 .
+  :lam1 a :Lam ; :param :x ; :body :var1 .
+  :var1 a :Var ; :name :x .
+  :lit1 a :IntLit .
+}
+
+RULE { ?t :hasType :Int }
+WHERE { ?t a :IntLit }
+
+RULE { ?body :hasType ?argType }
+WHERE {
+  ?app a :App ; :fn ?lam ; :arg ?arg .
+  ?lam a :Lam ; :param ?p ; :body ?body .
+  ?body a :Var ; :name ?p .
+  ?arg :hasType ?argType .
+}
+
+RULE { ?app :hasType ?resultType }
+WHERE {
+  ?app a :App ; :fn ?lam ; :arg ?arg .
+  ?lam a :Lam ; :body ?body .
+  ?body :hasType ?resultType .
+}

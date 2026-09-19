@@ -1,0 +1,25 @@
+# Companion to grammar.n3/.eye: a relational grammar written with explicit
+# input and remainder lists, bounded to a fixed 2-word sentence (SRL has
+# no general list-decomposition recursion, and constructing an RDF-list-
+# literal head while reading rdf:first/rdf:rest in the body creates a
+# blank-node self-dependency the stratifier rejects, confirmed by
+# testing -- so the result is flat properties rather than an RDF-list
+# head). The verb/noun vocabulary is still checked via data, not
+# hardcoded into the join pattern.
+PREFIX : <http://example/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :sentence1 :words (:open :door) .
+  :open a :Verb .
+  :close a :Verb .
+  :door a :Noun .
+  :window a :Noun .
+}
+
+RULE { :sentence1 :verb ?v ; :object ?n }
+WHERE {
+  :sentence1 :words/rdf:first ?v ; :words/rdf:rest/rdf:first ?n .
+  ?v a :Verb .
+  ?n a :Noun .
+}

@@ -1,0 +1,331 @@
+# Companion to fibonacci.n3/.eye: SET-based rules are always "run once"
+# (SPARQL 1.2 RL SS4.4) and can never depend on themselves, even
+# indirectly, so a single general recursive :fib rule is unstratifiable
+# (confirmed by testing; genuinely a SPARQL 1.2 RL constraint, not just an
+# eyeron limitation). Instead, like deep-taxonomy-*.srl, this unrolls one
+# concrete rule per level: each targets a specific, different individual
+# (:n2, :n3, ...), so the dependency graph is a DAG, not a cycle, even
+# though every rule shares the :fib predicate name.
+#
+# Adapted: fibonacci.eye asks fib(100, ?value), exact because Eyelang uses
+# arbitrary-precision integers throughout. SRL's arithmetic is IEEE double
+# precision, which can only represent integers exactly up to 2^53; fib(79)
+# already exceeds that. This stops at :n78 (fib(78) = 8944394323791464),
+# the largest Fibonacci number still exactly representable, rather than
+# silently returning a rounded value for fib(100).
+PREFIX : <http://example/>
+
+DATA {
+  :n0 :fib 0 .
+  :n1 :fib 1 .
+  :n0 :succ :n1 .
+  :n1 :succ :n2 .
+  :n2 :succ :n3 .
+  :n3 :succ :n4 .
+  :n4 :succ :n5 .
+  :n5 :succ :n6 .
+  :n6 :succ :n7 .
+  :n7 :succ :n8 .
+  :n8 :succ :n9 .
+  :n9 :succ :n10 .
+  :n10 :succ :n11 .
+  :n11 :succ :n12 .
+  :n12 :succ :n13 .
+  :n13 :succ :n14 .
+  :n14 :succ :n15 .
+  :n15 :succ :n16 .
+  :n16 :succ :n17 .
+  :n17 :succ :n18 .
+  :n18 :succ :n19 .
+  :n19 :succ :n20 .
+  :n20 :succ :n21 .
+  :n21 :succ :n22 .
+  :n22 :succ :n23 .
+  :n23 :succ :n24 .
+  :n24 :succ :n25 .
+  :n25 :succ :n26 .
+  :n26 :succ :n27 .
+  :n27 :succ :n28 .
+  :n28 :succ :n29 .
+  :n29 :succ :n30 .
+  :n30 :succ :n31 .
+  :n31 :succ :n32 .
+  :n32 :succ :n33 .
+  :n33 :succ :n34 .
+  :n34 :succ :n35 .
+  :n35 :succ :n36 .
+  :n36 :succ :n37 .
+  :n37 :succ :n38 .
+  :n38 :succ :n39 .
+  :n39 :succ :n40 .
+  :n40 :succ :n41 .
+  :n41 :succ :n42 .
+  :n42 :succ :n43 .
+  :n43 :succ :n44 .
+  :n44 :succ :n45 .
+  :n45 :succ :n46 .
+  :n46 :succ :n47 .
+  :n47 :succ :n48 .
+  :n48 :succ :n49 .
+  :n49 :succ :n50 .
+  :n50 :succ :n51 .
+  :n51 :succ :n52 .
+  :n52 :succ :n53 .
+  :n53 :succ :n54 .
+  :n54 :succ :n55 .
+  :n55 :succ :n56 .
+  :n56 :succ :n57 .
+  :n57 :succ :n58 .
+  :n58 :succ :n59 .
+  :n59 :succ :n60 .
+  :n60 :succ :n61 .
+  :n61 :succ :n62 .
+  :n62 :succ :n63 .
+  :n63 :succ :n64 .
+  :n64 :succ :n65 .
+  :n65 :succ :n66 .
+  :n66 :succ :n67 .
+  :n67 :succ :n68 .
+  :n68 :succ :n69 .
+  :n69 :succ :n70 .
+  :n70 :succ :n71 .
+  :n71 :succ :n72 .
+  :n72 :succ :n73 .
+  :n73 :succ :n74 .
+  :n74 :succ :n75 .
+  :n75 :succ :n76 .
+  :n76 :succ :n77 .
+  :n77 :succ :n78 .
+}
+
+RULE { :n2 :fib ?f }
+WHERE { :n0 :fib ?a . :n1 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n3 :fib ?f }
+WHERE { :n1 :fib ?a . :n2 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n4 :fib ?f }
+WHERE { :n2 :fib ?a . :n3 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n5 :fib ?f }
+WHERE { :n3 :fib ?a . :n4 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n6 :fib ?f }
+WHERE { :n4 :fib ?a . :n5 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n7 :fib ?f }
+WHERE { :n5 :fib ?a . :n6 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n8 :fib ?f }
+WHERE { :n6 :fib ?a . :n7 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n9 :fib ?f }
+WHERE { :n7 :fib ?a . :n8 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n10 :fib ?f }
+WHERE { :n8 :fib ?a . :n9 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n11 :fib ?f }
+WHERE { :n9 :fib ?a . :n10 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n12 :fib ?f }
+WHERE { :n10 :fib ?a . :n11 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n13 :fib ?f }
+WHERE { :n11 :fib ?a . :n12 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n14 :fib ?f }
+WHERE { :n12 :fib ?a . :n13 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n15 :fib ?f }
+WHERE { :n13 :fib ?a . :n14 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n16 :fib ?f }
+WHERE { :n14 :fib ?a . :n15 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n17 :fib ?f }
+WHERE { :n15 :fib ?a . :n16 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n18 :fib ?f }
+WHERE { :n16 :fib ?a . :n17 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n19 :fib ?f }
+WHERE { :n17 :fib ?a . :n18 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n20 :fib ?f }
+WHERE { :n18 :fib ?a . :n19 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n21 :fib ?f }
+WHERE { :n19 :fib ?a . :n20 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n22 :fib ?f }
+WHERE { :n20 :fib ?a . :n21 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n23 :fib ?f }
+WHERE { :n21 :fib ?a . :n22 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n24 :fib ?f }
+WHERE { :n22 :fib ?a . :n23 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n25 :fib ?f }
+WHERE { :n23 :fib ?a . :n24 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n26 :fib ?f }
+WHERE { :n24 :fib ?a . :n25 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n27 :fib ?f }
+WHERE { :n25 :fib ?a . :n26 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n28 :fib ?f }
+WHERE { :n26 :fib ?a . :n27 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n29 :fib ?f }
+WHERE { :n27 :fib ?a . :n28 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n30 :fib ?f }
+WHERE { :n28 :fib ?a . :n29 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n31 :fib ?f }
+WHERE { :n29 :fib ?a . :n30 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n32 :fib ?f }
+WHERE { :n30 :fib ?a . :n31 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n33 :fib ?f }
+WHERE { :n31 :fib ?a . :n32 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n34 :fib ?f }
+WHERE { :n32 :fib ?a . :n33 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n35 :fib ?f }
+WHERE { :n33 :fib ?a . :n34 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n36 :fib ?f }
+WHERE { :n34 :fib ?a . :n35 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n37 :fib ?f }
+WHERE { :n35 :fib ?a . :n36 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n38 :fib ?f }
+WHERE { :n36 :fib ?a . :n37 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n39 :fib ?f }
+WHERE { :n37 :fib ?a . :n38 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n40 :fib ?f }
+WHERE { :n38 :fib ?a . :n39 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n41 :fib ?f }
+WHERE { :n39 :fib ?a . :n40 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n42 :fib ?f }
+WHERE { :n40 :fib ?a . :n41 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n43 :fib ?f }
+WHERE { :n41 :fib ?a . :n42 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n44 :fib ?f }
+WHERE { :n42 :fib ?a . :n43 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n45 :fib ?f }
+WHERE { :n43 :fib ?a . :n44 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n46 :fib ?f }
+WHERE { :n44 :fib ?a . :n45 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n47 :fib ?f }
+WHERE { :n45 :fib ?a . :n46 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n48 :fib ?f }
+WHERE { :n46 :fib ?a . :n47 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n49 :fib ?f }
+WHERE { :n47 :fib ?a . :n48 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n50 :fib ?f }
+WHERE { :n48 :fib ?a . :n49 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n51 :fib ?f }
+WHERE { :n49 :fib ?a . :n50 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n52 :fib ?f }
+WHERE { :n50 :fib ?a . :n51 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n53 :fib ?f }
+WHERE { :n51 :fib ?a . :n52 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n54 :fib ?f }
+WHERE { :n52 :fib ?a . :n53 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n55 :fib ?f }
+WHERE { :n53 :fib ?a . :n54 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n56 :fib ?f }
+WHERE { :n54 :fib ?a . :n55 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n57 :fib ?f }
+WHERE { :n55 :fib ?a . :n56 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n58 :fib ?f }
+WHERE { :n56 :fib ?a . :n57 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n59 :fib ?f }
+WHERE { :n57 :fib ?a . :n58 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n60 :fib ?f }
+WHERE { :n58 :fib ?a . :n59 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n61 :fib ?f }
+WHERE { :n59 :fib ?a . :n60 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n62 :fib ?f }
+WHERE { :n60 :fib ?a . :n61 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n63 :fib ?f }
+WHERE { :n61 :fib ?a . :n62 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n64 :fib ?f }
+WHERE { :n62 :fib ?a . :n63 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n65 :fib ?f }
+WHERE { :n63 :fib ?a . :n64 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n66 :fib ?f }
+WHERE { :n64 :fib ?a . :n65 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n67 :fib ?f }
+WHERE { :n65 :fib ?a . :n66 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n68 :fib ?f }
+WHERE { :n66 :fib ?a . :n67 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n69 :fib ?f }
+WHERE { :n67 :fib ?a . :n68 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n70 :fib ?f }
+WHERE { :n68 :fib ?a . :n69 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n71 :fib ?f }
+WHERE { :n69 :fib ?a . :n70 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n72 :fib ?f }
+WHERE { :n70 :fib ?a . :n71 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n73 :fib ?f }
+WHERE { :n71 :fib ?a . :n72 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n74 :fib ?f }
+WHERE { :n72 :fib ?a . :n73 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n75 :fib ?f }
+WHERE { :n73 :fib ?a . :n74 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n76 :fib ?f }
+WHERE { :n74 :fib ?a . :n75 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n77 :fib ?f }
+WHERE { :n75 :fib ?a . :n76 :fib ?b . SET(?f := ?a + ?b) }
+
+RULE { :n78 :fib ?f }
+WHERE { :n76 :fib ?a . :n77 :fib ?b . SET(?f := ?a + ?b) }
+

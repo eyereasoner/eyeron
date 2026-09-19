@@ -1,0 +1,10 @@
+# N3 example: query.
+# Companion to query.eye/.srl.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/query#>.
+
+:alice :parentOf :bob.
+:bob :parentOf :carol.
+:dora :parentOf :emma.
+
+{?x :parentOf ?y} => {?x :ancestorOf ?y}.
+{?x :parentOf ?y. ?y :ancestorOf ?z} => {?x :ancestorOf ?z}.

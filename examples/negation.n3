@@ -1,0 +1,10 @@
+# N3 example: negation.
+# Companion to negation.eye/.srl: negation as failure.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/negation#>.
+
+:alice a :Person.
+:bob a :Person.
+:bob a :Blocked.
+
+{?x a :Person. ?SCOPE log:notIncludes {?x a :Blocked}.} => {?x a :Eligible}.

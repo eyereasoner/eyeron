@@ -1,0 +1,24 @@
+# N3 example: grammar.
+# Companion to grammar.eye: a relational grammar written with explicit
+# input and remainder lists.
+#
+# Adapted, not literal: like lists.n3's append, N3's backward chaining only
+# resolves a call when its input side is ground, so it cannot run
+# grammar.eye's second query in reverse (given a parse tree, generate the
+# matching input words). This instead demonstrates the supported (words
+# known, parse tree derived) direction, matching grammar.eye's first
+# query, `ask sentence(?ast, [open, door], [])`.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/grammar#>.
+
+{?input :verbMatch (:open ?rest)} <= {?input list:firstRest (:open ?rest).}.
+{?input :verbMatch (:close ?rest)} <= {?input list:firstRest (:close ?rest).}.
+{?input :nounMatch (:door ?rest)} <= {?input list:firstRest (:door ?rest).}.
+{?input :nounMatch (:window ?rest)} <= {?input list:firstRest (:window ?rest).}.
+
+{(?input ?rest) :sentence (:command ?verb ?object)} <= {
+    ?input :verbMatch (?verb ?middle).
+    ?middle :nounMatch (?object ?rest).
+}.
+
+{((:open :door) ()) :sentence ?ast} => {:query :parsed ?ast}.

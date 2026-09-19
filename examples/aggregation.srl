@@ -1,0 +1,20 @@
+# Companion to aggregation.n3/.eye: collect tagged readings to retain
+# equal values from different sensors. SRL currently has no aggregate
+# COUNT/SUM function (matching dijkstra.srl's own note about no aggregate
+# min), so this is bounded to the demo's own fixed 3 sensors: count is a
+# literal 3, and total is genuinely computed by summing all three.
+PREFIX : <http://example/>
+
+DATA {
+  :sensor_a :reading 10 .
+  :sensor_b :reading 15 .
+  :sensor_c :reading 10 .
+}
+
+RULE { :report :count 3 ; :total ?total }
+WHERE {
+  :sensor_a :reading ?a .
+  :sensor_b :reading ?b .
+  :sensor_c :reading ?c .
+  SET(?total := ?a + ?b + ?c)
+}
