@@ -206,7 +206,7 @@ Run the complete optimized test suite with:
 cargo test --release
 ```
 
-The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the bundled Notation3 conformance suite, and the local W3C RDF 1.1/1.2 manifest mirror.
+The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the bundled Notation3 conformance suite, the local W3C RDF 1.1/1.2 manifest mirror, and the live W3C SPARQL 1.2 RL manifest (203/203; this one needs network access, unlike the other suites here).
 
 Run the focused regression, packaged-example, or playground checks independently with:
 
@@ -232,6 +232,14 @@ cargo test --release --test w3c_rdf
 ```
 
 The W3C runner writes `reports/w3c-rdf-earl.ttl`. See `tests/w3c_rdf/README.md` for filtering, refresh, cache, verbosity, and EARL options.
+
+Run only the W3C SPARQL-RL sweep with:
+
+```bash
+cargo test --release --test w3c_sparql_rl
+```
+
+This always fetches the live manifest (no local mirror yet) and writes `reports/w3c-sparql-rl-earl.ttl`. `EYERON_W3C_SPARQL_RL_FILTER`, `EYERON_W3C_SPARQL_RL_VERBOSE`, and `EYERON_W3C_SPARQL_RL_EARL` mirror the RDF runner's corresponding options.
 
 ## Examples
 

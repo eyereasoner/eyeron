@@ -422,6 +422,8 @@ A note on `run_once` (SPARQL 1.2 RL §4.4) worth internalizing precisely, since 
 
 `src/bin/w3c_sparql_rl.rs`, modeled on `src/bin/w3c_rdf.rs` but much smaller (no quads, no entailment regimes, no RDFS closure — SPARQL-RL's manifest vocabulary has seven simple test categories: positive/negative syntax, well-formedness, and stratification, plus one eval-test kind), fetches the live W3C manifest, runs all of it, and writes an EARL report. It currently passes 203/203, matching eyeleng's own reported total. Run it with `cargo run --release --bin w3c_sparql_rl`; it always needs network access (there is no local vendored mirror of this suite yet, unlike `tests/w3c_rdf/rdf-tests/` for the RDF harness — a natural next step were this suite to grow).
 
+The same suite is also wired into `cargo test --release` as `tests/w3c_sparql_rl.rs` (`[[test]] harness = false`, matching `tests/w3c_rdf.rs`'s pattern) with its logic duplicated into `tests/w3c_sparql_rl/runner.rs` rather than shared with the binary — that duplication mirrors the existing `src/bin/w3c_rdf.rs`/`tests/w3c_rdf/runner.rs` split, not a new convention. It prints one libtest-style aggregate line (`w3c_sparql_rl_01_all_manifests_203_earl_report ... ok (203/203 tests + EARL report)`), so a plain `cargo test --release` run's final per-binary totals include it alongside the RDF and N3 suites.
+
 ### What is not implemented yet
 
 `--proof` output for `.srl` input, and `--query-mode auto` (only `forward`/`backward` are implemented — `auto` would need eyeleng's backward-eligibility precheck, `ruleSupported`/`bodySupported` in its `src/backward.js`, ported too). `tests/sparql_rl.rs` is the day-to-day test entry point; run it with `cargo test --release --test sparql_rl`.
