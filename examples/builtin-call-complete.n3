@@ -1,0 +1,19 @@
+# N3 example: builtin-call-complete.
+# Companion to builtin-call-complete.eye: exercises absolute value,
+# exponentiation (used as a square root via a 0.5 exponent, since N3 has
+# no dedicated sqrt builtin), list length, and list sorting -- the same
+# small set of builtins the .eye companion's `summary/4` exercises (a much
+# narrower smoke test than the .srl companion's full BuiltInCall-grammar
+# sweep, which N3 has no equivalent surface for).
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix : <http://example/>.
+
+:numbers :values (-3.7 7 2).
+
+{:numbers :values ?values.
+ -3.7 math:absoluteValue ?absolute.
+ (9 0.5) math:exponentiation ?root.
+ ?values list:length ?count.
+ ?values list:sort ?sorted.
+} => {:summary :absolute ?absolute; :root ?root; :count ?count; :sorted ?sorted}.

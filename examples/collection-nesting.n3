@@ -1,0 +1,12 @@
+# N3 example: collection-nesting.
+# Companion to collection-nesting.eye/.srl: a 3-element list nesting a
+# compound term (encoded as a 2-element list, `(:node ?value)`, matching
+# the project's established compound-term-as-list convention) and a
+# nested list, matched structurally.
+@prefix : <http://example/>.
+
+:root :nested (1 (:node :q) (2)).
+
+{:root :nested (?first ?second ?third)} => {:test :first ?first}.
+{:root :nested (?first (:node ?value) ?third)} => {:test :secondProperty ?value}.
+{:root :nested (?first ?second (?value))} => {:test :thirdFirst ?value}.

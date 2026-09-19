@@ -1,0 +1,15 @@
+# N3 example: version-and-in.
+# Companion to version-and-in.eye/.srl: membership in a fixed set of
+# levels is expressed as two ordinary alternative rules (N3 has no `IN`
+# list-membership filter the way SRL does), and "not priority" uses the
+# standard log:notIncludes negation-as-failure idiom.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example/>.
+
+:alice :level "gold".
+:bob :level "bronze".
+:carol :level "platinum".
+
+{?x :level "gold"} => {?x :priority true}.
+{?x :level "platinum"} => {?x :priority true}.
+{?x :level ?level. ?SCOPE log:notIncludes {?x :priority true}} => {?x :ordinary true}.

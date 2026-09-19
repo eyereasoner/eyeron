@@ -1,0 +1,15 @@
+# N3 example: base-and-literals.
+# Companion to base-and-literals.eye/.srl: a language-tagged name and a
+# plain numeric age, matching an adult filter that requires both the
+# English language tag and an age of at least 18. `log:langlit` (reverse
+# mode) decomposes the tagged literal into its (value, language) pair so
+# the tag can be checked explicitly.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <http://example/>.
+
+:alice :name "Alice Smith"@en; :age 22.
+:bob :name "Bob"@nl; :age 17.
+
+{?person :name ?name. ?person :age ?age. ?pair log:langlit ?name. ?pair list:firstRest (?value ?rest). ?rest list:firstRest (?lang ?rest2). ?lang log:equalTo "en". ?age math:notLessThan 18} => {?person :adult true}.

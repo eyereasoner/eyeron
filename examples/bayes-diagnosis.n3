@@ -1,0 +1,24 @@
+# N3 example: bayes-diagnosis.
+# Companion to bayes-diagnosis.eye/.srl: same illustrative priors,
+# likelihoods, scoring formula, and thresholds. Scores are unnormalized
+# values, not a normalized posterior or medical guidance.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <http://example/>.
+
+:COVID19 :prior 0.05; :fever 0.70; :cough 0.65; :smell 0.40; :noSneezing 0.85; :breath 0.20.
+:Influenza :prior 0.03; :fever 0.80; :cough 0.50; :smell 0.05; :noSneezing 0.80; :breath 0.10.
+:AllergicRhinitis :prior 0.10; :fever 0.05; :cough 0.15; :smell 0.10; :noSneezing 0.20; :breath 0.05.
+:BacterialPneumonia :prior 0.01; :fever 0.70; :cough 0.60; :smell 0.02; :noSneezing 0.95; :breath 0.60.
+
+{?d :prior ?prior; :fever ?fever; :cough ?cough; :smell ?smell; :noSneezing ?noSneezing; :breath ?breath.
+ (?prior ?fever) math:product ?p1.
+ (?p1 ?cough) math:product ?p2.
+ (?p2 ?smell) math:product ?p3.
+ (?p3 ?noSneezing) math:product ?p4.
+ (?p4 ?breath) math:product ?score.
+} => {?d :score ?score}.
+
+{?d :score ?score. ?score math:notLessThan 0.001} => {?d :screenedIn true}.
+{?d :score ?score. ?score math:notLessThan 0.0015} => {?d :rank "high"}.
+{?d :score ?score. ?score math:notLessThan 0.0005. ?score math:lessThan 0.0015} => {?d :rank "medium"}.
+{?d :score ?score. ?score math:lessThan 0.0005} => {?d :rank "low"}.

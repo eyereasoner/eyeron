@@ -1,0 +1,16 @@
+# N3 example: graph-term-emulation.
+# Companion to graph-term-emulation.eye/.srl: unlike those two (which have
+# to emulate a closed graph term with a list of triples/compound terms),
+# N3 has a native closed graph term -- a quoted formula (`{...}`) -- so
+# this uses one directly, with `log:includes` doing the subgraph-pattern
+# membership check both siblings otherwise have to build by hand.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example/>.
+
+:g1 :graphTerm {:alice :knows :bob. :bob :knows :carol}.
+:g2 :graphTerm {:alice :likes :tea}.
+:note1 :aboutGraphTerm :g1.
+
+{?g :graphTerm ?formula. ?formula log:includes {?s :knows ?o}} => {?g a :SocialGraphTerm}.
+{?g :graphTerm ?formula. ?formula log:includes {?s ?p ?o}} => {?g :mentions ?s}.
+{?g :graphTerm ?formula. ?formula log:includes {?s ?p ?o}} => {?g :mentions ?o}.

@@ -1,0 +1,15 @@
+# N3 example: annotation-evidence.
+# Companion to annotation-evidence.eye/.srl: like reifiers.n3, a reified
+# statement is a quoted formula (`{...}`) attached to its claim, here
+# additionally annotated with provenance (who stated it, when it was
+# recorded).
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix : <http://example/>.
+
+:alice :name "Alice".
+:claim :statement {:alice :name "Alice"}; :statedBy :bob; :recorded "2021-07-07"^^xsd:date.
+
+{:alice :name "Alice"} => {:test :hasStatement true}.
+{?claim :statement {:alice :name "Alice"}} => {:test :hasNamedStatement ?claim}.
+{?claim :statement {:alice :name "Alice"}. ?claim :statedBy ?who} => {:test :statementAuthor ?who}.
+{?claim :statement {:alice :name "Alice"}. ?claim :recorded ?date} => {:test :statementDate ?date}.
