@@ -100,7 +100,7 @@ Run the complete optimized test suite with:
 cargo test --release
 ```
 
-The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the bundled Notation3 conformance suite, the local W3C RDF 1.1/1.2 manifest mirror, the live W3C SPARQL 1.2 RL manifest (203/203; this one needs network access, unlike the other suites here), and every packaged Eyelang example (`tests/eye.rs`) against its expected output and proof documents.
+The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the bundled Notation3 conformance suite, the local W3C RDF 1.1/1.2 manifest mirror, the local W3C SPARQL 1.2 RL manifest mirror (203/203), and every packaged Eyelang example (`tests/eye.rs`) against its expected output and proof documents.
 
 `cargo test` runs each test target as a separate process and prints each one's own pass/fail total, with no built-in way to sum them. For one grand total and elapsed time across every binary, run:
 
@@ -126,7 +126,7 @@ Refresh both vendored upstream test suites with:
 ./scripts/sync-test-suites
 ```
 
-This synchronizes `notation3tests` from Codeberg, refreshes the W3C RDF 1.x manifests from GitHub, and runs the RDF manifest checks with `--release`.
+This synchronizes `notation3tests` from Codeberg and refreshes the W3C RDF 1.x and W3C SPARQL 1.2 RL manifests from GitHub, running each manifest's checks with `--release`.
 
 Run only the W3C RDF sweep with:
 
@@ -142,7 +142,7 @@ Run only the W3C SPARQL-RL sweep with:
 cargo test --release --test w3c_sparql_rl
 ```
 
-This always fetches the live manifest (no local mirror yet) and writes `reports/w3c-sparql-rl-earl.ttl`. `EYERON_W3C_SPARQL_RL_FILTER`, `EYERON_W3C_SPARQL_RL_VERBOSE`, and `EYERON_W3C_SPARQL_RL_EARL` mirror the RDF runner's corresponding options.
+This runs against the local mirror under `tests/w3c_sparql_rl/data-shapes/` and writes `reports/w3c-sparql-rl-earl.ttl`. `EYERON_W3C_SPARQL_RL_REFRESH`, `EYERON_W3C_SPARQL_RL_FILTER`, `EYERON_W3C_SPARQL_RL_VERBOSE`, `EYERON_W3C_SPARQL_RL_EARL`, and `EYERON_W3C_SPARQL_RL_CACHE_DIR` mirror the RDF runner's corresponding options. `cargo run --release --bin w3c_sparql_rl` runs the same suite but always fetches the manifest live.
 
 ## Examples
 

@@ -8,7 +8,7 @@ It is part of the normal `cargo test` suite. By default this test is **local-onl
 cargo test
 ```
 
-The integration test uses a custom harness and prints 13 libtest-style lines: 12 per-manifest checks named with their expected counts, plus `w3c_rdf_13_all_manifests_1170_earl_report`. The status words are colored when Cargo colors are enabled. This makes plain `cargo test` output more informative than a single opaque `w3c_rdf_manifests ... ok` line.
+The integration test uses a custom harness and prints 13 libtest-style lines: 12 per-manifest checks named with their expected counts, plus `w3c_rdf_13_all_manifests_1175_earl_report`. The status words are colored when Cargo colors are enabled. This makes plain `cargo test` output more informative than a single opaque `w3c_rdf_manifests ... ok` line.
 
 To run only the W3C RDF sweep:
 
@@ -51,4 +51,4 @@ EYERON_W3C_RDF_OFFLINE=1       # redundant default; documents intent
 EYERON_W3C_RDF_CACHE_DIR=tests/w3c_rdf/rdf-tests
 ```
 
-Current milestone target: 1170/1170 tests passed across 12 manifests. Per-manifest expected counts are 70, 29, 87, 27, 48, 77, 313, 29, 74, 356, 25, and 35. Keep the populated `tests/w3c_rdf/rdf-tests/` directory under version control for fast, reproducible local runs.
+Current milestone target: 1175/1175 tests passed across 12 manifests. Per-manifest expected counts are 70, 29, 87, 27, 48, 77, 313, 32, 74, 357, 26, and 35. Keep the populated `tests/w3c_rdf/rdf-tests/` directory under version control for fast, reproducible local runs.

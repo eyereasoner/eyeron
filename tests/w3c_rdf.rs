@@ -20,10 +20,10 @@ const MANIFESTS: &[ManifestSpec] = &[
     ManifestSpec { label: "w3c_rdf_05_rdf11_semantics_48", url: "https://w3c.github.io/rdf-tests/rdf/rdf11/rdf-mt/manifest.ttl", expected: 48 },
     ManifestSpec { label: "w3c_rdf_06_rdf12_semantics_77", url: "https://w3c.github.io/rdf-tests/rdf/rdf12/rdf-semantics/manifest.ttl", expected: 77 },
     ManifestSpec { label: "w3c_rdf_07_rdf11_turtle_313", url: "https://w3c.github.io/rdf-tests/rdf/rdf11/rdf-turtle/manifest.ttl", expected: 313 },
-    ManifestSpec { label: "w3c_rdf_08_rdf12_turtle_eval_29", url: "https://w3c.github.io/rdf-tests/rdf/rdf12/rdf-turtle/eval/manifest.ttl", expected: 29 },
+    ManifestSpec { label: "w3c_rdf_08_rdf12_turtle_eval_32", url: "https://w3c.github.io/rdf-tests/rdf/rdf12/rdf-turtle/eval/manifest.ttl", expected: 32 },
     ManifestSpec { label: "w3c_rdf_09_rdf12_turtle_syntax_74", url: "https://w3c.github.io/rdf-tests/rdf/rdf12/rdf-turtle/syntax/manifest.ttl", expected: 74 },
-    ManifestSpec { label: "w3c_rdf_10_rdf11_trig_356", url: "https://w3c.github.io/rdf-tests/rdf/rdf11/rdf-trig/manifest.ttl", expected: 356 },
-    ManifestSpec { label: "w3c_rdf_11_rdf12_trig_eval_25", url: "https://w3c.github.io/rdf-tests/rdf/rdf12/rdf-trig/eval/manifest.ttl", expected: 25 },
+    ManifestSpec { label: "w3c_rdf_10_rdf11_trig_357", url: "https://w3c.github.io/rdf-tests/rdf/rdf11/rdf-trig/manifest.ttl", expected: 357 },
+    ManifestSpec { label: "w3c_rdf_11_rdf12_trig_eval_26", url: "https://w3c.github.io/rdf-tests/rdf/rdf12/rdf-trig/eval/manifest.ttl", expected: 26 },
     ManifestSpec { label: "w3c_rdf_12_rdf12_trig_syntax_35", url: "https://w3c.github.io/rdf-tests/rdf/rdf12/rdf-trig/syntax/manifest.ttl", expected: 35 },
 ];
 
@@ -35,7 +35,7 @@ fn main() {
         return;
     }
     if config.list {
-        for test in MANIFESTS.iter().map(|m| m.label).chain(std::iter::once("w3c_rdf_13_all_manifests_1170_earl_report")) {
+        for test in MANIFESTS.iter().map(|m| m.label).chain(std::iter::once("w3c_rdf_13_all_manifests_1175_earl_report")) {
             println!("{test}: test");
         }
         return;
@@ -45,7 +45,7 @@ fn main() {
         .iter()
         .filter(|manifest| config.matches(manifest.label))
         .collect::<Vec<_>>();
-    let run_aggregate = config.matches("w3c_rdf_13_all_manifests_1170_earl_report");
+    let run_aggregate = config.matches("w3c_rdf_13_all_manifests_1175_earl_report");
     let total_tests = selected.len() + usize::from(run_aggregate);
 
     println!("running {total_tests} test{}", if total_tests == 1 { "" } else { "s" });
@@ -80,11 +80,11 @@ fn main() {
     if run_aggregate {
         match runner::run_default_suite() {
             Ok(()) => {
-                print_result(&config, "w3c_rdf_13_all_manifests_1170_earl_report", TestOutcome::Ok, "1170 tests + EARL report");
+                print_result(&config, "w3c_rdf_13_all_manifests_1175_earl_report", TestOutcome::Ok, "1175 tests + EARL report");
                 passed += 1;
             }
             Err(err) => {
-                print_result(&config, "w3c_rdf_13_all_manifests_1170_earl_report", TestOutcome::Failed, &err);
+                print_result(&config, "w3c_rdf_13_all_manifests_1175_earl_report", TestOutcome::Failed, &err);
                 failed += 1;
             }
         }

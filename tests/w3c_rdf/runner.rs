@@ -156,8 +156,8 @@ struct Runner {
 
 pub fn run_default_suite() -> Result<(), String> {
     let counts = run_options(options_from_env(Vec::new(), true))?;
-    let expected = if has_filter() { None } else { Some(1170) };
-    assert_clean_counts("w3c_rdf_13_all_manifests_1170_earl_report", &counts, expected)
+    let expected = if has_filter() { None } else { Some(1175) };
+    assert_clean_counts("w3c_rdf_13_all_manifests_1175_earl_report", &counts, expected)
 }
 
 pub fn refresh_requested() -> bool { env_flag("EYERON_W3C_RDF_REFRESH") }

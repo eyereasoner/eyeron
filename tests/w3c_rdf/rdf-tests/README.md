@@ -20,4 +20,4 @@ EYERON_W3C_RDF_REFRESH=1 cargo test --test w3c_rdf
 
 During refresh, the 12 per-manifest harness checks are reported as delegated and the aggregate pass performs the single online mirror refresh.
 
-To make the 1170-test suite fully local in the repository, commit the populated `rdf-tests/` directory.
+To make the 1175-test suite fully local in the repository, commit the populated `rdf-tests/` directory.

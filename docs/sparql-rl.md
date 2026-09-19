@@ -54,9 +54,10 @@ cargo run --release -- --query '{ ?x :descendedFrom :C }' examples/family.srl
 
 ## Conformance
 
-`src/bin/w3c_sparql_rl.rs` runs the official W3C SPARQL-RL test suite (203/203 passing) and writes an EARL report:
+`cargo test --release --test w3c_sparql_rl` runs the official W3C SPARQL-RL test suite (203/203 passing) against a local mirror (`tests/w3c_sparql_rl/data-shapes/`) and writes an EARL report. `EYERON_W3C_SPARQL_RL_REFRESH=1 cargo test --release --test w3c_sparql_rl` (or `./scripts/sync-test-suites`) refreshes that mirror from the live manifest. `src/bin/w3c_sparql_rl.rs` runs the same suite but always fetches the manifest live, with no local mirror:
 
 ```bash
+cargo test --release --test w3c_sparql_rl
 cargo run --release --bin w3c_sparql_rl
 ```
 
@@ -64,4 +65,3 @@ cargo run --release --bin w3c_sparql_rl
 
 - `--proof` output is not yet implemented for `.srl` input.
 - `--query-mode auto` is not implemented (only `forward`/`backward`).
-- The W3C SPARQL-RL conformance harness always fetches the live manifest over the network; there is no local vendored mirror yet, unlike the RDF harness.

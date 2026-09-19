@@ -199,12 +199,15 @@ fn print_help() {
     println!("  cargo test --release --test w3c_sparql_rl");
     println!();
     println!("The harness prints a libtest-style line with a coloured ok/FAILED status word.");
-    println!("It always fetches {} live (no local vendored mirror yet).", runner::DEFAULT_MANIFEST);
+    println!("It is local-only by default; use EYERON_W3C_SPARQL_RL_REFRESH=1 to bootstrap or refresh tests/w3c_sparql_rl/data-shapes/.");
+    println!("The manifest root is {}.", runner::DEFAULT_MANIFEST);
     println!();
     println!("Useful environment variables:");
+    println!("  EYERON_W3C_SPARQL_RL_REFRESH=1   bootstrap/refresh the local W3C SPARQL-RL mirror");
     println!("  EYERON_W3C_SPARQL_RL_VERBOSE=1   show runner progress in addition to the harness line");
     println!("  EYERON_W3C_SPARQL_RL_FILTER=txt  filter cases inside the manifest (by name/type/ruleset path)");
     println!("  EYERON_W3C_SPARQL_RL_EARL=PATH   choose the EARL report output path");
+    println!("  EYERON_W3C_SPARQL_RL_CACHE_DIR=tests/w3c_sparql_rl/data-shapes");
 }
 
 fn env_flag(name: &str) -> bool {

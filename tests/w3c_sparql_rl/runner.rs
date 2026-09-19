@@ -28,6 +28,8 @@ const SRLT_DATA: &str = "http://www.w3.org/ns/sparql-rl-tests#data";
 
 pub const DEFAULT_MANIFEST: &str = "https://w3c.github.io/data-shapes/shacl12-test-suite/tests/sparql-rl/manifest-sparql-rl.ttl";
 
+const DEFAULT_W3C_SPARQL_RL_CACHE_DIR: &str = "tests/w3c_sparql_rl/data-shapes";
+
 #[derive(Debug, Clone)]
 struct ManifestCase {
     name: String,
@@ -78,6 +80,9 @@ pub struct Counts {
 
 struct Runner {
     cache: HashMap<String, String>,
+    disk_cache_dir: PathBuf,
+    offline: bool,
+    refresh_cache: bool,
 }
 
 pub fn has_filter() -> bool {
@@ -88,16 +93,28 @@ fn is_quiet() -> bool {
     std::env::var("EYERON_W3C_SPARQL_RL_QUIET").map(|v| v == "1").unwrap_or(false)
 }
 
-/// Fetch the live W3C SPARQL-RL manifest, run every case, write the EARL
-/// report, and return the pass/fail/skip counts. Errors here are hard
-/// failures (network/parse problems), distinct from an individual test
-/// case failing (which is reflected in `Counts::fail`).
+pub fn refresh_requested() -> bool {
+    env_flag("EYERON_W3C_SPARQL_RL_REFRESH")
+}
+
+fn env_flag(name: &str) -> bool {
+    std::env::var(name).map(|value| matches!(value.as_str(), "1" | "true" | "TRUE" | "yes" | "YES" | "on" | "ON")).unwrap_or(false)
+}
+
+/// Run every case from the W3C SPARQL-RL manifest, write the EARL report,
+/// and return the pass/fail/skip counts. Like the W3C RDF harness, this is
+/// local-only by default: it reads `tests/w3c_sparql_rl/data-shapes/` and
+/// fails fast on a cache miss, so repeat runs stay fast. Set
+/// `EYERON_W3C_SPARQL_RL_REFRESH=1` to bootstrap or refresh that mirror
+/// from the live manifest. Errors here are hard failures (network/parse
+/// problems), distinct from an individual test case failing (which is
+/// reflected in `Counts::fail`).
 pub fn run_default_suite() -> Result<Counts, String> {
     let filter = std::env::var("EYERON_W3C_SPARQL_RL_FILTER").ok().filter(|v| !v.trim().is_empty());
     let output = std::env::var("EYERON_W3C_SPARQL_RL_EARL").unwrap_or_else(|_| "reports/w3c-sparql-rl-earl.ttl".to_string());
     let quiet = is_quiet();
 
-    let mut runner = Runner { cache: HashMap::new() };
+    let mut runner = Runner::from_env();
     if !quiet {
         eprintln!("== W3C SPARQL-RL manifest: {DEFAULT_MANIFEST}");
     }
@@ -146,6 +163,14 @@ pub fn assert_clean_counts(label: &str, counts: &Counts, expected_total: Option<
 }
 
 impl Runner {
+    fn from_env() -> Self {
+        let disk_cache_dir = std::env::var("EYERON_W3C_SPARQL_RL_CACHE_DIR").map(PathBuf::from).unwrap_or_else(|_| PathBuf::from(DEFAULT_W3C_SPARQL_RL_CACHE_DIR));
+        let refresh_cache = refresh_requested();
+        let online = refresh_cache || env_flag("EYERON_W3C_SPARQL_RL_ONLINE");
+        let offline = env_flag("EYERON_W3C_SPARQL_RL_OFFLINE") || !online;
+        Runner { cache: HashMap::new(), disk_cache_dir, offline, refresh_cache }
+    }
+
     fn load_manifest_recursive(&mut self, resource: &str, seen: &mut BTreeSet<String>) -> Result<Vec<ManifestCase>, String> {
         if !seen.insert(resource.to_string()) {
             return Ok(Vec::new());
@@ -164,12 +189,51 @@ impl Runner {
             return Ok(cached.clone());
         }
         let text = if is_url(resource) {
-            ureq::get(resource).call().map_err(|err| format!("failed to fetch {resource}: {err}"))?.into_string().map_err(|err| format!("failed to read response from {resource}: {err}"))?
+            self.read_url_resource(resource)?
         } else {
             fs::read_to_string(resource).map_err(|err| format!("failed to read {resource}: {err}"))?
         };
         self.cache.insert(resource.to_string(), text.clone());
         Ok(text)
+    }
+
+    fn read_url_resource(&mut self, resource: &str) -> Result<String, String> {
+        if !self.refresh_cache {
+            if let Some(path) = self.cache_path_for_url(resource) {
+                if path.exists() {
+                    return fs::read_to_string(&path).map_err(|err| format!("failed to read cached {} for {resource}: {err}", path.display()));
+                }
+            }
+        }
+        if self.offline {
+            let expected = self.cache_path_for_url(resource).map(|p| p.display().to_string()).unwrap_or_else(|| self.disk_cache_dir.display().to_string());
+            return Err(format!(
+                "local W3C SPARQL-RL mirror miss for {resource}; expected {expected}. \
+                 The W3C SPARQL-RL conformance test is intentionally local-only so `cargo test` stays fast. \
+                 Run once with EYERON_W3C_SPARQL_RL_REFRESH=1 to populate the mirror, then commit tests/w3c_sparql_rl/data-shapes/."
+            ));
+        }
+        let text = match fetch_url(resource) {
+            Ok(text) => text,
+            Err(primary) => {
+                if let Some(fallback) = github_raw_fallback(resource) {
+                    fetch_url(&fallback).map_err(|secondary| format!("failed to fetch {resource}: {primary}; fallback {fallback}: {secondary}"))?
+                } else {
+                    return Err(format!("failed to fetch {resource}: {primary}"));
+                }
+            }
+        };
+        if let Some(path) = self.cache_path_for_url(resource) {
+            if let Some(parent) = path.parent() {
+                fs::create_dir_all(parent).map_err(|err| format!("failed to create W3C SPARQL-RL cache directory {}: {err}", parent.display()))?;
+            }
+            fs::write(&path, &text).map_err(|err| format!("failed to write W3C SPARQL-RL cache file {}: {err}", path.display()))?;
+        }
+        Ok(text)
+    }
+
+    fn cache_path_for_url(&self, resource: &str) -> Option<PathBuf> {
+        w3c_sparql_rl_relative_path(resource).map(|relative| self.disk_cache_dir.join(relative))
     }
 
     fn read_ruleset(&mut self, path: &str) -> Result<(String, SparqlRlProgram), String> {
@@ -360,6 +424,21 @@ fn term_label(term: &Term) -> String {
 
 fn is_url(value: &str) -> bool {
     value.starts_with("http://") || value.starts_with("https://")
+}
+
+fn fetch_url(resource: &str) -> Result<String, String> {
+    ureq::get(resource).call().map_err(|err| err.to_string())?.into_string().map_err(|err| err.to_string())
+}
+
+fn github_raw_fallback(resource: &str) -> Option<String> {
+    let prefix = "https://w3c.github.io/data-shapes/";
+    resource.strip_prefix(prefix).map(|rest| format!("https://raw.githubusercontent.com/w3c/data-shapes/main/{rest}"))
+}
+
+fn w3c_sparql_rl_relative_path(resource: &str) -> Option<PathBuf> {
+    let github_pages = "https://w3c.github.io/data-shapes/";
+    let raw_github = "https://raw.githubusercontent.com/w3c/data-shapes/main/";
+    resource.strip_prefix(github_pages).or_else(|| resource.strip_prefix(raw_github)).map(|rest| PathBuf::from(rest.trim_start_matches('/')))
 }
 
 fn resolve_resource(reference: &str, base: &str) -> String {
