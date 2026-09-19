@@ -44,13 +44,13 @@ git pull --ff-only
 # Update the Cargo package version.
 cargo set-version --bump "$RELEASE_TYPE"
 
-# Test the release and update Cargo.lock if necessary.
-cargo test --release
-
 # Rebuild the browser playground's wasm package so pkg/eyeron_bg.wasm (whose
 # version() export bakes in CARGO_PKG_VERSION at compile time) and the other
 # committed pkg/ artifacts match the version just set above, instead of
-# quietly lagging behind it on GitHub Pages.
+# quietly lagging behind it on GitHub Pages. This build also refreshes
+# Cargo.lock to match the bumped version. The release is expected to have
+# already been tested (e.g. `cargo test --release`) before running this
+# script, so that is not repeated here.
 cargo playground
 
 # Read the updated package version using Cargo metadata.
