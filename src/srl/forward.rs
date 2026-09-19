@@ -2,7 +2,7 @@
 //!
 //! Ties together the pieces built so far: `super::stratify` computes a safe
 //! rule execution order, `super::eval` evaluates each rule's body against
-//! the current graphs, and `crate::reasoner::instantiate_triple` reuses
+//! the current graphs, and `crate::n3::reasoner::instantiate_triple` reuses
 //! eyeron's existing deterministic per-firing blank-node/skolemization
 //! logic to materialize rule heads — the same helper the N3 forward
 //! fixpoint uses for `{...} => {...}` conclusions.
@@ -23,7 +23,7 @@ use std::collections::{BTreeMap, HashSet};
 
 use crate::ast::Triple;
 use crate::error::Result;
-use crate::reasoner::{instantiate_triple, Bindings, CompletionStatus, FactIndex, ReasonerOptions, ReasonerResult, ReasonerStatistics};
+use crate::n3::reasoner::{instantiate_triple, Bindings, CompletionStatus, FactIndex, ReasonerOptions, ReasonerResult, ReasonerStatistics};
 
 use super::ast::{SparqlRlProgram, SparqlRlRule};
 use super::eval::{solve_body, solve_body_scoped, BodyCtx, Graph};
@@ -103,7 +103,7 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
 
     Ok(ReasonerResult {
         status,
-        limits_reached: if status == CompletionStatus::Incomplete { vec![crate::reasoner::ReasonerLimit::Iterations] } else { Vec::new() },
+        limits_reached: if status == CompletionStatus::Incomplete { vec![crate::n3::reasoner::ReasonerLimit::Iterations] } else { Vec::new() },
         errors: Vec::new(),
         statistics,
         explicit: program.data.clone(),
@@ -125,7 +125,7 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
 /// once across the whole run rather than being re-scanned on every
 /// fixpoint pass, which is safe because each solution's blank node is
 /// already a deterministic function of its bindings
-/// (`crate::reasoner::instantiate_triple`), so re-scanning could not have
+/// (`crate::n3::reasoner::instantiate_triple`), so re-scanning could not have
 /// produced any solution this pass missed.
 /// Returns whether the rule fired at least once this call.
 fn fire_rule(rule: &SparqlRlRule, ctx: &BodyCtx, seen: &mut HashSet<Triple>, new_facts: &mut Vec<Triple>) -> bool {
@@ -162,7 +162,7 @@ fn build_index(facts: &[Triple]) -> FactIndex {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::sparql_rl::parser::parse_sparql_rl;
+    use crate::srl::parser::parse_sparql_rl;
 
     fn run(src: &str) -> ReasonerResult {
         let program = parse_sparql_rl(src, None).unwrap();
@@ -183,7 +183,7 @@ mod tests {
              RULE { ?x :descendedFrom ?y } WHERE { ?x :childOf ?y }\n\
              RULE { ?x :descendedFrom ?y } WHERE { ?x :childOf ?z . ?z :descendedFrom ?y }",
         );
-        assert!(result.status == crate::reasoner::CompletionStatus::Complete);
+        assert!(result.status == crate::n3::reasoner::CompletionStatus::Complete);
         assert!(result.closure.contains(&Triple::new(iri("X"), iri("childOf"), iri("A"))));
         assert!(result.closure.contains(&Triple::new(iri("A"), iri("descendedFrom"), iri("C"))));
         assert!(result.closure.contains(&Triple::new(iri("X"), iri("descendedFrom"), iri("C"))));

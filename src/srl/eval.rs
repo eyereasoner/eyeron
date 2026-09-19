@@ -4,7 +4,7 @@
 //! already be bound by *preceding* clauses in source order (SPARQL
 //! evaluation order is sequential; eyeleng enforces and relies on this via
 //! `evaluateBodyStream` in `src/engine.js`). eyeron's existing N3 premise
-//! matcher (`crate::reasoner::match_premise_remaining`) instead reorders
+//! matcher (`crate::n3::reasoner::match_premise_remaining`) instead reorders
 //! premises by selectivity, which is correct for monotonic Horn-triple
 //! matching but would be unsound here. This module is therefore a
 //! separate, small, non-reordering backtracking search, implemented as
@@ -16,7 +16,7 @@
 use std::cell::Cell;
 
 use crate::ast::{Term, Triple};
-use crate::reasoner::{match_triple, resolve_pattern, terms_equal_semantic, Bindings, FactIndex};
+use crate::n3::reasoner::{match_triple, resolve_pattern, terms_equal_semantic, Bindings, FactIndex};
 
 use super::ast::{Clause, PathExpr};
 use super::expr::{boolean_value, eval_expr, EvalCtx};
@@ -196,7 +196,7 @@ pub(crate) fn expand_path(s: &Term, path: &PathExpr, o: &Term, fresh: &mut dyn F
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::sparql_rl::parser::parse_sparql_rl;
+    use crate::srl::parser::parse_sparql_rl;
     use std::collections::BTreeMap;
 
     fn index_of(facts: &[Triple]) -> FactIndex {
@@ -242,8 +242,8 @@ mod tests {
     #[test]
     fn filter_restricts_solutions() {
         let facts = vec![
-            Triple::new(iri("town1"), iri("population"), crate::reasoner::numeric_literal(1000.0, true)),
-            Triple::new(iri("town2"), iri("population"), crate::reasoner::numeric_literal(2000.0, true)),
+            Triple::new(iri("town1"), iri("population"), crate::n3::reasoner::numeric_literal(1000.0, true)),
+            Triple::new(iri("town2"), iri("population"), crate::n3::reasoner::numeric_literal(2000.0, true)),
         ];
         let sols = solutions("{ ?x :population ?p . FILTER(?p > 1500) }", &facts);
         assert_eq!(sols.len(), 1);
@@ -252,10 +252,10 @@ mod tests {
 
     #[test]
     fn set_binds_and_checks_equality() {
-        let facts = vec![Triple::new(iri("x"), iri("n"), crate::reasoner::numeric_literal(3.0, true))];
+        let facts = vec![Triple::new(iri("x"), iri("n"), crate::n3::reasoner::numeric_literal(3.0, true))];
         let sols = solutions("{ ?x :n ?n . SET(?y := ?n * 2) }", &facts);
         assert_eq!(sols.len(), 1);
-        assert_eq!(sols[0].get("y"), Some(&crate::reasoner::numeric_literal(6.0, true)));
+        assert_eq!(sols[0].get("y"), Some(&crate::n3::reasoner::numeric_literal(6.0, true)));
     }
 
     #[test]
@@ -295,7 +295,7 @@ mod tests {
     fn not_data_reads_base_graph_only() {
         let program = parse_sparql_rl("PREFIX : <http://example/>\nRULE {} WHERE { ?x :type :Person . NOT DATA { ?x :blocked true } }", None).unwrap();
         let body = &program.rules[0].body;
-        let inference_facts = vec![Triple::new(iri("alice"), iri("type"), iri("Person")), Triple::new(iri("alice"), iri("blocked"), crate::parser::boolean_literal(true))];
+        let inference_facts = vec![Triple::new(iri("alice"), iri("type"), iri("Person")), Triple::new(iri("alice"), iri("blocked"), crate::n3::parser::boolean_literal(true))];
         let base_facts: Vec<Triple> = Vec::new();
         let inference_index = index_of(&inference_facts);
         let base_index = FactIndex::default();

@@ -555,7 +555,7 @@ fn lookaround_regex_syntax_uses_compatibility_matching() {
 
 #[test]
 fn proof_output_marks_missing_support_as_unproven() {
-    use eyeron::reasoner::DerivedFact;
+    use eyeron::n3::reasoner::DerivedFact;
     use eyeron::{CompletionStatus, ReasonerResult, ReasonerStatistics, Rule, Term, Triple};
     use std::collections::BTreeMap;
 
@@ -627,7 +627,7 @@ fn high_level_reason_does_not_fabricate_unknown_resource_content() {
 
 #[test]
 fn proof_output_recognizes_compatible_lookaround_builtin() {
-    use eyeron::reasoner::DerivedFact;
+    use eyeron::n3::reasoner::DerivedFact;
     use eyeron::{CompletionStatus, ReasonerResult, ReasonerStatistics, Rule, Term, Triple};
     use std::collections::BTreeMap;
 

@@ -1,8 +1,8 @@
 use eyeron::error::{EyeronError, Result};
-use eyeron::printing::{document_debug, rdf_result_to_string, result_to_string};
-use eyeron::proof::proof_to_n3;
-use eyeron::reasoner::{reason, ReasonerOptions};
-use eyeron::sparql_rl::{self, SparqlRlProgram};
+use eyeron::n3::printing::{document_debug, rdf_result_to_string, result_to_string};
+use eyeron::n3::proof::proof_to_n3;
+use eyeron::n3::reasoner::{reason, ReasonerOptions};
+use eyeron::srl::{self, SparqlRlProgram};
 use eyeron::Document;
 use eyeron::{
     is_rdf_message_log, parse_n3, parse_n3_with_source, parse_rdf12, parse_rdf_message_log,
@@ -305,14 +305,14 @@ fn run_one_message(
 /// Whether `(label, text)` looks like a SPARQL 1.2 RL rule set: either the
 /// filename ends in `.srl`, or (for stdin/URLs, and as a fallback for
 /// files) the content itself looks like one (see
-/// `eyeron::sparql_rl::is_sparql_rl`).
+/// `eyeron::srl::is_sparql_rl`).
 fn is_sparql_rl_source(label: &str, text: &str) -> bool {
     let has_srl_extension = label
         .split(['?', '#'])
         .next()
         .and_then(|path| Path::new(path).extension())
         .is_some_and(|ext| ext.eq_ignore_ascii_case("srl"));
-    has_srl_extension || sparql_rl::is_sparql_rl(text)
+    has_srl_extension || srl::is_sparql_rl(text)
 }
 
 fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
@@ -329,9 +329,9 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
             )));
         }
         let base = source_base_iri(opt, label);
-        let parsed = sparql_rl::parse_sparql_rl(text, base.as_deref())
+        let parsed = srl::parse_sparql_rl(text, base.as_deref())
             .map_err(|err| EyeronError::new(err.with_source_location(text, label)))?;
-        sparql_rl::merge_programs(&mut program, parsed);
+        srl::merge_programs(&mut program, parsed);
     }
 
     if opt.ast {
@@ -367,26 +367,26 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
     let reasoner_options = cli_reasoner_options(opt, false);
 
     if let Some(query_text) = sparql_rl_query_text(opt)? {
-        let (query_body, _) = sparql_rl::parse_query_body(&query_text, opt.base_iri.as_deref(), &program.prefixes)
+        let (query_body, _) = srl::parse_query_body(&query_text, opt.base_iri.as_deref(), &program.prefixes)
             .map_err(|err| EyeronError::new(err.with_source_location(&query_text, "--query")))?;
         let solutions = match opt.query_mode {
             QueryMode::Backward => {
-                let options = sparql_rl::BackwardOptions { max_depth: reasoner_options.max_backward_depth, ..sparql_rl::BackwardOptions::default() };
-                sparql_rl::solve_query(&program, &base_graph, &query_body, options)
+                let options = srl::BackwardOptions { max_depth: reasoner_options.max_backward_depth, ..srl::BackwardOptions::default() };
+                srl::solve_query(&program, &base_graph, &query_body, options)
             }
             QueryMode::Forward => {
-                let result = sparql_rl::reason(&program, &base_graph, &reasoner_options)?;
+                let result = srl::reason(&program, &base_graph, &reasoner_options)?;
                 if let Some(summary) = result.incomplete_summary() {
                     return Err(EyeronError::new(summary));
                 }
-                sparql_rl::query_facts(&result.closure, &base_graph, &query_body)
+                srl::query_facts(&result.closure, &base_graph, &query_body)
             }
         };
         print_sparql_rl_solutions(&program.prefixes, &solutions);
         return Ok(());
     }
 
-    let result = sparql_rl::reason(&program, &base_graph, &reasoner_options)?;
+    let result = srl::reason(&program, &base_graph, &reasoner_options)?;
     if let Some(summary) = result.incomplete_summary() {
         return Err(EyeronError::new(summary));
     }
@@ -407,7 +407,7 @@ fn sparql_rl_query_text(opt: &CliOptions) -> Result<Option<String>> {
     }
 }
 
-fn print_sparql_rl_solutions(prefixes: &BTreeMap<String, String>, solutions: &[eyeron::reasoner::Bindings]) {
+fn print_sparql_rl_solutions(prefixes: &BTreeMap<String, String>, solutions: &[eyeron::n3::reasoner::Bindings]) {
     if solutions.is_empty() {
         println!("(no solutions)");
         return;
@@ -417,7 +417,7 @@ fn print_sparql_rl_solutions(prefixes: &BTreeMap<String, String>, solutions: &[e
             println!();
         }
         for (var, value) in solution {
-            println!("?{} {}", var, eyeron::printing::term_to_n3_object(value, prefixes));
+            println!("?{} {}", var, eyeron::n3::printing::term_to_n3_object(value, prefixes));
         }
     }
 }

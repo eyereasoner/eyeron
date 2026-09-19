@@ -14,7 +14,7 @@ use std::collections::BTreeMap;
 
 use crate::ast::{Literal, Term, Triple, RDF_FIRST, RDF_NIL, RDF_REST, RDF_TYPE};
 use crate::error::{EyeronError, Result};
-use crate::parser::{boolean_literal, number_literal};
+use crate::n3::parser::{boolean_literal, number_literal};
 
 use super::ast::{BinaryOp, Clause, Expr, PathExpr, SparqlRlProgram, SparqlRlRule, UnaryOp};
 use super::lexer::{lex, Token, TokenKind};

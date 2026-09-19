@@ -10,7 +10,7 @@
 //! `tests/w3c_sparql_rl.rs` calls and turns into libtest-style output.
 
 use eyeron::ast::{Literal, Term, Triple};
-use eyeron::sparql_rl::{self, SparqlRlProgram};
+use eyeron::srl::{self, SparqlRlProgram};
 use eyeron::{parse_rdf12, Document, RdfFormat};
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::fs;
@@ -174,7 +174,7 @@ impl Runner {
 
     fn read_ruleset(&mut self, path: &str) -> Result<(String, SparqlRlProgram), String> {
         let text = self.read_resource(path)?;
-        let program = sparql_rl::parse_sparql_rl(&text, Some(path)).map_err(|err| err.with_source_location(&text, path))?;
+        let program = srl::parse_sparql_rl(&text, Some(path)).map_err(|err| err.with_source_location(&text, path))?;
         Ok((text, program))
     }
 
@@ -204,7 +204,7 @@ impl Runner {
             CaseKind::PositiveWellFormed => {
                 let (_, program) = self.read_ruleset(&case.ruleset)?;
                 for (i, rule) in program.rules.iter().enumerate() {
-                    sparql_rl::check_rule_well_formed(rule, i).map_err(|err| err.to_string())?;
+                    srl::check_rule_well_formed(rule, i).map_err(|err| err.to_string())?;
                 }
                 Ok((Status::Pass, "accepted as well-formed".to_string()))
             }
@@ -212,7 +212,7 @@ impl Runner {
                 let (_, program) = self.read_ruleset(&case.ruleset)?;
                 let mut errors = Vec::new();
                 for (i, rule) in program.rules.iter().enumerate() {
-                    if let Err(err) = sparql_rl::check_rule_well_formed(rule, i) {
+                    if let Err(err) = srl::check_rule_well_formed(rule, i) {
                         errors.push(err.to_string());
                     }
                 }
@@ -224,12 +224,12 @@ impl Runner {
             }
             CaseKind::PositiveStratification => {
                 let (_, program) = self.read_ruleset(&case.ruleset)?;
-                sparql_rl::stratify(&program.rules).map_err(|err| err.to_string())?;
+                srl::stratify(&program.rules).map_err(|err| err.to_string())?;
                 Ok((Status::Pass, "stratified as expected".to_string()))
             }
             CaseKind::NegativeStratification => {
                 let (_, program) = self.read_ruleset(&case.ruleset)?;
-                match sparql_rl::stratify(&program.rules) {
+                match srl::stratify(&program.rules) {
                     Ok(_) => Err("negative stratification test was accepted".to_string()),
                     Err(err) => Ok((Status::Pass, format!("rejected as expected: {err}"))),
                 }
@@ -245,7 +245,7 @@ impl Runner {
             Some(path) => self.read_data(path)?.facts,
             None => Vec::new(),
         };
-        let result = sparql_rl::reason(&program, &base_graph, &eyeron::reasoner::ReasonerOptions::default()).map_err(|err| err.to_string())?;
+        let result = srl::reason(&program, &base_graph, &eyeron::n3::reasoner::ReasonerOptions::default()).map_err(|err| err.to_string())?;
 
         let expected_path = case.result.as_ref().ok_or_else(|| "missing mf:result".to_string())?;
         let expected_doc = self.read_data(expected_path)?;

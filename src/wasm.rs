@@ -1,11 +1,11 @@
 use wasm_bindgen::prelude::*;
 
 use crate::error::{EyeronError, Result};
-use crate::parser::{is_rdf_message_log, parse_n3, parse_n3_with_source, parse_rdf_message_log};
-use crate::printing::{rdf_result_to_string, result_to_string};
-use crate::proof::proof_to_n3;
-use crate::rdf_compat::{parse_rdf12, RdfFormat};
-use crate::reasoner::{
+use crate::n3::parser::{is_rdf_message_log, parse_n3, parse_n3_with_source, parse_rdf_message_log};
+use crate::n3::printing::{rdf_result_to_string, result_to_string};
+use crate::n3::proof::proof_to_n3;
+use crate::n3::rdf_compat::{parse_rdf12, RdfFormat};
+use crate::n3::reasoner::{
     reason as reason_document, PreparedReasoner, ReasonerError, ReasonerOptions, ReasonerResult,
 };
 

@@ -1,7 +1,7 @@
 //! Stratification and well-formedness analysis for SPARQL 1.2 RL rule sets.
 //!
 //! Ported from eyeleng's `src/analyze.js`. eyeron's own forward fixpoint
-//! (`crate::reasoner::reason`) has no stratification concept: its only
+//! (`crate::n3::reasoner::reason`) has no stratification concept: its only
 //! non-monotonic-ish feature, formula-scoped `log:notIncludes`, is handled
 //! by an ad hoc "defer until the ordinary closure saturates, then resume if
 //! it changed" trick. SPARQL-RL's `NOT`/`NOT DATA` is inline negation over
@@ -383,7 +383,7 @@ fn strongly_connected_components(size: usize, edges: &[Edge]) -> Vec<Vec<usize>>
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::sparql_rl::parser::parse_sparql_rl;
+    use crate::srl::parser::parse_sparql_rl;
 
     fn rules_of(src: &str) -> Vec<SparqlRlRule> {
         parse_sparql_rl(src, None).unwrap().rules

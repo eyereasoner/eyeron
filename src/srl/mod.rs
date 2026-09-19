@@ -31,7 +31,7 @@ pub use stratify::stratify;
 pub use wellformed::check_rule as check_rule_well_formed;
 
 /// Content-sniff whether `input` looks like a SPARQL 1.2 RL rule set,
-/// mirroring `crate::parser::is_rdf_message_log`'s approach: skip leading
+/// mirroring `crate::n3::parser::is_rdf_message_log`'s approach: skip leading
 /// comments/blank lines and the header directives (`PREFIX`/`BASE`/
 /// `VERSION`/`IMPORTS`), then check whether the first substantive line
 /// opens with `RULE` or `DATA` — SRL's only two top-level block keywords.

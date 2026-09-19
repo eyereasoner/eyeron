@@ -1,6 +1,6 @@
 use crate::ast::Document;
 use crate::error::Result;
-use crate::parser;
+use crate::n3::parser;
 
 /// RDF syntax families accepted by the RDF compatibility layer.
 ///

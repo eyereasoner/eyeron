@@ -1,6 +1,6 @@
 //! Backward, goal-directed query evaluation for SPARQL 1.2 RL rule sets.
 //!
-//! This mirrors `crate::reasoner::solve_backward_goal`'s core ideas —
+//! This mirrors `crate::n3::reasoner::solve_backward_goal`'s core ideas —
 //! standardizing a candidate rule apart (renaming its variables so two
 //! concurrent applications of the same rule cannot collide), a
 //! depth-bounded recursive search, and a stack-based cycle guard — but
@@ -25,7 +25,7 @@
 use std::collections::{BTreeMap, HashSet};
 
 use crate::ast::{Term, Triple};
-use crate::reasoner::{match_triple, resolve_pattern, unify_term, Bindings, FactIndex};
+use crate::n3::reasoner::{match_triple, resolve_pattern, unify_term, Bindings, FactIndex};
 
 use super::ast::{Clause, SparqlRlProgram, SparqlRlRule};
 use super::eval::expand_path;
@@ -171,7 +171,7 @@ fn solve_clauses(clauses: &[Clause], idx: usize, use_base: bool, bindings: Bindi
             Ok(value) => {
                 let mut next = bindings.clone();
                 match next.get(var) {
-                    Some(existing) if !crate::reasoner::terms_equal_semantic(existing, &value) => true,
+                    Some(existing) if !crate::n3::reasoner::terms_equal_semantic(existing, &value) => true,
                     Some(_) => solve_clauses(clauses, idx + 1, use_base, next, ctx, depth, stack, on_solution),
                     None => {
                         next.insert(var.clone(), value);
@@ -259,7 +259,7 @@ fn solve_triple_goal(pattern: &Triple, clauses: &[Clause], idx: usize, use_base:
 }
 
 /// Cheap pre-filter: skip rules whose head predicate cannot possibly equal
-/// the goal's predicate, mirroring `crate::reasoner::rule_may_prove_goal`.
+/// the goal's predicate, mirroring `crate::n3::reasoner::rule_may_prove_goal`.
 fn head_may_prove(rule: &SparqlRlRule, goal: &Triple) -> bool {
     let Term::Iri(goal_predicate) = &goal.p else { return true };
     rule.head.iter().any(|head| match &head.p {
@@ -334,7 +334,7 @@ fn rename_term(term: &Term, prefix: &str, blanks: &mut BTreeMap<String, String>)
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::sparql_rl::parser::{parse_query_body, parse_sparql_rl};
+    use crate::srl::parser::{parse_query_body, parse_sparql_rl};
 
     fn program_of(src: &str) -> SparqlRlProgram {
         parse_sparql_rl(src, None).unwrap()

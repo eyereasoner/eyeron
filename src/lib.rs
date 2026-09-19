@@ -5,24 +5,19 @@
 
 pub mod ast;
 pub mod error;
-pub mod lexer;
-pub mod parser;
-pub mod rdf_compat;
-pub mod printing;
-pub mod proof;
-pub mod reasoner;
-pub mod sparql_rl;
+pub mod n3;
+pub mod srl;
 
 #[cfg(target_arch = "wasm32")]
 pub mod wasm;
 
 pub use ast::{Document, Literal, Rule, SourceRef, Term, Triple};
 pub use error::{EyeronError, Result};
-pub use parser::{is_rdf_message_log, parse_n3, parse_n3_with_source, parse_rdf_message_log};
-pub use rdf_compat::{parse_rdf12, RdfFormat};
-pub use printing::{document_debug, rdf12_json, rdf_result_to_string, result_to_string, triples_to_n3, triples_to_trig};
-pub use proof::proof_to_n3;
-pub use reasoner::{
+pub use n3::parser::{is_rdf_message_log, parse_n3, parse_n3_with_source, parse_rdf_message_log};
+pub use n3::rdf_compat::{parse_rdf12, RdfFormat};
+pub use n3::printing::{document_debug, rdf12_json, rdf_result_to_string, result_to_string, triples_to_n3, triples_to_trig};
+pub use n3::proof::proof_to_n3;
+pub use n3::reasoner::{
     reason as reason_document, CompletionStatus, ReasonerError, ReasonerLimit, ReasonerOptions,
     PreparedReasoner, ReasonerResult, ReasonerStatistics,
 };

@@ -85,18 +85,18 @@ The **closure** is the set of explicit and derived facts known so far. New facts
 | Path | Responsibility |
 | --- | --- |
 | `src/ast.rs` | Core data structures: terms, triples, rules, and documents |
-| `src/lexer.rs` | Converts input characters into tokens |
-| `src/parser.rs` | Builds the AST from N3 and RDF syntax |
-| `src/reasoner.rs` | Matching, unification, forward/backward reasoning, indexes, and built-ins |
-| `src/printing.rs` | Serializes results as N3, TriG, debug text, or JSON |
-| `src/proof.rs` | Builds and renders explanations for derived facts |
+| `src/n3/lexer.rs` | Converts input characters into tokens |
+| `src/n3/parser.rs` | Builds the AST from N3 and RDF syntax |
+| `src/n3/reasoner.rs` | Matching, unification, forward/backward reasoning, indexes, and built-ins |
+| `src/n3/printing.rs` | Serializes results as N3, TriG, debug text, or JSON |
+| `src/n3/proof.rs` | Builds and renders explanations for derived facts |
 | `src/error.rs` | Error type and source-position reporting |
-| `src/rdf_compat.rs` | Selects Turtle, N-Triples, N-Quads, or TriG parser profiles |
+| `src/n3/rdf_compat.rs` | Selects Turtle, N-Triples, N-Quads, or TriG parser profiles |
 | `src/lib.rs` | Public Rust library API and module exports |
 | `src/main.rs` | Native command-line interface |
 | `src/wasm.rs` | WebAssembly/browser interface |
 | `src/bin/w3c_rdf.rs` | Helper binary for RDF conformance work |
-| `src/sparql_rl/` | SPARQL 1.2 RL front end: lexer, parser, expression evaluator, ordered clause evaluator, stratification, forward and backward reasoners (see section 16) |
+| `src/srl/` | SPARQL 1.2 RL front end: lexer, parser, expression evaluator, ordered clause evaluator, stratification, forward and backward reasoners (see section 16) |
 | `tools/build_playground.rs` | Builds the browser playground package |
 | `examples/` | Example inputs, expected outputs, and proof outputs |
 | `tests/` | Integration, regression, CLI, N3, and W3C RDF tests |
@@ -139,7 +139,7 @@ An enum is a good fit because a term is exactly one of these variants. Recursive
 
 Many AST types derive `Eq`, `Ord`, and `Hash`. This is important, not cosmetic: the reasoner can place terms and triples in maps and sets for indexing, deterministic output, and duplicate detection.
 
-## 5. Lexing (`src/lexer.rs`)
+## 5. Lexing (`src/n3/lexer.rs`)
 
 The lexer performs the first translation:
 
@@ -161,7 +161,7 @@ The lexer performs the first translation:
 
 Keeping lexing separate simplifies the parser: the parser asks “is this an arrow token?” instead of repeatedly interpreting characters.
 
-## 6. Parsing (`src/parser.rs` and `src/rdf_compat.rs`)
+## 6. Parsing (`src/n3/parser.rs` and `src/n3/rdf_compat.rs`)
 
 The public entry points include:
 
@@ -180,7 +180,7 @@ Parenthesized lists are different: they remain first-class `Term::List` values. 
 
 RDF Message Logs are split at message boundaries. Each payload is parsed and represented using message-envelope vocabulary and quoted formulas, allowing rules to inspect a message as one atomic graph.
 
-## 7. Reasoning (`src/reasoner.rs`)
+## 7. Reasoning (`src/n3/reasoner.rs`)
 
 This is the largest module because it contains the core algorithm and the implementations of built-in predicates.
 
@@ -278,7 +278,7 @@ This interface lets ordinary fact matching and built-in computation participate 
 
 `log:query` rules are deliberately held until the normal rules reach a fixpoint. They select or format results without feeding their output back into reasoning. A conclusion using `log:outputString` is treated specially by the printer and emitted as plain text.
 
-## 8. Proofs (`src/proof.rs`)
+## 8. Proofs (`src/n3/proof.rs`)
 
 When `ReasonerOptions::proof` is enabled, every derived fact can store:
 
@@ -291,7 +291,7 @@ When `ReasonerOptions::proof` is enabled, every derived fact can store:
 
 Proof collection is optional because retaining derivation history costs memory. Normal reasoning only needs the closure and derived facts.
 
-## 9. Output (`src/printing.rs`)
+## 9. Output (`src/n3/printing.rs`)
 
 The printer reverses part of the parsing process: AST values become text again. It handles correct syntax for every `Term` variant, escapes strings, chooses compact prefixes, formats formulas and lists, and can produce N3 or TriG.
 
@@ -396,15 +396,15 @@ Several broader computer science ideas appear in this project:
 - **Resource safety:** explicit limits turn nontermination into a structured incomplete result.
 - **Reusable core:** the CLI, library, and browser interfaces share one parser and reasoning engine.
 
-## 16. SPARQL 1.2 RL (`src/sparql_rl/`)
+## 16. SPARQL 1.2 RL (`src/srl/`)
 
-SPARQL 1.2 RL ("SRL") is a second front end living entirely under `src/sparql_rl/`. It reads a different concrete syntax — `RULE { head } WHERE [DATA] { body }` instead of N3's `{ body } => { head }` — but is semantically the same kind of thing as the N3 path above: facts and rules go in, a forward fixpoint runs, derived triples come out. It is worth reading *after* the rest of this guide, both because it borrows several of the same ideas (an AST, a fixpoint loop, deterministic blank-node generation) and because it deliberately does **not** reuse `src/reasoner.rs`'s premise matcher, which is a useful contrast to study.
+SPARQL 1.2 RL ("SRL") is a second front end living entirely under `src/srl/`. It reads a different concrete syntax — `RULE { head } WHERE [DATA] { body }` instead of N3's `{ body } => { head }` — but is semantically the same kind of thing as the N3 path above: facts and rules go in, a forward fixpoint runs, derived triples come out. It is worth reading *after* the rest of this guide, both because it borrows several of the same ideas (an AST, a fixpoint loop, deterministic blank-node generation) and because it deliberately does **not** reuse `src/n3/reasoner.rs`'s premise matcher, which is a useful contrast to study.
 
 ### Why a second parser and a second body evaluator
 
-SRL borrows SPARQL's lexical vocabulary — `FILTER`, property paths, RDF-star triple terms — so its tokenizer and grammar are different enough from N3's that `src/sparql_rl/lexer.rs` and `src/sparql_rl/parser.rs` are separate, small, hand-written modules rather than extensions of `src/lexer.rs`/`src/parser.rs`. (One concrete reason: N3's word-reading does not stop at `/` or `^`, which SRL needs as standalone property-path operators.) The parser still reuses `crate::ast::{Term, Triple, Literal}` and the numeric/boolean-literal and RDF-star triple-term conventions from `crate::parser` wherever the shapes coincide, so the rest of the pipeline — printing, proofs — needs no SRL-specific cases.
+SRL borrows SPARQL's lexical vocabulary — `FILTER`, property paths, RDF-star triple terms — so its tokenizer and grammar are different enough from N3's that `src/srl/lexer.rs` and `src/srl/parser.rs` are separate, small, hand-written modules rather than extensions of `src/n3/lexer.rs`/`src/n3/parser.rs`. (One concrete reason: N3's word-reading does not stop at `/` or `^`, which SRL needs as standalone property-path operators.) The parser still reuses `crate::ast::{Term, Triple, Literal}` and the numeric/boolean-literal and RDF-star triple-term conventions from `crate::n3::parser` wherever the shapes coincide, so the rest of the pipeline — printing, proofs — needs no SRL-specific cases.
 
-A more interesting divergence is the rule body itself. `crate::reasoner::match_premise_remaining` deliberately **reorders** an N3 rule's premises to try the most selective one first — a database-style query-planning optimization that is sound because ordinary N3 premises are just triple patterns with no notion of "before" and "after." SPARQL-RL's `FILTER`, `SET`, and `NOT` clauses break that assumption: each one may only reference variables that a *preceding* clause in source order has already bound. Reordering them would be unsound. `src/sparql_rl/eval.rs` therefore implements its own small, strictly left-to-right backtracking search (`solve_body`/`solve_from`), written as continuation-passing recursion since Rust has no generators. It still calls straight into `crate::reasoner::{FactIndex, match_triple, resolve_pattern}` for the actual triple lookups — the indexing and unification machinery is fully reused, only the *order* in which clauses are tried is different.
+A more interesting divergence is the rule body itself. `crate::n3::reasoner::match_premise_remaining` deliberately **reorders** an N3 rule's premises to try the most selective one first — a database-style query-planning optimization that is sound because ordinary N3 premises are just triple patterns with no notion of "before" and "after." SPARQL-RL's `FILTER`, `SET`, and `NOT` clauses break that assumption: each one may only reference variables that a *preceding* clause in source order has already bound. Reordering them would be unsound. `src/srl/eval.rs` therefore implements its own small, strictly left-to-right backtracking search (`solve_body`/`solve_from`), written as continuation-passing recursion since Rust has no generators. It still calls straight into `crate::n3::reasoner::{FactIndex, match_triple, resolve_pattern}` for the actual triple lookups — the indexing and unification machinery is fully reused, only the *order* in which clauses are tried is different.
 
 ### The pieces, in reading order
 
@@ -412,9 +412,9 @@ A more interesting divergence is the rule body itself. `crate::reasoner::match_p
 2. **`expr.rs`** — a tree-walking evaluator for `Expr`, covering roughly fifty SPARQL built-in functions (string, numeric, date/time, XSD casts, RDF-star accessors) plus the usual operators. Every result is represented uniformly as a `Term` (booleans and numbers become `Literal`s), which is simpler than the reference JavaScript implementation this was ported from, where evaluation mixes raw primitives and term objects.
 3. **`eval.rs`** — the ordered clause evaluator described above. `Clause::Not`/`Clause::Path` are the two interesting cases: negation succeeds iff a recursive `solve_body` call over the negated sub-body finds zero solutions (classic negation as failure), and a property path is expanded into an ordinary chain of triple clauses with fresh join variables *at evaluation time*, so path matching needs no new machinery beyond what triple matching already provides.
 4. **`stratify.rs`** — a pure static analysis, unrelated to evaluation, that decides a safe rule execution order. It builds a dependency graph between rule heads and other rules' body patterns, computes strongly-connected components, and rejects a rule set where negation participates in a recursive cycle (an "unstratifiable" program, which has no single well-defined meaning). This exists because `NOT`'s soundness depends on the graph it searches being *finished*: a `NOT` clause must never run before every rule that could produce the pattern it negates has already reached a fixpoint.
-5. **`forward.rs`** — ties `stratify.rs`, `eval.rs`, `wellformed.rs`, and `expr.rs` together: check every rule's well-formedness, run `stratify`'s layers in order, and within each layer, run every rule's body to a local fixpoint (repeated passes until nothing new is added), reusing `crate::reasoner::instantiate_triple` to materialize each rule's head — the same helper N3 conclusions use, so head blank nodes get the same deterministic-per-firing identity already described in section 7. Ordinary (non-`WHERE DATA`) clauses match against the *union* of the base graph and the inference graph — a real bug caught during development: it is tempting to read "`WHERE DATA`/`NOT DATA` clauses read the base graph" as "ordinary clauses only read the inference graph," but `--data` input is meant to be reasoned *over*, not merely alongside; rules with no `DATA { ... }` block of their own would otherwise never see their `--data` input at all. `ReasonerResult::closure` is the inference graph alone (`program.data` plus everything derived, never the base graph) — this, not `::derived`, is what the W3C eval tests' `mf:result` corresponds to (`derived` additionally excludes `program.data` itself, which `mf:result` does not).
+5. **`forward.rs`** — ties `stratify.rs`, `eval.rs`, `wellformed.rs`, and `expr.rs` together: check every rule's well-formedness, run `stratify`'s layers in order, and within each layer, run every rule's body to a local fixpoint (repeated passes until nothing new is added), reusing `crate::n3::reasoner::instantiate_triple` to materialize each rule's head — the same helper N3 conclusions use, so head blank nodes get the same deterministic-per-firing identity already described in section 7. Ordinary (non-`WHERE DATA`) clauses match against the *union* of the base graph and the inference graph — a real bug caught during development: it is tempting to read "`WHERE DATA`/`NOT DATA` clauses read the base graph" as "ordinary clauses only read the inference graph," but `--data` input is meant to be reasoned *over*, not merely alongside; rules with no `DATA { ... }` block of their own would otherwise never see their `--data` input at all. `ReasonerResult::closure` is the inference graph alone (`program.data` plus everything derived, never the base graph) — this, not `::derived`, is what the W3C eval tests' `mf:result` corresponds to (`derived` additionally excludes `program.data` itself, which `mf:result` does not).
 6. **`wellformed.rs`** — static, per-rule checks independent of any other rule (contrast with `stratify.rs`, which is about *inter*-rule dependencies): an unbound head variable, a non-IRI/non-variable head predicate, or a `FILTER`/`SET` referencing a variable before a preceding body clause has bound it. Ported from eyeleng's `sequentialWellFormednessDiagnostics`.
-7. **`backward.rs`** — goal-directed query evaluation (`--query-mode backward`), the SRL counterpart to `crate::reasoner::solve_backward_goal`. It is a separate implementation rather than a reuse of that function, for the same reason `eval.rs` is separate from `match_premise_remaining`: it borrows the same core ideas (standardizing a candidate rule apart by renaming its variables uniquely per application, a depth-bounded recursive search, a stack-based cycle guard) but works over `SparqlRlRule`'s ordered `Vec<Clause>` body. It extends `eval.rs`'s own clause dispatch: proving a `Triple` subgoal tries known facts first, exactly as forward evaluation does, then — new here — unifies the goal against every rule head that could produce it and recurses into that rule's body. A real bug surfaced while writing this module's tests: a returned solution's bindings included internal renamed rule variables alongside the caller's own query variables, fixed by filtering each solution down to the query text's own variable set (`query_body_variables`) before returning it — worth reading as a concrete example of the kind of bug this style of variable renaming invites.
+7. **`backward.rs`** — goal-directed query evaluation (`--query-mode backward`), the SRL counterpart to `crate::n3::reasoner::solve_backward_goal`. It is a separate implementation rather than a reuse of that function, for the same reason `eval.rs` is separate from `match_premise_remaining`: it borrows the same core ideas (standardizing a candidate rule apart by renaming its variables uniquely per application, a depth-bounded recursive search, a stack-based cycle guard) but works over `SparqlRlRule`'s ordered `Vec<Clause>` body. It extends `eval.rs`'s own clause dispatch: proving a `Triple` subgoal tries known facts first, exactly as forward evaluation does, then — new here — unifies the goal against every rule head that could produce it and recurses into that rule's body. A real bug surfaced while writing this module's tests: a returned solution's bindings included internal renamed rule variables alongside the caller's own query variables, fixed by filtering each solution down to the query text's own variable set (`query_body_variables`) before returning it — worth reading as a concrete example of the kind of bug this style of variable renaming invites.
 
 A note on `run_once` (SPARQL 1.2 RL §4.4) worth internalizing precisely, since it is easy to misread: it does **not** mean "this rule fires on at most one solution." An earlier implementation made exactly that mistake — it stopped `fire_rule` after the first successful body match — and the W3C suite's `eval-bnodes-03` test (two data triples, two `run_once` rules, expects *four* distinct blank nodes, i.e. every solution of every rule still gets its own fresh blank) caught it. What `run_once` actually governs is how many times the rule's *body* is scanned across the fixpoint — once, rather than re-evaluated on every pass — which is safe precisely because each solution's blank node is already a deterministic function of its bindings (`instantiate_triple`'s `stable_binding_suffix`), so a later pass could not discover any solution the one scan missed.
 

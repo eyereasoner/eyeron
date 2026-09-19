@@ -1,13 +1,13 @@
 //! SPARQL 1.2 RL expression evaluator (`FILTER`/`SET` right-hand sides).
 //!
 //! Ported from eyeleng's `src/builtins.js`/`src/term.js`. eyeron's existing
-//! built-ins (`crate::reasoner::eval_builtin`) are all binary triple
+//! built-ins (`crate::n3::reasoner::eval_builtin`) are all binary triple
 //! relations dispatched by predicate IRI (e.g. `(?a ?b) math:sum ?c`);
 //! SPARQL-RL's `FILTER`/`SET` expressions are genuinely nested (`(?v1 = 0)
 //! || (?v2 = 0)`, `YEAR(?when)`), so this module implements a small
 //! tree-walking expression evaluator instead of reusing that dispatch
 //! table directly. It does reuse eyeron's numeric-literal and
-//! value-equality helpers (`crate::reasoner::{numeric_value,
+//! value-equality helpers (`crate::n3::reasoner::{numeric_value,
 //! numeric_literal, terms_equal_semantic}`) so a `FILTER(?p > 1500)` in an
 //! SRL rule and a `?p math:greaterThan 1500` premise in an N3 rule agree on
 //! what "numeric" and "equal" mean.
@@ -21,8 +21,8 @@ use std::cell::Cell;
 use std::cmp::Ordering;
 
 use crate::ast::{Literal, Term, Triple};
-use crate::parser::boolean_literal;
-use crate::reasoner::{numeric_literal, numeric_value, terms_equal_semantic, Bindings, Numeric};
+use crate::n3::parser::boolean_literal;
+use crate::n3::reasoner::{numeric_literal, numeric_value, terms_equal_semantic, Bindings, Numeric};
 
 use super::ast::{BinaryOp, Expr, UnaryOp};
 
@@ -745,7 +745,7 @@ fn timezone_duration(lexical: &str) -> EvalResult {
 mod tests {
     use super::*;
     use crate::ast::Term;
-    use crate::parser::number_literal;
+    use crate::n3::parser::number_literal;
     use std::collections::BTreeMap;
 
     fn b() -> Bindings {

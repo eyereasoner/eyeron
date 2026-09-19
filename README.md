@@ -277,8 +277,9 @@ More inputs are available under `examples/`, with expected results in `examples/
 ## Project layout
 
 ```text
-src/                  Parser, reasoner, proof generation, output, CLI, and Wasm API
-src/sparql_rl/        SPARQL 1.2 RL front end (lexer, parser, expression evaluator, forward reasoner)
+src/                  Shared core (ast, error), CLI, and Wasm API
+src/n3/               N3 front end: lexer, parser, reasoner, printing, proof
+src/srl/              SPARQL 1.2 RL front end: lexer, parser, expression evaluator, forward/backward reasoner
 examples/             N3, RDF Message, and SPARQL-RL examples
 examples/output/      Expected derived output
 examples/proof/       Expected proof output

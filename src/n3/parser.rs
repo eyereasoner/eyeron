@@ -1,7 +1,7 @@
 use crate::ast::*;
 use crate::error::{EyeronError, Result};
-use crate::lexer::{lex, Token, TokenKind};
-use crate::rdf_compat::RdfFormat;
+use crate::n3::lexer::{lex, Token, TokenKind};
+use crate::n3::rdf_compat::RdfFormat;
 
 pub fn parse_n3(input: &str, base_iri: Option<&str>) -> Result<Document> {
     parse_n3_with_source(input, base_iri, None)

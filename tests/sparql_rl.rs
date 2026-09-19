@@ -4,7 +4,7 @@
 //! golden file in `examples/output/`, following the same
 //! examples-with-goldens convention `tests/examples.rs` uses for N3.
 
-use eyeron::sparql_rl::{parse_sparql_rl, reason};
+use eyeron::srl::{parse_sparql_rl, reason};
 use eyeron::{parse_n3, result_to_string, ReasonerOptions, Triple};
 use std::collections::HashSet;
 use std::fs;
@@ -80,8 +80,8 @@ fn every_packaged_srl_example_parses_and_reasons_without_error() {
 #[test]
 fn well_formed_rule_set_is_content_sniffed_as_sparql_rl() {
     let source = fs::read_to_string(manifest_dir().join("examples/family.srl")).unwrap();
-    assert!(eyeron::sparql_rl::is_sparql_rl(&source));
-    assert!(!eyeron::sparql_rl::is_sparql_rl("@prefix : <http://example.org/> .\n:a :b :c ."));
+    assert!(eyeron::srl::is_sparql_rl(&source));
+    assert!(!eyeron::srl::is_sparql_rl("@prefix : <http://example.org/> .\n:a :b :c ."));
 }
 
 #[test]

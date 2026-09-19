@@ -108,7 +108,7 @@ fn collect_term_vars(term: &Term, out: &mut BTreeSet<String>) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::sparql_rl::parser::parse_sparql_rl;
+    use crate::srl::parser::parse_sparql_rl;
 
     fn check_source(src: &str) -> Result<()> {
         let program = parse_sparql_rl(src, None).unwrap();

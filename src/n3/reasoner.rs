@@ -3,7 +3,7 @@
 #![allow(clippy::too_many_arguments)]
 
 use crate::ast::*;
-use crate::parser::parse_n3;
+use crate::n3::parser::parse_n3;
 use regex::Regex;
 use std::cell::RefCell;
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
