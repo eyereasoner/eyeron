@@ -1,0 +1,50 @@
+# Companion to shortest-path.n3/.eye: SRL has no backward chaining, so the
+# eye source's general "enumerate every simple path from a recursive
+# rule" isn't expressible; instead this unrolls two non-recursive join
+# rules (one per intermediate-node count needed for this fixed 4-node
+# graph) with FILTER distinctness constraints, matching path-discovery.srl's
+# own unrolling precedent. The best route is then the one with no cheaper
+# alternative. Route output uses :routeCost rather than reusing :cost (the
+# input :Edge facts' own property) -- reusing it would make the
+# stratifier see a spurious recursive dependency between the two Route
+# rules, since its cycle detection is at the predicate-name level, not
+# per subject type. Each route's path is stored as flat :node1..:node4
+# properties on the route's own blank node, not an RDF list: an RDF list
+# would need 3-4 further per-route blank nodes for its cells, and three
+# same-shaped lists give the golden-comparison test's blank-node-matching
+# search too many interchangeable candidates to prune quickly, timing
+# out in practice (confirmed by testing) even though the graphs are
+# small.
+PREFIX : <http://example/>
+
+DATA {
+  :e_ab a :Edge; :from :a; :to :b; :cost 2.
+  :e_ac a :Edge; :from :a; :to :c; :cost 5.
+  :e_bc a :Edge; :from :b; :to :c; :cost 1.
+  :e_bd a :Edge; :from :b; :to :d; :cost 7.
+  :e_cd a :Edge; :from :c; :to :d; :cost 2.
+  :e_ca a :Edge; :from :c; :to :a; :cost 1.
+}
+
+RULE { [] a :Route; :node1 :a; :node2 ?x; :node3 :d; :routeCost ?cost }
+WHERE {
+  ?e1 :from :a; :to ?x; :cost ?c1.
+  ?e2 :from ?x; :to :d; :cost ?c2.
+  FILTER(?x != :a && ?x != :d)
+  SET(?cost := ?c1 + ?c2)
+}
+
+RULE { [] a :Route; :node1 :a; :node2 ?x; :node3 ?y; :node4 :d; :routeCost ?cost }
+WHERE {
+  ?e1 :from :a; :to ?x; :cost ?c1.
+  ?e2 :from ?x; :to ?y; :cost ?c2.
+  ?e3 :from ?y; :to :d; :cost ?c3.
+  FILTER(?x != :a && ?x != :d && ?y != :a && ?y != :d && ?x != ?y)
+  SET(?cost := ?c1 + ?c2 + ?c3)
+}
+
+RULE { ?r :isBest true }
+WHERE {
+  ?r a :Route; :routeCost ?cost.
+  NOT { ?other a :Route; :routeCost ?otherCost. FILTER(?otherCost < ?cost) }
+}

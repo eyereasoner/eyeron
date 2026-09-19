@@ -1,0 +1,29 @@
+# N3 example: peano-arithmetic.
+# Companion to peano-arithmetic.eye/.srl: computes (1*1+2)! = 3! = 6
+# structurally with :zero and (:s ...) successor terms, via N3 backward
+# chaining. The .eye source computes the larger (1*2+3)! = 5! = 120, but
+# this engine's backward-chaining recursion depth for pure Peano
+# arithmetic grows with the numeral being added/multiplied, not just the
+# input's own structural size -- factorial(5) needs roughly 100 levels of
+# nested backward calls (confirmed empirically), well past the default
+# 32-deep safety limit (see docs/n3.md's `--max-backward-depth`) that the
+# packaged-example test suite runs with. 3! keeps the same rule set and
+# algorithm while staying comfortably inside that default budget.
+@prefix : <http://example/>.
+
+{(?a :zero) :peanoAdd ?a} <= true.
+{(?a (:s ?b)) :peanoAdd (:s ?c)} <= {(?a ?b) :peanoAdd ?c}.
+
+{(?a :zero) :peanoMultiply :zero} <= true.
+{(?a (:s ?b)) :peanoMultiply ?c} <= {(?a ?b) :peanoMultiply ?d. (?a ?d) :peanoAdd ?c}.
+
+{(:zero ?a) :fac ?a} <= true.
+{((:s ?a) ?b) :fac ?c} <= {(?b (:s ?a)) :peanoMultiply ?d. (?a ?d) :fac ?c}.
+
+{?a :factorialValue ?b} <= {(?a (:s :zero)) :fac ?b}.
+
+{
+  ((:s :zero) (:s :zero)) :peanoMultiply ?two.
+  (?two (:s (:s :zero))) :peanoAdd ?three.
+  ?three :factorialValue ?result.
+} => {:test :three ?three; :result ?result}.

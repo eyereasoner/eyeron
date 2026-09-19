@@ -1,0 +1,38 @@
+# Companion to peano-arithmetic.n3/.eye: computes the same (1*1+2)! = 3! = 6
+# via a :succ chain over named Peano numerals, but as a fully unrolled DAG
+# of concrete steps rather than generic recursive peanoAdd/peanoMultiply/fac
+# relations. A generic ternary relation needs some way to key a fact by an
+# (a, b) argument pair, and both ways of doing that in SRL -- an RDF list
+# subject, or a SET-constructed TRIPLE() value -- make the rule "closed"
+# (SPARQL 1.2 RL section 4.4's run-once rules), and stratification rejects
+# any recursion that passes back through a closed rule (confirmed by
+# testing both encodings directly). Since every number in this specific
+# computation is a small, known constant, addition and multiplication are
+# instead unrolled as their exact sequence of +1 successor hops.
+PREFIX : <http://example/>
+
+DATA {
+  :n0 a :Peano.
+  :n1 :succ :n0.
+  :n2 :succ :n1.
+  :n3 :succ :n2.
+  :n4 :succ :n3.
+  :n5 :succ :n4.
+  :n6 :succ :n5.
+}
+
+RULE { :two :peanoValue :n1 } WHERE { :n1 :succ :n0 }
+RULE { :addStep1 :peanoValue ?m } WHERE { :two :peanoValue ?a. ?m :succ ?a. }
+RULE { :three :peanoValue ?r } WHERE { :addStep1 :peanoValue ?m. ?r :succ ?m. }
+
+RULE { :fac0 :peanoValue :n1 } WHERE { :n1 :succ :n0 }
+RULE { :fac1 :peanoValue :n1 } WHERE { :fac0 :peanoValue :n1 }
+RULE { :fac2 :peanoValue :n2 } WHERE { :fac1 :peanoValue :n1 }
+RULE { :facStep1 :peanoValue ?m } WHERE { :fac2 :peanoValue :n2. ?m :succ :n3. }
+RULE { :facStep2 :peanoValue ?m } WHERE { :facStep1 :peanoValue ?p. ?m :succ ?p. }
+RULE { :fac3 :peanoValue ?m } WHERE { :facStep2 :peanoValue ?p. ?m :succ ?p. }
+
+RULE { :test :three ?three; :result ?result } WHERE {
+  :three :peanoValue ?three.
+  :fac3 :peanoValue ?result.
+}

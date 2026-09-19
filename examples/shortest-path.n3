@@ -1,0 +1,63 @@
+# N3 example: shortest-path.
+# Companion to shortest-path.eye/.srl: uses dijkstra.n3's own proven
+# priority-queue algorithm (adapted for directed, not symmetric, edges)
+# rather than shortest-path.eye's brute-force "enumerate every simple path,
+# then take the minimum" -- naive backward-chained cycle-safe recursion
+# (a visited list checked with list:notMember) hits a real limitation of
+# this engine's backward-premise scheduler: a later, already-satisfiable
+# premise in the same rule body can be selected ahead of an
+# earlier-in-source-order but not-yet-candidate-bearing list:notMember
+# check, so the visited-list cutoff is applied too late and the search
+# never terminates on a graph with a cycle (confirmed by isolated testing).
+# dijkstra.n3's design sidesteps this because its cycle check runs inside
+# a single log:collectAllIn body (ordinary pattern matching, not backward
+# premise reordering). Since dijkstra2's priority-queue exploration still
+# yields every path it visits (in ascending cost order, matching
+# dijkstra.n3's own output), the true minimum is picked out afterwards.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example/>.
+
+(:a :b) :edge 2.
+(:a :c) :edge 5.
+(:b :c) :edge 1.
+(:b :d) :edge 7.
+(:c :d) :edge 2.
+(:c :a) :edge 1.
+
+{ (?Start ?Goal) :shortest (?Path ?Cost) } <= {
+    (((0 ?Start)) ?Goal ()) :shortest2 (?RevPath ?Cost).
+    ?RevPath list:reverse ?Path.
+}.
+
+{ (?L1 ?Goal ?L2) :shortest2 (?L3 ?Cost) } <= {
+    ?L1 list:firstRest (?L4 ?L5).
+    ?L4 list:firstRest (?Cost ?L3).
+    ?L3 list:firstRest (?Goal ?Path).
+}.
+
+{ (?L1 ?Goal ?Visited) :shortest2 (?ResultPath ?ResultCost) } <= {
+    ?L1 list:firstRest (?L2 ?Queue).
+    ?L2 list:firstRest (?Cost ?L3).
+    ?L3 list:firstRest (?Node ?Path).
+    (?L4 {
+        ?L4 list:firstRest (?NewCost ?L5).
+        ?L5 list:firstRest (?Neighbor ?L6).
+        ?L6 list:firstRest (?Node ?Path).
+        (?Node ?Neighbor) :edge ?Weight.
+        ?Visited list:notMember ?Neighbor.
+        (?Cost ?Weight) math:sum ?NewCost.
+    } ?Neighbors) log:collectAllIn ?SCOPE.
+    (?Queue ?Neighbors) list:append ?NewQueue.
+    ?NewQueue list:sort ?SortedQueue.
+    ?L7 list:firstRest (?Node ?Visited).
+    (?SortedQueue ?Goal ?L7) :shortest2 (?ResultPath ?ResultCost).
+}.
+
+{
+    (?cost {(:a :d) :shortest (?path ?cost)} ?costs) log:collectAllIn ?SCOPE.
+    ?costs list:sort ?sorted.
+    ?sorted list:firstRest (?best ?rest).
+    (:a :d) :shortest (?bestPath ?best).
+} => {:test :bestCost ?best; :bestPath ?bestPath}.
