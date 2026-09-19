@@ -1,0 +1,28 @@
+# Companion to lists.n3/.eye: unit clauses with variables are universally
+# quantified definitions there too. SRL has no generic bidirectional list
+# builtin (no list:firstRest/list:member equivalent), so append and member
+# are expressed as bounded property-path joins over the demo's own small,
+# fixed-length RDF collections, matching lists.eye's `ask append(?left,
+# ?right, [a, b])` (adapted, like lists.n3, to append's supported "inputs
+# known, output derived" direction) and `ask member(?x, [a, b, a])`. The
+# result is two flat properties rather than an RDF-list head: constructing
+# a list literal in a rule head while also reading rdf:first/rdf:rest in
+# the body creates a blank-node (run_once) self-dependency that eyeron's
+# stratifier rejects as an unstratifiable cycle.
+PREFIX : <http://example/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :query1 :xs (:a) ; :ys (:b) .
+  :items :list (:a :b :a) .
+}
+
+RULE { :query1 :appendResultLeft ?x ; :appendResultRight ?y }
+WHERE { :query1 :xs/rdf:first ?x ; :ys/rdf:first ?y }
+
+RULE { :items :member ?m }
+WHERE { :items :list/rdf:first ?m }
+RULE { :items :member ?m }
+WHERE { :items :list/rdf:rest/rdf:first ?m }
+RULE { :items :member ?m }
+WHERE { :items :list/rdf:rest/rdf:rest/rdf:first ?m }

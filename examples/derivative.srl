@@ -1,0 +1,46 @@
+# Companion to derivative.n3/.eye: symbolic differentiation over
+# constructor terms, here represented as reified term trees (:Const,
+# :Var, :Add, :Mul blank nodes) differentiated with respect to the fixed
+# variable :x, matching the source's own `ask d(mul(var(x), var(x)), x,
+# ?derivative)` (which likewise only ever differentiates with respect to
+# x).
+#
+# Adapted, not fully general: a rule head that constructs a blank node is
+# "run once" (SPARQL 1.2 RL SS4.4), and such a rule can never depend on
+# itself, even indirectly -- so a genuinely recursive rule (mul/add nodes
+# whose own children can again be mul/add nodes, each needing its own
+# freshly-constructed derivative) is unstratifiable in SRL (confirmed by
+# testing; eyeron's stratifier rejects it as a closed recursive
+# dependency). This instead separates leaf classification (:Const/:Var,
+# not blank-node-headed, so not run-once) from one non-recursive
+# combination rule for a Mul of two leaves -- which is exactly the shape
+# the source's own single test expression, mul(var(x), var(x)), needs.
+# The result tree also uses its own :Result*/:resultLeft/:resultRight/
+# :resultValue vocabulary throughout rather than reusing :Const/:Mul/
+# :left/:right/:value: reusing even one of those predicates (regardless
+# of the constructed node's own type) made the stratifier see (a
+# conservative, predicate-level, not instance-level, over-approximation)
+# a rule depending on itself through its own output.
+PREFIX : <http://example/>
+
+DATA {
+  :expr a :Mul ; :left :leftVar ; :right :rightVar .
+  :leftVar a :Var ; :name :x .
+  :rightVar a :Var ; :name :x .
+}
+
+RULE { ?u :derivativeValue 1 }
+WHERE { ?u a :Var ; :name :x }
+
+RULE { ?u :derivativeValue 0 }
+WHERE { ?u a :Var ; :name ?y . FILTER(?y != :x) }
+
+RULE { ?u :derivativeValue 0 }
+WHERE { ?u a :Const }
+
+RULE { ?t :derivative [ a :ResultAdd ; :resultLeft [ a :ResultMul ; :resultLeft [ a :ResultConst ; :resultValue ?du ] ; :resultRight ?v ] ; :resultRight [ a :ResultMul ; :resultLeft ?u ; :resultRight [ a :ResultConst ; :resultValue ?dv ] ] ] }
+WHERE {
+  ?t a :Mul ; :left ?u ; :right ?v .
+  ?u :derivativeValue ?du .
+  ?v :derivativeValue ?dv .
+}

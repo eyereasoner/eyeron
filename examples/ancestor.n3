@@ -1,0 +1,11 @@
+# N3 example: ancestor.
+# Companion to ancestor.eye/.srl: family relations, facts and a recursive
+# ancestor definition use the same rule model.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/ancestor#>.
+
+:alice :parent :bob.
+:bob :parent :carol.
+:carol :parent :dana.
+
+{?x :parent ?y} => {?x :ancestor ?y}.
+{?x :parent ?y. ?y :ancestor ?z} => {?x :ancestor ?z}.

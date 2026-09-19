@@ -1,0 +1,12 @@
+# Companion to ancestor.n3/.eye: family relations, facts and a recursive
+# ancestor definition use the same rule model.
+PREFIX : <http://example/>
+
+DATA {
+  :alice :parent :bob .
+  :bob :parent :carol .
+  :carol :parent :dana .
+}
+
+RULE { ?x :ancestor ?y } WHERE { ?x :parent ?y }
+RULE { ?x :ancestor ?z } WHERE { ?x :parent ?y . ?y :ancestor ?z }

@@ -1,0 +1,10 @@
+# N3 example: filter-town.
+# Companion to filter-town.eye/.srl (adapted from eyeleng's
+# spec-2-3-filtering).
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/filter-town#>.
+
+:town1 :population 1000.
+:town2 :population 2000.
+
+{?x :population ?p. ?p math:greaterThan 1500.} => {?x a :largeTown}.

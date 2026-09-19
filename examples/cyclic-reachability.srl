@@ -1,0 +1,12 @@
+# Companion to cyclic-reachability.n3/.eye: a graph cycle reasoned over
+# with a plain transitive-closure rule, no visited list needed.
+PREFIX : <http://example/>
+
+DATA {
+  :a :edge :b .
+  :b :edge :c .
+  :c :edge :a .
+}
+
+RULE { ?x :path ?y } WHERE { ?x :edge ?y }
+RULE { ?x :path ?z } WHERE { ?x :path ?y . ?y :edge ?z }

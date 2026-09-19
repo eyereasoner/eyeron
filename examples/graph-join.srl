@@ -1,0 +1,17 @@
+# Companion to graph-join.n3/.eye: RDF-shaped values are ordinary
+# constructors there; here they are reified quad records (subject,
+# predicate, object, graph) joined on a shared subject across two named
+# graphs (SPARQL-RL's DATA{} block is a single graph, not a dataset of
+# named graphs).
+PREFIX : <http://example/>
+
+DATA {
+  [ :subject :alice ; :predicate :role ; :object :reviewer ; :graph :staff ] a :Quad .
+  [ :subject :alice ; :predicate :approved ; :object :claim1 ; :graph :reviews ] a :Quad .
+}
+
+RULE { ?claim :trusted true }
+WHERE {
+  ?q1 :subject ?person ; :predicate :role ; :object :reviewer ; :graph :staff .
+  ?q2 :subject ?person ; :predicate :approved ; :object ?claim ; :graph :reviews .
+}

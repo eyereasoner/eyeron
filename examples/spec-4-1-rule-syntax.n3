@@ -1,0 +1,11 @@
+# N3 example: spec-4-1-rule-syntax.
+# Companion to spec-4-1-rule-syntax.eye/.srl: a value pair with two derived
+# checks (both members positive; at least one member zero).
+@prefix : <https://eyereasoner.github.io/eyepl/examples/spec-4-1-rule-syntax#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+:x :p 1; :q 2.
+
+{?x :p ?v1. ?x :q ?v2. ?v1 math:greaterThan 0. ?v2 math:greaterThan 0.} => {?x :bothPositive true}.
+{?x :p 0} => {?x :oneIsZero true}.
+{?x :q 0} => {?x :oneIsZero true}.

@@ -1,0 +1,13 @@
+# Companion to monkey.n3/.eye. Note the source's own subtlety: :Bobo is
+# stated as a member of an *anonymous class that is itself a Monkey*
+# (`:Bobo a [a :Monkey]`), not as a Monkey directly -- so it is that
+# blank node, not :Bobo, that ends up classified :Animal and satisfies
+# the final check.
+PREFIX : <http://example/>
+
+DATA {
+  :bobo a [ a :Monkey ] .
+}
+
+RULE { ?x a :Animal } WHERE { ?x a :Monkey }
+RULE { :test :is true } WHERE { ?x a :Monkey . ?x a :Animal }

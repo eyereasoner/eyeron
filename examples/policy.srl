@@ -1,0 +1,16 @@
+# Companion to policy.n3/.eye: the producer of :Blocked appears after its
+# consumer deliberately. Stratified evaluation must still run the
+# :Blocked-producing rule first.
+PREFIX : <http://example/>
+
+DATA {
+  :alice a :Person ; a :Blocked .
+  :bob a :Person .
+  :carol a :Person ; a :Flagged .
+}
+
+RULE { ?x a :Eligible }
+WHERE { ?x a :Person . NOT { ?x a :Blocked } }
+
+RULE { ?x a :Blocked }
+WHERE { ?x a :Flagged }

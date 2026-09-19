@@ -1,0 +1,25 @@
+# N3 example: lists.
+# Companion to lists.eye: unit clauses with variables are universally
+# quantified definitions there too, expressed here as N3 backward (<=)
+# rules over native RDF lists via the list: vocabulary.
+#
+# Adapted, not literal: N3's backward chaining here only resolves a
+# user-defined predicate when its *input* argument is ground (confirmed by
+# testing several equivalent rule shapes), unlike Prolog's append/3, so it
+# cannot enumerate every (left, right) split of a fixed result the way
+# lists.eye's `ask append(?left, ?right, [a, b])` does. This instead
+# demonstrates append in its supported (inputs known, output derived)
+# direction. member is unaffected -- list:member enumerates forward,
+# matching lists.eye's `ask member(?x, [a, b, a])` exactly.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/lists#>.
+
+{(?xs ?ys) :append ?zs} <= {
+    ?xs list:firstRest (?x ?xrest).
+    (?xrest ?ys) :append ?zsrest.
+    ?zs list:firstRest (?x ?zsrest).
+}.
+{(() ?ys) :append ?ys} <= true.
+
+{((:a) (:b)) :append ?result} => {:query :appendResult ?result}.
+{(:a :b :a) list:member ?x} => {:query :member ?x}.

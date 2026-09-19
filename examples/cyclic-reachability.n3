@@ -1,0 +1,12 @@
+# N3 example: cyclic-reachability.
+# Companion to cyclic-reachability.eye/.srl: a graph cycle reasoned over
+# with a plain transitive-closure rule, no visited list needed since the
+# forward fixpoint just stops once no pass adds an unseen fact.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/cyclic-reachability#>.
+
+:a :edge :b.
+:b :edge :c.
+:c :edge :a.
+
+{?x :edge ?y} => {?x :path ?y}.
+{?x :path ?y. ?y :edge ?z} => {?x :path ?z}.

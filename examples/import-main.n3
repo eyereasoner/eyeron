@@ -1,0 +1,12 @@
+# N3 example: import-main.
+# Companion to import-main.eye (a standalone ancestor demo). import-main.srl
+# instead IMPORTS the rules from import-lib.srl and supplies its own data
+# -- N3 has no IMPORTS directive of its own, so this mirrors the .eye
+# side's self-contained data and rules.
+@prefix : <https://eyereasoner.github.io/eyepl/examples/import-main#>.
+
+:alice :parent :bob.
+:bob :parent :carol.
+
+{?x :parent ?y} => {?x :ancestor ?y}.
+{?x :parent ?y. ?y :ancestor ?z} => {?x :ancestor ?z}.
