@@ -214,7 +214,7 @@ The suite covers parser and built-in unit tests, CLI behavior, regressions, exam
 ./scripts/test-all
 ```
 
-This runs the same `cargo test --release` (forwarding any extra arguments, e.g. `./scripts/test-all --test examples`), shows its normal output unchanged, and appends a `Grand total: ok. N passed; ...` line at the end.
+This runs the same `cargo test --release` (forwarding any extra arguments, e.g. `./scripts/test-all --test examples`), forces color through the pipe, and appends a `Grand total: ok. N passed; ...` line at the end plus, since a handful of those "passed" checks each roll up hundreds of individual conformance cases (the W3C RDF and W3C SPARQL-RL harnesses, and the vendored notation3tests suite), a second line with that larger underlying case count.
 
 Run the focused regression, packaged-example, or playground checks independently with:
 
