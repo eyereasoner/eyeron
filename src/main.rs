@@ -1,4 +1,5 @@
 use eyeron::error::{EyeronError, Result};
+use eyeron::eye;
 use eyeron::n3::printing::{document_debug, rdf_result_to_string, result_to_string};
 use eyeron::n3::proof::proof_to_n3;
 use eyeron::n3::reasoner::{reason, ReasonerOptions};
@@ -33,6 +34,18 @@ struct CliOptions {
     query: Option<String>,
     query_file: Option<String>,
     query_mode: QueryMode,
+    /// `.eye` only: parse and validate without evaluating.
+    check: bool,
+    /// `.eye` only: print `--json` instead of Eyelang result-format-2 text.
+    json: bool,
+    /// `.eye` only: `--rdf-input FILE` (repeatable), imported as `rdf/4` facts.
+    rdf_input: Vec<String>,
+    /// `.eye` only: print the `rdf/4` relation's answers as N-Quads instead
+    /// of evaluating the file's own `ask` statements.
+    rdf_output: bool,
+    max_steps: Option<u64>,
+    max_tables: Option<u64>,
+    max_answers: Option<u64>,
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
@@ -49,7 +62,11 @@ enum QueryMode {
 fn main() {
     if let Err(err) = run() {
         eprintln!("eyeron: {}", err);
-        std::process::exit(1);
+        // Mirrors eyelang's own CLI (`bin/eyelang.js`): a `LimitError` (an
+        // `.eye` evaluation that hit `--max-steps`/`--max-tables`/
+        // `--max-answers`) exits 2; every other error exits 1.
+        let exit_code = if err.message.starts_with("Evaluation incomplete:") { 2 } else { 1 };
+        std::process::exit(exit_code);
     }
 }
 
@@ -70,6 +87,10 @@ fn run() -> Result<()> {
         return run_stream_messages(&opt);
     }
     let sources = read_sources(&opt.files)?;
+
+    if sources.iter().any(|(label, text)| is_eyelang_source(label, text)) {
+        return run_eye(&opt, &sources);
+    }
 
     if sources.iter().any(|(label, text)| is_sparql_rl_source(label, text)) {
         return run_sparql_rl(&opt, &sources);
@@ -407,6 +428,86 @@ fn sparql_rl_query_text(opt: &CliOptions) -> Result<Option<String>> {
     }
 }
 
+/// Whether `(label, text)` looks like an Eyelang program: either the
+/// filename ends in `.eye`, or (for stdin/URLs, and as a fallback for
+/// files) the content itself looks like one (see `eyeron::eye::is_eyelang`).
+fn is_eyelang_source(label: &str, text: &str) -> bool {
+    let has_eye_extension = label.split(['?', '#']).next().and_then(|path| Path::new(path).extension()).is_some_and(|ext| ext.eq_ignore_ascii_case("eye"));
+    has_eye_extension || eye::is_eyelang(text)
+}
+
+fn read_text_source(source: &str) -> Result<String> {
+    if source == "-" {
+        let mut s = String::new();
+        io::stdin().read_to_string(&mut s)?;
+        Ok(s)
+    } else if is_http_url(source) {
+        let response = ureq::get(source).call().map_err(|err| EyeronError::new(format!("failed to fetch {source}: {err}")))?;
+        response.into_string().map_err(|err| EyeronError::new(format!("failed to read response from {source}: {err}")))
+    } else {
+        Ok(fs::read_to_string(source)?)
+    }
+}
+
+fn run_eye(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
+    if opt.rdf_output && (opt.json || opt.proof || opt.check || opt.query.is_some() || opt.query_file.is_some()) {
+        return Err(EyeronError::new("--rdf-output cannot be combined with --check, --json, --proof, or --query"));
+    }
+    for (label, text) in sources {
+        if !is_eyelang_source(label, text) {
+            return Err(EyeronError::new(format!("{} does not look like an Eyelang program; mixing .eye and N3/SPARQL-RL input in one run is not supported", label)));
+        }
+    }
+
+    let mut imported = String::new();
+    for (index, file) in opt.rdf_input.iter().enumerate() {
+        let text = read_text_source(file)?;
+        let facts = eye::rdf::parse_nquads(&text, &format!("d{}_", index)).map_err(|err| EyeronError::new(err.with_source_location(&text, file)))?;
+        imported.push_str(&eye::rdf::facts_to_eyelang(&facts));
+    }
+
+    let body: String = sources.iter().map(|(_, text)| text.as_str()).collect::<Vec<_>>().join("\n");
+    let mut source = format!("{}{}", imported, body);
+    if let Some(query_text) = sparql_rl_query_text(opt)? {
+        source.push_str(&format!("\nask {}.\n", query_text.trim().trim_end_matches('.')));
+    }
+    if opt.rdf_output {
+        source.push_str("\nask rdf(?subject, ?predicate, ?object, ?graph).\n");
+    }
+
+    if opt.check {
+        let result = eye::check(&source)?;
+        if opt.json {
+            print!("{}", eye::output::check_result_json(&result));
+        } else {
+            print!("{}", eye::output::format_check(&result));
+        }
+        return Ok(());
+    }
+
+    let mut limits = eye::Limits::default();
+    if let Some(v) = opt.max_steps {
+        limits.max_steps = v;
+    }
+    if let Some(v) = opt.max_tables {
+        limits.max_tables = v;
+    }
+    if let Some(v) = opt.max_answers {
+        limits.max_answers = v;
+    }
+
+    let result = eye::run(&source, limits)?;
+    if opt.rdf_output {
+        let last = result.queries.last().ok_or_else(|| EyeronError::new("--rdf-output produced no query result"))?;
+        print!("{}", eye::rdf::answers_to_nquads(last)?);
+    } else if opt.json {
+        print!("{}", eye::output::run_result_json(&result));
+    } else {
+        print!("{}", eye::output::format_result(&result, opt.proof));
+    }
+    Ok(())
+}
+
 fn print_sparql_rl_solutions(prefixes: &BTreeMap<String, String>, solutions: &[eyeron::n3::reasoner::Bindings]) {
     if solutions.is_empty() {
         println!("(no solutions)");
@@ -488,6 +589,32 @@ fn parse_args(args: Vec<String>) -> Result<CliOptions> {
                 );
             }
             "--stream-messages" => opt.stream_messages = true,
+            "--check" => opt.check = true,
+            "--json" => opt.json = true,
+            "--rdf-input" => {
+                let flag = args[i].clone();
+                i += 1;
+                if i >= args.len() {
+                    return Err(EyeronError::new(format!("{} requires a value", flag)));
+                }
+                opt.rdf_input.push(args[i].clone());
+            }
+            "--rdf-output" => opt.rdf_output = true,
+            "--max-steps" | "--max-tables" | "--max-answers" => {
+                let flag = args[i].clone();
+                i += 1;
+                if i >= args.len() {
+                    return Err(EyeronError::new(format!("{} requires a value", flag)));
+                }
+                let value = args[i].parse::<u64>().ok().filter(|v| *v >= 1).ok_or_else(|| {
+                    EyeronError::new(format!("{} requires a positive integer, got {}", flag, args[i]))
+                })?;
+                match flag.as_str() {
+                    "--max-steps" => opt.max_steps = Some(value),
+                    "--max-tables" => opt.max_tables = Some(value),
+                    _ => opt.max_answers = Some(value),
+                }
+            }
             "--data" => {
                 let flag = args[i].clone();
                 i += 1;

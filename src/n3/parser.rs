@@ -1023,8 +1023,12 @@ impl Parser {
             let lang = lang.clone();
             self.advance();
             if self.profile.is_rdf12() {
-                let (clean, _dir) = validate_lang_or_lang_dir(&lang, self.peek().offset)?;
-                lit.language = Some(clean.to_ascii_lowercase());
+                let (clean, dir) = validate_lang_or_lang_dir(&lang, self.peek().offset)?;
+                let clean = clean.to_ascii_lowercase();
+                lit.language = Some(match dir {
+                    Some(dir) => format!("{}--{}", clean, dir),
+                    None => clean,
+                });
             } else {
                 lit.language = Some(lang);
             }

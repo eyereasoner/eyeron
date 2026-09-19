@@ -5,6 +5,7 @@
 
 pub mod ast;
 pub mod error;
+pub mod eye;
 pub mod n3;
 pub mod srl;
 

@@ -150,6 +150,41 @@ cargo run --release -- --query '{ ?x :descendedFrom :C }' examples/family.srl
 cargo run --release --bin w3c_sparql_rl
 ```
 
+## Eye
+
+Eyeron also implements **Eyelang** ("eye"), a small Prolog/Datalog-style logic programming language ported from the sibling `eyelang` project, file extension `.eye`. Unlike N3 and SPARQL-RL, Eyelang is not an RDF triple language: its values are symbols, strings, arbitrary-size integers, floats, booleans, and compound terms (`parent(alice, bob)`; lists are `cons`/`nil` sugar written `[a, b, c]`), with Prolog-style unification, tabled (memoized) resolution, stratified negation as failure, and a `collect` aggregation construct:
+
+```
+parent(alice, bob).
+parent(bob, carol).
+ancestor(?x, ?y) if parent(?x, ?y).
+ancestor(?x, ?y) if parent(?x, ?z), ancestor(?z, ?y).
+ask ancestor(alice, ?who).
+```
+
+Run a `.eye` file the same way as an N3 file; Eyeron recognizes Eyelang input by the `.eye` extension or by content-sniffing an `ask ...`/`identifier(...)` statement:
+
+```bash
+cargo run --release -- examples/ancestor.eye
+```
+
+Output is a small Eyelang program of `query`/`result`/`answer` facts ("Eyelang result format 2"); `--proof` adds `clause`/`substitution`/`proof` facts reifying every derivation step:
+
+```bash
+cargo run --release -- --proof examples/socrates.eye
+```
+
+`--check` parses and validates a program (stratification, undefined-relation checks) without evaluating it; `--json` prints a JSON rendering instead of Eyelang syntax; `--max-steps`/`--max-tables`/`--max-answers` cap evaluation (matching Eyelang's own CLI, distinct from N3's internal, unexposed safety limits). Built-in relations: `range/3`, `length/2`, `sort/2`, and `sudoku/2` (a constrained backtracking solver).
+
+An optional, non-core bridge imports RDF 1.2 N-Quads as ground `rdf(S, P, O, G)` facts and exports the `rdf/4` relation's answers back out:
+
+```bash
+cargo run --release -- --rdf-input data.nq program.eye
+cargo run --release -- --rdf-input data.nq --rdf-output program.eye
+```
+
+**Known limitation:** proof-record numbering follows this implementation's own tabled-evaluation order, which for `not`/`collect`-heavy programs is not guaranteed to be byte-identical to the upstream JS reference's own evaluation order in every case, even though the two are semantically equivalent (this affects `--proof` output only, never plain results). In practice, every packaged example's ported golden — including their `--proof` output — matches exactly; see `tests/eye.rs`.
+
 ## Rust library
 
 The high-level API parses N3, runs the reasoner, and returns newly derived output:
@@ -206,7 +241,7 @@ Run the complete optimized test suite with:
 cargo test --release
 ```
 
-The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the bundled Notation3 conformance suite, the local W3C RDF 1.1/1.2 manifest mirror, and the live W3C SPARQL 1.2 RL manifest (203/203; this one needs network access, unlike the other suites here).
+The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the bundled Notation3 conformance suite, the local W3C RDF 1.1/1.2 manifest mirror, the live W3C SPARQL 1.2 RL manifest (203/203; this one needs network access, unlike the other suites here), and every packaged Eyelang example (`tests/eye.rs`) against its ported golden output and proof documents.
 
 `cargo test` runs each test target as a separate process and prints each one's own pass/fail total, with no built-in way to sum them. For one grand total and elapsed time across every binary, run:
 
@@ -281,6 +316,7 @@ More inputs are available under `examples/`, with expected results in `examples/
 - proof output does not yet include every possible trace comment or explanation detail;
 - Eyeron implements the N3 features and built-ins listed above, not every extension in every historical N3 implementation;
 - SPARQL 1.2 RL support does not yet include `--proof` output or `--query-mode auto` (only `forward`/`backward` are implemented). The ported W3C SPARQL-RL conformance harness (`src/bin/w3c_sparql_rl.rs`) passes 203/203, matching eyeleng's own reported total, but always fetches the live manifest over the network (no local vendored mirror yet, unlike the RDF harness).
+- Eyelang (`.eye`) proof-record numbering is evaluation-order-dependent and not guaranteed byte-identical to the upstream JS reference in every possible program shape (see the Eye section above); its RDF 1.2 N-Quads bridge reuses eyeron's own N-Quads reader rather than the upstream project's, and comparison operators between a `bigint` and a `number` operand use a lossy `f64` conversion for integers outside `f64`'s safe range (rare in practice).
 
 ## Project layout
 
@@ -288,10 +324,11 @@ More inputs are available under `examples/`, with expected results in `examples/
 src/                  Shared core (ast, error), CLI, and Wasm API
 src/n3/               N3 front end: lexer, parser, reasoner, printing, proof
 src/srl/              SPARQL 1.2 RL front end: lexer, parser, expression evaluator, forward/backward reasoner
-examples/             N3, RDF Message, and SPARQL-RL examples
+src/eye/              Eyelang front end: lexer, parser, tabled evaluator, built-ins, proof/result output, RDF bridge
+examples/             N3, RDF Message, SPARQL-RL, and Eyelang examples
 examples/output/      Expected derived output
 examples/proof/       Expected proof output
-tests/                CLI, regression, conformance, W3C RDF, and SPARQL-RL tests
+tests/                CLI, regression, conformance, W3C RDF, SPARQL-RL, and Eyelang tests
 tools/                Playground build helper
 reports/              Generated and checked-in reports
 ```
