@@ -1,21 +1,18 @@
 # Eyelang result format 2
 query(1, [call(descended(?v0, ?v1))], [binding("person", ?v0), binding("ancestor", ?v1)]).
-result(1, complete, 4).
+result(1, complete, 3).
 answer(1, [binding("person", x), binding("ancestor", a)]).
 why(1, [binding("person", x), binding("ancestor", a)], 10).
 answer(1, [binding("person", x), binding("ancestor", b)]).
 why(1, [binding("person", x), binding("ancestor", b)], 11).
 answer(1, [binding("person", a), binding("ancestor", c)]).
 why(1, [binding("person", a), binding("ancestor", c)], 12).
-answer(1, [binding("person", x), binding("ancestor", c)]).
-why(1, [binding("person", x), binding("ancestor", c)], 17).
 clause(1, father(a, x), []).
 clause(2, mother(b, x), []).
 clause(3, mother(c, a), []).
 clause(4, child(var("x"), var("y")), [call(father(var("y"), var("x")))]).
 clause(5, child(var("x"), var("y")), [call(mother(var("y"), var("x")))]).
 clause(6, descended(var("x"), var("y")), [call(child(var("x"), var("y")))]).
-clause(7, descended(var("x"), var("y")), [call(child(var("x"), var("z"))), call(descended(var("z"), var("y")))]).
 substitution(1, []).
 proof(1, father(a, x), rule(1), []).
 substitution(2, []).
@@ -40,13 +37,3 @@ substitution(11, [binding("person", x), binding("ancestor", b)]).
 proof(11, solution([x, b]), query, [uses(8, descended(x, b))]).
 substitution(12, [binding("person", a), binding("ancestor", c)]).
 proof(12, solution([a, c]), query, [uses(9, descended(a, c))]).
-substitution(13, []).
-proof(13, mother(c, a), rule(3), []).
-substitution(14, [binding("x", a), binding("y", c)]).
-proof(14, child(a, c), rule(5), [uses(13, mother(c, a))]).
-substitution(15, [binding("x", a), binding("y", c)]).
-proof(15, descended(a, c), rule(6), [uses(14, child(a, c))]).
-substitution(16, [binding("x", x), binding("y", c), binding("z", a)]).
-proof(16, descended(x, c), rule(7), [uses(4, child(x, a)), uses(15, descended(a, c))]).
-substitution(17, [binding("person", x), binding("ancestor", c)]).
-proof(17, solution([x, c]), query, [uses(16, descended(x, c))]).
