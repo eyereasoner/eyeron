@@ -1,0 +1,34 @@
+# N3 example: modular-exponentiation.
+# Companion to modular-exponentiation.eye/.srl: repeated-squaring modular
+# exponentiation via N3 backward chaining, mirroring the eye source's own
+# even/odd case split. N3's arithmetic is IEEE double precision, not
+# Eyelang's arbitrary-precision integers, so the squaring step (b*b)
+# loses exactness once it exceeds 2^53; this uses a modulus small enough
+# (1,000,003, so modulus^2 ~ 1e12) that every intermediate squared value
+# stays exact, rather than the eye/srl companions' full 1,000,000,007
+# (whose square would exceed 2^53). The exponent stays a genuinely large
+# 1,000,000,000, since repeated squaring only needs about log2(e) ~ 30
+# recursive steps regardless of how large e is.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <http://example.org/modular-exponentiation#>.
+
+{(?b 0 ?m) :modPow ?r} <= {?m math:greaterThan 0. (1 ?m) math:remainder ?r}.
+{(?b 1 ?m) :modPow ?r} <= {?m math:greaterThan 0. (?b ?m) math:remainder ?r}.
+{(?b ?e ?m) :modPow ?r} <= {
+    ?m math:greaterThan 0. ?e math:greaterThan 1.
+    (?e 2) math:remainder 0.
+    (?b ?b) math:product ?bb. (?bb ?m) math:remainder ?squared.
+    (?e 2) math:integerQuotient ?half.
+    (?squared ?half ?m) :modPow ?r.
+}.
+{(?b ?e ?m) :modPow ?r} <= {
+    ?m math:greaterThan 0. ?e math:greaterThan 1.
+    (?e 2) math:remainder 1.
+    (?b ?b) math:product ?bb. (?bb ?m) math:remainder ?squared.
+    (?e 1) math:difference ?e1. (?e1 2) math:integerQuotient ?half.
+    (?squared ?half ?m) :modPow ?tail.
+    (?b ?tail) math:product ?bt. (?bt ?m) math:remainder ?r.
+}.
+
+{(7 13 97) :modPow ?r} => {:test :smallCheck ?r}.
+{(7 1000000000 1000003) :modPow ?r} => {:test :largeCase ?r}.

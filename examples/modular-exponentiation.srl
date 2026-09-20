@@ -1,0 +1,52 @@
+# Companion to modular-exponentiation.n3/.eye: same repeated-squaring
+# algorithm and small-modulus rescoping as modular-exponentiation.n3 (SRL
+# arithmetic is also IEEE double precision, with the same 2^53 exactness
+# limit). SRL has no modulo operator, so a % m is computed as
+# a - FLOOR(a / m) * m. A generic recursive :modPow relation would also
+# need SET (for the arithmetic) recursing through itself, which is a
+# closed-rule cycle stratification rejects (see peano-arithmetic.srl's
+# own note); since the exponent's bit pattern is fixed and known ahead of
+# time, this instead unrolls square-and-multiply into one concrete,
+# non-recursive rule per bit, each depending only on the previous bit's
+# named result -- a strict chain, not a cycle.
+PREFIX : <http://example.org/modular-exponentiation#>
+
+DATA { :s0 :val 1. :r0 :val 1. }
+
+RULE { :s1 :val ?v } WHERE { :s0 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 97) * 97)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 97) * 97), ?sq)) }
+RULE { :s2 :val ?v } WHERE { :s1 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 97) * 97)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 97) * 97), ?sq)) }
+RULE { :s3 :val ?v } WHERE { :s2 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 97) * 97)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 97) * 97), ?sq)) }
+RULE { :s4 :val ?v } WHERE { :s3 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 97) * 97)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 97) * 97), ?sq)) }
+RULE { :test :smallCheck ?v } WHERE { :s4 :val ?v }
+
+RULE { :r1 :val ?v } WHERE { :r0 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r2 :val ?v } WHERE { :r1 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r3 :val ?v } WHERE { :r2 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r4 :val ?v } WHERE { :r3 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r5 :val ?v } WHERE { :r4 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r6 :val ?v } WHERE { :r5 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r7 :val ?v } WHERE { :r6 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r8 :val ?v } WHERE { :r7 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r9 :val ?v } WHERE { :r8 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r10 :val ?v } WHERE { :r9 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r11 :val ?v } WHERE { :r10 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r12 :val ?v } WHERE { :r11 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r13 :val ?v } WHERE { :r12 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r14 :val ?v } WHERE { :r13 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r15 :val ?v } WHERE { :r14 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r16 :val ?v } WHERE { :r15 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r17 :val ?v } WHERE { :r16 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r18 :val ?v } WHERE { :r17 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r19 :val ?v } WHERE { :r18 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r20 :val ?v } WHERE { :r19 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r21 :val ?v } WHERE { :r20 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(1 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r22 :val ?v } WHERE { :r21 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r23 :val ?v } WHERE { :r22 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r24 :val ?v } WHERE { :r23 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r25 :val ?v } WHERE { :r24 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r26 :val ?v } WHERE { :r25 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r27 :val ?v } WHERE { :r26 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r28 :val ?v } WHERE { :r27 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r29 :val ?v } WHERE { :r28 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :r30 :val ?v } WHERE { :r29 :val ?p. SET(?sq := (?p * ?p - FLOOR((?p * ?p) / 1000003) * 1000003)) SET(?v := IF(0 = 1, (?sq * 7 - FLOOR((?sq * 7) / 1000003) * 1000003), ?sq)) }
+RULE { :test :largeCase ?v } WHERE { :r30 :val ?v }
