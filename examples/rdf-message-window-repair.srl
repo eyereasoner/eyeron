@@ -1,0 +1,34 @@
+# Companion to rdf-message-window-repair.n3/.eye: SRL also has no
+# message-log parser, so this tests the same priority-based repair
+# decision directly over the current window's three door readings
+# (matching rdf-message-window-repair.eye's own precedent).
+PREFIX : <https://eyereasoner.github.io/eyeling/examples/rdf-message-window-repair#>
+
+DATA {
+  :reading002 :about :doorA ; :doorState :open ; :priority 1 ; :source "corridor-camera" .
+  :reading003 :about :doorA ; :doorState :closed ; :priority 1 ; :source "hallway-latch" .
+  :reading004 :about :doorA ; :doorState :closed ; :priority 3 ; :source "safety-controller" .
+
+  :open :actionText "send a technician to inspect and close the fire door" .
+  :closed :actionText "mark the fire compartment as sealed" .
+}
+
+RULE { ?door :rawConflict true }
+WHERE {
+  ?r1 :about ?door ; :doorState :open .
+  ?r2 :about ?door ; :doorState :closed .
+}
+
+RULE { :currentWindow :preferredEvidence ?preferred ; :resolvedDoorState ?state ;
+       :preferredPriority ?priority ; :preferredSource ?source }
+WHERE {
+  ?preferred :about :doorA ; :doorState ?state ; :priority ?priority ; :source ?source .
+  ?rejected :about :doorA ; :doorState ?rejectedState ; :priority ?rejectedPriority .
+  FILTER(?state != ?rejectedState && ?priority > ?rejectedPriority)
+}
+
+RULE { :currentWindow :materializedActionText ?text }
+WHERE {
+  :currentWindow :resolvedDoorState ?state .
+  ?state :actionText ?text .
+}

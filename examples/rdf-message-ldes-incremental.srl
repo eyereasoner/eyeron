@@ -1,0 +1,55 @@
+# Companion to rdf-message-ldes-incremental.n3/.eye: SRL also has no
+# message-log/LDES parser, so this tests the same checkpoint
+# classification and priority-repair decision directly (matching
+# rdf-message-ldes-incremental.eye's own precedent, including its
+# choice to keep only 2 representative pre-checkpoint members standing
+# in for the N3 source's 34).
+PREFIX : <https://eyereasoner.github.io/eyeling/examples/rdf-message-ldes-incremental#>
+
+DATA {
+  :doorStream :lastCommittedSequence 34 ; :currentWindowFromSequence 35 .
+  :open :actionText "dispatch an operator to inspect and close the door" .
+  :closed :actionText "keep the compartment sealed and continue monitoring" .
+
+  :obs033 :sequence 33 ; :doorState :closed ; :priority 1 ; :source "hallway-latch" .
+  :obs034 :sequence 34 ; :doorState :closed ; :priority 1 ; :source "hallway-latch" .
+  :obs035 :sequence 35 ; :doorState :closed ; :priority 1 ; :source "hallway-latch" .
+  :obs036 :sequence 36 ; :doorState :closed ; :priority 1 ; :source "hallway-latch" .
+  :obs037 :sequence 37 ; :doorState :open ; :priority 1 ; :source "corridor-camera" .
+  :obs038 :sequence 38 ; :doorState :open ; :priority 1 ; :source "thermal-edge-camera" .
+  :obs039 :sequence 39 ; :doorState :closed ; :priority 1 ; :source "hallway-latch" .
+  :obs040 :sequence 40 ; :doorState :closed ; :priority 5 ; :source "safety-controller" .
+}
+
+RULE { ?m :alreadyCommitted true }
+WHERE { ?m :sequence ?seq. :doorStream :lastCommittedSequence ?b. FILTER(?seq <= ?b) }
+
+RULE { ?m :newlyEmitted true }
+WHERE { ?m :sequence ?seq. :doorStream :lastCommittedSequence ?b. FILTER(?seq > ?b) }
+
+RULE { ?m :inWindow true }
+WHERE {
+  ?m :newlyEmitted true ; :sequence ?seq.
+  :doorStream :currentWindowFromSequence ?w.
+  FILTER(?seq >= ?w)
+}
+
+RULE { :doorA :rawConflict true }
+WHERE {
+  ?m1 :inWindow true ; :doorState :open .
+  ?m2 :inWindow true ; :doorState :closed .
+}
+
+RULE { :currentLDESWindow :preferredEvidence ?m ; :resolvedDoorState ?state ;
+       :preferredPriority ?priority ; :preferredSource ?source }
+WHERE {
+  ?m :inWindow true ; :doorState ?state ; :priority ?priority ; :source ?source .
+  ?other :inWindow true ; :doorState ?otherState ; :priority ?otherPriority .
+  FILTER(?state != ?otherState && ?priority > ?otherPriority)
+}
+
+RULE { :currentLDESWindow :materializedActionText ?text }
+WHERE {
+  :currentLDESWindow :resolvedDoorState ?state .
+  ?state :actionText ?text .
+}

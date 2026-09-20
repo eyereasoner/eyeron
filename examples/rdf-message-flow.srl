@@ -1,0 +1,23 @@
+# Companion to rdf-message-flow.n3/.eye: SRL also has no message-log
+# parser, so this tests the same threshold-routing decision directly
+# over the five messages' results (matching rdf-message-flow.eye's own
+# precedent).
+PREFIX : <https://eyereasoner.github.io/eyeling/examples/rdf-message-flow#>
+
+DATA {
+  :temperatureFlow :highThreshold 26 .
+  :m1 :result 21 .
+  :m2 :result 22 .
+  :m3 :empty true .
+  :m4 :result 28 .
+  :m5 :result 29 .
+}
+
+RULE { ?m :route :archiveSink }
+WHERE { ?m :result ?r. :temperatureFlow :highThreshold ?t. FILTER(?r <= ?t) }
+
+RULE { ?m :route :alertSink }
+WHERE { ?m :result ?r. :temperatureFlow :highThreshold ?t. FILTER(?r > ?t) }
+
+RULE { ?m :route :heartbeatSink }
+WHERE { ?m :empty true }

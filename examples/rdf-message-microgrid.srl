@@ -1,0 +1,46 @@
+# Companion to rdf-message-microgrid.n3/.eye: SRL, like the eye source,
+# has no RDF Message Log parser either, so this tests the same
+# load-shedding decision directly over the four messages' payload facts
+# given as ordinary DATA (matching rdf-message-microgrid.eye's own
+# precedent), skipping the message-boundary/envelope-replay machinery
+# that is specific to eyeron's N3 parser level.
+PREFIX : <https://eyereasoner.github.io/eyeling/examples/rdf-message-microgrid#>
+
+DATA {
+  :oxygenConcentrator :requiresWatts 500 .
+  :vaccineFridge :requiresWatts 120 .
+  :batteryBank :availableWatts 650 .
+  :solarForecast :expectedWatts 150 .
+  :evChargers :shedWatts 600 .
+}
+
+RULE { :clinicMicrogrid :criticalWatts ?w }
+WHERE {
+  :oxygenConcentrator :requiresWatts ?o.
+  :vaccineFridge :requiresWatts ?f.
+  SET(?w := ?o + ?f)
+}
+
+RULE { :clinicMicrogrid :availableWatts ?w }
+WHERE {
+  :batteryBank :availableWatts ?b.
+  :solarForecast :expectedWatts ?s.
+  SET(?w := ?b + ?s)
+}
+
+RULE { :clinicMicrogrid :deferrableWatts ?w }
+WHERE { :evChargers :shedWatts ?w }
+
+RULE { :clinicMicrogrid :protectedBudgetWatts ?w }
+WHERE {
+  :clinicMicrogrid :availableWatts ?a.
+  :clinicMicrogrid :deferrableWatts ?d.
+  SET(?w := ?a + ?d)
+}
+
+RULE { :clinicMicrogrid :resilienceAction :protectClinic }
+WHERE {
+  :clinicMicrogrid :protectedBudgetWatts ?p.
+  :clinicMicrogrid :criticalWatts ?c.
+  FILTER(?p > ?c)
+}

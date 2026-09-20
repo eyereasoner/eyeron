@@ -1,0 +1,54 @@
+# Companion to rdf-message-cold-chain-recall.n3/.eye: SRL also has no
+# message-log/LDES parser, so this tests the same checkpoint
+# classification and calibrated-logger repair decision directly
+# (matching rdf-message-cold-chain-recall.eye's own precedent, including
+# its choice to keep only 3 representative pre-checkpoint members
+# standing in for the N3 source's 42).
+PREFIX : <https://eyereasoner.github.io/eyeling/examples/rdf-message-cold-chain-recall#>
+
+DATA {
+  :telemetryStream :lastCommittedSequence 42 ; :currentWindowFromSequence 43 ; :temperatureLimitTenthC 80 .
+
+  :obs040 :sequence 40 ; :temperatureTenthC 42 ; :priority 1 ; :source "dock-sensor" .
+  :obs041 :sequence 41 ; :temperatureTenthC 43 ; :priority 1 ; :source "warehouse-reader" .
+  :obs042 :sequence 42 ; :temperatureTenthC 44 ; :priority 1 ; :source "truck-gateway" .
+  :obs043 :sequence 43 ; :temperatureTenthC 45 ; :priority 1 ; :source "truck-gateway" .
+  :obs044 :sequence 44 ; :temperatureTenthC 46 ; :priority 1 ; :source "dock-sensor" .
+  :obs045 :sequence 45 ; :temperatureTenthC 47 ; :priority 1 ; :source "warehouse-reader" .
+  :obs046 :sequence 46 ; :temperatureTenthC 121 ; :priority 2 ; :source "truck-gateway" .
+  :obs047 :sequence 47 ; :temperatureTenthC 118 ; :priority 5 ; :source "calibrated-cold-chain-logger" ; :calibrationClass :calibratedLogger .
+  :obs048 :sequence 48 ; :temperatureTenthC 44 ; :priority 1 ; :source "door-proximity-sensor" .
+}
+
+RULE { ?m :alreadyCommitted true }
+WHERE { ?m :sequence ?seq. :telemetryStream :lastCommittedSequence ?b. FILTER(?seq <= ?b) }
+
+RULE { ?m :newlyEmitted true }
+WHERE { ?m :sequence ?seq. :telemetryStream :lastCommittedSequence ?b. FILTER(?seq > ?b) }
+
+RULE { ?m :inWindow true }
+WHERE {
+  ?m :newlyEmitted true ; :sequence ?seq.
+  :telemetryStream :currentWindowFromSequence ?w.
+  FILTER(?seq >= ?w)
+}
+
+RULE { :batchA :rawConflict true }
+WHERE {
+  ?m1 :inWindow true ; :temperatureTenthC ?t1.
+  ?m2 :inWindow true ; :temperatureTenthC ?t2.
+  :telemetryStream :temperatureLimitTenthC ?limit.
+  FILTER(?t1 <= ?limit && ?t2 > ?limit)
+}
+
+RULE { :currentColdChainWindow :preferredEvidence ?m ; :repairedTemperatureTenthC ?temp ;
+       :preferredPriority ?priority ; :preferredSource ?source }
+WHERE {
+  ?m :inWindow true ; :temperatureTenthC ?temp ; :priority ?priority ; :source ?source ;
+     :calibrationClass :calibratedLogger.
+  :telemetryStream :temperatureLimitTenthC ?limit.
+  FILTER(?temp > ?limit)
+}
+
+RULE { :quarantineDecision :decisionText "quarantine batchA, notify QA, and hold shipment" }
+WHERE { :currentColdChainWindow :preferredEvidence ?_ }

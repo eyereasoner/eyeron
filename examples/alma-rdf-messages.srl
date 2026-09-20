@@ -1,0 +1,45 @@
+# Companion to alma-rdf-messages.n3/.eye: like the .eye companion, this
+# tests the same MARC field-extraction logic against one small sample
+# record instead of the N3 source's remote 9+ GB RDF Message Log. SRL
+# has no backward chaining or generic list walk, so the record's fields
+# are given directly as flat DATA facts (one :hasField edge per field,
+# each field a named individual with :tag/:subfield/:value) rather than
+# as a nested MARC field-list, matching critical-path-schedule.srl's own
+# "unroll the fixed structure directly" precedent.
+PREFIX : <http://example.org/ns#>
+
+DATA {
+  :rec42 :hasField :f001, :f245, :f650, :f920 .
+  :f001 :tag "001" ; :subfield "_" ; :value "rec42" .
+  :f245 :tag "245" ; :subfield "a" ; :value "Reasoning about RDF Message Logs" .
+  :f650 :tag "650" ; :subfield "a" ; :value "Linked Data Streams" .
+  :f920 :tag "920" ; :subfield "a" ; :value "book" .
+}
+
+RULE { ?record :id ?id }
+WHERE {
+  ?record :hasField ?f.
+  ?f :tag "001" ; :value ?ctrl.
+  SET(?id := IRI(CONCAT("http://lib.ugent.be/record/", ?ctrl)))
+}
+
+RULE { ?id :title ?val }
+WHERE {
+  ?record :id ?id.
+  ?record :hasField ?f.
+  ?f :tag "245" ; :subfield "a" ; :value ?val.
+}
+
+RULE { ?id :subject ?val }
+WHERE {
+  ?record :id ?id.
+  ?record :hasField ?f.
+  ?f :tag "650" ; :subfield "a" ; :value ?val.
+}
+
+RULE { ?id :type ?val }
+WHERE {
+  ?record :id ?id.
+  ?record :hasField ?f.
+  ?f :tag "920" ; :subfield "a" ; :value ?val.
+}
