@@ -1,0 +1,52 @@
+# Companion to dpv-odrl-purpose-mapping.n3/.eye: the same three forward
+# rules, translated directly. N3's `dpv-odrl:` prefix name is renamed to
+# `dpvodrl:` here, since SPARQL/SRL prefix names cannot contain a hyphen.
+PREFIX : <https://example.org/dpv-odrl-purpose-mapping#>
+PREFIX dpv: <https://w3id.org/dpv#>
+PREFIX dpvodrl: <https://w3id.org/dpv/mappings/odrl#>
+PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+
+DATA {
+  :AlphaCareProcess a dpv:Process ;
+    dpv:hasDataController :HospitalA ;
+    dpv:hasRecipient :ResearchPartner ;
+    dpv:hasPersonalData :LabResult ;
+    dpv:hasProcessing dpv:Use ;
+    dpv:hasPurpose dpv:Healthcare ;
+    dpv:hasLegalBasis dpv:Consent .
+
+  :AlphaPolicy :representsProcess :AlphaCareProcess ;
+    :permissionNode :AlphaPermission ;
+    :purposeConstraint :AlphaPurposeConstraint ;
+    :basisConstraint :AlphaBasisConstraint .
+}
+
+RULE { ?policy a odrl:Policy ; odrl:permission ?permission .
+       ?permission a odrl:Permission ;
+         odrl:assigner ?controller ;
+         odrl:assignee ?recipient ;
+         odrl:target ?data ;
+         odrl:action ?processing ;
+         :derivedFromProcess ?process . }
+WHERE { ?policy :representsProcess ?process ; :permissionNode ?permission .
+        ?process a dpv:Process ;
+          dpv:hasDataController ?controller ;
+          dpv:hasRecipient ?recipient ;
+          dpv:hasPersonalData ?data ;
+          dpv:hasProcessing ?processing . }
+
+RULE { ?permission odrl:constraint ?constraint .
+       ?constraint a odrl:Constraint ;
+         odrl:leftOperand dpvodrl:Purpose ;
+         odrl:operator odrl:isA ;
+         odrl:rightOperand ?purpose . }
+WHERE { ?policy :representsProcess ?process ; :permissionNode ?permission ; :purposeConstraint ?constraint .
+        ?process dpv:hasPurpose ?purpose . }
+
+RULE { ?permission odrl:constraint ?constraint .
+       ?constraint a odrl:Constraint ;
+         odrl:leftOperand dpvodrl:LegalBasis ;
+         odrl:operator odrl:isA ;
+         odrl:rightOperand ?basis . }
+WHERE { ?policy :representsProcess ?process ; :permissionNode ?permission ; :basisConstraint ?constraint .
+        ?process dpv:hasLegalBasis ?basis . }

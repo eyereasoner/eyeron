@@ -1,0 +1,36 @@
+# Companion to group-inverse-uniqueness.n3/.eye: the same theorem over
+# the same example. Even the flat :mulA/:mulB/:mulC-on-a-blank-node
+# encoding (see greatest-lower-bound-uniqueness.srl's own note on why
+# N3's (?a ?b) pair-as-subject form is avoided) still gave the golden-
+# comparison isomorphism search too many candidates to prune quickly
+# here, with twelve multiplication facts all drawn from the same
+# four-element domain, so each fact instead gets a deterministic named
+# individual built from its own operands via SET/IRI()/CONCAT, avoiding
+# blank nodes entirely. :sameTerm stays a plain binary predicate, since
+# its own symmetry rule genuinely recurses on it.
+PREFIX : <http://example.org/#>
+
+DATA {
+  :x :inG true. :i :inG true. :j :inG true. :e :inG true.
+  :i :inverseOf :x.
+  :j :inverseOf :x.
+}
+
+RULE { ?m :mulA ?a; :mulB :e; :mulC ?a. } WHERE { ?a :inG true. SET(?m := IRI(CONCAT("http://example.org/#m_", STRAFTER(STR(?a),"#"), "_e"))) }
+RULE { ?m :mulA :e; :mulB ?a; :mulC ?a. } WHERE { ?a :inG true. SET(?m := IRI(CONCAT("http://example.org/#m_e_", STRAFTER(STR(?a),"#")))) }
+RULE { ?m :mulA ?x; :mulB ?y; :mulC :e. } WHERE { ?x :inG true. ?y :inG true. ?y :inverseOf ?x. SET(?m := IRI(CONCAT("http://example.org/#m_", STRAFTER(STR(?x),"#"), "_", STRAFTER(STR(?y),"#")))) }
+RULE { ?m :mulA ?y; :mulB ?x; :mulC :e. } WHERE { ?x :inG true. ?y :inG true. ?y :inverseOf ?x. SET(?m := IRI(CONCAT("http://example.org/#m_", STRAFTER(STR(?y),"#"), "_", STRAFTER(STR(?x),"#")))) }
+
+RULE { ?left :sameTerm ?right } WHERE {
+  ?c1 :mulA ?a; :mulB ?b; :mulC ?ab.
+  ?c2 :mulA ?ab; :mulB ?c; :mulC ?left.
+  ?c3 :mulA ?b; :mulB ?c; :mulC ?bc.
+  ?c4 :mulA ?a; :mulB ?bc; :mulC ?right.
+}
+RULE { ?b_ :sameTerm ?a_ } WHERE { ?a_ :sameTerm ?b_ }
+
+RULE { ?w a :SameInverseWitness; :witnessX ?x; :witnessY ?y; :witnessZ ?z } WHERE {
+  ?y :inverseOf ?x. ?z :inverseOf ?x. ?y :sameTerm ?z.
+  FILTER(?y != ?z)
+  SET(?w := IRI(CONCAT("http://example.org/#w_", STRAFTER(STR(?x),"#"), "_", STRAFTER(STR(?y),"#"), "_", STRAFTER(STR(?z),"#"))))
+}

@@ -1,0 +1,38 @@
+# Companion to greatest-lower-bound-uniqueness.n3/.eye: the same
+# theorem over the same two-candidate example. N3's :glbOf and
+# :lowerBoundOf both take an (?a ?b) list pair as object/subject; here
+# they're flattened to :glbOfA/:glbOfB and :lowerBoundOfA/:lowerBoundOfB
+# instead, since a rule matching a list-object pattern and another rule
+# constructing a list-subject pattern both touch the same underlying
+# rdf:first/rdf:rest predicates, which the stratifier's predicate-level
+# cycle check sees as a self-referential loop regardless of the outer
+# :glbOf/:lowerBoundOf names (the same class of false positive
+# documented for lists.srl and friends, just triggered through the list
+# machinery itself rather than reused vocabulary). :sameTerm stays a
+# plain binary predicate for the same reason list-pair-as-subject would
+# be unsafe here too (its own symmetry rule recurses on it). The
+# uniqueness witness gets a blank node, since it does not itself
+# recurse.
+PREFIX : <http://example.org/#>
+
+DATA {
+  :a :inP true. :b :inP true. :g1 :inP true. :g2 :inP true.
+  :g1 :glbOfA :a; :glbOfB :b.
+  :g2 :glbOfA :a; :glbOfB :b.
+}
+
+RULE { ?x :leq ?x } WHERE { ?x :inP true }
+RULE { ?x :leq ?z } WHERE { ?x :leq ?y. ?y :leq ?z }
+RULE { ?x :sameTerm ?y } WHERE { ?x :leq ?y. ?y :leq ?x }
+RULE { ?y :sameTerm ?x } WHERE { ?x :sameTerm ?y }
+
+RULE { ?m :lowerBoundOfA ?a; :lowerBoundOfB ?b } WHERE { ?m :glbOfA ?a; :glbOfB ?b }
+RULE { ?m :leq ?a } WHERE { ?m :glbOfA ?a }
+RULE { ?m :leq ?b } WHERE { ?m :glbOfB ?b }
+
+RULE { ?l :leq ?m } WHERE { ?m :glbOfA ?a; :glbOfB ?b. ?l :lowerBoundOfA ?a; :lowerBoundOfB ?b }
+
+RULE { [] a :SameGlbWitness; :witnessA ?a; :witnessB ?b; :witnessM ?m; :witnessN ?n } WHERE {
+  ?m :glbOfA ?a; :glbOfB ?b. ?n :glbOfA ?a; :glbOfB ?b. ?m :sameTerm ?n.
+  FILTER(?m != ?n)
+}

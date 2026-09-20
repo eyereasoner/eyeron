@@ -1,0 +1,40 @@
+# Companion to knowledge-engineering-alignment-flow.n3/.eye: the same
+# generic RDFS/OWL alignment rules, translated directly -- SRL's triple
+# patterns allow a variable predicate position natively (see similar.srl's
+# own note), so no reification is needed the way Eyelang's companion
+# requires.
+PREFIX : <https://example.org/knowledge-engineering-alignment-flow#>
+PREFIX fpv: <https://example.org/fpv#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :LocalObservation rdfs:subClassOf sosa:Observation .
+  :TemperatureProbe rdfs:subClassOf sosa:Sensor .
+  :observedBy rdfs:subPropertyOf sosa:madeBySensor .
+  :observedAt rdfs:subPropertyOf sosa:resultTime .
+  :temperatureCelsius rdfs:subPropertyOf sosa:hasSimpleResult .
+  :observedFeature owl:equivalentProperty sosa:hasFeatureOfInterest .
+  :inFlow rdfs:subPropertyOf fpv:hasFlowStep .
+
+  :msg1 a :LocalObservation ;
+    :observedBy :probe7 ;
+    :observedAt "2026-06-17T12:34:56Z"^^xsd:dateTime ;
+    :temperatureCelsius 18.6 ;
+    :observedFeature :platformB ;
+    :inFlow :ingestStep .
+
+  :probe7 a :TemperatureProbe .
+}
+
+RULE { ?thing a ?super } WHERE { ?thing a ?class. ?class rdfs:subClassOf ?super }
+RULE { ?subject ?superProperty ?object } WHERE { ?subject ?property ?object. ?property rdfs:subPropertyOf ?superProperty }
+RULE { ?s ?q ?o } WHERE { ?p owl:equivalentProperty ?q. ?s ?p ?o }
+RULE { ?s ?p ?o } WHERE { ?p owl:equivalentProperty ?q. ?s ?q ?o }
+
+RULE { ?sourcePredicate fpv:runtimeRule fpv:copyToTarget; fpv:targetPredicate ?targetPredicate } WHERE { ?sourcePredicate rdfs:subPropertyOf ?targetPredicate }
+RULE { ?sourcePredicate fpv:runtimeRule fpv:copyToTarget; fpv:targetPredicate ?targetPredicate } WHERE { ?sourcePredicate owl:equivalentProperty ?targetPredicate }
+
+RULE { ?step fpv:emits ?message; fpv:trustedBy ?sensor } WHERE { ?message a sosa:Observation; fpv:hasFlowStep ?step; sosa:madeBySensor ?sensor }

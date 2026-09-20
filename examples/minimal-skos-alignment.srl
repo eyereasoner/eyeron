@@ -1,0 +1,15 @@
+# Companion to minimal-skos-alignment.n3/.eye: the same two forward
+# rules, translated directly.
+PREFIX ex: <http://example.org/#>
+PREFIX ref: <http://example.org/ref/>
+PREFIX anpr: <http://example.org/anpr/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+DATA {
+  ref:Car a skos:Concept .
+  anpr:VehicleWithPlate a skos:Concept ; skos:broadMatch ref:Car .
+  anpr:PassengerCar a skos:Concept ; skos:broader anpr:VehicleWithPlate .
+}
+
+RULE { ?a ex:treatedAs ?b } WHERE { ?a skos:broadMatch ?b }
+RULE { ?x ex:treatedAs ?z } WHERE { ?x skos:broader ?y. ?y ex:treatedAs ?z }
