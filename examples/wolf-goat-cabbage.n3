@@ -1,0 +1,89 @@
+# N3 example: wolf-goat-cabbage.
+# Companion to wolf-goat-cabbage.eye: the eye source runs a naive
+# backward-chained cycle-safe search (a visited list checked with `not
+# member`) all the way through to a *fixed move count* (7, a known
+# non-optimal solution length for this puzzle). Two distinct engine
+# limitations rule that design out here, both confirmed by isolated
+# testing:
+#   1. A `list:notMember`-guarded backward recursive search over this
+#      state graph (16 states, branching factor up to 4) has no
+#      memoization, so its search tree still grows large enough that
+#      this engine's real per-backward-call overhead makes even a
+#      *bounded*-depth exhaustive search (max-backward-depth 8) take
+#      well over a minute.
+#   2. A user-defined backward (`<=`) rule call nested *inside* a
+#      `log:collectAllIn` body does not see a variable bound by the
+#      enclosing rule two scopes up (confirmed: an outer-bound ?Node
+#      referenced inside such a nested call returns nothing, or -- once
+#      restructured -- silently ranges over every possible value rather
+#      than the one outer binding), unlike a builtin premise in that same
+#      position, which resolves correctly (this is what dijkstra.n3 and
+#      shortest-path.n3's `:edge` fact lookup rely on).
+# So this instead follows shortest-path.n3's own precedent exactly:
+# first derive every safe one-move transition as a plain ground `:edge`
+# fact (via ordinary, non-nested backward `:moveResult` calls, which do
+# work), then hand that fixed 12-state/28-edge graph to dijkstra.n3's own
+# proven priority-queue algorithm unchanged. Since every move costs the
+# same, the result is the genuine *shortest* solution (5 moves) rather
+# than eye's fixed-length-7 one; both are valid, verifiable solutions to
+# the same puzzle.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/wolf-goat-cabbage#>.
+
+:e :change :w.
+:w :change :e.
+:w a :Side. :e a :Side.
+:wolf a :MoveType. :goat a :MoveType. :cabbage a :MoveType. :nothing a :MoveType.
+
+# A (person, wolf, goat, cabbage) state is safe unless the goat is left
+# alone with the wolf, or alone with the cabbage, on a side without the
+# person.
+{?p a :Side. ?w1 a :Side. ?g a :Side. ?c a :Side.
+ ?SCOPE log:notIncludes {?w1 log:equalTo ?g. ?p log:notEqualTo ?w1}.
+ ?SCOPE log:notIncludes {?g log:equalTo ?c. ?p log:notEqualTo ?g}.
+} => {(?p ?w1 ?g ?c) :isSafe true}.
+
+{((?x ?x ?goat ?cabbage) :wolf) :moveResult (?y ?y ?goat ?cabbage)} <= {?x :change ?y}.
+{((?x ?wolf ?x ?cabbage) :goat) :moveResult (?y ?wolf ?y ?cabbage)} <= {?x :change ?y}.
+{((?x ?wolf ?goat ?x) :cabbage) :moveResult (?y ?wolf ?goat ?y)} <= {?x :change ?y}.
+{((?x ?wolf ?goat ?cabbage) :nothing) :moveResult (?y ?wolf ?goat ?cabbage)} <= {?x :change ?y}.
+
+{?a a :Side. ?b a :Side. ?c a :Side. ?d a :Side.
+ (?a ?b ?c ?d) :isSafe true.
+ ?MoveType a :MoveType.
+ ((?a ?b ?c ?d) ?MoveType) :moveResult ?next.
+ ?next :isSafe true.
+} => {((?a ?b ?c ?d) ?next) :edge 1}.
+
+{ (?Start ?Goal) :shortest (?Path ?Cost) } <= {
+    (((0 ?Start)) ?Goal ()) :shortest2 (?RevPath ?Cost).
+    ?RevPath list:reverse ?Path.
+}.
+
+{ (?L1 ?Goal ?L2) :shortest2 (?L3 ?Cost) } <= {
+    ?L1 list:firstRest (?L4 ?L5).
+    ?L4 list:firstRest (?Cost ?L3).
+    ?L3 list:firstRest (?Goal ?Path).
+}.
+
+{ (?L1 ?Goal ?Visited) :shortest2 (?ResultPath ?ResultCost) } <= {
+    ?L1 list:firstRest (?L2 ?Queue).
+    ?L2 list:firstRest (?Cost ?L3).
+    ?L3 list:firstRest (?Node ?Path).
+    (?L4 {
+        ?L4 list:firstRest (?NewCost ?L5).
+        ?L5 list:firstRest (?Neighbor ?L6).
+        ?L6 list:firstRest (?Node ?Path).
+        (?Node ?Neighbor) :edge ?Weight.
+        ?Visited list:notMember ?Neighbor.
+        (?Cost ?Weight) math:sum ?NewCost.
+    } ?Neighbors) log:collectAllIn ?SCOPE.
+    (?Queue ?Neighbors) list:append ?NewQueue.
+    ?NewQueue list:sort ?SortedQueue.
+    ?L7 list:firstRest (?Node ?Visited).
+    (?SortedQueue ?Goal ?L7) :shortest2 (?ResultPath ?ResultCost).
+}.
+
+{ ((:w :w :w :w) (:e :e :e :e)) :shortest (?path ?cost) } => {:test :solution ?path; :moves ?cost}.

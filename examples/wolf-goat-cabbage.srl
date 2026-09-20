@@ -1,0 +1,57 @@
+# Companion to wolf-goat-cabbage.n3/.eye: SRL has no backward chaining,
+# so neither the eye source's recursive search nor the .n3 companion's
+# dijkstra-style recursive queue can be expressed directly. Instead this
+# takes the .n3 companion's own *derived* result -- the safe-state graph
+# has exactly 10 safe states and 20 directed one-move edges, all of cost
+# 1 -- and gives that fixed graph directly as DATA (matching
+# shortest-path.srl's own precedent of giving :Edge facts directly rather
+# than re-deriving a general "move" relation in SRL's rule language).
+# Since every edge costs 1 and the puzzle's own minimum is known to be 7
+# moves (matching wolf-goat-cabbage.eye's own two length-7 answers), a
+# single non-recursive join rule requiring exactly 7 edges (8 named
+# states, all distinct) already finds the genuine shortest solutions,
+# unrolled the same way shortest-path.srl unrolls its 3- and 4-node
+# routes. States are named individuals (:Swwww etc, one letter per
+# person/wolf/goat/cabbage side: w=west, e=east), not blank nodes, since
+# a blank-node path witness here would give the golden-comparison test's
+# blank-node matching search too many similarly-shaped candidates to
+# prune quickly (the same reason shortest-path.srl and others avoid
+# RDF-list path witnesses).
+PREFIX : <http://example.org/wolf-goat-cabbage#>
+
+DATA {
+  :Swwww :edge :Sewew .
+  :Swwwe :edge :Seewe, :Sewee .
+  :Swwew :edge :Seeew, :Sewee, :Sewew .
+  :Sweww :edge :Seeew, :Seewe .
+  :Swewe :edge :Seeee, :Seewe .
+  :Sewew :edge :Swwww, :Swwew .
+  :Sewee :edge :Swwwe, :Swwew .
+  :Seewe :edge :Swwwe, :Sweww, :Swewe .
+  :Seeew :edge :Swwew, :Sweww .
+  :Seeee :edge :Swewe .
+}
+
+RULE { [] a :Route ;
+        :node1 :Swwww ; :node2 ?v1 ; :node3 ?v2 ; :node4 ?v3 ;
+        :node5 ?v4 ; :node6 ?v5 ; :node7 ?v6 ; :node8 :Seeee }
+WHERE {
+  :Swwww :edge ?v1 .
+  ?v1 :edge ?v2 .
+  ?v2 :edge ?v3 .
+  ?v3 :edge ?v4 .
+  ?v4 :edge ?v5 .
+  ?v5 :edge ?v6 .
+  ?v6 :edge :Seeee .
+  FILTER(?v1 != :Swwww && ?v1 != :Seeee &&
+          ?v2 != :Swwww && ?v2 != :Seeee &&
+          ?v3 != :Swwww && ?v3 != :Seeee &&
+          ?v4 != :Swwww && ?v4 != :Seeee &&
+          ?v5 != :Swwww && ?v5 != :Seeee &&
+          ?v6 != :Swwww && ?v6 != :Seeee &&
+          ?v1 != ?v2 && ?v1 != ?v3 && ?v1 != ?v4 && ?v1 != ?v5 && ?v1 != ?v6 &&
+          ?v2 != ?v3 && ?v2 != ?v4 && ?v2 != ?v5 && ?v2 != ?v6 &&
+          ?v3 != ?v4 && ?v3 != ?v5 && ?v3 != ?v6 &&
+          ?v4 != ?v5 && ?v4 != ?v6 &&
+          ?v5 != ?v6)
+}

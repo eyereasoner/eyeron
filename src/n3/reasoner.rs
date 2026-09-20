@@ -1392,7 +1392,7 @@ fn aggregate_waits_for_sibling_binding(
 ) -> bool {
     let pred = resolve(&premise.p, bindings);
     let Term::Iri(iri) = pred else { return false; };
-    if !matches!(iri.as_str(), LOG_COLLECT_ALL_IN | LOG_FOR_ALL_IN) {
+    if !matches!(iri.as_str(), LOG_COLLECT_ALL_IN | LOG_FOR_ALL_IN | LOG_NOT_INCLUDES) {
         return false;
     }
 
@@ -1402,24 +1402,44 @@ fn aggregate_waits_for_sibling_binding(
     // bodies for performance, but it must not run an aggregate before those
     // neighbouring context variables are bound.  Otherwise a rule like dog.n3
     // counts all dogs globally and later binds both :alice and :bob.
+    //
+    // log:notIncludes has the same hazard even though its scoped formula is
+    // not wrapped in a subject list: it is the object directly.  Without
+    // waiting here, a rule body such as the wolf-goat-cabbage safety check
+    // (`?p a :Side. ... ?SCOPE log:notIncludes {?w1 log:equalTo ?g. ?p
+    // log:notEqualTo ?w1}`) can have the matcher try notIncludes before ?p
+    // and ?w1 are bound; log:notEqualTo on an unresolved variable then finds
+    // no candidates, current_graph_matches_pattern reports "does not
+    // include", and notIncludes wrongly succeeds once and for all -- the
+    // check is never re-run once ?p and ?w1 are actually bound (confirmed by
+    // isolated testing: this let two genuinely unsafe states be marked
+    // safe).
     let subject = resolve(&premise.s, bindings);
-    let Term::List(parts) = subject else { return false; };
 
     let mut aggregate_formula_vars = HashSet::<String>::new();
     match iri.as_str() {
-        LOG_COLLECT_ALL_IN if parts.len() == 3 => {
+        LOG_COLLECT_ALL_IN if matches!(&subject, Term::List(parts) if parts.len() == 3) => {
+            let Term::List(parts) = &subject else { unreachable!() };
             if let Term::Formula(clause) = &parts[1] {
                 for triple in clause {
                     collect_var_names_triple(triple, &mut aggregate_formula_vars);
                 }
             }
         }
-        LOG_FOR_ALL_IN if parts.len() == 2 => {
-            for part in &parts {
+        LOG_FOR_ALL_IN if matches!(&subject, Term::List(parts) if parts.len() == 2) => {
+            let Term::List(parts) = &subject else { unreachable!() };
+            for part in parts {
                 if let Term::Formula(clause) = part {
                     for triple in clause {
                         collect_var_names_triple(triple, &mut aggregate_formula_vars);
                     }
+                }
+            }
+        }
+        LOG_NOT_INCLUDES => {
+            if let Term::Formula(clause) = resolve(&premise.o, bindings) {
+                for triple in &clause {
+                    collect_var_names_triple(triple, &mut aggregate_formula_vars);
                 }
             }
         }
@@ -1445,7 +1465,7 @@ fn aggregate_waits_for_sibling_binding(
 
 fn collect_sibling_context_var_names(triple: &Triple, bindings: &Bindings, out: &mut HashSet<String>) {
     let pred = resolve(&triple.p, bindings);
-    if matches!(pred, Term::Iri(ref iri) if matches!(iri.as_str(), LOG_COLLECT_ALL_IN | LOG_FOR_ALL_IN)) {
+    if matches!(pred, Term::Iri(ref iri) if matches!(iri.as_str(), LOG_COLLECT_ALL_IN | LOG_FOR_ALL_IN | LOG_NOT_INCLUDES)) {
         // Do not treat variables inside a sibling aggregate's own scoped
         // formula as context variables.  In log-collect-all-in.n3 several
         // independent collectAllIn calls all use ?param as a local aggregate
@@ -1518,6 +1538,29 @@ fn premise_is_definitively_false(
         let right = resolve(&premise.o, bindings);
         if !matches!(left, Term::Var(_)) && !matches!(right, Term::Var(_)) {
             return left == right;
+        }
+    }
+
+    // A `list:notMember` check with a fully ground element is a genuine
+    // failure, not just "not runnable yet", the moment it fails: without
+    // this, a backward rule using it as a visited-list cycle guard (the
+    // idiom four-queens.n3's own :safe predicate and a naive path-search
+    // predicate would otherwise use) can have this premise skipped in
+    // favour of a later premise that does not depend on it -- such as the
+    // recursive goal call itself -- letting the search revisit an already-
+    // visited node and recurse without bound (confirmed by isolated
+    // testing: this made a small cyclic-graph path search never
+    // terminate). Evaluating it eagerly here, once ready, lets the
+    // ordinary "this branch is dead" abort happen before that later
+    // premise is ever tried.
+    if iri == LIST_NOT_MEMBER {
+        let right = resolve(&premise.o, bindings);
+        if !term_has_unresolved_var(&right) {
+            if let Some(items) = rdf_or_native_list(&premise.s, bindings, facts) {
+                if items.iter().all(|item| !term_has_unresolved_var(item)) {
+                    return eval_list_not_member(&premise.s, &premise.o, bindings, facts).is_empty();
+                }
+            }
         }
     }
 

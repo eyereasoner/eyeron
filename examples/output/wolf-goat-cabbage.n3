@@ -1,0 +1,36 @@
+@prefix : <http://example.org/wolf-goat-cabbage#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+(:w :w :w :w) :isSafe true .
+(:w :w :w :e) :isSafe true .
+(:w :w :e :w) :isSafe true .
+(:w :e :w :w) :isSafe true .
+(:w :e :w :e) :isSafe true .
+(:e :w :e :w) :isSafe true .
+(:e :w :e :e) :isSafe true .
+(:e :e :w :e) :isSafe true .
+(:e :e :e :w) :isSafe true .
+(:e :e :e :e) :isSafe true .
+((:w :w :w :w) (:e :w :e :w)) :edge 1 .
+((:w :w :w :e) (:e :e :w :e)) :edge 1 .
+((:w :w :w :e) (:e :w :e :e)) :edge 1 .
+((:w :w :e :w) (:e :e :e :w)) :edge 1 .
+((:w :w :e :w) (:e :w :e :e)) :edge 1 .
+((:w :w :e :w) (:e :w :e :w)) :edge 1 .
+((:w :e :w :w) (:e :e :e :w)) :edge 1 .
+((:w :e :w :w) (:e :e :w :e)) :edge 1 .
+((:w :e :w :e) (:e :e :e :e)) :edge 1 .
+((:w :e :w :e) (:e :e :w :e)) :edge 1 .
+((:e :w :e :w) (:w :w :w :w)) :edge 1 .
+((:e :w :e :w) (:w :w :e :w)) :edge 1 .
+((:e :w :e :e) (:w :w :w :e)) :edge 1 .
+((:e :w :e :e) (:w :w :e :w)) :edge 1 .
+((:e :e :w :e) (:w :w :w :e)) :edge 1 .
+((:e :e :w :e) (:w :e :w :w)) :edge 1 .
+((:e :e :w :e) (:w :e :w :e)) :edge 1 .
+((:e :e :e :w) (:w :w :e :w)) :edge 1 .
+((:e :e :e :w) (:w :e :w :w)) :edge 1 .
+((:e :e :e :e) (:w :e :w :e)) :edge 1 .
+:test :solution ((:w :w :w :w) (:e :w :e :w) (:w :w :e :w) (:e :e :e :w) (:w :e :w :w) (:e :e :w :e) (:w :e :w :e) (:e :e :e :e)) .
+:test :moves 7 .
+:test :solution ((:w :w :w :w) (:e :w :e :w) (:w :w :e :w) (:e :w :e :e) (:w :w :w :e) (:e :e :w :e) (:w :e :w :e) (:e :e :e :e)) .
