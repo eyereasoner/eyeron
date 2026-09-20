@@ -1,0 +1,121 @@
+# Companion to dining-philosophers.n3/.eye: the same 9-round Chandy-Misra
+# dirty-fork trace. SRL forbids recursion through any "closed" rule (a
+# blank-node head or a SET-bearing body), and constructing a per-round,
+# per-fork ForkState individual generically would need SET to build its
+# IRI -- so instead of a generic (Config, Fork) -> ForkState relation,
+# each fork's holder/cleanliness is a pair of NAMED properties directly
+# on the (already-named) Config individual: :holderF12/:cleanF12 for
+# fork F12, and so on for the other four forks. Carrying that forward
+# from one config to the next is then ordinary, non-closed recursion
+# (no SET, no blank heads), which SRL's stratifier allows -- the same
+# reasoning transitive-closure.srl relies on. This costs one set of
+# rules per fork/philosopher instead of one generic rule, but keeps the
+# real 9-round chained derivation genuine rather than unrolling the
+# whole trace as given data.
+PREFIX : <http://example.org/dp#>
+
+DATA {
+  :c0  :slot :s1 ; :cycle 1 ; :hungryP1 true ; :hungryP3 true ; :afterSends :c1 .
+  :c1  :afterEat :c2 .
+  :c2  :slot :s2 ; :cycle 1 ; :hungryP2 true ; :hungryP4 true ; :afterSends :c3 .
+  :c3  :afterEat :c4 .
+  :c4  :slot :s3 ; :cycle 1 ; :hungryP5 true ; :afterSends :c5 .
+  :c5  :afterEat :c6 .
+  :c6  :slot :s4 ; :cycle 2 ; :hungryP1 true ; :hungryP3 true ; :afterSends :c7 .
+  :c7  :afterEat :c8 .
+  :c8  :slot :s5 ; :cycle 2 ; :hungryP2 true ; :hungryP4 true ; :afterSends :c9 .
+  :c9  :afterEat :c10 .
+  :c10 :slot :s6 ; :cycle 2 ; :hungryP5 true ; :afterSends :c11 .
+  :c11 :afterEat :c12 .
+  :c12 :slot :s7 ; :cycle 3 ; :hungryP1 true ; :hungryP3 true ; :afterSends :c13 .
+  :c13 :afterEat :c14 .
+  :c14 :slot :s8 ; :cycle 3 ; :hungryP2 true ; :hungryP4 true ; :afterSends :c15 .
+  :c15 :afterEat :c16 .
+  :c16 :slot :s9 ; :cycle 3 ; :hungryP5 true ; :afterSends :c17 .
+  :c17 :afterEat :c18 .
+
+  # Initial fork ownership (C0): all forks dirty, one orientation around the ring.
+  :c0 :holderF12 :p1 ; :cleanF12 :dirty .
+  :c0 :holderF23 :p2 ; :cleanF23 :dirty .
+  :c0 :holderF34 :p3 ; :cleanF34 :dirty .
+  :c0 :holderF45 :p4 ; :cleanF45 :dirty .
+  :c0 :holderF51 :p1 ; :cleanF51 :dirty .
+
+  # KeepFork facts: only listed for forks NOT transferred in that round;
+  # transfers are derived, matching the N3 source's own trace construction.
+  :c0 :keepF12 true ; :keepF34 true ; :keepF45 true ; :keepF51 true .
+  :c2 :keepF45 true ; :keepF51 true .
+  :c4 :keepF12 true ; :keepF23 true ; :keepF34 true .
+  :c6 :keepF45 true .
+  :c8 :keepF51 true .
+  :c10 :keepF12 true ; :keepF23 true ; :keepF34 true .
+  :c12 :keepF45 true .
+  :c14 :keepF51 true .
+  :c16 :keepF12 true ; :keepF23 true ; :keepF34 true .
+}
+
+# ---- Fork F12 (endpoints P1, P2) ----
+RULE { ?CS :holderF12 :p1 ; :cleanF12 :clean } WHERE { ?C :afterSends ?CS. ?C :hungryP1 true. ?C :holderF12 :p2. ?C :cleanF12 :dirty. }
+RULE { ?CS :holderF12 :p2 ; :cleanF12 :clean } WHERE { ?C :afterSends ?CS. ?C :hungryP2 true. ?C :holderF12 :p1. ?C :cleanF12 :dirty. }
+RULE { ?CS :holderF12 ?H ; :cleanF12 ?CL } WHERE { ?C :afterSends ?CS. ?C :keepF12 true. ?C :holderF12 ?H ; :cleanF12 ?CL. }
+RULE { ?CE :holderF12 ?H ; :cleanF12 :dirty } WHERE { ?CS :afterEat ?CE. ?CS :holderF12 ?H. }
+RULE { ?C :transferredF12 true } WHERE { ?C :afterSends ?CS. ?C :holderF12 ?before. ?CS :holderF12 ?after. FILTER(?before != ?after) }
+
+# ---- Fork F23 (endpoints P2, P3) ----
+RULE { ?CS :holderF23 :p2 ; :cleanF23 :clean } WHERE { ?C :afterSends ?CS. ?C :hungryP2 true. ?C :holderF23 :p3. ?C :cleanF23 :dirty. }
+RULE { ?CS :holderF23 :p3 ; :cleanF23 :clean } WHERE { ?C :afterSends ?CS. ?C :hungryP3 true. ?C :holderF23 :p2. ?C :cleanF23 :dirty. }
+RULE { ?CS :holderF23 ?H ; :cleanF23 ?CL } WHERE { ?C :afterSends ?CS. ?C :keepF23 true. ?C :holderF23 ?H ; :cleanF23 ?CL. }
+RULE { ?CE :holderF23 ?H ; :cleanF23 :dirty } WHERE { ?CS :afterEat ?CE. ?CS :holderF23 ?H. }
+RULE { ?C :transferredF23 true } WHERE { ?C :afterSends ?CS. ?C :holderF23 ?before. ?CS :holderF23 ?after. FILTER(?before != ?after) }
+
+# ---- Fork F34 (endpoints P3, P4) ----
+RULE { ?CS :holderF34 :p3 ; :cleanF34 :clean } WHERE { ?C :afterSends ?CS. ?C :hungryP3 true. ?C :holderF34 :p4. ?C :cleanF34 :dirty. }
+RULE { ?CS :holderF34 :p4 ; :cleanF34 :clean } WHERE { ?C :afterSends ?CS. ?C :hungryP4 true. ?C :holderF34 :p3. ?C :cleanF34 :dirty. }
+RULE { ?CS :holderF34 ?H ; :cleanF34 ?CL } WHERE { ?C :afterSends ?CS. ?C :keepF34 true. ?C :holderF34 ?H ; :cleanF34 ?CL. }
+RULE { ?CE :holderF34 ?H ; :cleanF34 :dirty } WHERE { ?CS :afterEat ?CE. ?CS :holderF34 ?H. }
+RULE { ?C :transferredF34 true } WHERE { ?C :afterSends ?CS. ?C :holderF34 ?before. ?CS :holderF34 ?after. FILTER(?before != ?after) }
+
+# ---- Fork F45 (endpoints P4, P5) ----
+RULE { ?CS :holderF45 :p4 ; :cleanF45 :clean } WHERE { ?C :afterSends ?CS. ?C :hungryP4 true. ?C :holderF45 :p5. ?C :cleanF45 :dirty. }
+RULE { ?CS :holderF45 :p5 ; :cleanF45 :clean } WHERE { ?C :afterSends ?CS. ?C :hungryP5 true. ?C :holderF45 :p4. ?C :cleanF45 :dirty. }
+RULE { ?CS :holderF45 ?H ; :cleanF45 ?CL } WHERE { ?C :afterSends ?CS. ?C :keepF45 true. ?C :holderF45 ?H ; :cleanF45 ?CL. }
+RULE { ?CE :holderF45 ?H ; :cleanF45 :dirty } WHERE { ?CS :afterEat ?CE. ?CS :holderF45 ?H. }
+RULE { ?C :transferredF45 true } WHERE { ?C :afterSends ?CS. ?C :holderF45 ?before. ?CS :holderF45 ?after. FILTER(?before != ?after) }
+
+# ---- Fork F51 (endpoints P5, P1) ----
+RULE { ?CS :holderF51 :p5 ; :cleanF51 :clean } WHERE { ?C :afterSends ?CS. ?C :hungryP5 true. ?C :holderF51 :p1. ?C :cleanF51 :dirty. }
+RULE { ?CS :holderF51 :p1 ; :cleanF51 :clean } WHERE { ?C :afterSends ?CS. ?C :hungryP1 true. ?C :holderF51 :p5. ?C :cleanF51 :dirty. }
+RULE { ?CS :holderF51 ?H ; :cleanF51 ?CL } WHERE { ?C :afterSends ?CS. ?C :keepF51 true. ?C :holderF51 ?H ; :cleanF51 ?CL. }
+RULE { ?CE :holderF51 ?H ; :cleanF51 :dirty } WHERE { ?CS :afterEat ?CE. ?CS :holderF51 ?H. }
+RULE { ?C :transferredF51 true } WHERE { ?C :afterSends ?CS. ?C :holderF51 ?before. ?CS :holderF51 ?after. FILTER(?before != ?after) }
+
+# ---- Meals: after-transfer, a hungry philosopher holding both forks eats. ----
+RULE { :mp1_1 a :Meal ; :philosopher :p1 ; :mealNo 1 ; :inSlot ?S ; :usesFork :f51, :f12 } WHERE { :c0 :afterSends ?CS. :c0 :slot ?S. ?CS :holderF51 :p1 ; :holderF12 :p1. }
+RULE { :mp1_2 a :Meal ; :philosopher :p1 ; :mealNo 2 ; :inSlot ?S ; :usesFork :f51, :f12 } WHERE { :c6 :afterSends ?CS. :c6 :slot ?S. ?CS :holderF51 :p1 ; :holderF12 :p1. }
+RULE { :mp1_3 a :Meal ; :philosopher :p1 ; :mealNo 3 ; :inSlot ?S ; :usesFork :f51, :f12 } WHERE { :c12 :afterSends ?CS. :c12 :slot ?S. ?CS :holderF51 :p1 ; :holderF12 :p1. }
+
+RULE { :mp2_1 a :Meal ; :philosopher :p2 ; :mealNo 1 ; :inSlot ?S ; :usesFork :f12, :f23 } WHERE { :c2 :afterSends ?CS. :c2 :slot ?S. ?CS :holderF12 :p2 ; :holderF23 :p2. }
+RULE { :mp2_2 a :Meal ; :philosopher :p2 ; :mealNo 2 ; :inSlot ?S ; :usesFork :f12, :f23 } WHERE { :c8 :afterSends ?CS. :c8 :slot ?S. ?CS :holderF12 :p2 ; :holderF23 :p2. }
+RULE { :mp2_3 a :Meal ; :philosopher :p2 ; :mealNo 3 ; :inSlot ?S ; :usesFork :f12, :f23 } WHERE { :c14 :afterSends ?CS. :c14 :slot ?S. ?CS :holderF12 :p2 ; :holderF23 :p2. }
+
+RULE { :mp3_1 a :Meal ; :philosopher :p3 ; :mealNo 1 ; :inSlot ?S ; :usesFork :f23, :f34 } WHERE { :c0 :afterSends ?CS. :c0 :slot ?S. ?CS :holderF23 :p3 ; :holderF34 :p3. }
+RULE { :mp3_2 a :Meal ; :philosopher :p3 ; :mealNo 2 ; :inSlot ?S ; :usesFork :f23, :f34 } WHERE { :c6 :afterSends ?CS. :c6 :slot ?S. ?CS :holderF23 :p3 ; :holderF34 :p3. }
+RULE { :mp3_3 a :Meal ; :philosopher :p3 ; :mealNo 3 ; :inSlot ?S ; :usesFork :f23, :f34 } WHERE { :c12 :afterSends ?CS. :c12 :slot ?S. ?CS :holderF23 :p3 ; :holderF34 :p3. }
+
+RULE { :mp4_1 a :Meal ; :philosopher :p4 ; :mealNo 1 ; :inSlot ?S ; :usesFork :f34, :f45 } WHERE { :c2 :afterSends ?CS. :c2 :slot ?S. ?CS :holderF34 :p4 ; :holderF45 :p4. }
+RULE { :mp4_2 a :Meal ; :philosopher :p4 ; :mealNo 2 ; :inSlot ?S ; :usesFork :f34, :f45 } WHERE { :c8 :afterSends ?CS. :c8 :slot ?S. ?CS :holderF34 :p4 ; :holderF45 :p4. }
+RULE { :mp4_3 a :Meal ; :philosopher :p4 ; :mealNo 3 ; :inSlot ?S ; :usesFork :f34, :f45 } WHERE { :c14 :afterSends ?CS. :c14 :slot ?S. ?CS :holderF34 :p4 ; :holderF45 :p4. }
+
+RULE { :mp5_1 a :Meal ; :philosopher :p5 ; :mealNo 1 ; :inSlot ?S ; :usesFork :f45, :f51 } WHERE { :c4 :afterSends ?CS. :c4 :slot ?S. ?CS :holderF45 :p5 ; :holderF51 :p5. }
+RULE { :mp5_2 a :Meal ; :philosopher :p5 ; :mealNo 2 ; :inSlot ?S ; :usesFork :f45, :f51 } WHERE { :c10 :afterSends ?CS. :c10 :slot ?S. ?CS :holderF45 :p5 ; :holderF51 :p5. }
+RULE { :mp5_3 a :Meal ; :philosopher :p5 ; :mealNo 3 ; :inSlot ?S ; :usesFork :f45, :f51 } WHERE { :c16 :afterSends ?CS. :c16 :slot ?S. ?CS :holderF45 :p5 ; :holderF51 :p5. }
+
+# ---- Summary ----
+RULE { :p1 :ateTimes 3 } WHERE { :mp1_1 a :Meal. :mp1_2 a :Meal. :mp1_3 a :Meal. }
+RULE { :p2 :ateTimes 3 } WHERE { :mp2_1 a :Meal. :mp2_2 a :Meal. :mp2_3 a :Meal. }
+RULE { :p3 :ateTimes 3 } WHERE { :mp3_1 a :Meal. :mp3_2 a :Meal. :mp3_3 a :Meal. }
+RULE { :p4 :ateTimes 3 } WHERE { :mp4_1 a :Meal. :mp4_2 a :Meal. :mp4_3 a :Meal. }
+RULE { :p5 :ateTimes 3 } WHERE { :mp5_1 a :Meal. :mp5_2 a :Meal. :mp5_3 a :Meal. }
+
+RULE { :trace1 :everyoneAteTimes3 true }
+WHERE { :p1 :ateTimes 3. :p2 :ateTimes 3. :p3 :ateTimes 3. :p4 :ateTimes 3. :p5 :ateTimes 3. }
