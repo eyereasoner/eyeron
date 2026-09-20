@@ -1,0 +1,27 @@
+# Companion to engineering-becoming.n3/.eye: the same seven forward
+# rules, translated directly.
+PREFIX : <http://example.org/engineering#>
+
+DATA {
+  :reduceWeight a :DesignGoal; :suggests :carbonFrame.
+  :improveCooling a :DesignGoal; :suggests :ribbedHousing.
+
+  :carbonFrame a :DesignOption; :compatibleWith :stiffnessReq, :assemblyReq.
+  :ribbedHousing a :DesignOption; :compatibleWith :thermalReq, :assemblyReq.
+
+  :r1 a :DesignRevision; :time 1; :satisfies :stiffnessReq, :assemblyReq; :realizes :aluminumFrame; :achieves :approvedBaseline.
+  :r2 a :DesignRevision; :time 2; :derivesFrom :r1; :designGoal :reduceWeight.
+  :r3 a :DesignRevision; :time 3; :derivesFrom :r2; :designGoal :improveCooling.
+}
+
+RULE { ?later :inheritsRequirement ?req } WHERE { ?later :derivesFrom ?earlier. ?earlier :satisfies ?req }
+RULE { ?rev :considers ?opt } WHERE { ?rev :designGoal ?goal. ?goal :suggests ?opt }
+RULE { ?rev :preserves ?req; :integrates ?opt } WHERE {
+  ?rev :inheritsRequirement ?req.
+  ?rev :considers ?opt.
+  ?opt :compatibleWith ?req.
+}
+RULE { ?rev :satisfies ?req } WHERE { ?rev :preserves ?req }
+RULE { ?rev :realizes ?opt } WHERE { ?rev :integrates ?opt }
+RULE { ?rev :achieves :approvedBaseline; :availableForFutureIteration :yes } WHERE { ?rev :realizes ?opt }
+RULE { ?rev :status :approvedBaseline } WHERE { ?rev :achieves :approvedBaseline }

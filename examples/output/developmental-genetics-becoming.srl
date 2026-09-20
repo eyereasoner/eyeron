@@ -1,0 +1,40 @@
+:neurogenicSignal a :Signal; :suggests :proneuralProgram; :introducesMarker :NeuroD1.
+:maturationSignal a :Signal; :suggests :neuronalMaturationProgram; :introducesMarker :Tubb3.
+
+:proneuralProgram a :RegulatoryProgram; :compatibleWith :Sox2, :Pax6; :enables :NeuroD1.
+:neuronalMaturationProgram a :RegulatoryProgram; :compatibleWith :Pax6, :NeuroD1; :enables :Tubb3.
+
+:s1 a :CellState; :time 1; :expresses :Sox2, :Pax6; :achieves :stableCellState.
+:s2 a :CellState; :time 2; :derivesFrom :s1; :receives :neurogenicSignal.
+:s3 a :CellState; :time 3; :derivesFrom :s2; :receives :maturationSignal.
+
+:s2 :inheritsMarker :Sox2 .
+:s2 :inheritsMarker :Pax6 .
+:s2 :considers :proneuralProgram .
+:s3 :considers :neuronalMaturationProgram .
+:s2 :targetsMarker :NeuroD1 .
+:s3 :targetsMarker :Tubb3 .
+:s1 :status :stableCellState .
+:s2 :preservesMarker :Sox2 .
+:s2 :integrates :proneuralProgram .
+:s2 :preservesMarker :Pax6 .
+:s2 :expresses :NeuroD1 .
+:s3 :expresses :Tubb3 .
+:s3 :integrates :neuronalMaturationProgram .
+:s3 :inheritsMarker :NeuroD1 .
+:s2 :expresses :Sox2 .
+:s2 :expresses :Pax6 .
+:s2 :realizes :proneuralProgram .
+:s3 :realizes :neuronalMaturationProgram .
+:s3 :inheritsMarker :Sox2 .
+:s3 :inheritsMarker :Pax6 .
+:s3 :preservesMarker :NeuroD1 .
+:s2 :achieves :stableCellState .
+:s2 :availableForFurtherDifferentiation :yes .
+:s3 :achieves :stableCellState .
+:s3 :availableForFurtherDifferentiation :yes .
+:s3 :preservesMarker :Pax6 .
+:s3 :expresses :NeuroD1 .
+:s2 :status :stableCellState .
+:s3 :status :stableCellState .
+:s3 :expresses :Pax6 .

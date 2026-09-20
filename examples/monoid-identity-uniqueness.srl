@@ -1,0 +1,20 @@
+# Companion to monoid-identity-uniqueness.n3/.eye: like
+# monoid-identity-uniqueness.eye, adds the minimal :inG/:candidateIdentity
+# facts the N3 source never actually asserts (see that file's own note),
+# so the rules genuinely fire instead of the query only succeeding via
+# log:equalTo's free-variable unification. The two multiplication facts
+# the proof needs -- (e2, e) mapping to both e2 and e -- are named
+# directly (:e2_e_mul_e2, :e2_e_mul_e) rather than encoded as a generic
+# (?a ?b) :mul ?c relation over RDF-list pair subjects, avoiding blank
+# nodes entirely for this one-instance proof.
+PREFIX : <http://example.org/#>
+
+DATA { :e :inG true. :e2 :candidateIdentity true. :e2 :inG true. }
+
+RULE { :e2_e_mul_e2 :holds true } WHERE { :e2 :inG true }
+RULE { :e2_e_mul_e :holds true } WHERE { :e2 :candidateIdentity true. :e :inG true }
+
+RULE { :result :uniqueIdentity :e2 } WHERE {
+  :e2_e_mul_e2 :holds true.
+  :e2_e_mul_e :holds true.
+}

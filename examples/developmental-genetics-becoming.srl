@@ -1,0 +1,33 @@
+# Companion to developmental-genetics-becoming.n3/.eye: the same nine
+# forward rules, translated directly.
+PREFIX : <http://example.org/genetics#>
+
+DATA {
+  :neurogenicSignal a :Signal; :suggests :proneuralProgram; :introducesMarker :NeuroD1.
+  :maturationSignal a :Signal; :suggests :neuronalMaturationProgram; :introducesMarker :Tubb3.
+
+  :proneuralProgram a :RegulatoryProgram; :compatibleWith :Sox2, :Pax6; :enables :NeuroD1.
+  :neuronalMaturationProgram a :RegulatoryProgram; :compatibleWith :Pax6, :NeuroD1; :enables :Tubb3.
+
+  :s1 a :CellState; :time 1; :expresses :Sox2, :Pax6; :achieves :stableCellState.
+  :s2 a :CellState; :time 2; :derivesFrom :s1; :receives :neurogenicSignal.
+  :s3 a :CellState; :time 3; :derivesFrom :s2; :receives :maturationSignal.
+}
+
+RULE { ?later :inheritsMarker ?marker } WHERE { ?later :derivesFrom ?earlier. ?earlier :expresses ?marker }
+RULE { ?cell :considers ?program } WHERE { ?cell :receives ?signal. ?signal :suggests ?program }
+RULE { ?cell :targetsMarker ?marker } WHERE { ?cell :receives ?signal. ?signal :introducesMarker ?marker }
+RULE { ?cell :preservesMarker ?marker; :integrates ?program } WHERE {
+  ?cell :inheritsMarker ?marker.
+  ?cell :considers ?program.
+  ?program :compatibleWith ?marker.
+}
+RULE { ?cell :expresses ?marker; :integrates ?program } WHERE {
+  ?cell :targetsMarker ?marker.
+  ?cell :considers ?program.
+  ?program :enables ?marker.
+}
+RULE { ?cell :expresses ?marker } WHERE { ?cell :preservesMarker ?marker }
+RULE { ?cell :realizes ?program } WHERE { ?cell :integrates ?program }
+RULE { ?cell :achieves :stableCellState; :availableForFurtherDifferentiation :yes } WHERE { ?cell :realizes ?program }
+RULE { ?cell :status :stableCellState } WHERE { ?cell :achieves :stableCellState }

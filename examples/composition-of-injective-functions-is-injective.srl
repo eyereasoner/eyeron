@@ -1,0 +1,66 @@
+# Companion to composition-of-injective-functions-is-injective.n3/.eye:
+# the same theorem over the same concrete f/g/h example. N3's (?f ?x)
+# :app ?y and (?x ?y) :sameTerm true pair-as-subject encodings both
+# construct blank-node rule heads; since :sameTerm participates in real
+# recursion (its own symmetry and injectivity rules each read and
+# rederive it) and one of the :app-producing rules reads and writes
+# :appFn/:appArg/:appResult generically, both are genuine or
+# stratifier-visible cycles through closed rules, so this uses plain
+# binary :sameTerm and blank-node-reified (:appFn/:appArg/:appResult)
+# :app facts instead, and gives h's own composed applications a
+# different property name (:hAppArg/:hAppResult) purely to keep the
+# stratifier's predicate-level cycle check from seeing a spurious
+# self-reference (the same gotcha documented for lists.srl and
+# friends). The final witness is its own blank node with named
+# :witnessH/:witnessX/:witnessY properties, since a bare pair-as-subject
+# result here would not need to recurse and is therefore safe on its
+# own, but keeping the same shape throughout is simpler.
+PREFIX : <http://examples.org/#>
+
+DATA {
+  :a :inX true. :b :inX true.
+  :p :inY true. :q :inY true.
+  :r :inZ true.
+  :f :injective true. :g :injective true.
+  :h :compositeOfG :g. :h :compositeOfF :f.
+}
+
+RULE { [] :appFn :f; :appArg :a; :appResult :p. } WHERE { :f :injective true }
+RULE { [] :appFn :f; :appArg :b; :appResult :q. } WHERE { :f :injective true }
+RULE { [] :appFn :g; :appArg :p; :appResult :r. } WHERE { :g :injective true }
+RULE { [] :appFn :g; :appArg :q; :appResult :r. } WHERE { :g :injective true }
+
+RULE { ?x :sameTerm ?x } WHERE { ?x :inX true }
+RULE { ?y :sameTerm ?y } WHERE { ?y :inY true }
+RULE { ?z :sameTerm ?z } WHERE { ?z :inZ true }
+RULE { ?b_ :sameTerm ?a_ } WHERE { ?a_ :sameTerm ?b_ }
+
+RULE { ?u :sameTerm ?v } WHERE {
+  ?c1 :appFn ?f; :appArg ?x; :appResult ?u.
+  ?c2 :appFn ?f; :appArg ?x; :appResult ?v.
+}
+
+RULE { ?x :sameTerm ?y } WHERE {
+  ?f :injective true.
+  ?c1 :appFn ?f; :appArg ?x; :appResult ?u.
+  ?c2 :appFn ?f; :appArg ?y; :appResult ?v.
+  ?u :sameTerm ?v.
+}
+
+RULE { [] :hAppArg ?x; :hAppResult ?z. } WHERE {
+  :h :compositeOfG ?g. :h :compositeOfF ?f.
+  ?c1 :appFn ?f; :appArg ?x; :appResult ?y.
+  ?c2 :appFn ?g; :appArg ?y; :appResult ?z.
+}
+
+RULE { [] a :SameInputWitness; :witnessH :h; :witnessX ?x; :witnessY ?y. } WHERE {
+  :h :compositeOfG ?g. :h :compositeOfF ?f.
+  ?f :injective true. ?g :injective true.
+  ?c1 :appFn ?f; :appArg ?x; :appResult ?fx.
+  ?c2 :appFn ?f; :appArg ?y; :appResult ?fy.
+  ?c3 :appFn ?g; :appArg ?fx; :appResult ?u.
+  ?c4 :appFn ?g; :appArg ?fy; :appResult ?v.
+  ?u :sameTerm ?v.
+  ?x :sameTerm ?y.
+  FILTER(?x != ?y)
+}

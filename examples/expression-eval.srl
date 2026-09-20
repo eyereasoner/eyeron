@@ -1,0 +1,24 @@
+# Companion to expression-eval.n3/.eye: the same expression tree
+# ((2*3)+(10-4) = 12), but each internal node gets its own concrete rule
+# (:eMul, :eSub, :eAdd) naming its specific operands rather than one
+# generic recursive :value rule. A single generic rule using a shared
+# ?E/?L/?R across :add/:sub/:mul, all reading and (via SET) writing the
+# same :value predicate, is a genuine dependency cycle through a closed
+# rule (SPARQL 1.2 RL section 4.4), which stratification rejects (the
+# same restriction documented in peano-arithmetic.srl); naming each node
+# individually turns the dependency into a plain DAG instead.
+PREFIX : <http://example.org/expression-eval#>
+
+DATA {
+  :n2 :n 2. :n3 :n 3. :n10 :n 10. :n4 :n 4.
+  :eMul a :Expr; :op :mul; :left :n2; :right :n3.
+  :eSub a :Expr; :op :sub; :left :n10; :right :n4.
+  :eAdd a :Expr; :op :add; :left :eMul; :right :eSub.
+  :Root :expr :eAdd.
+}
+
+RULE { ?N :value ?V } WHERE { ?N :n ?V }
+RULE { :eMul :value ?V } WHERE { :n2 :value ?A. :n3 :value ?B. SET(?V := ?A * ?B) }
+RULE { :eSub :value ?V } WHERE { :n10 :value ?A. :n4 :value ?B. SET(?V := ?A - ?B) }
+RULE { :eAdd :value ?V } WHERE { :eMul :value ?A. :eSub :value ?B. SET(?V := ?A + ?B) }
+RULE { :Root :result ?V } WHERE { :Root :expr ?E. ?E :value ?V }

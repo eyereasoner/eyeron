@@ -1,0 +1,34 @@
+:reduceWeight a :DesignGoal; :suggests :carbonFrame.
+:improveCooling a :DesignGoal; :suggests :ribbedHousing.
+
+:carbonFrame a :DesignOption; :compatibleWith :stiffnessReq, :assemblyReq.
+:ribbedHousing a :DesignOption; :compatibleWith :thermalReq, :assemblyReq.
+
+:r1 a :DesignRevision; :time 1; :satisfies :stiffnessReq, :assemblyReq; :realizes :aluminumFrame; :achieves :approvedBaseline.
+:r2 a :DesignRevision; :time 2; :derivesFrom :r1; :designGoal :reduceWeight.
+:r3 a :DesignRevision; :time 3; :derivesFrom :r2; :designGoal :improveCooling.
+
+:r2 :inheritsRequirement :stiffnessReq .
+:r2 :inheritsRequirement :assemblyReq .
+:r2 :considers :carbonFrame .
+:r3 :considers :ribbedHousing .
+:r1 :availableForFutureIteration :yes .
+:r1 :status :approvedBaseline .
+:r2 :preserves :stiffnessReq .
+:r2 :integrates :carbonFrame .
+:r2 :preserves :assemblyReq .
+:r2 :satisfies :stiffnessReq .
+:r2 :satisfies :assemblyReq .
+:r2 :realizes :carbonFrame .
+:r3 :inheritsRequirement :stiffnessReq .
+:r3 :inheritsRequirement :assemblyReq .
+:r2 :achieves :approvedBaseline .
+:r2 :availableForFutureIteration :yes .
+:r3 :preserves :assemblyReq .
+:r3 :integrates :ribbedHousing .
+:r2 :status :approvedBaseline .
+:r3 :satisfies :assemblyReq .
+:r3 :realizes :ribbedHousing .
+:r3 :achieves :approvedBaseline .
+:r3 :availableForFutureIteration :yes .
+:r3 :status :approvedBaseline .

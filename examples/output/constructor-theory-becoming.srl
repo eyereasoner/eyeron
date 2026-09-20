@@ -1,0 +1,29 @@
+:writeTask a :Task; :input :blankMemory; :output :encodedMemory.
+:stabilizeTask a :Task; :input :encodedMemory; :output :stabilizedMemory.
+:perfectRestoreTask a :Task; :input :damagedMemory; :output :pristineMemory; :forbiddenBy :noMiraclePrinciple.
+
+:writer a :Constructor; :canPerform :writeTask.
+:stabilizer a :Constructor; :canPerform :stabilizeTask.
+
+:v1 a :SubstrateVersion; :time 1; :hasAttribute :blankMemory.
+:v2 a :SubstrateVersion; :time 2; :derivesFrom :v1; :intendsTask :writeTask.
+:v3 a :SubstrateVersion; :time 3; :derivesFrom :v2; :intendsTask :stabilizeTask.
+:damaged1 a :SubstrateVersion; :time 4; :hasAttribute :damagedMemory.
+:vBad a :SubstrateVersion; :time 5; :derivesFrom :damaged1; :intendsTask :perfectRestoreTask.
+
+:perfectRestoreTask :status :impossibleTask .
+:writeTask :status :possibleTask .
+:writer :retainsCapacityFor :writeTask .
+:stabilizeTask :status :possibleTask .
+:stabilizer :retainsCapacityFor :stabilizeTask .
+:v1 :availableForFurtherTask :yes .
+:damaged1 :availableForFurtherTask :yes .
+:v2 :canUndergo :writeTask .
+:v2 :becomesFrom :v1 .
+:vBad :status :blockedTransition .
+:v2 :hasAttribute :encodedMemory .
+:v3 :canUndergo :stabilizeTask .
+:v3 :becomesFrom :v2 .
+:v2 :availableForFurtherTask :yes .
+:v3 :hasAttribute :stabilizedMemory .
+:v3 :availableForFurtherTask :yes .

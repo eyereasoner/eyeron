@@ -1,0 +1,31 @@
+# Companion to equivalence-classes-overlap-implies-same-class.n3/.eye:
+# the same theorem, translated directly -- ordinary transitive/symmetric
+# recursion over :sim is fine in SRL's stratification. Class equality and
+# the shared-member witness use plain binary properties instead of N3's
+# (?x ?y) pair-as-subject and (?x ?y ?z) triple-as-subject encodings,
+# since SRL triples don't need that trick. The witness gets a
+# deterministic *named* individual (built from its own x/y/z), not a
+# blank node: with 18 witnesses over only 3 underlying elements, a blank
+# node here gave the golden-comparison isomorphism search too many
+# candidate mappings to prune quickly (the same class of slowdown
+# documented in shortest-path.srl), even though each witness's own
+# triples are in fact distinct.
+PREFIX : <http://example.org/#>
+
+DATA { :a :inX true. :b :inX true. :c :inX true. :b :sim :a. :b :sim :c. }
+
+RULE { ?x :sim ?x } WHERE { ?x :inX true }
+RULE { ?y :sim ?x } WHERE { ?x :sim ?y }
+RULE { ?x :sim ?z } WHERE { ?x :sim ?y. ?y :sim ?z }
+
+RULE { ?u :inClassOf ?x } WHERE { ?u :sim ?x }
+RULE { ?x :sameClass ?y } WHERE { ?x :sim ?y }
+RULE { ?y :sameClass ?x } WHERE { ?x :sameClass ?y }
+
+RULE { ?w a :SharedMemberWitness; :witnessX ?x; :witnessY ?y; :witnessZ ?z } WHERE {
+  ?z :inClassOf ?x.
+  ?z :inClassOf ?y.
+  ?x :sameClass ?y.
+  FILTER(?x != ?y)
+  SET(?w := IRI(CONCAT("http://example.org/#witness_", STRAFTER(STR(?x),"#"), "_", STRAFTER(STR(?y),"#"), "_", STRAFTER(STR(?z),"#"))))
+}

@@ -1,0 +1,31 @@
+# Companion to constructor-theory-becoming.n3/.eye: the same six forward
+# rules, translated directly.
+PREFIX : <http://example.org/constructor#>
+
+DATA {
+  :writeTask a :Task; :input :blankMemory; :output :encodedMemory.
+  :stabilizeTask a :Task; :input :encodedMemory; :output :stabilizedMemory.
+  :perfectRestoreTask a :Task; :input :damagedMemory; :output :pristineMemory; :forbiddenBy :noMiraclePrinciple.
+
+  :writer a :Constructor; :canPerform :writeTask.
+  :stabilizer a :Constructor; :canPerform :stabilizeTask.
+
+  :v1 a :SubstrateVersion; :time 1; :hasAttribute :blankMemory.
+  :v2 a :SubstrateVersion; :time 2; :derivesFrom :v1; :intendsTask :writeTask.
+  :v3 a :SubstrateVersion; :time 3; :derivesFrom :v2; :intendsTask :stabilizeTask.
+  :damaged1 a :SubstrateVersion; :time 4; :hasAttribute :damagedMemory.
+  :vBad a :SubstrateVersion; :time 5; :derivesFrom :damaged1; :intendsTask :perfectRestoreTask.
+}
+
+RULE { ?task :status :impossibleTask } WHERE { ?task :forbiddenBy ?principle }
+RULE { ?task :status :possibleTask. ?constructor :retainsCapacityFor ?task } WHERE { ?constructor :canPerform ?task }
+RULE { ?next :canUndergo ?task; :becomesFrom ?prev } WHERE {
+  ?next :derivesFrom ?prev.
+  ?next :intendsTask ?task.
+  ?task :status :possibleTask.
+  ?task :input ?in.
+  ?prev :hasAttribute ?in.
+}
+RULE { ?next :hasAttribute ?out } WHERE { ?next :canUndergo ?task. ?task :output ?out }
+RULE { ?next :status :blockedTransition } WHERE { ?next :intendsTask ?task. ?task :status :impossibleTask }
+RULE { ?next :availableForFurtherTask :yes } WHERE { ?next :hasAttribute ?attr }
