@@ -1,0 +1,57 @@
+# Companion to string-builtins-tests.n3/.eye: covers the same builtins
+# using SPARQL's equivalent functions, one Pass marker per check, matching
+# the N3 source's own naming. `string:format`'s simple %s-substitution
+# case (format_1) is expressed with CONCAT; its printf-style width,
+# padding, and precision variants (format_2 through format_6 -- %5s,
+# %-5s, %.3s, %05d, %5.1f) have no SPARQL equivalent and are omitted.
+# `string:scrape`'s capture-group extraction is emulated with REPLACE's
+# `$1` backreference against a regex that consumes everything else.
+PREFIX : <https://eyereasoner.github.io/ns#>
+
+RULE { :ok_string_concatenation_1 a :Pass }
+WHERE { FILTER(CONCAT("hello", " ", "world!") = "hello world!") }
+
+RULE { :ok_string_contains_1 a :Pass }
+WHERE { FILTER CONTAINS("hello world!", "llo worl") }
+
+RULE { :ok_string_containsIgnoringCase_1 a :Pass }
+WHERE { FILTER CONTAINS(LCASE("hello world!"), LCASE("lLO woRl")) }
+
+RULE { :ok_string_endsWith_1 a :Pass }
+WHERE { FILTER STRENDS("hello world!", "orld!") }
+
+RULE { :ok_string_equalIgnoringCase_1 a :Pass }
+WHERE { FILTER(LCASE("hello world!") = LCASE("hELLo wORld!")) }
+
+RULE { :ok_string_format_1 a :Pass }
+WHERE { FILTER(CONCAT("https", "://", "w3c.github.io", "/", "N3/spec/") = "https://w3c.github.io/N3/spec/") }
+
+RULE { :ok_string_greaterThan_1 a :Pass }
+WHERE { FILTER("Penguin" > "Cat") }
+
+RULE { :ok_string_lessThan_1 a :Pass }
+WHERE { FILTER("Cat" < "Penguin") }
+
+RULE { :ok_string_matches_1 a :Pass }
+WHERE { FILTER REGEX("hello world!", ".*(l)+o wo.*") }
+
+RULE { :ok_string_notEqualIgnoringCase_1 a :Pass }
+WHERE { FILTER(LCASE("hello world!") != LCASE("hELLo dunia!")) }
+
+RULE { :ok_string_notGreaterThan_1 a :Pass }
+WHERE { FILTER("Cat" <= "Penguin") }
+
+RULE { :ok_string_notLessThan_1 a :Pass }
+WHERE { FILTER("Penguin" >= "Cat") }
+
+RULE { :ok_string_notMatches_1 a :Pass }
+WHERE { FILTER(!REGEX("hello world!", ".*(l)+o dunia.*")) }
+
+RULE { :ok_string_replace_1 a :Pass }
+WHERE { FILTER(REPLACE("fofof bar", "of", "baz") = "fbazbaz bar") }
+
+RULE { :ok_string_scrape_1 a :Pass }
+WHERE { FILTER(REPLACE("id=abc&x=123&y=zzz", ".*x=([0-9]+).*", "$1") = "123") }
+
+RULE { :ok_string_startsWith_1 a :Pass }
+WHERE { FILTER STRSTARTS("hello world!", "hello") }

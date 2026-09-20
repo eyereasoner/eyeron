@@ -1,0 +1,14 @@
+# Companion to log-uri.n3/.eye: the same IRI/string round-trip, using
+# SRL's own STR() and IRI() functions directly on real RDF terms.
+PREFIX : <http://example.org/#>
+
+DATA {
+  :thing :theIri <https://www.w3.org>.
+  :thing :iriText "https://www.w3.org".
+}
+
+RULE { :uriString :is ?s. :uriResource :is ?r. } WHERE {
+  :thing :theIri ?iri. :thing :iriText ?text.
+  SET(?s := STR(?iri))
+  SET(?r := IRI(?text))
+}

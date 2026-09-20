@@ -1,0 +1,29 @@
+:Let :param "Huey", "Dewey", "Louie".
+
+_:b1 rdf:first "Huey" .
+_:b1 rdf:rest _:b2 .
+_:b2 rdf:first "Dewey" .
+_:b2 rdf:rest _:b3 .
+_:b3 rdf:first "Louie" .
+_:b3 rdf:rest rdf:nil .
+:result1 :is _:b1 .
+
+_:b5 rdf:first "Huey" .
+_:b5 rdf:rest rdf:nil .
+_:b4 rdf:first _:b5 .
+_:b4 rdf:rest _:b6 .
+_:b7 rdf:first "Dewey" .
+_:b7 rdf:rest rdf:nil .
+_:b6 rdf:first _:b7 .
+_:b6 rdf:rest _:b8 .
+_:b9 rdf:first "Louie" .
+_:b9 rdf:rest rdf:nil .
+_:b8 rdf:first _:b9 .
+_:b8 rdf:rest rdf:nil .
+:result2 :is _:b4 .
+
+_:b10 rdf:first "Huey" .
+_:b10 rdf:rest _:b11 .
+_:b11 rdf:first "Dewey" .
+_:b11 rdf:rest rdf:nil .
+:result3 :is _:b10 .

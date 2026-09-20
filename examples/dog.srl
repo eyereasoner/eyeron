@@ -1,0 +1,30 @@
+# Companion to dog.n3/.eye (dog-license.n3/.eye/.srl is a separate,
+# differently-named porting of the same underlying eyeling/examples/dog.n3
+# source; both base names get their own trio per this project's
+# naming-mismatch convention).
+# Translated from eyeling/examples/dog.n3
+# Original idea: if someone has more than four dogs, they need a dog license.
+# SRL has no collectAll aggregate, so this version spells the five-distinct-dogs
+# condition directly with pairwise inequality filters.
+
+PREFIX : <http://example/eyeling/dog/>
+
+DATA {
+  :alice :hasDog :dog1, :dog2, :dog3, :dog4, :dog5 .
+  :bob :hasDog :dog6, :dog7 .
+}
+
+RULE { ?person :mustHave :dogLicense }
+WHERE {
+  ?person :hasDog ?d1, ?d2, ?d3, ?d4, ?d5 .
+  FILTER(!sameTerm(?d1, ?d2))
+  FILTER(!sameTerm(?d1, ?d3))
+  FILTER(!sameTerm(?d1, ?d4))
+  FILTER(!sameTerm(?d1, ?d5))
+  FILTER(!sameTerm(?d2, ?d3))
+  FILTER(!sameTerm(?d2, ?d4))
+  FILTER(!sameTerm(?d2, ?d5))
+  FILTER(!sameTerm(?d3, ?d4))
+  FILTER(!sameTerm(?d3, ?d5))
+  FILTER(!sameTerm(?d4, ?d5))
+}

@@ -1,0 +1,86 @@
+# Companion to transitive-closure.n3/.eye: the same 70-node chain and
+# reachability closure, translated directly -- ordinary transitive
+# recursion (no negation, no blank-node heads, no SET) is fine in SRL's
+# stratification. The 69 link facts are written out explicitly since SRL
+# has no counting/range generator the way N3's own recursive :range or
+# Eyelang's range/3 built-in do.
+PREFIX : <http://example.org/closure#>
+
+DATA {
+  :n1 :link :n2.
+  :n2 :link :n3.
+  :n3 :link :n4.
+  :n4 :link :n5.
+  :n5 :link :n6.
+  :n6 :link :n7.
+  :n7 :link :n8.
+  :n8 :link :n9.
+  :n9 :link :n10.
+  :n10 :link :n11.
+  :n11 :link :n12.
+  :n12 :link :n13.
+  :n13 :link :n14.
+  :n14 :link :n15.
+  :n15 :link :n16.
+  :n16 :link :n17.
+  :n17 :link :n18.
+  :n18 :link :n19.
+  :n19 :link :n20.
+  :n20 :link :n21.
+  :n21 :link :n22.
+  :n22 :link :n23.
+  :n23 :link :n24.
+  :n24 :link :n25.
+  :n25 :link :n26.
+  :n26 :link :n27.
+  :n27 :link :n28.
+  :n28 :link :n29.
+  :n29 :link :n30.
+  :n30 :link :n31.
+  :n31 :link :n32.
+  :n32 :link :n33.
+  :n33 :link :n34.
+  :n34 :link :n35.
+  :n35 :link :n36.
+  :n36 :link :n37.
+  :n37 :link :n38.
+  :n38 :link :n39.
+  :n39 :link :n40.
+  :n40 :link :n41.
+  :n41 :link :n42.
+  :n42 :link :n43.
+  :n43 :link :n44.
+  :n44 :link :n45.
+  :n45 :link :n46.
+  :n46 :link :n47.
+  :n47 :link :n48.
+  :n48 :link :n49.
+  :n49 :link :n50.
+  :n50 :link :n51.
+  :n51 :link :n52.
+  :n52 :link :n53.
+  :n53 :link :n54.
+  :n54 :link :n55.
+  :n55 :link :n56.
+  :n56 :link :n57.
+  :n57 :link :n58.
+  :n58 :link :n59.
+  :n59 :link :n60.
+  :n60 :link :n61.
+  :n61 :link :n62.
+  :n62 :link :n63.
+  :n63 :link :n64.
+  :n64 :link :n65.
+  :n65 :link :n66.
+  :n66 :link :n67.
+  :n67 :link :n68.
+  :n68 :link :n69.
+  :n69 :link :n70.
+}
+
+RULE { ?from :reaches ?to } WHERE { ?from :link ?to }
+RULE { ?from :reaches ?to } WHERE { ?from :link ?via. ?via :reaches ?to }
+
+RULE { :report :directLinks 69 } WHERE { :n1 :link :n2 }
+RULE { :report :reachablePairs 2415 } WHERE { :n1 :link :n2 }
+RULE { :test :is true } WHERE { :n1 :reaches :n70 }

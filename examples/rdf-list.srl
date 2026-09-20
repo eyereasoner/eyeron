@@ -1,0 +1,13 @@
+# Companion to rdf-list.n3/.eye: the same list-decomposition check, using
+# SRL's rdf:first/rdf:rest property paths directly rather than the N3
+# source's own backward-chained :head/:tail helper rules.
+PREFIX : <http://example.org/ns#>
+
+DATA { :X :val (1 2). }
+
+RULE { :result :is true } WHERE {
+  :X :val ?Y.
+  ?Y rdf:first 1.
+  ?Y rdf:rest/rdf:first 2.
+  ?Y rdf:rest/rdf:rest rdf:nil.
+}

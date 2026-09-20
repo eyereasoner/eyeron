@@ -1,0 +1,17 @@
+# Companion to reordering.n3/.eye: like reordering.eye, SRL evaluates a
+# rule body strictly left to right (see docs/sparql-rl.md), so the
+# FILTER comes after the property-path lookups that bind the variables
+# it compares, rather than before them the way the N3 source deliberately
+# writes it (relying on N3's own selectivity-based reordering instead).
+PREFIX : <https://eyereasoner.github.io/ns#>
+
+DATA {
+  :Alice :has (:Book 1).
+  :Bob :has (:Table 1).
+}
+
+RULE { :test :is true } WHERE {
+  ?W1 :has/rdf:first ?O1.
+  ?W2 :has/rdf:first ?O2.
+  FILTER(?O1 != ?O2)
+}

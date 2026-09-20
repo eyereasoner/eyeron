@@ -1,0 +1,26 @@
+# Companion to time.n3/.eye: the same datetime component extraction,
+# using SRL's own YEAR/MONTH/DAY/MINUTES/SECONDS/TZ built-in functions
+# over a real xsd:dateTime literal.
+PREFIX : <http://example.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :Let :dt "2023-04-01T18:06:04Z"^^xsd:dateTime .
+}
+
+RULE {
+  :out :year ?y ;
+       :month ?m ;
+       :day ?d ;
+       :minute ?min ;
+       :second ?sec ;
+       :tz ?tz .
+} WHERE {
+  :Let :dt ?dt .
+  SET(?y := YEAR(?dt))
+  SET(?m := MONTH(?dt))
+  SET(?d := DAY(?dt))
+  SET(?min := MINUTES(?dt))
+  SET(?sec := SECONDS(?dt))
+  SET(?tz := TZ(?dt))
+}

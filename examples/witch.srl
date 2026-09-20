@@ -1,0 +1,14 @@
+# Companion to witch.n3/.eye: the same "burn the witch" syllogism chain,
+# translated from N3's forward rules directly into ordinary SRL rules.
+PREFIX : <https://eyereasoner.github.io/eye/reasoning/witch#>
+
+DATA {
+  :GIRL a :WOMAN.
+  :DUCK a :FLOATS.
+  :DUCK :SAMEWEIGHT :GIRL.
+}
+
+RULE { ?x a :WITCH } WHERE { ?x a :BURNS. ?x a :WOMAN }
+RULE { ?x a :BURNS } WHERE { ?x a :ISMADEOFWOOD }
+RULE { ?x a :ISMADEOFWOOD } WHERE { ?x a :FLOATS }
+RULE { ?y a :FLOATS } WHERE { ?x a :FLOATS. ?x :SAMEWEIGHT ?y }

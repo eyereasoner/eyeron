@@ -1,0 +1,12 @@
+# Companion to log-not-includes.n3/.eye: the same outcome (a fact that
+# would trigger a negative check is derivable, so the check correctly
+# never fires), using ordinary stratified rules instead of N3's
+# generated-rule mechanism (a rule whose conclusion contains another
+# rule), which SRL has no counterpart for either.
+PREFIX : <http://example.org/>
+
+DATA { :one :equalsOne 1. }
+
+RULE { :x :y 1 } WHERE { :one :equalsOne 1 }
+RULE { :a :b :c } WHERE { :x :y 1 }
+RULE { :test :is false } WHERE { NOT { :a :b :c } }

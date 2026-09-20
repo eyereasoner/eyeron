@@ -1,0 +1,17 @@
+# Companion to schema-foaf-mapping.n3/.eye: the same schema.org-to-FOAF
+# mapping, translated directly.
+PREFIX schema: <https://schema.org/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX ex: <https://example.org/>
+
+DATA {
+  ex:alice a schema:Person ;
+    schema:name "Alice Example" ;
+    schema:givenName "Alice" ;
+    schema:familyName "Example" .
+}
+
+RULE { ?p a foaf:Person } WHERE { ?p a schema:Person }
+RULE { ?p foaf:name ?name } WHERE { ?p schema:name ?name }
+RULE { ?p foaf:givenName ?given } WHERE { ?p schema:givenName ?given }
+RULE { ?p foaf:familyName ?family } WHERE { ?p schema:familyName ?family }

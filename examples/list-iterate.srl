@@ -1,0 +1,17 @@
+# Companion to list-iterate.n3/.eye: N3's list:iterate is emulated with
+# explicit rdf:rest/rdf:first property paths per fixed position (0, 1,
+# 2), rather than a general recursive index-counting relation: computing
+# the running index needs SET, and a rule using SET is "closed" (SPARQL
+# 1.2 RL section 4.4), so a recursive version of this would hit the same
+# stratification restriction documented in peano-arithmetic.srl.
+PREFIX : <urn:example:>
+
+DATA {
+  :Let :param ( "Huey" "Dewey" "Louie" ) .
+}
+
+RULE { ?list :iterate0 ?item } WHERE { :Let :param ?list. ?list rdf:first ?item. }
+RULE { ?list :iterate1 ?item } WHERE { :Let :param ?list. ?list rdf:rest/rdf:first ?item. }
+RULE { ?list :iterate2 ?item } WHERE { :Let :param ?list. ?list rdf:rest/rdf:rest/rdf:first ?item. }
+RULE { "Dewey" :hasIndex 1 } WHERE { ?list :iterate1 "Dewey" }
+RULE { :test :is true } WHERE { "Dewey" :hasIndex 1 }

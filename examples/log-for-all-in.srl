@@ -1,0 +1,24 @@
+# Companion to log-for-all-in.n3/.eye: the same "every subtask is
+# completed" universal check, as the standard double-negation encoding.
+# SRL doesn't allow a NOT block nested inside another NOT block, so the
+# inner negation (a subtask that is *not* completed) is first
+# materialized as its own fact in an earlier stratum, then negated once
+# at the top level, rather than nesting NOT directly.
+PREFIX : <http://example.org/#>
+
+DATA {
+  :c a :CompositeTask; :subTask :s1, :s2, :s3.
+  :s1 :state :Completed.
+  :s2 :state :Completed.
+  :s3 :state :Completed.
+}
+
+RULE { ?c :hasIncompleteSubtask true } WHERE {
+  ?c :subTask ?s.
+  NOT { ?s :state :Completed }
+}
+
+RULE { :result :is true } WHERE {
+  ?c a :CompositeTask.
+  NOT { ?c :hasIncompleteSubtask true }
+}

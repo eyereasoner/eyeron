@@ -1,0 +1,22 @@
+# Companion to void.n3/.eye: the same five forward rules over the "Void"
+# book knowledge base, using the source's own RDF vocabulary
+# (schema.org, Dublin Core, FOAF) directly.
+PREFIX ex: <http://example.org/void/>
+PREFIX schema: <http://schema.org/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+DATA {
+  ex:book2016 schema:author ex:jamesWeatherall ;
+    schema:inLanguage "en" ;
+    schema:about ex:vacuum, ex:spaceTime, ex:quantumFieldTheory, ex:generalRelativity, ex:cosmologicalConstant, ex:casimirEffect, ex:isaacNewton, ex:albertEinstein .
+  ex:jamesWeatherall a foaf:Person.
+  ex:isaacNewton a foaf:Person.
+  ex:albertEinstein a foaf:Person.
+}
+
+RULE { ?person foaf:made ?book } WHERE { ?book schema:author ?person }
+RULE { ?person schema:subjectOf ?book } WHERE { ?book schema:about ?person. ?person a foaf:Person }
+RULE { ?book dct:subject ex:quantumTheory } WHERE { ?book schema:about ex:quantumFieldTheory }
+RULE { ?book schema:about ex:darkEnergy } WHERE { ?book schema:about ex:cosmologicalConstant }
+RULE { ?book ex:recommendedFor ex:curiousPhysicsReaderEn } WHERE { ?book dct:subject ex:quantumTheory. ?book schema:inLanguage "en" }

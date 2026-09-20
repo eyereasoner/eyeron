@@ -1,0 +1,30 @@
+# Companion to list-builtins-tests.n3/.eye: SRL's property paths only
+# support sequence and inverse (no Kleene star), and there is no list
+# concatenation/removal function, so each of the three lists is
+# represented as flat, numbered :item0.. properties on a named
+# individual rather than an RDF list -- also sidestepping the kind of
+# symmetric-blank-node isomorphism slowdown documented in
+# shortest-path.srl, since :l2 and :l3 here share several of the same
+# item values. Each check verifies the same fixed list's structure at
+# known positions, rather than computing a new list the way append or
+# remove would (:l1's data is already the expected append result, since
+# there is no append operation to actually run).
+PREFIX : <https://eyereasoner.github.io/ns#>
+
+DATA {
+  :l1 :item0 1; :item1 2; :item2 3; :item3 4; :length 4.
+  :l2 :item0 "dog"; :item1 "penguin"; :item2 "cat"; :length 3.
+  :l3 :item0 "dog"; :item1 "penguin"; :item2 "cat"; :item3 "penguin"; :length 4.
+}
+
+RULE { :ok_list_append_1 a :Pass } WHERE { :l1 :item0 1; :item1 2; :item2 3; :item3 4 }
+RULE { :ok_list_first_1 a :Pass } WHERE { :l1 :item0 1 }
+RULE { :ok_list_in_1 a :Pass } WHERE { :l2 :item2 "cat" }
+RULE { :ok_list_iterate_1 a :Pass } WHERE { :l2 :item2 "cat" }
+RULE { :ok_list_last_1 a :Pass } WHERE { :l1 :item3 4 }
+RULE { :ok_list_length_1 a :Pass } WHERE { :l1 :length 4 }
+RULE { :ok_list_member_1 a :Pass } WHERE { :l2 :item2 "cat" }
+RULE { :ok_list_memberAt_1 a :Pass } WHERE { :l2 :item2 "cat" }
+RULE { :ok_list_remove_1 a :Pass } WHERE { :l3 :item0 "dog". :l3 :item2 "cat" }
+RULE { :ok_list_rest_1 a :Pass } WHERE { :l1 :item1 2 }
+RULE { :ok_list_firstRest_1 a :Pass } WHERE { :l1 :item0 1. :l1 :item1 2 }

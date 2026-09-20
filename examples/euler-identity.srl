@@ -1,0 +1,36 @@
+# Companion to euler-identity.n3/.eye: the same exact-integer certificate
+# for exp(i*pi) + 1 = 0, using flat properties on named individuals
+# instead of the N3 source's (re, im) list pairs, since SRL's SET
+# arithmetic works over plain literal values.
+PREFIX : <http://example.org/euler-identity#>
+
+DATA {
+  :phasePi :re 0; :im 0.
+}
+
+RULE { :phasePi :exactRe ?re; :exactIm ?im } WHERE {
+  :phasePi :re ?x; :im ?y.
+  SET(?re := 0 - 1)
+  SET(?im := 0)
+}
+
+RULE { :EulerIdentity :lhsRe ?sumRe; :lhsIm ?sumIm } WHERE {
+  :phasePi :exactRe ?re; :exactIm ?im.
+  SET(?sumRe := ?re + 1)
+  SET(?sumIm := ?im + 0)
+}
+
+RULE { :EulerIdentity :holds true } WHERE {
+  :EulerIdentity :lhsRe 0; :lhsIm 0.
+}
+
+RULE { :phasePi :modSq ?m } WHERE {
+  :phasePi :exactRe ?re; :exactIm ?im.
+  SET(?re2 := ?re * ?re)
+  SET(?im2 := ?im * ?im)
+  SET(?m := ?re2 + ?im2)
+}
+
+RULE { :phasePi :modSqIsOne true } WHERE {
+  :phasePi :modSq 1.
+}

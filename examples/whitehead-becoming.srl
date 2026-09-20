@@ -1,0 +1,25 @@
+# Companion to whitehead-becoming.n3/.eye: the same seven forward rules,
+# translated directly since none of them are recursive or need blank
+# nodes/SET in a way that would trigger SRL's closed-rule restriction.
+PREFIX : <http://example.org/whitehead#>
+
+DATA {
+  :red a :PurePotential. :warm a :PurePotential. :bright a :PurePotential. :dark a :PurePotential.
+  :intensity a :SubjectiveAim. :contrast a :SubjectiveAim.
+  :intensity :lures :bright. :contrast :lures :dark.
+
+  :o1 a :ActualOccasion; :time 1; :realizes :red, :warm; :achieves :satisfaction.
+  :o2 a :ActualOccasion; :time 2; :prehends :o1; :subjectiveAim :intensity.
+  :o3 a :ActualOccasion; :time 3; :prehends :o2; :subjectiveAim :contrast.
+}
+
+RULE { ?later :becomesFrom ?earlier } WHERE { ?later :prehends ?earlier }
+RULE { ?later :inherits ?form } WHERE { ?later :prehends ?earlier. ?earlier :realizes ?form }
+RULE { ?o :mayRealize ?form } WHERE { ?o :subjectiveAim ?aim. ?aim :lures ?form }
+RULE { ?o :integrates ?pastForm, ?novelForm; :achieves :satisfaction } WHERE {
+  ?o :inherits ?pastForm.
+  ?o :mayRealize ?novelForm.
+}
+RULE { ?o :realizes ?form } WHERE { ?o :integrates ?form. ?o :achieves :satisfaction }
+RULE { ?o :ingresses ?form } WHERE { ?o :realizes ?form. ?form a :PurePotential }
+RULE { ?o :status :objectivelyAvailable; :availableForFuturePrehension :yes } WHERE { ?o :achieves :satisfaction }

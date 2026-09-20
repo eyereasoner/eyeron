@@ -1,0 +1,16 @@
+# Companion to quoted-head-unquote-select.n3/.eye: keeps the same
+# class-to-rule :activates metadata as the source, but each candidate
+# rule is an ordinary statically-resolved SRL rule guarded by that
+# metadata, rather than a quoted formula selected and unquoted at
+# runtime (SRL has no such mechanism either).
+PREFIX : <http://example.org/ns#>
+
+DATA {
+  :Cat :activates :ruleCat.
+  :Dog :activates :ruleDog.
+  :c a :Cat.
+}
+
+RULE { ?x a :Animal } WHERE { ?x a :Cat. :Cat :activates :ruleCat. }
+RULE { ?x a :Pet } WHERE { ?x a :Dog. :Dog :activates :ruleDog. }
+RULE { :test :is true } WHERE { :c a :Animal }

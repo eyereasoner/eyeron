@@ -1,0 +1,18 @@
+# Companion to age.n3/.eye: is a person's age above some duration? SRL
+# has no backward chaining, so the threshold (80 years) is written
+# directly into the rule's FILTER rather than passed as a parameter the
+# way N3's backward `<=` call receives it. Like age.eye, this uses a
+# fixed reference year in place of a genuine current-time builtin.
+PREFIX : <https://example.org/#>
+
+DATA {
+  :patH :birthYear 1944 .
+  :ref :year 2025 .
+}
+
+RULE { :test :is true } WHERE {
+  :patH :birthYear ?birthYear.
+  :ref :year ?now.
+  SET(?age := ?now - ?birthYear)
+  FILTER(?age > 80)
+}
