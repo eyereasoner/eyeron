@@ -9,6 +9,7 @@
 # Filtering by predicate name, rather than the exact (subject, predicate,
 # object) triple, is enough here since each deleted property occurs only
 # once in the source data.
+
 PREFIX : <http://example.org/>
 
 DATA {
@@ -24,9 +25,11 @@ RULE { :patch1 :resultTriple ?t } WHERE {
 RULE { :patch1 :resultTriple ?t } WHERE {
   SET(?t := TRIPLE(:alice, :age, 31))
 }
+
 RULE { :patch1 :resultTriple ?t } WHERE {
   SET(?t := TRIPLE(:alice, :status, :ActiveStatus))
 }
+
 RULE { :patch1 :resultTriple ?t } WHERE {
   SET(?t := TRIPLE(:alice, :verified, true))
 }

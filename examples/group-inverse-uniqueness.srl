@@ -8,6 +8,7 @@
 # individual built from its own operands via SET/IRI()/CONCAT, avoiding
 # blank nodes entirely. :sameTerm stays a plain binary predicate, since
 # its own symmetry rule genuinely recurses on it.
+
 PREFIX : <http://example.org/#>
 
 DATA {
@@ -27,6 +28,7 @@ RULE { ?left :sameTerm ?right } WHERE {
   ?c3 :mulA ?b; :mulB ?c; :mulC ?bc.
   ?c4 :mulA ?a; :mulB ?bc; :mulC ?right.
 }
+
 RULE { ?b_ :sameTerm ?a_ } WHERE { ?a_ :sameTerm ?b_ }
 
 RULE { ?w a :SameInverseWitness; :witnessX ?x; :witnessY ?y; :witnessZ ?z } WHERE {

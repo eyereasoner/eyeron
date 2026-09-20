@@ -7,11 +7,13 @@
 # eyeron's N3 backward resolution is not tabled the same way and instead
 # has a fixed recursion-depth safety limit (32); fib(100)'s call chain is
 # ~99 deep, so this asks fib(30, ?value) instead, well within that limit.
+
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix : <https://eyereasoner.github.io/eyepl/examples/fibonacci#>.
 
 {(0) :fib 0} <= true.
 {(1) :fib 1} <= true.
+
 {(?n) :fib ?f} <= {
     ?n math:greaterThan 1.
     (?n 1) math:difference ?previous.

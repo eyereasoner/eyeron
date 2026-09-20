@@ -9,11 +9,13 @@
 # (whose square would exceed 2^53). The exponent stays a genuinely large
 # 1,000,000,000, since repeated squaring only needs about log2(e) ~ 30
 # recursive steps regardless of how large e is.
+
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix : <http://example.org/modular-exponentiation#>.
 
 {(?b 0 ?m) :modPow ?r} <= {?m math:greaterThan 0. (1 ?m) math:remainder ?r}.
 {(?b 1 ?m) :modPow ?r} <= {?m math:greaterThan 0. (?b ?m) math:remainder ?r}.
+
 {(?b ?e ?m) :modPow ?r} <= {
     ?m math:greaterThan 0. ?e math:greaterThan 1.
     (?e 2) math:remainder 0.
@@ -21,6 +23,7 @@
     (?e 2) math:integerQuotient ?half.
     (?squared ?half ?m) :modPow ?r.
 }.
+
 {(?b ?e ?m) :modPow ?r} <= {
     ?m math:greaterThan 0. ?e math:greaterThan 1.
     (?e 2) math:remainder 1.

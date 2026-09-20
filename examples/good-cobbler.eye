@@ -3,6 +3,7 @@
 # N3 formula entailment, quantifier scopes, or rule activation.
 
 is(joe, [good, Cobbler]).
+
 report(quoted([triple(?person, is, [good, ?occupation])])) if
     is(?person, [good, ?occupation]).
 

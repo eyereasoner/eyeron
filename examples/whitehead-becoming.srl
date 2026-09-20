@@ -1,6 +1,7 @@
 # Companion to whitehead-becoming.n3/.eye: the same seven forward rules,
 # translated directly since none of them are recursive or need blank
 # nodes/SET in a way that would trigger SRL's closed-rule restriction.
+
 PREFIX : <http://example.org/whitehead#>
 
 DATA {
@@ -16,10 +17,12 @@ DATA {
 RULE { ?later :becomesFrom ?earlier } WHERE { ?later :prehends ?earlier }
 RULE { ?later :inherits ?form } WHERE { ?later :prehends ?earlier. ?earlier :realizes ?form }
 RULE { ?o :mayRealize ?form } WHERE { ?o :subjectiveAim ?aim. ?aim :lures ?form }
+
 RULE { ?o :integrates ?pastForm, ?novelForm; :achieves :satisfaction } WHERE {
   ?o :inherits ?pastForm.
   ?o :mayRealize ?novelForm.
 }
+
 RULE { ?o :realizes ?form } WHERE { ?o :integrates ?form. ?o :achieves :satisfaction }
 RULE { ?o :ingresses ?form } WHERE { ?o :realizes ?form. ?form a :PurePotential }
 RULE { ?o :status :objectivelyAvailable; :availableForFuturePrehension :yes } WHERE { ?o :achieves :satisfaction }

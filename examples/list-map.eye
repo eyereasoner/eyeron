@@ -12,12 +12,14 @@ append([], ?ys, ?ys).
 append([?x | ?xs], ?ys, [?x | ?zs]) if append(?xs, ?ys, ?zs).
 
 flat_map_p1([], []).
+
 flat_map_p1([?s | ?ss], ?result) if
     collect ?os = ?o where { p1(?s, ?o) },
     flat_map_p1(?ss, ?rest),
     append(?os, ?rest, ?result).
 
 flat_map_p2([], []).
+
 flat_map_p2([?s | ?ss], ?result) if
     collect ?os = ?o where { p2(?s, ?o) },
     flat_map_p2(?ss, ?rest),

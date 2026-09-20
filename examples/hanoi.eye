@@ -5,6 +5,7 @@ append([], ?ys, ?ys).
 append([?x | ?xs], ?ys, [?x | ?zs]) if append(?xs, ?ys, ?zs).
 
 hanoi(0, ?_, ?_, ?_, []).
+
 hanoi(?n, ?from, ?to, ?via, ?moves) if
     ?n > 0,
     let ?smaller = ?n - 1,

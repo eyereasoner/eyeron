@@ -11,6 +11,7 @@ model(BacterialPneumonia, 0.01, 0.70, 0.60, 0.02, 0.95, 0.60).
 score(?disease, ?score) if
     model(?disease, ?prior, ?fever, ?cough, ?smell, ?noSneezing, ?breath),
     let ?score = ?prior * ?fever * ?cough * ?smell * ?noSneezing * ?breath.
+
 screened_in(?disease) if score(?disease, ?score), ?score >= 0.001.
 rank(?disease, "high") if score(?disease, ?score), ?score >= 0.0015.
 rank(?disease, "medium") if score(?disease, ?score), ?score >= 0.0005, ?score < 0.0015.

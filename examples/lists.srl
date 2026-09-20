@@ -9,6 +9,7 @@
 # a list literal in a rule head while also reading rdf:first/rdf:rest in
 # the body creates a blank-node (run_once) self-dependency that eyeron's
 # stratifier rejects as an unstratifiable cycle.
+
 PREFIX : <http://example/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
@@ -22,7 +23,9 @@ WHERE { :query1 :xs/rdf:first ?x ; :ys/rdf:first ?y }
 
 RULE { :items :member ?m }
 WHERE { :items :list/rdf:first ?m }
+
 RULE { :items :member ?m }
 WHERE { :items :list/rdf:rest/rdf:first ?m }
+
 RULE { :items :member ?m }
 WHERE { :items :list/rdf:rest/rdf:rest/rdf:first ?m }

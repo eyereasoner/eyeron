@@ -13,6 +13,7 @@
 # already exceeds that. This stops at :n78 (fib(78) = 8944394323791464),
 # the largest Fibonacci number still exactly representable, rather than
 # silently returning a rounded value for fib(100).
+
 PREFIX : <http://example/>
 
 DATA {
@@ -328,4 +329,3 @@ WHERE { :n75 :fib ?a . :n76 :fib ?b . SET(?f := ?a + ?b) }
 
 RULE { :n78 :fib ?f }
 WHERE { :n76 :fib ?a . :n77 :fib ?b . SET(?f := ?a + ?b) }
-

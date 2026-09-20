@@ -25,5 +25,6 @@ association(bob, ?dataGraph, ?signatureGraph, ?metadataGraph, "ecdsa-rdfc-2019",
     quad(?metadataProof, sec_proofPurpose, "assertionMethod", ?metadataGraph).
 
 ask association(?subject, ?dataGraph, ?signatureGraph, ?metadataGraph, ?cryptosuite, ?issuer).
+
 # Data from a different graph must not silently join this graph.
 ask quad(bob, foaf_name, "Bob", blank(g1)).

@@ -71,6 +71,7 @@ keep_fork(c16, f12). keep_fork(c16, f23). keep_fork(c16, f34).
 # R1: hungry philosophers request any adjacent fork they do not hold.
 request(?C, ?P, ?Q, ?F) if
     hungry(?C, ?P), left_fork(?P, ?F), fork_state(?C, ?F, ?Q, ?_), ?Q != ?P.
+
 request(?C, ?P, ?Q, ?F) if
     hungry(?C, ?P), right_fork(?P, ?F), fork_state(?C, ?F, ?Q, ?_), ?Q != ?P.
 
@@ -81,6 +82,7 @@ send_fork(?C, ?Q, ?P, ?F) if
 # U1/U2: start-of-round -> after-transfer.
 fork_state(?CS, ?F, ?P, clean) if
     after_sends(?C, ?CS), send_fork(?C, ?_, ?P, ?F).
+
 fork_state(?CS, ?F, ?H, ?CL) if
     after_sends(?C, ?CS), keep_fork(?C, ?F), fork_state(?C, ?F, ?H, ?CL).
 

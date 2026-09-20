@@ -4,6 +4,7 @@
 peano_add(?a, 0, ?a).
 peano_add(?a, s(?b), s(?c)) if peano_add(?a, ?b, ?c).
 peano_multiply(?_, 0, 0).
+
 peano_multiply(?a, s(?b), ?c) if
     peano_multiply(?a, ?b, ?d), peano_add(?a, ?d, ?c).
 

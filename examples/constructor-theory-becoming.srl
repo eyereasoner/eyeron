@@ -1,5 +1,6 @@
 # Companion to constructor-theory-becoming.n3/.eye: the same six forward
 # rules, translated directly.
+
 PREFIX : <http://example.org/constructor#>
 
 DATA {
@@ -19,6 +20,7 @@ DATA {
 
 RULE { ?task :status :impossibleTask } WHERE { ?task :forbiddenBy ?principle }
 RULE { ?task :status :possibleTask. ?constructor :retainsCapacityFor ?task } WHERE { ?constructor :canPerform ?task }
+
 RULE { ?next :canUndergo ?task; :becomesFrom ?prev } WHERE {
   ?next :derivesFrom ?prev.
   ?next :intendsTask ?task.
@@ -26,6 +28,7 @@ RULE { ?next :canUndergo ?task; :becomesFrom ?prev } WHERE {
   ?task :input ?in.
   ?prev :hasAttribute ?in.
 }
+
 RULE { ?next :hasAttribute ?out } WHERE { ?next :canUndergo ?task. ?task :output ?out }
 RULE { ?next :status :blockedTransition } WHERE { ?next :intendsTask ?task. ?task :status :impossibleTask }
 RULE { ?next :availableForFurtherTask :yes } WHERE { ?next :hasAttribute ?attr }

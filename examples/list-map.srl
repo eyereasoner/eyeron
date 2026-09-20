@@ -3,6 +3,7 @@
 # subject's objects for a predicate, or the absence of any) with ordinary
 # triple patterns and NOT blocks, rather than a general list-to-list
 # mapping operation.
+
 PREFIX : <http://example.org/#>
 
 DATA {
@@ -14,12 +15,15 @@ DATA {
 RULE { :test1 :is true } WHERE {
   :s1 :p1 :o1. :s2 :p1 :o2.
 }
+
 RULE { :test2 :is true } WHERE {
   :s1 :p1 :o1. :s2 :p1 :o2. :s3 :p1 :o3. :s3 :p1 :o4.
 }
+
 RULE { :test3 :is true } WHERE {
   NOT { :s4 :p1 ?o }
 }
+
 RULE { :test4 :is true } WHERE {
   NOT { :s1 :p2 ?o }
 }

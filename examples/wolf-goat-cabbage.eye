@@ -13,10 +13,12 @@ move([?x, ?wolf, ?goat, ?cabbage], nothing, [?y, ?wolf, ?goat, ?cabbage]) if cha
 
 one_equal(?x, ?x, ?_).
 one_equal(?x, ?_, ?x).
+
 safe([?person, ?wolf, ?goat, ?cabbage]) if
     one_equal(?person, ?goat, ?wolf), one_equal(?person, ?goat, ?cabbage).
 
 solve(?goal, ?goal, ?_, []).
+
 solve(?state, ?goal, ?visited, [?move | ?rest]) if
     move(?state, ?move, ?next), safe(?next),
     not member(?next, ?visited),

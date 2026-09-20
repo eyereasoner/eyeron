@@ -15,6 +15,7 @@
 # fine under SRL's stratification per transitive-closure.srl's own
 # precedent) then walks that back from :launch to mark every task on the
 # critical path.
+
 PREFIX : <http://example/>
 
 DATA {
@@ -63,6 +64,7 @@ WHERE { :api_design :finish ?p. :frontend :duration ?d. SET(?f := ?p + ?d) }
 RULE { :backend :finish ?f ; :criticalPredecessor :api_design }
 WHERE { :api_design :finish ?p1. :database :finish ?p2. :backend :duration ?d.
         FILTER(?p1 > ?p2) SET(?f := ?p1 + ?d) }
+
 RULE { :backend :finish ?f ; :criticalPredecessor :database }
 WHERE { :api_design :finish ?p1. :database :finish ?p2. :backend :duration ?d.
         FILTER(?p2 >= ?p1) SET(?f := ?p2 + ?d) }
@@ -76,9 +78,11 @@ WHERE { :integration :finish ?p. :load_test :duration ?d. SET(?f := ?p + ?d) }
 RULE { :integration :finish ?f ; :criticalPredecessor :backend }
 WHERE { :backend :finish ?p1. :frontend :finish ?p2. :auth :finish ?p3. :integration :duration ?d.
         FILTER(?p1 >= ?p2 && ?p1 >= ?p3) SET(?f := ?p1 + ?d) }
+
 RULE { :integration :finish ?f ; :criticalPredecessor :frontend }
 WHERE { :backend :finish ?p1. :frontend :finish ?p2. :auth :finish ?p3. :integration :duration ?d.
         FILTER(?p2 > ?p1 && ?p2 >= ?p3) SET(?f := ?p2 + ?d) }
+
 RULE { :integration :finish ?f ; :criticalPredecessor :auth }
 WHERE { :backend :finish ?p1. :frontend :finish ?p2. :auth :finish ?p3. :integration :duration ?d.
         FILTER(?p3 > ?p1 && ?p3 > ?p2) SET(?f := ?p3 + ?d) }
@@ -86,6 +90,7 @@ WHERE { :backend :finish ?p1. :frontend :finish ?p2. :auth :finish ?p3. :integra
 RULE { :launch :finish ?f ; :criticalPredecessor :security_review }
 WHERE { :security_review :finish ?p1. :load_test :finish ?p2. :launch :duration ?d.
         FILTER(?p1 >= ?p2) SET(?f := ?p1 + ?d) }
+
 RULE { :launch :finish ?f ; :criticalPredecessor :load_test }
 WHERE { :security_review :finish ?p1. :load_test :finish ?p2. :launch :duration ?d.
         FILTER(?p2 > ?p1) SET(?f := ?p2 + ?d) }

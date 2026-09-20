@@ -1,10 +1,12 @@
 # BMI calculation with unit normalization, WHO adult categories, and the
 # healthy-weight band for the supplied height. This is an example, not medical advice.
 input(metric, 72.0, 178.0).
+
 # A US input can instead use input(us, WeightPounds, HeightInches).
 
 normalized(?weight, ?meters) if
     input(metric, ?weight, ?centimeters), let ?meters = ?centimeters / 100.0.
+
 normalized(?kilograms, ?meters) if
     input(us, ?pounds, ?inches),
     let ?kilograms = ?pounds * 0.45359237,

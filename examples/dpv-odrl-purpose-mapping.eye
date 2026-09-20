@@ -35,6 +35,7 @@ derived_from_process(?permission, ?process) if process_info(?policy, ?permission
 purpose_info(?permission, ?constraint, ?purpose) if
     represents_process(?policy, ?process), permission_node(?policy, ?permission), purpose_constraint(?policy, ?constraint),
     has_purpose(?process, ?purpose).
+
 permission_constraint(?permission, ?constraint) if purpose_info(?permission, ?constraint, ?purpose).
 is_constraint(?constraint) if purpose_info(?permission, ?constraint, ?purpose).
 left_operand(?constraint, purpose) if purpose_info(?permission, ?constraint, ?purpose).
@@ -44,6 +45,7 @@ right_operand(?constraint, ?purpose) if purpose_info(?permission, ?constraint, ?
 basis_info(?permission, ?constraint, ?basis) if
     represents_process(?policy, ?process), permission_node(?policy, ?permission), basis_constraint(?policy, ?constraint),
     has_legal_basis(?process, ?basis).
+
 permission_constraint(?permission, ?constraint) if basis_info(?permission, ?constraint, ?basis).
 left_operand(?constraint, legalBasis) if basis_info(?permission, ?constraint, ?basis).
 operator(?constraint, isA) if basis_info(?permission, ?constraint, ?basis).

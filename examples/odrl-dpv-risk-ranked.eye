@@ -91,8 +91,10 @@ risk_level(?risk, low_risk, low_severity) if score(?risk, ?score), ?score < 50.
 # DPV-style provenance, consequence, impact, and process associations.
 risk_source(?risk, ?source, ?source_type, ?rule) if
     detected_risk(?risk, ?source, ?source_type, ?kind, ?rule, ?clause, ?need, ?raw, ?why).
+
 process_risk(process_context1, ?risk) if
     detected_risk(?risk, ?source, ?source_type, ?kind, ?rule, ?clause, ?need, ?raw, ?why).
+
 consequence(risk_delete_without_safeguards, data_loss) if detected_risk(risk_delete_without_safeguards, ?s, ?st, ?k, ?r, ?c, ?n, ?raw, ?w).
 consequence(risk_delete_without_safeguards, data_unavailable) if detected_risk(risk_delete_without_safeguards, ?s, ?st, ?k, ?r, ?c, ?n, ?raw, ?w).
 consequence(risk_delete_without_safeguards, customer_confidence_loss) if detected_risk(risk_delete_without_safeguards, ?s, ?st, ?k, ?r, ?c, ?n, ?raw, ?w).
@@ -110,15 +112,19 @@ impact(risk_no_portability, non_material_damage) if detected_risk(risk_no_portab
 mitigation(risk_delete_without_safeguards, mitigate_delete_notice,
            "Add a notice constraint (minimum noticeDays) before account removal.") if
     detected_risk(risk_delete_without_safeguards, ?s, ?st, ?k, ?r, ?c, ?n, ?raw, ?w).
+
 mitigation(risk_delete_without_safeguards, mitigate_delete_inform,
            "Add a duty to inform the consumer prior to account removal.") if
     detected_risk(risk_delete_without_safeguards, ?s, ?st, ?k, ?r, ?c, ?n, ?raw, ?w).
+
 mitigation(risk_notice_too_short, mitigate_notice_too_short,
            "Increase minimum noticeDays in the inform duty to meet the consumer requirement.") if
     detected_risk(risk_notice_too_short, ?s, ?st, ?k, ?r, ?c, ?n, ?raw, ?w).
+
 mitigation(risk_share_without_consent, mitigate_share_consent,
            "Add an explicit consent constraint before data sharing.") if
     detected_risk(risk_share_without_consent, ?s, ?st, ?k, ?r, ?c, ?n, ?raw, ?w).
+
 mitigation(risk_no_portability, mitigate_portability,
            "Add a permission allowing data export (or remove the prohibition) to support portability.") if
     detected_risk(risk_no_portability, ?s, ?st, ?k, ?r, ?c, ?n, ?raw, ?w).
@@ -128,16 +134,19 @@ risk_explanation(risk_delete_without_safeguards, ?text) if
     detected_risk(risk_delete_without_safeguards, ?s, ?st, ?k, ?r, ?clause, ?n, ?raw, ?w),
     clause(?clause, ?clause_id, ?clause_text),
     let ?text = concat("Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause ", ?clause_id, ": ", ?clause_text).
+
 risk_explanation(risk_notice_too_short, ?text) if
     detected_risk(risk_notice_too_short, ?s, ?st, ?k, ?r, ?clause, ?n, ?raw, ?w),
     constraint(perm_change_terms, notice_days, gteq, ?days),
     minimum_notice_days(need_change_only_with_prior_notice, ?required),
     clause(?clause, ?clause_id, ?clause_text),
     let ?text = concat("Risk: terms may change with notice (", str(?days), " days) below consumer requirement (", str(?required), " days). Clause ", ?clause_id, ": ", ?clause_text).
+
 risk_explanation(risk_share_without_consent, ?text) if
     detected_risk(risk_share_without_consent, ?s, ?st, ?k, ?r, ?clause, ?n, ?raw, ?w),
     clause(?clause, ?clause_id, ?clause_text),
     let ?text = concat("Risk: user data sharing is permitted without an explicit consent constraint. Clause ", ?clause_id, ": ", ?clause_text).
+
 risk_explanation(risk_no_portability, ?text) if
     detected_risk(risk_no_portability, ?s, ?st, ?k, ?r, ?clause, ?n, ?raw, ?w),
     clause(?clause, ?clause_id, ?clause_text),
@@ -146,12 +155,15 @@ risk_explanation(risk_no_portability, ?text) if
 risk_labels(high_risk, high_severity,
             iri("https://w3id.org/dpv/risk#HighRisk"),
             iri("https://w3id.org/dpv/risk#HighSeverity")).
+
 risk_labels(moderate_risk, moderate_severity,
             iri("https://w3id.org/dpv/risk#ModerateRisk"),
             iri("https://w3id.org/dpv/risk#ModerateSeverity")).
+
 risk_labels(low_risk, low_severity,
             iri("https://w3id.org/dpv/risk#LowRisk"),
             iri("https://w3id.org/dpv/risk#LowSeverity")).
+
 mitigation_order(mitigate_delete_notice, 1).
 mitigation_order(mitigate_delete_inform, 2).
 mitigation_order(mitigate_share_consent, 1).

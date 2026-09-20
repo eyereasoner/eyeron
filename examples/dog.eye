@@ -17,6 +17,7 @@ has_dog(bob, dog7).
 dog_count(?person, ?count) if
     has_dog(?person, ?_),
     collect ?dogs = ?dog where { has_dog(?person, ?dog) }, let ?count = count(?dogs).
+
 must_have(?person, dogLicense) if dog_count(?person, ?count), ?count > 4.
 
 ask must_have(?person, ?license).

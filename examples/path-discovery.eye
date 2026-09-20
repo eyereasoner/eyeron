@@ -96440,6 +96440,7 @@ route(?from, ?to, ?visited, ?length, ?max, [?from, ?to]) if
     ?length <= ?max,
     hasRoute(?from, ?to),
     not member(?to, ?visited).
+
 route(?from, ?to, ?visited, ?length, ?max, [?from | ?path]) if
     ?length <= ?max,
     hasRoute(?from, ?via),

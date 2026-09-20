@@ -5,16 +5,19 @@
 # head pattern (mirroring hanoi.n3's (?N ?X ?Y ?Z) style), since
 # constructing a blank-node property bag in a backward (<=) rule's
 # conclusion was found not to work (confirmed by testing in isolation).
+
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <https://eyereasoner.github.io/eyepl/examples/derivative#>.
 
 {((:const ?n) ?x) :derivative (:const 0)} <= true.
 {((:var ?x) ?x) :derivative (:const 1)} <= true.
 {((:var ?y) ?x) :derivative (:const 0)} <= {?y log:notEqualTo ?x}.
+
 {((:add ?u ?v) ?x) :derivative (:add ?du ?dv)} <= {
     (?u ?x) :derivative ?du.
     (?v ?x) :derivative ?dv.
 }.
+
 {((:mul ?u ?v) ?x) :derivative (:add (:mul ?du ?v) (:mul ?u ?dv))} <= {
     (?u ?x) :derivative ?du.
     (?v ?x) :derivative ?dv.

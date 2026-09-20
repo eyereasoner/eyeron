@@ -1,5 +1,6 @@
 # Companion to engineering-becoming.n3/.eye: the same seven forward
 # rules, translated directly.
+
 PREFIX : <http://example.org/engineering#>
 
 DATA {
@@ -16,11 +17,13 @@ DATA {
 
 RULE { ?later :inheritsRequirement ?req } WHERE { ?later :derivesFrom ?earlier. ?earlier :satisfies ?req }
 RULE { ?rev :considers ?opt } WHERE { ?rev :designGoal ?goal. ?goal :suggests ?opt }
+
 RULE { ?rev :preserves ?req; :integrates ?opt } WHERE {
   ?rev :inheritsRequirement ?req.
   ?rev :considers ?opt.
   ?opt :compatibleWith ?req.
 }
+
 RULE { ?rev :satisfies ?req } WHERE { ?rev :preserves ?req }
 RULE { ?rev :realizes ?opt } WHERE { ?rev :integrates ?opt }
 RULE { ?rev :achieves :approvedBaseline; :availableForFutureIteration :yes } WHERE { ?rev :realizes ?opt }

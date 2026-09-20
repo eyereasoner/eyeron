@@ -32,8 +32,10 @@ marc_map(?rec, ?tag, ?subfield, ?val) if
 
 title(?id, ?val) if
     record(?rec), marc_id(?rec, ?id), marc_map(?rec, "245", "a", ?val).
+
 subject(?id, ?val) if
     record(?rec), marc_id(?rec, ?id), marc_map(?rec, "650", "a", ?val).
+
 type(?id, ?val) if
     record(?rec), marc_id(?rec, ?id), marc_map(?rec, "920", "a", ?val).
 

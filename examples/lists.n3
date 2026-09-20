@@ -11,6 +11,7 @@
 # demonstrates append in its supported (inputs known, output derived)
 # direction. member is unaffected -- list:member enumerates forward,
 # matching lists.eye's `ask member(?x, [a, b, a])` exactly.
+
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix : <https://eyereasoner.github.io/eyepl/examples/lists#>.
 
@@ -19,6 +20,7 @@
     (?xrest ?ys) :append ?zsrest.
     ?zs list:firstRest (?x ?zsrest).
 }.
+
 {(() ?ys) :append ?ys} <= true.
 
 {((:a) (:b)) :append ?result} => {:query :appendResult ?result}.

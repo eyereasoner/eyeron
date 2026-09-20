@@ -1,5 +1,6 @@
 # Companion to control-system-becoming.n3/.eye: the same nine forward
 # rules, translated directly.
+
 PREFIX : <http://example.org/control#>
 
 DATA {
@@ -17,16 +18,19 @@ DATA {
 RULE { ?later :inheritsRequirement ?req } WHERE { ?later :derivesFrom ?earlier. ?earlier :satisfies ?req }
 RULE { ?ctrl :considers ?strategy } WHERE { ?ctrl :designGoal ?goal. ?goal :suggests ?strategy }
 RULE { ?ctrl :targets ?req } WHERE { ?ctrl :designGoal ?goal. ?goal :introducesRequirement ?req }
+
 RULE { ?ctrl :preserves ?req; :integrates ?strategy } WHERE {
   ?ctrl :inheritsRequirement ?req.
   ?ctrl :considers ?strategy.
   ?strategy :compatibleWith ?req.
 }
+
 RULE { ?ctrl :satisfies ?req; :integrates ?strategy } WHERE {
   ?ctrl :targets ?req.
   ?ctrl :considers ?strategy.
   ?strategy :enables ?req.
 }
+
 RULE { ?ctrl :satisfies ?req } WHERE { ?ctrl :preserves ?req }
 RULE { ?ctrl :realizes ?strategy } WHERE { ?ctrl :integrates ?strategy }
 RULE { ?ctrl :achieves :approvedController; :availableForFutureTuning :yes } WHERE { ?ctrl :realizes ?strategy }

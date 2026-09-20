@@ -4,6 +4,7 @@
 # mirror eyelang's range(1, size, ?row)), reaching both of the classic
 # 4-queens solutions via backward chaining, exactly matching
 # four-queens.eye's own two answers and their order.
+
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -15,6 +16,7 @@
 :r4 a :Row; :n 4.
 
 {(?row () ?distance) :safe true} <= true.
+
 {(?row ?placed ?distance) :safe true} <= {
     ?placed list:firstRest (?other ?rest).
     ?row log:notEqualTo ?other.
@@ -26,6 +28,7 @@
 }.
 
 {(0 ?placed) :place ?placed} <= true.
+
 {(?remaining ?placed) :place ?rows} <= {
     ?remaining math:greaterThan 0.
     ?rowRes a :Row. ?rowRes :n ?row.

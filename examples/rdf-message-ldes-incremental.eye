@@ -26,6 +26,7 @@ window_start(35).
 
 already_committed(?m) if member(?m, ?seq, ?_, ?_, ?_), bookmark(?b), ?seq <= ?b.
 newly_emitted(?m) if member(?m, ?seq, ?_, ?_, ?_), bookmark(?b), ?seq > ?b.
+
 in_window(?m) if
     newly_emitted(?m), member(?m, ?seq, ?_, ?_, ?_),
     window_start(?w), ?seq >= ?w.

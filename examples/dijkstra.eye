@@ -9,6 +9,7 @@ connected(?left, ?right, ?weight) if edge(?left, ?right, ?weight).
 member(?x, [?x | ?_]).
 member(?x, [?_ | ?rest]) if member(?x, ?rest).
 route(?goal, ?goal, ?_, [?goal], 0).
+
 route(?from, ?goal, ?visited, [?from | ?path], ?cost) if
     connected(?from, ?next, ?step),
     not member(?next, ?visited),

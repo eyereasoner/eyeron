@@ -11,6 +11,7 @@
 # of resolution (unlike Prolog, it does not skolemize it into a fresh
 # placeholder), so only the fully-applied query -- which does resolve to
 # a concrete type -- is included here.
+
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix : <https://eyereasoner.github.io/eyepl/examples/type-inference#>.
@@ -18,6 +19,7 @@
 {(?name ?env) :lookup ?type} <= {
     ?env list:firstRest ((?name ?type) ?_).
 }.
+
 {(?name ?env) :lookup ?type} <= {
     ?env list:firstRest (?first ?rest).
     ?first list:firstRest (?other ?_).
@@ -27,10 +29,12 @@
 
 {(?env (:intLit ?n)) :typeOf :int} <= true.
 {(?env (:var ?name)) :typeOf ?type} <= {(?name ?env) :lookup ?type}.
+
 {(?env (:lam ?name ?body)) :typeOf (:fun ?arg ?result)} <= {
     ?newEnv list:firstRest ((?name ?arg) ?env).
     (?newEnv ?body) :typeOf ?result.
 }.
+
 {(?env (:app ?fn ?arg)) :typeOf ?result} <= {
     (?env ?fn) :typeOf (:fun ?input ?result).
     (?env ?arg) :typeOf ?input.

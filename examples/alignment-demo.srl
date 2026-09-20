@@ -26,10 +26,13 @@ RULE { ?a skos:broader ?b } WHERE { ?a skos:broadMatch ?b }
 RULE { ?b skos:narrower ?n } WHERE { ?n skos:broader ?b }
 RULE { ?n skos:broaderTransitive ?b } WHERE { ?n skos:broader ?b }
 RULE { ?n skos:narrowerTransitive ?c } WHERE { ?n skos:narrower ?c }
+
 RULE { ?a skos:broaderTransitive ?c }
 WHERE { ?a skos:broaderTransitive ?b . ?b skos:broaderTransitive ?c }
+
 RULE { ?a skos:narrowerTransitive ?c }
 WHERE { ?a skos:narrowerTransitive ?b . ?b skos:narrowerTransitive ?c }
+
 RULE { ?b skos:narrowerTransitive ?a } WHERE { ?a skos:broaderTransitive ?b }
 RULE { ?b skos:broaderTransitive ?a } WHERE { ?a skos:narrowerTransitive ?b }
 RULE { ?c ex:narrowerOrEqualOf ?c } WHERE { ?c a skos:Concept }

@@ -18,13 +18,17 @@ heartbeat(true).
 critical_watts(?w) if
     requires_watts(oxygen_concentrator, ?o), requires_watts(vaccine_fridge, ?f),
     let ?w = ?o + ?f.
+
 available_total(?w) if
     available_watts(battery_bank, ?b), expected_watts(solar_forecast, ?s),
     let ?w = ?b + ?s.
+
 deferrable_watts(?w) if shed_watts(ev_chargers, ?w).
+
 protected_budget(?w) if
     available_total(?a), deferrable_watts(?d),
     let ?w = ?a + ?d.
+
 resilience_action(protect_clinic) if
     protected_budget(?p), critical_watts(?c), ?p > ?c.
 
