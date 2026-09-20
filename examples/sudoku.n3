@@ -1,69 +1,70 @@
 # N3 example: sudoku.
-# Companion to sudoku.eye/.srl: those two delegate to a native Rust
-# backtracking solver and solve the real 9x9 "AI Escargot" puzzle. N3 has
-# no such builtin, so the natural alternative -- a genuine backward-
-# chained backtracking search, cell by cell, checking each candidate
-# digit against every earlier-placed cell (the same style four-queens.n3
-# uses) -- was tried directly. It is correct but too slow to be practical
-# even on a 4x4 board: this engine's backward-chaining dispatch costs
-# roughly tens of milliseconds per goal resolution (rule cloning and
-# renaming per attempt, with no tabling/memoization), and that search
-# needs on the order of a hundred such resolutions per full attempt at
-# just 16 cells, before any real backtracking (confirmed by direct
-# timing: a single, non-backtracking pass over 16 cells alone took ~4
-# seconds).
-#
-# This instead solves a 4x4 sudoku (2x2 boxes) using plain forward
-# chaining: for every blank cell, the digit that does not appear on any
-# conflicting (same row, column, or box) already-known cell is its
-# solution, expressed with log:notIncludes -- a safe, deferred builtin
-# (unlike list:notMember in a backward body; see shortest-path.n3's own
-# comment) evaluated once ordinary closure saturation completes. Row/
-# column/box conflicts are computed generically from cell position
-# arithmetic, not hardcoded per cell, so the rule set would carry over to
-# a different 4x4 puzzle -- but only one solvable by this kind of
-# elimination (repeatedly narrowing each blank to its one remaining
-# candidate) rather than one that requires genuine trial-and-error
-# guessing, which this design cannot do.
+# Companion to sudoku.eye/.srl: all three now solve the same real 9x9
+# "AI Escargot" puzzle, since N3 gained its own sudoku:solve builtin
+# (a native Rust minimum-remaining-candidates backtracking search,
+# shared with SRL's `sudoku(...)` custom function and ported from
+# eyelang's own `sudoku/2`). A genuinely backward-chained cell-by-cell
+# search -- the style four-queens.n3 uses -- is correct but was found
+# impractical for a real 9x9 puzzle: this engine's per-goal
+# backward-chaining overhead (rule cloning and renaming, no tabling)
+# made even a single non-backtracking pass over just 16 cells take
+# about 4 seconds by itself, before any real backtracking. The puzzle
+# and solution both use SRL's own 81-character encoding ('0' for a
+# blank cell); per-cell :value facts are then extracted from the
+# solution string with string:scrape, matching sudoku.srl's own
+# position/value structure so the three examples are directly
+# comparable.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix : <http://example/>.
+@prefix sudoku: <https://eyereasoner.github.io/eyeling/vocab/sudoku#>.
+@prefix : <http://example.org/eyeling/sudoku#>.
 
-0 a :Cell. 1 a :Cell. 2 a :Cell. 3 a :Cell. 4 a :Cell. 5 a :Cell. 6 a :Cell. 7 a :Cell.
-8 a :Cell. 9 a :Cell. 10 a :Cell. 11 a :Cell. 12 a :Cell. 13 a :Cell. 14 a :Cell. 15 a :Cell.
+:digit1 :char "1"; :digitValue 1.
+:digit2 :char "2"; :digitValue 2.
+:digit3 :char "3"; :digitValue 3.
+:digit4 :char "4"; :digitValue 4.
+:digit5 :char "5"; :digitValue 5.
+:digit6 :char "6"; :digitValue 6.
+:digit7 :char "7"; :digitValue 7.
+:digit8 :char "8"; :digitValue 8.
+:digit9 :char "9"; :digitValue 9.
 
-{?i a :Cell. ?j a :Cell. ?i log:notEqualTo ?j.
- (?i 4) math:integerQuotient ?ri. (?j 4) math:integerQuotient ?rj.
- ?ri log:equalTo ?rj.
-} => {(?i ?j) :conflictsWith true}.
+:r1c1 :position 1.  :r1c2 :position 2.  :r1c3 :position 3.
+:r1c4 :position 4.  :r1c5 :position 5.  :r1c6 :position 6.
+:r1c7 :position 7.  :r1c8 :position 8.  :r1c9 :position 9.
+:r2c1 :position 10. :r2c2 :position 11. :r2c3 :position 12.
+:r2c4 :position 13. :r2c5 :position 14. :r2c6 :position 15.
+:r2c7 :position 16. :r2c8 :position 17. :r2c9 :position 18.
+:r3c1 :position 19. :r3c2 :position 20. :r3c3 :position 21.
+:r3c4 :position 22. :r3c5 :position 23. :r3c6 :position 24.
+:r3c7 :position 25. :r3c8 :position 26. :r3c9 :position 27.
+:r4c1 :position 28. :r4c2 :position 29. :r4c3 :position 30.
+:r4c4 :position 31. :r4c5 :position 32. :r4c6 :position 33.
+:r4c7 :position 34. :r4c8 :position 35. :r4c9 :position 36.
+:r5c1 :position 37. :r5c2 :position 38. :r5c3 :position 39.
+:r5c4 :position 40. :r5c5 :position 41. :r5c6 :position 42.
+:r5c7 :position 43. :r5c8 :position 44. :r5c9 :position 45.
+:r6c1 :position 46. :r6c2 :position 47. :r6c3 :position 48.
+:r6c4 :position 49. :r6c5 :position 50. :r6c6 :position 51.
+:r6c7 :position 52. :r6c8 :position 53. :r6c9 :position 54.
+:r7c1 :position 55. :r7c2 :position 56. :r7c3 :position 57.
+:r7c4 :position 58. :r7c5 :position 59. :r7c6 :position 60.
+:r7c7 :position 61. :r7c8 :position 62. :r7c9 :position 63.
+:r8c1 :position 64. :r8c2 :position 65. :r8c3 :position 66.
+:r8c4 :position 67. :r8c5 :position 68. :r8c6 :position 69.
+:r8c7 :position 70. :r8c8 :position 71. :r8c9 :position 72.
+:r9c1 :position 73. :r9c2 :position 74. :r9c3 :position 75.
+:r9c4 :position 76. :r9c5 :position 77. :r9c6 :position 78.
+:r9c7 :position 79. :r9c8 :position 80. :r9c9 :position 81.
 
-{?i a :Cell. ?j a :Cell. ?i log:notEqualTo ?j.
- (?i 4) math:remainder ?ci. (?j 4) math:remainder ?cj.
- ?ci log:equalTo ?cj.
-} => {(?i ?j) :conflictsWith true}.
+:case :puzzle "100007090030020008009600500005300900010080002600004000300000010040000007007000300".
 
-{?i a :Cell. ?j a :Cell. ?i log:notEqualTo ?j.
- (?i 4) math:integerQuotient ?ri. (?i 4) math:remainder ?ci.
- (?j 4) math:integerQuotient ?rj. (?j 4) math:remainder ?cj.
- (?ri 2) math:integerQuotient ?bri. (?ci 2) math:integerQuotient ?bci.
- (?rj 2) math:integerQuotient ?brj. (?cj 2) math:integerQuotient ?bcj.
- ?bri log:equalTo ?brj. ?bci log:equalTo ?bcj.
-} => {(?i ?j) :conflictsWith true}.
+{:case :puzzle ?puzzle. ?puzzle sudoku:solve ?solution.} => {:case :solution ?solution}.
 
-# . 2 3 4
-# 3 . 1 2
-# 2 1 . 3
-# 4 3 2 .
-0 :given 1. 1 :given 2. 2 :given 3. 3 :given 4.
-4 :given 3. 6 :given 1. 7 :given 2.
-8 :given 2. 9 :given 1. 11 :given 3.
-12 :given 4. 13 :given 3. 14 :given 2.
-5 :blank true. 10 :blank true. 15 :blank true.
-
-1 a :Digit. 2 a :Digit. 3 a :Digit. 4 a :Digit.
-
-{?i :given ?d} => {?i :solution ?d}.
-
-{?i :blank true. ?d a :Digit.
- ?SCOPE log:notIncludes { ?j :solution ?d. (?i ?j) :conflictsWith true. }
-} => {?i :solution ?d}.
+{:case :solution ?solution.
+ ?cell :position ?p.
+ (?p 1) math:difference ?skip.
+ ("^.{" ?skip "}(.)") string:concatenation ?pattern.
+ (?solution ?pattern) string:scrape ?char.
+ ?digit :char ?char; :digitValue ?value.
+} => {?cell :value ?value}.

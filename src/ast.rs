@@ -80,6 +80,10 @@ pub const STRING_MATCHES: &str = "http://www.w3.org/2000/10/swap/string#matches"
 pub const STRING_NOT_MATCHES: &str = "http://www.w3.org/2000/10/swap/string#notMatches";
 pub const STRING_REPLACE: &str = "http://www.w3.org/2000/10/swap/string#replace";
 pub const STRING_SCRAPE: &str = "http://www.w3.org/2000/10/swap/string#scrape";
+/// Non-standard extension, not part of the N3 builtin vocabulary proper:
+/// solves a 9x9 Sudoku puzzle, matching eyelang's `sudoku/2` and SRL's
+/// `sudoku(...)` custom function (see `crate::sudoku`).
+pub const SUDOKU_SOLVE: &str = "https://eyereasoner.github.io/eyeling/vocab/sudoku#solve";
 pub const LIST_APPEND: &str = "http://www.w3.org/2000/10/swap/list#append";
 pub const LIST_ITERATE: &str = "http://www.w3.org/2000/10/swap/list#iterate";
 pub const LIST_MAP: &str = "http://www.w3.org/2000/10/swap/list#map";

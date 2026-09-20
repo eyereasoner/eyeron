@@ -1099,7 +1099,7 @@ fn is_builtin_iri(iri: &str) -> bool {
         | RDF_FIRST | RDF_REST | LIST_FIRST | LIST_REST
         | LIST_APPEND | LIST_ITERATE | LIST_MAP | LIST_FIRST_REST | LIST_REVERSE
         | LIST_SORT | LIST_NOT_MEMBER
-        | MATH_SUM | MATH_DIFFERENCE
+        | MATH_SUM | MATH_DIFFERENCE | SUDOKU_SOLVE
     ) || is_list_builtin(iri) || is_math_operator(iri) || is_math_comparison(iri)
         || is_string_builtin(iri) || is_time_builtin(iri)
 }
@@ -1112,7 +1112,7 @@ fn is_agenda_safe_builtin_iri(iri: &str) -> bool {
         LOG_EQUAL_TO | LOG_NOT_EQUAL_TO | LOG_URI | LOG_RAW_TYPE | LOG_DTLIT
         | LOG_LANGLIT | LOG_CONTENT | LOG_SKOLEM | CRYPTO_SHA
         | DT_DATATYPE | DT_LEXICAL_FORM | EYELING_DT_DATATYPE | EYELING_DT_LEXICAL_FORM
-        | MATH_SUM | MATH_DIFFERENCE
+        | MATH_SUM | MATH_DIFFERENCE | SUDOKU_SOLVE
     ) || is_math_operator(iri) || is_math_comparison(iri)
         || is_string_builtin(iri) || is_time_builtin(iri)
 }
@@ -2298,7 +2298,29 @@ fn eval_builtin(
         Term::Iri(ref iri) if is_math_comparison(iri) => Some(eval_math_compare(iri, &premise.s, &premise.o, bindings)),
         Term::Iri(ref iri) if is_string_builtin(iri) => Some(eval_string_builtin(iri, &premise.s, &premise.o, bindings, facts)),
         Term::Iri(ref iri) if is_time_builtin(iri) => Some(eval_time_builtin(iri, &premise.s, &premise.o, bindings)),
+        Term::Iri(ref iri) if iri == SUDOKU_SOLVE => Some(eval_sudoku_solve(&premise.s, &premise.o, bindings)),
         _ => None,
+    }
+}
+
+/// Non-standard extension (see `crate::sudoku`): `?puzzle sudoku:solve
+/// ?solution` solves a 9x9 puzzle given as an 81-character string (`.` or
+/// `0` for a blank cell), delegating to a native Rust backtracking search
+/// rather than N3 rules. A genuinely backward-chained cell-by-cell search
+/// (the style four-queens.n3 uses) is correct but impractical here: this
+/// engine's per-goal backward-chaining overhead (rule cloning and renaming,
+/// no tabling) turns a real 9x9 puzzle's search space into a multi-second-
+/// or-worse run even before backtracking, confirmed by isolated timing
+/// during sudoku.n3's own design (a single non-backtracking pass over just
+/// 16 cells alone took ~4 seconds). Failing to parse (wrong length,
+/// non-digit/non-dot character, or conflicting givens) or having no
+/// solution both make the premise fail outright, matching how other
+/// N3 builtins here treat an invalid or unsatisfiable argument.
+fn eval_sudoku_solve(subject: &Term, object: &Term, bindings: &Bindings) -> Vec<Bindings> {
+    let Some(puzzle) = string_value(&resolve(subject, bindings)) else { return Vec::new(); };
+    match crate::sudoku::solve_sudoku_string(&puzzle) {
+        Ok(solution) if !solution.is_empty() => bind_string_result(object, solution, bindings),
+        _ => Vec::new(),
     }
 }
 

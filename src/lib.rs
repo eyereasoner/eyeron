@@ -8,6 +8,7 @@ pub mod error;
 pub mod eye;
 pub mod n3;
 pub mod srl;
+pub mod sudoku;
 
 #[cfg(target_arch = "wasm32")]
 pub mod wasm;

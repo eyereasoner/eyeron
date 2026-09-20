@@ -29,11 +29,7 @@
 //! single-premise chain like this one, but `super::stratify`'s
 //! `TemplateIndex` and `super::forward`'s `RuleActivation` fixed that (see
 //! their doc comments), so both now finish this suite in well under the
-//! `cargo test` budget. `relational-cube-lookup.srl` (a different shape of
-//! stress test, not a long chain) is still not copied into `examples/` for
-//! the original reason: eyeron's forward reasoner does not scale to its
-//! size in reasonable test time (see docs/sparql-rl.md's Known
-//! limitations).
+//! `cargo test` budget.
 
 #[path = "support/report.rs"]
 mod report;

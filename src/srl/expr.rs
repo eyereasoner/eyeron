@@ -19,7 +19,6 @@
 
 use std::cell::Cell;
 use std::cmp::Ordering;
-use std::collections::BTreeSet;
 
 use crate::ast::{Literal, Term, Triple};
 use crate::n3::parser::boolean_literal;
@@ -761,97 +760,10 @@ fn local_name(iri: &str) -> &str {
 
 /// Solves a 9x9 Sudoku puzzle given as an 81-character string (`.` or `0`
 /// for a blank cell, `1`-`9` for a given), returning the solved 81-character
-/// string, or an empty string if the puzzle has no solution. Ported from
-/// eyeleng's `solveSudoku`/`solveSudokuCells` (minimum-remaining-candidates
-/// backtracking search).
+/// string, or an empty string if the puzzle has no solution. Delegates to
+/// `crate::sudoku`, shared with `n3::reasoner`'s `sudoku#solve` builtin.
 fn solve_sudoku(puzzle: &str) -> EvalResult {
-    let text = puzzle.trim();
-    if text.chars().count() != 81 || !text.chars().all(|c| c == '.' || c.is_ascii_digit()) {
-        return Err(err("SUDOKU expects an 81-character puzzle string containing digits or dots"));
-    }
-    let mut cells = [0u8; 81];
-    for (i, ch) in text.chars().enumerate() {
-        cells[i] = if ch == '.' { 0 } else { ch as u8 - b'0' };
-    }
-    let peers = sudoku_peers();
-    for (i, &value) in cells.iter().enumerate() {
-        if value == 0 {
-            continue;
-        }
-        if peers[i].iter().any(|&p| cells[p] == value) {
-            return Err(err("SUDOKU puzzle has conflicting givens"));
-        }
-    }
-    let solved = if solve_sudoku_cells(&mut cells, peers) { cells.iter().map(|&v| char::from(b'0' + v)).collect() } else { String::new() };
-    Ok(str_literal(solved))
-}
-
-fn solve_sudoku_cells(cells: &mut [u8; 81], peers: &'static [Vec<usize>; 81]) -> bool {
-    let mut best_index = None;
-    let mut best_candidates = Vec::new();
-    for (i, &value) in cells.iter().enumerate() {
-        if value != 0 {
-            continue;
-        }
-        let candidates = sudoku_candidates(cells, &peers[i]);
-        if candidates.is_empty() {
-            return false;
-        }
-        if best_index.is_none() || candidates.len() < best_candidates.len() {
-            best_index = Some(i);
-            best_candidates = candidates;
-            if best_candidates.len() == 1 {
-                break;
-            }
-        }
-    }
-    let Some(index) = best_index else { return true };
-    for value in best_candidates {
-        cells[index] = value;
-        if solve_sudoku_cells(cells, peers) {
-            return true;
-        }
-        cells[index] = 0;
-    }
-    false
-}
-
-fn sudoku_candidates(cells: &[u8; 81], peers: &[usize]) -> Vec<u8> {
-    let mut used = [false; 10];
-    for &p in peers {
-        let value = cells[p];
-        if value != 0 {
-            used[value as usize] = true;
-        }
-    }
-    (1..=9u8).filter(|&v| !used[v as usize]).collect()
-}
-
-fn sudoku_peers() -> &'static [Vec<usize>; 81] {
-    use std::sync::OnceLock;
-    static PEERS: OnceLock<[Vec<usize>; 81]> = OnceLock::new();
-    PEERS.get_or_init(|| {
-        std::array::from_fn(|index| {
-            let row = index / 9;
-            let col = index % 9;
-            let box_row = (row / 3) * 3;
-            let box_col = (col / 3) * 3;
-            let mut set = BTreeSet::new();
-            for c in 0..9 {
-                set.insert(row * 9 + c);
-            }
-            for r in 0..9 {
-                set.insert(r * 9 + col);
-            }
-            for r in box_row..box_row + 3 {
-                for c in box_col..box_col + 3 {
-                    set.insert(r * 9 + c);
-                }
-            }
-            set.remove(&index);
-            set.into_iter().collect()
-        })
-    })
+    crate::sudoku::solve_sudoku_string(puzzle).map(str_literal).map_err(err)
 }
 
 #[cfg(test)]
