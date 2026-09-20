@@ -1,0 +1,40 @@
+# N3 example: context-association.
+# Companion to context-association.eye: the eye source's `quad/4` facts
+# and rule chain a signature's provenance across three linked named
+# graphs (data graph -> signature graph -> metadata graph), and separately
+# confirm that a fact scoped to one graph does not silently answer a
+# query scoped to another. N3 has no first-class named graphs, so each
+# quad is an ordinary 4-tuple fact `(subject predicate object graph)
+# :quad true` -- plain unification on the graph position already gives
+# the same "no cross-graph leakage" guarantee a real named-graph store
+# would, which the final rule checks directly with log:notIncludes.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example/>.
+
+(:bob :name "Bob" :g0) :quad true.
+(:g0 :proof :dataSignature :g1) :quad true.
+(:signature1 :type :DataIntegrityProof :g1) :quad true.
+(:signature1 :cryptosuite "ecdsa-rdfc-2019" :g1) :quad true.
+(:signature1 :issuer <https://university.example/issuers/14> :g1) :quad true.
+(:signature1 :validUntil "2025-04-03T00:00:00.000Z"^^xsd:dateTime :g1) :quad true.
+(:g1 :proof :signature2 :g3) :quad true.
+(:signature2 :type :DataIntegrityProof :g3) :quad true.
+(:signature2 :proofPurpose "assertionMethod" :g3) :quad true.
+
+{
+  (:bob :name "Bob" ?dataGraph) :quad true.
+  (?dataGraph :proof ?dataSignature ?signatureGraph) :quad true.
+  (?proof :type :DataIntegrityProof ?signatureGraph) :quad true.
+  (?proof :cryptosuite "ecdsa-rdfc-2019" ?signatureGraph) :quad true.
+  (?proof :issuer ?issuer ?signatureGraph) :quad true.
+  ?issuer log:equalTo <https://university.example/issuers/14>.
+  (?proof :validUntil "2025-04-03T00:00:00.000Z"^^xsd:dateTime ?signatureGraph) :quad true.
+  (?signatureGraph :proof ?metadataSignature ?metadataGraph) :quad true.
+  (?metadataProof :type :DataIntegrityProof ?metadataGraph) :quad true.
+  (?metadataProof :proofPurpose "assertionMethod" ?metadataGraph) :quad true.
+} => {(:bob ?dataGraph ?signatureGraph ?metadataGraph "ecdsa-rdfc-2019" ?issuer) :association true}.
+
+{
+  ?SCOPE log:notIncludes {(:bob :name "Bob" :g1) :quad true}.
+} => {:test :graphScopeRespected true}.

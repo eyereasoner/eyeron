@@ -1,0 +1,12 @@
+:q1 :subject :bob ; :predicate :name ; :object "Bob" ; :graph :g0 .
+:q2 :subject :g0 ; :predicate :proof ; :object :dataSignature ; :graph :g1 .
+:q3 :subject :signature1 ; :predicate :type ; :object :DataIntegrityProof ; :graph :g1 .
+:q4 :subject :signature1 ; :predicate :cryptosuite ; :object "ecdsa-rdfc-2019" ; :graph :g1 .
+:q5 :subject :signature1 ; :predicate :issuer ; :object <https://university.example/issuers/14> ; :graph :g1 .
+:q6 :subject :signature1 ; :predicate :validUntil ; :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime ; :graph :g1 .
+:q7 :subject :g1 ; :predicate :proof ; :object :signature2 ; :graph :g3 .
+:q8 :subject :signature2 ; :predicate :type ; :object :DataIntegrityProof ; :graph :g3 .
+:q9 :subject :signature2 ; :predicate :proofPurpose ; :object "assertionMethod" ; :graph :g3 .
+
+_:b1 a :Association; :person :bob; :dataGraph :g0; :signatureGraph :g1; :metadataGraph :g3; :cryptosuite "ecdsa-rdfc-2019"; :issuer <https://university.example/issuers/14>.
+:test :graphScopeRespected true.

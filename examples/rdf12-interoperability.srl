@@ -1,0 +1,33 @@
+# Companion to rdf12-interoperability.n3/.eye/.nq: SRL has native RDF 1.2
+# support, so unlike the .n3 companion this uses the real
+# `rdf:reifies <<( ... )>>` triple-term syntax (matching
+# annotation-evidence.srl's own precedent) rather than a quoted formula,
+# getting closer to the eye source's own RDF-star reification than N3
+# can. SRL has no N-Quads import either, so as with the .n3 companion the
+# named-graph layer is dropped -- everything lives in one default graph.
+PREFIX : <https://example/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :alice :name "Alice"^^xsd:string .
+  :alice :label "Bonjour"@fr .
+  :alice :age 42 .
+  :document :title "HTML و CSS"@ar--rtl .
+  :claim rdf:reifies <<( :alice :knows :bob )>> .
+  :claim :source :chat .
+}
+
+RULE { ?person :displayName ?label }
+WHERE { ?person :label ?label }
+
+RULE { :test :namedPerson ?person ; :namedText ?text }
+WHERE { ?person :name ?text }
+
+RULE { :test :title ?title }
+WHERE { :document :title ?title }
+
+RULE { :test :knowsSource ?source ; :knowsSubject ?s ; :knowsObject ?o }
+WHERE {
+  ?claim rdf:reifies <<( ?s :knows ?o )>> .
+  ?claim :source ?source .
+}

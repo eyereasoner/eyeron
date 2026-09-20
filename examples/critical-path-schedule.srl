@@ -1,0 +1,103 @@
+# Companion to critical-path-schedule.n3/.eye: SRL has no backward
+# chaining and no math:max/list:max builtin, so rather than the .n3
+# companion's general "enumerate every path, then take the maximum" this
+# unrolls the DAG's fixed, known structure directly -- one rule per task
+# computing :finish from its own (named) predecessors, matching
+# shortest-path.srl's own "small fixed graph, write it out directly"
+# precedent. A task with two or three predecessors gets one FILTER-guarded
+# rule per predecessor that could be the maximum (mutually exclusive on
+# ties broken by source order, which cannot happen here since every
+# comparison below is strict). launch is the DAG's only sink (nothing
+# depends on it), so the overall project finish is simply :launch's own
+# :finish. Each max-selecting rule also records which predecessor won as
+# :criticalPredecessor; a short non-recursive-looking propagation rule
+# (ordinary recursion, no SET/blank head/negation in the cycle, so it is
+# fine under SRL's stratification per transitive-closure.srl's own
+# precedent) then walks that back from :launch to mark every task on the
+# critical path.
+PREFIX : <http://example/>
+
+DATA {
+  :requirements :duration 2 .
+  :architecture :duration 3 .
+  :api_design :duration 2 .
+  :database :duration 4 .
+  :backend :duration 6 .
+  :frontend :duration 5 .
+  :auth :duration 3 .
+  :integration :duration 4 .
+  :security_review :duration 3 .
+  :load_test :duration 2 .
+  :launch :duration 1 .
+
+  :architecture :dependsOn :requirements .
+  :api_design :dependsOn :requirements .
+  :database :dependsOn :architecture .
+  :backend :dependsOn :api_design, :database .
+  :frontend :dependsOn :api_design .
+  :auth :dependsOn :architecture .
+  :integration :dependsOn :backend, :frontend, :auth .
+  :security_review :dependsOn :integration .
+  :load_test :dependsOn :integration .
+  :launch :dependsOn :security_review, :load_test .
+}
+
+RULE { :requirements :finish ?f }
+WHERE { :requirements :duration ?d. SET(?f := ?d) }
+
+RULE { :architecture :finish ?f ; :criticalPredecessor :requirements }
+WHERE { :requirements :finish ?p. :architecture :duration ?d. SET(?f := ?p + ?d) }
+
+RULE { :api_design :finish ?f ; :criticalPredecessor :requirements }
+WHERE { :requirements :finish ?p. :api_design :duration ?d. SET(?f := ?p + ?d) }
+
+RULE { :database :finish ?f ; :criticalPredecessor :architecture }
+WHERE { :architecture :finish ?p. :database :duration ?d. SET(?f := ?p + ?d) }
+
+RULE { :auth :finish ?f ; :criticalPredecessor :architecture }
+WHERE { :architecture :finish ?p. :auth :duration ?d. SET(?f := ?p + ?d) }
+
+RULE { :frontend :finish ?f ; :criticalPredecessor :api_design }
+WHERE { :api_design :finish ?p. :frontend :duration ?d. SET(?f := ?p + ?d) }
+
+RULE { :backend :finish ?f ; :criticalPredecessor :api_design }
+WHERE { :api_design :finish ?p1. :database :finish ?p2. :backend :duration ?d.
+        FILTER(?p1 > ?p2) SET(?f := ?p1 + ?d) }
+RULE { :backend :finish ?f ; :criticalPredecessor :database }
+WHERE { :api_design :finish ?p1. :database :finish ?p2. :backend :duration ?d.
+        FILTER(?p2 >= ?p1) SET(?f := ?p2 + ?d) }
+
+RULE { :security_review :finish ?f ; :criticalPredecessor :integration }
+WHERE { :integration :finish ?p. :security_review :duration ?d. SET(?f := ?p + ?d) }
+
+RULE { :load_test :finish ?f ; :criticalPredecessor :integration }
+WHERE { :integration :finish ?p. :load_test :duration ?d. SET(?f := ?p + ?d) }
+
+RULE { :integration :finish ?f ; :criticalPredecessor :backend }
+WHERE { :backend :finish ?p1. :frontend :finish ?p2. :auth :finish ?p3. :integration :duration ?d.
+        FILTER(?p1 >= ?p2 && ?p1 >= ?p3) SET(?f := ?p1 + ?d) }
+RULE { :integration :finish ?f ; :criticalPredecessor :frontend }
+WHERE { :backend :finish ?p1. :frontend :finish ?p2. :auth :finish ?p3. :integration :duration ?d.
+        FILTER(?p2 > ?p1 && ?p2 >= ?p3) SET(?f := ?p2 + ?d) }
+RULE { :integration :finish ?f ; :criticalPredecessor :auth }
+WHERE { :backend :finish ?p1. :frontend :finish ?p2. :auth :finish ?p3. :integration :duration ?d.
+        FILTER(?p3 > ?p1 && ?p3 > ?p2) SET(?f := ?p3 + ?d) }
+
+RULE { :launch :finish ?f ; :criticalPredecessor :security_review }
+WHERE { :security_review :finish ?p1. :load_test :finish ?p2. :launch :duration ?d.
+        FILTER(?p1 >= ?p2) SET(?f := ?p1 + ?d) }
+RULE { :launch :finish ?f ; :criticalPredecessor :load_test }
+WHERE { :security_review :finish ?p1. :load_test :finish ?p2. :launch :duration ?d.
+        FILTER(?p2 > ?p1) SET(?f := ?p2 + ?d) }
+
+RULE { ?task :start ?start }
+WHERE { ?task :duration ?d. ?task :finish ?finish. SET(?start := ?finish - ?d) }
+
+RULE { :test :projectFinish ?f }
+WHERE { :launch :finish ?f }
+
+RULE { :launch :critical true }
+WHERE { :launch :finish ?_ }
+
+RULE { ?predecessor :critical true }
+WHERE { ?task :critical true. ?task :criticalPredecessor ?predecessor. }

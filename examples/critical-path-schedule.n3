@@ -1,0 +1,76 @@
+# N3 example: critical-path-schedule.
+# Companion to critical-path-schedule.eye: the eye source's own comment
+# explains its own design choice -- enumerate every dependency-path's
+# accumulated duration through this DAG, then take the maximum, rather
+# than recursing through an aggregate. This follows the same shape in
+# N3: a backward `:durationPath` rule enumerates every predecessor chain
+# down to a task with no dependency, together with the list of tasks
+# along it (the DAG is small and finite, so this backward recursion --
+# unlike the cyclic-graph searches elsewhere in this suite -- terminates
+# quickly with no cycle guard needed), and a forward rule takes the
+# maximum of the candidate finish times via log:collectAllIn plus
+# list:sort/list:last (no math:max/list:max builtin exists here,
+# matching modular-exponentiation.n3's own "the builtin isn't there, so a
+# small builtin combination stands in for it" precedent). A task is
+# critical when it lies on some path whose accumulated duration equals
+# the overall project finish, checked with list:member.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example/>.
+
+:requirements :duration 2.
+:architecture :duration 3.
+:api_design :duration 2.
+:database :duration 4.
+:backend :duration 6.
+:frontend :duration 5.
+:auth :duration 3.
+:integration :duration 4.
+:security_review :duration 3.
+:load_test :duration 2.
+:launch :duration 1.
+
+:architecture :dependsOn :requirements.
+:api_design :dependsOn :requirements.
+:database :dependsOn :architecture.
+:backend :dependsOn :api_design.
+:backend :dependsOn :database.
+:frontend :dependsOn :api_design.
+:auth :dependsOn :architecture.
+:integration :dependsOn :backend.
+:integration :dependsOn :frontend.
+:integration :dependsOn :auth.
+:security_review :dependsOn :integration.
+:load_test :dependsOn :integration.
+:launch :dependsOn :security_review.
+:launch :dependsOn :load_test.
+
+{?task :durationPath ((?task) ?d)} <= {?task :duration ?d. ?SCOPE log:notIncludes {?task :dependsOn ?any}}.
+{?task :durationPath (?path ?finish)} <= {
+    ?task :duration ?d.
+    ?task :dependsOn ?predecessor.
+    ?predecessor :durationPath (?prevPath ?previous).
+    (?previous ?d) math:sum ?finish.
+    ?path list:firstRest (?task ?prevPath).
+}.
+
+{?task :duration ?_.
+ (?candidate {?task :durationPath (?p ?candidate)} ?candidates) log:collectAllIn ?SCOPE.
+ ?candidates list:sort ?sorted.
+ ?sorted list:last ?maxFinish.
+} => {?task :finish ?maxFinish}.
+
+{?task :duration ?finish0. ?task :finish ?finish. (?finish ?finish0) math:difference ?start.} => {?task :schedule (?start ?finish)}.
+
+{
+ (?candidate {?any :finish ?candidate} ?candidates) log:collectAllIn ?SCOPE.
+ ?candidates list:sort ?sorted.
+ ?sorted list:last ?projectFinish.
+} => {:test :projectFinish ?projectFinish}.
+
+{
+ :test :projectFinish ?pf.
+ ?anyTask :durationPath (?path ?pf).
+ ?path list:member ?task.
+} => {?task :critical true}.

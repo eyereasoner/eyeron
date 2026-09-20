@@ -1,0 +1,60 @@
+# Companion to proof-audit.n3/.eye: SRL has no proof-tracking output of
+# its own to introspect (that is specific to the N3 and eye engines'
+# own reasoning trace), so unlike the .n3 companion this cannot replay a
+# generated proof document. Instead it builds the same small proof shape
+# -- socrates.n3's own two-premise derivation -- directly as RDF-star
+# reified DATA (`rdf:reifies <<( ... )>>`, matching reifiers.srl's own
+# precedent), which is arguably a more natural fit for SRL than N3's
+# nested quoted-formula proof steps, since each step is already a flat,
+# separately-addressable reifier rather than something needing
+# log:includes to search inside. The queries mirror the eye source's own
+# `depends_on`/`support`/`answer_applied`.
+PREFIX : <http://example.org/proof-audit#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+DATA {
+  :Socrates a :Human .
+  :Human rdfs:subClassOf :Mortal .
+  :Socrates a :Mortal .
+
+  :stepMortal rdf:reifies <<( :Socrates a :Mortal )>> ;
+    pe:rule "socrates.srl" ; pe:line 14 ;
+    pe:uses :stepHuman, :stepSubClass ;
+    pe:binding [ pe:var "A" ; pe:value :Human ], [ pe:var "B" ; pe:value :Mortal ], [ pe:var "S" ; pe:value :Socrates ] .
+  :stepHuman rdf:reifies <<( :Socrates a :Human )>> ;
+    pe:fact "socrates.srl" ; pe:line 10 .
+  :stepSubClass rdf:reifies <<( :Human rdfs:subClassOf :Mortal )>> ;
+    pe:fact "socrates.srl" ; pe:line 11 .
+}
+
+RULE { ?step :dependsOn ?dep }
+WHERE { ?step pe:uses ?dep }
+
+RULE { ?a :dependsOn ?c }
+WHERE { ?a :dependsOn ?b. ?b :dependsOn ?c }
+
+RULE { ?step :sourceFact true }
+WHERE { ?step pe:fact ?src }
+
+RULE { ?step :supportedBy ?step }
+WHERE { ?step :sourceFact true }
+
+RULE { ?step :supportedBy ?anc }
+WHERE { ?step :dependsOn ?anc. ?anc :sourceFact true }
+
+RULE { :test :root ?root }
+WHERE { ?root pe:rule ?ruleName }
+
+RULE { :test :queryDependency ?anc }
+WHERE { :test :root ?root. ?root :dependsOn ?anc }
+
+RULE { :test :support ?fact }
+WHERE { :test :root ?root. ?root :supportedBy ?fact }
+
+RULE { [] a :AnswerApplied ; :var ?name ; :value ?value }
+WHERE {
+  :test :root ?root.
+  ?root pe:binding ?bindingNode.
+  ?bindingNode pe:var ?name ; pe:value ?value.
+}

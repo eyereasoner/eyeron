@@ -1,0 +1,27 @@
+# N3 example: rdf12-interoperability.
+# Companion to rdf12-interoperability.eye/.nq: the eye source imports RDF
+# 1.2 N-Quads (named graphs, an RDF-star triple term reified via
+# rdf:reifies, and a base-direction-tagged language literal) as ordinary
+# rdf/4 facts. N3 has no N-Quads import, and represents a reified
+# statement as a quoted formula rather than an RDF-star triple term
+# (matching reification-and-annotations.n3's own precedent), so this
+# tests the same underlying RDF 1.2 literal/reification features directly
+# in N3: a string-typed literal, an integer-typed literal, a
+# language-and-direction-tagged literal, and reified provenance for a
+# quoted statement -- without the N-Quads named-graph layer, since N3's
+# own quoting already scopes a claim without a separate graph name.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix : <https://example/>.
+
+:alice :name "Alice"^^xsd:string.
+:alice :label "Bonjour"@fr.
+:alice :age 42.
+:document :title "HTML و CSS"@ar--rtl.
+
+[] :statement {:alice :knows :bob}; :source :chat.
+
+{?person :label ?label} => {?person :displayName ?label}.
+
+{?person :name ?text} => {:test :namedPerson ?person; :namedText ?text}.
+{:document :title ?title} => {:test :title ?title}.
+{?claim :statement {?s :knows ?o}. ?claim :source ?source} => {:test :knowsSource ?source; :knowsSubject ?s; :knowsObject ?o}.

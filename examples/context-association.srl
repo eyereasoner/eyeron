@@ -1,0 +1,44 @@
+# Companion to context-association.n3/.eye: SRL also has no first-class
+# named graphs, so this uses the same 4-tuple `:quad` fact encoding as
+# the .n3 companion; ordinary join unification on the graph position
+# gives the same "no cross-graph leakage" guarantee, checked directly
+# with a NOT { } filter instead of log:notIncludes. The result's :person
+# property (rather than reusing :subject, which the WHERE clause matches
+# generically) avoids a spurious stratifier "recursive closed dependency"
+# rejection, since the rule's blank-node head makes it a closed rule and
+# the stratifier's cycle check is at the predicate-name level, not per
+# subject type.
+PREFIX : <http://example/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :q1 :subject :bob ; :predicate :name ; :object "Bob" ; :graph :g0 .
+  :q2 :subject :g0 ; :predicate :proof ; :object :dataSignature ; :graph :g1 .
+  :q3 :subject :signature1 ; :predicate :type ; :object :DataIntegrityProof ; :graph :g1 .
+  :q4 :subject :signature1 ; :predicate :cryptosuite ; :object "ecdsa-rdfc-2019" ; :graph :g1 .
+  :q5 :subject :signature1 ; :predicate :issuer ; :object <https://university.example/issuers/14> ; :graph :g1 .
+  :q6 :subject :signature1 ; :predicate :validUntil ; :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime ; :graph :g1 .
+  :q7 :subject :g1 ; :predicate :proof ; :object :signature2 ; :graph :g3 .
+  :q8 :subject :signature2 ; :predicate :type ; :object :DataIntegrityProof ; :graph :g3 .
+  :q9 :subject :signature2 ; :predicate :proofPurpose ; :object "assertionMethod" ; :graph :g3 .
+}
+
+RULE { [] a :Association ; :person :bob ; :dataGraph ?dataGraph ; :signatureGraph ?signatureGraph ;
+        :metadataGraph ?metadataGraph ; :cryptosuite "ecdsa-rdfc-2019" ; :issuer ?issuer }
+WHERE {
+  ?q1 :subject :bob ; :predicate :name ; :object "Bob" ; :graph ?dataGraph .
+  ?q2 :subject ?dataGraph ; :predicate :proof ; :object ?dataSignature ; :graph ?signatureGraph .
+  ?q3 :subject ?proof ; :predicate :type ; :object :DataIntegrityProof ; :graph ?signatureGraph .
+  ?q4 :subject ?proof ; :predicate :cryptosuite ; :object "ecdsa-rdfc-2019" ; :graph ?signatureGraph .
+  ?q5 :subject ?proof ; :predicate :issuer ; :object ?issuer ; :graph ?signatureGraph .
+  FILTER(?issuer = <https://university.example/issuers/14>)
+  ?q6 :subject ?proof ; :predicate :validUntil ; :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime ; :graph ?signatureGraph .
+  ?q7 :subject ?signatureGraph ; :predicate :proof ; :object ?metadataSignature ; :graph ?metadataGraph .
+  ?q8 :subject ?metadataProof ; :predicate :type ; :object :DataIntegrityProof ; :graph ?metadataGraph .
+  ?q9 :subject ?metadataProof ; :predicate :proofPurpose ; :object "assertionMethod" ; :graph ?metadataGraph .
+}
+
+RULE { :test :graphScopeRespected true }
+WHERE {
+  NOT { ?q :subject :bob ; :predicate :name ; :object "Bob" ; :graph :g1 }
+}

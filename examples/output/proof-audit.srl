@@ -1,0 +1,51 @@
+:Socrates a :Human .
+:Human rdfs:subClassOf :Mortal .
+:Socrates a :Mortal .
+:stepMortal rdf:reifies {
+    :Socrates a :Mortal .
+} .
+:stepMortal pe:rule "socrates.srl" .
+:stepMortal pe:line 14 .
+:stepMortal pe:uses :stepHuman .
+:stepMortal pe:uses :stepSubClass .
+_:b1 pe:var "A" .
+_:b1 pe:value :Human .
+:stepMortal pe:binding _:b1 .
+_:b2 pe:var "B" .
+_:b2 pe:value :Mortal .
+:stepMortal pe:binding _:b2 .
+_:b3 pe:var "S" .
+_:b3 pe:value :Socrates .
+:stepMortal pe:binding _:b3 .
+:stepHuman rdf:reifies {
+    :Socrates a :Human .
+} .
+:stepHuman pe:fact "socrates.srl" .
+:stepHuman pe:line 10 .
+:stepSubClass rdf:reifies {
+    :Human rdfs:subClassOf :Mortal .
+} .
+:stepSubClass pe:fact "socrates.srl" .
+:stepSubClass pe:line 11 .
+:stepMortal :dependsOn :stepHuman .
+:stepMortal :dependsOn :stepSubClass .
+:stepHuman :sourceFact true .
+:stepSubClass :sourceFact true .
+:test :root :stepMortal .
+:stepHuman :supportedBy :stepHuman .
+:stepSubClass :supportedBy :stepSubClass .
+:stepMortal :supportedBy :stepHuman .
+:stepMortal :supportedBy :stepSubClass .
+:test :queryDependency :stepHuman .
+:test :queryDependency :stepSubClass .
+:test :support :stepHuman .
+:test :support :stepSubClass .
+_:b4 a :AnswerApplied .
+_:b4 :var "A" .
+_:b4 :value :Human .
+_:b5 a :AnswerApplied .
+_:b5 :var "B" .
+_:b5 :value :Mortal .
+_:b6 a :AnswerApplied .
+_:b6 :var "S" .
+_:b6 :value :Socrates .
