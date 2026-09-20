@@ -1,13 +1,30 @@
-:reduceWeight a :DesignGoal; :suggests :carbonFrame.
-:improveCooling a :DesignGoal; :suggests :ribbedHousing.
+@prefix : <http://example.org/engineering#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-:carbonFrame a :DesignOption; :compatibleWith :stiffnessReq, :assemblyReq.
-:ribbedHousing a :DesignOption; :compatibleWith :thermalReq, :assemblyReq.
-
-:r1 a :DesignRevision; :time 1; :satisfies :stiffnessReq, :assemblyReq; :realizes :aluminumFrame; :achieves :approvedBaseline.
-:r2 a :DesignRevision; :time 2; :derivesFrom :r1; :designGoal :reduceWeight.
-:r3 a :DesignRevision; :time 3; :derivesFrom :r2; :designGoal :improveCooling.
-
+:reduceWeight a :DesignGoal .
+:reduceWeight :suggests :carbonFrame .
+:improveCooling a :DesignGoal .
+:improveCooling :suggests :ribbedHousing .
+:carbonFrame a :DesignOption .
+:carbonFrame :compatibleWith :stiffnessReq .
+:carbonFrame :compatibleWith :assemblyReq .
+:ribbedHousing a :DesignOption .
+:ribbedHousing :compatibleWith :thermalReq .
+:ribbedHousing :compatibleWith :assemblyReq .
+:r1 a :DesignRevision .
+:r1 :time 1 .
+:r1 :satisfies :stiffnessReq .
+:r1 :satisfies :assemblyReq .
+:r1 :realizes :aluminumFrame .
+:r1 :achieves :approvedBaseline .
+:r2 a :DesignRevision .
+:r2 :time 2 .
+:r2 :derivesFrom :r1 .
+:r2 :designGoal :reduceWeight .
+:r3 a :DesignRevision .
+:r3 :time 3 .
+:r3 :derivesFrom :r2 .
+:r3 :designGoal :improveCooling .
 :r2 :inheritsRequirement :stiffnessReq .
 :r2 :inheritsRequirement :assemblyReq .
 :r2 :considers :carbonFrame .

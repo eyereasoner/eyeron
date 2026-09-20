@@ -1,12 +1,15 @@
+@prefix : <http://example/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
 _:b1 :name "Bob" .
 _:b1 :tag "friend" .
+:alice :knows _:b1 .
 _:b2 rdf:first :alice .
 _:b2 rdf:rest _:b3 .
 _:b3 rdf:first :bob .
 _:b3 rdf:rest _:b4 .
 _:b4 rdf:first :carol .
 _:b4 rdf:rest rdf:nil .
-:alice :knows _:b1 .
+:team :members _:b2 .
 :alice :knowsNamed "Bob" .
 :team :firstMember :alice .
-:team :members _:b2 .

@@ -1,18 +1,28 @@
-:alice a :Person; :age 30; :status :OldStatus; :email "alice@example.org".
-:bob a :Person.
+@prefix : <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:alice a :Person .
+:alice :age 30 .
+:alice :status :OldStatus .
+:alice :email "alice@example.org" .
+:bob a :Person .
 
 :patch1 :resultTriple {
     :alice a :Person .
 } .
+
 :patch1 :resultTriple {
     :bob a :Person .
 } .
+
 :patch1 :resultTriple {
     :alice :age 31 .
 } .
+
 :patch1 :resultTriple {
     :alice :status :ActiveStatus .
 } .
+
 :patch1 :resultTriple {
     :alice :verified true .
 } .

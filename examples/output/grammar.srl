@@ -1,8 +1,11 @@
-_:bw rdf:first :open .
-_:bw rdf:rest _:bw2 .
-_:bw2 rdf:first :door .
-_:bw2 rdf:rest rdf:nil .
-:sentence1 :words _:bw .
+@prefix : <http://example/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+_:b1 rdf:first :open .
+_:b1 rdf:rest _:b2 .
+_:b2 rdf:first :door .
+_:b2 rdf:rest rdf:nil .
+:sentence1 :words _:b1 .
 :open a :Verb .
 :close a :Verb .
 :door a :Noun .

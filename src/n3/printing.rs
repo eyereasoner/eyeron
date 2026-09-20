@@ -63,18 +63,28 @@ pub fn triples_to_n3(prefixes: &BTreeMap<String, String>, triples: &[Triple]) ->
     }
     if !used.is_empty() { out.push('\n'); }
 
+    let mut prev_multiline = false;
+    let mut first = true;
     for t in triples {
-        if matches!((&t.p, &t.o), (Term::Iri(p), Term::Literal(_)) if p.as_str() == LOG_OUTPUT_STRING) { continue; }
-        if is_implication_triple(t) {
-            out.push_str(&implication_to_n3(t, prefixes));
-            continue;
-        }
-        out.push_str(&format!(
-            "{} {} {} .\n",
-            term_to_n3(&t.s, prefixes, Position::Subject),
-            term_to_n3(&t.p, prefixes, Position::Predicate),
-            term_to_n3(&t.o, prefixes, Position::Object),
-        ));
+        let rendered = if is_implication_triple(t) {
+            implication_to_n3(t, prefixes)
+        } else {
+            format!(
+                "{} {} {} .\n",
+                term_to_n3(&t.s, prefixes, Position::Subject),
+                term_to_n3(&t.p, prefixes, Position::Predicate),
+                term_to_n3(&t.o, prefixes, Position::Object),
+            )
+        };
+        // A triple whose subject or object is itself a quoted formula (an
+        // implication, a `pe:why` proof step, ...) renders as several
+        // lines; give it its own paragraph rather than crowding it
+        // against a neighboring one-line triple or another such block.
+        let this_multiline = rendered.trim_end().contains('\n');
+        if !first && (prev_multiline || this_multiline) { out.push('\n'); }
+        out.push_str(&rendered);
+        prev_multiline = this_multiline;
+        first = false;
     }
     out
 }
@@ -97,30 +107,41 @@ pub fn triples_to_trig(prefixes: &BTreeMap<String, String>, triples: &[Triple]) 
     }
     if !used.is_empty() { out.push('\n'); }
 
+    let mut prev_multiline = false;
+    let mut first = true;
     for t in triples {
-        if matches!((&t.p, &t.o), (Term::Iri(p), Term::Literal(_)) if p.as_str() == LOG_OUTPUT_STRING) { continue; }
-        if let Some((graph, graph_triples)) = named_graph_fact(t) {
-            out.push_str(&format!(
+        let (rendered, this_multiline) = if let Some((graph, graph_triples)) = named_graph_fact(t) {
+            let mut block = format!(
                 "{} {{\n",
                 term_to_n3(graph, prefixes, Position::Subject),
-            ));
+            );
             for inner in graph_triples {
-                out.push_str(&format!(
+                block.push_str(&format!(
                     "    {} {} {} .\n",
                     term_to_n3(&inner.s, prefixes, Position::Subject),
                     term_to_n3(&inner.p, prefixes, Position::Predicate),
                     term_to_n3(&inner.o, prefixes, Position::Object),
                 ));
             }
-            out.push_str("}\n");
-            continue;
-        }
-        out.push_str(&format!(
-            "{} {} {} .\n",
-            term_to_n3(&t.s, prefixes, Position::Subject),
-            term_to_n3(&t.p, prefixes, Position::Predicate),
-            term_to_n3(&t.o, prefixes, Position::Object),
-        ));
+            block.push_str("}\n");
+            (block, true)
+        } else {
+            let line = format!(
+                "{} {} {} .\n",
+                term_to_n3(&t.s, prefixes, Position::Subject),
+                term_to_n3(&t.p, prefixes, Position::Predicate),
+                term_to_n3(&t.o, prefixes, Position::Object),
+            );
+            let multiline = line.trim_end().contains('\n');
+            (line, multiline)
+        };
+        // A named-graph block or a quoted-formula-valued triple renders as
+        // several lines; give it its own paragraph rather than crowding it
+        // against a neighboring one-line triple or another such block.
+        if !first && (prev_multiline || this_multiline) { out.push('\n'); }
+        out.push_str(&rendered);
+        prev_multiline = this_multiline;
+        first = false;
     }
     out
 }

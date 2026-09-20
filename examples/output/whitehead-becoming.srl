@@ -1,11 +1,27 @@
-:red a :PurePotential. :warm a :PurePotential. :bright a :PurePotential. :dark a :PurePotential.
-:intensity a :SubjectiveAim. :contrast a :SubjectiveAim.
-:intensity :lures :bright. :contrast :lures :dark.
+@prefix : <http://example.org/whitehead#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-:o1 a :ActualOccasion; :time 1; :realizes :red, :warm; :achieves :satisfaction.
-:o2 a :ActualOccasion; :time 2; :prehends :o1; :subjectiveAim :intensity.
-:o3 a :ActualOccasion; :time 3; :prehends :o2; :subjectiveAim :contrast.
-
+:red a :PurePotential .
+:warm a :PurePotential .
+:bright a :PurePotential .
+:dark a :PurePotential .
+:intensity a :SubjectiveAim .
+:contrast a :SubjectiveAim .
+:intensity :lures :bright .
+:contrast :lures :dark .
+:o1 a :ActualOccasion .
+:o1 :time 1 .
+:o1 :realizes :red .
+:o1 :realizes :warm .
+:o1 :achieves :satisfaction .
+:o2 a :ActualOccasion .
+:o2 :time 2 .
+:o2 :prehends :o1 .
+:o2 :subjectiveAim :intensity .
+:o3 a :ActualOccasion .
+:o3 :time 3 .
+:o3 :prehends :o2 .
+:o3 :subjectiveAim :contrast .
 :o2 :becomesFrom :o1 .
 :o3 :becomesFrom :o2 .
 :o2 :inherits :red .

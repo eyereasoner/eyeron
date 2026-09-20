@@ -1,8 +1,16 @@
+@prefix : <http://example/eyeling/annotation/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
 :a :name "Alice" .
-:t :recorded "2021-07-07"^^xsd:date .
+
+:t rdf:reifies {
+    :a :name "Alice" .
+} .
+
 :t :statedBy :bob .
-:t rdf:reifies <<(:a :name "Alice")>> .
-:test :hasNamedStatement :t .
+:t :recorded "2021-07-07"^^xsd:date .
 :test :hasStatement true .
+:test :hasNamedStatement :t .
 :test :statementAuthor :bob .
 :test :statementDate "2021-07-07"^^xsd:date .

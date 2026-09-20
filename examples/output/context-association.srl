@@ -1,12 +1,47 @@
-:q1 :subject :bob ; :predicate :name ; :object "Bob" ; :graph :g0 .
-:q2 :subject :g0 ; :predicate :proof ; :object :dataSignature ; :graph :g1 .
-:q3 :subject :signature1 ; :predicate :type ; :object :DataIntegrityProof ; :graph :g1 .
-:q4 :subject :signature1 ; :predicate :cryptosuite ; :object "ecdsa-rdfc-2019" ; :graph :g1 .
-:q5 :subject :signature1 ; :predicate :issuer ; :object <https://university.example/issuers/14> ; :graph :g1 .
-:q6 :subject :signature1 ; :predicate :validUntil ; :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime ; :graph :g1 .
-:q7 :subject :g1 ; :predicate :proof ; :object :signature2 ; :graph :g3 .
-:q8 :subject :signature2 ; :predicate :type ; :object :DataIntegrityProof ; :graph :g3 .
-:q9 :subject :signature2 ; :predicate :proofPurpose ; :object "assertionMethod" ; :graph :g3 .
+@prefix : <http://example/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-_:b1 a :Association; :person :bob; :dataGraph :g0; :signatureGraph :g1; :metadataGraph :g3; :cryptosuite "ecdsa-rdfc-2019"; :issuer <https://university.example/issuers/14>.
-:test :graphScopeRespected true.
+:q1 :subject :bob .
+:q1 :predicate :name .
+:q1 :object "Bob" .
+:q1 :graph :g0 .
+:q2 :subject :g0 .
+:q2 :predicate :proof .
+:q2 :object :dataSignature .
+:q2 :graph :g1 .
+:q3 :subject :signature1 .
+:q3 :predicate :type .
+:q3 :object :DataIntegrityProof .
+:q3 :graph :g1 .
+:q4 :subject :signature1 .
+:q4 :predicate :cryptosuite .
+:q4 :object "ecdsa-rdfc-2019" .
+:q4 :graph :g1 .
+:q5 :subject :signature1 .
+:q5 :predicate :issuer .
+:q5 :object <https://university.example/issuers/14> .
+:q5 :graph :g1 .
+:q6 :subject :signature1 .
+:q6 :predicate :validUntil .
+:q6 :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime .
+:q6 :graph :g1 .
+:q7 :subject :g1 .
+:q7 :predicate :proof .
+:q7 :object :signature2 .
+:q7 :graph :g3 .
+:q8 :subject :signature2 .
+:q8 :predicate :type .
+:q8 :object :DataIntegrityProof .
+:q8 :graph :g3 .
+:q9 :subject :signature2 .
+:q9 :predicate :proofPurpose .
+:q9 :object "assertionMethod" .
+:q9 :graph :g3 .
+_:b1_3ef52e6b781f254e a :Association .
+_:b1_3ef52e6b781f254e :person :bob .
+_:b1_3ef52e6b781f254e :dataGraph :g0 .
+_:b1_3ef52e6b781f254e :signatureGraph :g1 .
+_:b1_3ef52e6b781f254e :metadataGraph :g3 .
+_:b1_3ef52e6b781f254e :cryptosuite "ecdsa-rdfc-2019" .
+_:b1_3ef52e6b781f254e :issuer <https://university.example/issuers/14> .
+:test :graphScopeRespected true .

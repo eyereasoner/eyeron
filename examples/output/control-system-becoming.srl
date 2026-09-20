@@ -1,13 +1,35 @@
-:reduceOvershoot a :DesignGoal; :suggests :leadCompensator; :introducesRequirement :overshootReq.
-:rejectDisturbance a :DesignGoal; :suggests :integralAction; :introducesRequirement :disturbanceRejectionReq.
+@prefix : <http://example.org/control#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-:leadCompensator a :ControlStrategy; :compatibleWith :stabilityReq, :trackingReq; :enables :overshootReq.
-:integralAction a :ControlStrategy; :compatibleWith :stabilityReq, :trackingReq, :overshootReq; :enables :disturbanceRejectionReq.
-
-:c1 a :ControllerRevision; :time 1; :satisfies :stabilityReq, :trackingReq; :realizes :baselinePID; :achieves :approvedController.
-:c2 a :ControllerRevision; :time 2; :derivesFrom :c1; :designGoal :reduceOvershoot.
-:c3 a :ControllerRevision; :time 3; :derivesFrom :c2; :designGoal :rejectDisturbance.
-
+:reduceOvershoot a :DesignGoal .
+:reduceOvershoot :suggests :leadCompensator .
+:reduceOvershoot :introducesRequirement :overshootReq .
+:rejectDisturbance a :DesignGoal .
+:rejectDisturbance :suggests :integralAction .
+:rejectDisturbance :introducesRequirement :disturbanceRejectionReq .
+:leadCompensator a :ControlStrategy .
+:leadCompensator :compatibleWith :stabilityReq .
+:leadCompensator :compatibleWith :trackingReq .
+:leadCompensator :enables :overshootReq .
+:integralAction a :ControlStrategy .
+:integralAction :compatibleWith :stabilityReq .
+:integralAction :compatibleWith :trackingReq .
+:integralAction :compatibleWith :overshootReq .
+:integralAction :enables :disturbanceRejectionReq .
+:c1 a :ControllerRevision .
+:c1 :time 1 .
+:c1 :satisfies :stabilityReq .
+:c1 :satisfies :trackingReq .
+:c1 :realizes :baselinePID .
+:c1 :achieves :approvedController .
+:c2 a :ControllerRevision .
+:c2 :time 2 .
+:c2 :derivesFrom :c1 .
+:c2 :designGoal :reduceOvershoot .
+:c3 a :ControllerRevision .
+:c3 :time 3 .
+:c3 :derivesFrom :c2 .
+:c3 :designGoal :rejectDisturbance .
 :c2 :inheritsRequirement :stabilityReq .
 :c2 :inheritsRequirement :trackingReq .
 :c2 :considers :leadCompensator .

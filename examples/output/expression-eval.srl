@@ -1,9 +1,23 @@
-:n2 :n 2. :n3 :n 3. :n10 :n 10. :n4 :n 4.
-:eMul a :Expr; :op :mul; :left :n2; :right :n3.
-:eSub a :Expr; :op :sub; :left :n10; :right :n4.
-:eAdd a :Expr; :op :add; :left :eMul; :right :eSub.
-:Root :expr :eAdd.
+@prefix : <http://example.org/expression-eval#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+:n2 :n 2 .
+:n3 :n 3 .
+:n10 :n 10 .
+:n4 :n 4 .
+:eMul a :Expr .
+:eMul :op :mul .
+:eMul :left :n2 .
+:eMul :right :n3 .
+:eSub a :Expr .
+:eSub :op :sub .
+:eSub :left :n10 .
+:eSub :right :n4 .
+:eAdd a :Expr .
+:eAdd :op :add .
+:eAdd :left :eMul .
+:eAdd :right :eSub .
+:Root :expr :eAdd .
 :n2 :value 2 .
 :n3 :value 3 .
 :n10 :value 10 .

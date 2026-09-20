@@ -1,12 +1,15 @@
-:Alice :has _:b0.
-_:b0 rdf:first :Book.
-_:b0 rdf:rest _:b1.
-_:b1 rdf:first 1.
-_:b1 rdf:rest rdf:nil.
-:Bob :has _:b2.
-_:b2 rdf:first :Table.
-_:b2 rdf:rest _:b3.
-_:b3 rdf:first 1.
-_:b3 rdf:rest rdf:nil.
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+_:b1 rdf:first :Book .
+_:b1 rdf:rest _:b2 .
+_:b2 rdf:first 1 .
+_:b2 rdf:rest rdf:nil .
+:Alice :has _:b1 .
+_:b3 rdf:first :Table .
+_:b3 rdf:rest _:b4 .
+_:b4 rdf:first 1 .
+_:b4 rdf:rest rdf:nil .
+:Bob :has _:b3 .
 :test :is true .

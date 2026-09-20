@@ -1,16 +1,38 @@
-:writeTask a :Task; :input :blankMemory; :output :encodedMemory.
-:stabilizeTask a :Task; :input :encodedMemory; :output :stabilizedMemory.
-:perfectRestoreTask a :Task; :input :damagedMemory; :output :pristineMemory; :forbiddenBy :noMiraclePrinciple.
+@prefix : <http://example.org/constructor#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-:writer a :Constructor; :canPerform :writeTask.
-:stabilizer a :Constructor; :canPerform :stabilizeTask.
-
-:v1 a :SubstrateVersion; :time 1; :hasAttribute :blankMemory.
-:v2 a :SubstrateVersion; :time 2; :derivesFrom :v1; :intendsTask :writeTask.
-:v3 a :SubstrateVersion; :time 3; :derivesFrom :v2; :intendsTask :stabilizeTask.
-:damaged1 a :SubstrateVersion; :time 4; :hasAttribute :damagedMemory.
-:vBad a :SubstrateVersion; :time 5; :derivesFrom :damaged1; :intendsTask :perfectRestoreTask.
-
+:writeTask a :Task .
+:writeTask :input :blankMemory .
+:writeTask :output :encodedMemory .
+:stabilizeTask a :Task .
+:stabilizeTask :input :encodedMemory .
+:stabilizeTask :output :stabilizedMemory .
+:perfectRestoreTask a :Task .
+:perfectRestoreTask :input :damagedMemory .
+:perfectRestoreTask :output :pristineMemory .
+:perfectRestoreTask :forbiddenBy :noMiraclePrinciple .
+:writer a :Constructor .
+:writer :canPerform :writeTask .
+:stabilizer a :Constructor .
+:stabilizer :canPerform :stabilizeTask .
+:v1 a :SubstrateVersion .
+:v1 :time 1 .
+:v1 :hasAttribute :blankMemory .
+:v2 a :SubstrateVersion .
+:v2 :time 2 .
+:v2 :derivesFrom :v1 .
+:v2 :intendsTask :writeTask .
+:v3 a :SubstrateVersion .
+:v3 :time 3 .
+:v3 :derivesFrom :v2 .
+:v3 :intendsTask :stabilizeTask .
+:damaged1 a :SubstrateVersion .
+:damaged1 :time 4 .
+:damaged1 :hasAttribute :damagedMemory .
+:vBad a :SubstrateVersion .
+:vBad :time 5 .
+:vBad :derivesFrom :damaged1 .
+:vBad :intendsTask :perfectRestoreTask .
 :perfectRestoreTask :status :impossibleTask .
 :writeTask :status :possibleTask .
 :writer :retainsCapacityFor :writeTask .

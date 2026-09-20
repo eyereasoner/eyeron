@@ -1,6 +1,12 @@
-ref:Car a skos:Concept .
-anpr:VehicleWithPlate a skos:Concept ; skos:broadMatch ref:Car .
-anpr:PassengerCar a skos:Concept ; skos:broader anpr:VehicleWithPlate .
+@prefix anpr: <http://example.org/anpr/> .
+@prefix ex: <http://example.org/#> .
+@prefix ref: <http://example.org/ref/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
+ref:Car a skos:Concept .
+anpr:VehicleWithPlate a skos:Concept .
+anpr:VehicleWithPlate skos:broadMatch ref:Car .
+anpr:PassengerCar a skos:Concept .
+anpr:PassengerCar skos:broader anpr:VehicleWithPlate .
 anpr:VehicleWithPlate ex:treatedAs ref:Car .
 anpr:PassengerCar ex:treatedAs ref:Car .

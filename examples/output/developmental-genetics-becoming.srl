@@ -1,13 +1,33 @@
-:neurogenicSignal a :Signal; :suggests :proneuralProgram; :introducesMarker :NeuroD1.
-:maturationSignal a :Signal; :suggests :neuronalMaturationProgram; :introducesMarker :Tubb3.
+@prefix : <http://example.org/genetics#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-:proneuralProgram a :RegulatoryProgram; :compatibleWith :Sox2, :Pax6; :enables :NeuroD1.
-:neuronalMaturationProgram a :RegulatoryProgram; :compatibleWith :Pax6, :NeuroD1; :enables :Tubb3.
-
-:s1 a :CellState; :time 1; :expresses :Sox2, :Pax6; :achieves :stableCellState.
-:s2 a :CellState; :time 2; :derivesFrom :s1; :receives :neurogenicSignal.
-:s3 a :CellState; :time 3; :derivesFrom :s2; :receives :maturationSignal.
-
+:neurogenicSignal a :Signal .
+:neurogenicSignal :suggests :proneuralProgram .
+:neurogenicSignal :introducesMarker :NeuroD1 .
+:maturationSignal a :Signal .
+:maturationSignal :suggests :neuronalMaturationProgram .
+:maturationSignal :introducesMarker :Tubb3 .
+:proneuralProgram a :RegulatoryProgram .
+:proneuralProgram :compatibleWith :Sox2 .
+:proneuralProgram :compatibleWith :Pax6 .
+:proneuralProgram :enables :NeuroD1 .
+:neuronalMaturationProgram a :RegulatoryProgram .
+:neuronalMaturationProgram :compatibleWith :Pax6 .
+:neuronalMaturationProgram :compatibleWith :NeuroD1 .
+:neuronalMaturationProgram :enables :Tubb3 .
+:s1 a :CellState .
+:s1 :time 1 .
+:s1 :expresses :Sox2 .
+:s1 :expresses :Pax6 .
+:s1 :achieves :stableCellState .
+:s2 a :CellState .
+:s2 :time 2 .
+:s2 :derivesFrom :s1 .
+:s2 :receives :neurogenicSignal .
+:s3 a :CellState .
+:s3 :time 3 .
+:s3 :derivesFrom :s2 .
+:s3 :receives :maturationSignal .
 :s2 :inheritsMarker :Sox2 .
 :s2 :inheritsMarker :Pax6 .
 :s2 :considers :proneuralProgram .

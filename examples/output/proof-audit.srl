@@ -1,9 +1,17 @@
+@prefix : <http://example.org/proof-audit#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
 :Socrates a :Human .
 :Human rdfs:subClassOf :Mortal .
 :Socrates a :Mortal .
+
 :stepMortal rdf:reifies {
     :Socrates a :Mortal .
 } .
+
 :stepMortal pe:rule "socrates.srl" .
 :stepMortal pe:line 14 .
 :stepMortal pe:uses :stepHuman .
@@ -17,14 +25,18 @@ _:b2 pe:value :Mortal .
 _:b3 pe:var "S" .
 _:b3 pe:value :Socrates .
 :stepMortal pe:binding _:b3 .
+
 :stepHuman rdf:reifies {
     :Socrates a :Human .
 } .
+
 :stepHuman pe:fact "socrates.srl" .
 :stepHuman pe:line 10 .
+
 :stepSubClass rdf:reifies {
     :Human rdfs:subClassOf :Mortal .
 } .
+
 :stepSubClass pe:fact "socrates.srl" .
 :stepSubClass pe:line 11 .
 :stepMortal :dependsOn :stepHuman .
@@ -40,12 +52,12 @@ _:b3 pe:value :Socrates .
 :test :queryDependency :stepSubClass .
 :test :support :stepHuman .
 :test :support :stepSubClass .
-_:b4 a :AnswerApplied .
-_:b4 :var "A" .
-_:b4 :value :Human .
-_:b5 a :AnswerApplied .
-_:b5 :var "B" .
-_:b5 :value :Mortal .
-_:b6 a :AnswerApplied .
-_:b6 :var "S" .
-_:b6 :value :Socrates .
+_:b4_517b3be80e8ffd1b a :AnswerApplied .
+_:b4_517b3be80e8ffd1b :var "A" .
+_:b4_517b3be80e8ffd1b :value :Human .
+_:b4_b74b502731877675 a :AnswerApplied .
+_:b4_b74b502731877675 :var "B" .
+_:b4_b74b502731877675 :value :Mortal .
+_:b4_67f64218deb828d6 a :AnswerApplied .
+_:b4_67f64218deb828d6 :var "S" .
+_:b4_67f64218deb828d6 :value :Socrates .

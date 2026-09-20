@@ -1,9 +1,21 @@
+@prefix : <http://example/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
 :alice :says :hello .
+
+:claim1 rdf:reifies {
+    :alice :says :hello .
+} .
+
+:claim1 :source :chat .
+
+:claim2 rdf:reifies {
+    :bob :says :hi .
+} .
+
+:claim2 :source :email .
 :alice :statementSource :chat .
 :bob :statementSource :email .
 :claim1 :isClaim true .
-:claim1 :source :chat .
-:claim1 rdf:reifies <<(:alice :says :hello)>> .
 :claim2 :isClaim true .
-:claim2 :source :email .
-:claim2 rdf:reifies <<(:bob :says :hi)>> .

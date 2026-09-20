@@ -1,4 +1,43 @@
 @prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-:test :is true .
+:arc :check1 "C1 OK - the starting classification N0 is present." .
+:ind a :N1 .
+:ind a :I1 .
+:ind a :J1 .
+:arc :check2 "C2 OK - the first expansion produced N1 together with side labels I1 and J1." .
+:ind a :N2 .
+:ind a :I2 .
+:ind a :J2 .
+:ind a :N3 .
+:ind a :I3 .
+:ind a :J3 .
+:ind a :N4 .
+:ind a :I4 .
+:ind a :J4 .
+:ind a :N5 .
+:ind a :I5 .
+:ind a :J5 .
+:arc :check3 "C3 OK - the chain reaches the midpoint N5 and still carries both side-label branches." .
+:ind a :N6 .
+:ind a :I6 .
+:ind a :J6 .
+:ind a :N7 .
+:ind a :I7 .
+:ind a :J7 .
+:ind a :N8 .
+:ind a :I8 .
+:ind a :J8 .
+:ind a :N9 .
+:ind a :I9 .
+:ind a :J9 .
+:ind a :N10 .
+:ind a :I10 .
+:ind a :J10 .
+:arc :check4 "C4 OK - the final taxonomy step from N9 to N10 was completed." .
 :ind a :A2 .
+:test :is true .
+:arc :check5 "C5 OK - once N10 is reached, the terminal class A2 is derived." .
+:arc :check6 "C6 OK - the success flag is raised only after the terminal class A2 is present." .
+:report log:outputString "Deep Taxonomy - deep classification benchmark\n\n## Answer\nThe test succeeds: starting from one individual classified as N0, the rules eventually classify it as N10 and then as A2.\n\n## Reason Why\nEach rule moves the same individual one level deeper in the taxonomy and also adds two side labels. Because that chain continues all the way from N0 to N10, the final rule deriving A2 fires, and that in turn makes the test true.\n\n## Check\nC1 OK - the starting classification N0 is present.\nC2 OK - the first expansion produced N1 together with side labels I1 and J1.\nC3 OK - the chain reaches the midpoint N5 and still carries both side-label branches.\nC4 OK - the final taxonomy step from N9 to N10 was completed.\nC5 OK - once N10 is reached, the terminal class A2 is derived.\nC6 OK - the success flag is raised only after the terminal class A2 is present.\n" .
