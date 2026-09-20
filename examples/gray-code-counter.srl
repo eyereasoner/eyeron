@@ -1,0 +1,185 @@
+# Companion to gray-code-counter.n3/.eye: same three-bit Gray code
+# counter (netb/neta combinational logic plus a D flip-flop, clocked nine
+# times from state (0,0,0)). Since every clock pulse here is 1, dff(d, 1,
+# q) always outputs d, so each cycle reduces to one purely combinational
+# step; the gate truth tables (AND, OR, INV) are computed directly as
+# arithmetic (AND(a,b)=a*b, OR(a,b)=a+b-a*b, INV(a)=1-a), which also holds
+# since a, b, c only ever take the values 0 and 1 here.
+#
+# The eye/.n3 companions' "counter" relation applies this step recursively
+# over a list of nine clock pulses; SRL can't express that recursion the
+# same way -- a growing RDF list head, or a SET-constructed compound call
+# key, both make the rule "closed" (SPARQL 1.2 RL section 4.4), and
+# recursion through a closed rule is rejected by stratification (the same
+# constraint documented in peano-arithmetic.srl and hanoi.srl). Since the
+# clock sequence is fixed, this instead unrolls the nine steps into nine
+# concrete, non-recursive rules chaining nine distinct named states
+# (:state0 .. :state9) -- a strict dependency chain, not a cycle, so it
+# isn't subject to the closed-rule restriction at all.
+PREFIX : <http://example/>
+
+DATA {
+  :state0 :qa 0; :qb 0; :qc 0.
+}
+
+RULE { :state1 :qa ?za; :qb ?zb; :qc ?zc } WHERE {
+  :state0 :qa ?a; :qb ?b; :qc ?c.
+  SET(?na := 1 - ?a)
+  SET(?nc := 1 - ?c)
+  SET(?t1 := ?a * ?c)
+  SET(?t2 := ?b * ?nc)
+  SET(?t3 := ?na * ?c)
+  SET(?d1 := ?t1 + ?t2 - ?t1 * ?t2)
+  SET(?d2 := ?t2 + ?t3 - ?t2 * ?t3)
+  SET(?ab := ?a * ?b)
+  SET(?nb := 1 - ?b)
+  SET(?nanb := ?na * ?nb)
+  SET(?d3 := ?ab + ?nanb - ?ab * ?nanb)
+  SET(?za := ?d1)
+  SET(?zb := ?d2)
+  SET(?zc := ?d3)
+}
+
+RULE { :state2 :qa ?za; :qb ?zb; :qc ?zc } WHERE {
+  :state1 :qa ?a; :qb ?b; :qc ?c.
+  SET(?na := 1 - ?a)
+  SET(?nc := 1 - ?c)
+  SET(?t1 := ?a * ?c)
+  SET(?t2 := ?b * ?nc)
+  SET(?t3 := ?na * ?c)
+  SET(?d1 := ?t1 + ?t2 - ?t1 * ?t2)
+  SET(?d2 := ?t2 + ?t3 - ?t2 * ?t3)
+  SET(?ab := ?a * ?b)
+  SET(?nb := 1 - ?b)
+  SET(?nanb := ?na * ?nb)
+  SET(?d3 := ?ab + ?nanb - ?ab * ?nanb)
+  SET(?za := ?d1)
+  SET(?zb := ?d2)
+  SET(?zc := ?d3)
+}
+
+RULE { :state3 :qa ?za; :qb ?zb; :qc ?zc } WHERE {
+  :state2 :qa ?a; :qb ?b; :qc ?c.
+  SET(?na := 1 - ?a)
+  SET(?nc := 1 - ?c)
+  SET(?t1 := ?a * ?c)
+  SET(?t2 := ?b * ?nc)
+  SET(?t3 := ?na * ?c)
+  SET(?d1 := ?t1 + ?t2 - ?t1 * ?t2)
+  SET(?d2 := ?t2 + ?t3 - ?t2 * ?t3)
+  SET(?ab := ?a * ?b)
+  SET(?nb := 1 - ?b)
+  SET(?nanb := ?na * ?nb)
+  SET(?d3 := ?ab + ?nanb - ?ab * ?nanb)
+  SET(?za := ?d1)
+  SET(?zb := ?d2)
+  SET(?zc := ?d3)
+}
+
+RULE { :state4 :qa ?za; :qb ?zb; :qc ?zc } WHERE {
+  :state3 :qa ?a; :qb ?b; :qc ?c.
+  SET(?na := 1 - ?a)
+  SET(?nc := 1 - ?c)
+  SET(?t1 := ?a * ?c)
+  SET(?t2 := ?b * ?nc)
+  SET(?t3 := ?na * ?c)
+  SET(?d1 := ?t1 + ?t2 - ?t1 * ?t2)
+  SET(?d2 := ?t2 + ?t3 - ?t2 * ?t3)
+  SET(?ab := ?a * ?b)
+  SET(?nb := 1 - ?b)
+  SET(?nanb := ?na * ?nb)
+  SET(?d3 := ?ab + ?nanb - ?ab * ?nanb)
+  SET(?za := ?d1)
+  SET(?zb := ?d2)
+  SET(?zc := ?d3)
+}
+
+RULE { :state5 :qa ?za; :qb ?zb; :qc ?zc } WHERE {
+  :state4 :qa ?a; :qb ?b; :qc ?c.
+  SET(?na := 1 - ?a)
+  SET(?nc := 1 - ?c)
+  SET(?t1 := ?a * ?c)
+  SET(?t2 := ?b * ?nc)
+  SET(?t3 := ?na * ?c)
+  SET(?d1 := ?t1 + ?t2 - ?t1 * ?t2)
+  SET(?d2 := ?t2 + ?t3 - ?t2 * ?t3)
+  SET(?ab := ?a * ?b)
+  SET(?nb := 1 - ?b)
+  SET(?nanb := ?na * ?nb)
+  SET(?d3 := ?ab + ?nanb - ?ab * ?nanb)
+  SET(?za := ?d1)
+  SET(?zb := ?d2)
+  SET(?zc := ?d3)
+}
+
+RULE { :state6 :qa ?za; :qb ?zb; :qc ?zc } WHERE {
+  :state5 :qa ?a; :qb ?b; :qc ?c.
+  SET(?na := 1 - ?a)
+  SET(?nc := 1 - ?c)
+  SET(?t1 := ?a * ?c)
+  SET(?t2 := ?b * ?nc)
+  SET(?t3 := ?na * ?c)
+  SET(?d1 := ?t1 + ?t2 - ?t1 * ?t2)
+  SET(?d2 := ?t2 + ?t3 - ?t2 * ?t3)
+  SET(?ab := ?a * ?b)
+  SET(?nb := 1 - ?b)
+  SET(?nanb := ?na * ?nb)
+  SET(?d3 := ?ab + ?nanb - ?ab * ?nanb)
+  SET(?za := ?d1)
+  SET(?zb := ?d2)
+  SET(?zc := ?d3)
+}
+
+RULE { :state7 :qa ?za; :qb ?zb; :qc ?zc } WHERE {
+  :state6 :qa ?a; :qb ?b; :qc ?c.
+  SET(?na := 1 - ?a)
+  SET(?nc := 1 - ?c)
+  SET(?t1 := ?a * ?c)
+  SET(?t2 := ?b * ?nc)
+  SET(?t3 := ?na * ?c)
+  SET(?d1 := ?t1 + ?t2 - ?t1 * ?t2)
+  SET(?d2 := ?t2 + ?t3 - ?t2 * ?t3)
+  SET(?ab := ?a * ?b)
+  SET(?nb := 1 - ?b)
+  SET(?nanb := ?na * ?nb)
+  SET(?d3 := ?ab + ?nanb - ?ab * ?nanb)
+  SET(?za := ?d1)
+  SET(?zb := ?d2)
+  SET(?zc := ?d3)
+}
+
+RULE { :state8 :qa ?za; :qb ?zb; :qc ?zc } WHERE {
+  :state7 :qa ?a; :qb ?b; :qc ?c.
+  SET(?na := 1 - ?a)
+  SET(?nc := 1 - ?c)
+  SET(?t1 := ?a * ?c)
+  SET(?t2 := ?b * ?nc)
+  SET(?t3 := ?na * ?c)
+  SET(?d1 := ?t1 + ?t2 - ?t1 * ?t2)
+  SET(?d2 := ?t2 + ?t3 - ?t2 * ?t3)
+  SET(?ab := ?a * ?b)
+  SET(?nb := 1 - ?b)
+  SET(?nanb := ?na * ?nb)
+  SET(?d3 := ?ab + ?nanb - ?ab * ?nanb)
+  SET(?za := ?d1)
+  SET(?zb := ?d2)
+  SET(?zc := ?d3)
+}
+
+RULE { :state9 :qa ?za; :qb ?zb; :qc ?zc } WHERE {
+  :state8 :qa ?a; :qb ?b; :qc ?c.
+  SET(?na := 1 - ?a)
+  SET(?nc := 1 - ?c)
+  SET(?t1 := ?a * ?c)
+  SET(?t2 := ?b * ?nc)
+  SET(?t3 := ?na * ?c)
+  SET(?d1 := ?t1 + ?t2 - ?t1 * ?t2)
+  SET(?d2 := ?t2 + ?t3 - ?t2 * ?t3)
+  SET(?ab := ?a * ?b)
+  SET(?nb := 1 - ?b)
+  SET(?nanb := ?na * ?nb)
+  SET(?d3 := ?ab + ?nanb - ?ab * ?nanb)
+  SET(?za := ?d1)
+  SET(?zb := ?d2)
+  SET(?zc := ?d3)
+}

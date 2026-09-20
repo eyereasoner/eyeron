@@ -1,0 +1,25 @@
+# Companion to hanoi.n3/.eye: same three-disk, seven-move Towers of Hanoi
+# solution. SRL can't express hanoi.n3's general recursive :moves relation
+# (parametrized over disk count and peg assignment) at all: any encoding
+# of its (n, from, to, via) call as a single term needs either an RDF list
+# or a SET-constructed value, and both make the rule "closed" (SPARQL 1.2
+# RL section 4.4), which stratification then rejects for participating in
+# recursion (the same constraint documented in peano-arithmetic.srl).
+# Since the three-disk answer is a single fixed sequence, this asserts it
+# directly as flat, numbered move properties on one named individual,
+# rather than an RDF list of pairs -- avoiding blank nodes altogether,
+# which also sidesteps the kind of symmetric-blank-node isomorphism
+# slowdown documented in shortest-path.srl.
+PREFIX : <http://example/>
+
+DATA { :puzzle a :Hanoi. }
+
+RULE {
+  :puzzle :move1From :left; :move1To :right;
+          :move2From :left; :move2To :center;
+          :move3From :right; :move3To :center;
+          :move4From :left; :move4To :right;
+          :move5From :center; :move5To :left;
+          :move6From :center; :move6To :right;
+          :move7From :left; :move7To :right.
+} WHERE { :puzzle a :Hanoi }
