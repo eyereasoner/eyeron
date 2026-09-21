@@ -446,7 +446,13 @@ impl<'a> Lexer<'a> {
                 self.bump();
                 continue;
             }
-            if ch.is_whitespace() || PUNCT_CHARS.contains(ch) || OPERATOR_CHARS.contains(ch) {
+            // An unescaped `?` ends a word. SPARQL's `PN_LOCAL` admits `?`
+            // only via a `\?` escape (handled just above), so `:p?` is not
+            // one name: it is the syntax error SRL owes anyone reaching for
+            // SPARQL's zero-or-one path modifier, which SPARQL-RL's path
+            // grammar excludes. Swallowing the `?` instead would quietly
+            // read that as the IRI `…/p?` and derive nothing.
+            if ch.is_whitespace() || ch == '?' || PUNCT_CHARS.contains(ch) || OPERATOR_CHARS.contains(ch) {
                 break;
             }
             if ch == '.' {

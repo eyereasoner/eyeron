@@ -51,7 +51,7 @@ The CLI normally prints newly derived facts. The library's `ReasonerResult::clos
 
 A rule body is evaluated strictly left to right (unlike N3's own selectivity-reordering premise matcher), because `FILTER`, `SET`, and `NOT` clauses may only reference variables a *preceding* clause has already bound. Supported clause kinds:
 
-- ordinary triple patterns and **property paths** (`/` sequence, `^` inverse — no Kleene star/plus/alternation yet);
+- ordinary triple patterns and **property paths**: sequence `/`, inverse `^`, and `(...)` grouping. That is the whole path grammar SPARQL 1.2 RL has (§7.6, `Path ::= PathSequence`, productions [85]–[88]): alternation `|` and the length modifiers `?`/`+`/`*` are SPARQL syntax SRL leaves out, so every path expands into plain triple patterns and a rule body stays statically analysable. Write an arbitrary-length path as a recursive rule instead, which the draft calls out as the more general approach — `RULE { ?x :r ?z } WHERE { ?x :p ?y . ?y :r ?z }` for `:p+`. Each of `|`/`?`/`+`/`*` is a syntax error;
 - `FILTER(expr)`;
 - `SET(?v := expr)` (SRL's `BIND`) — binds `?v` if unbound, or checks equality if already bound;
 - `NOT { ... }` / `NOT DATA { ... }` — negation as failure, with automatic **stratification**: an unstratifiable recursive negation is rejected with a clear error at load time, before any rule runs;

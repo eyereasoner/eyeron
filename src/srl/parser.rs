@@ -1165,6 +1165,29 @@ mod tests {
         assert!(matches!(program.rules[0].body[0], Clause::Path { .. }));
     }
 
+    /// The path grammar is `Path ::= PathSequence`, `PathEltOrInverse ::=
+    /// PathElt | '^' PathElt`, `PathElt ::= ( iri | 'a' | '(' Path ')' )`
+    /// (SPARQL 1.2 RL §7.6, productions [85]–[88]): sequence, inverse and
+    /// grouping only. Alternation and the length modifiers are SPARQL
+    /// syntax that SRL deliberately leaves out, so each has to be a
+    /// syntax error rather than something quietly misread — `:p?` in
+    /// particular used to lex as the single name `p?`.
+    #[test]
+    fn rejects_path_syntax_outside_the_srl_grammar() {
+        for path in [":p|:q", ":p?", ":p+", ":p*", "(:p|:q)", ":p/:q+"] {
+            let src = format!("PREFIX : <http://example/>\nRULE {{ ?x :r ?y }} WHERE {{ ?x {} ?y }}", path);
+            assert!(parse_sparql_rl(&src, None).is_err(), "{path} should not parse: SRL has no such path syntax");
+        }
+    }
+
+    #[test]
+    fn parses_grouped_and_inverse_sequence_paths() {
+        for path in [":p/:q", "^:p", ":p/^:q", "(:p/:q)/:r", "^(:p/:q)", "a/:p"] {
+            let src = format!("PREFIX : <http://example/>\nRULE {{ ?x :r ?y }} WHERE {{ ?x {} ?y }}", path);
+            assert!(parse_sparql_rl(&src, None).is_ok(), "{path} is valid SRL path syntax");
+        }
+    }
+
     #[test]
     fn parses_inverse_path() {
         let src = r#"

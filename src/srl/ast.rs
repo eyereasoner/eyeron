@@ -60,10 +60,14 @@ pub enum BinaryOp {
     NotIn,
 }
 
-/// A SPARQL property path, restricted to the subset SRL currently supports:
-/// a single IRI, an inverse path (`^p`), or a sequence (`p1/p2/...`). There
-/// is no Kleene star/plus/optional or alternation in the current SPARQL 1.2
-/// RL grammar.
+/// A SPARQL property path: a single IRI, an inverse path (`^p`), or a
+/// sequence (`p1/p2/...`). That is all of SPARQL 1.2 RL's path grammar
+/// (§7.6, productions [85]–[88]); alternation and the `?`/`+`/`*` length
+/// modifiers are SPARQL syntax SRL leaves out deliberately, so that every
+/// path expands into triple patterns (`super::eval::expand_path`) and
+/// `super::stratify`/`super::wellformed` can analyse a body as the
+/// conjunction it is. An arbitrary-length path is written as a recursive
+/// rule instead.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PathExpr {
     Iri(String),
