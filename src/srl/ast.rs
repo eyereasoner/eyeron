@@ -125,6 +125,10 @@ pub struct SparqlRlProgram {
     pub prefixes: std::collections::BTreeMap<String, String>,
     pub data: Vec<Triple>,
     pub rules: Vec<SparqlRlRule>,
+    /// `--proof` source location for each `DATA {...}` fact, mirroring
+    /// `n3::ast::Document`'s own `fact_sources`. Only populated by
+    /// `parser::parse_sparql_rl_with_source`; empty otherwise.
+    pub data_sources: std::collections::BTreeMap<Triple, crate::ast::SourceRef>,
 }
 
 /// SPARQL 1.2 RL §4.4: a rule needs run-once handling iff its body assigns

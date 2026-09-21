@@ -337,10 +337,6 @@ fn is_sparql_rl_source(label: &str, text: &str) -> bool {
 }
 
 fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
-    if opt.proof {
-        return Err(EyeronError::new("--proof is not yet supported for SPARQL 1.2 RL rule sets"));
-    }
-
     let mut program = SparqlRlProgram::default();
     for (label, text) in sources {
         if !is_sparql_rl_source(label, text) {
@@ -350,8 +346,12 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
             )));
         }
         let base = source_base_iri(opt, label);
-        let parsed = srl::parse_sparql_rl(text, base.as_deref())
-            .map_err(|err| EyeronError::new(err.with_source_location(text, label)))?;
+        let parsed = if opt.proof {
+            srl::parse_sparql_rl_with_source(text, base.as_deref(), Some(label))
+        } else {
+            srl::parse_sparql_rl(text, base.as_deref())
+        }
+        .map_err(|err| EyeronError::new(err.with_source_location(text, label)))?;
         srl::merge_programs(&mut program, parsed);
     }
     resolve_sparql_rl_imports(&mut program)?;
@@ -386,7 +386,7 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
         base_graph.extend(doc.facts);
     }
 
-    let reasoner_options = cli_reasoner_options(opt, false);
+    let reasoner_options = cli_reasoner_options(opt, opt.proof);
 
     if let Some(query_text) = sparql_rl_query_text(opt)? {
         let (query_body, _) = srl::parse_query_body(&query_text, opt.base_iri.as_deref(), &program.prefixes)
@@ -412,7 +412,9 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
     if let Some(summary) = result.incomplete_summary() {
         return Err(EyeronError::new(summary));
     }
-    if opt.rdf {
+    if opt.proof {
+        print!("{}", proof_to_n3(&program.prefixes, &result));
+    } else if opt.rdf {
         print!("{}", rdf_result_to_string(&program.prefixes, &result.derived));
     } else {
         print!("{}", result_to_string(&program.prefixes, &result.derived));

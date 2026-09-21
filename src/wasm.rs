@@ -105,6 +105,77 @@ pub fn reason_srl(input: &str, query: &str) -> std::result::Result<String, JsVal
     run_srl(input, query).map_err(|err| JsValue::from_str(&err))
 }
 
+/// `input`'s own `IMPORTS <iri>` targets, resolved against `base` (an
+/// absolute URL the playground can `fetch()` each one from directly, e.g.
+/// the page's own URL for the example being loaded) — lets the playground
+/// discover what a rule set like `import-main.srl` needs before running
+/// it, the same CLI capability `resolve_sparql_rl_imports` (`main.rs`)
+/// otherwise has no browser-side counterpart for (`ureq`/`fs` are not
+/// available in Wasm). Returns an empty list on a parse error rather than
+/// surfacing it here; the real parse error resurfaces from
+/// `reasonSrlWithImports` once the caller actually runs the program.
+#[wasm_bindgen(js_name = srlImportTargets)]
+pub fn srl_import_targets(input: &str, base: &str) -> Vec<JsValue> {
+    let base = if base.is_empty() { None } else { Some(base) };
+    match crate::srl::parse_sparql_rl(input, base) {
+        Ok(program) => program.imports.into_iter().map(|iri| JsValue::from_str(&iri)).collect(),
+        Err(_) => Vec::new(),
+    }
+}
+
+/// As `reasonSrl`, but also merges in `imported_source` (the playground's
+/// own concatenation of every `IMPORTS` target's fetched text — see
+/// `srlImportTargets`), loads `data` as a `--data` base graph (content-
+/// sniffed exactly like a `.n3`/RDF-message-log input, so `rdf-messages.srl`
+/// can load `rdf-messages.trig` as-is), and — when `proof` is set — returns
+/// proof output instead of the derived facts, matching `--proof`'s CLI
+/// behavior. `imported_source`/`data` are the empty string when an example
+/// needs neither, so the playground can call this unconditionally instead
+/// of choosing between it and `reasonSrl`.
+#[wasm_bindgen(js_name = reasonSrlWithImports)]
+pub fn reason_srl_with_imports(main_source: &str, imported_source: &str, data: &str, proof: bool, query: &str) -> std::result::Result<String, JsValue> {
+    run_srl_with_imports(main_source, imported_source, data, proof, query).map_err(|err| JsValue::from_str(&err))
+}
+
+fn run_srl_with_imports(main_source: &str, imported_source: &str, data: &str, proof: bool, query: &str) -> std::result::Result<String, String> {
+    let mut program = if proof {
+        crate::srl::parse_sparql_rl_with_source(main_source, None, Some("program"))
+    } else {
+        crate::srl::parse_sparql_rl(main_source, None)
+    }
+    .map_err(|err| err.with_source_location(main_source, "program"))?;
+    if !imported_source.trim().is_empty() {
+        let imported = if proof {
+            crate::srl::parse_sparql_rl_with_source(imported_source, None, Some("import"))
+        } else {
+            crate::srl::parse_sparql_rl(imported_source, None)
+        }
+        .map_err(|err| err.with_source_location(imported_source, "import"))?;
+        crate::srl::merge_programs(&mut program, imported);
+    }
+    let base_graph: Vec<crate::ast::Triple> = if data.trim().is_empty() {
+        Vec::new()
+    } else {
+        parse_source(data, false, true, "auto", "data").map_err(|err| err.with_source_location(data, "data"))?.facts
+    };
+    let options = ReasonerOptions { proof, ..ReasonerOptions::default() };
+    let result = crate::srl::reason(&program, &base_graph, &options).map_err(|err| err.to_string())?;
+    if let Some(summary) = result.incomplete_summary() {
+        return Err(summary);
+    }
+    if proof {
+        return Ok(proof_to_n3(&program.prefixes, &result));
+    }
+    let trimmed_query = query.trim();
+    if trimmed_query.is_empty() {
+        return Ok(result_to_string(&program.prefixes, &result.derived));
+    }
+    let (query_body, _) =
+        crate::srl::parse_query_body(trimmed_query, None, &program.prefixes).map_err(|err| err.with_source_location(trimmed_query, "query"))?;
+    let solutions = crate::srl::query_facts(&result.closure, &base_graph, &query_body);
+    Ok(format_sparql_rl_solutions(&program.prefixes, &solutions))
+}
+
 fn run_srl(input: &str, query: &str) -> std::result::Result<String, String> {
     let program = crate::srl::parse_sparql_rl(input, None).map_err(|err| err.with_source_location(input, "program"))?;
     let base_graph: Vec<crate::ast::Triple> = Vec::new();

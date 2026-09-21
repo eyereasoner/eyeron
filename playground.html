@@ -332,7 +332,7 @@
                   <span class="hint">Enables the browser Eyeling engine for log:query output, log:outputString rendering, and Eyeling-compatible proof/RDF execution.</span>
                 </div>
               </div>
-              <div class="option-row n3-only-row eye-only-row">
+              <div class="option-row n3-only-row eye-only-row srl-only-row">
                 <input id="proof" type="checkbox" />
                 <div class="option-copy">
                   <label for="proof">Proof explanations</label>
@@ -422,7 +422,7 @@
             Two Eyelang examples expect companion input the playground does not wire up standalone: <code>proof-audit.eye</code> (needs <code>examples/proof/socrates.eye</code> prepended) and <code>rdf12-interoperability.eye</code> (needs <code>--rdf-input examples/rdf12-interoperability.nq</code>) — run those from the command line instead.
           </p>
           <p class="hint srl-only-row">
-            Two SPARQL-RL examples expect companion input the playground does not wire up standalone: <code>import-main.srl</code> (needs <code>examples/import-lib.srl</code> merged via its own <code>IMPORTS</code> directive) and <code>rdf-messages.srl</code> (needs <code>examples/rdf-messages.trig</code> as base data) — run those from the command line instead.
+            <code>import-main.srl</code>'s <code>IMPORTS</code> directive and <code>rdf-messages.srl</code>'s <code>examples/rdf-messages.trig</code> base data are both fetched and wired in automatically when you load either example. <code>rdf-messages.srl</code> itself derives nothing either way: its rule expects the <code>eymsg:payloadTriple &lt;&lt;...&gt;&gt;</code> RDF-star encoding eyeleng's own message-log parser produces, while Eyeron's parses message logs into a different internal replay view — a known encoding gap, not a playground limitation.
           </p>
         </div>
 
@@ -477,6 +477,12 @@
         'rdf-message-window-repair',
         'rdf-messages',
       ]);
+      // SRL examples whose companion RDF/Message-Log data lives right next
+      // to the rule set itself (examples/<name>.trig), unlike the N3
+      // rdf-message-* examples above (examples/input/<name>.trig): SRL has
+      // no --stream-messages sidecar convention of its own, so
+      // rdf-messages.srl just ships its message log alongside it.
+      const bundledSrlCompanionDataExamples = new Set(['rdf-messages']);
       let oversizedStateShareUrlForGist = '';
 
       const bundledExamplesN3 = [
@@ -967,6 +973,7 @@
       let pausedRunResult = null;
       let currentExample = '';
       let currentExampleText = '';
+      let srlImportedSourceText = '';
       runButton.disabled = true;
 
       function exampleUrl(name) {
@@ -1488,9 +1495,20 @@
         programUrlInput.value = '';
         dataUrlInput.value = '';
         messageLogUrlInput.value = '';
+        srlImportedSourceText = '';
         setExampleMarker(name, text);
-        const companionLoaded = language === 'n3' && (await tryLoadCompanionInput(exampleUrl(name)));
-        setStatus(companionLoaded ? 'Loaded example with companion RDF/TriG input' : 'Loaded examples/' + name, 'status ok');
+        let companionLoaded = false;
+        let companionKind = '';
+        if (language === 'n3') {
+          companionLoaded = await tryLoadCompanionInput(exampleUrl(name));
+          companionKind = 'companion RDF/TriG input';
+        } else if (language === 'srl') {
+          const importsLoaded = await tryLoadSrlImports(name, text);
+          const dataLoaded = await tryLoadSrlCompanionData(name);
+          companionLoaded = importsLoaded || dataLoaded;
+          companionKind = [importsLoaded && 'IMPORTS', dataLoaded && 'companion data'].filter(Boolean).join(' + ');
+        }
+        setStatus(companionLoaded ? `Loaded example with ${companionKind}` : 'Loaded examples/' + name, 'status ok');
         localStorage.setItem('eyeron.playground.example', name);
         localStorage.setItem('eyeron.playground.language', language);
         localStorage.setItem('eyeron.playground.input', text);
@@ -1520,6 +1538,53 @@
         } catch (_) {
           return false;
         }
+      }
+
+      // rdf-messages.srl ships its message log right next to the rule set
+      // (examples/rdf-messages.trig), unlike the N3 rdf-message-* examples'
+      // examples/input/<name>.trig convention (see
+      // bundledSrlCompanionDataExamples's own comment).
+      async function tryLoadSrlCompanionData(name) {
+        const stem = name.replace(/\.srl$/i, '');
+        if (!bundledSrlCompanionDataExamples.has(stem)) return false;
+        try {
+          const loaded = await fetchTextUrl(exampleUrl(stem + '.trig'), 'SRL companion data');
+          data.setValue(loaded.text);
+          dataUrlInput.value = loaded.url;
+          return true;
+        } catch (_) {
+          return false;
+        }
+      }
+
+      // Fetches every `IMPORTS <iri>` target an .srl example's own text
+      // names (via the wasm module's own IRI resolution, so the playground
+      // never has to duplicate SRL's relative-IRI rules) and concatenates
+      // their text into `srlImportedSourceText`, which `runSrl` merges in
+      // on every run. Generic over any .srl example, not just
+      // import-main.srl: a future example with its own IMPORTS just works.
+      async function tryLoadSrlImports(name, text) {
+        srlImportedSourceText = '';
+        if (!eyeronModule || typeof eyeronModule.srlImportTargets !== 'function') return false;
+        let targets;
+        try {
+          targets = eyeronModule.srlImportTargets(text, exampleUrl(name));
+        } catch (_) {
+          return false;
+        }
+        if (!targets || targets.length === 0) return false;
+        const parts = [];
+        for (const iri of targets) {
+          try {
+            const loaded = await fetchTextUrl(iri, 'imported rule set');
+            parts.push(loaded.text);
+          } catch (_) {
+            // Leave this one out; running will surface a normal "unknown
+            // predicate/undefined rule" style error if it was load-bearing.
+          }
+        }
+        srlImportedSourceText = parts.join('\n\n');
+        return parts.length > 0;
       }
 
       async function loadProgramUrl() {
@@ -2246,9 +2311,18 @@
         return { ok: false, error: { code: 'error', message, display: message, editor: 'program', line: null, column: null } };
       }
 
-      function runSrl() {
+      async function runSrl() {
         try {
-          return { ok: true, output: eyeronModule.reasonSrl(input.getValue(), formatQueryInput.value.trim()) };
+          const program = input.getValue();
+          // A page-load restore can call loadExample() before eyeronModule
+          // has finished loading, silently skipping the IMPORTS pre-fetch
+          // (see tryLoadSrlImports); catch up here so the first Run after
+          // load still resolves them instead of failing on an undefined
+          // rule.
+          if (!srlImportedSourceText && /\bIMPORTS\b/.test(program)) {
+            await tryLoadSrlImports(currentExample || '', program);
+          }
+          return { ok: true, output: eyeronModule.reasonSrlWithImports(program, srlImportedSourceText, data.getValue(), proofCheckbox.checked, formatQueryInput.value.trim()) };
         } catch (err) {
           return reportFromThrow(err);
         }
@@ -2324,7 +2398,7 @@
               pausedRunResult.elapsedMs = performance.now() - startedAt;
             }
           } else {
-            const report = languageSelect.value === 'srl' ? runSrl() : languageSelect.value === 'eye' ? runEye() : runEyeron();
+            const report = languageSelect.value === 'srl' ? await runSrl() : languageSelect.value === 'eye' ? runEye() : runEyeron();
             if (report.ok) {
               setOutputText(report.output || '', 'auto');
               setRuntimeStats(derivedCountFromReport(report), performance.now() - startedAt);

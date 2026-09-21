@@ -27,7 +27,7 @@ pub use ast::{BinaryOp, Clause, Expr, PathExpr, SparqlRlProgram, SparqlRlRule, U
 pub use backward::{solve_query, BackwardOptions};
 pub use eval::query_facts;
 pub use forward::reason;
-pub use parser::{parse_query_body, parse_sparql_rl};
+pub use parser::{parse_query_body, parse_sparql_rl, parse_sparql_rl_with_source};
 pub use stratify::stratify;
 pub use wellformed::check_rule as check_rule_well_formed;
 
@@ -69,4 +69,7 @@ pub fn merge_programs(target: &mut SparqlRlProgram, other: SparqlRlProgram) {
     target.imports.extend(other.imports);
     target.data.extend(other.data);
     target.rules.extend(other.rules);
+    for (fact, source) in other.data_sources {
+        target.data_sources.entry(fact).or_insert(source);
+    }
 }

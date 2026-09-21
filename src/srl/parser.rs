@@ -12,7 +12,7 @@
 
 use std::collections::BTreeMap;
 
-use crate::ast::{Literal, Term, Triple, RDF_FIRST, RDF_NIL, RDF_REST, RDF_TYPE};
+use crate::ast::{Literal, SourceRef, Term, Triple, RDF_FIRST, RDF_NIL, RDF_REST, RDF_TYPE};
 use crate::error::{EyeronError, Result};
 use crate::n3::parser::{boolean_literal, number_literal};
 
@@ -23,13 +23,26 @@ const RDF_REIFIES: &str = "http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies";
 
 /// Parse a `.srl` SPARQL 1.2 RL rule set.
 pub fn parse_sparql_rl(input: &str, base_iri: Option<&str>) -> Result<SparqlRlProgram> {
+    parse_sparql_rl_with_source(input, base_iri, None)
+}
+
+/// As `parse_sparql_rl`, but also stamps each rule's `source` (used only
+/// for `--proof` output's `pe:rule "label"; pe:line N`) with `source_label`
+/// and the rule's own line number. A plain `parse_sparql_rl` call (no
+/// label) leaves every rule's `source` as `None`, matching
+/// `n3::parser::parse_n3`'s own "labels are opt-in" convention.
+pub fn parse_sparql_rl_with_source(input: &str, base_iri: Option<&str>, source_label: Option<&str>) -> Result<SparqlRlProgram> {
     if looks_like_select_query(input) {
         return Err(EyeronError::new(
             "QUERY/SELECT concrete syntax is not part of the SPARQL-RL rule-set grammar; SPARQL 1.2 RL only supports RULE {...} WHERE {...}",
         ));
     }
     let tokens = lex(input)?;
-    Parser::new(tokens, base_iri).parse_program()
+    let mut line_starts = vec![0];
+    for (idx, ch) in input.char_indices() {
+        if ch == '\n' { line_starts.push(idx + ch.len_utf8()); }
+    }
+    Parser::new(tokens, base_iri).with_source(source_label, line_starts).parse_program()
 }
 
 /// Parse a raw SRL body pattern (as used by `--query`/`--query-file`, e.g.
@@ -146,6 +159,12 @@ struct Parser {
     /// blank node in a query pattern behaves like a non-distinguished
     /// variable).
     body_blank_labels: Option<BTreeMap<String, Term>>,
+    /// `--proof` source-location tracking, mirroring `n3::parser::Parser`'s
+    /// own `source_label`/`line_starts` fields exactly: both stay empty
+    /// unless `parse_sparql_rl_with_source` supplied a label, so ordinary
+    /// (non-`--proof`) parsing pays nothing extra.
+    source_label: Option<String>,
+    line_starts: Vec<usize>,
 }
 
 impl Parser {
@@ -163,11 +182,29 @@ impl Parser {
             imports: Vec::new(),
             blank_counter: 0,
             body_blank_labels: None,
+            source_label: None,
+            line_starts: Vec::new(),
         }
+    }
+
+    fn with_source(mut self, source_label: Option<&str>, line_starts: Vec<usize>) -> Self {
+        self.source_label = source_label.map(ToOwned::to_owned);
+        self.line_starts = line_starts;
+        self
+    }
+
+    fn source_ref_at(&self, offset: usize) -> Option<SourceRef> {
+        let label = self.source_label.as_ref()?;
+        let line = match self.line_starts.binary_search(&offset) {
+            Ok(idx) => idx + 1,
+            Err(idx) => idx,
+        };
+        Some(SourceRef { label: label.clone(), line: line.max(1) })
     }
 
     fn parse_program(&mut self) -> Result<SparqlRlProgram> {
         let mut data = Vec::new();
+        let mut data_sources = BTreeMap::new();
         let mut rules = Vec::new();
         while !self.is_eof() {
             if self.match_word("PREFIX") {
@@ -180,11 +217,19 @@ impl Parser {
                 self.parse_imports()?;
             } else if self.match_word("DATA") {
                 self.expect_kind(&TokenKind::LBrace)?;
-                for raw in self.parse_triples_block(Opts { ctx: Ctx::Data, allow_path: false, position: Position::Other })? {
-                    data.push(raw.into_triple()?);
+                for (raw, offset) in self.parse_data_triples_block()? {
+                    let triple = raw.into_triple()?;
+                    if let Some(source) = self.source_ref_at(offset) {
+                        data_sources.entry(triple.clone()).or_insert(source);
+                    }
+                    data.push(triple);
                 }
-            } else if self.match_word("RULE") {
-                rules.push(self.parse_rule()?);
+            } else if self.check_word("RULE") {
+                let rule_offset = self.peek().offset;
+                self.advance();
+                let mut rule = self.parse_rule()?;
+                rule.source = self.source_ref_at(rule_offset);
+                rules.push(rule);
             } else {
                 return Err(EyeronError::at(
                     format!("expected PREFIX, BASE, VERSION, IMPORTS, DATA, or RULE; got {}", self.describe_peek()),
@@ -199,7 +244,28 @@ impl Parser {
             prefixes: self.prefixes.clone(),
             data,
             rules,
+            data_sources,
         })
+    }
+
+    /// As `parse_triples_block` for a `DATA {...}` block, but also returns
+    /// each raw triple's own top-level statement's starting offset (used
+    /// for `--proof`'s per-fact `pe:by [pe:fact "label"; pe:line N]`). A
+    /// `;`/`,`-grouped statement's several triples all share their
+    /// statement's own start line -- a reasonable approximation, matching
+    /// how "one fact, one line" already breaks down for genuinely
+    /// multi-line facts elsewhere in this proof format.
+    fn parse_data_triples_block(&mut self) -> Result<Vec<(RawTriple, usize)>> {
+        let mut triples = Vec::new();
+        while !self.match_kind(&TokenKind::RBrace) {
+            let offset = self.peek().offset;
+            let opts = Opts { ctx: Ctx::Data, allow_path: false, position: Position::Other };
+            for raw in self.parse_triple_statement(opts)? {
+                triples.push((raw, offset));
+            }
+            self.consume_optional_dot();
+        }
+        Ok(triples)
     }
 
     fn parse_prefix(&mut self) -> Result<()> {

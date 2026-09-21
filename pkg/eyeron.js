@@ -229,6 +229,56 @@ export function reasonSrl(input, query) {
 }
 
 /**
+ * As `reasonSrl`, but also merges in `imported_source` (the playground's
+ * own concatenation of every `IMPORTS` target's fetched text — see
+ * `srlImportTargets`), loads `data` as a `--data` base graph (content-
+ * sniffed exactly like a `.n3`/RDF-message-log input, so `rdf-messages.srl`
+ * can load `rdf-messages.trig` as-is), and — when `proof` is set — returns
+ * proof output instead of the derived facts, matching `--proof`'s CLI
+ * behavior. `imported_source`/`data` are the empty string when an example
+ * needs neither, so the playground can call this unconditionally instead
+ * of choosing between it and `reasonSrl`.
+ * @param {string} main_source
+ * @param {string} imported_source
+ * @param {string} data
+ * @param {boolean} proof
+ * @param {string} query
+ * @returns {string}
+ */
+export function reasonSrlWithImports(main_source, imported_source, data, proof, query) {
+    let deferred6_0;
+    let deferred6_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(main_source, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(imported_source, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len1 = WASM_VECTOR_LEN;
+        const ptr2 = passStringToWasm0(data, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len2 = WASM_VECTOR_LEN;
+        const ptr3 = passStringToWasm0(query, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len3 = WASM_VECTOR_LEN;
+        wasm.reasonSrlWithImports(retptr, ptr0, len0, ptr1, len1, ptr2, len2, proof, ptr3, len3);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+        var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+        var ptr5 = r0;
+        var len5 = r1;
+        if (r3) {
+            ptr5 = 0; len5 = 0;
+            throw takeObject(r2);
+        }
+        deferred6_0 = ptr5;
+        deferred6_1 = len5;
+        return getStringFromWasm0(ptr5, len5);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export3(deferred6_0, deferred6_1, 1);
+    }
+}
+
+/**
  * @param {string} program
  * @param {string} data
  * @param {boolean} proof
@@ -335,6 +385,38 @@ export function reasonWithOptions(input, proof, rdf, rdf_format) {
 }
 
 /**
+ * `input`'s own `IMPORTS <iri>` targets, resolved against `base` (an
+ * absolute URL the playground can `fetch()` each one from directly, e.g.
+ * the page's own URL for the example being loaded) — lets the playground
+ * discover what a rule set like `import-main.srl` needs before running
+ * it, the same CLI capability `resolve_sparql_rl_imports` (`main.rs`)
+ * otherwise has no browser-side counterpart for (`ureq`/`fs` are not
+ * available in Wasm). Returns an empty list on a parse error rather than
+ * surfacing it here; the real parse error resurfaces from
+ * `reasonSrlWithImports` once the caller actually runs the program.
+ * @param {string} input
+ * @param {string} base
+ * @returns {any[]}
+ */
+export function srlImportTargets(input, base) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(input, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(base, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len1 = WASM_VECTOR_LEN;
+        wasm.srlImportTargets(retptr, ptr0, len0, ptr1, len1);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        var v3 = getArrayJsValueFromWasm0(r0, r1).slice();
+        wasm.__wbindgen_export3(r0, r1 * 4, 4);
+        return v3;
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+}
+
+/**
  * @returns {string}
  */
 export function version() {
@@ -392,6 +474,16 @@ function dropObject(idx) {
     if (idx < 1028) return;
     heap[idx] = heap_next;
     heap_next = idx;
+}
+
+function getArrayJsValueFromWasm0(ptr, len) {
+    ptr = ptr >>> 0;
+    const mem = getDataViewMemory0();
+    const result = [];
+    for (let i = ptr; i < ptr + 4 * len; i += 4) {
+        result.push(takeObject(mem.getUint32(i, true)));
+    }
+    return result;
 }
 
 let cachedDataViewMemory0 = null;

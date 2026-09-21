@@ -10,9 +10,11 @@ export const eyeronsession_reasonReport: (a: number, b: number, c: number, d: nu
 export const reason: (a: number, b: number, c: number) => void;
 export const reasonEye: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
 export const reasonSrl: (a: number, b: number, c: number, d: number, e: number) => void;
+export const reasonSrlWithImports: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => void;
 export const reasonWithData: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
 export const reasonWithDataReport: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
 export const reasonWithOptions: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
+export const srlImportTargets: (a: number, b: number, c: number, d: number, e: number) => void;
 export const version: (a: number) => void;
 export const __wbindgen_add_to_stack_pointer: (a: number) => number;
 export const __wbindgen_export: (a: number, b: number) => number;

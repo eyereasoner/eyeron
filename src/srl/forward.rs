@@ -45,9 +45,11 @@
 
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 
-use crate::ast::{Term, Triple};
+use crate::ast::{Rule, Term, Triple};
 use crate::error::Result;
-use crate::n3::reasoner::{instantiate_triple, Bindings, CompletionStatus, FactIndex, ReasonerOptions, ReasonerResult, ReasonerStatistics};
+use crate::n3::reasoner::{
+    instantiate_triple, resolve_pattern, Bindings, CompletionStatus, DerivedFact, FactIndex, ReasonerOptions, ReasonerResult, ReasonerStatistics,
+};
 
 use super::ast::{SparqlRlProgram, SparqlRlRule};
 use super::eval::{solve_body, solve_body_scoped, BodyCtx, Graph};
@@ -77,6 +79,19 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     }
     let layers = stratify(&program.rules)?;
     let activation = RuleActivation::build(&program.rules);
+
+    // Each SparqlRlRule's own positive body patterns (already computed for
+    // the activation index above) double as an N3-shaped `Rule.premise` for
+    // proof purposes: `crate::n3::proof::proof_to_n3` and `DerivedFact` are
+    // format-agnostic over `Triple`/`Bindings`, so SRL reuses them as-is
+    // rather than growing its own parallel proof representation. This does
+    // not (and structurally cannot) reify a FILTER/NOT/SET clause as a
+    // premise triple -- proof_var_source_names is left empty and the trace
+    // shows only the positive patterns that fed the rule -- but `pe:by`
+    // still points back to the rule's own source line, so the full body
+    // (FILTER included) is always one click away in the source file.
+    let proof_rules: Vec<Rule> = if options.proof { program.rules.iter().map(build_proof_rule).collect() } else { Vec::new() };
+    let mut proofs: Vec<DerivedFact> = Vec::new();
 
     let base_index = build_index(base_graph);
     let explicit_seen: HashSet<Triple> = program.data.iter().cloned().collect();
@@ -127,7 +142,8 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
                 if rule.run_once && fired_once.contains(&rule_idx) {
                     continue;
                 }
-                let fired = fire_rule(rule, &ctx, &mut seen, &mut new_facts);
+                let proof_rule = proof_rules.get(rule_idx);
+                let fired = fire_rule(rule, proof_rule, &ctx, &mut seen, &mut new_facts, &mut proofs);
                 if rule.run_once && fired {
                     fired_once.insert(rule_idx);
                 }
@@ -159,11 +175,11 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
         errors: Vec::new(),
         statistics,
         explicit: program.data.clone(),
-        explicit_sources: BTreeMap::new(),
+        explicit_sources: program.data_sources.clone(),
         derived,
         closure: inference_facts,
-        proofs: Vec::new(),
-        rules: Vec::new(),
+        proofs,
+        rules: proof_rules,
     })
 }
 
@@ -235,14 +251,23 @@ impl RuleActivation {
 /// already a deterministic function of its bindings
 /// (`crate::n3::reasoner::instantiate_triple`), so re-scanning could not have
 /// produced any solution this pass missed.
-/// Returns whether the rule fired at least once this call.
-fn fire_rule(rule: &SparqlRlRule, ctx: &BodyCtx, seen: &mut HashSet<Triple>, new_facts: &mut Vec<Triple>) -> bool {
+/// Returns whether the rule fired at least once this call. When
+/// `proof_rule` is `Some` (i.e. `--proof` was requested), records one
+/// `DerivedFact` per genuinely new fact -- not per solution -- matching
+/// `reason`'s own doc comment ("alternative derivations of an already
+/// known answer need not be retained") and N3's forward fixpoint's own
+/// practice of keeping the first derivation found.
+fn fire_rule(rule: &SparqlRlRule, proof_rule: Option<&Rule>, ctx: &BodyCtx, seen: &mut HashSet<Triple>, new_facts: &mut Vec<Triple>, proofs: &mut Vec<DerivedFact>) -> bool {
     let mut fired = false;
     let mut materialize = |bindings: &Bindings| {
         let mut blank_map = BTreeMap::new();
         for head in &rule.head {
             if let Some(t) = instantiate_triple(head, bindings, &mut blank_map) {
                 if seen.insert(t.clone()) {
+                    if let Some(proof_rule) = proof_rule {
+                        let premises = proof_rule.premise.iter().map(|p| resolve_premise_triple(p, bindings)).collect();
+                        proofs.push(DerivedFact { fact: t.clone(), rule: proof_rule.clone(), premises, bindings: bindings.clone() });
+                    }
                     new_facts.push(t);
                 }
             }
@@ -257,6 +282,23 @@ fn fire_rule(rule: &SparqlRlRule, ctx: &BodyCtx, seen: &mut HashSet<Triple>, new
         solve_body(&rule.body, Bindings::new(), ctx, &mut materialize);
     }
     fired
+}
+
+/// An N3-shaped `Rule` standing in for one `SparqlRlRule`, for
+/// `DerivedFact`/`proof_to_n3` purposes (see the comment in `reason`).
+fn build_proof_rule(rule: &SparqlRlRule) -> Rule {
+    Rule {
+        premise: rule_positive_patterns(rule),
+        conclusion: rule.head.clone(),
+        is_forward: true,
+        is_query: false,
+        source: rule.source.clone(),
+        proof_var_source_names: BTreeMap::new(),
+    }
+}
+
+fn resolve_premise_triple(pattern: &Triple, bindings: &Bindings) -> Triple {
+    Triple::new(resolve_pattern(&pattern.s, bindings), resolve_pattern(&pattern.p, bindings), resolve_pattern(&pattern.o, bindings))
 }
 
 fn build_index(facts: &[Triple]) -> FactIndex {

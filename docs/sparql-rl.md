@@ -33,7 +33,7 @@ DATA {
 }
 ```
 
-This is resolved by the CLI (`main.rs`), not inside the library's `parse_sparql_rl`/`reason` calls themselves, so embedding SRL directly (e.g. through the WASM API) must merge imported rule sets manually with `srl::merge_programs`.
+This is resolved by the CLI (`main.rs`), not inside the library's `parse_sparql_rl`/`reason` calls themselves, so embedding SRL directly (e.g. through the WASM API) must merge imported rule sets manually with `srl::merge_programs`. The WASM API's own `reasonSrlWithImports(mainSource, importedSource, data, proof, query)` takes the caller's already-fetched `importedSource` text rather than fetching it itself (`fetch`/`ureq`/`fs` are not one shared abstraction across native and Wasm); `srlImportTargets(source, base)` resolves `IMPORTS <iri>` against `base` the same way the CLI does, so a caller can discover what to fetch without duplicating SRL's relative-IRI rules. The playground (`playground.html`) uses exactly this pair to wire up `import-main.srl` automatically when it is loaded, and passes its own "Proof explanations" checkbox through as `proof`.
 
 ## Two graphs
 
@@ -92,10 +92,10 @@ The pieces, in reading order:
 
 A rule set's `IMPORTS` directive is parsed into `SparqlRlProgram::imports` by `parser.rs`, but resolving it (fetching, parsing, folding in with `merge_programs`) is deliberately **not** done inside `parse_sparql_rl`/`reason` — it lives in `main.rs`'s `resolve_sparql_rl_imports`, mirroring how `--data` resolution is a CLI-level concern, not a library one (see "Importing other rule sets" above).
 
+`--proof` output reuses `crate::n3::proof::proof_to_n3`/`DerivedFact` as-is: `forward.rs` builds an N3-shaped `Rule` from each `SparqlRlRule` (`premise` = the rule's own positive body patterns, from the same `rule_positive_patterns` the stratifier's activation index already computes; `conclusion` = its head), records one `DerivedFact` per genuinely new fact (not per solution — matching "alternative derivations of an already known answer need not be retained"), and `parser.rs`'s `parse_sparql_rl_with_source` stamps each rule and `DATA {...}` fact with a `SourceRef` (file label + line) the same way `n3::parser`'s own `with_source` does, so `pe:by [pe:rule "file.srl"; pe:line N]`/`pe:by [pe:fact ...]` point at real source locations rather than `"<unknown>"`. A `FILTER`/`NOT`/`SET` clause is not itself reified as a premise triple (there is no natural `Triple` shape for one) — the trace shows the positive facts that fed the rule and the bindings used, but not, say, a `FILTER` condition's own text; `pe:by`'s file:line is always one click away from the full rule for that.
+
 ## Known limitations
 
-- `--proof` output is not yet implemented for `.srl` input.
 - `--query-mode auto` is not implemented (only `forward`/`backward`).
-- `IMPORTS` is resolved by the CLI only (see above); the WASM playground does not wire it up standalone.
 - The forward reasoner is not as fast as N3's own agenda-based fixpoint or Eyelang's tabled evaluator for the same shape of problem, though a long single-premise rule chain — the case eyeleng's `deep-taxonomy-10000.srl`/`deep-taxonomy-100000.srl` stress-test — is no longer quadratic: `stratify`'s dependency-edge computation and the forward fixpoint's per-pass rule scan and match-graph reindexing are now all indexed rather than all-pairs, so both examples are packaged in `examples/` and run in a few seconds.
 - SPARQL-RL has no backward chaining, and stratification rejects recursion through negation, so a rule set cannot express "a simple path of any length that never revisits a node" (needed for cycle-safe path search over a graph with cycles) the way N3/Eyelang's backward, visited-list-guarded recursion can. `path-discovery.srl` works around this by structurally unrolling one join rule per stopover count up to a fixed bound, each gated by `FILTER(<count> <= ?maxStopovers)`; the source/destination/stopover-count query itself stays fully general, only the *maximum* supported stopover count is fixed at rule-set-authoring time.
