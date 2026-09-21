@@ -191,10 +191,11 @@ export function reasonEye(input, proof, json, query) {
 }
 
 /**
- * Run a SPARQL 1.2 RL rule set (`.srl` syntax) and return its derived
- * facts, or — when `query` is non-blank — the bindings for that query
- * body pattern matched against the completed closure (forward
- * query mode; there is no browser-side backward mode yet).
+ * Run a SPARQL 1.2 RL rule set (`.srl` syntax) and return its inference
+ * graph (SPARQL 1.2 RL §6.5's `GI`), or — when `query` is non-blank —
+ * the bindings for that query body pattern matched against the completed
+ * closure (forward query mode; there is no browser-side backward mode
+ * yet).
  * @param {string} input
  * @param {string} query
  * @returns {string}
@@ -234,7 +235,7 @@ export function reasonSrl(input, query) {
  * `srlImportTargets`), loads `data` as a `--data` base graph (content-
  * sniffed exactly like a `.n3`/RDF-message-log input, so `rdf-messages.srl`
  * can load `rdf-messages.trig` as-is), and — when `proof` is set — returns
- * proof output instead of the derived facts, matching `--proof`'s CLI
+ * proof output instead of the inference graph, matching `--proof`'s CLI
  * behavior. `imported_source`/`data` are the empty string when an example
  * needs neither, so the playground can call this unconditionally instead
  * of choosing between it and `reasonSrl`.
@@ -441,7 +442,7 @@ function __wbg_get_imports() {
         __wbg___wbindgen_throw_344f42d3211c4765: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
-        __wbg_now_567e494705f973eb: function() {
+        __wbg_now_7e77e39f28c1658f: function() {
             const ret = Date.now();
             return ret;
         },

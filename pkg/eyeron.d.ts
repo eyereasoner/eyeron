@@ -34,10 +34,11 @@ export function reason(input: string): string;
 export function reasonEye(input: string, proof: boolean, json: boolean, query: string): string;
 
 /**
- * Run a SPARQL 1.2 RL rule set (`.srl` syntax) and return its derived
- * facts, or — when `query` is non-blank — the bindings for that query
- * body pattern matched against the completed closure (forward
- * query mode; there is no browser-side backward mode yet).
+ * Run a SPARQL 1.2 RL rule set (`.srl` syntax) and return its inference
+ * graph (SPARQL 1.2 RL §6.5's `GI`), or — when `query` is non-blank —
+ * the bindings for that query body pattern matched against the completed
+ * closure (forward query mode; there is no browser-side backward mode
+ * yet).
  */
 export function reasonSrl(input: string, query: string): string;
 
@@ -47,7 +48,7 @@ export function reasonSrl(input: string, query: string): string;
  * `srlImportTargets`), loads `data` as a `--data` base graph (content-
  * sniffed exactly like a `.n3`/RDF-message-log input, so `rdf-messages.srl`
  * can load `rdf-messages.trig` as-is), and — when `proof` is set — returns
- * proof output instead of the derived facts, matching `--proof`'s CLI
+ * proof output instead of the inference graph, matching `--proof`'s CLI
  * behavior. `imported_source`/`data` are the empty string when an example
  * needs neither, so the playground can call this unconditionally instead
  * of choosing between it and `reasonSrl`.
