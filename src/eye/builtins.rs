@@ -186,7 +186,10 @@ pub fn evaluate(expr: &Expr, env: &Bindings) -> Result<Term> {
                 "str" => Ok(term::str_(lexical(&values[0])?)),
                 "abs" => checked(abs_num(numeric(&values[0])?)),
                 "sqrt" => checked(Num::Float(as_float(&numeric(&values[0])?)?.sqrt())),
-                "round" => checked(Num::Float(as_float(&numeric(&values[0])?)?.round())),
+                // Ties go toward positive infinity (specification §8), so
+                // `round(-2.5)` is `-2.0`. Rust's own `f64::round` breaks
+                // ties away from zero and would answer `-3.0`.
+                "round" => checked(Num::Float((as_float(&numeric(&values[0])?)? + 0.5).floor())),
                 "count" => {
                     let items = array(&values[0]).map_err(EyeronError::new)?;
                     Ok(Term::Int(BigInt::from(items.len())))

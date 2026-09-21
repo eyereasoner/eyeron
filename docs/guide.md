@@ -103,7 +103,7 @@ cargo test --release          # everything
 ./scripts/test-all            # everything, plus one grand total
 ```
 
-The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the bundled Notation3 conformance suite, the local W3C RDF 1.1/1.2 manifest mirror, and the local W3C SPARQL 1.2 RL mirror (203/203).
+The suite covers parser and built-in unit tests, CLI behavior, regressions, example outputs, proof goldens, the Eyelang conformance cases, the bundled Notation3 conformance suite, the local W3C RDF 1.1/1.2 manifest mirror, and the local W3C SPARQL 1.2 RL mirror (203/203).
 
 `cargo test` runs each target as its own process and prints a separate total, with no way to sum them. `./scripts/test-all` forwards any extra arguments to `cargo test --release`, forces color through the pipe, and appends a `Grand total: ok. N passed; ...` line — plus a second line with the larger underlying case count, since a few of those checks each roll up hundreds of conformance cases.
 
@@ -115,7 +115,15 @@ cargo test --release --test examples            # .n3 examples
 cargo test --release --test sparql_rl_examples  # .srl examples
 cargo test --release --test eye                 # .eye examples
 cargo test --release --test sparql_rl           # SRL CLI flags and rule-set behavior
+cargo test --release --test eyelang_conformance # Eyelang, case by case against its specification
 cargo test --release --test playground
+```
+
+`tests/eyelang_conformance.rs` holds Eyelang to its own specification where the other two formats have external suites to answer to. Its cases live in `tests/eyelang_conformance/cases.txt`, one per normative statement: a small program, the statement it pins, and either the result document it must produce or a substring of the error it must raise. Every expectation there is also what the reference `eyelang` implementation produces — `scripts/eyelang-conformance` runs each case through both and reports any divergence, and `--update` refills the expectations:
+
+```bash
+scripts/eyelang-conformance            # report agreement with the reference
+scripts/eyelang-conformance --update   # refill the expectations
 ```
 
 `tests/examples.rs`, `tests/sparql_rl_examples.rs`, and `tests/eye.rs` each account for every one of the 133 packaged examples in their format — by golden match, by an expected-error assertion, or, where output is inherently non-reproducible, by running without comparing it. Their summary lines (`n3 result: ...`, `srl result: ...`, `eye result: ...`) report that full count with a breakdown. To see all three adjacently under one total:
@@ -188,9 +196,9 @@ Eyelang (`src/eye/`) does not use this model — see [`eyelang.md`'s implementat
 | `src/eye/` | Eyelang front end: lexer, parser, term model, tabled evaluator, built-ins, proof/result output, RDF bridge ([`eyelang.md`](eyelang.md)) |
 | `src/bin/` | Conformance-runner binaries |
 | `examples/` | Example inputs, with `examples/output/` and `examples/proof/` holding expected results and proofs |
-| `tests/` | Unit, CLI, regression, example, and W3C conformance tests |
+| `tests/` | Unit, CLI, regression, example, Eyelang conformance, and W3C conformance tests |
 | `tools/` | Playground build helper |
-| `scripts/` | `test-all` and `sync-test-suites` |
+| `scripts/` | `test-all`, `sync-test-suites`, and `eyelang-conformance` |
 | `reports/` | Generated, checked-in EARL reports |
 
 ## Performance, limits, and correctness

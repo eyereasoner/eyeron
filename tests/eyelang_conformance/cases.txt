@@ -1,0 +1,1273 @@
+# Eyelang conformance cases, one per normative statement of
+# docs/eyelang-specification.md. `[intent]` records what the specification
+# requires; `[output]` is the expected result document (Eyelang result
+# format 2) or, with `[error]`, a substring of the expected error message.
+#
+# Every expectation here is also produced by the reference implementation
+# (`eyelang`), so a case that fails names a divergence rather than a
+# preference. Regenerate the expectations with:
+#
+#     scripts/eyelang-conformance --update
+
+
+
+[case] lexical/comment-runs-to-end-of-line
+[section] 2
+[intent] a `#` comment outside a string runs to the end of the line and is otherwise insignificant
+[program]
+# leading comment
+fact(1). # trailing comment
+ask fact(?x).
+[output]
+# Eyelang result format 2
+query(1, [call(fact(?v0))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", 1)]).
+
+[case] lexical/name-may-start-with-underscore
+[section] 2
+[intent] a name starts with an ASCII letter or `_` and continues with letters, digits, or `_`
+[program]
+_rel_1(ok).
+ask _rel_1(?x).
+[output]
+# Eyelang result format 2
+query(1, [call(_rel_1(?v0))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", ok)]).
+
+[case] lexical/integer-and-float-are-different-terms
+[section] 2
+[intent] an unsigned-num with `.` or an exponent is a float; otherwise an arbitrary-size integer, and the two are different terms
+[program]
+ask 1 = 1.0.
+[output]
+# Eyelang result format 2
+query(1, [compare("=", 1, 1.0)], []).
+result(1, complete, 0).
+
+[case] lexical/exponent-literal-is-a-float
+[section] 2
+[intent] a literal with an exponent is a float, so it unifies with the float of the same value and not with the integer
+[program]
+ask 1e3 = 1000.0.
+[output]
+# Eyelang result format 2
+query(1, [compare("=", 1000.0, 1000.0)], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] lexical/exponent-literal-is-not-an-integer
+[section] 2
+[intent] a float literal never unifies with an integer term
+[program]
+ask 1e3 = 1000.
+[output]
+# Eyelang result format 2
+query(1, [compare("=", 1000.0, 1000)], []).
+result(1, complete, 0).
+
+[case] lexical/arbitrary-size-integers
+[section] 2
+[intent] integers are arbitrary-size, so a value beyond 64 bits is exact
+[program]
+ask let ?x = 170141183460469231731687303715884105727 + 1.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("+", value(170141183460469231731687303715884105727), value(1)))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", 170141183460469231731687303715884105728)]).
+
+[case] lexical/json-string-escapes
+[section] 2
+[intent] a string is a JSON string, so `\n` and `\u` escapes are decoded
+[program]
+ask "a\nb" = "a\u000ab".
+[output]
+# Eyelang result format 2
+query(1, [compare("=", "a\nb", "a\nb")], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] lexical/invalid-string-escape-is-a-syntax-error
+[section] 2
+[intent] an invalid JSON escape is a syntax error
+[program]
+ask "bad \q escape" = ?x.
+[error] Invalid string escape
+
+[case] lexical/repeated-minus-negates-per-token
+[section] 2
+[intent] one or more leading `-` tokens negate a numeric term once per token
+[program]
+ask - -1 = 1.
+[output]
+# Eyelang result format 2
+query(1, [compare("=", 1, 1)], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] lexical/non-finite-literal-is-an-error
+[section] 2
+[intent] a non-finite floating-point literal is an error
+[program]
+ask ?x = 1e400.
+[error] Number must be finite
+
+[case] grammar/symbol-and-zero-argument-constructor-differ
+[section] 3
+[intent] the parser distinguishes a bare symbol from a zero-argument constructor, so the two terms do not unify
+[program]
+ask red = red().
+[output]
+# Eyelang result format 2
+query(1, [compare("=", red, red())], []).
+result(1, complete, 0).
+
+[case] grammar/call-position-ignores-empty-argument-list
+[section] 3
+[intent] in call position `ready` and `ready()` both designate the relation `ready/0`
+[program]
+ready().
+ask ready.
+[output]
+# Eyelang result format 2
+query(1, [call(ready())], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] grammar/list-is-sugar-for-cons-and-nil
+[section] 3
+[intent] lists are surface syntax for `cons/2` and `nil/0`
+[program]
+ask [1] = cons(1, nil).
+[output]
+# Eyelang result format 2
+query(1, [compare("=", [1], [1 | nil])], []).
+result(1, complete, 0).
+
+[case] grammar/cons-must-not-be-a-relation
+[section] 3
+[intent] the list constructor names must not be invoked as relations
+[program]
+ask cons(1, nil).
+[error] Expected a relation call
+
+[case] grammar/nil-must-not-be-a-relation
+[section] 3
+[intent] the list constructor names must not be invoked as relations
+[program]
+ask nil.
+[error] Undefined relation nil/0
+
+[case] grammar/open-tail-list
+[section] 3
+[intent] a list may have an open tail, which unifies with the rest of a longer list
+[program]
+ask [1|?rest] = [1, 2, 3].
+[output]
+# Eyelang result format 2
+query(1, [compare("=", [1 | ?v0], [1, 2, 3])], [binding("rest", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("rest", [2, 3])]).
+
+[case] grammar/clause-without-if-succeeds-without-premises
+[section] 3
+[intent] a clause without `if` succeeds without premises
+[program]
+plain(ok).
+ask plain(?x).
+[output]
+# Eyelang result format 2
+query(1, [call(plain(?v0))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", ok)]).
+
+[case] grammar/clause-with-empty-body
+[section] 3
+[intent] a clause with an empty body succeeds without premises
+[program]
+empty_body(ok) if.
+ask empty_body(?x).
+[output]
+# Eyelang result format 2
+query(1, [call(empty_body(?v0))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", ok)]).
+
+[case] grammar/query-without-goals-succeeds-once
+[section] 3
+[intent] the empty conjunction succeeds once, so a query with no goals has one answer and no bindings
+[program]
+ask.
+[output]
+# Eyelang result format 2
+query(1, [], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] grammar/empty-collection-body-collects-one-instance
+[section] 3
+[intent] the empty collection body `{}` is valid, and since the empty conjunction succeeds once it collects one instance of a ground template
+[program]
+ask collect ?values = tagged where {}.
+[output]
+# Eyelang result format 2
+query(1, [collect(?v0, tagged, [])], [binding("values", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("values", [tagged])]).
+
+[case] values/kinds-are-distinct-integer-and-string
+[section] 4
+[intent] kinds are distinct: an integer and a string do not unify
+[program]
+ask 1 = "1".
+[output]
+# Eyelang result format 2
+query(1, [compare("=", 1, "1")], []).
+result(1, complete, 0).
+
+[case] values/kinds-are-distinct-boolean-and-symbol
+[section] 4
+[intent] kinds are distinct: a boolean and a symbol do not unify
+[program]
+ask true = "true".
+[output]
+# Eyelang result format 2
+query(1, [compare("=", true, "true")], []).
+result(1, complete, 0).
+
+[case] values/boolean-terms-unify-with-themselves
+[section] 4
+[intent] booleans are ordinary values of their own kind
+[program]
+flag(true).
+ask flag(?x).
+[output]
+# Eyelang result format 2
+query(1, [call(flag(?v0))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", true)]).
+
+[case] values/occurs-check-rejects-cyclic-binding
+[section] 4
+[intent] unification is structural and includes the occurs check
+[program]
+ask ?x = f(?x).
+[output]
+# Eyelang result format 2
+query(1, [compare("=", ?v0, f(?v0))], [binding("x", ?v0)]).
+result(1, complete, 0).
+
+[case] values/named-variable-has-statement-scope
+[section] 4
+[intent] every occurrence of the same named variable in one statement denotes the same variable
+[program]
+pair(1, 1).
+pair(1, 2).
+ask pair(?x, ?x).
+[output]
+# Eyelang result format 2
+query(1, [call(pair(?v0, ?v0))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", 1)]).
+
+[case] values/anonymous-variables-are-each-fresh
+[section] 4
+[intent] each occurrence of `?_` denotes a fresh anonymous variable, so two occurrences do not have to agree
+[program]
+pair(1, 2).
+ask pair(?_, ?_).
+[output]
+# Eyelang result format 2
+query(1, [call(pair(?v0, ?v1))], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] values/clause-variables-are-standardized-apart
+[section] 4
+[intent] clause variables are standardized apart for each clause use, so two uses of one clause do not share bindings
+[program]
+same(?x, ?x).
+ask same(1, ?a), same(2, ?b).
+[output]
+# Eyelang result format 2
+query(1, [call(same(1, ?v0)), call(same(2, ?v1))], [binding("a", ?v0), binding("b", ?v1)]).
+result(1, complete, 1).
+answer(1, [binding("a", 1), binding("b", 2)]).
+
+[case] values/constructor-unification-is-structural
+[section] 4
+[intent] unification of constructor terms matches name, arity, and arguments structurally
+[program]
+ask point(1, ?y) = point(?x, 2).
+[output]
+# Eyelang result format 2
+query(1, [compare("=", point(1, ?v0), point(?v1, 2))], [binding("y", ?v0), binding("x", ?v1)]).
+result(1, complete, 1).
+answer(1, [binding("y", 2), binding("x", 1)]).
+
+[case] values/constructor-arity-must-match
+[section] 4
+[intent] constructor terms of different arity do not unify
+[program]
+ask point(1) = point(1, 2).
+[output]
+# Eyelang result format 2
+query(1, [compare("=", point(1), point(1, 2))], []).
+result(1, complete, 0).
+
+[case] programs/multiple-clauses-are-alternatives
+[section] 5
+[intent] multiple clauses are alternatives, and every one contributes its answers
+[program]
+colour(red).
+colour(green).
+ask colour(?c).
+[output]
+# Eyelang result format 2
+query(1, [call(colour(?v0))], [binding("c", ?v0)]).
+result(1, complete, 2).
+answer(1, [binding("c", red)]).
+answer(1, [binding("c", green)]).
+
+[case] programs/clause-order-is-not-priority
+[section] 5
+[intent] source clause order must not be used as logical priority, so a later clause still contributes
+[program]
+pick(?x) if second(?x).
+pick(?x) if first(?x).
+first(1).
+second(2).
+ask pick(?x).
+[output]
+# Eyelang result format 2
+query(1, [call(pick(?v0))], [binding("x", ?v0)]).
+result(1, complete, 2).
+answer(1, [binding("x", 2)]).
+answer(1, [binding("x", 1)]).
+
+[case] programs/least-fixed-point-transitive-closure
+[section] 5
+[intent] the declarative meaning of the positive fragment is the least fixed point of the clauses
+[program]
+edge(a, b).
+edge(b, c).
+edge(c, d).
+path(?x, ?y) if edge(?x, ?y).
+path(?x, ?z) if edge(?x, ?y), path(?y, ?z).
+ask path(a, ?to).
+[output]
+# Eyelang result format 2
+query(1, [call(path(a, ?v0))], [binding("to", ?v0)]).
+result(1, complete, 3).
+answer(1, [binding("to", b)]).
+answer(1, [binding("to", c)]).
+answer(1, [binding("to", d)]).
+
+[case] programs/left-recursion-terminates
+[section] 5
+[intent] variant tables support positive left recursion for finite demanded computations
+[program]
+edge(a, b).
+edge(b, c).
+reach(?x, ?y) if reach(?x, ?z), edge(?z, ?y).
+reach(?x, ?y) if edge(?x, ?y).
+ask reach(a, ?to).
+[output]
+# Eyelang result format 2
+query(1, [call(reach(a, ?v0))], [binding("to", ?v0)]).
+result(1, complete, 2).
+answer(1, [binding("to", b)]).
+answer(1, [binding("to", c)]).
+
+[case] programs/mutual-recursion-terminates
+[section] 5
+[intent] variant tables support mutual recursion for finite demanded computations
+[program]
+step(1, 2).
+step(2, 3).
+step(3, 4).
+even_reach(?x, ?y) if step(?x, ?z), odd_reach(?z, ?y).
+even_reach(?x, ?x).
+odd_reach(?x, ?y) if step(?x, ?y).
+odd_reach(?x, ?y) if step(?x, ?z), even_reach(?z, ?y).
+ask odd_reach(1, ?to).
+[output]
+# Eyelang result format 2
+query(1, [call(odd_reach(1, ?v0))], [binding("to", ?v0)]).
+result(1, complete, 2).
+answer(1, [binding("to", 2)]).
+answer(1, [binding("to", 4)]).
+
+[case] programs/cycles-do-not-loop
+[section] 5
+[intent] cycles in the demanded computation terminate rather than looping
+[program]
+link(a, b).
+link(b, a).
+connected(?x, ?y) if link(?x, ?y).
+connected(?x, ?z) if link(?x, ?y), connected(?y, ?z).
+ask connected(a, ?to).
+[output]
+# Eyelang result format 2
+query(1, [call(connected(a, ?v0))], [binding("to", ?v0)]).
+result(1, complete, 2).
+answer(1, [binding("to", b)]).
+answer(1, [binding("to", a)]).
+
+[case] programs/answers-are-deduplicated
+[section] 5
+[intent] answers are deduplicated, so two derivations of one answer are reported once
+[program]
+base(1).
+twice(?x) if base(?x).
+twice(?x) if base(?x).
+ask twice(?x).
+[output]
+# Eyelang result format 2
+query(1, [call(twice(?v0))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", 1)]).
+
+[case] goals/comparison-equality-unifies
+[section] 6
+[intent] `=` is structural unification and may bind either operand
+[program]
+ask ?x = point(1, 2).
+[output]
+# Eyelang result format 2
+query(1, [compare("=", ?v0, point(1, 2))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", point(1, 2))]).
+
+[case] goals/comparison-inequality-on-ground-terms
+[section] 6
+[intent] `!=` succeeds when two ground terms are structurally different
+[program]
+ask 1 != 2.
+[output]
+# Eyelang result format 2
+query(1, [compare("!=", 1, 2)], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] goals/comparison-inequality-fails-when-equal
+[section] 6
+[intent] `!=` fails when the two ground terms are structurally equal
+[program]
+ask 1 != 1.
+[output]
+# Eyelang result format 2
+query(1, [compare("!=", 1, 1)], []).
+result(1, complete, 0).
+
+[case] goals/comparison-inequality-needs-ground-terms
+[section] 6
+[intent] `!=` requires two ground terms, and an unbound operand is a mode error rather than a silent reordering
+[program]
+ask ?x != 1.
+[error] != needs bound inputs; got ?v0
+
+[case] goals/numeric-comparison-across-kinds
+[section] 6
+[intent] `<` compares integers and floats by numeric value
+[program]
+ask 1 < 1.5.
+[output]
+# Eyelang result format 2
+query(1, [compare("<", 1, 1.5)], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] goals/numeric-comparison-preserves-term-kinds
+[section] 6
+[intent] numeric comparison does not change the stored term kinds
+[program]
+measure(1).
+measure(2.5).
+ask measure(?m), ?m < 3.
+[output]
+# Eyelang result format 2
+query(1, [call(measure(?v0)), compare("<", ?v0, 3)], [binding("m", ?v0)]).
+result(1, complete, 2).
+answer(1, [binding("m", 1)]).
+answer(1, [binding("m", 2.5)]).
+
+[case] goals/numeric-comparison-needs-ground-operands
+[section] 6
+[intent] `<` requires ground numeric operands
+[program]
+ask ?x < 3.
+[error] < needs bound inputs; got ?v0
+
+[case] goals/numeric-comparison-needs-numeric-operands
+[section] 6
+[intent] `<` requires numeric operands
+[program]
+ask red < 3.
+[error] Expected a number; got red
+
+[case] goals/numeric-comparison-operators
+[section] 6
+[intent] `>`, `<=`, and `>=` compare ground numeric operands by value
+[program]
+ask 3 > 2, 2 <= 2, 3 >= 2.
+[output]
+# Eyelang result format 2
+query(1, [compare(">", 3, 2), compare("<=", 2, 2), compare(">=", 3, 2)], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] goals/calculation-binds-its-target
+[section] 6
+[intent] `let Target = Expression` evaluates a ground expression once and unifies its value with the target
+[program]
+ask let ?sum = 2 + 3.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("+", value(2), value(3)))], [binding("sum", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("sum", 5)]).
+
+[case] goals/calculation-checks-a-bound-target
+[section] 6
+[intent] the calculated value is unified with the target, so a mismatching bound target fails
+[program]
+ask ?sum = 6, let ?sum = 2 + 3.
+[output]
+# Eyelang result format 2
+query(1, [compare("=", ?v0, 6), calculate(?v0, binary("+", value(2), value(3)))], [binding("sum", ?v0)]).
+result(1, complete, 0).
+
+[case] goals/calculation-is-not-reversible
+[section] 6
+[intent] `let` is not a reversible arithmetic constraint, so an unground expression is an error
+[program]
+ask let ?x = ?y + 1.
+[error] Expression needs bound inputs; got ?v0
+
+[case] goals/negation-succeeds-on-absence
+[section] 6
+[intent] `not Call` succeeds exactly when complete evaluation of that call has no answer
+[program]
+present(a).
+ask not present(b).
+[output]
+# Eyelang result format 2
+query(1, [absent(present(b))], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] goals/negation-fails-on-presence
+[section] 6
+[intent] `not Call` fails when the call has an answer
+[program]
+present(a).
+ask not present(a).
+[output]
+# Eyelang result format 2
+query(1, [absent(present(a))], []).
+result(1, complete, 0).
+
+[case] goals/negation-needs-a-ground-call
+[section] 6
+[intent] `not Call` requires a ground call
+[program]
+present(a).
+ask not present(?x).
+[error] not needs bound inputs; got present(?v0)
+
+[case] goals/negation-after-binding-is-ground
+[section] 6
+[intent] a preceding goal may ground the negated call
+[program]
+candidate(a).
+candidate(b).
+blocked(a).
+ask candidate(?x), not blocked(?x).
+[output]
+# Eyelang result format 2
+query(1, [call(candidate(?v0)), absent(blocked(?v0))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", b)]).
+
+[case] goals/collection-orders-and-deduplicates
+[section] 6
+[intent] a collection removes structurally duplicate values, orders the remaining values by canonical term key, and constructs a closed list
+[program]
+reading(s1, 3).
+reading(s2, 1).
+reading(s3, 3).
+ask collect ?values = ?value where { reading(?_, ?value) }.
+[output]
+# Eyelang result format 2
+query(1, [collect(?v0, ?v1, [call(reading(?v2, ?v1))])], [binding("values", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("values", [1, 3])]).
+
+[case] goals/collection-with-no-answers-is-empty
+[section] 6
+[intent] no answers produce `[]`
+[program]
+reading(s1, 3).
+ask collect ?values = ?value where { missing(?value) }.
+missing(?x) if reading(?x, 0), reading(?x, 1).
+[output]
+# Eyelang result format 2
+query(1, [collect(?v0, ?v1, [call(missing(?v1))])], [binding("values", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("values", [])]).
+
+[case] goals/collection-template-must-be-ground
+[section] 6
+[intent] every collected template instance must be ground
+[program]
+loose(1).
+ask collect ?values = pair(?value, ?other) where { loose(?value) }.
+[error] collect template must be ground in every answer
+
+[case] goals/collection-sees-earlier-bindings
+[section] 6
+[intent] bindings established before the collection are visible inside it
+[program]
+reading(s1, 1).
+reading(s1, 2).
+reading(s2, 9).
+sensor(s1).
+ask sensor(?s), collect ?values = ?value where { reading(?s, ?value) }.
+[output]
+# Eyelang result format 2
+query(1, [call(sensor(?v0)), collect(?v1, ?v2, [call(reading(?v0, ?v2))])], [binding("s", ?v0), binding("values", ?v1)]).
+result(1, complete, 1).
+answer(1, [binding("s", s1), binding("values", [1, 2])]).
+
+[case] goals/collection-locals-do-not-escape
+[section] 6
+[intent] a variable that is unbound on entry and occurs in the template or body is local to the nested evaluation, so its binding does not escape
+[program]
+reading(s1, 1).
+reading(s2, 2).
+ask collect ?values = ?value where { reading(?sensor, ?value) }.
+[output]
+# Eyelang result format 2
+query(1, [collect(?v0, ?v1, [call(reading(?v2, ?v1))])], [binding("values", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("values", [1, 2])]).
+
+[case] goals/collection-has-set-semantics
+[section] 6
+[intent] collection has set semantics, so a tagged template preserves the identity of equal measurements from different sources
+[program]
+reading(s1, 3).
+reading(s2, 3).
+ask collect ?values = reading(?sensor, ?value) where { reading(?sensor, ?value) }.
+[output]
+# Eyelang result format 2
+query(1, [collect(?v0, reading(?v1, ?v2), [call(reading(?v1, ?v2))])], [binding("values", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("values", [reading(s1, 3), reading(s2, 3)])]).
+
+[case] queries/projection-is-first-occurrence-order
+[section] 7
+[intent] the answer projection contains each named variable occurring outside a collection, in first-occurrence order
+[program]
+pair(1, 2).
+ask pair(?second, ?first), pair(?first_seen, ?second_seen).
+[output]
+# Eyelang result format 2
+query(1, [call(pair(?v0, ?v1)), call(pair(?v2, ?v3))], [binding("second", ?v0), binding("first", ?v1), binding("first_seen", ?v2), binding("second_seen", ?v3)]).
+result(1, complete, 1).
+answer(1, [binding("second", 1), binding("first", 2), binding("first_seen", 1), binding("second_seen", 2)]).
+
+[case] queries/anonymous-variables-are-never-projected
+[section] 7
+[intent] anonymous variables are never projected
+[program]
+pair(1, 2).
+ask pair(?kept, ?_).
+[output]
+# Eyelang result format 2
+query(1, [call(pair(?v0, ?v1))], [binding("kept", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("kept", 1)]).
+
+[case] queries/collection-target-is-projected
+[section] 7
+[intent] collection targets are part of the outer query and are projected when named
+[program]
+reading(s1, 1).
+ask collect ?values = ?value where { reading(?_, ?value) }.
+[output]
+# Eyelang result format 2
+query(1, [collect(?v0, ?v1, [call(reading(?v2, ?v1))])], [binding("values", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("values", [1])]).
+
+[case] queries/ground-query-has-one-answer-without-bindings
+[section] 7
+[intent] a successful ground query has one answer with no bindings
+[program]
+fact(a).
+ask fact(a).
+[output]
+# Eyelang result format 2
+query(1, [call(fact(a))], []).
+result(1, complete, 1).
+answer(1, []).
+
+[case] queries/failure-is-not-an-error
+[section] 7
+[intent] a completed query with no answer represents logical failure, not an evaluation error
+[program]
+fact(a).
+ask fact(b).
+[output]
+# Eyelang result format 2
+query(1, [call(fact(b))], []).
+result(1, complete, 0).
+
+[case] queries/residual-variables-are-permitted
+[section] 7
+[intent] residual variables are permitted, and shared identity within an answer is preserved
+[program]
+same(?x, ?x).
+ask same(?a, ?b).
+[output]
+# Eyelang result format 2
+query(1, [call(same(?v0, ?v1))], [binding("a", ?v0), binding("b", ?v1)]).
+result(1, complete, 1).
+answer(1, [binding("a", ?v0), binding("b", ?v0)]).
+
+[case] queries/two-queries-are-numbered-in-order
+[section] 7
+[intent] each query gets its own result record, numbered in source order
+[program]
+fact(a).
+ask fact(a).
+ask fact(?x).
+[output]
+# Eyelang result format 2
+query(1, [call(fact(a))], []).
+result(1, complete, 1).
+answer(1, []).
+query(2, [call(fact(?v0))], [binding("x", ?v0)]).
+result(2, complete, 1).
+answer(2, [binding("x", a)]).
+
+[case] arithmetic/multiplication-binds-tighter-than-addition
+[section] 8
+[intent] `*`, `/`, `//`, and `%` bind more tightly than `+` and `-`
+[program]
+ask let ?value = 2 + 3 * 4.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("+", value(2), binary("*", value(3), value(4))))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 14)]).
+
+[case] arithmetic/same-precedence-associates-left-to-right
+[section] 8
+[intent] operators at the same precedence associate left to right
+[program]
+ask let ?value = 10 - 3 - 2.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("-", binary("-", value(10), value(3)), value(2)))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 5)]).
+
+[case] arithmetic/unary-minus-binds-tightest
+[section] 8
+[intent] unary `-` has higher precedence than the binary operators
+[program]
+ask let ?value = -2 * 3.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("*", unary("-", value(2)), value(3)))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", -6)]).
+
+[case] arithmetic/parentheses-group
+[section] 8
+[intent] a parenthesized expression is evaluated as a unit
+[program]
+ask let ?value = (2 + 3) * 4.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("*", binary("+", value(2), value(3)), value(4)))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 20)]).
+
+[case] arithmetic/integer-operations-produce-integers
+[section] 8
+[intent] integer-only `+`, `-`, `*`, `//`, and `%` produce integers
+[program]
+ask let ?value = 7 * 6.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("*", value(7), value(6)))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 42)]).
+
+[case] arithmetic/division-produces-a-float
+[section] 8
+[intent] `/` produces a float, even for operands that divide exactly
+[program]
+ask let ?value = 6 / 3.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("/", value(6), value(3)))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 2.0)]).
+
+[case] arithmetic/integer-division-truncates-toward-zero
+[section] 8
+[intent] `//` requires integers and truncates toward zero
+[program]
+ask let ?value = -7 // 2.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("//", unary("-", value(7)), value(2)))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", -3)]).
+
+[case] arithmetic/integer-division-requires-integers
+[section] 8
+[intent] `//` requires integers
+[program]
+ask let ?value = 7.0 // 2.
+[error] // requires integer operands
+
+[case] arithmetic/remainder-takes-the-sign-of-the-dividend
+[section] 8
+[intent] `%` has the sign of the dividend
+[program]
+ask let ?value = -7 % 2.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("%", unary("-", value(7)), value(2)))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", -1)]).
+
+[case] arithmetic/remainder-by-zero-is-an-error
+[section] 8
+[intent] `%` requires a nonzero divisor
+[program]
+ask let ?value = 7 % 0.
+[error] Division by zero
+
+[case] arithmetic/division-by-zero-is-an-error
+[section] 8
+[intent] division by zero is an error
+[program]
+ask let ?value = 1 / 0.
+[error] Division by zero
+
+[case] arithmetic/mixed-integer-and-float
+[section] 8
+[intent] a mixed integer/float operation converts the integer when it is within the safe-integer range
+[program]
+ask let ?value = 1 + 0.5.
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, binary("+", value(1), value(0.5)))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 1.5)]).
+
+[case] arithmetic/mixed-operation-outside-the-safe-range-is-an-error
+[section] 8
+[intent] a mixed integer/float operation converts the integer only when it is within the JavaScript safe-integer range
+[program]
+ask let ?value = 170141183460469231731687303715884105727 + 0.5.
+[error] Integer is too large for implicit floating-point conversion
+
+[case] arithmetic/abs-preserves-the-integer-kind
+[section] 8
+[intent] `abs` preserves the integer or float kind
+[program]
+ask let ?value = abs(-3).
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, function("abs", [unary("-", value(3))]))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 3)]).
+
+[case] arithmetic/abs-preserves-the-float-kind
+[section] 8
+[intent] `abs` preserves the integer or float kind
+[program]
+ask let ?value = abs(-3.5).
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, function("abs", [unary("-", value(3.5))]))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 3.5)]).
+
+[case] arithmetic/sqrt-returns-a-float
+[section] 8
+[intent] `sqrt` is a floating-point square root
+[program]
+ask let ?value = sqrt(9).
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, function("sqrt", [value(9)]))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 3.0)]).
+
+[case] arithmetic/round-ties-toward-positive-infinity
+[section] 8
+[intent] `round` breaks ties toward positive infinity and returns a float
+[program]
+ask let ?value = round(2.5).
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, function("round", [value(2.5)]))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 3.0)]).
+
+[case] arithmetic/round-ties-of-a-negative-number
+[section] 8
+[intent] `round` breaks ties toward positive infinity, so -2.5 rounds to -2
+[program]
+ask let ?value = round(-2.5).
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, function("round", [unary("-", value(2.5))]))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", -2.0)]).
+
+[case] arithmetic/str-returns-lexical-text
+[section] 8
+[intent] `str` returns the lexical text of a ground value as a string; a structured term has to reach the expression through a variable, since a name with parentheses in expression position is a function call
+[program]
+ask ?term = point(1, red), let ?value = str(?term).
+[output]
+# Eyelang result format 2
+query(1, [compare("=", ?v0, point(1, red)), calculate(?v1, function("str", [value(?v0)]))], [binding("term", ?v0), binding("value", ?v1)]).
+result(1, complete, 1).
+answer(1, [binding("term", point(1, red)), binding("value", "point(1, red)")]).
+
+[case] arithmetic/count-of-a-closed-list
+[section] 8
+[intent] `count` is the number of elements of a closed list, as an integer
+[program]
+ask let ?value = count([a, b, c]).
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, function("count", [value([a, b, c])]))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 3)]).
+
+[case] arithmetic/count-of-an-open-list-is-an-error
+[section] 8
+[intent] an open list is an evaluation error
+[program]
+ask let ?value = count([a|?tail]).
+[error] Expression needs bound inputs; got [a | ?v0]
+
+[case] arithmetic/sum-of-the-empty-list-is-zero
+[section] 8
+[intent] `sum([])` is 0
+[program]
+ask let ?value = sum([]).
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, function("sum", [value([])]))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 0)]).
+
+[case] arithmetic/sum-of-a-list
+[section] 8
+[intent] `sum` is the arithmetic sum of a closed list
+[program]
+ask let ?value = sum([1, 2, 3.5]).
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, function("sum", [value([1, 2, 3.5])]))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", 6.5)]).
+
+[case] arithmetic/min-and-max-of-a-list
+[section] 8
+[intent] `min` and `max` are the numeric extrema of a nonempty closed list
+[program]
+ask let ?low = min([3, 1, 2]), let ?high = max([3, 1, 2]).
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, function("min", [value([3, 1, 2])])), calculate(?v1, function("max", [value([3, 1, 2])]))], [binding("low", ?v0), binding("high", ?v1)]).
+result(1, complete, 1).
+answer(1, [binding("low", 1), binding("high", 3)]).
+
+[case] arithmetic/min-of-the-empty-list-is-an-error
+[section] 8
+[intent] `min` and `max` require a nonempty closed list
+[program]
+ask let ?value = min([]).
+[error] min requires a nonempty list
+
+[case] arithmetic/concat-of-no-arguments
+[section] 8
+[intent] `concat` accepts zero or more ground values
+[program]
+ask let ?value = concat().
+[output]
+# Eyelang result format 2
+query(1, [calculate(?v0, function("concat", []))], [binding("value", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("value", "")]).
+
+[case] arithmetic/concat-joins-lexical-text
+[section] 8
+[intent] strings contribute their contents without quotes, symbols their names, scalars their ordinary lexical forms, and structured terms Eyelang term syntax
+[program]
+ask ?term = point(1, 2), let ?value = concat("a", red, 1, 2.5, true, ?term).
+[output]
+# Eyelang result format 2
+query(1, [compare("=", ?v0, point(1, 2)), calculate(?v1, function("concat", [value("a"), value(red), value(1), value(2.5), value(true), value(?v0)]))], [binding("term", ?v0), binding("value", ?v1)]).
+result(1, complete, 1).
+answer(1, [binding("term", point(1, 2)), binding("value", "ared12.5truepoint(1, 2)")]).
+
+[case] arithmetic/constructor-syntax-in-an-expression-is-a-function-call
+[section] 8
+[intent] a name with parentheses in expression position is a function call, so a constructor of that shape is an unknown or wrongly-arged function rather than a term
+[program]
+ask let ?value = point(1, 2).
+[error] point expects one argument
+
+[case] arithmetic/unknown-function-is-an-error
+[section] 8
+[intent] an unknown function is an evaluation error
+[program]
+ask let ?value = nosuchfunction(1).
+[error] Unknown expression function nosuchfunction
+
+[case] arithmetic/wrong-arity-is-an-error
+[section] 8
+[intent] wrong arity is an evaluation error
+[program]
+ask let ?value = abs(1, 2).
+[error] abs expects one argument
+
+[case] arithmetic/wrong-kind-is-an-error
+[section] 8
+[intent] a wrong kind is an evaluation error
+[program]
+ask let ?value = abs(red).
+[error] Expected a number; got red
+
+[case] arithmetic/non-finite-result-is-an-error
+[section] 8
+[intent] a non-finite result is an error
+[program]
+ask let ?value = 1e308 * 10.
+[error] Arithmetic result is not finite
+
+[case] arithmetic/invalid-domain-is-an-error
+[section] 8
+[intent] an invalid domain is an evaluation error, which surfaces as the resulting value not being finite
+[program]
+ask let ?value = sqrt(-1).
+[error] Arithmetic result is not finite
+
+[case] builtins/range-enumerates-inclusive-bounds
+[section] 9
+[intent] `range/3` enumerates every integer from Low through High, inclusive
+[program]
+ask range(1, 3, ?value).
+[output]
+# Eyelang result format 2
+query(1, [call(range(1, 3, ?v0))], [binding("value", ?v0)]).
+result(1, complete, 3).
+answer(1, [binding("value", 1)]).
+answer(1, [binding("value", 2)]).
+answer(1, [binding("value", 3)]).
+
+[case] builtins/range-with-reversed-bounds-has-no-answers
+[section] 9
+[intent] reversed bounds have no answers
+[program]
+ask range(3, 1, ?value).
+[output]
+# Eyelang result format 2
+query(1, [call(range(3, 1, ?v0))], [binding("value", ?v0)]).
+result(1, complete, 0).
+
+[case] builtins/range-requires-ground-integer-bounds
+[section] 9
+[intent] `range/3` requires integer ground bounds
+[program]
+ask range(1, ?high, ?value).
+[error] Arithmetic needs bound inputs; got ?v0
+
+[case] builtins/range-rejects-a-float-bound
+[section] 9
+[intent] `range/3` requires integer bounds
+[program]
+ask range(1, 3.5, ?value).
+[error] range needs integer bounds
+
+[case] builtins/length-of-a-closed-list
+[section] 9
+[intent] `length/2` requires a ground closed list and unifies the second argument with its integer length
+[program]
+ask length([a, b, c], ?n).
+[output]
+# Eyelang result format 2
+query(1, [call(length([a, b, c], ?v0))], [binding("n", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("n", 3)]).
+
+[case] builtins/length-requires-a-closed-list
+[section] 9
+[intent] `length/2` requires a ground closed list
+[program]
+ask length([a|?tail], ?n).
+[error] length needs bound inputs; got [a | ?v0]
+
+[case] builtins/sort-deduplicates-and-orders
+[section] 9
+[intent] `sort/2` removes structural duplicates and unifies the second argument with a closed sorted list
+[program]
+ask sort([3, 1, 2, 1], ?sorted).
+[output]
+# Eyelang result format 2
+query(1, [call(sort([3, 1, 2, 1], ?v0))], [binding("sorted", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("sorted", [1, 2, 3])]).
+
+[case] builtins/sort-puts-numbers-before-other-kinds
+[section] 9
+[intent] numbers precede other kinds and are ordered numerically; remaining order is lexicographic by canonical term encoding
+[program]
+ask sort([red, 2, "a", 1.5, blue], ?sorted).
+[output]
+# Eyelang result format 2
+query(1, [call(sort([red, 2, "a", 1.5, blue], ?v0))], [binding("sorted", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("sorted", [1.5, 2, blue, red, "a"])]).
+
+[case] builtins/redefining-a-builtin-is-an-error
+[section] 9
+[intent] the reserved built-in signatures must not be redefined
+[program]
+length(?list, 0).
+ask length([a], ?n).
+[error] Cannot redefine built-in length/2
+
+[case] builtins/member-is-not-implicit
+[section] 9
+[intent] no other relation is implicit: relations such as `member/2` must be defined by the program
+[program]
+ask member(a, [a, b]).
+[error] Undefined relation member/2
+
+[case] builtins/append-is-not-implicit
+[section] 9
+[intent] no other relation is implicit: relations such as `append/3` must be defined by the program
+[program]
+ask append([a], [b], ?joined).
+[error] Undefined relation append/3
+
+[case] validation/undefined-relation-is-rejected
+[section] 10
+[intent] every called relation signature must be defined by at least one clause or be a built-in
+[program]
+ask undefined_relation(1).
+[error] Undefined relation undefined_relation/1
+
+[case] validation/arity-distinguishes-signatures
+[section] 10
+[intent] a relation is identified by name and arity, so calling another arity is an undefined signature
+[program]
+unary(a).
+ask unary(a, b).
+[error] Undefined relation unary/2
+
+[case] validation/recursion-through-not-is-rejected
+[section] 10
+[intent] a dependency beneath `not` has weight 1, so recursion through `not` fails validation
+[program]
+p(?x) if q(?x).
+q(?x) if item(?x), not p(?x).
+item(1).
+ask p(?x).
+[error] Recursion through not or collect is not stratified
+
+[case] validation/recursion-through-collect-is-rejected
+[section] 10
+[intent] a dependency inside a collection body has weight 1, so recursion through `collect` fails validation
+[program]
+total(?list) if collect ?list = ?value where { part(?value) }.
+part(?value) if total(?value).
+ask total(?list).
+[error] Recursion through not or collect is not stratified
+
+[case] validation/stratified-negation-is-accepted
+[section] 10
+[intent] negation that is not part of a recursive cycle stratifies and runs
+[program]
+item(1).
+item(2).
+excluded(2).
+kept(?x) if item(?x), not excluded(?x).
+ask kept(?x).
+[output]
+# Eyelang result format 2
+query(1, [call(kept(?v0))], [binding("x", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("x", 1)]).
+
+[case] validation/stratified-collection-is-accepted
+[section] 10
+[intent] a collection that is not part of a recursive cycle stratifies and runs
+[program]
+part(1).
+part(2).
+summary(?list) if collect ?list = ?value where { part(?value) }.
+ask summary(?list).
+[output]
+# Eyelang result format 2
+query(1, [call(summary(?v0))], [binding("list", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("list", [1, 2])]).
+
+[case] errors/syntax-error-carries-a-position
+[section] 11
+[intent] syntax errors carry a source line and column
+[program]
+fact(a)
+ask fact(?x).
+[error] Expected "."
+
+[case] errors/mode-error-is-not-a-failed-query
+[section] 11
+[intent] mode errors are distinct from a completed query with no answers
+[program]
+ask let ?value = ?unbound * 2.
+[error] Expression needs bound inputs; got ?v0
+
+[case] interchange/result-document-reports-the-query-body
+[section] 12
+[intent] a result document records each query's body and its projection
+[program]
+edge(a, b).
+ask edge(?from, ?to), ?from != ?to.
+[output]
+# Eyelang result format 2
+query(1, [call(edge(?v0, ?v1)), compare("!=", ?v0, ?v1)], [binding("from", ?v0), binding("to", ?v1)]).
+result(1, complete, 1).
+answer(1, [binding("from", a), binding("to", b)]).
+
+[case] interchange/collection-answer-is-a-closed-list
+[section] 12
+[intent] a collected value is reported as a closed list term in the result document
+[program]
+part(2).
+part(1).
+ask collect ?parts = ?part where { part(?part) }.
+[output]
+# Eyelang result format 2
+query(1, [collect(?v0, ?v1, [call(part(?v1))])], [binding("parts", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("parts", [1, 2])]).
