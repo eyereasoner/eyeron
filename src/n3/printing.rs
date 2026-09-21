@@ -223,11 +223,26 @@ fn formula_to_n3(triples: &[Triple], prefixes: &BTreeMap<String, String>, indent
     out
 }
 
+/// A numeric literal may be written without its datatype only when the
+/// shorthand reads back as the same datatype: an `INTEGER` has no `.` or
+/// exponent, a `DECIMAL` has a `.`, a `DOUBLE` has an exponent (Turtle
+/// grammar, mirrored by SPARQL 1.2 RL [95]-[97]). `"72.0"^^xsd:double`
+/// written bare would come back as an `xsd:decimal`, so it keeps its
+/// datatype instead.
+fn numeric_shorthand_round_trips(datatype: &str, value: &str) -> bool {
+    let has_exponent = value.contains('e') || value.contains('E');
+    let has_dot = value.contains('.');
+    match datatype {
+        "http://www.w3.org/2001/XMLSchema#integer" => !has_dot && !has_exponent,
+        "http://www.w3.org/2001/XMLSchema#decimal" => has_dot && !has_exponent,
+        "http://www.w3.org/2001/XMLSchema#double" => has_exponent,
+        _ => false,
+    }
+}
+
 fn literal_to_n3(lit: &Literal, prefixes: &BTreeMap<String, String>) -> String {
     match lit.datatype.as_deref() {
-        Some("http://www.w3.org/2001/XMLSchema#integer")
-        | Some("http://www.w3.org/2001/XMLSchema#decimal")
-        | Some("http://www.w3.org/2001/XMLSchema#double") => lit.value.clone(),
+        Some(dt) if numeric_shorthand_round_trips(dt, &lit.value) => lit.value.clone(),
         Some("http://www.w3.org/2001/XMLSchema#boolean") if lit.value == "true" || lit.value == "false" => lit.value.clone(),
         Some(dt) => format!("\"{}\"^^{}", escape_string(&lit.value), compact_iri(dt, prefixes).unwrap_or_else(|| format!("<{}>", dt))),
         None => match &lit.language {
