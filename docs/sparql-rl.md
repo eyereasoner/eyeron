@@ -43,9 +43,9 @@ SPARQL-RL distinguishes two graphs. The rule set's own `DATA { ... }` facts seed
 cargo run --release -- --data facts.ttl rules.srl
 ```
 
-The external base graph and the inference graph have separate membership. A rule can derive a triple into the inference graph even if it already exists in `--data`; unrelated base facts are not copied into the output. Repeated triples and overlap between the graphs count as one fact when matching a rule body, including before volatile expressions such as `UUID()`.
+§6.5 evaluates a rule set over the union `GE = G0 ∪ D` (base graph plus the rule set's own `DATA` facts) and keeps only `Y = { t ∈ X | t ∉ GE }` from each rule firing, so a conclusion that merely restates a fact either graph already holds contributes nothing — §6.4 notes that a rule's own output "may contain triples that are also in the data graph", and this is where those are filtered out. Repeated triples and overlap between the graphs likewise count as one fact when matching a rule body, including before a volatile expression such as `UUID()`.
 
-The CLI normally prints newly derived facts. The library's `ReasonerResult::closure` additionally includes the rule set's own `DATA` facts.
+The result is §6.5's inference graph `GI`, seeded with `{ t ∈ D | t ∉ G0 }` and grown by each `Y`: the rule set's own `DATA` facts that the base graph does not already carry, plus everything derived. That is what the CLI prints and what `ReasonerResult::closure` holds; `ReasonerResult::derived` narrows it to just the rule conclusions, excluding the `DATA` facts.
 
 ## Body clauses
 

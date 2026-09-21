@@ -412,12 +412,16 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
     if let Some(summary) = result.incomplete_summary() {
         return Err(EyeronError::new(summary));
     }
+    // SPARQL 1.2 RL §6.5: "the result is GI", the inference graph — the
+    // rule set's own `DATA` facts the base graph does not already carry,
+    // plus everything derived. That is `closure`, not `derived`, and it is
+    // what `examples/output/*.srl` and eyeleng both report.
     if opt.proof {
         print!("{}", srl::proof_to_srl(&program.prefixes, &result));
     } else if opt.rdf {
-        print!("{}", rdf_result_to_string(&program.prefixes, &result.derived));
+        print!("{}", rdf_result_to_string(&program.prefixes, &result.closure));
     } else {
-        print!("{}", result_to_string(&program.prefixes, &result.derived));
+        print!("{}", srl::result_to_srl(&program.prefixes, &result.closure));
     }
     Ok(())
 }

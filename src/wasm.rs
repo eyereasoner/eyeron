@@ -96,10 +96,11 @@ impl EyeronSession {
     }
 }
 
-/// Run a SPARQL 1.2 RL rule set (`.srl` syntax) and return its derived
-/// facts, or — when `query` is non-blank — the bindings for that query
-/// body pattern matched against the completed closure (forward
-/// query mode; there is no browser-side backward mode yet).
+/// Run a SPARQL 1.2 RL rule set (`.srl` syntax) and return its inference
+/// graph (SPARQL 1.2 RL §6.5's `GI`), or — when `query` is non-blank —
+/// the bindings for that query body pattern matched against the completed
+/// closure (forward query mode; there is no browser-side backward mode
+/// yet).
 #[wasm_bindgen(js_name = reasonSrl)]
 pub fn reason_srl(input: &str, query: &str) -> std::result::Result<String, JsValue> {
     run_srl(input, query).map_err(|err| JsValue::from_str(&err))
@@ -128,7 +129,7 @@ pub fn srl_import_targets(input: &str, base: &str) -> Vec<JsValue> {
 /// `srlImportTargets`), loads `data` as a `--data` base graph (content-
 /// sniffed exactly like a `.n3`/RDF-message-log input, so `rdf-messages.srl`
 /// can load `rdf-messages.trig` as-is), and — when `proof` is set — returns
-/// proof output instead of the derived facts, matching `--proof`'s CLI
+/// proof output instead of the inference graph, matching `--proof`'s CLI
 /// behavior. `imported_source`/`data` are the empty string when an example
 /// needs neither, so the playground can call this unconditionally instead
 /// of choosing between it and `reasonSrl`.
@@ -168,7 +169,8 @@ fn run_srl_with_imports(main_source: &str, imported_source: &str, data: &str, pr
     }
     let trimmed_query = query.trim();
     if trimmed_query.is_empty() {
-        return Ok(result_to_string(&program.prefixes, &result.derived));
+        // §6.5's result is the inference graph GI, i.e. `closure`.
+        return Ok(crate::srl::result_to_srl(&program.prefixes, &result.closure));
     }
     let (query_body, _) =
         crate::srl::parse_query_body(trimmed_query, None, &program.prefixes).map_err(|err| err.with_source_location(trimmed_query, "query"))?;
@@ -186,7 +188,8 @@ fn run_srl(input: &str, query: &str) -> std::result::Result<String, String> {
     }
     let trimmed_query = query.trim();
     if trimmed_query.is_empty() {
-        return Ok(result_to_string(&program.prefixes, &result.derived));
+        // §6.5's result is the inference graph GI, i.e. `closure`.
+        return Ok(crate::srl::result_to_srl(&program.prefixes, &result.closure));
     }
     let (query_body, _) =
         crate::srl::parse_query_body(trimmed_query, None, &program.prefixes).map_err(|err| err.with_source_location(trimmed_query, "query"))?;

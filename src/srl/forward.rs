@@ -66,14 +66,19 @@ use super::stratify::{rule_positive_patterns, stratify};
 /// DATA`/`NOT DATA` narrow a clause to the immutable subset rather than
 /// excluding the base graph from ordinary matching. That union is purely
 /// a *matching* view, though — the base graph's own facts are never added
-/// to the inference graph itself. `program.data` (the rule set's own
-/// `DATA { ... }` facts) seeds the inference graph, which also grows with
-/// rule conclusions; `ReasonerResult::closure` is exactly this inference
-/// graph (`program.data` plus everything derived, including conclusions
-/// that also occur in the base graph), matching SPARQL 1.2 RL's two-graph model (see
-/// `super::eval::BodyCtx`) and the W3C SPARQL-RL test suite's `mf:result`
-/// convention (`src/bin/w3c_sparql_rl.rs` compares against `closure`, not
-/// `derived`, for exactly this reason).
+/// to the inference graph itself.
+///
+/// `ReasonerResult::closure` is the inference graph `GI` of SPARQL 1.2 RL
+/// §6.5: it starts as `{ t ∈ D | t ∉ G0 }` (the rule set's own `DATA`
+/// facts, less whatever the base graph already carries) and grows with
+/// each firing's `Y = { t ∈ X | t ∉ GE }`, evaluated against
+/// `GE = G0 ∪ D ∪ derived`. So a conclusion that merely restates a fact
+/// of either graph adds nothing, which is also why §6.4 notes of its own
+/// output that "OUT may contain triples that are also in the data graph"
+/// — §6.5 is where those are filtered. `closure`, not `derived`, is what
+/// the W3C SPARQL-RL suite's `mf:result` corresponds to
+/// (`src/bin/w3c_sparql_rl.rs` compares against it for that reason);
+/// the two coincide there, since those tests supply no base graph.
 pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &ReasonerOptions) -> Result<ReasonerResult> {
     for (index, rule) in program.rules.iter().enumerate() {
         super::wellformed::check_rule(rule, index)?;
@@ -111,12 +116,20 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     let base_index = build_index(&base_graph);
     let explicit_seen: HashSet<Triple> = program.data.iter().cloned().collect();
 
-    // A base fact may still be a new conclusion in the inference graph.
-    // Keep inference membership separate from membership in the matching union.
-    let mut seen = HashSet::new();
-    let mut inference_facts: Vec<Triple> = program.data.iter()
-        .filter(|fact| seen.insert((*fact).clone())).cloned().collect();
-    let explicit = inference_facts.clone();
+    // SPARQL 1.2 RL §6.5 runs the fixpoint over the *evaluation* graph
+    // `GE = G0 ∪ D` and keeps only `Y = { t ∈ X | t ∉ GE }` from each rule
+    // firing, so `seen` — the "is this new?" test — has to hold the base
+    // graph too: a conclusion that restates a base fact adds nothing.
+    // (§6.4 says as much about its own output: "Note OUT may contain
+    // triples that are also in the data graph.") The result is `GI`, whose
+    // seed is likewise `{ t ∈ D | t ∉ G0 }`, so a `DATA` fact the base
+    // graph already carries is not reported either.
+    let mut seen: HashSet<Triple> = base_seen.iter().map(|fact| (*fact).clone()).collect();
+    let explicit: Vec<Triple> = {
+        let mut once = HashSet::new();
+        program.data.iter().filter(|fact| once.insert((*fact).clone())).cloned().collect()
+    };
+    let mut inference_facts: Vec<Triple> = explicit.iter().filter(|fact| seen.insert((*fact).clone())).cloned().collect();
     let mut fired_once: HashSet<usize> = HashSet::new();
     let eval_ctx = EvalCtx::new();
     let mut statistics = ReasonerStatistics::default();
@@ -129,7 +142,9 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     // facts into a persistent index rather than rebuilding one from
     // scratch, so its maintenance cost is proportional to the number of
     // facts ever added, not to (passes × facts-so-far).
-    match_facts.extend(inference_facts.iter().filter(|fact| !base_seen.contains(fact)).cloned());
+    // `inference_facts` already excludes anything the base graph carries,
+    // so this only adds what the union does not hold yet.
+    match_facts.extend(inference_facts.iter().cloned());
     let mut match_index = build_index(&match_facts);
 
     'strata: for layer in &layers {
@@ -173,12 +188,10 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
                 break;
             }
             for fact in &new_facts {
-                // `seen` already guarantees this is new to inference. It
-                // expands the matching union only if it is absent from base.
-                if !base_seen.contains(fact) {
-                    match_index.insert(match_facts.len(), fact);
-                    match_facts.push(fact.clone());
-                }
+                // `seen` is the `∉ GE` test, so a fact reaching here is
+                // new to the base graph and to the inference graph alike.
+                match_index.insert(match_facts.len(), fact);
+                match_facts.push(fact.clone());
             }
             inference_facts.extend(new_facts.iter().cloned());
             previous_new_facts = new_facts;
@@ -404,8 +417,13 @@ mod tests {
         assert!(result_with_base.closure.contains(&Triple::new(iri("bob"), crate::ast::Term::iri(crate::ast::RDF_TYPE), iri("Known"))));
     }
 
+    /// §6.5 keeps only `Y = { t ∈ X | t ∉ GE }` per firing, and `GE`
+    /// holds the base graph from the outset, so a conclusion restating a
+    /// base fact contributes nothing to the inference graph — even though
+    /// §6.4 notes `evalRule`'s own output "may contain triples that are
+    /// also in the data graph".
     #[test]
-    fn base_fact_can_be_derived_into_inference_graph_with_proof() {
+    fn a_conclusion_already_in_the_base_graph_is_not_inferred() {
         let program = parse_sparql_rl(
             "PREFIX : <http://example/> RULE { ?s :p ?o } WHERE DATA { ?s :p ?o }",
             None,
@@ -415,11 +433,22 @@ mod tests {
         let options = ReasonerOptions { proof: true, ..ReasonerOptions::default() };
         let result = reason(&program, &[fact.clone(), unrelated], &options).unwrap();
         assert_eq!(result.status, CompletionStatus::Complete);
-        assert_eq!(result.closure, vec![fact.clone()]);
-        assert_eq!(result.derived, vec![fact.clone()]);
-        assert!(result.explicit.is_empty());
-        assert_eq!(result.proofs.len(), 1);
-        assert_eq!(result.proofs[0].fact, fact);
+        assert!(result.closure.is_empty(), "closure is GI: {:?}", result.closure);
+        assert!(result.derived.is_empty(), "derived: {:?}", result.derived);
+        assert!(result.proofs.is_empty(), "nothing was inferred, so nothing to explain");
+    }
+
+    /// The other half of §6.5's seed, `GI = { t ∈ D | t ∉ G0 }`: a `DATA`
+    /// fact the base graph already carries stays out of the result, while
+    /// one it does not carry is part of it.
+    #[test]
+    fn data_facts_are_reported_unless_the_base_graph_already_has_them() {
+        let program = parse_sparql_rl("PREFIX : <http://example/> DATA { :s :p :o . :d :in :data }", None).unwrap();
+        let shared = Triple::new(iri("s"), iri("p"), iri("o"));
+        let only_in_data = Triple::new(iri("d"), iri("in"), iri("data"));
+        let result = reason(&program, &[shared.clone()], &ReasonerOptions::default()).unwrap();
+        assert_eq!(result.closure, vec![only_in_data]);
+        assert!(result.explicit.contains(&shared), "`explicit` still lists every DATA fact, for proof references");
     }
 
     #[test]
@@ -433,7 +462,9 @@ mod tests {
             let result = reason(&program, &[fact.clone(), fact.clone()], &ReasonerOptions::default()).unwrap();
             assert_eq!(result.status, CompletionStatus::Complete);
             assert_eq!(result.derived.len(), 1, "scope={scope}: {:?}", result.derived);
-            assert_eq!(result.closure.len(), 2);
+            // `:s :p :o` is in the base graph, so §6.5's seed leaves it out
+            // of GI; only the one derived `:id` triple remains.
+            assert_eq!(result.closure.len(), 1, "scope={scope}: {:?}", result.closure);
             assert_eq!(result.explicit, vec![fact]);
         }
     }
@@ -449,9 +480,9 @@ mod tests {
         let fact = Triple::new(iri("s"), iri("p"), iri("o"));
         let result = reason(&program, &[fact.clone()], &ReasonerOptions::default()).unwrap();
         assert_eq!(result.status, CompletionStatus::Complete);
-        assert!(result.derived.contains(&fact));
+        assert!(!result.derived.contains(&fact), "the base graph already has it");
         assert_eq!(result.derived.iter().filter(|t| t.p == iri("id")).count(), 1);
-        assert_eq!(result.closure.len(), 2);
+        assert_eq!(result.closure.len(), 1, "{:?}", result.closure);
     }
 
     #[test]

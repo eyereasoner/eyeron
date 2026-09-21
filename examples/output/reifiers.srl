@@ -3,17 +3,9 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 :alice :says :hello .
-
-:claim1 rdf:reifies {
-    :alice :says :hello .
-} .
-
+:claim1 rdf:reifies <<( :alice :says :hello )>> .
 :claim1 :source :chat .
-
-:claim2 rdf:reifies {
-    :bob :says :hi .
-} .
-
+:claim2 rdf:reifies <<( :bob :says :hi )>> .
 :claim2 :source :email .
 :alice :statementSource :chat .
 :bob :statementSource :email .

@@ -22,7 +22,7 @@
 //! exposes as `pub(crate)`; only the rendering below is SRL-specific.
 
 use crate::ast::*;
-use crate::n3::printing::{term_to_n3_object, term_to_n3_predicate};
+use super::printing::{term_to_srl, triple_term, triple_to_srl};
 use crate::n3::proof::{
     collect_prefixes_triple, collect_proof_entries, quoted_string, render_predicate_objects, source_label_for_proof, unique_proofs, vars_in_rule,
     ProofEntry,
@@ -199,45 +199,6 @@ fn render_binding_items(proof: &DerivedFact, prefixes: &BTreeMap<String, String>
             Some(format!("[ pe:var {}; pe:value {} ]", quoted_string(display), term_to_srl(value, prefixes, false)))
         })
         .collect()
-}
-
-/// `<<( s p o )>>`, the RDF-star triple-term syntax SRL parses `Term::
-/// Formula(vec![triple])` from — used both for a step's own `rdf:reifies`
-/// object and, recursively via `term_to_srl`, for any triple-term-valued
-/// binding or premise.
-fn triple_term(triple: &Triple, prefixes: &BTreeMap<String, String>) -> String {
-    format!(
-        "<<( {} {} {} )>>",
-        term_to_srl(&triple.s, prefixes, false),
-        term_to_srl(&triple.p, prefixes, true),
-        term_to_srl(&triple.o, prefixes, false),
-    )
-}
-
-fn triple_to_srl(triple: &Triple, prefixes: &BTreeMap<String, String>) -> String {
-    format!(
-        "{} {} {} .",
-        term_to_srl(&triple.s, prefixes, false),
-        term_to_srl(&triple.p, prefixes, true),
-        term_to_srl(&triple.o, prefixes, false),
-    )
-}
-
-/// Like `n3::printing::term_to_n3_object`/`term_to_n3_predicate`, except a
-/// single-triple `Term::Formula` — the only shape SRL's own parser ever
-/// produces — renders as `<<( ... )>>` instead of N3's `{ ... }`, which
-/// `.srl` cannot parse back in.
-fn term_to_srl(term: &Term, prefixes: &BTreeMap<String, String>, predicate_position: bool) -> String {
-    if let Term::Formula(triples) = term {
-        if triples.len() == 1 {
-            return triple_term(&triples[0], prefixes);
-        }
-    }
-    if predicate_position {
-        term_to_n3_predicate(term, prefixes)
-    } else {
-        term_to_n3_object(term, prefixes)
-    }
 }
 
 fn used_prefixes(prefixes: &BTreeMap<String, String>, root_entries: &[(DerivedFact, Vec<ProofEntry>)]) -> BTreeSet<String> {

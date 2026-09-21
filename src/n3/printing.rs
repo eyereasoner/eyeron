@@ -256,7 +256,7 @@ fn compact_iri(iri: &str, prefixes: &BTreeMap<String, String>) -> Option<String>
     })
 }
 
-fn used_prefixes(prefixes: &BTreeMap<String, String>, triples: &[Triple]) -> BTreeSet<String> {
+pub(crate) fn used_prefixes(prefixes: &BTreeMap<String, String>, triples: &[Triple]) -> BTreeSet<String> {
     let mut used = BTreeSet::new();
     for t in triples {
         collect_used_prefixes(&t.s, Position::Subject, prefixes, &mut used);
