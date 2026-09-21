@@ -241,8 +241,8 @@ fn path_triple_patterns(path: &PathExpr) -> Vec<Triple> {
 fn path_predicate_iris(path: &PathExpr) -> Vec<String> {
     match path {
         PathExpr::Iri(iri) => vec![iri.clone()],
-        PathExpr::Inverse(inner) | PathExpr::ZeroOrOne(inner) | PathExpr::OneOrMore(inner) | PathExpr::ZeroOrMore(inner) => path_predicate_iris(inner),
-        PathExpr::Sequence(parts) | PathExpr::Alternative(parts) => parts.iter().flat_map(path_predicate_iris).collect(),
+        PathExpr::Inverse(inner) => path_predicate_iris(inner),
+        PathExpr::Sequence(parts) => parts.iter().flat_map(path_predicate_iris).collect(),
     }
 }
 

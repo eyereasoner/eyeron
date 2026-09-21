@@ -71,17 +71,6 @@ pub fn parse_query_body(input: &str, base_iri: Option<&str>, inherited_prefixes:
     Ok((rule.body, program.prefixes))
 }
 
-/// `a/b/c` with one part is just that part, not a one-element `Sequence`;
-/// same for a single `|` branch. Keeps a plain path's AST (and so the
-/// `PredSlot::Plain` fast path in `parse_verb_path_or_simple`) unchanged.
-fn unwrap_single(mut parts: Vec<PathExpr>, wrap: fn(Vec<PathExpr>) -> PathExpr) -> PathExpr {
-    if parts.len() == 1 {
-        parts.remove(0)
-    } else {
-        wrap(parts)
-    }
-}
-
 fn looks_like_select_query(input: &str) -> bool {
     let trimmed = input.trim_start();
     let head: String = trimmed.chars().take(8).collect::<String>().to_ascii_uppercase();
@@ -529,23 +518,11 @@ impl Parser {
         if matches!(self.peek_kind(), TokenKind::Var(_)) {
             return Ok(PredSlot::Plain(self.parse_term(opts.at(Position::Predicate))?));
         }
-        let path = self.parse_path(opts)?;
+        let path = self.parse_path_sequence(opts)?;
         match path {
             PathExpr::Iri(iri) => Ok(PredSlot::Plain(Term::iri(iri))),
             other => Ok(PredSlot::Path(other)),
         }
-    }
-
-    /// Property-path grammar, loosest operator first (SPARQL 1.2 §4.2.4):
-    /// alternative `|`, then sequence `/`, then inverse `^`, then the
-    /// postfix modifiers `*`/`+`/`?`, then a primary (an IRI or a
-    /// parenthesized path).
-    fn parse_path(&mut self, opts: Opts) -> Result<PathExpr> {
-        let mut branches = vec![self.parse_path_sequence(opts)?];
-        while self.match_kind(&TokenKind::Pipe) {
-            branches.push(self.parse_path_sequence(opts)?);
-        }
-        Ok(unwrap_single(branches, PathExpr::Alternative))
     }
 
     fn parse_path_sequence(&mut self, opts: Opts) -> Result<PathExpr> {
@@ -553,33 +530,23 @@ impl Parser {
         while self.match_kind(&TokenKind::Slash) {
             parts.push(self.parse_path_elt_or_inverse(opts)?);
         }
-        Ok(unwrap_single(parts, PathExpr::Sequence))
+        if parts.len() == 1 {
+            Ok(parts.into_iter().next().unwrap())
+        } else {
+            Ok(PathExpr::Sequence(parts))
+        }
     }
 
     fn parse_path_elt_or_inverse(&mut self, opts: Opts) -> Result<PathExpr> {
         if self.match_kind(&TokenKind::Caret) {
-            return Ok(PathExpr::Inverse(Box::new(self.parse_path_elt(opts)?)));
+            return Ok(PathExpr::Inverse(Box::new(self.parse_path_primary(opts)?)));
         }
-        self.parse_path_elt(opts)
-    }
-
-    fn parse_path_elt(&mut self, opts: Opts) -> Result<PathExpr> {
-        let primary = self.parse_path_primary(opts)?;
-        if self.match_kind(&TokenKind::Star) {
-            return Ok(PathExpr::ZeroOrMore(Box::new(primary)));
-        }
-        if self.match_kind(&TokenKind::Plus) {
-            return Ok(PathExpr::OneOrMore(Box::new(primary)));
-        }
-        if self.match_kind(&TokenKind::Question) {
-            return Ok(PathExpr::ZeroOrOne(Box::new(primary)));
-        }
-        Ok(primary)
+        self.parse_path_primary(opts)
     }
 
     fn parse_path_primary(&mut self, opts: Opts) -> Result<PathExpr> {
         if self.match_kind(&TokenKind::LParen) {
-            let path = self.parse_path(opts)?;
+            let path = self.parse_path_sequence(opts)?;
             self.expect_kind(&TokenKind::RParen)?;
             return Ok(path);
         }
@@ -1196,52 +1163,6 @@ mod tests {
         "#;
         let program = parse_sparql_rl(src, None).unwrap();
         assert!(matches!(program.rules[0].body[0], Clause::Path { .. }));
-    }
-
-    fn body_path(body_src: &str) -> PathExpr {
-        let src = format!("PREFIX : <http://example/>\nRULE {{}} WHERE {{ ?x {} ?y }}", body_src);
-        let program = parse_sparql_rl(&src, None).unwrap();
-        match &program.rules[0].body[0] {
-            Clause::Path { p, .. } => p.clone(),
-            other => panic!("expected a path clause, got {other:?}"),
-        }
-    }
-
-    #[test]
-    fn parses_path_modifiers() {
-        assert!(matches!(body_path(":p+"), PathExpr::OneOrMore(_)));
-        assert!(matches!(body_path(":p*"), PathExpr::ZeroOrMore(_)));
-        assert!(matches!(body_path(":p?"), PathExpr::ZeroOrOne(_)));
-        assert!(matches!(body_path(":p|:q"), PathExpr::Alternative(ref b) if b.len() == 2));
-    }
-
-    /// Loosest first: `|` binds less tightly than `/`, which binds less
-    /// tightly than a postfix modifier.
-    #[test]
-    fn path_operator_precedence_and_grouping() {
-        let PathExpr::Alternative(branches) = body_path(":a/:b|:c") else {
-            panic!("expected an alternative at the top");
-        };
-        assert!(matches!(branches[0], PathExpr::Sequence(_)));
-        assert!(matches!(branches[1], PathExpr::Iri(_)));
-
-        let PathExpr::Sequence(parts) = body_path(":a/:b+") else {
-            panic!("expected a sequence at the top");
-        };
-        assert!(matches!(parts[1], PathExpr::OneOrMore(_)));
-
-        assert!(matches!(body_path("(:a/:b)+"), PathExpr::OneOrMore(_)));
-        assert!(matches!(body_path("(:a|:b)*"), PathExpr::ZeroOrMore(_)));
-        assert!(matches!(body_path("^:p+"), PathExpr::Inverse(_)));
-    }
-
-    /// A bare `?` is a path modifier; `?name` is still a variable, and a
-    /// `?` with no name at all is still an error.
-    #[test]
-    fn question_mark_still_lexes_variables() {
-        let src = "PREFIX : <http://example/>\nRULE { ?x :p ?y } WHERE { ?x :q ?y }";
-        assert!(parse_sparql_rl(src, None).is_ok());
-        assert!(parse_sparql_rl("PREFIX : <http://example/>\nRULE {} WHERE { ? :p :o }", None).is_err());
     }
 
     #[test]
