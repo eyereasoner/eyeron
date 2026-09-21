@@ -7,7 +7,7 @@ Eyeron is a Rust reasoner for **Notation3 (N3)**, **SPARQL 1.2 RL**, and **Eyela
 > [!TIP]
 > [Try Eyeron in the browser](https://eyereasoner.github.io/eyeron/playground).
 
-Read [Why Eyeron?](why-eyeron.md) for language choices, practical uses, and tradeoffs.
+Read the [Eyeron guide](docs/guide.md) for choosing a language, building, embedding, testing, and the code layout.
 
 ## Three formats, one tool
 
@@ -29,7 +29,7 @@ cargo build --release
 ## Documentation
 
 - [`docs/n3.md`](docs/n3.md), [`docs/sparql-rl.md`](docs/sparql-rl.md), [`docs/eyelang.md`](docs/eyelang.md) ([specification](docs/eyelang-specification.md)) — per-format syntax, semantics, CLI flags, internals, and known limitations.
-- [`docs/development.md`](docs/development.md) — building, the architecture overview, the Rust library API, the browser playground, and testing.
+- [`docs/guide.md`](docs/guide.md) — choosing a language, building and running, proofs, the Rust library and browser APIs, testing, and the architecture.
 
 ## License
 
