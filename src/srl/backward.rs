@@ -28,7 +28,7 @@ use crate::ast::{Term, Triple};
 use crate::n3::reasoner::{match_triple, resolve_pattern, unify_term, Bindings, FactIndex};
 
 use super::ast::{Clause, SparqlRlProgram, SparqlRlRule};
-use super::eval::expand_path;
+use super::eval::{graph_nodes, solve_path_clause, PathEnv};
 use super::expr::{boolean_value, eval_expr, EvalCtx};
 
 #[derive(Debug, Clone)]
@@ -158,10 +158,21 @@ fn solve_clauses(clauses: &[Clause], idx: usize, use_base: bool, bindings: Bindi
     match clause {
         Clause::Triple(pattern) => solve_triple_goal(pattern, clauses, idx, use_base, bindings, ctx, depth, stack, on_solution),
         Clause::Path { s, p, o } => {
-            let expanded = expand_path(s, p, o, &mut fresh_var_factory(ctx));
-            let mut combined: Vec<Clause> = expanded.into_iter().map(Clause::Triple).collect();
-            combined.extend(clauses[idx + 1..].iter().cloned());
-            solve_clauses(&combined, 0, use_base, bindings, ctx, depth, stack, on_solution)
+            // Each step is proved as an ordinary goal, so a path may run
+            // over rule-derived edges as well as stored facts.
+            let step = |pattern: &Triple, bindings: Bindings, k: &mut dyn FnMut(Bindings) -> bool| -> bool {
+                let goal = [Clause::Triple(pattern.clone())];
+                solve_clauses(&goal, 0, use_base, bindings, ctx, depth, stack, &mut |solution| k(solution.clone()))
+            };
+            let nodes = || {
+                let (facts, _) = ctx.graph(use_base);
+                graph_nodes(facts.iter().chain(ctx.program.data.iter()))
+            };
+            let fresh = || Term::var(format!("__bwpath{}", ctx.next_scope()));
+            let env = PathEnv { step: &step, nodes: &nodes, fresh: &fresh };
+            solve_path_clause(s, p, o, bindings, &env, &mut |next| {
+                solve_clauses(clauses, idx + 1, use_base, next, ctx, depth, stack, on_solution)
+            })
         }
         Clause::Filter(expr) => match eval_expr(expr, &bindings, &ctx.eval_ctx) {
             Ok(v) if boolean_value(&v) => solve_clauses(clauses, idx + 1, use_base, bindings, ctx, depth, stack, on_solution),
@@ -196,10 +207,6 @@ fn solve_clauses(clauses: &[Clause], idx: usize, use_base: bool, bindings: Bindi
             }
         }
     }
-}
-
-fn fresh_var_factory<'a>(ctx: &'a BackwardCtx<'a>) -> impl FnMut() -> Term + 'a {
-    move || Term::var(format!("__bwpath{}", ctx.next_scope()))
 }
 
 #[allow(clippy::too_many_arguments)]

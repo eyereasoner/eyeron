@@ -60,15 +60,26 @@ pub enum BinaryOp {
     NotIn,
 }
 
-/// A SPARQL property path, restricted to the subset SRL currently supports:
-/// a single IRI, an inverse path (`^p`), or a sequence (`p1/p2/...`). There
-/// is no Kleene star/plus/optional or alternation in the current SPARQL 1.2
-/// RL grammar.
+/// A SPARQL property path. Negated property sets (`!p`) are not part of
+/// the SPARQL 1.2 RL grammar; everything else is here. A path relates two
+/// endpoints and reports each connected pair once — `super::eval::
+/// solve_path` walks it, since the length modifiers make a path a
+/// fixpoint rather than a fixed chain of triple patterns.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PathExpr {
     Iri(String),
+    /// `^p`: the same step taken backwards.
     Inverse(Box<PathExpr>),
+    /// `p1/p2`: the steps taken in order, joined on a fresh intermediate node.
     Sequence(Vec<PathExpr>),
+    /// `p1|p2`: either step.
+    Alternative(Vec<PathExpr>),
+    /// `p?`: the step taken zero or one times.
+    ZeroOrOne(Box<PathExpr>),
+    /// `p+`: the step taken one or more times (transitive closure).
+    OneOrMore(Box<PathExpr>),
+    /// `p*`: the step taken zero or more times (reflexive transitive closure).
+    ZeroOrMore(Box<PathExpr>),
 }
 
 /// One clause of a SPARQL-RL rule body, in source order. Order matters:

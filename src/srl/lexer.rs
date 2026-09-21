@@ -2,8 +2,9 @@
 //!
 //! This is a separate, dedicated lexer rather than an extension of
 //! `crate::lexer` (the N3 lexer). N3's word-reading is greedy and does not
-//! break on `/` or `^`, which SRL needs as standalone property-path
-//! operators (`crate::lexer`'s `read_word` only stops at whitespace, a
+//! break on the characters SRL needs as standalone property-path
+//! operators — `/`, `^`, `|`, `*`, `+`, `?`
+//! (`crate::lexer`'s `read_word` only stops at whitespace, a
 //! narrow set of punctuation, `<`, `>`, and `=` — see its doc comments).
 //! Teaching the shared lexer a second dialect would risk regressions in the
 //! N3/RDF-1.2 conformance suites that already pass against it, so SRL gets
@@ -69,6 +70,9 @@ pub enum TokenKind {
     Bang,
     Caret,
     Tilde,
+    /// A bare `?`, i.e. one that does not start a variable name — the
+    /// zero-or-one property-path modifier.
+    Question,
     Lang(String),
     Eof,
 }
@@ -151,6 +155,12 @@ impl<'a> Lexer<'a> {
 
             if ch == '@' {
                 self.read_lang_tag()?;
+                continue;
+            }
+
+            if ch == '?' && !self.input[self.pos + 1..].starts_with(is_var_name_char) {
+                self.bump();
+                self.push(TokenKind::Question, offset);
                 continue;
             }
 
@@ -446,7 +456,10 @@ impl<'a> Lexer<'a> {
                 self.bump();
                 continue;
             }
-            if ch.is_whitespace() || PUNCT_CHARS.contains(ch) || OPERATOR_CHARS.contains(ch) {
+            // `?` cannot occur in a prefixed name's local part, and ends a
+            // word so that `:p?` lexes as the path `:p` plus a zero-or-one
+            // modifier rather than as one name.
+            if ch.is_whitespace() || ch == '?' || PUNCT_CHARS.contains(ch) || OPERATOR_CHARS.contains(ch) {
                 break;
             }
             if ch == '.' {
