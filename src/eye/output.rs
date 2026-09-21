@@ -33,28 +33,10 @@ pub fn format_check(result: &CheckResult) -> String {
     format!("{}\n", lines.join("\n"))
 }
 
-fn expr_term(expr: &Expr) -> Term {
-    match expr {
-        Expr::Value(t) => node("value", vec![t.clone()]),
-        Expr::Unary { arg } => node("unary", vec![term::str_("-"), expr_term(arg)]),
-        Expr::Binary { op, left, right } => node("binary", vec![term::str_(op.clone()), expr_term(left), expr_term(right)]),
-        Expr::Function { name, args } => node("function", vec![term::str_(name.clone()), term::list(args.iter().map(expr_term).collect())]),
-    }
-}
-
-fn goal_term(goal: &Goal) -> Term {
-    match goal {
-        Goal::Call(t) => node("call", vec![t.clone()]),
-        Goal::Not(t) => node("absent", vec![t.clone()]),
-        Goal::Compare { op, left, right } => node("compare", vec![term::str_(op.clone()), left.clone(), right.clone()]),
-        Goal::Let { target, expr } => node("calculate", vec![target.clone(), expr_term(expr)]),
-        Goal::Collect { target, template, body } => node("collect", vec![target.clone(), template.clone(), goals_term(body)]),
-    }
-}
-
-fn goals_term(body: &[Goal]) -> Term {
-    term::list(body.iter().map(goal_term).collect())
-}
+// The reified goal and expression vocabulary lives in `super::reify`,
+// which also decodes it, since `prove/1` and a proof record must read the
+// same notation this prints.
+use super::reify::{encode_expr as expr_term, encode_goals as goals_term};
 
 fn template_term(value: &Term, anonymous: &mut BTreeMap<u64, usize>) -> Term {
     match value {

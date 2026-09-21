@@ -8,7 +8,7 @@ Eyeron turns explicit facts and rules into conclusions you can inspect, from a c
 | --- | --- | --- |
 | Rules over RDF, quoted formulas, lists, or rules that generate rules | [Notation3](n3.md) | `examples/socrates.n3` |
 | RDF rules with SPARQL-style expressions, ordered clauses, and stratified negation | [SPARQL 1.2 RL](sparql-rl.md) | `examples/socrates.srl` |
-| Relations, recursive queries, and Prolog/Datalog-style syntax | [Eyelang](eyelang.md) | `examples/socrates.eye` |
+| Relations, recursive queries, Prolog/Datalog-style syntax, or a program that reasons about its own rules | [Eyelang](eyelang.md) | `examples/socrates.eye` |
 
 The three Socrates examples encode the same inference — Socrates is human, humans are mortal, therefore Socrates is mortal:
 

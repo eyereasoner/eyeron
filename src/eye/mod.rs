@@ -11,6 +11,7 @@ pub mod engine;
 pub mod lexer;
 pub mod output;
 pub mod parser;
+pub mod reify;
 pub mod rdf;
 pub mod term;
 

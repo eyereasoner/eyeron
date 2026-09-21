@@ -144,8 +144,26 @@ Bindings made before collection are visible inside it. Unbound variables used on
 - `length(List, Size)` obtains the length of a ground closed list.
 - `sort(List, Sorted)` removes duplicates and sorts a ground closed list (numbers precede other kinds and are ordered numerically; remaining order is lexicographic over the canonical structural term encoding).
 - `sudoku(Puzzle, Solution)` solves a ground 9×9 Sudoku grid (a constrained backtracking solver), using zero for an empty cell.
+- `clause(Head, Body)` reads the program's own clauses, standardized apart, with `Body` a list of reified goals.
+- `prove(Goal)` runs a reified goal term.
 
 These signatures cannot be redefined. `member/2`, `append/3`, and similar list relations are ordinary Eyelang definitions, not implicit built-ins.
+
+## Programs as terms
+
+A goal is an ordinary Eyelang term — `call(T)`, `absent(T)`, `compare("op", L, R)`, `calculate(Target, Expr)`, `collect(Target, Template, Goals)` — which is the notation proofs have always been written in. `clause/2` and `prove/1` make that notation executable in both directions, so Eyelang is homoiconic: a program can read and run its own clauses.
+
+The vanilla meta-interpreter is therefore ordinary Eyelang, in three clauses:
+
+```text
+solve([]).
+solve([?goal|?rest]) if prove(?goal), solve(?rest).
+demo(?head) if clause(?head, ?body), solve(?body).
+```
+
+Change `solve/1` and you have changed how proving works — count the clauses an answer used, trace it, bound its depth, or prove a goal against a program the running program built. `examples/meta-interpreter.eye` does the first of those alongside plain `demo/1`.
+
+A goal reached through `prove/1` carries a caveat worth stating: the goal term is a value, so static validation cannot see which relations it calls, and those calls take no part in the strata. An unbound or malformed goal term is a runtime error, not a silent failure.
 
 ## Answers and proofs
 
@@ -222,7 +240,7 @@ The pieces, in reading order:
 1. **`term.rs`** — the value domain and unification. `format` renders Eyelang's own concrete syntax (including `.0`-suffixed floats and list sugar); `key`/`term_key` produce a canonical, variable-identity-independent shape used to dedupe table answers and order `sort`/`collect` results.
 2. **`lexer.rs`/`ast.rs`/`parser.rs`** — a small hand-written tokenizer and recursive-descent parser (`Rule`/`Query`/`Goal`/`Expr`), mirroring the upstream spec's grammar almost line for line. Each top-level statement gets its own fresh variable scope; `?_` is always a brand-new anonymous variable, even repeated within one statement. `parser::parse` takes a `&mut VarCounter` from its caller rather than owning one, because the same counter must keep minting fresh ids throughout evaluation too.
 3. **`analyze.rs`** — static stratification per relation *signature* (`name/arity`), not per rule: every clause defining a relation is assigned the same stratum. `not`/`collect` bodies always contribute a "closed" (level-raising) dependency edge; an ordinary call only does when it is itself inside a `collect` body. Also validates that every called relation is defined (or built in) and that no rule redefines a built-in.
-4. **`builtins.rs`** — arithmetic (`evaluate`/`compare`, with the integer/float coercion and finiteness rules the spec requires) and the built-in relations `range/3`, `length/2`, `sort/2`, and `sudoku/2` (a real constrained backtracking solver). `call_builtin` returns every resulting binding-environment eagerly as a `Vec`, rather than the callback/generator style the reference implementation uses.
+4. **`builtins.rs`** — arithmetic (`evaluate`/`compare`, with the integer/float coercion and finiteness rules the spec requires) and the built-in relations `range/3`, `length/2`, `sort/2`, and `sudoku/2` (a real constrained backtracking solver). `call_builtin` returns every resulting binding-environment eagerly as a `Vec`, rather than the callback/generator style the reference implementation uses. `clause/2` and `prove/1` are listed as built-in signatures here but evaluated in `engine.rs`, which is where the program and the evaluator are in scope; `reify.rs` holds the goal-term encoding and decoding they and the proof printer share.
 5. **`engine.rs`** — the tabled evaluator, described below.
 6. **`output.rs`** — "Eyelang result format 2" serialization: plain results are `query`/`result`/`answer` facts; `--proof` adds `clause`/`substitution`/`proof` facts, including anonymous-variable numbering and a hand-built `--json` rendering (`serde_json` is unavailable on the `wasm32` target).
 7. **`rdf.rs`** — the RDF bridge, reusing eyeron's existing N-Quads reader (`crate::n3::rdf_compat::parse_rdf12`) rather than porting Eyelang's own, and writing one small new N-Quads serializer for `--rdf-output`.

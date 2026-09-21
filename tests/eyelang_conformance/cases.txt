@@ -1271,3 +1271,98 @@ ask collect ?parts = ?part where { part(?part) }.
 query(1, [collect(?v0, ?v1, [call(part(?v1))])], [binding("parts", ?v0)]).
 result(1, complete, 1).
 answer(1, [binding("parts", [1, 2])]).
+
+[case] builtins/clause-reads-the-programs-own-clauses
+[section] 9
+[intent] clause/2 reports each clause as its head term and a list of reified body goals
+[program]
+ancestor(?older, ?younger) if parent(?older, ?younger).
+parent(ann, bob).
+ask clause(ancestor(?a, ?b), ?body).
+[output]
+# Eyelang result format 2
+query(1, [call(clause(ancestor(?v0, ?v1), ?v2))], [binding("a", ?v0), binding("b", ?v1), binding("body", ?v2)]).
+result(1, complete, 1).
+answer(1, [binding("a", ?v0), binding("b", ?v1), binding("body", [call(parent(?v0, ?v1))])]).
+
+[case] builtins/clause-standardizes-each-clause-apart
+[section] 9
+[intent] a clause reported by clause/2 cannot capture the inspecting program's variables
+[program]
+twin(?x, ?x).
+ask clause(twin(one, ?other), ?body).
+[output]
+# Eyelang result format 2
+query(1, [call(clause(twin(one, ?v0), ?v1))], [binding("other", ?v0), binding("body", ?v1)]).
+result(1, complete, 1).
+answer(1, [binding("other", one), binding("body", [])]).
+
+[case] builtins/prove-runs-a-reified-goal
+[section] 9
+[intent] prove/1 evaluates a reified goal term, so the reified syntax is executable
+[program]
+parent(ann, bob).
+ask prove(call(parent(ann, ?child))).
+[output]
+# Eyelang result format 2
+query(1, [call(prove(call(parent(ann, ?v0))))], [binding("child", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("child", bob)]).
+
+[case] builtins/prove-runs-every-reified-goal-kind
+[section] 9
+[intent] prove/1 accepts each goal constructor of the reified syntax
+[program]
+noisy(drum).
+ask prove(compare(">", 5, 2)), prove(absent(noisy(flute))), prove(calculate(?sum, binary("+", value(2), value(3)))), prove(collect(?all, ?what, [call(noisy(?what))])).
+[output]
+# Eyelang result format 2
+query(1, [call(prove(compare(">", 5, 2))), call(prove(absent(noisy(flute)))), call(prove(calculate(?v0, binary("+", value(2), value(3))))), call(prove(collect(?v1, ?v2, [call(noisy(?v2))])))], [binding("sum", ?v0), binding("all", ?v1), binding("what", ?v2)]).
+result(1, complete, 1).
+answer(1, [binding("sum", 5), binding("all", [drum]), binding("what", ?v0)]).
+
+[case] builtins/prove-needs-its-goal-term-when-selected
+[section] 9
+[intent] prove/1 reports a mode error rather than failing when its argument is unbound
+[program]
+ask prove(?goal).
+[error] prove needs a goal term, but its argument is still unbound
+
+[case] builtins/prove-rejects-a-term-that-is-not-a-goal
+[section] 9
+[intent] a malformed goal term is an error, not an absence of answers
+[program]
+ask prove(nonsense(1)).
+[error] nonsense/1 is not a goal term
+
+[case] builtins/a-meta-interpreter-is-ordinary-eyelang
+[section] 9
+[intent] clause/2 and prove/1 together make the vanilla meta-interpreter writable in the language itself
+[program]
+parent(ann, bob).
+parent(bob, cid).
+ancestor(?older, ?younger) if parent(?older, ?younger).
+ancestor(?older, ?younger) if parent(?older, ?middle), ancestor(?middle, ?younger).
+solve([]).
+solve([?goal|?rest]) if prove(?goal), solve(?rest).
+demo(?head) if clause(?head, ?body), solve(?body).
+ask demo(ancestor(ann, ?descendant)).
+[output]
+# Eyelang result format 2
+query(1, [call(demo(ancestor(ann, ?v0)))], [binding("descendant", ?v0)]).
+result(1, complete, 2).
+answer(1, [binding("descendant", bob)]).
+answer(1, [binding("descendant", cid)]).
+
+[case] reified-syntax/a-clause-body-round-trips-through-prove
+[section] 12
+[intent] the reified syntax clause/2 reports is exactly the syntax prove/1 executes
+[program]
+greeting(hello).
+polite(?word) if greeting(?word).
+ask clause(polite(hello), ?body), prove(call(greeting(hello))).
+[output]
+# Eyelang result format 2
+query(1, [call(clause(polite(hello), ?v0)), call(prove(call(greeting(hello))))], [binding("body", ?v0)]).
+result(1, complete, 1).
+answer(1, [binding("body", [call(greeting(hello))])]).

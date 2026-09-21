@@ -266,6 +266,25 @@ The following signatures are reserved and MUST NOT be redefined:
   empty cell. It enumerates grids respecting all givens and the row, column, and
   3 by 3 box constraints. Malformed input is an error; inconsistent givens have
   no answers.
+- `clause/2`: `clause(Head, Body)` holds for every clause of the program, with
+  `Head` its head term and `Body` the list of its goals in reified syntax
+  (§12.3). Each clause is standardized apart before it is reported, so a program
+  that inspects itself cannot capture a clause's variables. Answer order is not
+  significant.
+- `prove/1`: `prove(Goal)` requires a reified goal term (§12.3) and holds
+  exactly when that goal holds. Its argument's outermost constructor MUST be
+  known when the goal is selected; the terms inside it need not be ground. An
+  unbound argument or a term that is not a goal term is an error, not a failure.
+
+Together, `clause/2` and `prove/1` make Eyelang **homoiconic**: a program is a
+term, so a program can read and run its own clauses. The three-clause vanilla
+meta-interpreter is therefore ordinary Eyelang:
+
+```text
+solve([]).
+solve([?goal|?rest]) if prove(?goal), solve(?rest).
+demo(?head) if clause(?head, ?body), solve(?body).
+```
 
 No other relation is implicit. Relations such as `member/2` and `append/3` must
 be defined by the program.
@@ -286,7 +305,9 @@ stratum(H) >= stratum(D) + weight
 Programs with recursion through `not` or `collect` therefore fail validation.
 The analysis is conservative by relation signature and does not inspect argument
 values. Input modes, value kinds, function names, and groundness are checked at
-evaluation time rather than by the static validator.
+evaluation time rather than by the static validator. A goal reached through
+`prove/1` (§9) is likewise beyond it: the goal term is a value, so the relations
+it calls are not known until evaluation and take no part in the strata.
 
 ## 11. Completion, limits, and errors
 
@@ -381,7 +402,10 @@ Goal templates are data terms:
 
 Expression templates are `value(Term)`, `unary("-", Expression)`,
 `binary("operator", Left, Right)`, and `function("name", Arguments)`.
-These constructors describe syntax; they are not executable goal syntax.
+
+These constructors are executable: `prove/1` evaluates one and `clause/2`
+reports a clause body as a list of them (§9). A proof record, an interchanged
+goal, and a goal a program builds at run time are therefore one notation.
 
 ### 12.4 Check and JSON representations
 

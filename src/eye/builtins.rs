@@ -10,7 +10,11 @@ use crate::error::{EyeronError, Result};
 use super::ast::Expr;
 use super::term::{self, array, ground, instantiate, key, term_key, unify, Bindings, Term};
 
-pub const BUILTIN_RELATIONS: [&str; 4] = ["range/3", "length/2", "sort/2", "sudoku/2"];
+/// `clause/2` and `prove/1` are listed here so static validation accepts
+/// them, but they are evaluated in `super::engine`, which is where the
+/// program and the evaluator are in scope (see its `clause_answers`/
+/// `prove`); `call_builtin` below never sees them.
+pub const BUILTIN_RELATIONS: [&str; 6] = ["range/3", "length/2", "sort/2", "sudoku/2", "clause/2", "prove/1"];
 
 pub fn is_builtin_relation(signature: &str) -> bool {
     BUILTIN_RELATIONS.contains(&signature)

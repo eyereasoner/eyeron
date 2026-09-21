@@ -28,6 +28,7 @@ use crate::error::{EyeronError, Result};
 use super::analyze::{self, Analyzed};
 use super::ast::{Expr, Goal};
 use super::builtins;
+use super::reify;
 use super::term::{self, ground, instantiate, term_key, unify, variables_in, Bindings, Term, VarCounter};
 
 #[derive(Debug, Clone, Copy)]
@@ -262,6 +263,17 @@ fn step(ctx: Ctx, program: &Analyzed, goal: &Goal, env: &Bindings, owner: TableI
         Goal::Call(goal_term) => {
             let call = instantiate(goal_term, env);
             let signature = analyze::signature(&call);
+            // Eyelang's reified syntax (§12.3) is executable, which is what
+            // makes the language homoiconic: `clause/2` reads the program's
+            // own rules as terms, and `prove/1` runs a term as a goal. Both
+            // need the program and the evaluator, so they are dispatched
+            // here rather than in `builtins`, which sees neither.
+            if signature == "clause/2" {
+                return clause_answers(ctx, program, goal_term, &call, env);
+            }
+            if signature == "prove/1" {
+                return prove(ctx, program, &call, env, owner);
+            }
             if builtins::is_builtin_relation(&signature) {
                 let branches = builtins::call_builtin(&call, env, &mut || tick(ctx))?;
                 return Ok(branches.into_iter().map(|b| (b, Premise::Builtin { call_term: goal_term.clone() })).collect());
@@ -362,6 +374,48 @@ fn step(ctx: Ctx, program: &Analyzed, goal: &Goal, env: &Bindings, owner: TableI
             }
         }
     }
+}
+
+/// `clause(Head, Body)` — every clause of the program as a term pair, with
+/// `Body` a list of reified goals (§12.3). Clauses are standardized apart
+/// on the way out, exactly as the evaluator does when it uses one (§4), so
+/// a program that inspects itself cannot capture a clause's variables.
+fn clause_answers(ctx: Ctx, program: &Analyzed, goal_term: &Term, call: &Term, env: &Bindings) -> Result<Vec<(Bindings, Premise)>> {
+    let Term::Struct(_, call_args) = call else { return Ok(Vec::new()) };
+    let mut out = Vec::new();
+    for signature in &program.predicate_order {
+        let Some(rules) = program.predicates.get(signature) else { continue };
+        for rule in rules {
+            tick(ctx)?;
+            let (head, body) = {
+                let mut s = ctx.shared.borrow_mut();
+                let mut vars = BTreeMap::new();
+                let head = term::fresh(&rule.head, &mut vars, &mut s.counter);
+                let body = fresh_goals(&rule.body, &mut vars, &mut s.counter);
+                (head, body)
+            };
+            let mut branch = env.clone();
+            if unify(&call_args[0], &head, &mut branch) && unify(&call_args[1], &reify::encode_goals(&body), &mut branch) {
+                out.push((branch, Premise::Builtin { call_term: goal_term.clone() }));
+            }
+        }
+    }
+    Ok(out)
+}
+
+/// `prove(Goal)` — evaluate a reified goal term (§12.3). The goal's
+/// *shape* has to be known when the goal is selected, the same groundness
+/// requirement §6 places on every other operation that needs its input;
+/// the terms inside it may be as unbound as any ordinary call's arguments.
+/// Answers carry the proven goal's own premise, so `--proof` explains the
+/// step that actually ran rather than the `prove/1` wrapper.
+fn prove(ctx: Ctx, program: &Analyzed, call: &Term, env: &Bindings, owner: TableId) -> Result<Vec<(Bindings, Premise)>> {
+    let Term::Struct(_, args) = call else { return Ok(Vec::new()) };
+    if let Term::Var(..) = args[0] {
+        return Err(EyeronError::new("prove needs a goal term, but its argument is still unbound"));
+    }
+    let goal = reify::decode_goal(&args[0]).map_err(EyeronError::new)?;
+    step(ctx, program, &goal, env, owner)
 }
 
 /// Explores `body` from `index` onward, calling `on_solution` for each
