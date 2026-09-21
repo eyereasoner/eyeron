@@ -16,116 +16,65 @@ DATA {
   :ok_list_firstRest_1 a :Pass .
 
   _:step1
-    rdf:reifies <<( :ok_list_append_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 21;
+    rdf:reifies <<(:ok_list_append_1 a :Pass)>>;
+    pe:rule "rule#1";
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5.
+      <<(:l1 :item0 1)>>,
+      <<(:l1 :item1 2)>>,
+      <<(:l1 :item2 3)>>,
+      <<(:l1 :item3 4)>>.
 
   _:step2
-    rdf:reifies <<( :l1 :item0 1 )>>;
-    pe:fact "list-builtins-tests.srl";
-    pe:line 16.
+    rdf:reifies <<(:ok_list_first_1 a :Pass)>>;
+    pe:rule "rule#2";
+    pe:uses <<(:l1 :item0 1)>>.
 
   _:step3
-    rdf:reifies <<( :l1 :item1 2 )>>;
-    pe:fact "list-builtins-tests.srl";
-    pe:line 16.
+    rdf:reifies <<(:ok_list_in_1 a :Pass)>>;
+    pe:rule "rule#3";
+    pe:uses <<(:l2 :item2 "cat")>>.
 
   _:step4
-    rdf:reifies <<( :l1 :item2 3 )>>;
-    pe:fact "list-builtins-tests.srl";
-    pe:line 16.
+    rdf:reifies <<(:ok_list_iterate_1 a :Pass)>>;
+    pe:rule "rule#4";
+    pe:uses <<(:l2 :item2 "cat")>>.
 
   _:step5
-    rdf:reifies <<( :l1 :item3 4 )>>;
-    pe:fact "list-builtins-tests.srl";
-    pe:line 16.
+    rdf:reifies <<(:ok_list_last_1 a :Pass)>>;
+    pe:rule "rule#5";
+    pe:uses <<(:l1 :item3 4)>>.
 
   _:step6
-    rdf:reifies <<( :ok_list_first_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 22;
-    pe:uses _:step2.
+    rdf:reifies <<(:ok_list_length_1 a :Pass)>>;
+    pe:rule "rule#6";
+    pe:uses <<(:l1 :length 4)>>.
 
   _:step7
-    rdf:reifies <<( :ok_list_in_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 23;
-    pe:uses _:step8.
+    rdf:reifies <<(:ok_list_member_1 a :Pass)>>;
+    pe:rule "rule#7";
+    pe:uses <<(:l2 :item2 "cat")>>.
 
   _:step8
-    rdf:reifies <<( :l2 :item2 "cat" )>>;
-    pe:fact "list-builtins-tests.srl";
-    pe:line 17.
+    rdf:reifies <<(:ok_list_memberAt_1 a :Pass)>>;
+    pe:rule "rule#8";
+    pe:uses <<(:l2 :item2 "cat")>>.
 
   _:step9
-    rdf:reifies <<( :ok_list_iterate_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 24;
-    pe:uses _:step8.
+    rdf:reifies <<(:ok_list_remove_1 a :Pass)>>;
+    pe:rule "rule#9";
+    pe:uses
+      <<(:l3 :item0 "dog")>>,
+      <<(:l3 :item2 "cat")>>.
 
   _:step10
-    rdf:reifies <<( :ok_list_last_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 25;
-    pe:uses _:step5.
+    rdf:reifies <<(:ok_list_rest_1 a :Pass)>>;
+    pe:rule "rule#10";
+    pe:uses <<(:l1 :item1 2)>>.
 
   _:step11
-    rdf:reifies <<( :ok_list_length_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 26;
-    pe:uses _:step12.
-
-  _:step12
-    rdf:reifies <<( :l1 :length 4 )>>;
-    pe:fact "list-builtins-tests.srl";
-    pe:line 16.
-
-  _:step13
-    rdf:reifies <<( :ok_list_member_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 27;
-    pe:uses _:step8.
-
-  _:step14
-    rdf:reifies <<( :ok_list_memberAt_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 28;
-    pe:uses _:step8.
-
-  _:step15
-    rdf:reifies <<( :ok_list_remove_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 29;
+    rdf:reifies <<(:ok_list_firstRest_1 a :Pass)>>;
+    pe:rule "rule#11";
     pe:uses
-      _:step16,
-      _:step17.
-
-  _:step16
-    rdf:reifies <<( :l3 :item0 "dog" )>>;
-    pe:fact "list-builtins-tests.srl";
-    pe:line 18.
-
-  _:step17
-    rdf:reifies <<( :l3 :item2 "cat" )>>;
-    pe:fact "list-builtins-tests.srl";
-    pe:line 18.
-
-  _:step18
-    rdf:reifies <<( :ok_list_rest_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 30;
-    pe:uses _:step3.
-
-  _:step19
-    rdf:reifies <<( :ok_list_firstRest_1 a :Pass )>>;
-    pe:rule "list-builtins-tests.srl";
-    pe:line 31;
-    pe:uses
-      _:step2,
-      _:step3.
+      <<(:l1 :item0 1)>>,
+      <<(:l1 :item1 2)>>.
 }

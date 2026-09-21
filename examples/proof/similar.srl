@@ -8,44 +8,31 @@ DATA {
   :test :is true .
 
   _:step1
-    rdf:reifies <<( :Alice :similar :Bob )>>;
-    pe:rule "similar.srl";
-    pe:line 10;
+    rdf:reifies <<(:Alice :similar :Bob)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "A"; pe:value :Alice ],
       [ pe:var "B"; pe:value :Bob ],
       [ pe:var "Obj"; pe:value :Human ],
       [ pe:var "Pred"; pe:value rdf:type ];
     pe:uses
-      _:step2,
-      _:step3.
+      <<(:Alice a :Human)>>,
+      <<(:Bob a :Human)>>.
 
   _:step2
-    rdf:reifies <<( :Alice a :Human )>>;
-    pe:fact "similar.srl";
-    pe:line 8.
-
-  _:step3
-    rdf:reifies <<( :Bob a :Human )>>;
-    pe:fact "similar.srl";
-    pe:line 8.
-
-  _:step4
-    rdf:reifies <<( :Bob :similar :Alice )>>;
-    pe:rule "similar.srl";
-    pe:line 10;
+    rdf:reifies <<(:Bob :similar :Alice)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "A"; pe:value :Bob ],
       [ pe:var "B"; pe:value :Alice ],
       [ pe:var "Obj"; pe:value :Human ],
       [ pe:var "Pred"; pe:value rdf:type ];
     pe:uses
-      _:step3,
-      _:step2.
+      <<(:Bob a :Human)>>,
+      <<(:Alice a :Human)>>.
 
-  _:step5
-    rdf:reifies <<( :test :is true )>>;
-    pe:rule "similar.srl";
-    pe:line 11;
+  _:step3
+    rdf:reifies <<(:test :is true)>>;
+    pe:rule "rule#2";
     pe:uses _:step1.
 }

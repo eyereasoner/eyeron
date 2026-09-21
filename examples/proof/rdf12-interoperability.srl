@@ -13,100 +13,68 @@ DATA {
   :test :knowsObject :bob .
 
   _:step1
-    rdf:reifies <<( :alice :displayName "Bonjour"@fr )>>;
-    pe:rule "rdf12-interoperability.srl";
-    pe:line 21;
+    rdf:reifies <<(:alice :displayName "Bonjour"@fr)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "label"; pe:value "Bonjour"@fr ],
       [ pe:var "person"; pe:value :alice ];
-    pe:uses _:step2.
+    pe:uses <<(:alice :label "Bonjour"@fr)>>.
 
   _:step2
-    rdf:reifies <<( :alice :label "Bonjour"@fr )>>;
-    pe:fact "rdf12-interoperability.srl";
-    pe:line 14.
+    rdf:reifies <<(:test :namedPerson :alice)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "person"; pe:value :alice ],
+      [ pe:var "text"; pe:value "Alice"^^xsd:string ];
+    pe:uses <<(:alice :name "Alice"^^xsd:string)>>.
 
   _:step3
-    rdf:reifies <<( :test :namedPerson :alice )>>;
-    pe:rule "rdf12-interoperability.srl";
-    pe:line 24;
+    rdf:reifies <<(:test :namedText "Alice"^^xsd:string)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "person"; pe:value :alice ],
       [ pe:var "text"; pe:value "Alice"^^xsd:string ];
-    pe:uses _:step4.
+    pe:uses <<(:alice :name "Alice"^^xsd:string)>>.
 
   _:step4
-    rdf:reifies <<( :alice :name "Alice"^^xsd:string )>>;
-    pe:fact "rdf12-interoperability.srl";
-    pe:line 13.
+    rdf:reifies <<(:test :title "HTML و CSS"@ar--rtl)>>;
+    pe:rule "rule#3";
+    pe:binding [ pe:var "title"; pe:value "HTML و CSS"@ar--rtl ];
+    pe:uses <<(:document :title "HTML و CSS"@ar--rtl)>>.
 
   _:step5
-    rdf:reifies <<( :test :namedText "Alice"^^xsd:string )>>;
-    pe:rule "rdf12-interoperability.srl";
-    pe:line 24;
+    rdf:reifies <<(:test :knowsSource :chat)>>;
+    pe:rule "rule#4";
     pe:binding
-      [ pe:var "person"; pe:value :alice ],
-      [ pe:var "text"; pe:value "Alice"^^xsd:string ];
-    pe:uses _:step4.
+      [ pe:var "claim"; pe:value :claim ],
+      [ pe:var "o"; pe:value :bob ],
+      [ pe:var "s"; pe:value :alice ],
+      [ pe:var "source"; pe:value :chat ];
+    pe:uses
+      <<(:claim rdf:reifies <<(:alice :knows :bob)>>)>>,
+      <<(:claim :source :chat)>>.
 
   _:step6
-    rdf:reifies <<( :test :title "HTML و CSS"@ar--rtl )>>;
-    pe:rule "rdf12-interoperability.srl";
-    pe:line 27;
-    pe:binding [ pe:var "title"; pe:value "HTML و CSS"@ar--rtl ];
-    pe:uses _:step7.
+    rdf:reifies <<(:test :knowsSubject :alice)>>;
+    pe:rule "rule#4";
+    pe:binding
+      [ pe:var "claim"; pe:value :claim ],
+      [ pe:var "o"; pe:value :bob ],
+      [ pe:var "s"; pe:value :alice ],
+      [ pe:var "source"; pe:value :chat ];
+    pe:uses
+      <<(:claim rdf:reifies <<(:alice :knows :bob)>>)>>,
+      <<(:claim :source :chat)>>.
 
   _:step7
-    rdf:reifies <<( :document :title "HTML و CSS"@ar--rtl )>>;
-    pe:fact "rdf12-interoperability.srl";
-    pe:line 16.
-
-  _:step8
-    rdf:reifies <<( :test :knowsSource :chat )>>;
-    pe:rule "rdf12-interoperability.srl";
-    pe:line 30;
+    rdf:reifies <<(:test :knowsObject :bob)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "claim"; pe:value :claim ],
       [ pe:var "o"; pe:value :bob ],
       [ pe:var "s"; pe:value :alice ],
       [ pe:var "source"; pe:value :chat ];
     pe:uses
-      _:step9,
-      _:step10.
-
-  _:step9
-    rdf:reifies <<( :claim rdf:reifies <<( :alice :knows :bob )>> )>>;
-    pe:fact "rdf12-interoperability.srl";
-    pe:line 17.
-
-  _:step10
-    rdf:reifies <<( :claim :source :chat )>>;
-    pe:fact "rdf12-interoperability.srl";
-    pe:line 18.
-
-  _:step11
-    rdf:reifies <<( :test :knowsSubject :alice )>>;
-    pe:rule "rdf12-interoperability.srl";
-    pe:line 30;
-    pe:binding
-      [ pe:var "claim"; pe:value :claim ],
-      [ pe:var "o"; pe:value :bob ],
-      [ pe:var "s"; pe:value :alice ],
-      [ pe:var "source"; pe:value :chat ];
-    pe:uses
-      _:step9,
-      _:step10.
-
-  _:step12
-    rdf:reifies <<( :test :knowsObject :bob )>>;
-    pe:rule "rdf12-interoperability.srl";
-    pe:line 30;
-    pe:binding
-      [ pe:var "claim"; pe:value :claim ],
-      [ pe:var "o"; pe:value :bob ],
-      [ pe:var "s"; pe:value :alice ],
-      [ pe:var "source"; pe:value :chat ];
-    pe:uses
-      _:step9,
-      _:step10.
+      <<(:claim rdf:reifies <<(:alice :knows :bob)>>)>>,
+      <<(:claim :source :chat)>>.
 }

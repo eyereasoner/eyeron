@@ -19,181 +19,112 @@ DATA {
   :abcd :best true .
 
   _:step1
-    rdf:reifies <<( :abc a :Path )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 16;
+    rdf:reifies <<(:abc a :Path)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "left"; pe:value 2 ],
       [ pe:var "path"; pe:value :abc ],
       [ pe:var "right"; pe:value 1 ],
       [ pe:var "total"; pe:value 3 ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4.
+      <<(:abc a :CandidatePath)>>,
+      <<(:abc :leftCost 2)>>,
+      <<(:abc :rightCost 1)>>.
 
   _:step2
-    rdf:reifies <<( :abc a :CandidatePath )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 10.
-
-  _:step3
-    rdf:reifies <<( :abc :leftCost 2 )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 10.
-
-  _:step4
-    rdf:reifies <<( :abc :rightCost 1 )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 10.
-
-  _:step5
-    rdf:reifies <<( :abc :cost 3 )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 16;
+    rdf:reifies <<(:abc :cost 3)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "left"; pe:value 2 ],
       [ pe:var "path"; pe:value :abc ],
       [ pe:var "right"; pe:value 1 ],
       [ pe:var "total"; pe:value 3 ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4.
+      <<(:abc a :CandidatePath)>>,
+      <<(:abc :leftCost 2)>>,
+      <<(:abc :rightCost 1)>>.
+
+  _:step3
+    rdf:reifies <<(:abd a :Path)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "left"; pe:value 2 ],
+      [ pe:var "path"; pe:value :abd ],
+      [ pe:var "right"; pe:value 7 ],
+      [ pe:var "total"; pe:value 9 ];
+    pe:uses
+      <<(:abd a :CandidatePath)>>,
+      <<(:abd :leftCost 2)>>,
+      <<(:abd :rightCost 7)>>.
+
+  _:step4
+    rdf:reifies <<(:abd :cost 9)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "left"; pe:value 2 ],
+      [ pe:var "path"; pe:value :abd ],
+      [ pe:var "right"; pe:value 7 ],
+      [ pe:var "total"; pe:value 9 ];
+    pe:uses
+      <<(:abd a :CandidatePath)>>,
+      <<(:abd :leftCost 2)>>,
+      <<(:abd :rightCost 7)>>.
+
+  _:step5
+    rdf:reifies <<(:acd a :Path)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "left"; pe:value 5 ],
+      [ pe:var "path"; pe:value :acd ],
+      [ pe:var "right"; pe:value 2 ],
+      [ pe:var "total"; pe:value 7 ];
+    pe:uses
+      <<(:acd a :CandidatePath)>>,
+      <<(:acd :leftCost 5)>>,
+      <<(:acd :rightCost 2)>>.
 
   _:step6
-    rdf:reifies <<( :abd a :Path )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 16;
+    rdf:reifies <<(:acd :cost 7)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "left"; pe:value 2 ],
-      [ pe:var "path"; pe:value :abd ],
-      [ pe:var "right"; pe:value 7 ],
-      [ pe:var "total"; pe:value 9 ];
+      [ pe:var "left"; pe:value 5 ],
+      [ pe:var "path"; pe:value :acd ],
+      [ pe:var "right"; pe:value 2 ],
+      [ pe:var "total"; pe:value 7 ];
     pe:uses
-      _:step7,
-      _:step8,
-      _:step9.
+      <<(:acd a :CandidatePath)>>,
+      <<(:acd :leftCost 5)>>,
+      <<(:acd :rightCost 2)>>.
 
   _:step7
-    rdf:reifies <<( :abd a :CandidatePath )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 11.
+    rdf:reifies <<(:abcd a :Path)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "left"; pe:value 2 ],
+      [ pe:var "path"; pe:value :abcd ],
+      [ pe:var "right"; pe:value 3 ],
+      [ pe:var "total"; pe:value 5 ];
+    pe:uses
+      <<(:abcd a :CandidatePath)>>,
+      <<(:abcd :leftCost 2)>>,
+      <<(:abcd :rightCost 3)>>.
 
   _:step8
-    rdf:reifies <<( :abd :leftCost 2 )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 11.
+    rdf:reifies <<(:abcd :cost 5)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "left"; pe:value 2 ],
+      [ pe:var "path"; pe:value :abcd ],
+      [ pe:var "right"; pe:value 3 ],
+      [ pe:var "total"; pe:value 5 ];
+    pe:uses
+      <<(:abcd a :CandidatePath)>>,
+      <<(:abcd :leftCost 2)>>,
+      <<(:abcd :rightCost 3)>>.
 
   _:step9
-    rdf:reifies <<( :abd :rightCost 7 )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 11.
-
-  _:step10
-    rdf:reifies <<( :abd :cost 9 )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 16;
-    pe:binding
-      [ pe:var "left"; pe:value 2 ],
-      [ pe:var "path"; pe:value :abd ],
-      [ pe:var "right"; pe:value 7 ],
-      [ pe:var "total"; pe:value 9 ];
-    pe:uses
-      _:step7,
-      _:step8,
-      _:step9.
-
-  _:step11
-    rdf:reifies <<( :acd a :Path )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 16;
-    pe:binding
-      [ pe:var "left"; pe:value 5 ],
-      [ pe:var "path"; pe:value :acd ],
-      [ pe:var "right"; pe:value 2 ],
-      [ pe:var "total"; pe:value 7 ];
-    pe:uses
-      _:step12,
-      _:step13,
-      _:step14.
-
-  _:step12
-    rdf:reifies <<( :acd a :CandidatePath )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 12.
-
-  _:step13
-    rdf:reifies <<( :acd :leftCost 5 )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 12.
-
-  _:step14
-    rdf:reifies <<( :acd :rightCost 2 )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 12.
-
-  _:step15
-    rdf:reifies <<( :acd :cost 7 )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 16;
-    pe:binding
-      [ pe:var "left"; pe:value 5 ],
-      [ pe:var "path"; pe:value :acd ],
-      [ pe:var "right"; pe:value 2 ],
-      [ pe:var "total"; pe:value 7 ];
-    pe:uses
-      _:step12,
-      _:step13,
-      _:step14.
-
-  _:step16
-    rdf:reifies <<( :abcd a :Path )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 16;
-    pe:binding
-      [ pe:var "left"; pe:value 2 ],
-      [ pe:var "path"; pe:value :abcd ],
-      [ pe:var "right"; pe:value 3 ],
-      [ pe:var "total"; pe:value 5 ];
-    pe:uses
-      _:step17,
-      _:step18,
-      _:step19.
-
-  _:step17
-    rdf:reifies <<( :abcd a :CandidatePath )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 13.
-
-  _:step18
-    rdf:reifies <<( :abcd :leftCost 2 )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 13.
-
-  _:step19
-    rdf:reifies <<( :abcd :rightCost 3 )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 13.
-
-  _:step20
-    rdf:reifies <<( :abcd :cost 5 )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 16;
-    pe:binding
-      [ pe:var "left"; pe:value 2 ],
-      [ pe:var "path"; pe:value :abcd ],
-      [ pe:var "right"; pe:value 3 ],
-      [ pe:var "total"; pe:value 5 ];
-    pe:uses
-      _:step17,
-      _:step18,
-      _:step19.
-
-  _:step21
-    rdf:reifies <<( :ac :dominated true )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 22;
+    rdf:reifies <<(:ac :dominated true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "better"; pe:value :abc ],
       [ pe:var "betterCost"; pe:value 3 ],
@@ -202,49 +133,18 @@ DATA {
       [ pe:var "path"; pe:value :ac ],
       [ pe:var "to"; pe:value :C ];
     pe:uses
-      _:step22,
-      _:step23,
-      _:step24,
-      _:step25,
+      <<(:ac a :Path)>>,
+      <<(:ac :from :A)>>,
+      <<(:ac :to :C)>>,
+      <<(:ac :cost 5)>>,
       _:step1,
-      _:step26,
-      _:step27,
-      _:step5.
+      <<(:abc :from :A)>>,
+      <<(:abc :to :C)>>,
+      _:step2.
 
-  _:step22
-    rdf:reifies <<( :ac a :Path )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 9.
-
-  _:step23
-    rdf:reifies <<( :ac :from :A )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 9.
-
-  _:step24
-    rdf:reifies <<( :ac :to :C )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 9.
-
-  _:step25
-    rdf:reifies <<( :ac :cost 5 )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 9.
-
-  _:step26
-    rdf:reifies <<( :abc :from :A )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 10.
-
-  _:step27
-    rdf:reifies <<( :abc :to :C )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 10.
-
-  _:step28
-    rdf:reifies <<( :abd :dominated true )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 22;
+  _:step10
+    rdf:reifies <<(:abd :dominated true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "better"; pe:value :acd ],
       [ pe:var "betterCost"; pe:value 7 ],
@@ -253,39 +153,18 @@ DATA {
       [ pe:var "path"; pe:value :abd ],
       [ pe:var "to"; pe:value :D ];
     pe:uses
-      _:step6,
-      _:step29,
-      _:step30,
-      _:step10,
-      _:step11,
-      _:step31,
-      _:step32,
-      _:step15.
+      _:step3,
+      <<(:abd :from :A)>>,
+      <<(:abd :to :D)>>,
+      _:step4,
+      _:step5,
+      <<(:acd :from :A)>>,
+      <<(:acd :to :D)>>,
+      _:step6.
 
-  _:step29
-    rdf:reifies <<( :abd :from :A )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 11.
-
-  _:step30
-    rdf:reifies <<( :abd :to :D )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 11.
-
-  _:step31
-    rdf:reifies <<( :acd :from :A )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 12.
-
-  _:step32
-    rdf:reifies <<( :acd :to :D )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 12.
-
-  _:step33
-    rdf:reifies <<( :acd :dominated true )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 22;
+  _:step11
+    rdf:reifies <<(:acd :dominated true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "better"; pe:value :abcd ],
       [ pe:var "betterCost"; pe:value 5 ],
@@ -294,48 +173,30 @@ DATA {
       [ pe:var "path"; pe:value :acd ],
       [ pe:var "to"; pe:value :D ];
     pe:uses
-      _:step11,
-      _:step31,
-      _:step32,
-      _:step15,
-      _:step16,
-      _:step34,
-      _:step35,
-      _:step20.
+      _:step5,
+      <<(:acd :from :A)>>,
+      <<(:acd :to :D)>>,
+      _:step6,
+      _:step7,
+      <<(:abcd :from :A)>>,
+      <<(:abcd :to :D)>>,
+      _:step8.
 
-  _:step34
-    rdf:reifies <<( :abcd :from :A )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 13.
-
-  _:step35
-    rdf:reifies <<( :abcd :to :D )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 13.
-
-  _:step36
-    rdf:reifies <<( :ab :best true )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 29;
+  _:step12
+    rdf:reifies <<(:ab :best true)>>;
+    pe:rule "rule#3";
     pe:binding [ pe:var "path"; pe:value :ab ];
-    pe:uses _:step37.
+    pe:uses <<(:ab a :Path)>>.
 
-  _:step37
-    rdf:reifies <<( :ab a :Path )>>;
-    pe:fact "dijkstra.srl";
-    pe:line 8.
-
-  _:step38
-    rdf:reifies <<( :abc :best true )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 29;
+  _:step13
+    rdf:reifies <<(:abc :best true)>>;
+    pe:rule "rule#3";
     pe:binding [ pe:var "path"; pe:value :abc ];
     pe:uses _:step1.
 
-  _:step39
-    rdf:reifies <<( :abcd :best true )>>;
-    pe:rule "dijkstra.srl";
-    pe:line 29;
+  _:step14
+    rdf:reifies <<(:abcd :best true)>>;
+    pe:rule "rule#3";
     pe:binding [ pe:var "path"; pe:value :abcd ];
-    pe:uses _:step16.
+    pe:uses _:step7.
 }

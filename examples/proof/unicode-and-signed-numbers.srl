@@ -7,25 +7,13 @@ DATA {
   :thermo :belowZero true .
 
   _:step1
-    rdf:reifies <<( :sample :unicodeDecoded true )>>;
-    pe:rule "unicode-and-signed-numbers.srl";
-    pe:line 8;
-    pe:uses _:step2.
+    rdf:reifies <<(:sample :unicodeDecoded true)>>;
+    pe:rule "rule#1";
+    pe:uses <<(:sample :text "ABC")>>.
 
   _:step2
-    rdf:reifies <<( :sample :text "ABC" )>>;
-    pe:fact "unicode-and-signed-numbers.srl";
-    pe:line 4.
-
-  _:step3
-    rdf:reifies <<( :thermo :belowZero true )>>;
-    pe:rule "unicode-and-signed-numbers.srl";
-    pe:line 9;
+    rdf:reifies <<(:thermo :belowZero true)>>;
+    pe:rule "rule#2";
     pe:binding [ pe:var "d"; pe:value -12 ];
-    pe:uses _:step4.
-
-  _:step4
-    rdf:reifies <<( :thermo :delta -12 )>>;
-    pe:fact "unicode-and-signed-numbers.srl";
-    pe:line 5.
+    pe:uses <<(:thermo :delta -12)>>.
 }

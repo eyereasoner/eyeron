@@ -14,9 +14,8 @@ DATA {
   :BacterialPneumonia :rank "low" .
 
   _:step1
-    rdf:reifies <<( :COVID19 :unnormalizedScore 0.0015470000000000002 )>>;
-    pe:rule "bayes-diagnosis.srl";
-    pe:line 25;
+    rdf:reifies <<(:COVID19 :unnormalizedScore 0.0015470000000000002)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "breath"; pe:value 0.20 ],
       [ pe:var "cough"; pe:value 0.65 ],
@@ -27,53 +26,17 @@ DATA {
       [ pe:var "score"; pe:value 0.0015470000000000002 ],
       [ pe:var "smell"; pe:value 0.40 ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7,
-      _:step8.
+      <<(:COVID19 a :Disease)>>,
+      <<(:COVID19 :prior 0.05)>>,
+      <<(:COVID19 :pFever 0.70)>>,
+      <<(:COVID19 :pDryCough 0.65)>>,
+      <<(:COVID19 :pLossOfSmell 0.40)>>,
+      <<(:COVID19 :pNoSneezing 0.85)>>,
+      <<(:COVID19 :pShortBreath 0.20)>>.
 
   _:step2
-    rdf:reifies <<( :COVID19 a :Disease )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 8.
-
-  _:step3
-    rdf:reifies <<( :COVID19 :prior 0.05 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 8.
-
-  _:step4
-    rdf:reifies <<( :COVID19 :pFever 0.70 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 8.
-
-  _:step5
-    rdf:reifies <<( :COVID19 :pDryCough 0.65 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 8.
-
-  _:step6
-    rdf:reifies <<( :COVID19 :pLossOfSmell 0.40 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 8.
-
-  _:step7
-    rdf:reifies <<( :COVID19 :pNoSneezing 0.85 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 8.
-
-  _:step8
-    rdf:reifies <<( :COVID19 :pShortBreath 0.20 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 8.
-
-  _:step9
-    rdf:reifies <<( :Influenza :unnormalizedScore 0.00004800000000000001 )>>;
-    pe:rule "bayes-diagnosis.srl";
-    pe:line 25;
+    rdf:reifies <<(:Influenza :unnormalizedScore 0.00004800000000000001)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "breath"; pe:value 0.10 ],
       [ pe:var "cough"; pe:value 0.50 ],
@@ -84,53 +47,17 @@ DATA {
       [ pe:var "score"; pe:value 0.00004800000000000001 ],
       [ pe:var "smell"; pe:value 0.05 ];
     pe:uses
-      _:step10,
-      _:step11,
-      _:step12,
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16.
+      <<(:Influenza a :Disease)>>,
+      <<(:Influenza :prior 0.03)>>,
+      <<(:Influenza :pFever 0.80)>>,
+      <<(:Influenza :pDryCough 0.50)>>,
+      <<(:Influenza :pLossOfSmell 0.05)>>,
+      <<(:Influenza :pNoSneezing 0.80)>>,
+      <<(:Influenza :pShortBreath 0.10)>>.
 
-  _:step10
-    rdf:reifies <<( :Influenza a :Disease )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 12.
-
-  _:step11
-    rdf:reifies <<( :Influenza :prior 0.03 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 12.
-
-  _:step12
-    rdf:reifies <<( :Influenza :pFever 0.80 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 12.
-
-  _:step13
-    rdf:reifies <<( :Influenza :pDryCough 0.50 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 12.
-
-  _:step14
-    rdf:reifies <<( :Influenza :pLossOfSmell 0.05 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 12.
-
-  _:step15
-    rdf:reifies <<( :Influenza :pNoSneezing 0.80 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 12.
-
-  _:step16
-    rdf:reifies <<( :Influenza :pShortBreath 0.10 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 12.
-
-  _:step17
-    rdf:reifies <<( :AllergicRhinitis :unnormalizedScore 0.0000007500000000000003 )>>;
-    pe:rule "bayes-diagnosis.srl";
-    pe:line 25;
+  _:step3
+    rdf:reifies <<(:AllergicRhinitis :unnormalizedScore 0.0000007500000000000003)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "breath"; pe:value 0.05 ],
       [ pe:var "cough"; pe:value 0.15 ],
@@ -141,53 +68,17 @@ DATA {
       [ pe:var "score"; pe:value 0.0000007500000000000003 ],
       [ pe:var "smell"; pe:value 0.10 ];
     pe:uses
-      _:step18,
-      _:step19,
-      _:step20,
-      _:step21,
-      _:step22,
-      _:step23,
-      _:step24.
+      <<(:AllergicRhinitis a :Disease)>>,
+      <<(:AllergicRhinitis :prior 0.10)>>,
+      <<(:AllergicRhinitis :pFever 0.05)>>,
+      <<(:AllergicRhinitis :pDryCough 0.15)>>,
+      <<(:AllergicRhinitis :pLossOfSmell 0.10)>>,
+      <<(:AllergicRhinitis :pNoSneezing 0.20)>>,
+      <<(:AllergicRhinitis :pShortBreath 0.05)>>.
 
-  _:step18
-    rdf:reifies <<( :AllergicRhinitis a :Disease )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 16.
-
-  _:step19
-    rdf:reifies <<( :AllergicRhinitis :prior 0.10 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 16.
-
-  _:step20
-    rdf:reifies <<( :AllergicRhinitis :pFever 0.05 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 16.
-
-  _:step21
-    rdf:reifies <<( :AllergicRhinitis :pDryCough 0.15 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 16.
-
-  _:step22
-    rdf:reifies <<( :AllergicRhinitis :pLossOfSmell 0.10 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 16.
-
-  _:step23
-    rdf:reifies <<( :AllergicRhinitis :pNoSneezing 0.20 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 16.
-
-  _:step24
-    rdf:reifies <<( :AllergicRhinitis :pShortBreath 0.05 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 16.
-
-  _:step25
-    rdf:reifies <<( :BacterialPneumonia :unnormalizedScore 0.00004787999999999999 )>>;
-    pe:rule "bayes-diagnosis.srl";
-    pe:line 25;
+  _:step4
+    rdf:reifies <<(:BacterialPneumonia :unnormalizedScore 0.00004787999999999999)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "breath"; pe:value 0.60 ],
       [ pe:var "cough"; pe:value 0.60 ],
@@ -198,91 +89,51 @@ DATA {
       [ pe:var "score"; pe:value 0.00004787999999999999 ],
       [ pe:var "smell"; pe:value 0.02 ];
     pe:uses
-      _:step26,
-      _:step27,
-      _:step28,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step32.
+      <<(:BacterialPneumonia a :Disease)>>,
+      <<(:BacterialPneumonia :prior 0.01)>>,
+      <<(:BacterialPneumonia :pFever 0.70)>>,
+      <<(:BacterialPneumonia :pDryCough 0.60)>>,
+      <<(:BacterialPneumonia :pLossOfSmell 0.02)>>,
+      <<(:BacterialPneumonia :pNoSneezing 0.95)>>,
+      <<(:BacterialPneumonia :pShortBreath 0.60)>>.
 
-  _:step26
-    rdf:reifies <<( :BacterialPneumonia a :Disease )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 20.
-
-  _:step27
-    rdf:reifies <<( :BacterialPneumonia :prior 0.01 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 20.
-
-  _:step28
-    rdf:reifies <<( :BacterialPneumonia :pFever 0.70 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 20.
-
-  _:step29
-    rdf:reifies <<( :BacterialPneumonia :pDryCough 0.60 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 20.
-
-  _:step30
-    rdf:reifies <<( :BacterialPneumonia :pLossOfSmell 0.02 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 20.
-
-  _:step31
-    rdf:reifies <<( :BacterialPneumonia :pNoSneezing 0.95 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 20.
-
-  _:step32
-    rdf:reifies <<( :BacterialPneumonia :pShortBreath 0.60 )>>;
-    pe:fact "bayes-diagnosis.srl";
-    pe:line 20.
-
-  _:step33
-    rdf:reifies <<( :COVID19 :screenedIn true )>>;
-    pe:rule "bayes-diagnosis.srl";
-    pe:line 37;
+  _:step5
+    rdf:reifies <<(:COVID19 :screenedIn true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "d"; pe:value :COVID19 ],
       [ pe:var "score"; pe:value 0.0015470000000000002 ];
     pe:uses _:step1.
 
-  _:step34
-    rdf:reifies <<( :COVID19 :rank "high" )>>;
-    pe:rule "bayes-diagnosis.srl";
-    pe:line 40;
+  _:step6
+    rdf:reifies <<(:COVID19 :rank "high")>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "d"; pe:value :COVID19 ],
       [ pe:var "score"; pe:value 0.0015470000000000002 ];
     pe:uses _:step1.
 
-  _:step35
-    rdf:reifies <<( :Influenza :rank "low" )>>;
-    pe:rule "bayes-diagnosis.srl";
-    pe:line 46;
+  _:step7
+    rdf:reifies <<(:Influenza :rank "low")>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "d"; pe:value :Influenza ],
       [ pe:var "score"; pe:value 0.00004800000000000001 ];
-    pe:uses _:step9.
+    pe:uses _:step2.
 
-  _:step36
-    rdf:reifies <<( :AllergicRhinitis :rank "low" )>>;
-    pe:rule "bayes-diagnosis.srl";
-    pe:line 46;
+  _:step8
+    rdf:reifies <<(:AllergicRhinitis :rank "low")>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "d"; pe:value :AllergicRhinitis ],
       [ pe:var "score"; pe:value 0.0000007500000000000003 ];
-    pe:uses _:step17.
+    pe:uses _:step3.
 
-  _:step37
-    rdf:reifies <<( :BacterialPneumonia :rank "low" )>>;
-    pe:rule "bayes-diagnosis.srl";
-    pe:line 46;
+  _:step9
+    rdf:reifies <<(:BacterialPneumonia :rank "low")>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "d"; pe:value :BacterialPneumonia ],
       [ pe:var "score"; pe:value 0.00004787999999999999 ];
-    pe:uses _:step25.
+    pe:uses _:step4.
 }

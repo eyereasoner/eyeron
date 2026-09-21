@@ -7,23 +7,16 @@ DATA {
   :test :is true .
 
   _:step1
-    rdf:reifies <<( _:b1 a :Animal )>>;
-    pe:rule "monkey.srl";
-    pe:line 13;
+    rdf:reifies <<(_:b1 a :Animal)>>;
+    pe:rule "rule#1";
     pe:binding [ pe:var "x"; pe:value _:b1 ];
-    pe:uses _:step2.
+    pe:uses <<(_:b1 a :Monkey)>>.
 
   _:step2
-    rdf:reifies <<( _:b1 a :Monkey )>>;
-    pe:fact "monkey.srl";
-    pe:line 10.
-
-  _:step3
-    rdf:reifies <<( :test :is true )>>;
-    pe:rule "monkey.srl";
-    pe:line 14;
+    rdf:reifies <<(:test :is true)>>;
+    pe:rule "rule#2";
     pe:binding [ pe:var "x"; pe:value _:b1 ];
     pe:uses
-      _:step2,
+      <<(_:b1 a :Monkey)>>,
       _:step1.
 }

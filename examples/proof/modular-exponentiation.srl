@@ -41,332 +41,286 @@ DATA {
   :test :largeCase 453343 .
 
   _:step1
-    rdf:reifies <<( :s1 :val 7 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 17;
+    rdf:reifies <<(:s1 :val 7)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "p"; pe:value 1 ],
       [ pe:var "v"; pe:value 7 ];
-    pe:uses _:step2.
+    pe:uses <<(:s0 :val 1)>>.
 
   _:step2
-    rdf:reifies <<( :s0 :val 1 )>>;
-    pe:fact "modular-exponentiation.srl";
-    pe:line 15.
-
-  _:step3
-    rdf:reifies <<( :r1 :val 7 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 23;
+    rdf:reifies <<(:r1 :val 7)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "p"; pe:value 1 ],
       [ pe:var "v"; pe:value 7 ];
-    pe:uses _:step4.
+    pe:uses <<(:r0 :val 1)>>.
 
-  _:step4
-    rdf:reifies <<( :r0 :val 1 )>>;
-    pe:fact "modular-exponentiation.srl";
-    pe:line 15.
-
-  _:step5
-    rdf:reifies <<( :s2 :val 52 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 18;
+  _:step3
+    rdf:reifies <<(:s2 :val 52)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "p"; pe:value 7 ],
       [ pe:var "v"; pe:value 52 ];
     pe:uses _:step1.
 
-  _:step6
-    rdf:reifies <<( :r2 :val 343 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 24;
+  _:step4
+    rdf:reifies <<(:r2 :val 343)>>;
+    pe:rule "rule#7";
     pe:binding
       [ pe:var "p"; pe:value 7 ],
       [ pe:var "v"; pe:value 343 ];
-    pe:uses _:step3.
+    pe:uses _:step2.
 
-  _:step7
-    rdf:reifies <<( :s3 :val 85 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 19;
+  _:step5
+    rdf:reifies <<(:s3 :val 85)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "p"; pe:value 52 ],
       [ pe:var "v"; pe:value 85 ];
-    pe:uses _:step5.
+    pe:uses _:step3.
 
-  _:step8
-    rdf:reifies <<( :r3 :val 823543 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 25;
+  _:step6
+    rdf:reifies <<(:r3 :val 823543)>>;
+    pe:rule "rule#8";
     pe:binding
       [ pe:var "p"; pe:value 343 ],
       [ pe:var "v"; pe:value 823543 ];
-    pe:uses _:step6.
+    pe:uses _:step4.
 
-  _:step9
-    rdf:reifies <<( :s4 :val 38 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 20;
+  _:step7
+    rdf:reifies <<(:s4 :val 38)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "p"; pe:value 85 ],
       [ pe:var "v"; pe:value 38 ];
-    pe:uses _:step7.
+    pe:uses _:step5.
 
-  _:step10
-    rdf:reifies <<( :r4 :val 38186 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 26;
+  _:step8
+    rdf:reifies <<(:r4 :val 38186)>>;
+    pe:rule "rule#9";
     pe:binding
       [ pe:var "p"; pe:value 823543 ],
       [ pe:var "v"; pe:value 38186 ];
-    pe:uses _:step8.
+    pe:uses _:step6.
 
-  _:step11
-    rdf:reifies <<( :test :smallCheck 38 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 21;
+  _:step9
+    rdf:reifies <<(:test :smallCheck 38)>>;
+    pe:rule "rule#5";
     pe:binding [ pe:var "v"; pe:value 38 ];
-    pe:uses _:step9.
+    pe:uses _:step7.
 
-  _:step12
-    rdf:reifies <<( :r5 :val 163551 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 27;
+  _:step10
+    rdf:reifies <<(:r5 :val 163551)>>;
+    pe:rule "rule#10";
     pe:binding
       [ pe:var "p"; pe:value 38186 ],
       [ pe:var "v"; pe:value 163551 ];
-    pe:uses _:step10.
+    pe:uses _:step8.
 
-  _:step13
-    rdf:reifies <<( :r6 :val 945484 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 28;
+  _:step11
+    rdf:reifies <<(:r6 :val 945484)>>;
+    pe:rule "rule#11";
     pe:binding
       [ pe:var "p"; pe:value 163551 ],
       [ pe:var "v"; pe:value 945484 ];
-    pe:uses _:step12.
+    pe:uses _:step10.
 
-  _:step14
-    rdf:reifies <<( :r7 :val 187109 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 29;
+  _:step12
+    rdf:reifies <<(:r7 :val 187109)>>;
+    pe:rule "rule#12";
     pe:binding
       [ pe:var "p"; pe:value 945484 ],
       [ pe:var "v"; pe:value 187109 ];
-    pe:uses _:step13.
+    pe:uses _:step11.
 
-  _:step15
-    rdf:reifies <<( :r8 :val 672854 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 30;
+  _:step13
+    rdf:reifies <<(:r8 :val 672854)>>;
+    pe:rule "rule#13";
     pe:binding
       [ pe:var "p"; pe:value 187109 ],
       [ pe:var "v"; pe:value 672854 ];
-    pe:uses _:step14.
+    pe:uses _:step12.
 
-  _:step16
-    rdf:reifies <<( :r9 :val 147123 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 31;
+  _:step14
+    rdf:reifies <<(:r9 :val 147123)>>;
+    pe:rule "rule#14";
     pe:binding
       [ pe:var "p"; pe:value 672854 ],
       [ pe:var "v"; pe:value 147123 ];
-    pe:uses _:step15.
+    pe:uses _:step13.
 
-  _:step17
-    rdf:reifies <<( :r10 :val 785358 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 32;
+  _:step15
+    rdf:reifies <<(:r10 :val 785358)>>;
+    pe:rule "rule#15";
     pe:binding
       [ pe:var "p"; pe:value 147123 ],
       [ pe:var "v"; pe:value 785358 ];
-    pe:uses _:step16.
+    pe:uses _:step14.
 
-  _:step18
-    rdf:reifies <<( :r11 :val 364657 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 33;
+  _:step16
+    rdf:reifies <<(:r11 :val 364657)>>;
+    pe:rule "rule#16";
     pe:binding
       [ pe:var "p"; pe:value 785358 ],
       [ pe:var "v"; pe:value 364657 ];
-    pe:uses _:step17.
+    pe:uses _:step15.
 
-  _:step19
-    rdf:reifies <<( :r12 :val 328727 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 34;
+  _:step17
+    rdf:reifies <<(:r12 :val 328727)>>;
+    pe:rule "rule#17";
     pe:binding
       [ pe:var "p"; pe:value 364657 ],
       [ pe:var "v"; pe:value 328727 ];
-    pe:uses _:step18.
+    pe:uses _:step16.
 
-  _:step20
-    rdf:reifies <<( :r13 :val 814422 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 35;
+  _:step18
+    rdf:reifies <<(:r13 :val 814422)>>;
+    pe:rule "rule#18";
     pe:binding
       [ pe:var "p"; pe:value 328727 ],
       [ pe:var "v"; pe:value 814422 ];
-    pe:uses _:step19.
+    pe:uses _:step17.
 
-  _:step21
-    rdf:reifies <<( :r14 :val 204241 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 36;
+  _:step19
+    rdf:reifies <<(:r14 :val 204241)>>;
+    pe:rule "rule#19";
     pe:binding
       [ pe:var "p"; pe:value 814422 ],
       [ pe:var "v"; pe:value 204241 ];
-    pe:uses _:step20.
+    pe:uses _:step18.
 
-  _:step22
-    rdf:reifies <<( :r15 :val 826570 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 37;
+  _:step20
+    rdf:reifies <<(:r15 :val 826570)>>;
+    pe:rule "rule#20";
     pe:binding
       [ pe:var "p"; pe:value 204241 ],
       [ pe:var "v"; pe:value 826570 ];
-    pe:uses _:step21.
+    pe:uses _:step19.
 
-  _:step23
-    rdf:reifies <<( :r16 :val 406767 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 38;
+  _:step21
+    rdf:reifies <<(:r16 :val 406767)>>;
+    pe:rule "rule#21";
     pe:binding
       [ pe:var "p"; pe:value 826570 ],
       [ pe:var "v"; pe:value 406767 ];
-    pe:uses _:step22.
+    pe:uses _:step20.
 
-  _:step24
-    rdf:reifies <<( :r17 :val 895915 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 39;
+  _:step22
+    rdf:reifies <<(:r17 :val 895915)>>;
+    pe:rule "rule#22";
     pe:binding
       [ pe:var "p"; pe:value 406767 ],
       [ pe:var "v"; pe:value 895915 ];
-    pe:uses _:step23.
+    pe:uses _:step21.
 
-  _:step25
-    rdf:reifies <<( :r18 :val 279242 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 40;
+  _:step23
+    rdf:reifies <<(:r18 :val 279242)>>;
+    pe:rule "rule#23";
     pe:binding
       [ pe:var "p"; pe:value 895915 ],
       [ pe:var "v"; pe:value 279242 ];
-    pe:uses _:step24.
+    pe:uses _:step22.
 
-  _:step26
-    rdf:reifies <<( :r19 :val 24455 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 41;
+  _:step24
+    rdf:reifies <<(:r19 :val 24455)>>;
+    pe:rule "rule#24";
     pe:binding
       [ pe:var "p"; pe:value 279242 ],
       [ pe:var "v"; pe:value 24455 ];
-    pe:uses _:step25.
+    pe:uses _:step23.
 
-  _:step27
-    rdf:reifies <<( :r20 :val 45231 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 42;
+  _:step25
+    rdf:reifies <<(:r20 :val 45231)>>;
+    pe:rule "rule#25";
     pe:binding
       [ pe:var "p"; pe:value 24455 ],
       [ pe:var "v"; pe:value 45231 ];
-    pe:uses _:step26.
+    pe:uses _:step24.
 
-  _:step28
-    rdf:reifies <<( :r21 :val 860567 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 43;
+  _:step26
+    rdf:reifies <<(:r21 :val 860567)>>;
+    pe:rule "rule#26";
     pe:binding
       [ pe:var "p"; pe:value 45231 ],
       [ pe:var "v"; pe:value 860567 ];
-    pe:uses _:step27.
+    pe:uses _:step25.
 
-  _:step29
-    rdf:reifies <<( :r22 :val 339770 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 44;
+  _:step27
+    rdf:reifies <<(:r22 :val 339770)>>;
+    pe:rule "rule#27";
     pe:binding
       [ pe:var "p"; pe:value 860567 ],
       [ pe:var "v"; pe:value 339770 ];
-    pe:uses _:step28.
+    pe:uses _:step26.
 
-  _:step30
-    rdf:reifies <<( :r23 :val 306571 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 45;
+  _:step28
+    rdf:reifies <<(:r23 :val 306571)>>;
+    pe:rule "rule#28";
     pe:binding
       [ pe:var "p"; pe:value 339770 ],
       [ pe:var "v"; pe:value 306571 ];
-    pe:uses _:step29.
+    pe:uses _:step27.
 
-  _:step31
-    rdf:reifies <<( :r24 :val 496086 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 46;
+  _:step29
+    rdf:reifies <<(:r24 :val 496086)>>;
+    pe:rule "rule#29";
     pe:binding
       [ pe:var "p"; pe:value 306571 ],
       [ pe:var "v"; pe:value 496086 ];
-    pe:uses _:step30.
+    pe:uses _:step28.
 
-  _:step32
-    rdf:reifies <<( :r25 :val 581096 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 47;
+  _:step30
+    rdf:reifies <<(:r25 :val 581096)>>;
+    pe:rule "rule#30";
     pe:binding
       [ pe:var "p"; pe:value 496086 ],
       [ pe:var "v"; pe:value 581096 ];
-    pe:uses _:step31.
+    pe:uses _:step29.
 
-  _:step33
-    rdf:reifies <<( :r26 :val 548203 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 48;
+  _:step31
+    rdf:reifies <<(:r26 :val 548203)>>;
+    pe:rule "rule#31";
     pe:binding
       [ pe:var "p"; pe:value 581096 ],
       [ pe:var "v"; pe:value 548203 ];
-    pe:uses _:step32.
+    pe:uses _:step30.
 
-  _:step34
-    rdf:reifies <<( :r27 :val 627634 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 49;
+  _:step32
+    rdf:reifies <<(:r27 :val 627634)>>;
+    pe:rule "rule#32";
     pe:binding
       [ pe:var "p"; pe:value 548203 ],
       [ pe:var "v"; pe:value 627634 ];
-    pe:uses _:step33.
+    pe:uses _:step31.
 
-  _:step35
-    rdf:reifies <<( :r28 :val 256187 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 50;
+  _:step33
+    rdf:reifies <<(:r28 :val 256187)>>;
+    pe:rule "rule#33";
     pe:binding
       [ pe:var "p"; pe:value 627634 ],
       [ pe:var "v"; pe:value 256187 ];
-    pe:uses _:step34.
+    pe:uses _:step32.
 
-  _:step36
-    rdf:reifies <<( :r29 :val 582076 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 51;
+  _:step34
+    rdf:reifies <<(:r29 :val 582076)>>;
+    pe:rule "rule#34";
     pe:binding
       [ pe:var "p"; pe:value 256187 ],
       [ pe:var "v"; pe:value 582076 ];
-    pe:uses _:step35.
+    pe:uses _:step33.
 
-  _:step37
-    rdf:reifies <<( :r30 :val 453343 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 52;
+  _:step35
+    rdf:reifies <<(:r30 :val 453343)>>;
+    pe:rule "rule#35";
     pe:binding
       [ pe:var "p"; pe:value 582076 ],
       [ pe:var "v"; pe:value 453343 ];
-    pe:uses _:step36.
+    pe:uses _:step34.
 
-  _:step38
-    rdf:reifies <<( :test :largeCase 453343 )>>;
-    pe:rule "modular-exponentiation.srl";
-    pe:line 53;
+  _:step36
+    rdf:reifies <<(:test :largeCase 453343)>>;
+    pe:rule "rule#36";
     pe:binding [ pe:var "v"; pe:value 453343 ];
-    pe:uses _:step37.
+    pe:uses _:step35.
 }

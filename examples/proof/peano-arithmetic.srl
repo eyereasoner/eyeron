@@ -16,131 +16,90 @@ DATA {
   :test :result :n6 .
 
   _:step1
-    rdf:reifies <<( :two :peanoValue :n1 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 25;
-    pe:uses _:step2.
+    rdf:reifies <<(:two :peanoValue :n1)>>;
+    pe:rule "rule#1";
+    pe:uses <<(:n1 :succ :n0)>>.
 
   _:step2
-    rdf:reifies <<( :n1 :succ :n0 )>>;
-    pe:fact "peano-arithmetic.srl";
-    pe:line 17.
+    rdf:reifies <<(:fac0 :peanoValue :n1)>>;
+    pe:rule "rule#4";
+    pe:uses <<(:n1 :succ :n0)>>.
 
   _:step3
-    rdf:reifies <<( :fac0 :peanoValue :n1 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 29;
-    pe:uses _:step2.
-
-  _:step4
-    rdf:reifies <<( :addStep1 :peanoValue :n2 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 26;
+    rdf:reifies <<(:addStep1 :peanoValue :n2)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "a"; pe:value :n1 ],
       [ pe:var "m"; pe:value :n2 ];
     pe:uses
       _:step1,
-      _:step5.
+      <<(:n2 :succ :n1)>>.
+
+  _:step4
+    rdf:reifies <<(:fac1 :peanoValue :n1)>>;
+    pe:rule "rule#5";
+    pe:uses _:step2.
 
   _:step5
-    rdf:reifies <<( :n2 :succ :n1 )>>;
-    pe:fact "peano-arithmetic.srl";
-    pe:line 18.
-
-  _:step6
-    rdf:reifies <<( :fac1 :peanoValue :n1 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 30;
-    pe:uses _:step3.
-
-  _:step7
-    rdf:reifies <<( :three :peanoValue :n3 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 27;
+    rdf:reifies <<(:three :peanoValue :n3)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "m"; pe:value :n2 ],
       [ pe:var "r"; pe:value :n3 ];
     pe:uses
-      _:step4,
-      _:step8.
+      _:step3,
+      <<(:n3 :succ :n2)>>.
 
-  _:step8
-    rdf:reifies <<( :n3 :succ :n2 )>>;
-    pe:fact "peano-arithmetic.srl";
-    pe:line 19.
+  _:step6
+    rdf:reifies <<(:fac2 :peanoValue :n2)>>;
+    pe:rule "rule#6";
+    pe:uses _:step4.
 
-  _:step9
-    rdf:reifies <<( :fac2 :peanoValue :n2 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 31;
-    pe:uses _:step6.
-
-  _:step10
-    rdf:reifies <<( :facStep1 :peanoValue :n4 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 32;
+  _:step7
+    rdf:reifies <<(:facStep1 :peanoValue :n4)>>;
+    pe:rule "rule#7";
     pe:binding [ pe:var "m"; pe:value :n4 ];
     pe:uses
-      _:step9,
-      _:step11.
+      _:step6,
+      <<(:n4 :succ :n3)>>.
 
-  _:step11
-    rdf:reifies <<( :n4 :succ :n3 )>>;
-    pe:fact "peano-arithmetic.srl";
-    pe:line 20.
-
-  _:step12
-    rdf:reifies <<( :facStep2 :peanoValue :n5 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 33;
+  _:step8
+    rdf:reifies <<(:facStep2 :peanoValue :n5)>>;
+    pe:rule "rule#8";
     pe:binding
       [ pe:var "m"; pe:value :n5 ],
       [ pe:var "p"; pe:value :n4 ];
     pe:uses
-      _:step10,
-      _:step13.
+      _:step7,
+      <<(:n5 :succ :n4)>>.
 
-  _:step13
-    rdf:reifies <<( :n5 :succ :n4 )>>;
-    pe:fact "peano-arithmetic.srl";
-    pe:line 21.
-
-  _:step14
-    rdf:reifies <<( :fac3 :peanoValue :n6 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 34;
+  _:step9
+    rdf:reifies <<(:fac3 :peanoValue :n6)>>;
+    pe:rule "rule#9";
     pe:binding
       [ pe:var "m"; pe:value :n6 ],
       [ pe:var "p"; pe:value :n5 ];
     pe:uses
-      _:step12,
-      _:step15.
+      _:step8,
+      <<(:n6 :succ :n5)>>.
 
-  _:step15
-    rdf:reifies <<( :n6 :succ :n5 )>>;
-    pe:fact "peano-arithmetic.srl";
-    pe:line 22.
-
-  _:step16
-    rdf:reifies <<( :test :three :n3 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 36;
+  _:step10
+    rdf:reifies <<(:test :three :n3)>>;
+    pe:rule "rule#10";
     pe:binding
       [ pe:var "result"; pe:value :n6 ],
       [ pe:var "three"; pe:value :n3 ];
     pe:uses
-      _:step7,
-      _:step14.
+      _:step5,
+      _:step9.
 
-  _:step17
-    rdf:reifies <<( :test :result :n6 )>>;
-    pe:rule "peano-arithmetic.srl";
-    pe:line 36;
+  _:step11
+    rdf:reifies <<(:test :result :n6)>>;
+    pe:rule "rule#10";
     pe:binding
       [ pe:var "result"; pe:value :n6 ],
       [ pe:var "three"; pe:value :n3 ];
     pe:uses
-      _:step7,
-      _:step14.
+      _:step5,
+      _:step9.
 }

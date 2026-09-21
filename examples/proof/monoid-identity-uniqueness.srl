@@ -8,39 +8,21 @@ DATA {
   :result :uniqueIdentity :e2 .
 
   _:step1
-    rdf:reifies <<( :e2_e_mul_e2 :holds true )>>;
-    pe:rule "monoid-identity-uniqueness.srl";
-    pe:line 15;
-    pe:uses _:step2.
+    rdf:reifies <<(:e2_e_mul_e2 :holds true)>>;
+    pe:rule "rule#1";
+    pe:uses <<(:e2 :inG true)>>.
 
   _:step2
-    rdf:reifies <<( :e2 :inG true )>>;
-    pe:fact "monoid-identity-uniqueness.srl";
-    pe:line 13.
+    rdf:reifies <<(:e2_e_mul_e :holds true)>>;
+    pe:rule "rule#2";
+    pe:uses
+      <<(:e2 :candidateIdentity true)>>,
+      <<(:e :inG true)>>.
 
   _:step3
-    rdf:reifies <<( :e2_e_mul_e :holds true )>>;
-    pe:rule "monoid-identity-uniqueness.srl";
-    pe:line 16;
-    pe:uses
-      _:step4,
-      _:step5.
-
-  _:step4
-    rdf:reifies <<( :e2 :candidateIdentity true )>>;
-    pe:fact "monoid-identity-uniqueness.srl";
-    pe:line 13.
-
-  _:step5
-    rdf:reifies <<( :e :inG true )>>;
-    pe:fact "monoid-identity-uniqueness.srl";
-    pe:line 13.
-
-  _:step6
-    rdf:reifies <<( :result :uniqueIdentity :e2 )>>;
-    pe:rule "monoid-identity-uniqueness.srl";
-    pe:line 18;
+    rdf:reifies <<(:result :uniqueIdentity :e2)>>;
+    pe:rule "rule#3";
     pe:uses
       _:step1,
-      _:step3.
+      _:step2.
 }

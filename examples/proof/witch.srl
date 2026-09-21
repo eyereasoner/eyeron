@@ -11,65 +11,44 @@ DATA {
   :GIRL a :WITCH .
 
   _:step1
-    rdf:reifies <<( :DUCK a :ISMADEOFWOOD )>>;
-    pe:rule "witch.srl";
-    pe:line 14;
+    rdf:reifies <<(:DUCK a :ISMADEOFWOOD)>>;
+    pe:rule "rule#3";
     pe:binding [ pe:var "x"; pe:value :DUCK ];
-    pe:uses _:step2.
+    pe:uses <<(:DUCK a :FLOATS)>>.
 
   _:step2
-    rdf:reifies <<( :DUCK a :FLOATS )>>;
-    pe:fact "witch.srl";
-    pe:line 8.
-
-  _:step3
-    rdf:reifies <<( :GIRL a :FLOATS )>>;
-    pe:rule "witch.srl";
-    pe:line 15;
+    rdf:reifies <<(:GIRL a :FLOATS)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "x"; pe:value :DUCK ],
       [ pe:var "y"; pe:value :GIRL ];
     pe:uses
-      _:step2,
-      _:step4.
+      <<(:DUCK a :FLOATS)>>,
+      <<(:DUCK :SAMEWEIGHT :GIRL)>>.
 
-  _:step4
-    rdf:reifies <<( :DUCK :SAMEWEIGHT :GIRL )>>;
-    pe:fact "witch.srl";
-    pe:line 9.
-
-  _:step5
-    rdf:reifies <<( :DUCK a :BURNS )>>;
-    pe:rule "witch.srl";
-    pe:line 13;
+  _:step3
+    rdf:reifies <<(:DUCK a :BURNS)>>;
+    pe:rule "rule#2";
     pe:binding [ pe:var "x"; pe:value :DUCK ];
     pe:uses _:step1.
 
+  _:step4
+    rdf:reifies <<(:GIRL a :ISMADEOFWOOD)>>;
+    pe:rule "rule#3";
+    pe:binding [ pe:var "x"; pe:value :GIRL ];
+    pe:uses _:step2.
+
+  _:step5
+    rdf:reifies <<(:GIRL a :BURNS)>>;
+    pe:rule "rule#2";
+    pe:binding [ pe:var "x"; pe:value :GIRL ];
+    pe:uses _:step4.
+
   _:step6
-    rdf:reifies <<( :GIRL a :ISMADEOFWOOD )>>;
-    pe:rule "witch.srl";
-    pe:line 14;
-    pe:binding [ pe:var "x"; pe:value :GIRL ];
-    pe:uses _:step3.
-
-  _:step7
-    rdf:reifies <<( :GIRL a :BURNS )>>;
-    pe:rule "witch.srl";
-    pe:line 13;
-    pe:binding [ pe:var "x"; pe:value :GIRL ];
-    pe:uses _:step6.
-
-  _:step8
-    rdf:reifies <<( :GIRL a :WITCH )>>;
-    pe:rule "witch.srl";
-    pe:line 12;
+    rdf:reifies <<(:GIRL a :WITCH)>>;
+    pe:rule "rule#1";
     pe:binding [ pe:var "x"; pe:value :GIRL ];
     pe:uses
-      _:step7,
-      _:step9.
-
-  _:step9
-    rdf:reifies <<( :GIRL a :WOMAN )>>;
-    pe:fact "witch.srl";
-    pe:line 7.
+      _:step5,
+      <<(:GIRL a :WOMAN)>>.
 }

@@ -6,14 +6,8 @@ DATA {
   :result :is true .
 
   _:step1
-    rdf:reifies <<( :result :is true )>>;
-    pe:rule "log-for-all-in.srl";
-    pe:line 22;
+    rdf:reifies <<(:result :is true)>>;
+    pe:rule "rule#2";
     pe:binding [ pe:var "c"; pe:value :c ];
-    pe:uses _:step2.
-
-  _:step2
-    rdf:reifies <<( :c a :CompositeTask )>>;
-    pe:fact "log-for-all-in.srl";
-    pe:line 11.
+    pe:uses <<(:c a :CompositeTask)>>.
 }

@@ -41,321 +41,244 @@ DATA {
   anpr:PassengerCar ex:rollsUpTo ref:Car .
 
   _:step1
-    rdf:reifies <<( tel:Car skos:broader ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 25;
+    rdf:reifies <<(tel:Car skos:broader ref:Car)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "a"; pe:value tel:Car ],
       [ pe:var "b"; pe:value ref:Car ];
-    pe:uses _:step2.
+    pe:uses <<(tel:Car skos:broadMatch ref:Car)>>.
 
   _:step2
-    rdf:reifies <<( tel:Car skos:broadMatch ref:Car )>>;
-    pe:fact "alignment-demo.srl";
-    pe:line 20.
-
-  _:step3
-    rdf:reifies <<( tel:HeavyVehicle skos:broader ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 25;
+    rdf:reifies <<(tel:HeavyVehicle skos:broader ref:Car)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "a"; pe:value tel:HeavyVehicle ],
       [ pe:var "b"; pe:value ref:Car ];
-    pe:uses _:step4.
+    pe:uses <<(tel:HeavyVehicle skos:broadMatch ref:Car)>>.
 
-  _:step4
-    rdf:reifies <<( tel:HeavyVehicle skos:broadMatch ref:Car )>>;
-    pe:fact "alignment-demo.srl";
-    pe:line 21.
-
-  _:step5
-    rdf:reifies <<( anpr:VehicleWithPlate skos:broader ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 25;
+  _:step3
+    rdf:reifies <<(anpr:VehicleWithPlate skos:broader ref:Car)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "b"; pe:value ref:Car ];
-    pe:uses _:step6.
+    pe:uses <<(anpr:VehicleWithPlate skos:broadMatch ref:Car)>>.
+
+  _:step4
+    rdf:reifies <<(anpr:VehicleWithPlate skos:narrower anpr:PassengerCar)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
+      [ pe:var "n"; pe:value anpr:PassengerCar ];
+    pe:uses <<(anpr:PassengerCar skos:broader anpr:VehicleWithPlate)>>.
+
+  _:step5
+    rdf:reifies <<(anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate)>>;
+    pe:rule "rule#3";
+    pe:binding
+      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
+      [ pe:var "n"; pe:value anpr:PassengerCar ];
+    pe:uses <<(anpr:PassengerCar skos:broader anpr:VehicleWithPlate)>>.
 
   _:step6
-    rdf:reifies <<( anpr:VehicleWithPlate skos:broadMatch ref:Car )>>;
-    pe:fact "alignment-demo.srl";
-    pe:line 22.
+    rdf:reifies <<(ref:Car ex:narrowerOrEqualOf ref:Car)>>;
+    pe:rule "rule#9";
+    pe:binding [ pe:var "c"; pe:value ref:Car ];
+    pe:uses <<(ref:Car a skos:Concept)>>.
 
   _:step7
-    rdf:reifies <<( anpr:VehicleWithPlate skos:narrower anpr:PassengerCar )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 26;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value anpr:PassengerCar ];
-    pe:uses _:step8.
+    rdf:reifies <<(tel:Car ex:narrowerOrEqualOf tel:Car)>>;
+    pe:rule "rule#9";
+    pe:binding [ pe:var "c"; pe:value tel:Car ];
+    pe:uses <<(tel:Car a skos:Concept)>>.
 
   _:step8
-    rdf:reifies <<( anpr:PassengerCar skos:broader anpr:VehicleWithPlate )>>;
-    pe:fact "alignment-demo.srl";
-    pe:line 16.
+    rdf:reifies <<(tel:HeavyVehicle ex:narrowerOrEqualOf tel:HeavyVehicle)>>;
+    pe:rule "rule#9";
+    pe:binding [ pe:var "c"; pe:value tel:HeavyVehicle ];
+    pe:uses <<(tel:HeavyVehicle a skos:Concept)>>.
 
   _:step9
-    rdf:reifies <<( anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value anpr:PassengerCar ];
-    pe:uses _:step8.
+    rdf:reifies <<(anpr:VehicleWithPlate ex:narrowerOrEqualOf anpr:VehicleWithPlate)>>;
+    pe:rule "rule#9";
+    pe:binding [ pe:var "c"; pe:value anpr:VehicleWithPlate ];
+    pe:uses <<(anpr:VehicleWithPlate a skos:Concept)>>.
 
   _:step10
-    rdf:reifies <<( ref:Car ex:narrowerOrEqualOf ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 38;
-    pe:binding [ pe:var "c"; pe:value ref:Car ];
-    pe:uses _:step11.
+    rdf:reifies <<(anpr:PassengerCar ex:narrowerOrEqualOf anpr:PassengerCar)>>;
+    pe:rule "rule#9";
+    pe:binding [ pe:var "c"; pe:value anpr:PassengerCar ];
+    pe:uses <<(anpr:PassengerCar a skos:Concept)>>.
 
   _:step11
-    rdf:reifies <<( ref:Car a skos:Concept )>>;
-    pe:fact "alignment-demo.srl";
-    pe:line 12.
+    rdf:reifies <<(ref:Car skos:narrower tel:Car)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "b"; pe:value ref:Car ],
+      [ pe:var "n"; pe:value tel:Car ];
+    pe:uses _:step1.
 
   _:step12
-    rdf:reifies <<( tel:Car ex:narrowerOrEqualOf tel:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 38;
-    pe:binding [ pe:var "c"; pe:value tel:Car ];
-    pe:uses _:step13.
+    rdf:reifies <<(ref:Car skos:narrower tel:HeavyVehicle)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "b"; pe:value ref:Car ],
+      [ pe:var "n"; pe:value tel:HeavyVehicle ];
+    pe:uses _:step2.
 
   _:step13
-    rdf:reifies <<( tel:Car a skos:Concept )>>;
-    pe:fact "alignment-demo.srl";
-    pe:line 13.
+    rdf:reifies <<(ref:Car skos:narrower anpr:VehicleWithPlate)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "b"; pe:value ref:Car ],
+      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
+    pe:uses _:step3.
 
   _:step14
-    rdf:reifies <<( tel:HeavyVehicle ex:narrowerOrEqualOf tel:HeavyVehicle )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 38;
-    pe:binding [ pe:var "c"; pe:value tel:HeavyVehicle ];
-    pe:uses _:step15.
+    rdf:reifies <<(tel:Car skos:broaderTransitive ref:Car)>>;
+    pe:rule "rule#3";
+    pe:binding
+      [ pe:var "b"; pe:value ref:Car ],
+      [ pe:var "n"; pe:value tel:Car ];
+    pe:uses _:step1.
 
   _:step15
-    rdf:reifies <<( tel:HeavyVehicle a skos:Concept )>>;
-    pe:fact "alignment-demo.srl";
-    pe:line 14.
+    rdf:reifies <<(tel:HeavyVehicle skos:broaderTransitive ref:Car)>>;
+    pe:rule "rule#3";
+    pe:binding
+      [ pe:var "b"; pe:value ref:Car ],
+      [ pe:var "n"; pe:value tel:HeavyVehicle ];
+    pe:uses _:step2.
 
   _:step16
-    rdf:reifies <<( anpr:VehicleWithPlate ex:narrowerOrEqualOf anpr:VehicleWithPlate )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 38;
-    pe:binding [ pe:var "c"; pe:value anpr:VehicleWithPlate ];
-    pe:uses _:step17.
+    rdf:reifies <<(anpr:VehicleWithPlate skos:broaderTransitive ref:Car)>>;
+    pe:rule "rule#3";
+    pe:binding
+      [ pe:var "b"; pe:value ref:Car ],
+      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
+    pe:uses _:step3.
 
   _:step17
-    rdf:reifies <<( anpr:VehicleWithPlate a skos:Concept )>>;
-    pe:fact "alignment-demo.srl";
-    pe:line 15.
-
-  _:step18
-    rdf:reifies <<( anpr:PassengerCar ex:narrowerOrEqualOf anpr:PassengerCar )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 38;
-    pe:binding [ pe:var "c"; pe:value anpr:PassengerCar ];
-    pe:uses _:step19.
-
-  _:step19
-    rdf:reifies <<( anpr:PassengerCar a skos:Concept )>>;
-    pe:fact "alignment-demo.srl";
-    pe:line 16.
-
-  _:step20
-    rdf:reifies <<( ref:Car skos:narrower tel:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 26;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:Car ];
-    pe:uses _:step1.
-
-  _:step21
-    rdf:reifies <<( ref:Car skos:narrower tel:HeavyVehicle )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 26;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:HeavyVehicle ];
-    pe:uses _:step3.
-
-  _:step22
-    rdf:reifies <<( ref:Car skos:narrower anpr:VehicleWithPlate )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 26;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses _:step5.
-
-  _:step23
-    rdf:reifies <<( tel:Car skos:broaderTransitive ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:Car ];
-    pe:uses _:step1.
-
-  _:step24
-    rdf:reifies <<( tel:HeavyVehicle skos:broaderTransitive ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:HeavyVehicle ];
-    pe:uses _:step3.
-
-  _:step25
-    rdf:reifies <<( anpr:VehicleWithPlate skos:broaderTransitive ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses _:step5.
-
-  _:step26
-    rdf:reifies <<( anpr:VehicleWithPlate skos:narrowerTransitive anpr:PassengerCar )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 28;
+    rdf:reifies <<(anpr:VehicleWithPlate skos:narrowerTransitive anpr:PassengerCar)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "c"; pe:value anpr:PassengerCar ],
       [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses _:step7.
+    pe:uses _:step4.
 
-  _:step27
-    rdf:reifies <<( anpr:PassengerCar ex:narrowerOrEqualOf anpr:VehicleWithPlate )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 39;
+  _:step18
+    rdf:reifies <<(anpr:PassengerCar ex:narrowerOrEqualOf anpr:VehicleWithPlate)>>;
+    pe:rule "rule#10";
     pe:binding
       [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "c"; pe:value anpr:PassengerCar ];
-    pe:uses _:step9.
+    pe:uses _:step5.
 
-  _:step28
-    rdf:reifies <<( ref:Car ex:rollsUpTo ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 40;
+  _:step19
+    rdf:reifies <<(ref:Car ex:rollsUpTo ref:Car)>>;
+    pe:rule "rule#11";
     pe:binding [ pe:var "x"; pe:value ref:Car ];
-    pe:uses _:step10.
+    pe:uses _:step6.
 
-  _:step29
-    rdf:reifies <<( ref:Car skos:narrowerTransitive tel:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 28;
+  _:step20
+    rdf:reifies <<(ref:Car skos:narrowerTransitive tel:Car)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "c"; pe:value tel:Car ],
       [ pe:var "n"; pe:value ref:Car ];
-    pe:uses _:step20.
+    pe:uses _:step11.
 
-  _:step30
-    rdf:reifies <<( ref:Car skos:narrowerTransitive tel:HeavyVehicle )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 28;
+  _:step21
+    rdf:reifies <<(ref:Car skos:narrowerTransitive tel:HeavyVehicle)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "c"; pe:value tel:HeavyVehicle ],
       [ pe:var "n"; pe:value ref:Car ];
-    pe:uses _:step21.
+    pe:uses _:step12.
 
-  _:step31
-    rdf:reifies <<( ref:Car skos:narrowerTransitive anpr:VehicleWithPlate )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 28;
+  _:step22
+    rdf:reifies <<(ref:Car skos:narrowerTransitive anpr:VehicleWithPlate)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "c"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "n"; pe:value ref:Car ];
-    pe:uses _:step22.
+    pe:uses _:step13.
 
-  _:step32
-    rdf:reifies <<( anpr:PassengerCar skos:broaderTransitive ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 30;
+  _:step23
+    rdf:reifies <<(anpr:PassengerCar skos:broaderTransitive ref:Car)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "a"; pe:value anpr:PassengerCar ],
       [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "c"; pe:value ref:Car ];
     pe:uses
-      _:step9,
-      _:step25.
+      _:step5,
+      _:step16.
 
-  _:step33
-    rdf:reifies <<( tel:Car ex:narrowerOrEqualOf ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 39;
+  _:step24
+    rdf:reifies <<(tel:Car ex:narrowerOrEqualOf ref:Car)>>;
+    pe:rule "rule#10";
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "c"; pe:value tel:Car ];
-    pe:uses _:step23.
+    pe:uses _:step14.
 
-  _:step34
-    rdf:reifies <<( tel:HeavyVehicle ex:narrowerOrEqualOf ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 39;
+  _:step25
+    rdf:reifies <<(tel:HeavyVehicle ex:narrowerOrEqualOf ref:Car)>>;
+    pe:rule "rule#10";
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "c"; pe:value tel:HeavyVehicle ];
-    pe:uses _:step24.
+    pe:uses _:step15.
 
-  _:step35
-    rdf:reifies <<( anpr:VehicleWithPlate ex:narrowerOrEqualOf ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 39;
+  _:step26
+    rdf:reifies <<(anpr:VehicleWithPlate ex:narrowerOrEqualOf ref:Car)>>;
+    pe:rule "rule#10";
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "c"; pe:value anpr:VehicleWithPlate ];
-    pe:uses _:step25.
+    pe:uses _:step16.
 
-  _:step36
-    rdf:reifies <<( ref:Car skos:narrowerTransitive anpr:PassengerCar )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 33;
+  _:step27
+    rdf:reifies <<(ref:Car skos:narrowerTransitive anpr:PassengerCar)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "a"; pe:value ref:Car ],
       [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "c"; pe:value anpr:PassengerCar ];
     pe:uses
-      _:step31,
-      _:step26.
+      _:step22,
+      _:step17.
 
-  _:step37
-    rdf:reifies <<( anpr:PassengerCar ex:narrowerOrEqualOf ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 39;
+  _:step28
+    rdf:reifies <<(anpr:PassengerCar ex:narrowerOrEqualOf ref:Car)>>;
+    pe:rule "rule#10";
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "c"; pe:value anpr:PassengerCar ];
-    pe:uses _:step32.
+    pe:uses _:step23.
 
-  _:step38
-    rdf:reifies <<( tel:Car ex:rollsUpTo ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 40;
+  _:step29
+    rdf:reifies <<(tel:Car ex:rollsUpTo ref:Car)>>;
+    pe:rule "rule#11";
     pe:binding [ pe:var "x"; pe:value tel:Car ];
-    pe:uses _:step33.
+    pe:uses _:step24.
 
-  _:step39
-    rdf:reifies <<( tel:HeavyVehicle ex:rollsUpTo ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 40;
+  _:step30
+    rdf:reifies <<(tel:HeavyVehicle ex:rollsUpTo ref:Car)>>;
+    pe:rule "rule#11";
     pe:binding [ pe:var "x"; pe:value tel:HeavyVehicle ];
-    pe:uses _:step34.
+    pe:uses _:step25.
 
-  _:step40
-    rdf:reifies <<( anpr:VehicleWithPlate ex:rollsUpTo ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 40;
+  _:step31
+    rdf:reifies <<(anpr:VehicleWithPlate ex:rollsUpTo ref:Car)>>;
+    pe:rule "rule#11";
     pe:binding [ pe:var "x"; pe:value anpr:VehicleWithPlate ];
-    pe:uses _:step35.
+    pe:uses _:step26.
 
-  _:step41
-    rdf:reifies <<( anpr:PassengerCar ex:rollsUpTo ref:Car )>>;
-    pe:rule "alignment-demo.srl";
-    pe:line 40;
+  _:step32
+    rdf:reifies <<(anpr:PassengerCar ex:rollsUpTo ref:Car)>>;
+    pe:rule "rule#11";
     pe:binding [ pe:var "x"; pe:value anpr:PassengerCar ];
-    pe:uses _:step37.
+    pe:uses _:step28.
 }

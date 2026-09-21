@@ -96,7 +96,7 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     // shows only the positive patterns that fed the rule -- but `pe:by`
     // still points back to the rule's own source line, so the full body
     // (FILTER included) is always one click away in the source file.
-    let proof_rules: Vec<Rule> = if options.proof { program.rules.iter().map(build_proof_rule).collect() } else { Vec::new() };
+    let proof_rules: Vec<Rule> = if options.proof { program.rules.iter().enumerate().map(|(index, rule)| build_proof_rule(rule, index)).collect() } else { Vec::new() };
     let mut proofs: Vec<DerivedFact> = Vec::new();
 
     // Normalize graph membership before both indexed lookups and broad scans.
@@ -300,7 +300,18 @@ fn fire_rule(rule: &SparqlRlRule, proof_rule: Option<&Rule>, ctx: &BodyCtx, seen
             if let Some(t) = instantiate_triple(head, bindings, &mut blank_map) {
                 if seen.insert(t.clone()) {
                     if let Some(proof_rule) = proof_rule {
-                        let premises = proof_rule.premise.iter().map(|p| resolve_premise_triple(p, bindings)).collect();
+                        // A body property path contributes only the
+                        // synthetic patterns `stratify` invents for its
+                        // dependency edges (`?__path_s_0` and friends),
+                        // which no binding resolves, so a premise that is
+                        // still non-ground is left out rather than
+                        // reported as a fact that was used.
+                        let premises = proof_rule
+                            .premise
+                            .iter()
+                            .map(|p| resolve_premise_triple(p, bindings))
+                            .filter(|premise| premise.is_ground())
+                            .collect();
                         proofs.push(DerivedFact { fact: t.clone(), rule: proof_rule.clone(), premises, bindings: bindings.clone() });
                     }
                     new_facts.push(t);
@@ -321,13 +332,19 @@ fn fire_rule(rule: &SparqlRlRule, proof_rule: Option<&Rule>, ctx: &BodyCtx, seen
 
 /// An N3-shaped `Rule` standing in for one `SparqlRlRule`, for
 /// `DerivedFact`/`proof_to_n3` purposes (see the comment in `reason`).
-fn build_proof_rule(rule: &SparqlRlRule) -> Rule {
+/// A rule is labelled for `--proof` by its own `RULE <iri>` name, or by
+/// its position when it has none — never by its source line, which would
+/// make a proof document change when the rule set is merely reindented.
+/// `line: 0` keeps `srl::proof` from emitting a `pe:line` at all. eyeleng
+/// labels its own proof steps the same way.
+fn build_proof_rule(rule: &SparqlRlRule, index: usize) -> Rule {
+    let label = rule.name.clone().unwrap_or_else(|| format!("rule#{}", index + 1));
     Rule {
         premise: rule_positive_patterns(rule),
         conclusion: rule.head.clone(),
         is_forward: true,
         is_query: false,
-        source: rule.source.clone(),
+        source: Some(crate::ast::SourceRef { label, line: 0 }),
         proof_var_source_names: BTreeMap::new(),
     }
 }

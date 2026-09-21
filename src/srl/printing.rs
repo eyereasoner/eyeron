@@ -63,10 +63,11 @@ pub fn triples_to_srl(prefixes: &BTreeMap<String, String>, triples: &[Triple]) -
     out
 }
 
-/// `<<( s p o )>>` — SPARQL 1.2 RL [80] `TripleTerm`.
+/// `<<(s p o)>>` — SPARQL 1.2 RL [80] `TripleTerm`, spelled the way
+/// eyeleng spells it so the two implementations' output matches.
 pub(crate) fn triple_term(triple: &Triple, prefixes: &BTreeMap<String, String>) -> String {
     format!(
-        "<<( {} {} {} )>>",
+        "<<({} {} {})>>",
         term_to_srl(&triple.s, prefixes, false),
         term_to_srl(&triple.p, prefixes, true),
         term_to_srl(&triple.o, prefixes, false),
@@ -119,7 +120,7 @@ mod tests {
             Term::Formula(vec![inner]),
         );
         let out = triples_to_srl(&prefixes(), &[fact]);
-        assert!(out.contains(":claim1 rdf:reifies <<( :alice :says :hello )>> ."), "{out}");
+        assert!(out.contains(":claim1 rdf:reifies <<(:alice :says :hello)>> ."), "{out}");
         assert!(!out.contains('{'), "no quoted-graph syntax: {out}");
     }
 

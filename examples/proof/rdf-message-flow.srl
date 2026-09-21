@@ -10,87 +10,52 @@ DATA {
   :m3 :route :heartbeatSink .
 
   _:step1
-    rdf:reifies <<( :m1 :route :archiveSink )>>;
-    pe:rule "rdf-message-flow.srl";
-    pe:line 17;
+    rdf:reifies <<(:m1 :route :archiveSink)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "m"; pe:value :m1 ],
       [ pe:var "r"; pe:value 21 ],
       [ pe:var "t"; pe:value 26 ];
     pe:uses
-      _:step2,
-      _:step3.
+      <<(:m1 :result 21)>>,
+      <<(:temperatureFlow :highThreshold 26)>>.
 
   _:step2
-    rdf:reifies <<( :m1 :result 21 )>>;
-    pe:fact "rdf-message-flow.srl";
-    pe:line 10.
-
-  _:step3
-    rdf:reifies <<( :temperatureFlow :highThreshold 26 )>>;
-    pe:fact "rdf-message-flow.srl";
-    pe:line 9.
-
-  _:step4
-    rdf:reifies <<( :m2 :route :archiveSink )>>;
-    pe:rule "rdf-message-flow.srl";
-    pe:line 17;
+    rdf:reifies <<(:m2 :route :archiveSink)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "m"; pe:value :m2 ],
       [ pe:var "r"; pe:value 22 ],
       [ pe:var "t"; pe:value 26 ];
     pe:uses
-      _:step5,
-      _:step3.
+      <<(:m2 :result 22)>>,
+      <<(:temperatureFlow :highThreshold 26)>>.
 
-  _:step5
-    rdf:reifies <<( :m2 :result 22 )>>;
-    pe:fact "rdf-message-flow.srl";
-    pe:line 11.
-
-  _:step6
-    rdf:reifies <<( :m4 :route :alertSink )>>;
-    pe:rule "rdf-message-flow.srl";
-    pe:line 20;
+  _:step3
+    rdf:reifies <<(:m4 :route :alertSink)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "m"; pe:value :m4 ],
       [ pe:var "r"; pe:value 28 ],
       [ pe:var "t"; pe:value 26 ];
     pe:uses
-      _:step7,
-      _:step3.
+      <<(:m4 :result 28)>>,
+      <<(:temperatureFlow :highThreshold 26)>>.
 
-  _:step7
-    rdf:reifies <<( :m4 :result 28 )>>;
-    pe:fact "rdf-message-flow.srl";
-    pe:line 13.
-
-  _:step8
-    rdf:reifies <<( :m5 :route :alertSink )>>;
-    pe:rule "rdf-message-flow.srl";
-    pe:line 20;
+  _:step4
+    rdf:reifies <<(:m5 :route :alertSink)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "m"; pe:value :m5 ],
       [ pe:var "r"; pe:value 29 ],
       [ pe:var "t"; pe:value 26 ];
     pe:uses
-      _:step9,
-      _:step3.
+      <<(:m5 :result 29)>>,
+      <<(:temperatureFlow :highThreshold 26)>>.
 
-  _:step9
-    rdf:reifies <<( :m5 :result 29 )>>;
-    pe:fact "rdf-message-flow.srl";
-    pe:line 14.
-
-  _:step10
-    rdf:reifies <<( :m3 :route :heartbeatSink )>>;
-    pe:rule "rdf-message-flow.srl";
-    pe:line 23;
+  _:step5
+    rdf:reifies <<(:m3 :route :heartbeatSink)>>;
+    pe:rule "rule#3";
     pe:binding [ pe:var "m"; pe:value :m3 ];
-    pe:uses _:step11.
-
-  _:step11
-    rdf:reifies <<( :m3 :empty true )>>;
-    pe:fact "rdf-message-flow.srl";
-    pe:line 12.
+    pe:uses <<(:m3 :empty true)>>.
 }

@@ -22,9 +22,8 @@ DATA {
   _:b2_a80e5d8e5ecd7e1f :isBest true .
 
   _:step1
-    rdf:reifies <<( _:b1_d49606bf9b9e16eb a :Route )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 30;
+    rdf:reifies <<(_:b1_d49606bf9b9e16eb a :Route)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "c1"; pe:value 2 ],
       [ pe:var "c2"; pe:value 7 ],
@@ -33,417 +32,326 @@ DATA {
       [ pe:var "e2"; pe:value :e_bd ],
       [ pe:var "x"; pe:value :b ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7.
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bd :from :b)>>,
+      <<(:e_bd :to :d)>>,
+      <<(:e_bd :cost 7)>>.
 
   _:step2
-    rdf:reifies <<( :e_ab :from :a )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 22.
+    rdf:reifies <<(_:b1_d49606bf9b9e16eb :node1 :a)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "c1"; pe:value 2 ],
+      [ pe:var "c2"; pe:value 7 ],
+      [ pe:var "cost"; pe:value 9 ],
+      [ pe:var "e1"; pe:value :e_ab ],
+      [ pe:var "e2"; pe:value :e_bd ],
+      [ pe:var "x"; pe:value :b ];
+    pe:uses
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bd :from :b)>>,
+      <<(:e_bd :to :d)>>,
+      <<(:e_bd :cost 7)>>.
 
   _:step3
-    rdf:reifies <<( :e_ab :to :b )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 22.
+    rdf:reifies <<(_:b1_d49606bf9b9e16eb :node2 :b)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "c1"; pe:value 2 ],
+      [ pe:var "c2"; pe:value 7 ],
+      [ pe:var "cost"; pe:value 9 ],
+      [ pe:var "e1"; pe:value :e_ab ],
+      [ pe:var "e2"; pe:value :e_bd ],
+      [ pe:var "x"; pe:value :b ];
+    pe:uses
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bd :from :b)>>,
+      <<(:e_bd :to :d)>>,
+      <<(:e_bd :cost 7)>>.
 
   _:step4
-    rdf:reifies <<( :e_ab :cost 2 )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 22.
+    rdf:reifies <<(_:b1_d49606bf9b9e16eb :node3 :d)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "c1"; pe:value 2 ],
+      [ pe:var "c2"; pe:value 7 ],
+      [ pe:var "cost"; pe:value 9 ],
+      [ pe:var "e1"; pe:value :e_ab ],
+      [ pe:var "e2"; pe:value :e_bd ],
+      [ pe:var "x"; pe:value :b ];
+    pe:uses
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bd :from :b)>>,
+      <<(:e_bd :to :d)>>,
+      <<(:e_bd :cost 7)>>.
 
   _:step5
-    rdf:reifies <<( :e_bd :from :b )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 25.
+    rdf:reifies <<(_:b1_d49606bf9b9e16eb :routeCost 9)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "c1"; pe:value 2 ],
+      [ pe:var "c2"; pe:value 7 ],
+      [ pe:var "cost"; pe:value 9 ],
+      [ pe:var "e1"; pe:value :e_ab ],
+      [ pe:var "e2"; pe:value :e_bd ],
+      [ pe:var "x"; pe:value :b ];
+    pe:uses
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bd :from :b)>>,
+      <<(:e_bd :to :d)>>,
+      <<(:e_bd :cost 7)>>.
 
   _:step6
-    rdf:reifies <<( :e_bd :to :d )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 25.
+    rdf:reifies <<(_:b1_abb53710138c5374 a :Route)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "c1"; pe:value 5 ],
+      [ pe:var "c2"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 7 ],
+      [ pe:var "e1"; pe:value :e_ac ],
+      [ pe:var "e2"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :c ];
+    pe:uses
+      <<(:e_ac :from :a)>>,
+      <<(:e_ac :to :c)>>,
+      <<(:e_ac :cost 5)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step7
-    rdf:reifies <<( :e_bd :cost 7 )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 25.
+    rdf:reifies <<(_:b1_abb53710138c5374 :node1 :a)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "c1"; pe:value 5 ],
+      [ pe:var "c2"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 7 ],
+      [ pe:var "e1"; pe:value :e_ac ],
+      [ pe:var "e2"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :c ];
+    pe:uses
+      <<(:e_ac :from :a)>>,
+      <<(:e_ac :to :c)>>,
+      <<(:e_ac :cost 5)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step8
-    rdf:reifies <<( _:b1_d49606bf9b9e16eb :node1 :a )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 30;
+    rdf:reifies <<(_:b1_abb53710138c5374 :node2 :c)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "c1"; pe:value 2 ],
-      [ pe:var "c2"; pe:value 7 ],
-      [ pe:var "cost"; pe:value 9 ],
-      [ pe:var "e1"; pe:value :e_ab ],
-      [ pe:var "e2"; pe:value :e_bd ],
-      [ pe:var "x"; pe:value :b ];
+      [ pe:var "c1"; pe:value 5 ],
+      [ pe:var "c2"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 7 ],
+      [ pe:var "e1"; pe:value :e_ac ],
+      [ pe:var "e2"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :c ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7.
+      <<(:e_ac :from :a)>>,
+      <<(:e_ac :to :c)>>,
+      <<(:e_ac :cost 5)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step9
-    rdf:reifies <<( _:b1_d49606bf9b9e16eb :node2 :b )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 30;
+    rdf:reifies <<(_:b1_abb53710138c5374 :node3 :d)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "c1"; pe:value 2 ],
-      [ pe:var "c2"; pe:value 7 ],
-      [ pe:var "cost"; pe:value 9 ],
-      [ pe:var "e1"; pe:value :e_ab ],
-      [ pe:var "e2"; pe:value :e_bd ],
-      [ pe:var "x"; pe:value :b ];
+      [ pe:var "c1"; pe:value 5 ],
+      [ pe:var "c2"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 7 ],
+      [ pe:var "e1"; pe:value :e_ac ],
+      [ pe:var "e2"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :c ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7.
+      <<(:e_ac :from :a)>>,
+      <<(:e_ac :to :c)>>,
+      <<(:e_ac :cost 5)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step10
-    rdf:reifies <<( _:b1_d49606bf9b9e16eb :node3 :d )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 30;
+    rdf:reifies <<(_:b1_abb53710138c5374 :routeCost 7)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "c1"; pe:value 2 ],
-      [ pe:var "c2"; pe:value 7 ],
-      [ pe:var "cost"; pe:value 9 ],
-      [ pe:var "e1"; pe:value :e_ab ],
-      [ pe:var "e2"; pe:value :e_bd ],
-      [ pe:var "x"; pe:value :b ];
+      [ pe:var "c1"; pe:value 5 ],
+      [ pe:var "c2"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 7 ],
+      [ pe:var "e1"; pe:value :e_ac ],
+      [ pe:var "e2"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :c ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7.
+      <<(:e_ac :from :a)>>,
+      <<(:e_ac :to :c)>>,
+      <<(:e_ac :cost 5)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step11
-    rdf:reifies <<( _:b1_d49606bf9b9e16eb :routeCost 9 )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 30;
+    rdf:reifies <<(_:b2_a80e5d8e5ecd7e1f a :Route)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "c1"; pe:value 2 ],
-      [ pe:var "c2"; pe:value 7 ],
-      [ pe:var "cost"; pe:value 9 ],
+      [ pe:var "c2"; pe:value 1 ],
+      [ pe:var "c3"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 5 ],
       [ pe:var "e1"; pe:value :e_ab ],
-      [ pe:var "e2"; pe:value :e_bd ],
-      [ pe:var "x"; pe:value :b ];
+      [ pe:var "e2"; pe:value :e_bc ],
+      [ pe:var "e3"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :c ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7.
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bc :from :b)>>,
+      <<(:e_bc :to :c)>>,
+      <<(:e_bc :cost 1)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step12
-    rdf:reifies <<( _:b1_abb53710138c5374 a :Route )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 30;
+    rdf:reifies <<(_:b2_a80e5d8e5ecd7e1f :node1 :a)>>;
+    pe:rule "rule#2";
     pe:binding
-      [ pe:var "c1"; pe:value 5 ],
-      [ pe:var "c2"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 7 ],
-      [ pe:var "e1"; pe:value :e_ac ],
-      [ pe:var "e2"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :c ];
+      [ pe:var "c1"; pe:value 2 ],
+      [ pe:var "c2"; pe:value 1 ],
+      [ pe:var "c3"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 5 ],
+      [ pe:var "e1"; pe:value :e_ab ],
+      [ pe:var "e2"; pe:value :e_bc ],
+      [ pe:var "e3"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :c ];
     pe:uses
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18.
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bc :from :b)>>,
+      <<(:e_bc :to :c)>>,
+      <<(:e_bc :cost 1)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step13
-    rdf:reifies <<( :e_ac :from :a )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 23.
+    rdf:reifies <<(_:b2_a80e5d8e5ecd7e1f :node2 :b)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "c1"; pe:value 2 ],
+      [ pe:var "c2"; pe:value 1 ],
+      [ pe:var "c3"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 5 ],
+      [ pe:var "e1"; pe:value :e_ab ],
+      [ pe:var "e2"; pe:value :e_bc ],
+      [ pe:var "e3"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :c ];
+    pe:uses
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bc :from :b)>>,
+      <<(:e_bc :to :c)>>,
+      <<(:e_bc :cost 1)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step14
-    rdf:reifies <<( :e_ac :to :c )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 23.
+    rdf:reifies <<(_:b2_a80e5d8e5ecd7e1f :node3 :c)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "c1"; pe:value 2 ],
+      [ pe:var "c2"; pe:value 1 ],
+      [ pe:var "c3"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 5 ],
+      [ pe:var "e1"; pe:value :e_ab ],
+      [ pe:var "e2"; pe:value :e_bc ],
+      [ pe:var "e3"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :c ];
+    pe:uses
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bc :from :b)>>,
+      <<(:e_bc :to :c)>>,
+      <<(:e_bc :cost 1)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step15
-    rdf:reifies <<( :e_ac :cost 5 )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 23.
+    rdf:reifies <<(_:b2_a80e5d8e5ecd7e1f :node4 :d)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "c1"; pe:value 2 ],
+      [ pe:var "c2"; pe:value 1 ],
+      [ pe:var "c3"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 5 ],
+      [ pe:var "e1"; pe:value :e_ab ],
+      [ pe:var "e2"; pe:value :e_bc ],
+      [ pe:var "e3"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :c ];
+    pe:uses
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bc :from :b)>>,
+      <<(:e_bc :to :c)>>,
+      <<(:e_bc :cost 1)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step16
-    rdf:reifies <<( :e_cd :from :c )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 26.
+    rdf:reifies <<(_:b2_a80e5d8e5ecd7e1f :routeCost 5)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "c1"; pe:value 2 ],
+      [ pe:var "c2"; pe:value 1 ],
+      [ pe:var "c3"; pe:value 2 ],
+      [ pe:var "cost"; pe:value 5 ],
+      [ pe:var "e1"; pe:value :e_ab ],
+      [ pe:var "e2"; pe:value :e_bc ],
+      [ pe:var "e3"; pe:value :e_cd ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :c ];
+    pe:uses
+      <<(:e_ab :from :a)>>,
+      <<(:e_ab :to :b)>>,
+      <<(:e_ab :cost 2)>>,
+      <<(:e_bc :from :b)>>,
+      <<(:e_bc :to :c)>>,
+      <<(:e_bc :cost 1)>>,
+      <<(:e_cd :from :c)>>,
+      <<(:e_cd :to :d)>>,
+      <<(:e_cd :cost 2)>>.
 
   _:step17
-    rdf:reifies <<( :e_cd :to :d )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 26.
-
-  _:step18
-    rdf:reifies <<( :e_cd :cost 2 )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 26.
-
-  _:step19
-    rdf:reifies <<( _:b1_abb53710138c5374 :node1 :a )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 30;
-    pe:binding
-      [ pe:var "c1"; pe:value 5 ],
-      [ pe:var "c2"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 7 ],
-      [ pe:var "e1"; pe:value :e_ac ],
-      [ pe:var "e2"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :c ];
-    pe:uses
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18.
-
-  _:step20
-    rdf:reifies <<( _:b1_abb53710138c5374 :node2 :c )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 30;
-    pe:binding
-      [ pe:var "c1"; pe:value 5 ],
-      [ pe:var "c2"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 7 ],
-      [ pe:var "e1"; pe:value :e_ac ],
-      [ pe:var "e2"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :c ];
-    pe:uses
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18.
-
-  _:step21
-    rdf:reifies <<( _:b1_abb53710138c5374 :node3 :d )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 30;
-    pe:binding
-      [ pe:var "c1"; pe:value 5 ],
-      [ pe:var "c2"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 7 ],
-      [ pe:var "e1"; pe:value :e_ac ],
-      [ pe:var "e2"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :c ];
-    pe:uses
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18.
-
-  _:step22
-    rdf:reifies <<( _:b1_abb53710138c5374 :routeCost 7 )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 30;
-    pe:binding
-      [ pe:var "c1"; pe:value 5 ],
-      [ pe:var "c2"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 7 ],
-      [ pe:var "e1"; pe:value :e_ac ],
-      [ pe:var "e2"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :c ];
-    pe:uses
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18.
-
-  _:step23
-    rdf:reifies <<( _:b2_a80e5d8e5ecd7e1f a :Route )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 38;
-    pe:binding
-      [ pe:var "c1"; pe:value 2 ],
-      [ pe:var "c2"; pe:value 1 ],
-      [ pe:var "c3"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 5 ],
-      [ pe:var "e1"; pe:value :e_ab ],
-      [ pe:var "e2"; pe:value :e_bc ],
-      [ pe:var "e3"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step16,
-      _:step17,
-      _:step18.
-
-  _:step24
-    rdf:reifies <<( :e_bc :from :b )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 24.
-
-  _:step25
-    rdf:reifies <<( :e_bc :to :c )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 24.
-
-  _:step26
-    rdf:reifies <<( :e_bc :cost 1 )>>;
-    pe:fact "shortest-path.srl";
-    pe:line 24.
-
-  _:step27
-    rdf:reifies <<( _:b2_a80e5d8e5ecd7e1f :node1 :a )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 38;
-    pe:binding
-      [ pe:var "c1"; pe:value 2 ],
-      [ pe:var "c2"; pe:value 1 ],
-      [ pe:var "c3"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 5 ],
-      [ pe:var "e1"; pe:value :e_ab ],
-      [ pe:var "e2"; pe:value :e_bc ],
-      [ pe:var "e3"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step16,
-      _:step17,
-      _:step18.
-
-  _:step28
-    rdf:reifies <<( _:b2_a80e5d8e5ecd7e1f :node2 :b )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 38;
-    pe:binding
-      [ pe:var "c1"; pe:value 2 ],
-      [ pe:var "c2"; pe:value 1 ],
-      [ pe:var "c3"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 5 ],
-      [ pe:var "e1"; pe:value :e_ab ],
-      [ pe:var "e2"; pe:value :e_bc ],
-      [ pe:var "e3"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step16,
-      _:step17,
-      _:step18.
-
-  _:step29
-    rdf:reifies <<( _:b2_a80e5d8e5ecd7e1f :node3 :c )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 38;
-    pe:binding
-      [ pe:var "c1"; pe:value 2 ],
-      [ pe:var "c2"; pe:value 1 ],
-      [ pe:var "c3"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 5 ],
-      [ pe:var "e1"; pe:value :e_ab ],
-      [ pe:var "e2"; pe:value :e_bc ],
-      [ pe:var "e3"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step16,
-      _:step17,
-      _:step18.
-
-  _:step30
-    rdf:reifies <<( _:b2_a80e5d8e5ecd7e1f :node4 :d )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 38;
-    pe:binding
-      [ pe:var "c1"; pe:value 2 ],
-      [ pe:var "c2"; pe:value 1 ],
-      [ pe:var "c3"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 5 ],
-      [ pe:var "e1"; pe:value :e_ab ],
-      [ pe:var "e2"; pe:value :e_bc ],
-      [ pe:var "e3"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step16,
-      _:step17,
-      _:step18.
-
-  _:step31
-    rdf:reifies <<( _:b2_a80e5d8e5ecd7e1f :routeCost 5 )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 38;
-    pe:binding
-      [ pe:var "c1"; pe:value 2 ],
-      [ pe:var "c2"; pe:value 1 ],
-      [ pe:var "c3"; pe:value 2 ],
-      [ pe:var "cost"; pe:value 5 ],
-      [ pe:var "e1"; pe:value :e_ab ],
-      [ pe:var "e2"; pe:value :e_bc ],
-      [ pe:var "e3"; pe:value :e_cd ],
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step16,
-      _:step17,
-      _:step18.
-
-  _:step32
-    rdf:reifies <<( _:b2_a80e5d8e5ecd7e1f :isBest true )>>;
-    pe:rule "shortest-path.srl";
-    pe:line 47;
+    rdf:reifies <<(_:b2_a80e5d8e5ecd7e1f :isBest true)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "cost"; pe:value 5 ],
       [ pe:var "r"; pe:value _:b2_a80e5d8e5ecd7e1f ];
     pe:uses
-      _:step23,
-      _:step31.
+      _:step11,
+      _:step16.
 }

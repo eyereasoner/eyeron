@@ -25,256 +25,180 @@ DATA {
   :currentLDESWindow :materializedActionText "keep the compartment sealed and continue monitoring" .
 
   _:step1
-    rdf:reifies <<( :obs033 :alreadyCommitted true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 25;
+    rdf:reifies <<(:obs033 :alreadyCommitted true)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "b"; pe:value 34 ],
       [ pe:var "m"; pe:value :obs033 ],
       [ pe:var "seq"; pe:value 33 ];
     pe:uses
-      _:step2,
-      _:step3.
+      <<(:obs033 :sequence 33)>>,
+      <<(:doorStream :lastCommittedSequence 34)>>.
 
   _:step2
-    rdf:reifies <<( :obs033 :sequence 33 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 15.
-
-  _:step3
-    rdf:reifies <<( :doorStream :lastCommittedSequence 34 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 11.
-
-  _:step4
-    rdf:reifies <<( :obs034 :alreadyCommitted true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 25;
+    rdf:reifies <<(:obs034 :alreadyCommitted true)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "b"; pe:value 34 ],
       [ pe:var "m"; pe:value :obs034 ],
       [ pe:var "seq"; pe:value 34 ];
     pe:uses
-      _:step5,
-      _:step3.
+      <<(:obs034 :sequence 34)>>,
+      <<(:doorStream :lastCommittedSequence 34)>>.
 
-  _:step5
-    rdf:reifies <<( :obs034 :sequence 34 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 16.
-
-  _:step6
-    rdf:reifies <<( :obs035 :newlyEmitted true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 28;
+  _:step3
+    rdf:reifies <<(:obs035 :newlyEmitted true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "b"; pe:value 34 ],
       [ pe:var "m"; pe:value :obs035 ],
       [ pe:var "seq"; pe:value 35 ];
     pe:uses
-      _:step7,
-      _:step3.
+      <<(:obs035 :sequence 35)>>,
+      <<(:doorStream :lastCommittedSequence 34)>>.
 
-  _:step7
-    rdf:reifies <<( :obs035 :sequence 35 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 17.
-
-  _:step8
-    rdf:reifies <<( :obs036 :newlyEmitted true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 28;
+  _:step4
+    rdf:reifies <<(:obs036 :newlyEmitted true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "b"; pe:value 34 ],
       [ pe:var "m"; pe:value :obs036 ],
       [ pe:var "seq"; pe:value 36 ];
     pe:uses
-      _:step9,
-      _:step3.
+      <<(:obs036 :sequence 36)>>,
+      <<(:doorStream :lastCommittedSequence 34)>>.
 
-  _:step9
-    rdf:reifies <<( :obs036 :sequence 36 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 18.
-
-  _:step10
-    rdf:reifies <<( :obs037 :newlyEmitted true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 28;
+  _:step5
+    rdf:reifies <<(:obs037 :newlyEmitted true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "b"; pe:value 34 ],
       [ pe:var "m"; pe:value :obs037 ],
       [ pe:var "seq"; pe:value 37 ];
     pe:uses
-      _:step11,
-      _:step3.
+      <<(:obs037 :sequence 37)>>,
+      <<(:doorStream :lastCommittedSequence 34)>>.
 
-  _:step11
-    rdf:reifies <<( :obs037 :sequence 37 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 19.
-
-  _:step12
-    rdf:reifies <<( :obs038 :newlyEmitted true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 28;
+  _:step6
+    rdf:reifies <<(:obs038 :newlyEmitted true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "b"; pe:value 34 ],
       [ pe:var "m"; pe:value :obs038 ],
       [ pe:var "seq"; pe:value 38 ];
     pe:uses
-      _:step13,
-      _:step3.
+      <<(:obs038 :sequence 38)>>,
+      <<(:doorStream :lastCommittedSequence 34)>>.
 
-  _:step13
-    rdf:reifies <<( :obs038 :sequence 38 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 20.
-
-  _:step14
-    rdf:reifies <<( :obs039 :newlyEmitted true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 28;
+  _:step7
+    rdf:reifies <<(:obs039 :newlyEmitted true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "b"; pe:value 34 ],
       [ pe:var "m"; pe:value :obs039 ],
       [ pe:var "seq"; pe:value 39 ];
     pe:uses
-      _:step15,
-      _:step3.
+      <<(:obs039 :sequence 39)>>,
+      <<(:doorStream :lastCommittedSequence 34)>>.
 
-  _:step15
-    rdf:reifies <<( :obs039 :sequence 39 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 21.
-
-  _:step16
-    rdf:reifies <<( :obs040 :newlyEmitted true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 28;
+  _:step8
+    rdf:reifies <<(:obs040 :newlyEmitted true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "b"; pe:value 34 ],
       [ pe:var "m"; pe:value :obs040 ],
       [ pe:var "seq"; pe:value 40 ];
     pe:uses
-      _:step17,
-      _:step3.
+      <<(:obs040 :sequence 40)>>,
+      <<(:doorStream :lastCommittedSequence 34)>>.
 
-  _:step17
-    rdf:reifies <<( :obs040 :sequence 40 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 22.
-
-  _:step18
-    rdf:reifies <<( :obs035 :inWindow true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 31;
+  _:step9
+    rdf:reifies <<(:obs035 :inWindow true)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "m"; pe:value :obs035 ],
       [ pe:var "seq"; pe:value 35 ],
       [ pe:var "w"; pe:value 35 ];
     pe:uses
-      _:step6,
-      _:step7,
-      _:step19.
+      _:step3,
+      <<(:obs035 :sequence 35)>>,
+      <<(:doorStream :currentWindowFromSequence 35)>>.
 
-  _:step19
-    rdf:reifies <<( :doorStream :currentWindowFromSequence 35 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 11.
-
-  _:step20
-    rdf:reifies <<( :obs036 :inWindow true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 31;
+  _:step10
+    rdf:reifies <<(:obs036 :inWindow true)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "m"; pe:value :obs036 ],
       [ pe:var "seq"; pe:value 36 ],
       [ pe:var "w"; pe:value 35 ];
     pe:uses
-      _:step8,
-      _:step9,
-      _:step19.
+      _:step4,
+      <<(:obs036 :sequence 36)>>,
+      <<(:doorStream :currentWindowFromSequence 35)>>.
 
-  _:step21
-    rdf:reifies <<( :obs037 :inWindow true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 31;
+  _:step11
+    rdf:reifies <<(:obs037 :inWindow true)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "m"; pe:value :obs037 ],
       [ pe:var "seq"; pe:value 37 ],
       [ pe:var "w"; pe:value 35 ];
     pe:uses
-      _:step10,
-      _:step11,
-      _:step19.
+      _:step5,
+      <<(:obs037 :sequence 37)>>,
+      <<(:doorStream :currentWindowFromSequence 35)>>.
 
-  _:step22
-    rdf:reifies <<( :obs038 :inWindow true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 31;
+  _:step12
+    rdf:reifies <<(:obs038 :inWindow true)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "m"; pe:value :obs038 ],
       [ pe:var "seq"; pe:value 38 ],
       [ pe:var "w"; pe:value 35 ];
     pe:uses
-      _:step12,
-      _:step13,
-      _:step19.
+      _:step6,
+      <<(:obs038 :sequence 38)>>,
+      <<(:doorStream :currentWindowFromSequence 35)>>.
 
-  _:step23
-    rdf:reifies <<( :obs039 :inWindow true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 31;
+  _:step13
+    rdf:reifies <<(:obs039 :inWindow true)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "m"; pe:value :obs039 ],
       [ pe:var "seq"; pe:value 39 ],
       [ pe:var "w"; pe:value 35 ];
     pe:uses
-      _:step14,
-      _:step15,
-      _:step19.
+      _:step7,
+      <<(:obs039 :sequence 39)>>,
+      <<(:doorStream :currentWindowFromSequence 35)>>.
 
-  _:step24
-    rdf:reifies <<( :obs040 :inWindow true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 31;
+  _:step14
+    rdf:reifies <<(:obs040 :inWindow true)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "m"; pe:value :obs040 ],
       [ pe:var "seq"; pe:value 40 ],
       [ pe:var "w"; pe:value 35 ];
     pe:uses
-      _:step16,
-      _:step17,
-      _:step19.
+      _:step8,
+      <<(:obs040 :sequence 40)>>,
+      <<(:doorStream :currentWindowFromSequence 35)>>.
 
-  _:step25
-    rdf:reifies <<( :doorA :rawConflict true )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 38;
+  _:step15
+    rdf:reifies <<(:doorA :rawConflict true)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "m1"; pe:value :obs037 ],
       [ pe:var "m2"; pe:value :obs035 ];
     pe:uses
-      _:step21,
-      _:step26,
-      _:step18,
-      _:step27.
+      _:step11,
+      <<(:obs037 :doorState :open)>>,
+      _:step9,
+      <<(:obs035 :doorState :closed)>>.
 
-  _:step26
-    rdf:reifies <<( :obs037 :doorState :open )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 19.
-
-  _:step27
-    rdf:reifies <<( :obs035 :doorState :closed )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 17.
-
-  _:step28
-    rdf:reifies <<( :currentLDESWindow :preferredEvidence :obs040 )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 44;
+  _:step16
+    rdf:reifies <<(:currentLDESWindow :preferredEvidence :obs040)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "m"; pe:value :obs040 ],
       [ pe:var "other"; pe:value :obs037 ],
@@ -284,38 +208,17 @@ DATA {
       [ pe:var "source"; pe:value "safety-controller" ],
       [ pe:var "state"; pe:value :closed ];
     pe:uses
-      _:step24,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step21,
-      _:step26,
-      _:step32.
+      _:step14,
+      <<(:obs040 :doorState :closed)>>,
+      <<(:obs040 :priority 5)>>,
+      <<(:obs040 :source "safety-controller")>>,
+      _:step11,
+      <<(:obs037 :doorState :open)>>,
+      <<(:obs037 :priority 1)>>.
 
-  _:step29
-    rdf:reifies <<( :obs040 :doorState :closed )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 22.
-
-  _:step30
-    rdf:reifies <<( :obs040 :priority 5 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 22.
-
-  _:step31
-    rdf:reifies <<( :obs040 :source "safety-controller" )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 22.
-
-  _:step32
-    rdf:reifies <<( :obs037 :priority 1 )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 19.
-
-  _:step33
-    rdf:reifies <<( :currentLDESWindow :resolvedDoorState :closed )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 44;
+  _:step17
+    rdf:reifies <<(:currentLDESWindow :resolvedDoorState :closed)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "m"; pe:value :obs040 ],
       [ pe:var "other"; pe:value :obs037 ],
@@ -325,18 +228,17 @@ DATA {
       [ pe:var "source"; pe:value "safety-controller" ],
       [ pe:var "state"; pe:value :closed ];
     pe:uses
-      _:step24,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step21,
-      _:step26,
-      _:step32.
+      _:step14,
+      <<(:obs040 :doorState :closed)>>,
+      <<(:obs040 :priority 5)>>,
+      <<(:obs040 :source "safety-controller")>>,
+      _:step11,
+      <<(:obs037 :doorState :open)>>,
+      <<(:obs037 :priority 1)>>.
 
-  _:step34
-    rdf:reifies <<( :currentLDESWindow :preferredPriority 5 )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 44;
+  _:step18
+    rdf:reifies <<(:currentLDESWindow :preferredPriority 5)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "m"; pe:value :obs040 ],
       [ pe:var "other"; pe:value :obs037 ],
@@ -346,18 +248,17 @@ DATA {
       [ pe:var "source"; pe:value "safety-controller" ],
       [ pe:var "state"; pe:value :closed ];
     pe:uses
-      _:step24,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step21,
-      _:step26,
-      _:step32.
+      _:step14,
+      <<(:obs040 :doorState :closed)>>,
+      <<(:obs040 :priority 5)>>,
+      <<(:obs040 :source "safety-controller")>>,
+      _:step11,
+      <<(:obs037 :doorState :open)>>,
+      <<(:obs037 :priority 1)>>.
 
-  _:step35
-    rdf:reifies <<( :currentLDESWindow :preferredSource "safety-controller" )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 44;
+  _:step19
+    rdf:reifies <<(:currentLDESWindow :preferredSource "safety-controller")>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "m"; pe:value :obs040 ],
       [ pe:var "other"; pe:value :obs037 ],
@@ -367,27 +268,21 @@ DATA {
       [ pe:var "source"; pe:value "safety-controller" ],
       [ pe:var "state"; pe:value :closed ];
     pe:uses
-      _:step24,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step21,
-      _:step26,
-      _:step32.
+      _:step14,
+      <<(:obs040 :doorState :closed)>>,
+      <<(:obs040 :priority 5)>>,
+      <<(:obs040 :source "safety-controller")>>,
+      _:step11,
+      <<(:obs037 :doorState :open)>>,
+      <<(:obs037 :priority 1)>>.
 
-  _:step36
-    rdf:reifies <<( :currentLDESWindow :materializedActionText "keep the compartment sealed and continue monitoring" )>>;
-    pe:rule "rdf-message-ldes-incremental.srl";
-    pe:line 52;
+  _:step20
+    rdf:reifies <<(:currentLDESWindow :materializedActionText "keep the compartment sealed and continue monitoring")>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "state"; pe:value :closed ],
       [ pe:var "text"; pe:value "keep the compartment sealed and continue monitoring" ];
     pe:uses
-      _:step33,
-      _:step37.
-
-  _:step37
-    rdf:reifies <<( :closed :actionText "keep the compartment sealed and continue monitoring" )>>;
-    pe:fact "rdf-message-ldes-incremental.srl";
-    pe:line 13.
+      _:step17,
+      <<(:closed :actionText "keep the compartment sealed and continue monitoring")>>.
 }

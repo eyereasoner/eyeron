@@ -9,68 +9,44 @@ DATA {
   :claim2 :isClaim true .
 
   _:step1
-    rdf:reifies <<( :alice :statementSource :chat )>>;
-    pe:rule "reifiers.srl";
-    pe:line 8;
+    rdf:reifies <<(:alice :statementSource :chat)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "claim"; pe:value :claim1 ],
       [ pe:var "object"; pe:value :hello ],
       [ pe:var "source"; pe:value :chat ],
       [ pe:var "speaker"; pe:value :alice ];
     pe:uses
-      _:step2,
-      _:step3.
+      <<(:claim1 rdf:reifies <<(:alice :says :hello)>>)>>,
+      <<(:claim1 :source :chat)>>.
 
   _:step2
-    rdf:reifies <<( :claim1 rdf:reifies <<( :alice :says :hello )>> )>>;
-    pe:fact "reifiers.srl";
-    pe:line 4.
-
-  _:step3
-    rdf:reifies <<( :claim1 :source :chat )>>;
-    pe:fact "reifiers.srl";
-    pe:line 4.
-
-  _:step4
-    rdf:reifies <<( :bob :statementSource :email )>>;
-    pe:rule "reifiers.srl";
-    pe:line 8;
+    rdf:reifies <<(:bob :statementSource :email)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "claim"; pe:value :claim2 ],
       [ pe:var "object"; pe:value :hi ],
       [ pe:var "source"; pe:value :email ],
       [ pe:var "speaker"; pe:value :bob ];
     pe:uses
-      _:step5,
-      _:step6.
+      <<(:claim2 rdf:reifies <<(:bob :says :hi)>>)>>,
+      <<(:claim2 :source :email)>>.
 
-  _:step5
-    rdf:reifies <<( :claim2 rdf:reifies <<( :bob :says :hi )>> )>>;
-    pe:fact "reifiers.srl";
-    pe:line 5.
-
-  _:step6
-    rdf:reifies <<( :claim2 :source :email )>>;
-    pe:fact "reifiers.srl";
-    pe:line 5.
-
-  _:step7
-    rdf:reifies <<( :claim1 :isClaim true )>>;
-    pe:rule "reifiers.srl";
-    pe:line 14;
+  _:step3
+    rdf:reifies <<(:claim1 :isClaim true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "claim"; pe:value :claim1 ],
       [ pe:var "object"; pe:value :hello ],
       [ pe:var "speaker"; pe:value :alice ];
-    pe:uses _:step2.
+    pe:uses <<(:claim1 rdf:reifies <<(:alice :says :hello)>>)>>.
 
-  _:step8
-    rdf:reifies <<( :claim2 :isClaim true )>>;
-    pe:rule "reifiers.srl";
-    pe:line 14;
+  _:step4
+    rdf:reifies <<(:claim2 :isClaim true)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "claim"; pe:value :claim2 ],
       [ pe:var "object"; pe:value :hi ],
       [ pe:var "speaker"; pe:value :bob ];
-    pe:uses _:step5.
+    pe:uses <<(:claim2 rdf:reifies <<(:bob :says :hi)>>)>>.
 }

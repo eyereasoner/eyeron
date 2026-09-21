@@ -12,83 +12,61 @@ DATA {
   :X :descendedFrom :C .
 
   _:step1
-    rdf:reifies <<( :X :childOf :A )>>;
-    pe:rule "spec-2-2-recursion.srl";
-    pe:line 9;
+    rdf:reifies <<(:X :childOf :A)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "x"; pe:value :X ],
       [ pe:var "y"; pe:value :A ];
-    pe:uses _:step2.
+    pe:uses <<(:A :fatherOf :X)>>.
 
   _:step2
-    rdf:reifies <<( :A :fatherOf :X )>>;
-    pe:fact "spec-2-2-recursion.srl";
-    pe:line 4.
-
-  _:step3
-    rdf:reifies <<( :X :childOf :B )>>;
-    pe:rule "spec-2-2-recursion.srl";
-    pe:line 10;
+    rdf:reifies <<(:X :childOf :B)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "x"; pe:value :X ],
       [ pe:var "y"; pe:value :B ];
-    pe:uses _:step4.
+    pe:uses <<(:B :motherOf :X)>>.
 
-  _:step4
-    rdf:reifies <<( :B :motherOf :X )>>;
-    pe:fact "spec-2-2-recursion.srl";
-    pe:line 5.
-
-  _:step5
-    rdf:reifies <<( :A :childOf :C )>>;
-    pe:rule "spec-2-2-recursion.srl";
-    pe:line 10;
+  _:step3
+    rdf:reifies <<(:A :childOf :C)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "x"; pe:value :A ],
       [ pe:var "y"; pe:value :C ];
-    pe:uses _:step6.
+    pe:uses <<(:C :motherOf :A)>>.
 
-  _:step6
-    rdf:reifies <<( :C :motherOf :A )>>;
-    pe:fact "spec-2-2-recursion.srl";
-    pe:line 6.
-
-  _:step7
-    rdf:reifies <<( :X :descendedFrom :A )>>;
-    pe:rule "spec-2-2-recursion.srl";
-    pe:line 11;
+  _:step4
+    rdf:reifies <<(:X :descendedFrom :A)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "x"; pe:value :X ],
       [ pe:var "y"; pe:value :A ];
     pe:uses _:step1.
 
-  _:step8
-    rdf:reifies <<( :X :descendedFrom :B )>>;
-    pe:rule "spec-2-2-recursion.srl";
-    pe:line 11;
+  _:step5
+    rdf:reifies <<(:X :descendedFrom :B)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "x"; pe:value :X ],
       [ pe:var "y"; pe:value :B ];
-    pe:uses _:step3.
+    pe:uses _:step2.
 
-  _:step9
-    rdf:reifies <<( :A :descendedFrom :C )>>;
-    pe:rule "spec-2-2-recursion.srl";
-    pe:line 11;
+  _:step6
+    rdf:reifies <<(:A :descendedFrom :C)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "x"; pe:value :A ],
       [ pe:var "y"; pe:value :C ];
-    pe:uses _:step5.
+    pe:uses _:step3.
 
-  _:step10
-    rdf:reifies <<( :X :descendedFrom :C )>>;
-    pe:rule "spec-2-2-recursion.srl";
-    pe:line 12;
+  _:step7
+    rdf:reifies <<(:X :descendedFrom :C)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "x"; pe:value :X ],
       [ pe:var "y"; pe:value :C ],
       [ pe:var "z"; pe:value :A ];
     pe:uses
       _:step1,
-      _:step9.
+      _:step6.
 }

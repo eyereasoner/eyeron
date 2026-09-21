@@ -8,27 +8,19 @@ DATA {
   :test :is true .
 
   _:step1
-    rdf:reifies <<( :Pillar :to :Post )>>;
-    pe:rule "pillar.srl";
-    pe:line 10;
+    rdf:reifies <<(:Pillar :to :Post)>>;
+    pe:rule "rule#1";
     pe:binding [ pe:var "What"; pe:value :Post ];
-    pe:uses _:step2.
+    pe:uses <<(:Post :to :Pillar)>>.
 
   _:step2
-    rdf:reifies <<( :Post :to :Pillar )>>;
-    pe:fact "pillar.srl";
-    pe:line 8.
-
-  _:step3
-    rdf:reifies <<( :result :is :Post )>>;
-    pe:rule "pillar.srl";
-    pe:line 12;
+    rdf:reifies <<(:result :is :Post)>>;
+    pe:rule "rule#3";
     pe:binding [ pe:var "What"; pe:value :Post ];
     pe:uses _:step1.
 
-  _:step4
-    rdf:reifies <<( :test :is true )>>;
-    pe:rule "pillar.srl";
-    pe:line 13;
-    pe:uses _:step3.
+  _:step3
+    rdf:reifies <<(:test :is true)>>;
+    pe:rule "rule#4";
+    pe:uses _:step2.
 }

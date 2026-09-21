@@ -7,59 +7,22 @@ DATA {
   :sentence1 :object :door .
 
   _:step1
-    rdf:reifies <<( :sentence1 :verb :open )>>;
-    pe:rule "grammar.srl";
-    pe:line 21;
+    rdf:reifies <<(:sentence1 :verb :open)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "n"; pe:value :door ],
       [ pe:var "v"; pe:value :open ];
     pe:uses
-      <<( ?__path_s_0 :words ?__path_o_0 )>>,
-      <<( ?__path_s_1 rdf:first ?__path_o_1 )>>,
-      <<( ?__path_s_0 :words ?__path_o_0 )>>,
-      <<( ?__path_s_1 rdf:rest ?__path_o_1 )>>,
-      <<( ?__path_s_2 rdf:first ?__path_o_2 )>>,
-      _:step5,
-      _:step6.
+      <<(:open a :Verb)>>,
+      <<(:door a :Noun)>>.
 
   _:step2
-    rdf:reifies <<( :sentence1 :words _:b1 )>>;
-    pe:fact "grammar.srl";
-    pe:line 14.
-
-  _:step3
-    rdf:reifies <<( _:b1 rdf:first :open )>>;
-    pe:fact "grammar.srl";
-    pe:line 14.
-
-  _:step4
-    rdf:reifies <<( _:b1 rdf:rest _:b2 )>>;
-    pe:fact "grammar.srl";
-    pe:line 14.
-
-  _:step5
-    rdf:reifies <<( :open a :Verb )>>;
-    pe:fact "grammar.srl";
-    pe:line 15.
-
-  _:step6
-    rdf:reifies <<( :door a :Noun )>>;
-    pe:fact "grammar.srl";
-    pe:line 17.
-
-  _:step7
-    rdf:reifies <<( :sentence1 :object :door )>>;
-    pe:rule "grammar.srl";
-    pe:line 21;
+    rdf:reifies <<(:sentence1 :object :door)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "n"; pe:value :door ],
       [ pe:var "v"; pe:value :open ];
     pe:uses
-      <<( ?__path_s_0 :words ?__path_o_0 )>>,
-      <<( ?__path_s_1 rdf:first ?__path_o_1 )>>,
-      <<( ?__path_s_0 :words ?__path_o_0 )>>,
-      <<( ?__path_s_1 rdf:rest ?__path_o_1 )>>,
-      <<( ?__path_s_2 rdf:first ?__path_o_2 )>>,
-      _:step5,
-      _:step6.
+      <<(:open a :Verb)>>,
+      <<(:door a :Noun)>>.
 }

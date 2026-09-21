@@ -14,9 +14,8 @@ DATA {
   :test :graphScopeRespected true .
 
   _:step1
-    rdf:reifies <<( _:b1_3ef52e6b781f254e a :Association )>>;
-    pe:rule "context-association.srl";
-    pe:line 27;
+    rdf:reifies <<(_:b1_3ef52e6b781f254e a :Association)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "dataGraph"; pe:value :g0 ],
       [ pe:var "dataSignature"; pe:value :dataSignature ],
@@ -36,585 +35,398 @@ DATA {
       [ pe:var "q9"; pe:value :q9 ],
       [ pe:var "signatureGraph"; pe:value :g1 ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7,
-      _:step8,
-      _:step9,
-      _:step10,
-      _:step11,
-      _:step12,
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18,
-      _:step19,
-      _:step20,
-      _:step21,
-      _:step22,
-      _:step23,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step27,
-      _:step28,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step32,
-      _:step33,
-      _:step34,
-      _:step35,
-      _:step36,
-      _:step37.
+      <<(:q1 :subject :bob)>>,
+      <<(:q1 :predicate :name)>>,
+      <<(:q1 :object "Bob")>>,
+      <<(:q1 :graph :g0)>>,
+      <<(:q2 :subject :g0)>>,
+      <<(:q2 :predicate :proof)>>,
+      <<(:q2 :object :dataSignature)>>,
+      <<(:q2 :graph :g1)>>,
+      <<(:q3 :subject :signature1)>>,
+      <<(:q3 :predicate :type)>>,
+      <<(:q3 :object :DataIntegrityProof)>>,
+      <<(:q3 :graph :g1)>>,
+      <<(:q4 :subject :signature1)>>,
+      <<(:q4 :predicate :cryptosuite)>>,
+      <<(:q4 :object "ecdsa-rdfc-2019")>>,
+      <<(:q4 :graph :g1)>>,
+      <<(:q5 :subject :signature1)>>,
+      <<(:q5 :predicate :issuer)>>,
+      <<(:q5 :object <https://university.example/issuers/14>)>>,
+      <<(:q5 :graph :g1)>>,
+      <<(:q6 :subject :signature1)>>,
+      <<(:q6 :predicate :validUntil)>>,
+      <<(:q6 :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime)>>,
+      <<(:q6 :graph :g1)>>,
+      <<(:q7 :subject :g1)>>,
+      <<(:q7 :predicate :proof)>>,
+      <<(:q7 :object :signature2)>>,
+      <<(:q7 :graph :g3)>>,
+      <<(:q8 :subject :signature2)>>,
+      <<(:q8 :predicate :type)>>,
+      <<(:q8 :object :DataIntegrityProof)>>,
+      <<(:q8 :graph :g3)>>,
+      <<(:q9 :subject :signature2)>>,
+      <<(:q9 :predicate :proofPurpose)>>,
+      <<(:q9 :object "assertionMethod")>>,
+      <<(:q9 :graph :g3)>>.
 
   _:step2
-    rdf:reifies <<( :q1 :subject :bob )>>;
-    pe:fact "context-association.srl";
-    pe:line 16.
+    rdf:reifies <<(_:b1_3ef52e6b781f254e :person :bob)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "dataGraph"; pe:value :g0 ],
+      [ pe:var "dataSignature"; pe:value :dataSignature ],
+      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
+      [ pe:var "metadataGraph"; pe:value :g3 ],
+      [ pe:var "metadataProof"; pe:value :signature2 ],
+      [ pe:var "metadataSignature"; pe:value :signature2 ],
+      [ pe:var "proof"; pe:value :signature1 ],
+      [ pe:var "q1"; pe:value :q1 ],
+      [ pe:var "q2"; pe:value :q2 ],
+      [ pe:var "q3"; pe:value :q3 ],
+      [ pe:var "q4"; pe:value :q4 ],
+      [ pe:var "q5"; pe:value :q5 ],
+      [ pe:var "q6"; pe:value :q6 ],
+      [ pe:var "q7"; pe:value :q7 ],
+      [ pe:var "q8"; pe:value :q8 ],
+      [ pe:var "q9"; pe:value :q9 ],
+      [ pe:var "signatureGraph"; pe:value :g1 ];
+    pe:uses
+      <<(:q1 :subject :bob)>>,
+      <<(:q1 :predicate :name)>>,
+      <<(:q1 :object "Bob")>>,
+      <<(:q1 :graph :g0)>>,
+      <<(:q2 :subject :g0)>>,
+      <<(:q2 :predicate :proof)>>,
+      <<(:q2 :object :dataSignature)>>,
+      <<(:q2 :graph :g1)>>,
+      <<(:q3 :subject :signature1)>>,
+      <<(:q3 :predicate :type)>>,
+      <<(:q3 :object :DataIntegrityProof)>>,
+      <<(:q3 :graph :g1)>>,
+      <<(:q4 :subject :signature1)>>,
+      <<(:q4 :predicate :cryptosuite)>>,
+      <<(:q4 :object "ecdsa-rdfc-2019")>>,
+      <<(:q4 :graph :g1)>>,
+      <<(:q5 :subject :signature1)>>,
+      <<(:q5 :predicate :issuer)>>,
+      <<(:q5 :object <https://university.example/issuers/14>)>>,
+      <<(:q5 :graph :g1)>>,
+      <<(:q6 :subject :signature1)>>,
+      <<(:q6 :predicate :validUntil)>>,
+      <<(:q6 :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime)>>,
+      <<(:q6 :graph :g1)>>,
+      <<(:q7 :subject :g1)>>,
+      <<(:q7 :predicate :proof)>>,
+      <<(:q7 :object :signature2)>>,
+      <<(:q7 :graph :g3)>>,
+      <<(:q8 :subject :signature2)>>,
+      <<(:q8 :predicate :type)>>,
+      <<(:q8 :object :DataIntegrityProof)>>,
+      <<(:q8 :graph :g3)>>,
+      <<(:q9 :subject :signature2)>>,
+      <<(:q9 :predicate :proofPurpose)>>,
+      <<(:q9 :object "assertionMethod")>>,
+      <<(:q9 :graph :g3)>>.
 
   _:step3
-    rdf:reifies <<( :q1 :predicate :name )>>;
-    pe:fact "context-association.srl";
-    pe:line 16.
+    rdf:reifies <<(_:b1_3ef52e6b781f254e :dataGraph :g0)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "dataGraph"; pe:value :g0 ],
+      [ pe:var "dataSignature"; pe:value :dataSignature ],
+      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
+      [ pe:var "metadataGraph"; pe:value :g3 ],
+      [ pe:var "metadataProof"; pe:value :signature2 ],
+      [ pe:var "metadataSignature"; pe:value :signature2 ],
+      [ pe:var "proof"; pe:value :signature1 ],
+      [ pe:var "q1"; pe:value :q1 ],
+      [ pe:var "q2"; pe:value :q2 ],
+      [ pe:var "q3"; pe:value :q3 ],
+      [ pe:var "q4"; pe:value :q4 ],
+      [ pe:var "q5"; pe:value :q5 ],
+      [ pe:var "q6"; pe:value :q6 ],
+      [ pe:var "q7"; pe:value :q7 ],
+      [ pe:var "q8"; pe:value :q8 ],
+      [ pe:var "q9"; pe:value :q9 ],
+      [ pe:var "signatureGraph"; pe:value :g1 ];
+    pe:uses
+      <<(:q1 :subject :bob)>>,
+      <<(:q1 :predicate :name)>>,
+      <<(:q1 :object "Bob")>>,
+      <<(:q1 :graph :g0)>>,
+      <<(:q2 :subject :g0)>>,
+      <<(:q2 :predicate :proof)>>,
+      <<(:q2 :object :dataSignature)>>,
+      <<(:q2 :graph :g1)>>,
+      <<(:q3 :subject :signature1)>>,
+      <<(:q3 :predicate :type)>>,
+      <<(:q3 :object :DataIntegrityProof)>>,
+      <<(:q3 :graph :g1)>>,
+      <<(:q4 :subject :signature1)>>,
+      <<(:q4 :predicate :cryptosuite)>>,
+      <<(:q4 :object "ecdsa-rdfc-2019")>>,
+      <<(:q4 :graph :g1)>>,
+      <<(:q5 :subject :signature1)>>,
+      <<(:q5 :predicate :issuer)>>,
+      <<(:q5 :object <https://university.example/issuers/14>)>>,
+      <<(:q5 :graph :g1)>>,
+      <<(:q6 :subject :signature1)>>,
+      <<(:q6 :predicate :validUntil)>>,
+      <<(:q6 :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime)>>,
+      <<(:q6 :graph :g1)>>,
+      <<(:q7 :subject :g1)>>,
+      <<(:q7 :predicate :proof)>>,
+      <<(:q7 :object :signature2)>>,
+      <<(:q7 :graph :g3)>>,
+      <<(:q8 :subject :signature2)>>,
+      <<(:q8 :predicate :type)>>,
+      <<(:q8 :object :DataIntegrityProof)>>,
+      <<(:q8 :graph :g3)>>,
+      <<(:q9 :subject :signature2)>>,
+      <<(:q9 :predicate :proofPurpose)>>,
+      <<(:q9 :object "assertionMethod")>>,
+      <<(:q9 :graph :g3)>>.
 
   _:step4
-    rdf:reifies <<( :q1 :object "Bob" )>>;
-    pe:fact "context-association.srl";
-    pe:line 16.
+    rdf:reifies <<(_:b1_3ef52e6b781f254e :signatureGraph :g1)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "dataGraph"; pe:value :g0 ],
+      [ pe:var "dataSignature"; pe:value :dataSignature ],
+      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
+      [ pe:var "metadataGraph"; pe:value :g3 ],
+      [ pe:var "metadataProof"; pe:value :signature2 ],
+      [ pe:var "metadataSignature"; pe:value :signature2 ],
+      [ pe:var "proof"; pe:value :signature1 ],
+      [ pe:var "q1"; pe:value :q1 ],
+      [ pe:var "q2"; pe:value :q2 ],
+      [ pe:var "q3"; pe:value :q3 ],
+      [ pe:var "q4"; pe:value :q4 ],
+      [ pe:var "q5"; pe:value :q5 ],
+      [ pe:var "q6"; pe:value :q6 ],
+      [ pe:var "q7"; pe:value :q7 ],
+      [ pe:var "q8"; pe:value :q8 ],
+      [ pe:var "q9"; pe:value :q9 ],
+      [ pe:var "signatureGraph"; pe:value :g1 ];
+    pe:uses
+      <<(:q1 :subject :bob)>>,
+      <<(:q1 :predicate :name)>>,
+      <<(:q1 :object "Bob")>>,
+      <<(:q1 :graph :g0)>>,
+      <<(:q2 :subject :g0)>>,
+      <<(:q2 :predicate :proof)>>,
+      <<(:q2 :object :dataSignature)>>,
+      <<(:q2 :graph :g1)>>,
+      <<(:q3 :subject :signature1)>>,
+      <<(:q3 :predicate :type)>>,
+      <<(:q3 :object :DataIntegrityProof)>>,
+      <<(:q3 :graph :g1)>>,
+      <<(:q4 :subject :signature1)>>,
+      <<(:q4 :predicate :cryptosuite)>>,
+      <<(:q4 :object "ecdsa-rdfc-2019")>>,
+      <<(:q4 :graph :g1)>>,
+      <<(:q5 :subject :signature1)>>,
+      <<(:q5 :predicate :issuer)>>,
+      <<(:q5 :object <https://university.example/issuers/14>)>>,
+      <<(:q5 :graph :g1)>>,
+      <<(:q6 :subject :signature1)>>,
+      <<(:q6 :predicate :validUntil)>>,
+      <<(:q6 :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime)>>,
+      <<(:q6 :graph :g1)>>,
+      <<(:q7 :subject :g1)>>,
+      <<(:q7 :predicate :proof)>>,
+      <<(:q7 :object :signature2)>>,
+      <<(:q7 :graph :g3)>>,
+      <<(:q8 :subject :signature2)>>,
+      <<(:q8 :predicate :type)>>,
+      <<(:q8 :object :DataIntegrityProof)>>,
+      <<(:q8 :graph :g3)>>,
+      <<(:q9 :subject :signature2)>>,
+      <<(:q9 :predicate :proofPurpose)>>,
+      <<(:q9 :object "assertionMethod")>>,
+      <<(:q9 :graph :g3)>>.
 
   _:step5
-    rdf:reifies <<( :q1 :graph :g0 )>>;
-    pe:fact "context-association.srl";
-    pe:line 16.
+    rdf:reifies <<(_:b1_3ef52e6b781f254e :metadataGraph :g3)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "dataGraph"; pe:value :g0 ],
+      [ pe:var "dataSignature"; pe:value :dataSignature ],
+      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
+      [ pe:var "metadataGraph"; pe:value :g3 ],
+      [ pe:var "metadataProof"; pe:value :signature2 ],
+      [ pe:var "metadataSignature"; pe:value :signature2 ],
+      [ pe:var "proof"; pe:value :signature1 ],
+      [ pe:var "q1"; pe:value :q1 ],
+      [ pe:var "q2"; pe:value :q2 ],
+      [ pe:var "q3"; pe:value :q3 ],
+      [ pe:var "q4"; pe:value :q4 ],
+      [ pe:var "q5"; pe:value :q5 ],
+      [ pe:var "q6"; pe:value :q6 ],
+      [ pe:var "q7"; pe:value :q7 ],
+      [ pe:var "q8"; pe:value :q8 ],
+      [ pe:var "q9"; pe:value :q9 ],
+      [ pe:var "signatureGraph"; pe:value :g1 ];
+    pe:uses
+      <<(:q1 :subject :bob)>>,
+      <<(:q1 :predicate :name)>>,
+      <<(:q1 :object "Bob")>>,
+      <<(:q1 :graph :g0)>>,
+      <<(:q2 :subject :g0)>>,
+      <<(:q2 :predicate :proof)>>,
+      <<(:q2 :object :dataSignature)>>,
+      <<(:q2 :graph :g1)>>,
+      <<(:q3 :subject :signature1)>>,
+      <<(:q3 :predicate :type)>>,
+      <<(:q3 :object :DataIntegrityProof)>>,
+      <<(:q3 :graph :g1)>>,
+      <<(:q4 :subject :signature1)>>,
+      <<(:q4 :predicate :cryptosuite)>>,
+      <<(:q4 :object "ecdsa-rdfc-2019")>>,
+      <<(:q4 :graph :g1)>>,
+      <<(:q5 :subject :signature1)>>,
+      <<(:q5 :predicate :issuer)>>,
+      <<(:q5 :object <https://university.example/issuers/14>)>>,
+      <<(:q5 :graph :g1)>>,
+      <<(:q6 :subject :signature1)>>,
+      <<(:q6 :predicate :validUntil)>>,
+      <<(:q6 :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime)>>,
+      <<(:q6 :graph :g1)>>,
+      <<(:q7 :subject :g1)>>,
+      <<(:q7 :predicate :proof)>>,
+      <<(:q7 :object :signature2)>>,
+      <<(:q7 :graph :g3)>>,
+      <<(:q8 :subject :signature2)>>,
+      <<(:q8 :predicate :type)>>,
+      <<(:q8 :object :DataIntegrityProof)>>,
+      <<(:q8 :graph :g3)>>,
+      <<(:q9 :subject :signature2)>>,
+      <<(:q9 :predicate :proofPurpose)>>,
+      <<(:q9 :object "assertionMethod")>>,
+      <<(:q9 :graph :g3)>>.
 
   _:step6
-    rdf:reifies <<( :q2 :subject :g0 )>>;
-    pe:fact "context-association.srl";
-    pe:line 17.
+    rdf:reifies <<(_:b1_3ef52e6b781f254e :cryptosuite "ecdsa-rdfc-2019")>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "dataGraph"; pe:value :g0 ],
+      [ pe:var "dataSignature"; pe:value :dataSignature ],
+      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
+      [ pe:var "metadataGraph"; pe:value :g3 ],
+      [ pe:var "metadataProof"; pe:value :signature2 ],
+      [ pe:var "metadataSignature"; pe:value :signature2 ],
+      [ pe:var "proof"; pe:value :signature1 ],
+      [ pe:var "q1"; pe:value :q1 ],
+      [ pe:var "q2"; pe:value :q2 ],
+      [ pe:var "q3"; pe:value :q3 ],
+      [ pe:var "q4"; pe:value :q4 ],
+      [ pe:var "q5"; pe:value :q5 ],
+      [ pe:var "q6"; pe:value :q6 ],
+      [ pe:var "q7"; pe:value :q7 ],
+      [ pe:var "q8"; pe:value :q8 ],
+      [ pe:var "q9"; pe:value :q9 ],
+      [ pe:var "signatureGraph"; pe:value :g1 ];
+    pe:uses
+      <<(:q1 :subject :bob)>>,
+      <<(:q1 :predicate :name)>>,
+      <<(:q1 :object "Bob")>>,
+      <<(:q1 :graph :g0)>>,
+      <<(:q2 :subject :g0)>>,
+      <<(:q2 :predicate :proof)>>,
+      <<(:q2 :object :dataSignature)>>,
+      <<(:q2 :graph :g1)>>,
+      <<(:q3 :subject :signature1)>>,
+      <<(:q3 :predicate :type)>>,
+      <<(:q3 :object :DataIntegrityProof)>>,
+      <<(:q3 :graph :g1)>>,
+      <<(:q4 :subject :signature1)>>,
+      <<(:q4 :predicate :cryptosuite)>>,
+      <<(:q4 :object "ecdsa-rdfc-2019")>>,
+      <<(:q4 :graph :g1)>>,
+      <<(:q5 :subject :signature1)>>,
+      <<(:q5 :predicate :issuer)>>,
+      <<(:q5 :object <https://university.example/issuers/14>)>>,
+      <<(:q5 :graph :g1)>>,
+      <<(:q6 :subject :signature1)>>,
+      <<(:q6 :predicate :validUntil)>>,
+      <<(:q6 :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime)>>,
+      <<(:q6 :graph :g1)>>,
+      <<(:q7 :subject :g1)>>,
+      <<(:q7 :predicate :proof)>>,
+      <<(:q7 :object :signature2)>>,
+      <<(:q7 :graph :g3)>>,
+      <<(:q8 :subject :signature2)>>,
+      <<(:q8 :predicate :type)>>,
+      <<(:q8 :object :DataIntegrityProof)>>,
+      <<(:q8 :graph :g3)>>,
+      <<(:q9 :subject :signature2)>>,
+      <<(:q9 :predicate :proofPurpose)>>,
+      <<(:q9 :object "assertionMethod")>>,
+      <<(:q9 :graph :g3)>>.
 
   _:step7
-    rdf:reifies <<( :q2 :predicate :proof )>>;
-    pe:fact "context-association.srl";
-    pe:line 17.
+    rdf:reifies <<(_:b1_3ef52e6b781f254e :issuer <https://university.example/issuers/14>)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "dataGraph"; pe:value :g0 ],
+      [ pe:var "dataSignature"; pe:value :dataSignature ],
+      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
+      [ pe:var "metadataGraph"; pe:value :g3 ],
+      [ pe:var "metadataProof"; pe:value :signature2 ],
+      [ pe:var "metadataSignature"; pe:value :signature2 ],
+      [ pe:var "proof"; pe:value :signature1 ],
+      [ pe:var "q1"; pe:value :q1 ],
+      [ pe:var "q2"; pe:value :q2 ],
+      [ pe:var "q3"; pe:value :q3 ],
+      [ pe:var "q4"; pe:value :q4 ],
+      [ pe:var "q5"; pe:value :q5 ],
+      [ pe:var "q6"; pe:value :q6 ],
+      [ pe:var "q7"; pe:value :q7 ],
+      [ pe:var "q8"; pe:value :q8 ],
+      [ pe:var "q9"; pe:value :q9 ],
+      [ pe:var "signatureGraph"; pe:value :g1 ];
+    pe:uses
+      <<(:q1 :subject :bob)>>,
+      <<(:q1 :predicate :name)>>,
+      <<(:q1 :object "Bob")>>,
+      <<(:q1 :graph :g0)>>,
+      <<(:q2 :subject :g0)>>,
+      <<(:q2 :predicate :proof)>>,
+      <<(:q2 :object :dataSignature)>>,
+      <<(:q2 :graph :g1)>>,
+      <<(:q3 :subject :signature1)>>,
+      <<(:q3 :predicate :type)>>,
+      <<(:q3 :object :DataIntegrityProof)>>,
+      <<(:q3 :graph :g1)>>,
+      <<(:q4 :subject :signature1)>>,
+      <<(:q4 :predicate :cryptosuite)>>,
+      <<(:q4 :object "ecdsa-rdfc-2019")>>,
+      <<(:q4 :graph :g1)>>,
+      <<(:q5 :subject :signature1)>>,
+      <<(:q5 :predicate :issuer)>>,
+      <<(:q5 :object <https://university.example/issuers/14>)>>,
+      <<(:q5 :graph :g1)>>,
+      <<(:q6 :subject :signature1)>>,
+      <<(:q6 :predicate :validUntil)>>,
+      <<(:q6 :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime)>>,
+      <<(:q6 :graph :g1)>>,
+      <<(:q7 :subject :g1)>>,
+      <<(:q7 :predicate :proof)>>,
+      <<(:q7 :object :signature2)>>,
+      <<(:q7 :graph :g3)>>,
+      <<(:q8 :subject :signature2)>>,
+      <<(:q8 :predicate :type)>>,
+      <<(:q8 :object :DataIntegrityProof)>>,
+      <<(:q8 :graph :g3)>>,
+      <<(:q9 :subject :signature2)>>,
+      <<(:q9 :predicate :proofPurpose)>>,
+      <<(:q9 :object "assertionMethod")>>,
+      <<(:q9 :graph :g3)>>.
 
   _:step8
-    rdf:reifies <<( :q2 :object :dataSignature )>>;
-    pe:fact "context-association.srl";
-    pe:line 17.
-
-  _:step9
-    rdf:reifies <<( :q2 :graph :g1 )>>;
-    pe:fact "context-association.srl";
-    pe:line 17.
-
-  _:step10
-    rdf:reifies <<( :q3 :subject :signature1 )>>;
-    pe:fact "context-association.srl";
-    pe:line 18.
-
-  _:step11
-    rdf:reifies <<( :q3 :predicate :type )>>;
-    pe:fact "context-association.srl";
-    pe:line 18.
-
-  _:step12
-    rdf:reifies <<( :q3 :object :DataIntegrityProof )>>;
-    pe:fact "context-association.srl";
-    pe:line 18.
-
-  _:step13
-    rdf:reifies <<( :q3 :graph :g1 )>>;
-    pe:fact "context-association.srl";
-    pe:line 18.
-
-  _:step14
-    rdf:reifies <<( :q4 :subject :signature1 )>>;
-    pe:fact "context-association.srl";
-    pe:line 19.
-
-  _:step15
-    rdf:reifies <<( :q4 :predicate :cryptosuite )>>;
-    pe:fact "context-association.srl";
-    pe:line 19.
-
-  _:step16
-    rdf:reifies <<( :q4 :object "ecdsa-rdfc-2019" )>>;
-    pe:fact "context-association.srl";
-    pe:line 19.
-
-  _:step17
-    rdf:reifies <<( :q4 :graph :g1 )>>;
-    pe:fact "context-association.srl";
-    pe:line 19.
-
-  _:step18
-    rdf:reifies <<( :q5 :subject :signature1 )>>;
-    pe:fact "context-association.srl";
-    pe:line 20.
-
-  _:step19
-    rdf:reifies <<( :q5 :predicate :issuer )>>;
-    pe:fact "context-association.srl";
-    pe:line 20.
-
-  _:step20
-    rdf:reifies <<( :q5 :object <https://university.example/issuers/14> )>>;
-    pe:fact "context-association.srl";
-    pe:line 20.
-
-  _:step21
-    rdf:reifies <<( :q5 :graph :g1 )>>;
-    pe:fact "context-association.srl";
-    pe:line 20.
-
-  _:step22
-    rdf:reifies <<( :q6 :subject :signature1 )>>;
-    pe:fact "context-association.srl";
-    pe:line 21.
-
-  _:step23
-    rdf:reifies <<( :q6 :predicate :validUntil )>>;
-    pe:fact "context-association.srl";
-    pe:line 21.
-
-  _:step24
-    rdf:reifies <<( :q6 :object "2025-04-03T00:00:00.000Z"^^xsd:dateTime )>>;
-    pe:fact "context-association.srl";
-    pe:line 21.
-
-  _:step25
-    rdf:reifies <<( :q6 :graph :g1 )>>;
-    pe:fact "context-association.srl";
-    pe:line 21.
-
-  _:step26
-    rdf:reifies <<( :q7 :subject :g1 )>>;
-    pe:fact "context-association.srl";
-    pe:line 22.
-
-  _:step27
-    rdf:reifies <<( :q7 :predicate :proof )>>;
-    pe:fact "context-association.srl";
-    pe:line 22.
-
-  _:step28
-    rdf:reifies <<( :q7 :object :signature2 )>>;
-    pe:fact "context-association.srl";
-    pe:line 22.
-
-  _:step29
-    rdf:reifies <<( :q7 :graph :g3 )>>;
-    pe:fact "context-association.srl";
-    pe:line 22.
-
-  _:step30
-    rdf:reifies <<( :q8 :subject :signature2 )>>;
-    pe:fact "context-association.srl";
-    pe:line 23.
-
-  _:step31
-    rdf:reifies <<( :q8 :predicate :type )>>;
-    pe:fact "context-association.srl";
-    pe:line 23.
-
-  _:step32
-    rdf:reifies <<( :q8 :object :DataIntegrityProof )>>;
-    pe:fact "context-association.srl";
-    pe:line 23.
-
-  _:step33
-    rdf:reifies <<( :q8 :graph :g3 )>>;
-    pe:fact "context-association.srl";
-    pe:line 23.
-
-  _:step34
-    rdf:reifies <<( :q9 :subject :signature2 )>>;
-    pe:fact "context-association.srl";
-    pe:line 24.
-
-  _:step35
-    rdf:reifies <<( :q9 :predicate :proofPurpose )>>;
-    pe:fact "context-association.srl";
-    pe:line 24.
-
-  _:step36
-    rdf:reifies <<( :q9 :object "assertionMethod" )>>;
-    pe:fact "context-association.srl";
-    pe:line 24.
-
-  _:step37
-    rdf:reifies <<( :q9 :graph :g3 )>>;
-    pe:fact "context-association.srl";
-    pe:line 24.
-
-  _:step38
-    rdf:reifies <<( _:b1_3ef52e6b781f254e :person :bob )>>;
-    pe:rule "context-association.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "dataGraph"; pe:value :g0 ],
-      [ pe:var "dataSignature"; pe:value :dataSignature ],
-      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
-      [ pe:var "metadataGraph"; pe:value :g3 ],
-      [ pe:var "metadataProof"; pe:value :signature2 ],
-      [ pe:var "metadataSignature"; pe:value :signature2 ],
-      [ pe:var "proof"; pe:value :signature1 ],
-      [ pe:var "q1"; pe:value :q1 ],
-      [ pe:var "q2"; pe:value :q2 ],
-      [ pe:var "q3"; pe:value :q3 ],
-      [ pe:var "q4"; pe:value :q4 ],
-      [ pe:var "q5"; pe:value :q5 ],
-      [ pe:var "q6"; pe:value :q6 ],
-      [ pe:var "q7"; pe:value :q7 ],
-      [ pe:var "q8"; pe:value :q8 ],
-      [ pe:var "q9"; pe:value :q9 ],
-      [ pe:var "signatureGraph"; pe:value :g1 ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7,
-      _:step8,
-      _:step9,
-      _:step10,
-      _:step11,
-      _:step12,
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18,
-      _:step19,
-      _:step20,
-      _:step21,
-      _:step22,
-      _:step23,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step27,
-      _:step28,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step32,
-      _:step33,
-      _:step34,
-      _:step35,
-      _:step36,
-      _:step37.
-
-  _:step39
-    rdf:reifies <<( _:b1_3ef52e6b781f254e :dataGraph :g0 )>>;
-    pe:rule "context-association.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "dataGraph"; pe:value :g0 ],
-      [ pe:var "dataSignature"; pe:value :dataSignature ],
-      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
-      [ pe:var "metadataGraph"; pe:value :g3 ],
-      [ pe:var "metadataProof"; pe:value :signature2 ],
-      [ pe:var "metadataSignature"; pe:value :signature2 ],
-      [ pe:var "proof"; pe:value :signature1 ],
-      [ pe:var "q1"; pe:value :q1 ],
-      [ pe:var "q2"; pe:value :q2 ],
-      [ pe:var "q3"; pe:value :q3 ],
-      [ pe:var "q4"; pe:value :q4 ],
-      [ pe:var "q5"; pe:value :q5 ],
-      [ pe:var "q6"; pe:value :q6 ],
-      [ pe:var "q7"; pe:value :q7 ],
-      [ pe:var "q8"; pe:value :q8 ],
-      [ pe:var "q9"; pe:value :q9 ],
-      [ pe:var "signatureGraph"; pe:value :g1 ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7,
-      _:step8,
-      _:step9,
-      _:step10,
-      _:step11,
-      _:step12,
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18,
-      _:step19,
-      _:step20,
-      _:step21,
-      _:step22,
-      _:step23,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step27,
-      _:step28,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step32,
-      _:step33,
-      _:step34,
-      _:step35,
-      _:step36,
-      _:step37.
-
-  _:step40
-    rdf:reifies <<( _:b1_3ef52e6b781f254e :signatureGraph :g1 )>>;
-    pe:rule "context-association.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "dataGraph"; pe:value :g0 ],
-      [ pe:var "dataSignature"; pe:value :dataSignature ],
-      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
-      [ pe:var "metadataGraph"; pe:value :g3 ],
-      [ pe:var "metadataProof"; pe:value :signature2 ],
-      [ pe:var "metadataSignature"; pe:value :signature2 ],
-      [ pe:var "proof"; pe:value :signature1 ],
-      [ pe:var "q1"; pe:value :q1 ],
-      [ pe:var "q2"; pe:value :q2 ],
-      [ pe:var "q3"; pe:value :q3 ],
-      [ pe:var "q4"; pe:value :q4 ],
-      [ pe:var "q5"; pe:value :q5 ],
-      [ pe:var "q6"; pe:value :q6 ],
-      [ pe:var "q7"; pe:value :q7 ],
-      [ pe:var "q8"; pe:value :q8 ],
-      [ pe:var "q9"; pe:value :q9 ],
-      [ pe:var "signatureGraph"; pe:value :g1 ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7,
-      _:step8,
-      _:step9,
-      _:step10,
-      _:step11,
-      _:step12,
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18,
-      _:step19,
-      _:step20,
-      _:step21,
-      _:step22,
-      _:step23,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step27,
-      _:step28,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step32,
-      _:step33,
-      _:step34,
-      _:step35,
-      _:step36,
-      _:step37.
-
-  _:step41
-    rdf:reifies <<( _:b1_3ef52e6b781f254e :metadataGraph :g3 )>>;
-    pe:rule "context-association.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "dataGraph"; pe:value :g0 ],
-      [ pe:var "dataSignature"; pe:value :dataSignature ],
-      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
-      [ pe:var "metadataGraph"; pe:value :g3 ],
-      [ pe:var "metadataProof"; pe:value :signature2 ],
-      [ pe:var "metadataSignature"; pe:value :signature2 ],
-      [ pe:var "proof"; pe:value :signature1 ],
-      [ pe:var "q1"; pe:value :q1 ],
-      [ pe:var "q2"; pe:value :q2 ],
-      [ pe:var "q3"; pe:value :q3 ],
-      [ pe:var "q4"; pe:value :q4 ],
-      [ pe:var "q5"; pe:value :q5 ],
-      [ pe:var "q6"; pe:value :q6 ],
-      [ pe:var "q7"; pe:value :q7 ],
-      [ pe:var "q8"; pe:value :q8 ],
-      [ pe:var "q9"; pe:value :q9 ],
-      [ pe:var "signatureGraph"; pe:value :g1 ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7,
-      _:step8,
-      _:step9,
-      _:step10,
-      _:step11,
-      _:step12,
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18,
-      _:step19,
-      _:step20,
-      _:step21,
-      _:step22,
-      _:step23,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step27,
-      _:step28,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step32,
-      _:step33,
-      _:step34,
-      _:step35,
-      _:step36,
-      _:step37.
-
-  _:step42
-    rdf:reifies <<( _:b1_3ef52e6b781f254e :cryptosuite "ecdsa-rdfc-2019" )>>;
-    pe:rule "context-association.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "dataGraph"; pe:value :g0 ],
-      [ pe:var "dataSignature"; pe:value :dataSignature ],
-      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
-      [ pe:var "metadataGraph"; pe:value :g3 ],
-      [ pe:var "metadataProof"; pe:value :signature2 ],
-      [ pe:var "metadataSignature"; pe:value :signature2 ],
-      [ pe:var "proof"; pe:value :signature1 ],
-      [ pe:var "q1"; pe:value :q1 ],
-      [ pe:var "q2"; pe:value :q2 ],
-      [ pe:var "q3"; pe:value :q3 ],
-      [ pe:var "q4"; pe:value :q4 ],
-      [ pe:var "q5"; pe:value :q5 ],
-      [ pe:var "q6"; pe:value :q6 ],
-      [ pe:var "q7"; pe:value :q7 ],
-      [ pe:var "q8"; pe:value :q8 ],
-      [ pe:var "q9"; pe:value :q9 ],
-      [ pe:var "signatureGraph"; pe:value :g1 ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7,
-      _:step8,
-      _:step9,
-      _:step10,
-      _:step11,
-      _:step12,
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18,
-      _:step19,
-      _:step20,
-      _:step21,
-      _:step22,
-      _:step23,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step27,
-      _:step28,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step32,
-      _:step33,
-      _:step34,
-      _:step35,
-      _:step36,
-      _:step37.
-
-  _:step43
-    rdf:reifies <<( _:b1_3ef52e6b781f254e :issuer <https://university.example/issuers/14> )>>;
-    pe:rule "context-association.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "dataGraph"; pe:value :g0 ],
-      [ pe:var "dataSignature"; pe:value :dataSignature ],
-      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
-      [ pe:var "metadataGraph"; pe:value :g3 ],
-      [ pe:var "metadataProof"; pe:value :signature2 ],
-      [ pe:var "metadataSignature"; pe:value :signature2 ],
-      [ pe:var "proof"; pe:value :signature1 ],
-      [ pe:var "q1"; pe:value :q1 ],
-      [ pe:var "q2"; pe:value :q2 ],
-      [ pe:var "q3"; pe:value :q3 ],
-      [ pe:var "q4"; pe:value :q4 ],
-      [ pe:var "q5"; pe:value :q5 ],
-      [ pe:var "q6"; pe:value :q6 ],
-      [ pe:var "q7"; pe:value :q7 ],
-      [ pe:var "q8"; pe:value :q8 ],
-      [ pe:var "q9"; pe:value :q9 ],
-      [ pe:var "signatureGraph"; pe:value :g1 ];
-    pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7,
-      _:step8,
-      _:step9,
-      _:step10,
-      _:step11,
-      _:step12,
-      _:step13,
-      _:step14,
-      _:step15,
-      _:step16,
-      _:step17,
-      _:step18,
-      _:step19,
-      _:step20,
-      _:step21,
-      _:step22,
-      _:step23,
-      _:step24,
-      _:step25,
-      _:step26,
-      _:step27,
-      _:step28,
-      _:step29,
-      _:step30,
-      _:step31,
-      _:step32,
-      _:step33,
-      _:step34,
-      _:step35,
-      _:step36,
-      _:step37.
-
-  _:step44
-    rdf:reifies <<( :test :graphScopeRespected true )>>;
-    pe:rule "context-association.srl";
-    pe:line 42.
+    rdf:reifies <<(:test :graphScopeRespected true)>>;
+    pe:rule "rule#2".
 }

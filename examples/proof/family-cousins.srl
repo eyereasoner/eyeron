@@ -30,321 +30,220 @@ DATA {
   :Judy :cousin :Ivan .
 
   _:step1
-    rdf:reifies <<( :Adam :generation 0 )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 24.
+    rdf:reifies <<(:Adam :generation 0)>>;
+    pe:rule "rule#1".
 
   _:step2
-    rdf:reifies <<( :Bob :generation 1 )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 28;
+    rdf:reifies <<(:Bob :generation 1)>>;
+    pe:rule "rule#2";
     pe:binding [ pe:var "child"; pe:value :Bob ];
-    pe:uses _:step3.
+    pe:uses <<(:Adam :parentOf :Bob)>>.
 
   _:step3
-    rdf:reifies <<( :Adam :parentOf :Bob )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 8.
+    rdf:reifies <<(:Carol :generation 1)>>;
+    pe:rule "rule#2";
+    pe:binding [ pe:var "child"; pe:value :Carol ];
+    pe:uses <<(:Adam :parentOf :Carol)>>.
 
   _:step4
-    rdf:reifies <<( :Carol :generation 1 )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 28;
-    pe:binding [ pe:var "child"; pe:value :Carol ];
-    pe:uses _:step5.
+    rdf:reifies <<(:Dave :generation 2)>>;
+    pe:rule "rule#3";
+    pe:binding [ pe:var "grandchild"; pe:value :Dave ].
 
   _:step5
-    rdf:reifies <<( :Adam :parentOf :Carol )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 8.
+    rdf:reifies <<(:Eve :generation 2)>>;
+    pe:rule "rule#3";
+    pe:binding [ pe:var "grandchild"; pe:value :Eve ].
 
   _:step6
-    rdf:reifies <<( :Dave :generation 2 )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 31;
-    pe:binding [ pe:var "grandchild"; pe:value :Dave ];
-    pe:uses
-      <<( ?__path_s_0 :parentOf ?__path_o_0 )>>,
-      <<( ?__path_s_1 :parentOf ?__path_o_1 )>>.
+    rdf:reifies <<(:Frank :generation 2)>>;
+    pe:rule "rule#3";
+    pe:binding [ pe:var "grandchild"; pe:value :Frank ].
 
   _:step7
-    rdf:reifies <<( :Eve :generation 2 )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 31;
-    pe:binding [ pe:var "grandchild"; pe:value :Eve ];
-    pe:uses
-      <<( ?__path_s_0 :parentOf ?__path_o_0 )>>,
-      <<( ?__path_s_1 :parentOf ?__path_o_1 )>>.
+    rdf:reifies <<(:Grace :generation 2)>>;
+    pe:rule "rule#3";
+    pe:binding [ pe:var "grandchild"; pe:value :Grace ].
 
   _:step8
-    rdf:reifies <<( :Frank :generation 2 )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 31;
-    pe:binding [ pe:var "grandchild"; pe:value :Frank ];
-    pe:uses
-      <<( ?__path_s_0 :parentOf ?__path_o_0 )>>,
-      <<( ?__path_s_1 :parentOf ?__path_o_1 )>>.
+    rdf:reifies <<(:Heidi :generation 3)>>;
+    pe:rule "rule#4";
+    pe:binding [ pe:var "greatGrandchild"; pe:value :Heidi ].
 
   _:step9
-    rdf:reifies <<( :Grace :generation 2 )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 31;
-    pe:binding [ pe:var "grandchild"; pe:value :Grace ];
-    pe:uses
-      <<( ?__path_s_0 :parentOf ?__path_o_0 )>>,
-      <<( ?__path_s_1 :parentOf ?__path_o_1 )>>.
+    rdf:reifies <<(:Ivan :generation 3)>>;
+    pe:rule "rule#4";
+    pe:binding [ pe:var "greatGrandchild"; pe:value :Ivan ].
 
   _:step10
-    rdf:reifies <<( :Heidi :generation 3 )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 34;
-    pe:binding [ pe:var "greatGrandchild"; pe:value :Heidi ];
-    pe:uses
-      <<( ?__path_s_0 :parentOf ?__path_o_0 )>>,
-      <<( ?__path_s_1 :parentOf ?__path_o_1 )>>,
-      <<( ?__path_s_2 :parentOf ?__path_o_2 )>>.
+    rdf:reifies <<(:Judy :generation 3)>>;
+    pe:rule "rule#4";
+    pe:binding [ pe:var "greatGrandchild"; pe:value :Judy ].
 
   _:step11
-    rdf:reifies <<( :Ivan :generation 3 )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 34;
-    pe:binding [ pe:var "greatGrandchild"; pe:value :Ivan ];
-    pe:uses
-      <<( ?__path_s_0 :parentOf ?__path_o_0 )>>,
-      <<( ?__path_s_1 :parentOf ?__path_o_1 )>>,
-      <<( ?__path_s_2 :parentOf ?__path_o_2 )>>.
-
-  _:step12
-    rdf:reifies <<( :Judy :generation 3 )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 34;
-    pe:binding [ pe:var "greatGrandchild"; pe:value :Judy ];
-    pe:uses
-      <<( ?__path_s_0 :parentOf ?__path_o_0 )>>,
-      <<( ?__path_s_1 :parentOf ?__path_o_1 )>>,
-      <<( ?__path_s_2 :parentOf ?__path_o_2 )>>.
-
-  _:step13
-    rdf:reifies <<( :Heidi :branch :b )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 37;
+    rdf:reifies <<(:Heidi :branch :b)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "branch"; pe:value :b ],
       [ pe:var "child"; pe:value :Heidi ],
       [ pe:var "parent"; pe:value :Dave ];
     pe:uses
-      _:step14,
-      _:step15.
+      <<(:Dave :parentOf :Heidi)>>,
+      <<(:Dave :branch :b)>>.
 
-  _:step14
-    rdf:reifies <<( :Dave :parentOf :Heidi )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 11.
-
-  _:step15
-    rdf:reifies <<( :Dave :branch :b )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 15.
-
-  _:step16
-    rdf:reifies <<( :Ivan :branch :b )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 37;
+  _:step12
+    rdf:reifies <<(:Ivan :branch :b)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "branch"; pe:value :b ],
       [ pe:var "child"; pe:value :Ivan ],
       [ pe:var "parent"; pe:value :Eve ];
     pe:uses
-      _:step17,
-      _:step18.
+      <<(:Eve :parentOf :Ivan)>>,
+      <<(:Eve :branch :b)>>.
 
-  _:step17
-    rdf:reifies <<( :Eve :parentOf :Ivan )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 12.
-
-  _:step18
-    rdf:reifies <<( :Eve :branch :b )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 16.
-
-  _:step19
-    rdf:reifies <<( :Judy :branch :c )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 37;
+  _:step13
+    rdf:reifies <<(:Judy :branch :c)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "branch"; pe:value :c ],
       [ pe:var "child"; pe:value :Judy ],
       [ pe:var "parent"; pe:value :Frank ];
     pe:uses
-      _:step20,
-      _:step21.
+      <<(:Frank :parentOf :Judy)>>,
+      <<(:Frank :branch :c)>>.
+
+  _:step14
+    rdf:reifies <<(:Dave :cousin :Frank)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "branchX"; pe:value :b ],
+      [ pe:var "branchY"; pe:value :c ],
+      [ pe:var "generation"; pe:value 2 ],
+      [ pe:var "x"; pe:value :Dave ],
+      [ pe:var "y"; pe:value :Frank ];
+    pe:uses
+      _:step4,
+      _:step6,
+      <<(:Dave :branch :b)>>,
+      <<(:Frank :branch :c)>>,
+      <<(:b :differentFrom :c)>>.
+
+  _:step15
+    rdf:reifies <<(:Dave :cousin :Grace)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "branchX"; pe:value :b ],
+      [ pe:var "branchY"; pe:value :c ],
+      [ pe:var "generation"; pe:value 2 ],
+      [ pe:var "x"; pe:value :Dave ],
+      [ pe:var "y"; pe:value :Grace ];
+    pe:uses
+      _:step4,
+      _:step7,
+      <<(:Dave :branch :b)>>,
+      <<(:Grace :branch :c)>>,
+      <<(:b :differentFrom :c)>>.
+
+  _:step16
+    rdf:reifies <<(:Eve :cousin :Frank)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "branchX"; pe:value :b ],
+      [ pe:var "branchY"; pe:value :c ],
+      [ pe:var "generation"; pe:value 2 ],
+      [ pe:var "x"; pe:value :Eve ],
+      [ pe:var "y"; pe:value :Frank ];
+    pe:uses
+      _:step5,
+      _:step6,
+      <<(:Eve :branch :b)>>,
+      <<(:Frank :branch :c)>>,
+      <<(:b :differentFrom :c)>>.
+
+  _:step17
+    rdf:reifies <<(:Eve :cousin :Grace)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "branchX"; pe:value :b ],
+      [ pe:var "branchY"; pe:value :c ],
+      [ pe:var "generation"; pe:value 2 ],
+      [ pe:var "x"; pe:value :Eve ],
+      [ pe:var "y"; pe:value :Grace ];
+    pe:uses
+      _:step5,
+      _:step7,
+      <<(:Eve :branch :b)>>,
+      <<(:Grace :branch :c)>>,
+      <<(:b :differentFrom :c)>>.
+
+  _:step18
+    rdf:reifies <<(:Frank :cousin :Dave)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "branchX"; pe:value :c ],
+      [ pe:var "branchY"; pe:value :b ],
+      [ pe:var "generation"; pe:value 2 ],
+      [ pe:var "x"; pe:value :Frank ],
+      [ pe:var "y"; pe:value :Dave ];
+    pe:uses
+      _:step6,
+      _:step4,
+      <<(:Frank :branch :c)>>,
+      <<(:Dave :branch :b)>>,
+      <<(:c :differentFrom :b)>>.
+
+  _:step19
+    rdf:reifies <<(:Frank :cousin :Eve)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "branchX"; pe:value :c ],
+      [ pe:var "branchY"; pe:value :b ],
+      [ pe:var "generation"; pe:value 2 ],
+      [ pe:var "x"; pe:value :Frank ],
+      [ pe:var "y"; pe:value :Eve ];
+    pe:uses
+      _:step6,
+      _:step5,
+      <<(:Frank :branch :c)>>,
+      <<(:Eve :branch :b)>>,
+      <<(:c :differentFrom :b)>>.
 
   _:step20
-    rdf:reifies <<( :Frank :parentOf :Judy )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 13.
+    rdf:reifies <<(:Grace :cousin :Dave)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "branchX"; pe:value :c ],
+      [ pe:var "branchY"; pe:value :b ],
+      [ pe:var "generation"; pe:value 2 ],
+      [ pe:var "x"; pe:value :Grace ],
+      [ pe:var "y"; pe:value :Dave ];
+    pe:uses
+      _:step7,
+      _:step4,
+      <<(:Grace :branch :c)>>,
+      <<(:Dave :branch :b)>>,
+      <<(:c :differentFrom :b)>>.
 
   _:step21
-    rdf:reifies <<( :Frank :branch :c )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 17.
+    rdf:reifies <<(:Grace :cousin :Eve)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "branchX"; pe:value :c ],
+      [ pe:var "branchY"; pe:value :b ],
+      [ pe:var "generation"; pe:value 2 ],
+      [ pe:var "x"; pe:value :Grace ],
+      [ pe:var "y"; pe:value :Eve ];
+    pe:uses
+      _:step7,
+      _:step5,
+      <<(:Grace :branch :c)>>,
+      <<(:Eve :branch :b)>>,
+      <<(:c :differentFrom :b)>>.
 
   _:step22
-    rdf:reifies <<( :Dave :cousin :Frank )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
-    pe:binding
-      [ pe:var "branchX"; pe:value :b ],
-      [ pe:var "branchY"; pe:value :c ],
-      [ pe:var "generation"; pe:value 2 ],
-      [ pe:var "x"; pe:value :Dave ],
-      [ pe:var "y"; pe:value :Frank ];
-    pe:uses
-      _:step6,
-      _:step8,
-      _:step15,
-      _:step21,
-      _:step23.
-
-  _:step23
-    rdf:reifies <<( :b :differentFrom :c )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 20.
-
-  _:step24
-    rdf:reifies <<( :Dave :cousin :Grace )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
-    pe:binding
-      [ pe:var "branchX"; pe:value :b ],
-      [ pe:var "branchY"; pe:value :c ],
-      [ pe:var "generation"; pe:value 2 ],
-      [ pe:var "x"; pe:value :Dave ],
-      [ pe:var "y"; pe:value :Grace ];
-    pe:uses
-      _:step6,
-      _:step9,
-      _:step15,
-      _:step25,
-      _:step23.
-
-  _:step25
-    rdf:reifies <<( :Grace :branch :c )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 18.
-
-  _:step26
-    rdf:reifies <<( :Eve :cousin :Frank )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
-    pe:binding
-      [ pe:var "branchX"; pe:value :b ],
-      [ pe:var "branchY"; pe:value :c ],
-      [ pe:var "generation"; pe:value 2 ],
-      [ pe:var "x"; pe:value :Eve ],
-      [ pe:var "y"; pe:value :Frank ];
-    pe:uses
-      _:step7,
-      _:step8,
-      _:step18,
-      _:step21,
-      _:step23.
-
-  _:step27
-    rdf:reifies <<( :Eve :cousin :Grace )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
-    pe:binding
-      [ pe:var "branchX"; pe:value :b ],
-      [ pe:var "branchY"; pe:value :c ],
-      [ pe:var "generation"; pe:value 2 ],
-      [ pe:var "x"; pe:value :Eve ],
-      [ pe:var "y"; pe:value :Grace ];
-    pe:uses
-      _:step7,
-      _:step9,
-      _:step18,
-      _:step25,
-      _:step23.
-
-  _:step28
-    rdf:reifies <<( :Frank :cousin :Dave )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
-    pe:binding
-      [ pe:var "branchX"; pe:value :c ],
-      [ pe:var "branchY"; pe:value :b ],
-      [ pe:var "generation"; pe:value 2 ],
-      [ pe:var "x"; pe:value :Frank ],
-      [ pe:var "y"; pe:value :Dave ];
-    pe:uses
-      _:step8,
-      _:step6,
-      _:step21,
-      _:step15,
-      _:step29.
-
-  _:step29
-    rdf:reifies <<( :c :differentFrom :b )>>;
-    pe:fact "family-cousins.srl";
-    pe:line 21.
-
-  _:step30
-    rdf:reifies <<( :Frank :cousin :Eve )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
-    pe:binding
-      [ pe:var "branchX"; pe:value :c ],
-      [ pe:var "branchY"; pe:value :b ],
-      [ pe:var "generation"; pe:value 2 ],
-      [ pe:var "x"; pe:value :Frank ],
-      [ pe:var "y"; pe:value :Eve ];
-    pe:uses
-      _:step8,
-      _:step7,
-      _:step21,
-      _:step18,
-      _:step29.
-
-  _:step31
-    rdf:reifies <<( :Grace :cousin :Dave )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
-    pe:binding
-      [ pe:var "branchX"; pe:value :c ],
-      [ pe:var "branchY"; pe:value :b ],
-      [ pe:var "generation"; pe:value 2 ],
-      [ pe:var "x"; pe:value :Grace ],
-      [ pe:var "y"; pe:value :Dave ];
-    pe:uses
-      _:step9,
-      _:step6,
-      _:step25,
-      _:step15,
-      _:step29.
-
-  _:step32
-    rdf:reifies <<( :Grace :cousin :Eve )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
-    pe:binding
-      [ pe:var "branchX"; pe:value :c ],
-      [ pe:var "branchY"; pe:value :b ],
-      [ pe:var "generation"; pe:value 2 ],
-      [ pe:var "x"; pe:value :Grace ],
-      [ pe:var "y"; pe:value :Eve ];
-    pe:uses
-      _:step9,
-      _:step7,
-      _:step25,
-      _:step18,
-      _:step29.
-
-  _:step33
-    rdf:reifies <<( :Heidi :cousin :Judy )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
+    rdf:reifies <<(:Heidi :cousin :Judy)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "branchX"; pe:value :b ],
       [ pe:var "branchY"; pe:value :c ],
@@ -352,16 +251,15 @@ DATA {
       [ pe:var "x"; pe:value :Heidi ],
       [ pe:var "y"; pe:value :Judy ];
     pe:uses
+      _:step8,
       _:step10,
-      _:step12,
+      _:step11,
       _:step13,
-      _:step19,
-      _:step23.
+      <<(:b :differentFrom :c)>>.
 
-  _:step34
-    rdf:reifies <<( :Ivan :cousin :Judy )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
+  _:step23
+    rdf:reifies <<(:Ivan :cousin :Judy)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "branchX"; pe:value :b ],
       [ pe:var "branchY"; pe:value :c ],
@@ -369,16 +267,15 @@ DATA {
       [ pe:var "x"; pe:value :Ivan ],
       [ pe:var "y"; pe:value :Judy ];
     pe:uses
-      _:step11,
+      _:step9,
+      _:step10,
       _:step12,
-      _:step16,
-      _:step19,
-      _:step23.
+      _:step13,
+      <<(:b :differentFrom :c)>>.
 
-  _:step35
-    rdf:reifies <<( :Judy :cousin :Heidi )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
+  _:step24
+    rdf:reifies <<(:Judy :cousin :Heidi)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "branchX"; pe:value :c ],
       [ pe:var "branchY"; pe:value :b ],
@@ -386,16 +283,15 @@ DATA {
       [ pe:var "x"; pe:value :Judy ],
       [ pe:var "y"; pe:value :Heidi ];
     pe:uses
-      _:step12,
       _:step10,
-      _:step19,
+      _:step8,
       _:step13,
-      _:step29.
+      _:step11,
+      <<(:c :differentFrom :b)>>.
 
-  _:step36
-    rdf:reifies <<( :Judy :cousin :Ivan )>>;
-    pe:rule "family-cousins.srl";
-    pe:line 43;
+  _:step25
+    rdf:reifies <<(:Judy :cousin :Ivan)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "branchX"; pe:value :c ],
       [ pe:var "branchY"; pe:value :b ],
@@ -403,9 +299,9 @@ DATA {
       [ pe:var "x"; pe:value :Judy ],
       [ pe:var "y"; pe:value :Ivan ];
     pe:uses
+      _:step10,
+      _:step9,
+      _:step13,
       _:step12,
-      _:step11,
-      _:step19,
-      _:step16,
-      _:step29.
+      <<(:c :differentFrom :b)>>.
 }

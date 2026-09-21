@@ -6,23 +6,12 @@ DATA {
   :test :is true .
 
   _:step1
-    rdf:reifies <<( :test :is true )>>;
-    pe:rule "derived-rule.srl";
-    pe:line 9;
+    rdf:reifies <<(:test :is true)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "x"; pe:value :Minka ],
       [ pe:var "y"; pe:value :Charly ];
     pe:uses
-      _:step2,
-      _:step3.
-
-  _:step2
-    rdf:reifies <<( :Minka a :Cat )>>;
-    pe:fact "derived-rule.srl";
-    pe:line 7.
-
-  _:step3
-    rdf:reifies <<( :Charly a :Dog )>>;
-    pe:fact "derived-rule.srl";
-    pe:line 7.
+      <<(:Minka a :Cat)>>,
+      <<(:Charly a :Dog)>>.
 }

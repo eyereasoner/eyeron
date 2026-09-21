@@ -10,55 +10,46 @@ DATA {
   :event :tripleSubject :subject .
 
   _:step1
-    rdf:reifies <<( :event :year 2026 )>>;
-    pe:rule "spec-builtins.srl";
-    pe:line 8;
+    rdf:reifies <<(:event :year 2026)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "blank"; pe:value _:event ],
       [ pe:var "month"; pe:value 5 ],
       [ pe:var "subject"; pe:value :subject ],
       [ pe:var "when"; pe:value "2026-05-15T10:20:30Z"^^xsd:dateTime ],
       [ pe:var "year"; pe:value 2026 ];
-    pe:uses _:step2.
+    pe:uses <<(:event :when "2026-05-15T10:20:30Z"^^xsd:dateTime)>>.
 
   _:step2
-    rdf:reifies <<( :event :when "2026-05-15T10:20:30Z"^^xsd:dateTime )>>;
-    pe:fact "spec-builtins.srl";
-    pe:line 5.
+    rdf:reifies <<(:event :month 5)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "blank"; pe:value _:event ],
+      [ pe:var "month"; pe:value 5 ],
+      [ pe:var "subject"; pe:value :subject ],
+      [ pe:var "when"; pe:value "2026-05-15T10:20:30Z"^^xsd:dateTime ],
+      [ pe:var "year"; pe:value 2026 ];
+    pe:uses <<(:event :when "2026-05-15T10:20:30Z"^^xsd:dateTime)>>.
 
   _:step3
-    rdf:reifies <<( :event :month 5 )>>;
-    pe:rule "spec-builtins.srl";
-    pe:line 8;
+    rdf:reifies <<(:event :blank _:event)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "blank"; pe:value _:event ],
       [ pe:var "month"; pe:value 5 ],
       [ pe:var "subject"; pe:value :subject ],
       [ pe:var "when"; pe:value "2026-05-15T10:20:30Z"^^xsd:dateTime ],
       [ pe:var "year"; pe:value 2026 ];
-    pe:uses _:step2.
+    pe:uses <<(:event :when "2026-05-15T10:20:30Z"^^xsd:dateTime)>>.
 
   _:step4
-    rdf:reifies <<( :event :blank _:event )>>;
-    pe:rule "spec-builtins.srl";
-    pe:line 8;
+    rdf:reifies <<(:event :tripleSubject :subject)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "blank"; pe:value _:event ],
       [ pe:var "month"; pe:value 5 ],
       [ pe:var "subject"; pe:value :subject ],
       [ pe:var "when"; pe:value "2026-05-15T10:20:30Z"^^xsd:dateTime ],
       [ pe:var "year"; pe:value 2026 ];
-    pe:uses _:step2.
-
-  _:step5
-    rdf:reifies <<( :event :tripleSubject :subject )>>;
-    pe:rule "spec-builtins.srl";
-    pe:line 8;
-    pe:binding
-      [ pe:var "blank"; pe:value _:event ],
-      [ pe:var "month"; pe:value 5 ],
-      [ pe:var "subject"; pe:value :subject ],
-      [ pe:var "when"; pe:value "2026-05-15T10:20:30Z"^^xsd:dateTime ],
-      [ pe:var "year"; pe:value 2026 ];
-    pe:uses _:step2.
+    pe:uses <<(:event :when "2026-05-15T10:20:30Z"^^xsd:dateTime)>>.
 }

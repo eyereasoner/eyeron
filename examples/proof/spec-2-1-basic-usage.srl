@@ -8,44 +8,26 @@ DATA {
   :A :childOf :C .
 
   _:step1
-    rdf:reifies <<( :X :childOf :A )>>;
-    pe:rule "spec-2-1-basic-usage.srl";
-    pe:line 9;
+    rdf:reifies <<(:X :childOf :A)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "x"; pe:value :X ],
       [ pe:var "y"; pe:value :A ];
-    pe:uses _:step2.
+    pe:uses <<(:A :fatherOf :X)>>.
 
   _:step2
-    rdf:reifies <<( :A :fatherOf :X )>>;
-    pe:fact "spec-2-1-basic-usage.srl";
-    pe:line 4.
-
-  _:step3
-    rdf:reifies <<( :X :childOf :B )>>;
-    pe:rule "spec-2-1-basic-usage.srl";
-    pe:line 10;
+    rdf:reifies <<(:X :childOf :B)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "x"; pe:value :X ],
       [ pe:var "y"; pe:value :B ];
-    pe:uses _:step4.
+    pe:uses <<(:B :motherOf :X)>>.
 
-  _:step4
-    rdf:reifies <<( :B :motherOf :X )>>;
-    pe:fact "spec-2-1-basic-usage.srl";
-    pe:line 5.
-
-  _:step5
-    rdf:reifies <<( :A :childOf :C )>>;
-    pe:rule "spec-2-1-basic-usage.srl";
-    pe:line 10;
+  _:step3
+    rdf:reifies <<(:A :childOf :C)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "x"; pe:value :A ],
       [ pe:var "y"; pe:value :C ];
-    pe:uses _:step6.
-
-  _:step6
-    rdf:reifies <<( :C :motherOf :A )>>;
-    pe:fact "spec-2-1-basic-usage.srl";
-    pe:line 6.
+    pe:uses <<(:C :motherOf :A)>>.
 }

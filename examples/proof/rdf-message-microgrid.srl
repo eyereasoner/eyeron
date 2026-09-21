@@ -10,81 +10,51 @@ DATA {
   :clinicMicrogrid :resilienceAction :protectClinic .
 
   _:step1
-    rdf:reifies <<( :clinicMicrogrid :criticalWatts 620 )>>;
-    pe:rule "rdf-message-microgrid.srl";
-    pe:line 18;
+    rdf:reifies <<(:clinicMicrogrid :criticalWatts 620)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "f"; pe:value 120 ],
       [ pe:var "o"; pe:value 500 ],
       [ pe:var "w"; pe:value 620 ];
     pe:uses
-      _:step2,
-      _:step3.
+      <<(:oxygenConcentrator :requiresWatts 500)>>,
+      <<(:vaccineFridge :requiresWatts 120)>>.
 
   _:step2
-    rdf:reifies <<( :oxygenConcentrator :requiresWatts 500 )>>;
-    pe:fact "rdf-message-microgrid.srl";
-    pe:line 11.
-
-  _:step3
-    rdf:reifies <<( :vaccineFridge :requiresWatts 120 )>>;
-    pe:fact "rdf-message-microgrid.srl";
-    pe:line 12.
-
-  _:step4
-    rdf:reifies <<( :clinicMicrogrid :availableWatts 800 )>>;
-    pe:rule "rdf-message-microgrid.srl";
-    pe:line 25;
+    rdf:reifies <<(:clinicMicrogrid :availableWatts 800)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "b"; pe:value 650 ],
       [ pe:var "s"; pe:value 150 ],
       [ pe:var "w"; pe:value 800 ];
     pe:uses
-      _:step5,
-      _:step6.
+      <<(:batteryBank :availableWatts 650)>>,
+      <<(:solarForecast :expectedWatts 150)>>.
 
-  _:step5
-    rdf:reifies <<( :batteryBank :availableWatts 650 )>>;
-    pe:fact "rdf-message-microgrid.srl";
-    pe:line 13.
-
-  _:step6
-    rdf:reifies <<( :solarForecast :expectedWatts 150 )>>;
-    pe:fact "rdf-message-microgrid.srl";
-    pe:line 14.
-
-  _:step7
-    rdf:reifies <<( :clinicMicrogrid :deferrableWatts 600 )>>;
-    pe:rule "rdf-message-microgrid.srl";
-    pe:line 32;
+  _:step3
+    rdf:reifies <<(:clinicMicrogrid :deferrableWatts 600)>>;
+    pe:rule "rule#3";
     pe:binding [ pe:var "w"; pe:value 600 ];
-    pe:uses _:step8.
+    pe:uses <<(:evChargers :shedWatts 600)>>.
 
-  _:step8
-    rdf:reifies <<( :evChargers :shedWatts 600 )>>;
-    pe:fact "rdf-message-microgrid.srl";
-    pe:line 15.
-
-  _:step9
-    rdf:reifies <<( :clinicMicrogrid :protectedBudgetWatts 1400 )>>;
-    pe:rule "rdf-message-microgrid.srl";
-    pe:line 35;
+  _:step4
+    rdf:reifies <<(:clinicMicrogrid :protectedBudgetWatts 1400)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "a"; pe:value 800 ],
       [ pe:var "d"; pe:value 600 ],
       [ pe:var "w"; pe:value 1400 ];
     pe:uses
-      _:step4,
-      _:step7.
+      _:step2,
+      _:step3.
 
-  _:step10
-    rdf:reifies <<( :clinicMicrogrid :resilienceAction :protectClinic )>>;
-    pe:rule "rdf-message-microgrid.srl";
-    pe:line 42;
+  _:step5
+    rdf:reifies <<(:clinicMicrogrid :resilienceAction :protectClinic)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "c"; pe:value 620 ],
       [ pe:var "p"; pe:value 1400 ];
     pe:uses
-      _:step9,
+      _:step4,
       _:step1.
 }

@@ -6,14 +6,8 @@ DATA {
   :bob a :Orphan .
 
   _:step1
-    rdf:reifies <<( :bob a :Orphan )>>;
-    pe:rule "negation-orphan.srl";
-    pe:line 11;
+    rdf:reifies <<(:bob a :Orphan)>>;
+    pe:rule "rule#1";
     pe:binding [ pe:var "x"; pe:value :bob ];
-    pe:uses _:step2.
-
-  _:step2
-    rdf:reifies <<( :bob a :Person )>>;
-    pe:fact "negation-orphan.srl";
-    pe:line 7.
+    pe:uses <<(:bob a :Person)>>.
 }

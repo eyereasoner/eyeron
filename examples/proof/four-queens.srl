@@ -15,9 +15,8 @@ DATA {
   _:b1_951439cf858633a7 :q4 2 .
 
   _:step1
-    rdf:reifies <<( _:b1_fb93384ba4fde1d3 a :Solution )>>;
-    pe:rule "four-queens.srl";
-    pe:line 15;
+    rdf:reifies <<(_:b1_fb93384ba4fde1d3 a :Solution)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "a"; pe:value 2 ],
       [ pe:var "b"; pe:value 4 ],
@@ -28,111 +27,158 @@ DATA {
       [ pe:var "rc"; pe:value :r1 ],
       [ pe:var "rd"; pe:value :r3 ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5.
+      <<(:r2 :n 2)>>,
+      <<(:r4 :n 4)>>,
+      <<(:r1 :n 1)>>,
+      <<(:r3 :n 3)>>.
 
   _:step2
-    rdf:reifies <<( :r2 :n 2 )>>;
-    pe:fact "four-queens.srl";
-    pe:line 12.
+    rdf:reifies <<(_:b1_fb93384ba4fde1d3 :q1 2)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "a"; pe:value 2 ],
+      [ pe:var "b"; pe:value 4 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "ra"; pe:value :r2 ],
+      [ pe:var "rb"; pe:value :r4 ],
+      [ pe:var "rc"; pe:value :r1 ],
+      [ pe:var "rd"; pe:value :r3 ];
+    pe:uses
+      <<(:r2 :n 2)>>,
+      <<(:r4 :n 4)>>,
+      <<(:r1 :n 1)>>,
+      <<(:r3 :n 3)>>.
 
   _:step3
-    rdf:reifies <<( :r4 :n 4 )>>;
-    pe:fact "four-queens.srl";
-    pe:line 12.
+    rdf:reifies <<(_:b1_fb93384ba4fde1d3 :q2 4)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "a"; pe:value 2 ],
+      [ pe:var "b"; pe:value 4 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "ra"; pe:value :r2 ],
+      [ pe:var "rb"; pe:value :r4 ],
+      [ pe:var "rc"; pe:value :r1 ],
+      [ pe:var "rd"; pe:value :r3 ];
+    pe:uses
+      <<(:r2 :n 2)>>,
+      <<(:r4 :n 4)>>,
+      <<(:r1 :n 1)>>,
+      <<(:r3 :n 3)>>.
 
   _:step4
-    rdf:reifies <<( :r1 :n 1 )>>;
-    pe:fact "four-queens.srl";
-    pe:line 12.
+    rdf:reifies <<(_:b1_fb93384ba4fde1d3 :q3 1)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "a"; pe:value 2 ],
+      [ pe:var "b"; pe:value 4 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "ra"; pe:value :r2 ],
+      [ pe:var "rb"; pe:value :r4 ],
+      [ pe:var "rc"; pe:value :r1 ],
+      [ pe:var "rd"; pe:value :r3 ];
+    pe:uses
+      <<(:r2 :n 2)>>,
+      <<(:r4 :n 4)>>,
+      <<(:r1 :n 1)>>,
+      <<(:r3 :n 3)>>.
 
   _:step5
-    rdf:reifies <<( :r3 :n 3 )>>;
-    pe:fact "four-queens.srl";
-    pe:line 12.
+    rdf:reifies <<(_:b1_fb93384ba4fde1d3 :q4 3)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "a"; pe:value 2 ],
+      [ pe:var "b"; pe:value 4 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "ra"; pe:value :r2 ],
+      [ pe:var "rb"; pe:value :r4 ],
+      [ pe:var "rc"; pe:value :r1 ],
+      [ pe:var "rd"; pe:value :r3 ];
+    pe:uses
+      <<(:r2 :n 2)>>,
+      <<(:r4 :n 4)>>,
+      <<(:r1 :n 1)>>,
+      <<(:r3 :n 3)>>.
 
   _:step6
-    rdf:reifies <<( _:b1_fb93384ba4fde1d3 :q1 2 )>>;
-    pe:rule "four-queens.srl";
-    pe:line 15;
+    rdf:reifies <<(_:b1_951439cf858633a7 a :Solution)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "a"; pe:value 2 ],
-      [ pe:var "b"; pe:value 4 ],
-      [ pe:var "c"; pe:value 1 ],
-      [ pe:var "d"; pe:value 3 ],
-      [ pe:var "ra"; pe:value :r2 ],
-      [ pe:var "rb"; pe:value :r4 ],
-      [ pe:var "rc"; pe:value :r1 ],
-      [ pe:var "rd"; pe:value :r3 ];
+      [ pe:var "a"; pe:value 3 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 4 ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "ra"; pe:value :r3 ],
+      [ pe:var "rb"; pe:value :r1 ],
+      [ pe:var "rc"; pe:value :r4 ],
+      [ pe:var "rd"; pe:value :r2 ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5.
+      <<(:r3 :n 3)>>,
+      <<(:r1 :n 1)>>,
+      <<(:r4 :n 4)>>,
+      <<(:r2 :n 2)>>.
 
   _:step7
-    rdf:reifies <<( _:b1_fb93384ba4fde1d3 :q2 4 )>>;
-    pe:rule "four-queens.srl";
-    pe:line 15;
+    rdf:reifies <<(_:b1_951439cf858633a7 :q1 3)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "a"; pe:value 2 ],
-      [ pe:var "b"; pe:value 4 ],
-      [ pe:var "c"; pe:value 1 ],
-      [ pe:var "d"; pe:value 3 ],
-      [ pe:var "ra"; pe:value :r2 ],
-      [ pe:var "rb"; pe:value :r4 ],
-      [ pe:var "rc"; pe:value :r1 ],
-      [ pe:var "rd"; pe:value :r3 ];
+      [ pe:var "a"; pe:value 3 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 4 ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "ra"; pe:value :r3 ],
+      [ pe:var "rb"; pe:value :r1 ],
+      [ pe:var "rc"; pe:value :r4 ],
+      [ pe:var "rd"; pe:value :r2 ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5.
+      <<(:r3 :n 3)>>,
+      <<(:r1 :n 1)>>,
+      <<(:r4 :n 4)>>,
+      <<(:r2 :n 2)>>.
 
   _:step8
-    rdf:reifies <<( _:b1_fb93384ba4fde1d3 :q3 1 )>>;
-    pe:rule "four-queens.srl";
-    pe:line 15;
+    rdf:reifies <<(_:b1_951439cf858633a7 :q2 1)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "a"; pe:value 2 ],
-      [ pe:var "b"; pe:value 4 ],
-      [ pe:var "c"; pe:value 1 ],
-      [ pe:var "d"; pe:value 3 ],
-      [ pe:var "ra"; pe:value :r2 ],
-      [ pe:var "rb"; pe:value :r4 ],
-      [ pe:var "rc"; pe:value :r1 ],
-      [ pe:var "rd"; pe:value :r3 ];
+      [ pe:var "a"; pe:value 3 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 4 ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "ra"; pe:value :r3 ],
+      [ pe:var "rb"; pe:value :r1 ],
+      [ pe:var "rc"; pe:value :r4 ],
+      [ pe:var "rd"; pe:value :r2 ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5.
+      <<(:r3 :n 3)>>,
+      <<(:r1 :n 1)>>,
+      <<(:r4 :n 4)>>,
+      <<(:r2 :n 2)>>.
 
   _:step9
-    rdf:reifies <<( _:b1_fb93384ba4fde1d3 :q4 3 )>>;
-    pe:rule "four-queens.srl";
-    pe:line 15;
+    rdf:reifies <<(_:b1_951439cf858633a7 :q3 4)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "a"; pe:value 2 ],
-      [ pe:var "b"; pe:value 4 ],
-      [ pe:var "c"; pe:value 1 ],
-      [ pe:var "d"; pe:value 3 ],
-      [ pe:var "ra"; pe:value :r2 ],
-      [ pe:var "rb"; pe:value :r4 ],
-      [ pe:var "rc"; pe:value :r1 ],
-      [ pe:var "rd"; pe:value :r3 ];
+      [ pe:var "a"; pe:value 3 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 4 ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "ra"; pe:value :r3 ],
+      [ pe:var "rb"; pe:value :r1 ],
+      [ pe:var "rc"; pe:value :r4 ],
+      [ pe:var "rd"; pe:value :r2 ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5.
+      <<(:r3 :n 3)>>,
+      <<(:r1 :n 1)>>,
+      <<(:r4 :n 4)>>,
+      <<(:r2 :n 2)>>.
 
   _:step10
-    rdf:reifies <<( _:b1_951439cf858633a7 a :Solution )>>;
-    pe:rule "four-queens.srl";
-    pe:line 15;
+    rdf:reifies <<(_:b1_951439cf858633a7 :q4 2)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "a"; pe:value 3 ],
       [ pe:var "b"; pe:value 1 ],
@@ -143,84 +189,8 @@ DATA {
       [ pe:var "rc"; pe:value :r4 ],
       [ pe:var "rd"; pe:value :r2 ];
     pe:uses
-      _:step5,
-      _:step4,
-      _:step3,
-      _:step2.
-
-  _:step11
-    rdf:reifies <<( _:b1_951439cf858633a7 :q1 3 )>>;
-    pe:rule "four-queens.srl";
-    pe:line 15;
-    pe:binding
-      [ pe:var "a"; pe:value 3 ],
-      [ pe:var "b"; pe:value 1 ],
-      [ pe:var "c"; pe:value 4 ],
-      [ pe:var "d"; pe:value 2 ],
-      [ pe:var "ra"; pe:value :r3 ],
-      [ pe:var "rb"; pe:value :r1 ],
-      [ pe:var "rc"; pe:value :r4 ],
-      [ pe:var "rd"; pe:value :r2 ];
-    pe:uses
-      _:step5,
-      _:step4,
-      _:step3,
-      _:step2.
-
-  _:step12
-    rdf:reifies <<( _:b1_951439cf858633a7 :q2 1 )>>;
-    pe:rule "four-queens.srl";
-    pe:line 15;
-    pe:binding
-      [ pe:var "a"; pe:value 3 ],
-      [ pe:var "b"; pe:value 1 ],
-      [ pe:var "c"; pe:value 4 ],
-      [ pe:var "d"; pe:value 2 ],
-      [ pe:var "ra"; pe:value :r3 ],
-      [ pe:var "rb"; pe:value :r1 ],
-      [ pe:var "rc"; pe:value :r4 ],
-      [ pe:var "rd"; pe:value :r2 ];
-    pe:uses
-      _:step5,
-      _:step4,
-      _:step3,
-      _:step2.
-
-  _:step13
-    rdf:reifies <<( _:b1_951439cf858633a7 :q3 4 )>>;
-    pe:rule "four-queens.srl";
-    pe:line 15;
-    pe:binding
-      [ pe:var "a"; pe:value 3 ],
-      [ pe:var "b"; pe:value 1 ],
-      [ pe:var "c"; pe:value 4 ],
-      [ pe:var "d"; pe:value 2 ],
-      [ pe:var "ra"; pe:value :r3 ],
-      [ pe:var "rb"; pe:value :r1 ],
-      [ pe:var "rc"; pe:value :r4 ],
-      [ pe:var "rd"; pe:value :r2 ];
-    pe:uses
-      _:step5,
-      _:step4,
-      _:step3,
-      _:step2.
-
-  _:step14
-    rdf:reifies <<( _:b1_951439cf858633a7 :q4 2 )>>;
-    pe:rule "four-queens.srl";
-    pe:line 15;
-    pe:binding
-      [ pe:var "a"; pe:value 3 ],
-      [ pe:var "b"; pe:value 1 ],
-      [ pe:var "c"; pe:value 4 ],
-      [ pe:var "d"; pe:value 2 ],
-      [ pe:var "ra"; pe:value :r3 ],
-      [ pe:var "rb"; pe:value :r1 ],
-      [ pe:var "rc"; pe:value :r4 ],
-      [ pe:var "rd"; pe:value :r2 ];
-    pe:uses
-      _:step5,
-      _:step4,
-      _:step3,
-      _:step2.
+      <<(:r3 :n 3)>>,
+      <<(:r1 :n 1)>>,
+      <<(:r4 :n 4)>>,
+      <<(:r2 :n 2)>>.
 }

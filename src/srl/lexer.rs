@@ -452,15 +452,26 @@ impl<'a> Lexer<'a> {
             // SPARQL's zero-or-one path modifier, which SPARQL-RL's path
             // grammar excludes. Swallowing the `?` instead would quietly
             // read that as the IRI `…/p?` and derive nothing.
-            if ch.is_whitespace() || ch == '?' || PUNCT_CHARS.contains(ch) || OPERATOR_CHARS.contains(ch) {
+            // `-` and `.` belong to a name: `PN_CHARS` includes `-`, and
+            // `PN_LOCAL`/`PN_PREFIX`/`BLANK_NODE_LABEL` all admit `.`
+            // between name characters ([122], [147]-[149] of SPARQL 1.2 RL
+            // §7.6). Either one continues the word as long as a name
+            // character follows, which is what keeps `:a-b`, `_:a-1` and
+            // `res:CITY_St.-denis` whole while leaving the statement
+            // terminator in `:a .` and the operator in `?x - 1` alone. A
+            // name whose own `-` is followed by `:` (`:a-:b`, one name
+            // under strict longest-match) does break here, which no real
+            // vocabulary seems to need.
+            if ch == '-' || ch == '.' {
+                if self.peek_next().is_some_and(continues_name) {
+                    word.push(ch);
+                    self.bump();
+                    continue;
+                }
                 break;
             }
-            if ch == '.' {
-                match self.peek_next() {
-                    None => break,
-                    Some(n) if n.is_whitespace() || PUNCT_CHARS.contains(n) || OPERATOR_CHARS.contains(n) => break,
-                    _ => {}
-                }
+            if ch.is_whitespace() || ch == '?' || PUNCT_CHARS.contains(ch) || OPERATOR_CHARS.contains(ch) {
+                break;
             }
             if ch == '#' {
                 break;
@@ -505,6 +516,13 @@ impl<'a> Lexer<'a> {
             self.bump();
         }
     }
+}
+
+/// A character that may continue a name (`PN_CHARS`, approximated by
+/// Unicode alphanumerics plus `_`), used to decide whether a `-` or `.`
+/// is part of the name or the token after it.
+fn continues_name(c: char) -> bool {
+    c.is_alphanumeric() || c == '_' || !c.is_ascii()
 }
 
 fn is_var_name_char(c: char) -> bool {

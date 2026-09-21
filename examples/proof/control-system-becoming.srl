@@ -38,451 +38,323 @@ DATA {
   :c3 :satisfies :trackingReq .
 
   _:step1
-    rdf:reifies <<( :c2 :inheritsRequirement :stabilityReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 18;
+    rdf:reifies <<(:c2 :inheritsRequirement :stabilityReq)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ];
     pe:uses
-      _:step2,
-      _:step3.
+      <<(:c2 :derivesFrom :c1)>>,
+      <<(:c1 :satisfies :stabilityReq)>>.
 
   _:step2
-    rdf:reifies <<( :c2 :derivesFrom :c1 )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 14.
-
-  _:step3
-    rdf:reifies <<( :c1 :satisfies :stabilityReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 13.
-
-  _:step4
-    rdf:reifies <<( :c2 :inheritsRequirement :trackingReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 18;
+    rdf:reifies <<(:c2 :inheritsRequirement :trackingReq)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ];
     pe:uses
-      _:step2,
-      _:step5.
+      <<(:c2 :derivesFrom :c1)>>,
+      <<(:c1 :satisfies :trackingReq)>>.
 
-  _:step5
-    rdf:reifies <<( :c1 :satisfies :trackingReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 13.
-
-  _:step6
-    rdf:reifies <<( :c2 :considers :leadCompensator )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 19;
+  _:step3
+    rdf:reifies <<(:c2 :considers :leadCompensator)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
     pe:uses
-      _:step7,
-      _:step8.
+      <<(:c2 :designGoal :reduceOvershoot)>>,
+      <<(:reduceOvershoot :suggests :leadCompensator)>>.
 
-  _:step7
-    rdf:reifies <<( :c2 :designGoal :reduceOvershoot )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 14.
-
-  _:step8
-    rdf:reifies <<( :reduceOvershoot :suggests :leadCompensator )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 7.
-
-  _:step9
-    rdf:reifies <<( :c3 :considers :integralAction )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 19;
+  _:step4
+    rdf:reifies <<(:c3 :considers :integralAction)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
       [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses
-      _:step10,
-      _:step11.
+      <<(:c3 :designGoal :rejectDisturbance)>>,
+      <<(:rejectDisturbance :suggests :integralAction)>>.
 
-  _:step10
-    rdf:reifies <<( :c3 :designGoal :rejectDisturbance )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 15.
-
-  _:step11
-    rdf:reifies <<( :rejectDisturbance :suggests :integralAction )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 8.
-
-  _:step12
-    rdf:reifies <<( :c2 :targets :overshootReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 20;
+  _:step5
+    rdf:reifies <<(:c2 :targets :overshootReq)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
       [ pe:var "req"; pe:value :overshootReq ];
     pe:uses
-      _:step7,
-      _:step13.
+      <<(:c2 :designGoal :reduceOvershoot)>>,
+      <<(:reduceOvershoot :introducesRequirement :overshootReq)>>.
 
-  _:step13
-    rdf:reifies <<( :reduceOvershoot :introducesRequirement :overshootReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 7.
-
-  _:step14
-    rdf:reifies <<( :c3 :targets :disturbanceRejectionReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 20;
+  _:step6
+    rdf:reifies <<(:c3 :targets :disturbanceRejectionReq)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
       [ pe:var "req"; pe:value :disturbanceRejectionReq ];
     pe:uses
-      _:step10,
-      _:step15.
+      <<(:c3 :designGoal :rejectDisturbance)>>,
+      <<(:rejectDisturbance :introducesRequirement :disturbanceRejectionReq)>>.
 
-  _:step15
-    rdf:reifies <<( :rejectDisturbance :introducesRequirement :disturbanceRejectionReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 8.
-
-  _:step16
-    rdf:reifies <<( :c1 :availableForFutureTuning :yes )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 36;
+  _:step7
+    rdf:reifies <<(:c1 :availableForFutureTuning :yes)>>;
+    pe:rule "rule#8";
     pe:binding
       [ pe:var "ctrl"; pe:value :c1 ],
       [ pe:var "strategy"; pe:value :baselinePID ];
-    pe:uses _:step17.
+    pe:uses <<(:c1 :realizes :baselinePID)>>.
+
+  _:step8
+    rdf:reifies <<(:c1 :status :approvedController)>>;
+    pe:rule "rule#9";
+    pe:binding [ pe:var "ctrl"; pe:value :c1 ];
+    pe:uses <<(:c1 :achieves :approvedController)>>.
+
+  _:step9
+    rdf:reifies <<(:c2 :preserves :stabilityReq)>>;
+    pe:rule "rule#4";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c2 ],
+      [ pe:var "req"; pe:value :stabilityReq ],
+      [ pe:var "strategy"; pe:value :leadCompensator ];
+    pe:uses
+      _:step1,
+      _:step3,
+      <<(:leadCompensator :compatibleWith :stabilityReq)>>.
+
+  _:step10
+    rdf:reifies <<(:c2 :integrates :leadCompensator)>>;
+    pe:rule "rule#4";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c2 ],
+      [ pe:var "req"; pe:value :stabilityReq ],
+      [ pe:var "strategy"; pe:value :leadCompensator ];
+    pe:uses
+      _:step1,
+      _:step3,
+      <<(:leadCompensator :compatibleWith :stabilityReq)>>.
+
+  _:step11
+    rdf:reifies <<(:c2 :preserves :trackingReq)>>;
+    pe:rule "rule#4";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c2 ],
+      [ pe:var "req"; pe:value :trackingReq ],
+      [ pe:var "strategy"; pe:value :leadCompensator ];
+    pe:uses
+      _:step2,
+      _:step3,
+      <<(:leadCompensator :compatibleWith :trackingReq)>>.
+
+  _:step12
+    rdf:reifies <<(:c2 :satisfies :overshootReq)>>;
+    pe:rule "rule#5";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c2 ],
+      [ pe:var "req"; pe:value :overshootReq ],
+      [ pe:var "strategy"; pe:value :leadCompensator ];
+    pe:uses
+      _:step5,
+      _:step3,
+      <<(:leadCompensator :enables :overshootReq)>>.
+
+  _:step13
+    rdf:reifies <<(:c3 :satisfies :disturbanceRejectionReq)>>;
+    pe:rule "rule#5";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c3 ],
+      [ pe:var "req"; pe:value :disturbanceRejectionReq ],
+      [ pe:var "strategy"; pe:value :integralAction ];
+    pe:uses
+      _:step6,
+      _:step4,
+      <<(:integralAction :enables :disturbanceRejectionReq)>>.
+
+  _:step14
+    rdf:reifies <<(:c3 :integrates :integralAction)>>;
+    pe:rule "rule#5";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c3 ],
+      [ pe:var "req"; pe:value :disturbanceRejectionReq ],
+      [ pe:var "strategy"; pe:value :integralAction ];
+    pe:uses
+      _:step6,
+      _:step4,
+      <<(:integralAction :enables :disturbanceRejectionReq)>>.
+
+  _:step15
+    rdf:reifies <<(:c3 :inheritsRequirement :overshootReq)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "earlier"; pe:value :c2 ],
+      [ pe:var "later"; pe:value :c3 ],
+      [ pe:var "req"; pe:value :overshootReq ];
+    pe:uses
+      <<(:c3 :derivesFrom :c2)>>,
+      _:step12.
+
+  _:step16
+    rdf:reifies <<(:c2 :satisfies :stabilityReq)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c2 ],
+      [ pe:var "req"; pe:value :stabilityReq ];
+    pe:uses _:step9.
 
   _:step17
-    rdf:reifies <<( :c1 :realizes :baselinePID )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 13.
+    rdf:reifies <<(:c2 :satisfies :trackingReq)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c2 ],
+      [ pe:var "req"; pe:value :trackingReq ];
+    pe:uses _:step11.
 
   _:step18
-    rdf:reifies <<( :c1 :status :approvedController )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 37;
-    pe:binding [ pe:var "ctrl"; pe:value :c1 ];
-    pe:uses _:step19.
+    rdf:reifies <<(:c2 :realizes :leadCompensator)>>;
+    pe:rule "rule#7";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c2 ],
+      [ pe:var "strategy"; pe:value :leadCompensator ];
+    pe:uses _:step10.
 
   _:step19
-    rdf:reifies <<( :c1 :achieves :approvedController )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 13.
+    rdf:reifies <<(:c3 :realizes :integralAction)>>;
+    pe:rule "rule#7";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c3 ],
+      [ pe:var "strategy"; pe:value :integralAction ];
+    pe:uses _:step14.
 
   _:step20
-    rdf:reifies <<( :c2 :preserves :stabilityReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 22;
+    rdf:reifies <<(:c3 :inheritsRequirement :stabilityReq)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "ctrl"; pe:value :c2 ],
-      [ pe:var "req"; pe:value :stabilityReq ],
-      [ pe:var "strategy"; pe:value :leadCompensator ];
+      [ pe:var "earlier"; pe:value :c2 ],
+      [ pe:var "later"; pe:value :c3 ],
+      [ pe:var "req"; pe:value :stabilityReq ];
     pe:uses
-      _:step1,
-      _:step6,
-      _:step21.
+      <<(:c3 :derivesFrom :c2)>>,
+      _:step16.
 
   _:step21
-    rdf:reifies <<( :leadCompensator :compatibleWith :stabilityReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 10.
+    rdf:reifies <<(:c3 :inheritsRequirement :trackingReq)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "earlier"; pe:value :c2 ],
+      [ pe:var "later"; pe:value :c3 ],
+      [ pe:var "req"; pe:value :trackingReq ];
+    pe:uses
+      <<(:c3 :derivesFrom :c2)>>,
+      _:step17.
 
   _:step22
-    rdf:reifies <<( :c2 :integrates :leadCompensator )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 22;
+    rdf:reifies <<(:c3 :preserves :overshootReq)>>;
+    pe:rule "rule#4";
     pe:binding
-      [ pe:var "ctrl"; pe:value :c2 ],
-      [ pe:var "req"; pe:value :stabilityReq ],
-      [ pe:var "strategy"; pe:value :leadCompensator ];
+      [ pe:var "ctrl"; pe:value :c3 ],
+      [ pe:var "req"; pe:value :overshootReq ],
+      [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses
-      _:step1,
-      _:step6,
-      _:step21.
+      _:step15,
+      _:step4,
+      <<(:integralAction :compatibleWith :overshootReq)>>.
 
   _:step23
-    rdf:reifies <<( :c2 :preserves :trackingReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 22;
+    rdf:reifies <<(:c2 :achieves :approvedController)>>;
+    pe:rule "rule#8";
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
-      [ pe:var "req"; pe:value :trackingReq ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
-    pe:uses
-      _:step4,
-      _:step6,
-      _:step24.
+    pe:uses _:step18.
 
   _:step24
-    rdf:reifies <<( :leadCompensator :compatibleWith :trackingReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 10.
+    rdf:reifies <<(:c2 :availableForFutureTuning :yes)>>;
+    pe:rule "rule#8";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c2 ],
+      [ pe:var "strategy"; pe:value :leadCompensator ];
+    pe:uses _:step18.
 
   _:step25
-    rdf:reifies <<( :c2 :satisfies :overshootReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 28;
+    rdf:reifies <<(:c3 :achieves :approvedController)>>;
+    pe:rule "rule#8";
     pe:binding
-      [ pe:var "ctrl"; pe:value :c2 ],
-      [ pe:var "req"; pe:value :overshootReq ],
-      [ pe:var "strategy"; pe:value :leadCompensator ];
-    pe:uses
-      _:step12,
-      _:step6,
-      _:step26.
+      [ pe:var "ctrl"; pe:value :c3 ],
+      [ pe:var "strategy"; pe:value :integralAction ];
+    pe:uses _:step19.
 
   _:step26
-    rdf:reifies <<( :leadCompensator :enables :overshootReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 10.
+    rdf:reifies <<(:c3 :availableForFutureTuning :yes)>>;
+    pe:rule "rule#8";
+    pe:binding
+      [ pe:var "ctrl"; pe:value :c3 ],
+      [ pe:var "strategy"; pe:value :integralAction ];
+    pe:uses _:step19.
 
   _:step27
-    rdf:reifies <<( :c3 :satisfies :disturbanceRejectionReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 28;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c3 ],
-      [ pe:var "req"; pe:value :disturbanceRejectionReq ],
-      [ pe:var "strategy"; pe:value :integralAction ];
-    pe:uses
-      _:step14,
-      _:step9,
-      _:step28.
-
-  _:step28
-    rdf:reifies <<( :integralAction :enables :disturbanceRejectionReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 11.
-
-  _:step29
-    rdf:reifies <<( :c3 :integrates :integralAction )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 28;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c3 ],
-      [ pe:var "req"; pe:value :disturbanceRejectionReq ],
-      [ pe:var "strategy"; pe:value :integralAction ];
-    pe:uses
-      _:step14,
-      _:step9,
-      _:step28.
-
-  _:step30
-    rdf:reifies <<( :c3 :inheritsRequirement :overshootReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 18;
-    pe:binding
-      [ pe:var "earlier"; pe:value :c2 ],
-      [ pe:var "later"; pe:value :c3 ],
-      [ pe:var "req"; pe:value :overshootReq ];
-    pe:uses
-      _:step31,
-      _:step25.
-
-  _:step31
-    rdf:reifies <<( :c3 :derivesFrom :c2 )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 15.
-
-  _:step32
-    rdf:reifies <<( :c2 :satisfies :stabilityReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 34;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c2 ],
-      [ pe:var "req"; pe:value :stabilityReq ];
-    pe:uses _:step20.
-
-  _:step33
-    rdf:reifies <<( :c2 :satisfies :trackingReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 34;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c2 ],
-      [ pe:var "req"; pe:value :trackingReq ];
-    pe:uses _:step23.
-
-  _:step34
-    rdf:reifies <<( :c2 :realizes :leadCompensator )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 35;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c2 ],
-      [ pe:var "strategy"; pe:value :leadCompensator ];
-    pe:uses _:step22.
-
-  _:step35
-    rdf:reifies <<( :c3 :realizes :integralAction )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 35;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c3 ],
-      [ pe:var "strategy"; pe:value :integralAction ];
-    pe:uses _:step29.
-
-  _:step36
-    rdf:reifies <<( :c3 :inheritsRequirement :stabilityReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 18;
-    pe:binding
-      [ pe:var "earlier"; pe:value :c2 ],
-      [ pe:var "later"; pe:value :c3 ],
-      [ pe:var "req"; pe:value :stabilityReq ];
-    pe:uses
-      _:step31,
-      _:step32.
-
-  _:step37
-    rdf:reifies <<( :c3 :inheritsRequirement :trackingReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 18;
-    pe:binding
-      [ pe:var "earlier"; pe:value :c2 ],
-      [ pe:var "later"; pe:value :c3 ],
-      [ pe:var "req"; pe:value :trackingReq ];
-    pe:uses
-      _:step31,
-      _:step33.
-
-  _:step38
-    rdf:reifies <<( :c3 :preserves :overshootReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 22;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c3 ],
-      [ pe:var "req"; pe:value :overshootReq ],
-      [ pe:var "strategy"; pe:value :integralAction ];
-    pe:uses
-      _:step30,
-      _:step9,
-      _:step39.
-
-  _:step39
-    rdf:reifies <<( :integralAction :compatibleWith :overshootReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 11.
-
-  _:step40
-    rdf:reifies <<( :c2 :achieves :approvedController )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 36;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c2 ],
-      [ pe:var "strategy"; pe:value :leadCompensator ];
-    pe:uses _:step34.
-
-  _:step41
-    rdf:reifies <<( :c2 :availableForFutureTuning :yes )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 36;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c2 ],
-      [ pe:var "strategy"; pe:value :leadCompensator ];
-    pe:uses _:step34.
-
-  _:step42
-    rdf:reifies <<( :c3 :achieves :approvedController )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 36;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c3 ],
-      [ pe:var "strategy"; pe:value :integralAction ];
-    pe:uses _:step35.
-
-  _:step43
-    rdf:reifies <<( :c3 :availableForFutureTuning :yes )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 36;
-    pe:binding
-      [ pe:var "ctrl"; pe:value :c3 ],
-      [ pe:var "strategy"; pe:value :integralAction ];
-    pe:uses _:step35.
-
-  _:step44
-    rdf:reifies <<( :c3 :preserves :stabilityReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 22;
+    rdf:reifies <<(:c3 :preserves :stabilityReq)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :stabilityReq ],
       [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses
-      _:step36,
-      _:step9,
-      _:step45.
+      _:step20,
+      _:step4,
+      <<(:integralAction :compatibleWith :stabilityReq)>>.
 
-  _:step45
-    rdf:reifies <<( :integralAction :compatibleWith :stabilityReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 11.
-
-  _:step46
-    rdf:reifies <<( :c3 :preserves :trackingReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 22;
+  _:step28
+    rdf:reifies <<(:c3 :preserves :trackingReq)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :trackingReq ],
       [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses
-      _:step37,
-      _:step9,
-      _:step47.
+      _:step21,
+      _:step4,
+      <<(:integralAction :compatibleWith :trackingReq)>>.
 
-  _:step47
-    rdf:reifies <<( :integralAction :compatibleWith :trackingReq )>>;
-    pe:fact "control-system-becoming.srl";
-    pe:line 11.
-
-  _:step48
-    rdf:reifies <<( :c3 :satisfies :overshootReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 34;
+  _:step29
+    rdf:reifies <<(:c3 :satisfies :overshootReq)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :overshootReq ];
-    pe:uses _:step38.
+    pe:uses _:step22.
 
-  _:step49
-    rdf:reifies <<( :c2 :status :approvedController )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 37;
+  _:step30
+    rdf:reifies <<(:c2 :status :approvedController)>>;
+    pe:rule "rule#9";
     pe:binding [ pe:var "ctrl"; pe:value :c2 ];
-    pe:uses _:step40.
+    pe:uses _:step23.
 
-  _:step50
-    rdf:reifies <<( :c3 :status :approvedController )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 37;
+  _:step31
+    rdf:reifies <<(:c3 :status :approvedController)>>;
+    pe:rule "rule#9";
     pe:binding [ pe:var "ctrl"; pe:value :c3 ];
-    pe:uses _:step42.
+    pe:uses _:step25.
 
-  _:step51
-    rdf:reifies <<( :c3 :satisfies :stabilityReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 34;
+  _:step32
+    rdf:reifies <<(:c3 :satisfies :stabilityReq)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :stabilityReq ];
-    pe:uses _:step44.
+    pe:uses _:step27.
 
-  _:step52
-    rdf:reifies <<( :c3 :satisfies :trackingReq )>>;
-    pe:rule "control-system-becoming.srl";
-    pe:line 34;
+  _:step33
+    rdf:reifies <<(:c3 :satisfies :trackingReq)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :trackingReq ];
-    pe:uses _:step46.
+    pe:uses _:step28.
 }

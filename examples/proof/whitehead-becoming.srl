@@ -45,495 +45,390 @@ DATA {
   :o3 :ingresses :warm .
 
   _:step1
-    rdf:reifies <<( :o2 :becomesFrom :o1 )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 17;
+    rdf:reifies <<(:o2 :becomesFrom :o1)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "later"; pe:value :o2 ];
-    pe:uses _:step2.
+    pe:uses <<(:o2 :prehends :o1)>>.
 
   _:step2
-    rdf:reifies <<( :o2 :prehends :o1 )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 13.
-
-  _:step3
-    rdf:reifies <<( :o3 :becomesFrom :o2 )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 17;
+    rdf:reifies <<(:o3 :becomesFrom :o2)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "later"; pe:value :o3 ];
-    pe:uses _:step4.
+    pe:uses <<(:o3 :prehends :o2)>>.
 
-  _:step4
-    rdf:reifies <<( :o3 :prehends :o2 )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 14.
-
-  _:step5
-    rdf:reifies <<( :o2 :inherits :red )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 18;
+  _:step3
+    rdf:reifies <<(:o2 :inherits :red)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
       [ pe:var "later"; pe:value :o2 ];
     pe:uses
-      _:step2,
-      _:step6.
+      <<(:o2 :prehends :o1)>>,
+      <<(:o1 :realizes :red)>>.
 
-  _:step6
-    rdf:reifies <<( :o1 :realizes :red )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 12.
-
-  _:step7
-    rdf:reifies <<( :o2 :inherits :warm )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 18;
+  _:step4
+    rdf:reifies <<(:o2 :inherits :warm)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "later"; pe:value :o2 ];
     pe:uses
-      _:step2,
-      _:step8.
+      <<(:o2 :prehends :o1)>>,
+      <<(:o1 :realizes :warm)>>.
 
-  _:step8
-    rdf:reifies <<( :o1 :realizes :warm )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 12.
-
-  _:step9
-    rdf:reifies <<( :o2 :mayRealize :bright )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 19;
+  _:step5
+    rdf:reifies <<(:o2 :mayRealize :bright)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ];
     pe:uses
-      _:step10,
-      _:step11.
+      <<(:o2 :subjectiveAim :intensity)>>,
+      <<(:intensity :lures :bright)>>.
 
-  _:step10
-    rdf:reifies <<( :o2 :subjectiveAim :intensity )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 13.
-
-  _:step11
-    rdf:reifies <<( :intensity :lures :bright )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 10.
-
-  _:step12
-    rdf:reifies <<( :o3 :mayRealize :dark )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 19;
+  _:step6
+    rdf:reifies <<(:o3 :mayRealize :dark)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ];
     pe:uses
-      _:step13,
-      _:step14.
+      <<(:o3 :subjectiveAim :contrast)>>,
+      <<(:contrast :lures :dark)>>.
 
-  _:step13
-    rdf:reifies <<( :o3 :subjectiveAim :contrast )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 14.
-
-  _:step14
-    rdf:reifies <<( :contrast :lures :dark )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 10.
-
-  _:step15
-    rdf:reifies <<( :o1 :ingresses :red )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 27;
+  _:step7
+    rdf:reifies <<(:o1 :ingresses :red)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o1 ];
     pe:uses
-      _:step6,
-      _:step16.
+      <<(:o1 :realizes :red)>>,
+      <<(:red a :PurePotential)>>.
 
-  _:step16
-    rdf:reifies <<( :red a :PurePotential )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 8.
-
-  _:step17
-    rdf:reifies <<( :o1 :ingresses :warm )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 27;
+  _:step8
+    rdf:reifies <<(:o1 :ingresses :warm)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o1 ];
     pe:uses
-      _:step8,
-      _:step18.
+      <<(:o1 :realizes :warm)>>,
+      <<(:warm a :PurePotential)>>.
 
-  _:step18
-    rdf:reifies <<( :warm a :PurePotential )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 8.
-
-  _:step19
-    rdf:reifies <<( :o1 :status :objectivelyAvailable )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 28;
+  _:step9
+    rdf:reifies <<(:o1 :status :objectivelyAvailable)>>;
+    pe:rule "rule#7";
     pe:binding [ pe:var "o"; pe:value :o1 ];
-    pe:uses _:step20.
+    pe:uses <<(:o1 :achieves :satisfaction)>>.
 
-  _:step20
-    rdf:reifies <<( :o1 :achieves :satisfaction )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 12.
-
-  _:step21
-    rdf:reifies <<( :o1 :availableForFuturePrehension :yes )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 28;
+  _:step10
+    rdf:reifies <<(:o1 :availableForFuturePrehension :yes)>>;
+    pe:rule "rule#7";
     pe:binding [ pe:var "o"; pe:value :o1 ];
-    pe:uses _:step20.
+    pe:uses <<(:o1 :achieves :satisfaction)>>.
 
-  _:step22
-    rdf:reifies <<( :o2 :integrates :red )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 21;
+  _:step11
+    rdf:reifies <<(:o2 :integrates :red)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
       [ pe:var "pastForm"; pe:value :red ];
     pe:uses
-      _:step5,
-      _:step9.
+      _:step3,
+      _:step5.
 
-  _:step23
-    rdf:reifies <<( :o2 :integrates :bright )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 21;
+  _:step12
+    rdf:reifies <<(:o2 :integrates :bright)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
       [ pe:var "pastForm"; pe:value :red ];
     pe:uses
-      _:step5,
-      _:step9.
+      _:step3,
+      _:step5.
 
-  _:step24
-    rdf:reifies <<( :o2 :achieves :satisfaction )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 21;
+  _:step13
+    rdf:reifies <<(:o2 :achieves :satisfaction)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
       [ pe:var "pastForm"; pe:value :red ];
     pe:uses
-      _:step5,
-      _:step9.
+      _:step3,
+      _:step5.
 
-  _:step25
-    rdf:reifies <<( :o2 :integrates :warm )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 21;
+  _:step14
+    rdf:reifies <<(:o2 :integrates :warm)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
       [ pe:var "pastForm"; pe:value :warm ];
     pe:uses
-      _:step7,
-      _:step9.
+      _:step4,
+      _:step5.
 
-  _:step26
-    rdf:reifies <<( :o2 :realizes :red )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 26;
+  _:step15
+    rdf:reifies <<(:o2 :realizes :red)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
     pe:uses
-      _:step22,
-      _:step24.
+      _:step11,
+      _:step13.
 
-  _:step27
-    rdf:reifies <<( :o2 :realizes :bright )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 26;
+  _:step16
+    rdf:reifies <<(:o2 :realizes :bright)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ];
     pe:uses
-      _:step23,
-      _:step24.
+      _:step12,
+      _:step13.
 
-  _:step28
-    rdf:reifies <<( :o2 :realizes :warm )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 26;
+  _:step17
+    rdf:reifies <<(:o2 :realizes :warm)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o2 ];
     pe:uses
-      _:step25,
-      _:step24.
+      _:step14,
+      _:step13.
 
-  _:step29
-    rdf:reifies <<( :o2 :status :objectivelyAvailable )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 28;
+  _:step18
+    rdf:reifies <<(:o2 :status :objectivelyAvailable)>>;
+    pe:rule "rule#7";
     pe:binding [ pe:var "o"; pe:value :o2 ];
-    pe:uses _:step24.
+    pe:uses _:step13.
 
-  _:step30
-    rdf:reifies <<( :o2 :availableForFuturePrehension :yes )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 28;
+  _:step19
+    rdf:reifies <<(:o2 :availableForFuturePrehension :yes)>>;
+    pe:rule "rule#7";
     pe:binding [ pe:var "o"; pe:value :o2 ];
-    pe:uses _:step24.
+    pe:uses _:step13.
 
-  _:step31
-    rdf:reifies <<( :o3 :inherits :red )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 18;
+  _:step20
+    rdf:reifies <<(:o3 :inherits :red)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
       [ pe:var "later"; pe:value :o3 ];
     pe:uses
-      _:step4,
-      _:step26.
+      <<(:o3 :prehends :o2)>>,
+      _:step15.
 
-  _:step32
-    rdf:reifies <<( :o3 :inherits :bright )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 18;
+  _:step21
+    rdf:reifies <<(:o3 :inherits :bright)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "later"; pe:value :o3 ];
     pe:uses
-      _:step4,
-      _:step27.
-
-  _:step33
-    rdf:reifies <<( :o3 :inherits :warm )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 18;
-    pe:binding
-      [ pe:var "earlier"; pe:value :o2 ],
-      [ pe:var "form"; pe:value :warm ],
-      [ pe:var "later"; pe:value :o3 ];
-    pe:uses
-      _:step4,
-      _:step28.
-
-  _:step34
-    rdf:reifies <<( :o2 :ingresses :red )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "form"; pe:value :red ],
-      [ pe:var "o"; pe:value :o2 ];
-    pe:uses
-      _:step26,
+      <<(:o3 :prehends :o2)>>,
       _:step16.
 
-  _:step35
-    rdf:reifies <<( :o2 :ingresses :bright )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 27;
+  _:step22
+    rdf:reifies <<(:o3 :inherits :warm)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "earlier"; pe:value :o2 ],
+      [ pe:var "form"; pe:value :warm ],
+      [ pe:var "later"; pe:value :o3 ];
+    pe:uses
+      <<(:o3 :prehends :o2)>>,
+      _:step17.
+
+  _:step23
+    rdf:reifies <<(:o2 :ingresses :red)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "form"; pe:value :red ],
+      [ pe:var "o"; pe:value :o2 ];
+    pe:uses
+      _:step15,
+      <<(:red a :PurePotential)>>.
+
+  _:step24
+    rdf:reifies <<(:o2 :ingresses :bright)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ];
     pe:uses
-      _:step27,
-      _:step36.
+      _:step16,
+      <<(:bright a :PurePotential)>>.
 
-  _:step36
-    rdf:reifies <<( :bright a :PurePotential )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 8.
-
-  _:step37
-    rdf:reifies <<( :o2 :ingresses :warm )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 27;
+  _:step25
+    rdf:reifies <<(:o2 :ingresses :warm)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o2 ];
     pe:uses
-      _:step28,
-      _:step18.
+      _:step17,
+      <<(:warm a :PurePotential)>>.
 
-  _:step38
-    rdf:reifies <<( :o3 :integrates :red )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 21;
+  _:step26
+    rdf:reifies <<(:o3 :integrates :red)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
       [ pe:var "pastForm"; pe:value :red ];
     pe:uses
-      _:step31,
-      _:step12.
+      _:step20,
+      _:step6.
 
-  _:step39
-    rdf:reifies <<( :o3 :integrates :dark )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 21;
+  _:step27
+    rdf:reifies <<(:o3 :integrates :dark)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
       [ pe:var "pastForm"; pe:value :red ];
     pe:uses
-      _:step31,
-      _:step12.
+      _:step20,
+      _:step6.
 
-  _:step40
-    rdf:reifies <<( :o3 :achieves :satisfaction )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 21;
+  _:step28
+    rdf:reifies <<(:o3 :achieves :satisfaction)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
       [ pe:var "pastForm"; pe:value :red ];
     pe:uses
-      _:step31,
-      _:step12.
+      _:step20,
+      _:step6.
 
-  _:step41
-    rdf:reifies <<( :o3 :integrates :bright )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 21;
+  _:step29
+    rdf:reifies <<(:o3 :integrates :bright)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
       [ pe:var "pastForm"; pe:value :bright ];
     pe:uses
-      _:step32,
-      _:step12.
+      _:step21,
+      _:step6.
 
-  _:step42
-    rdf:reifies <<( :o3 :integrates :warm )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 21;
+  _:step30
+    rdf:reifies <<(:o3 :integrates :warm)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
       [ pe:var "pastForm"; pe:value :warm ];
     pe:uses
+      _:step22,
+      _:step6.
+
+  _:step31
+    rdf:reifies <<(:o3 :realizes :red)>>;
+    pe:rule "rule#5";
+    pe:binding
+      [ pe:var "form"; pe:value :red ],
+      [ pe:var "o"; pe:value :o3 ];
+    pe:uses
+      _:step26,
+      _:step28.
+
+  _:step32
+    rdf:reifies <<(:o3 :realizes :dark)>>;
+    pe:rule "rule#5";
+    pe:binding
+      [ pe:var "form"; pe:value :dark ],
+      [ pe:var "o"; pe:value :o3 ];
+    pe:uses
+      _:step27,
+      _:step28.
+
+  _:step33
+    rdf:reifies <<(:o3 :realizes :bright)>>;
+    pe:rule "rule#5";
+    pe:binding
+      [ pe:var "form"; pe:value :bright ],
+      [ pe:var "o"; pe:value :o3 ];
+    pe:uses
+      _:step29,
+      _:step28.
+
+  _:step34
+    rdf:reifies <<(:o3 :realizes :warm)>>;
+    pe:rule "rule#5";
+    pe:binding
+      [ pe:var "form"; pe:value :warm ],
+      [ pe:var "o"; pe:value :o3 ];
+    pe:uses
+      _:step30,
+      _:step28.
+
+  _:step35
+    rdf:reifies <<(:o3 :status :objectivelyAvailable)>>;
+    pe:rule "rule#7";
+    pe:binding [ pe:var "o"; pe:value :o3 ];
+    pe:uses _:step28.
+
+  _:step36
+    rdf:reifies <<(:o3 :availableForFuturePrehension :yes)>>;
+    pe:rule "rule#7";
+    pe:binding [ pe:var "o"; pe:value :o3 ];
+    pe:uses _:step28.
+
+  _:step37
+    rdf:reifies <<(:o3 :ingresses :red)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "form"; pe:value :red ],
+      [ pe:var "o"; pe:value :o3 ];
+    pe:uses
+      _:step31,
+      <<(:red a :PurePotential)>>.
+
+  _:step38
+    rdf:reifies <<(:o3 :ingresses :dark)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "form"; pe:value :dark ],
+      [ pe:var "o"; pe:value :o3 ];
+    pe:uses
+      _:step32,
+      <<(:dark a :PurePotential)>>.
+
+  _:step39
+    rdf:reifies <<(:o3 :ingresses :bright)>>;
+    pe:rule "rule#6";
+    pe:binding
+      [ pe:var "form"; pe:value :bright ],
+      [ pe:var "o"; pe:value :o3 ];
+    pe:uses
       _:step33,
-      _:step12.
+      <<(:bright a :PurePotential)>>.
 
-  _:step43
-    rdf:reifies <<( :o3 :realizes :red )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 26;
-    pe:binding
-      [ pe:var "form"; pe:value :red ],
-      [ pe:var "o"; pe:value :o3 ];
-    pe:uses
-      _:step38,
-      _:step40.
-
-  _:step44
-    rdf:reifies <<( :o3 :realizes :dark )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 26;
-    pe:binding
-      [ pe:var "form"; pe:value :dark ],
-      [ pe:var "o"; pe:value :o3 ];
-    pe:uses
-      _:step39,
-      _:step40.
-
-  _:step45
-    rdf:reifies <<( :o3 :realizes :bright )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 26;
-    pe:binding
-      [ pe:var "form"; pe:value :bright ],
-      [ pe:var "o"; pe:value :o3 ];
-    pe:uses
-      _:step41,
-      _:step40.
-
-  _:step46
-    rdf:reifies <<( :o3 :realizes :warm )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 26;
+  _:step40
+    rdf:reifies <<(:o3 :ingresses :warm)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o3 ];
     pe:uses
-      _:step42,
-      _:step40.
-
-  _:step47
-    rdf:reifies <<( :o3 :status :objectivelyAvailable )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 28;
-    pe:binding [ pe:var "o"; pe:value :o3 ];
-    pe:uses _:step40.
-
-  _:step48
-    rdf:reifies <<( :o3 :availableForFuturePrehension :yes )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 28;
-    pe:binding [ pe:var "o"; pe:value :o3 ];
-    pe:uses _:step40.
-
-  _:step49
-    rdf:reifies <<( :o3 :ingresses :red )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "form"; pe:value :red ],
-      [ pe:var "o"; pe:value :o3 ];
-    pe:uses
-      _:step43,
-      _:step16.
-
-  _:step50
-    rdf:reifies <<( :o3 :ingresses :dark )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "form"; pe:value :dark ],
-      [ pe:var "o"; pe:value :o3 ];
-    pe:uses
-      _:step44,
-      _:step51.
-
-  _:step51
-    rdf:reifies <<( :dark a :PurePotential )>>;
-    pe:fact "whitehead-becoming.srl";
-    pe:line 8.
-
-  _:step52
-    rdf:reifies <<( :o3 :ingresses :bright )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "form"; pe:value :bright ],
-      [ pe:var "o"; pe:value :o3 ];
-    pe:uses
-      _:step45,
-      _:step36.
-
-  _:step53
-    rdf:reifies <<( :o3 :ingresses :warm )>>;
-    pe:rule "whitehead-becoming.srl";
-    pe:line 27;
-    pe:binding
-      [ pe:var "form"; pe:value :warm ],
-      [ pe:var "o"; pe:value :o3 ];
-    pe:uses
-      _:step46,
-      _:step18.
+      _:step34,
+      <<(:warm a :PurePotential)>>.
 }

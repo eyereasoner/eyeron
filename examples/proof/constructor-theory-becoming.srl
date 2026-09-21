@@ -21,252 +21,166 @@ DATA {
   :v3 :availableForFurtherTask :yes .
 
   _:step1
-    rdf:reifies <<( :perfectRestoreTask :status :impossibleTask )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 21;
+    rdf:reifies <<(:perfectRestoreTask :status :impossibleTask)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "principle"; pe:value :noMiraclePrinciple ],
       [ pe:var "task"; pe:value :perfectRestoreTask ];
-    pe:uses _:step2.
+    pe:uses <<(:perfectRestoreTask :forbiddenBy :noMiraclePrinciple)>>.
 
   _:step2
-    rdf:reifies <<( :perfectRestoreTask :forbiddenBy :noMiraclePrinciple )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 9.
+    rdf:reifies <<(:writeTask :status :possibleTask)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "constructor"; pe:value :writer ],
+      [ pe:var "task"; pe:value :writeTask ];
+    pe:uses <<(:writer :canPerform :writeTask)>>.
 
   _:step3
-    rdf:reifies <<( :writeTask :status :possibleTask )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 22;
+    rdf:reifies <<(:writer :retainsCapacityFor :writeTask)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "constructor"; pe:value :writer ],
       [ pe:var "task"; pe:value :writeTask ];
-    pe:uses _:step4.
+    pe:uses <<(:writer :canPerform :writeTask)>>.
 
   _:step4
-    rdf:reifies <<( :writer :canPerform :writeTask )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 11.
+    rdf:reifies <<(:stabilizeTask :status :possibleTask)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "constructor"; pe:value :stabilizer ],
+      [ pe:var "task"; pe:value :stabilizeTask ];
+    pe:uses <<(:stabilizer :canPerform :stabilizeTask)>>.
 
   _:step5
-    rdf:reifies <<( :writer :retainsCapacityFor :writeTask )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 22;
+    rdf:reifies <<(:stabilizer :retainsCapacityFor :stabilizeTask)>>;
+    pe:rule "rule#2";
     pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses _:step4.
+      [ pe:var "constructor"; pe:value :stabilizer ],
+      [ pe:var "task"; pe:value :stabilizeTask ];
+    pe:uses <<(:stabilizer :canPerform :stabilizeTask)>>.
 
   _:step6
-    rdf:reifies <<( :stabilizeTask :status :possibleTask )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 22;
-    pe:binding
-      [ pe:var "constructor"; pe:value :stabilizer ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses _:step7.
-
-  _:step7
-    rdf:reifies <<( :stabilizer :canPerform :stabilizeTask )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 12.
-
-  _:step8
-    rdf:reifies <<( :stabilizer :retainsCapacityFor :stabilizeTask )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 22;
-    pe:binding
-      [ pe:var "constructor"; pe:value :stabilizer ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses _:step7.
-
-  _:step9
-    rdf:reifies <<( :v1 :availableForFurtherTask :yes )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 34;
+    rdf:reifies <<(:v1 :availableForFurtherTask :yes)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "attr"; pe:value :blankMemory ],
       [ pe:var "next"; pe:value :v1 ];
-    pe:uses _:step10.
+    pe:uses <<(:v1 :hasAttribute :blankMemory)>>.
 
-  _:step10
-    rdf:reifies <<( :v1 :hasAttribute :blankMemory )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 14.
-
-  _:step11
-    rdf:reifies <<( :damaged1 :availableForFurtherTask :yes )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 34;
+  _:step7
+    rdf:reifies <<(:damaged1 :availableForFurtherTask :yes)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "attr"; pe:value :damagedMemory ],
       [ pe:var "next"; pe:value :damaged1 ];
-    pe:uses _:step12.
+    pe:uses <<(:damaged1 :hasAttribute :damagedMemory)>>.
 
-  _:step12
-    rdf:reifies <<( :damaged1 :hasAttribute :damagedMemory )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 17.
-
-  _:step13
-    rdf:reifies <<( :v2 :canUndergo :writeTask )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 24;
+  _:step8
+    rdf:reifies <<(:v2 :canUndergo :writeTask)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "in"; pe:value :blankMemory ],
       [ pe:var "next"; pe:value :v2 ],
       [ pe:var "prev"; pe:value :v1 ],
       [ pe:var "task"; pe:value :writeTask ];
     pe:uses
-      _:step14,
-      _:step15,
-      _:step3,
-      _:step16,
-      _:step10.
+      <<(:v2 :derivesFrom :v1)>>,
+      <<(:v2 :intendsTask :writeTask)>>,
+      _:step2,
+      <<(:writeTask :input :blankMemory)>>,
+      <<(:v1 :hasAttribute :blankMemory)>>.
 
-  _:step14
-    rdf:reifies <<( :v2 :derivesFrom :v1 )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 15.
-
-  _:step15
-    rdf:reifies <<( :v2 :intendsTask :writeTask )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 15.
-
-  _:step16
-    rdf:reifies <<( :writeTask :input :blankMemory )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 7.
-
-  _:step17
-    rdf:reifies <<( :v2 :becomesFrom :v1 )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 24;
+  _:step9
+    rdf:reifies <<(:v2 :becomesFrom :v1)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "in"; pe:value :blankMemory ],
       [ pe:var "next"; pe:value :v2 ],
       [ pe:var "prev"; pe:value :v1 ],
       [ pe:var "task"; pe:value :writeTask ];
     pe:uses
-      _:step14,
-      _:step15,
-      _:step3,
-      _:step16,
-      _:step10.
+      <<(:v2 :derivesFrom :v1)>>,
+      <<(:v2 :intendsTask :writeTask)>>,
+      _:step2,
+      <<(:writeTask :input :blankMemory)>>,
+      <<(:v1 :hasAttribute :blankMemory)>>.
 
-  _:step18
-    rdf:reifies <<( :vBad :status :blockedTransition )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 33;
+  _:step10
+    rdf:reifies <<(:vBad :status :blockedTransition)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "next"; pe:value :vBad ],
       [ pe:var "task"; pe:value :perfectRestoreTask ];
     pe:uses
-      _:step19,
+      <<(:vBad :intendsTask :perfectRestoreTask)>>,
       _:step1.
 
-  _:step19
-    rdf:reifies <<( :vBad :intendsTask :perfectRestoreTask )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 18.
-
-  _:step20
-    rdf:reifies <<( :v2 :hasAttribute :encodedMemory )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 32;
+  _:step11
+    rdf:reifies <<(:v2 :hasAttribute :encodedMemory)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "next"; pe:value :v2 ],
       [ pe:var "out"; pe:value :encodedMemory ],
       [ pe:var "task"; pe:value :writeTask ];
     pe:uses
-      _:step13,
-      _:step21.
+      _:step8,
+      <<(:writeTask :output :encodedMemory)>>.
 
-  _:step21
-    rdf:reifies <<( :writeTask :output :encodedMemory )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 7.
-
-  _:step22
-    rdf:reifies <<( :v3 :canUndergo :stabilizeTask )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 24;
+  _:step12
+    rdf:reifies <<(:v3 :canUndergo :stabilizeTask)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "in"; pe:value :encodedMemory ],
       [ pe:var "next"; pe:value :v3 ],
       [ pe:var "prev"; pe:value :v2 ],
       [ pe:var "task"; pe:value :stabilizeTask ];
     pe:uses
-      _:step23,
-      _:step24,
-      _:step6,
-      _:step25,
-      _:step20.
+      <<(:v3 :derivesFrom :v2)>>,
+      <<(:v3 :intendsTask :stabilizeTask)>>,
+      _:step4,
+      <<(:stabilizeTask :input :encodedMemory)>>,
+      _:step11.
 
-  _:step23
-    rdf:reifies <<( :v3 :derivesFrom :v2 )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 16.
-
-  _:step24
-    rdf:reifies <<( :v3 :intendsTask :stabilizeTask )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 16.
-
-  _:step25
-    rdf:reifies <<( :stabilizeTask :input :encodedMemory )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 8.
-
-  _:step26
-    rdf:reifies <<( :v3 :becomesFrom :v2 )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 24;
+  _:step13
+    rdf:reifies <<(:v3 :becomesFrom :v2)>>;
+    pe:rule "rule#3";
     pe:binding
       [ pe:var "in"; pe:value :encodedMemory ],
       [ pe:var "next"; pe:value :v3 ],
       [ pe:var "prev"; pe:value :v2 ],
       [ pe:var "task"; pe:value :stabilizeTask ];
     pe:uses
-      _:step23,
-      _:step24,
-      _:step6,
-      _:step25,
-      _:step20.
+      <<(:v3 :derivesFrom :v2)>>,
+      <<(:v3 :intendsTask :stabilizeTask)>>,
+      _:step4,
+      <<(:stabilizeTask :input :encodedMemory)>>,
+      _:step11.
 
-  _:step27
-    rdf:reifies <<( :v2 :availableForFurtherTask :yes )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 34;
+  _:step14
+    rdf:reifies <<(:v2 :availableForFurtherTask :yes)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "attr"; pe:value :encodedMemory ],
       [ pe:var "next"; pe:value :v2 ];
-    pe:uses _:step20.
+    pe:uses _:step11.
 
-  _:step28
-    rdf:reifies <<( :v3 :hasAttribute :stabilizedMemory )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 32;
+  _:step15
+    rdf:reifies <<(:v3 :hasAttribute :stabilizedMemory)>>;
+    pe:rule "rule#4";
     pe:binding
       [ pe:var "next"; pe:value :v3 ],
       [ pe:var "out"; pe:value :stabilizedMemory ],
       [ pe:var "task"; pe:value :stabilizeTask ];
     pe:uses
-      _:step22,
-      _:step29.
+      _:step12,
+      <<(:stabilizeTask :output :stabilizedMemory)>>.
 
-  _:step29
-    rdf:reifies <<( :stabilizeTask :output :stabilizedMemory )>>;
-    pe:fact "constructor-theory-becoming.srl";
-    pe:line 8.
-
-  _:step30
-    rdf:reifies <<( :v3 :availableForFurtherTask :yes )>>;
-    pe:rule "constructor-theory-becoming.srl";
-    pe:line 34;
+  _:step16
+    rdf:reifies <<(:v3 :availableForFurtherTask :yes)>>;
+    pe:rule "rule#6";
     pe:binding
       [ pe:var "attr"; pe:value :stabilizedMemory ],
       [ pe:var "next"; pe:value :v3 ];
-    pe:uses _:step28.
+    pe:uses _:step15.
 }

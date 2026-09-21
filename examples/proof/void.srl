@@ -14,96 +14,50 @@ DATA {
   ex:book2016 ex:recommendedFor ex:curiousPhysicsReaderEn .
 
   _:step1
-    rdf:reifies <<( ex:jamesWeatherall foaf:made ex:book2016 )>>;
-    pe:rule "void.srl";
-    pe:line 19;
+    rdf:reifies <<(ex:jamesWeatherall foaf:made ex:book2016)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "book"; pe:value ex:book2016 ],
       [ pe:var "person"; pe:value ex:jamesWeatherall ];
-    pe:uses _:step2.
+    pe:uses <<(ex:book2016 schema:author ex:jamesWeatherall)>>.
 
   _:step2
-    rdf:reifies <<( ex:book2016 schema:author ex:jamesWeatherall )>>;
-    pe:fact "void.srl";
-    pe:line 11.
-
-  _:step3
-    rdf:reifies <<( ex:isaacNewton schema:subjectOf ex:book2016 )>>;
-    pe:rule "void.srl";
-    pe:line 20;
+    rdf:reifies <<(ex:isaacNewton schema:subjectOf ex:book2016)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "book"; pe:value ex:book2016 ],
       [ pe:var "person"; pe:value ex:isaacNewton ];
     pe:uses
-      _:step4,
-      _:step5.
+      <<(ex:book2016 schema:about ex:isaacNewton)>>,
+      <<(ex:isaacNewton a foaf:Person)>>.
 
-  _:step4
-    rdf:reifies <<( ex:book2016 schema:about ex:isaacNewton )>>;
-    pe:fact "void.srl";
-    pe:line 11.
-
-  _:step5
-    rdf:reifies <<( ex:isaacNewton a foaf:Person )>>;
-    pe:fact "void.srl";
-    pe:line 15.
-
-  _:step6
-    rdf:reifies <<( ex:albertEinstein schema:subjectOf ex:book2016 )>>;
-    pe:rule "void.srl";
-    pe:line 20;
+  _:step3
+    rdf:reifies <<(ex:albertEinstein schema:subjectOf ex:book2016)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "book"; pe:value ex:book2016 ],
       [ pe:var "person"; pe:value ex:albertEinstein ];
     pe:uses
-      _:step7,
-      _:step8.
+      <<(ex:book2016 schema:about ex:albertEinstein)>>,
+      <<(ex:albertEinstein a foaf:Person)>>.
 
-  _:step7
-    rdf:reifies <<( ex:book2016 schema:about ex:albertEinstein )>>;
-    pe:fact "void.srl";
-    pe:line 11.
-
-  _:step8
-    rdf:reifies <<( ex:albertEinstein a foaf:Person )>>;
-    pe:fact "void.srl";
-    pe:line 16.
-
-  _:step9
-    rdf:reifies <<( ex:book2016 dct:subject ex:quantumTheory )>>;
-    pe:rule "void.srl";
-    pe:line 21;
+  _:step4
+    rdf:reifies <<(ex:book2016 dct:subject ex:quantumTheory)>>;
+    pe:rule "rule#3";
     pe:binding [ pe:var "book"; pe:value ex:book2016 ];
-    pe:uses _:step10.
+    pe:uses <<(ex:book2016 schema:about ex:quantumFieldTheory)>>.
 
-  _:step10
-    rdf:reifies <<( ex:book2016 schema:about ex:quantumFieldTheory )>>;
-    pe:fact "void.srl";
-    pe:line 11.
-
-  _:step11
-    rdf:reifies <<( ex:book2016 schema:about ex:darkEnergy )>>;
-    pe:rule "void.srl";
-    pe:line 22;
+  _:step5
+    rdf:reifies <<(ex:book2016 schema:about ex:darkEnergy)>>;
+    pe:rule "rule#4";
     pe:binding [ pe:var "book"; pe:value ex:book2016 ];
-    pe:uses _:step12.
+    pe:uses <<(ex:book2016 schema:about ex:cosmologicalConstant)>>.
 
-  _:step12
-    rdf:reifies <<( ex:book2016 schema:about ex:cosmologicalConstant )>>;
-    pe:fact "void.srl";
-    pe:line 11.
-
-  _:step13
-    rdf:reifies <<( ex:book2016 ex:recommendedFor ex:curiousPhysicsReaderEn )>>;
-    pe:rule "void.srl";
-    pe:line 23;
+  _:step6
+    rdf:reifies <<(ex:book2016 ex:recommendedFor ex:curiousPhysicsReaderEn)>>;
+    pe:rule "rule#5";
     pe:binding [ pe:var "book"; pe:value ex:book2016 ];
     pe:uses
-      _:step9,
-      _:step14.
-
-  _:step14
-    rdf:reifies <<( ex:book2016 schema:inLanguage "en" )>>;
-    pe:fact "void.srl";
-    pe:line 11.
+      _:step4,
+      <<(ex:book2016 schema:inLanguage "en")>>.
 }

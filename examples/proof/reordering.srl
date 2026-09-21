@@ -6,22 +6,6 @@ DATA {
   :test :is true .
 
   _:step1
-    rdf:reifies <<( :test :is true )>>;
-    pe:rule "reordering.srl";
-    pe:line 14;
-    pe:uses
-      <<( ?__path_s_0 :has ?__path_o_0 )>>,
-      <<( ?__path_s_1 rdf:first ?__path_o_1 )>>,
-      <<( ?__path_s_0 :has ?__path_o_0 )>>,
-      <<( ?__path_s_1 rdf:first ?__path_o_1 )>>.
-
-  _:step2
-    rdf:reifies <<( :Alice :has _:b1 )>>;
-    pe:fact "reordering.srl";
-    pe:line 10.
-
-  _:step3
-    rdf:reifies <<( _:b1 rdf:first :Book )>>;
-    pe:fact "reordering.srl";
-    pe:line 10.
+    rdf:reifies <<(:test :is true)>>;
+    pe:rule "rule#1".
 }

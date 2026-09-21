@@ -7,26 +7,14 @@ DATA {
   :bob :eligible true .
 
   _:step1
-    rdf:reifies <<( :carol :blocked true )>>;
-    pe:rule "stratified-negation.srl";
-    pe:line 14;
+    rdf:reifies <<(:carol :blocked true)>>;
+    pe:rule "rule#2";
     pe:binding [ pe:var "x"; pe:value :carol ];
-    pe:uses _:step2.
+    pe:uses <<(:carol :flagged true)>>.
 
   _:step2
-    rdf:reifies <<( :carol :flagged true )>>;
-    pe:fact "stratified-negation.srl";
-    pe:line 6.
-
-  _:step3
-    rdf:reifies <<( :bob :eligible true )>>;
-    pe:rule "stratified-negation.srl";
-    pe:line 11;
+    rdf:reifies <<(:bob :eligible true)>>;
+    pe:rule "rule#1";
     pe:binding [ pe:var "x"; pe:value :bob ];
-    pe:uses _:step4.
-
-  _:step4
-    rdf:reifies <<( :bob a :Person )>>;
-    pe:fact "stratified-negation.srl";
-    pe:line 5.
+    pe:uses <<(:bob a :Person)>>.
 }

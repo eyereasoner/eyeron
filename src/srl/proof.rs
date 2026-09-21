@@ -3,11 +3,11 @@
 //! `n3::proof::proof_to_n3` represents a proof step as an N3 quoted-formula
 //! subject (`{ s p o } pe:why { ...steps... }`), which is idiomatic N3 but
 //! not valid `.srl`: SRL's grammar has no bare `{ ... }` graph-literal term,
-//! only the single-triple RDF-star triple term `<<( s p o )>>` (see
+//! only the single-triple RDF-star triple term `<<(s p o)>>` (see
 //! `parser.rs`'s own doc comment on why it reuses `Term::Formula(vec![t])`
 //! for that, not for general quoted graphs). So instead each step here is a
 //! small blank node reifying its own conclusion — `_:stepN rdf:reifies
-//! <<( s p o )>>` — the same idiom `examples/proof-audit.srl` demonstrates
+//! <<(s p o)>>` — the same idiom `examples/proof-audit.srl` demonstrates
 //! by hand, with `pe:uses` linking straight to the blank nodes of the steps
 //! it depended on rather than repeating their triples. Every step lives in
 //! one flat `DATA { ... }` block (SRL has no bare top-level triples), which
@@ -24,8 +24,7 @@
 use crate::ast::*;
 use super::printing::{term_to_srl, triple_term, triple_to_srl};
 use crate::n3::proof::{
-    collect_prefixes_triple, collect_proof_entries, quoted_string, render_predicate_objects, source_label_for_proof, unique_proofs, vars_in_rule,
-    ProofEntry,
+    collect_prefixes_triple, collect_proof_entries, quoted_string, render_predicate_objects, unique_proofs, vars_in_rule, ProofEntry,
 };
 use crate::n3::reasoner::{DerivedFact, ReasonerResult};
 use std::collections::{BTreeMap, BTreeSet};
@@ -58,6 +57,14 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
     let mut steps = Vec::<(String, ProofEntry)>::new();
     for (_, entries) in &root_entries {
         for entry in entries {
+            // A fact that is simply given in `DATA` or the base graph gets
+            // no step of its own: there is nothing to explain about it, and
+            // `pe:uses` names it by its own triple term instead. Only a
+            // derived fact (or a builtin/unproven premise, which carries
+            // its own annotation) becomes a step.
+            if matches!(entry, ProofEntry::Fact { .. }) {
+                continue;
+            }
             let fact = entry_fact(entry);
             if fact_to_step.contains_key(fact) {
                 continue;
@@ -125,11 +132,8 @@ fn entry_fact(entry: &ProofEntry) -> &Triple {
 fn render_step(id: &str, entry: &ProofEntry, fact_to_step: &BTreeMap<Triple, String>, prefixes: &BTreeMap<String, String>) -> String {
     match entry {
         ProofEntry::Rule(proof) => render_rule_step(id, proof, fact_to_step, prefixes),
-        ProofEntry::Fact { fact, source } => {
-            let mut groups = vec![("rdf:reifies".to_string(), vec![triple_term(fact, prefixes)])];
-            push_source_groups(&mut groups, "fact", source.as_ref());
-            render_step_groups(id, &groups)
-        }
+        // Collection above never makes a step for a given fact.
+        ProofEntry::Fact { fact, .. } => render_step_groups(id, &[("rdf:reifies".to_string(), vec![triple_term(fact, prefixes)])]),
         ProofEntry::Builtin { fact, builtin } => render_step_groups(
             id,
             &[("rdf:reifies".to_string(), vec![triple_term(fact, prefixes)]), ("pe:builtin".to_string(), vec![term_to_srl(builtin, prefixes, false)])],
@@ -163,7 +167,7 @@ fn render_rule_step(id: &str, proof: &DerivedFact, fact_to_step: &BTreeMap<Tripl
 }
 
 fn push_source_groups(groups: &mut Vec<(String, Vec<String>)>, kind: &str, source: Option<&SourceRef>) {
-    let label = source.map(|s| source_label_for_proof(&s.label)).unwrap_or_else(|| "<unknown>".to_string());
+    let label = source.map(|s| s.label.clone()).unwrap_or_else(|| "<unknown>".to_string());
     groups.push((format!("pe:{kind}"), vec![quoted_string(&label)]));
     if let Some(source) = source {
         if source.line > 0 {

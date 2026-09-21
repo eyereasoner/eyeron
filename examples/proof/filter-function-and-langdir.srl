@@ -7,30 +7,18 @@ DATA {
   :msg :languageDirection "ltr" .
 
   _:step1
-    rdf:reifies <<( :n1 :negative true )>>;
-    pe:rule "filter-function-and-langdir.srl";
-    pe:line 10;
+    rdf:reifies <<(:n1 :negative true)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "v"; pe:value -3.5 ],
       [ pe:var "x"; pe:value :n1 ];
-    pe:uses _:step2.
+    pe:uses <<(:n1 :value -3.5)>>.
 
   _:step2
-    rdf:reifies <<( :n1 :value -3.5 )>>;
-    pe:fact "filter-function-and-langdir.srl";
-    pe:line 5.
-
-  _:step3
-    rdf:reifies <<( :msg :languageDirection "ltr" )>>;
-    pe:rule "filter-function-and-langdir.srl";
-    pe:line 16;
+    rdf:reifies <<(:msg :languageDirection "ltr")>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "dir"; pe:value "ltr" ],
       [ pe:var "text"; pe:value "bonjour"@fr--ltr ];
-    pe:uses _:step4.
-
-  _:step4
-    rdf:reifies <<( :msg :text "bonjour"@fr--ltr )>>;
-    pe:fact "filter-function-and-langdir.srl";
-    pe:line 7.
+    pe:uses <<(:msg :text "bonjour"@fr--ltr)>>.
 }

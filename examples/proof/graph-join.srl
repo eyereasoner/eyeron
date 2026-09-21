@@ -6,61 +6,20 @@ DATA {
   :claim1 :trusted true .
 
   _:step1
-    rdf:reifies <<( :claim1 :trusted true )>>;
-    pe:rule "graph-join.srl";
-    pe:line 14;
+    rdf:reifies <<(:claim1 :trusted true)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "claim"; pe:value :claim1 ],
       [ pe:var "person"; pe:value :alice ],
       [ pe:var "q1"; pe:value _:b1 ],
       [ pe:var "q2"; pe:value _:b2 ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6,
-      _:step7,
-      _:step8,
-      _:step9.
-
-  _:step2
-    rdf:reifies <<( _:b1 :subject :alice )>>;
-    pe:fact "graph-join.srl";
-    pe:line 10.
-
-  _:step3
-    rdf:reifies <<( _:b1 :predicate :role )>>;
-    pe:fact "graph-join.srl";
-    pe:line 10.
-
-  _:step4
-    rdf:reifies <<( _:b1 :object :reviewer )>>;
-    pe:fact "graph-join.srl";
-    pe:line 10.
-
-  _:step5
-    rdf:reifies <<( _:b1 :graph :staff )>>;
-    pe:fact "graph-join.srl";
-    pe:line 10.
-
-  _:step6
-    rdf:reifies <<( _:b2 :subject :alice )>>;
-    pe:fact "graph-join.srl";
-    pe:line 11.
-
-  _:step7
-    rdf:reifies <<( _:b2 :predicate :approved )>>;
-    pe:fact "graph-join.srl";
-    pe:line 11.
-
-  _:step8
-    rdf:reifies <<( _:b2 :object :claim1 )>>;
-    pe:fact "graph-join.srl";
-    pe:line 11.
-
-  _:step9
-    rdf:reifies <<( _:b2 :graph :reviews )>>;
-    pe:fact "graph-join.srl";
-    pe:line 11.
+      <<(_:b1 :subject :alice)>>,
+      <<(_:b1 :predicate :role)>>,
+      <<(_:b1 :object :reviewer)>>,
+      <<(_:b1 :graph :staff)>>,
+      <<(_:b2 :subject :alice)>>,
+      <<(_:b2 :predicate :approved)>>,
+      <<(_:b2 :object :claim1)>>,
+      <<(_:b2 :graph :reviews)>>.
 }

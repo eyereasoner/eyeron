@@ -6,16 +6,10 @@ DATA {
   :town2 a :largeTown .
 
   _:step1
-    rdf:reifies <<( :town2 a :largeTown )>>;
-    pe:rule "filter-town.srl";
-    pe:line 11;
+    rdf:reifies <<(:town2 a :largeTown)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "p"; pe:value 2000 ],
       [ pe:var "x"; pe:value :town2 ];
-    pe:uses _:step2.
-
-  _:step2
-    rdf:reifies <<( :town2 :population 2000 )>>;
-    pe:fact "filter-town.srl";
-    pe:line 8.
+    pe:uses <<(:town2 :population 2000)>>.
 }

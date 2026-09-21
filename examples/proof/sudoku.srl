@@ -87,23 +87,16 @@ DATA {
   :r9c9 :value 4 .
 
   _:step1
-    rdf:reifies <<( :case :solution "162857493534129678789643521475312986913586742628794135356478219241935867897261354" )>>;
-    pe:rule "sudoku.srl";
-    pe:line 103;
+    rdf:reifies <<(:case :solution "162857493534129678789643521475312986913586742628794135356478219241935867897261354")>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "puzzle"; pe:value "100007090030020008009600500005300900010080002600004000300000010040000007007000300" ],
       [ pe:var "solution"; pe:value "162857493534129678789643521475312986913586742628794135356478219241935867897261354" ];
-    pe:uses _:step2.
+    pe:uses <<(:case :puzzle "100007090030020008009600500005300900010080002600004000300000010040000007007000300")>>.
 
   _:step2
-    rdf:reifies <<( :case :puzzle "100007090030020008009600500005300900010080002600004000300000010040000007007000300" )>>;
-    pe:fact "sudoku.srl";
-    pe:line 18.
-
-  _:step3
-    rdf:reifies <<( :r1c1 :value 1 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+    rdf:reifies <<(:r1c1 :value 1)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r1c1 ],
       [ pe:var "digit"; pe:value :digit1 ],
@@ -113,29 +106,13 @@ DATA {
       [ pe:var "value"; pe:value 1 ];
     pe:uses
       _:step1,
-      _:step4,
-      _:step5,
-      _:step6.
+      <<(:r1c1 :position 1)>>,
+      <<(:digit1 :char "1")>>,
+      <<(:digit1 :digitValue 1)>>.
 
-  _:step4
-    rdf:reifies <<( :r1c1 :position 1 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 20.
-
-  _:step5
-    rdf:reifies <<( :digit1 :char "1" )>>;
-    pe:fact "sudoku.srl";
-    pe:line 8.
-
-  _:step6
-    rdf:reifies <<( :digit1 :digitValue 1 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 8.
-
-  _:step7
-    rdf:reifies <<( :r1c2 :value 6 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step3
+    rdf:reifies <<(:r1c2 :value 6)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r1c2 ],
       [ pe:var "digit"; pe:value :digit6 ],
@@ -145,29 +122,13 @@ DATA {
       [ pe:var "value"; pe:value 6 ];
     pe:uses
       _:step1,
-      _:step8,
-      _:step9,
-      _:step10.
+      <<(:r1c2 :position 2)>>,
+      <<(:digit6 :char "6")>>,
+      <<(:digit6 :digitValue 6)>>.
 
-  _:step8
-    rdf:reifies <<( :r1c2 :position 2 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 21.
-
-  _:step9
-    rdf:reifies <<( :digit6 :char "6" )>>;
-    pe:fact "sudoku.srl";
-    pe:line 13.
-
-  _:step10
-    rdf:reifies <<( :digit6 :digitValue 6 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 13.
-
-  _:step11
-    rdf:reifies <<( :r1c3 :value 2 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step4
+    rdf:reifies <<(:r1c3 :value 2)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r1c3 ],
       [ pe:var "digit"; pe:value :digit2 ],
@@ -177,29 +138,13 @@ DATA {
       [ pe:var "value"; pe:value 2 ];
     pe:uses
       _:step1,
-      _:step12,
-      _:step13,
-      _:step14.
+      <<(:r1c3 :position 3)>>,
+      <<(:digit2 :char "2")>>,
+      <<(:digit2 :digitValue 2)>>.
 
-  _:step12
-    rdf:reifies <<( :r1c3 :position 3 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 22.
-
-  _:step13
-    rdf:reifies <<( :digit2 :char "2" )>>;
-    pe:fact "sudoku.srl";
-    pe:line 9.
-
-  _:step14
-    rdf:reifies <<( :digit2 :digitValue 2 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 9.
-
-  _:step15
-    rdf:reifies <<( :r1c4 :value 8 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step5
+    rdf:reifies <<(:r1c4 :value 8)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r1c4 ],
       [ pe:var "digit"; pe:value :digit8 ],
@@ -209,29 +154,13 @@ DATA {
       [ pe:var "value"; pe:value 8 ];
     pe:uses
       _:step1,
-      _:step16,
-      _:step17,
-      _:step18.
+      <<(:r1c4 :position 4)>>,
+      <<(:digit8 :char "8")>>,
+      <<(:digit8 :digitValue 8)>>.
 
-  _:step16
-    rdf:reifies <<( :r1c4 :position 4 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 23.
-
-  _:step17
-    rdf:reifies <<( :digit8 :char "8" )>>;
-    pe:fact "sudoku.srl";
-    pe:line 15.
-
-  _:step18
-    rdf:reifies <<( :digit8 :digitValue 8 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 15.
-
-  _:step19
-    rdf:reifies <<( :r1c5 :value 5 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step6
+    rdf:reifies <<(:r1c5 :value 5)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r1c5 ],
       [ pe:var "digit"; pe:value :digit5 ],
@@ -241,29 +170,13 @@ DATA {
       [ pe:var "value"; pe:value 5 ];
     pe:uses
       _:step1,
-      _:step20,
-      _:step21,
-      _:step22.
+      <<(:r1c5 :position 5)>>,
+      <<(:digit5 :char "5")>>,
+      <<(:digit5 :digitValue 5)>>.
 
-  _:step20
-    rdf:reifies <<( :r1c5 :position 5 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 24.
-
-  _:step21
-    rdf:reifies <<( :digit5 :char "5" )>>;
-    pe:fact "sudoku.srl";
-    pe:line 12.
-
-  _:step22
-    rdf:reifies <<( :digit5 :digitValue 5 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 12.
-
-  _:step23
-    rdf:reifies <<( :r1c6 :value 7 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step7
+    rdf:reifies <<(:r1c6 :value 7)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r1c6 ],
       [ pe:var "digit"; pe:value :digit7 ],
@@ -273,29 +186,13 @@ DATA {
       [ pe:var "value"; pe:value 7 ];
     pe:uses
       _:step1,
-      _:step24,
-      _:step25,
-      _:step26.
+      <<(:r1c6 :position 6)>>,
+      <<(:digit7 :char "7")>>,
+      <<(:digit7 :digitValue 7)>>.
 
-  _:step24
-    rdf:reifies <<( :r1c6 :position 6 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 25.
-
-  _:step25
-    rdf:reifies <<( :digit7 :char "7" )>>;
-    pe:fact "sudoku.srl";
-    pe:line 14.
-
-  _:step26
-    rdf:reifies <<( :digit7 :digitValue 7 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 14.
-
-  _:step27
-    rdf:reifies <<( :r1c7 :value 4 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step8
+    rdf:reifies <<(:r1c7 :value 4)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r1c7 ],
       [ pe:var "digit"; pe:value :digit4 ],
@@ -305,29 +202,13 @@ DATA {
       [ pe:var "value"; pe:value 4 ];
     pe:uses
       _:step1,
-      _:step28,
-      _:step29,
-      _:step30.
+      <<(:r1c7 :position 7)>>,
+      <<(:digit4 :char "4")>>,
+      <<(:digit4 :digitValue 4)>>.
 
-  _:step28
-    rdf:reifies <<( :r1c7 :position 7 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 26.
-
-  _:step29
-    rdf:reifies <<( :digit4 :char "4" )>>;
-    pe:fact "sudoku.srl";
-    pe:line 11.
-
-  _:step30
-    rdf:reifies <<( :digit4 :digitValue 4 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 11.
-
-  _:step31
-    rdf:reifies <<( :r1c8 :value 9 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step9
+    rdf:reifies <<(:r1c8 :value 9)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r1c8 ],
       [ pe:var "digit"; pe:value :digit9 ],
@@ -337,29 +218,13 @@ DATA {
       [ pe:var "value"; pe:value 9 ];
     pe:uses
       _:step1,
-      _:step32,
-      _:step33,
-      _:step34.
+      <<(:r1c8 :position 8)>>,
+      <<(:digit9 :char "9")>>,
+      <<(:digit9 :digitValue 9)>>.
 
-  _:step32
-    rdf:reifies <<( :r1c8 :position 8 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 27.
-
-  _:step33
-    rdf:reifies <<( :digit9 :char "9" )>>;
-    pe:fact "sudoku.srl";
-    pe:line 16.
-
-  _:step34
-    rdf:reifies <<( :digit9 :digitValue 9 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 16.
-
-  _:step35
-    rdf:reifies <<( :r1c9 :value 3 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step10
+    rdf:reifies <<(:r1c9 :value 3)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r1c9 ],
       [ pe:var "digit"; pe:value :digit3 ],
@@ -369,29 +234,13 @@ DATA {
       [ pe:var "value"; pe:value 3 ];
     pe:uses
       _:step1,
-      _:step36,
-      _:step37,
-      _:step38.
+      <<(:r1c9 :position 9)>>,
+      <<(:digit3 :char "3")>>,
+      <<(:digit3 :digitValue 3)>>.
 
-  _:step36
-    rdf:reifies <<( :r1c9 :position 9 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 28.
-
-  _:step37
-    rdf:reifies <<( :digit3 :char "3" )>>;
-    pe:fact "sudoku.srl";
-    pe:line 10.
-
-  _:step38
-    rdf:reifies <<( :digit3 :digitValue 3 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 10.
-
-  _:step39
-    rdf:reifies <<( :r2c1 :value 5 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step11
+    rdf:reifies <<(:r2c1 :value 5)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r2c1 ],
       [ pe:var "digit"; pe:value :digit5 ],
@@ -401,19 +250,13 @@ DATA {
       [ pe:var "value"; pe:value 5 ];
     pe:uses
       _:step1,
-      _:step40,
-      _:step21,
-      _:step22.
+      <<(:r2c1 :position 10)>>,
+      <<(:digit5 :char "5")>>,
+      <<(:digit5 :digitValue 5)>>.
 
-  _:step40
-    rdf:reifies <<( :r2c1 :position 10 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 29.
-
-  _:step41
-    rdf:reifies <<( :r2c2 :value 3 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step12
+    rdf:reifies <<(:r2c2 :value 3)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r2c2 ],
       [ pe:var "digit"; pe:value :digit3 ],
@@ -423,19 +266,13 @@ DATA {
       [ pe:var "value"; pe:value 3 ];
     pe:uses
       _:step1,
-      _:step42,
-      _:step37,
-      _:step38.
+      <<(:r2c2 :position 11)>>,
+      <<(:digit3 :char "3")>>,
+      <<(:digit3 :digitValue 3)>>.
 
-  _:step42
-    rdf:reifies <<( :r2c2 :position 11 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 30.
-
-  _:step43
-    rdf:reifies <<( :r2c3 :value 4 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step13
+    rdf:reifies <<(:r2c3 :value 4)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r2c3 ],
       [ pe:var "digit"; pe:value :digit4 ],
@@ -445,19 +282,13 @@ DATA {
       [ pe:var "value"; pe:value 4 ];
     pe:uses
       _:step1,
-      _:step44,
-      _:step29,
-      _:step30.
+      <<(:r2c3 :position 12)>>,
+      <<(:digit4 :char "4")>>,
+      <<(:digit4 :digitValue 4)>>.
 
-  _:step44
-    rdf:reifies <<( :r2c3 :position 12 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 31.
-
-  _:step45
-    rdf:reifies <<( :r2c4 :value 1 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step14
+    rdf:reifies <<(:r2c4 :value 1)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r2c4 ],
       [ pe:var "digit"; pe:value :digit1 ],
@@ -467,19 +298,13 @@ DATA {
       [ pe:var "value"; pe:value 1 ];
     pe:uses
       _:step1,
-      _:step46,
-      _:step5,
-      _:step6.
+      <<(:r2c4 :position 13)>>,
+      <<(:digit1 :char "1")>>,
+      <<(:digit1 :digitValue 1)>>.
 
-  _:step46
-    rdf:reifies <<( :r2c4 :position 13 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 32.
-
-  _:step47
-    rdf:reifies <<( :r2c5 :value 2 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step15
+    rdf:reifies <<(:r2c5 :value 2)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r2c5 ],
       [ pe:var "digit"; pe:value :digit2 ],
@@ -489,19 +314,13 @@ DATA {
       [ pe:var "value"; pe:value 2 ];
     pe:uses
       _:step1,
-      _:step48,
-      _:step13,
-      _:step14.
+      <<(:r2c5 :position 14)>>,
+      <<(:digit2 :char "2")>>,
+      <<(:digit2 :digitValue 2)>>.
 
-  _:step48
-    rdf:reifies <<( :r2c5 :position 14 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 33.
-
-  _:step49
-    rdf:reifies <<( :r2c6 :value 9 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step16
+    rdf:reifies <<(:r2c6 :value 9)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r2c6 ],
       [ pe:var "digit"; pe:value :digit9 ],
@@ -511,19 +330,13 @@ DATA {
       [ pe:var "value"; pe:value 9 ];
     pe:uses
       _:step1,
-      _:step50,
-      _:step33,
-      _:step34.
+      <<(:r2c6 :position 15)>>,
+      <<(:digit9 :char "9")>>,
+      <<(:digit9 :digitValue 9)>>.
 
-  _:step50
-    rdf:reifies <<( :r2c6 :position 15 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 34.
-
-  _:step51
-    rdf:reifies <<( :r2c7 :value 6 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step17
+    rdf:reifies <<(:r2c7 :value 6)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r2c7 ],
       [ pe:var "digit"; pe:value :digit6 ],
@@ -533,19 +346,13 @@ DATA {
       [ pe:var "value"; pe:value 6 ];
     pe:uses
       _:step1,
-      _:step52,
-      _:step9,
-      _:step10.
+      <<(:r2c7 :position 16)>>,
+      <<(:digit6 :char "6")>>,
+      <<(:digit6 :digitValue 6)>>.
 
-  _:step52
-    rdf:reifies <<( :r2c7 :position 16 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 35.
-
-  _:step53
-    rdf:reifies <<( :r2c8 :value 7 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step18
+    rdf:reifies <<(:r2c8 :value 7)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r2c8 ],
       [ pe:var "digit"; pe:value :digit7 ],
@@ -555,19 +362,13 @@ DATA {
       [ pe:var "value"; pe:value 7 ];
     pe:uses
       _:step1,
-      _:step54,
-      _:step25,
-      _:step26.
+      <<(:r2c8 :position 17)>>,
+      <<(:digit7 :char "7")>>,
+      <<(:digit7 :digitValue 7)>>.
 
-  _:step54
-    rdf:reifies <<( :r2c8 :position 17 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 36.
-
-  _:step55
-    rdf:reifies <<( :r2c9 :value 8 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step19
+    rdf:reifies <<(:r2c9 :value 8)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r2c9 ],
       [ pe:var "digit"; pe:value :digit8 ],
@@ -577,19 +378,13 @@ DATA {
       [ pe:var "value"; pe:value 8 ];
     pe:uses
       _:step1,
-      _:step56,
-      _:step17,
-      _:step18.
+      <<(:r2c9 :position 18)>>,
+      <<(:digit8 :char "8")>>,
+      <<(:digit8 :digitValue 8)>>.
 
-  _:step56
-    rdf:reifies <<( :r2c9 :position 18 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 37.
-
-  _:step57
-    rdf:reifies <<( :r3c1 :value 7 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step20
+    rdf:reifies <<(:r3c1 :value 7)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r3c1 ],
       [ pe:var "digit"; pe:value :digit7 ],
@@ -599,19 +394,13 @@ DATA {
       [ pe:var "value"; pe:value 7 ];
     pe:uses
       _:step1,
-      _:step58,
-      _:step25,
-      _:step26.
+      <<(:r3c1 :position 19)>>,
+      <<(:digit7 :char "7")>>,
+      <<(:digit7 :digitValue 7)>>.
 
-  _:step58
-    rdf:reifies <<( :r3c1 :position 19 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 38.
-
-  _:step59
-    rdf:reifies <<( :r3c2 :value 8 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step21
+    rdf:reifies <<(:r3c2 :value 8)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r3c2 ],
       [ pe:var "digit"; pe:value :digit8 ],
@@ -621,19 +410,13 @@ DATA {
       [ pe:var "value"; pe:value 8 ];
     pe:uses
       _:step1,
-      _:step60,
-      _:step17,
-      _:step18.
+      <<(:r3c2 :position 20)>>,
+      <<(:digit8 :char "8")>>,
+      <<(:digit8 :digitValue 8)>>.
 
-  _:step60
-    rdf:reifies <<( :r3c2 :position 20 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 39.
-
-  _:step61
-    rdf:reifies <<( :r3c3 :value 9 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step22
+    rdf:reifies <<(:r3c3 :value 9)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r3c3 ],
       [ pe:var "digit"; pe:value :digit9 ],
@@ -643,19 +426,13 @@ DATA {
       [ pe:var "value"; pe:value 9 ];
     pe:uses
       _:step1,
-      _:step62,
-      _:step33,
-      _:step34.
+      <<(:r3c3 :position 21)>>,
+      <<(:digit9 :char "9")>>,
+      <<(:digit9 :digitValue 9)>>.
 
-  _:step62
-    rdf:reifies <<( :r3c3 :position 21 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 40.
-
-  _:step63
-    rdf:reifies <<( :r3c4 :value 6 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step23
+    rdf:reifies <<(:r3c4 :value 6)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r3c4 ],
       [ pe:var "digit"; pe:value :digit6 ],
@@ -665,19 +442,13 @@ DATA {
       [ pe:var "value"; pe:value 6 ];
     pe:uses
       _:step1,
-      _:step64,
-      _:step9,
-      _:step10.
+      <<(:r3c4 :position 22)>>,
+      <<(:digit6 :char "6")>>,
+      <<(:digit6 :digitValue 6)>>.
 
-  _:step64
-    rdf:reifies <<( :r3c4 :position 22 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 41.
-
-  _:step65
-    rdf:reifies <<( :r3c5 :value 4 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step24
+    rdf:reifies <<(:r3c5 :value 4)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r3c5 ],
       [ pe:var "digit"; pe:value :digit4 ],
@@ -687,19 +458,13 @@ DATA {
       [ pe:var "value"; pe:value 4 ];
     pe:uses
       _:step1,
-      _:step66,
-      _:step29,
-      _:step30.
+      <<(:r3c5 :position 23)>>,
+      <<(:digit4 :char "4")>>,
+      <<(:digit4 :digitValue 4)>>.
 
-  _:step66
-    rdf:reifies <<( :r3c5 :position 23 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 42.
-
-  _:step67
-    rdf:reifies <<( :r3c6 :value 3 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step25
+    rdf:reifies <<(:r3c6 :value 3)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r3c6 ],
       [ pe:var "digit"; pe:value :digit3 ],
@@ -709,19 +474,13 @@ DATA {
       [ pe:var "value"; pe:value 3 ];
     pe:uses
       _:step1,
-      _:step68,
-      _:step37,
-      _:step38.
+      <<(:r3c6 :position 24)>>,
+      <<(:digit3 :char "3")>>,
+      <<(:digit3 :digitValue 3)>>.
 
-  _:step68
-    rdf:reifies <<( :r3c6 :position 24 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 43.
-
-  _:step69
-    rdf:reifies <<( :r3c7 :value 5 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step26
+    rdf:reifies <<(:r3c7 :value 5)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r3c7 ],
       [ pe:var "digit"; pe:value :digit5 ],
@@ -731,19 +490,13 @@ DATA {
       [ pe:var "value"; pe:value 5 ];
     pe:uses
       _:step1,
-      _:step70,
-      _:step21,
-      _:step22.
+      <<(:r3c7 :position 25)>>,
+      <<(:digit5 :char "5")>>,
+      <<(:digit5 :digitValue 5)>>.
 
-  _:step70
-    rdf:reifies <<( :r3c7 :position 25 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 44.
-
-  _:step71
-    rdf:reifies <<( :r3c8 :value 2 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step27
+    rdf:reifies <<(:r3c8 :value 2)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r3c8 ],
       [ pe:var "digit"; pe:value :digit2 ],
@@ -753,19 +506,13 @@ DATA {
       [ pe:var "value"; pe:value 2 ];
     pe:uses
       _:step1,
-      _:step72,
-      _:step13,
-      _:step14.
+      <<(:r3c8 :position 26)>>,
+      <<(:digit2 :char "2")>>,
+      <<(:digit2 :digitValue 2)>>.
 
-  _:step72
-    rdf:reifies <<( :r3c8 :position 26 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 45.
-
-  _:step73
-    rdf:reifies <<( :r3c9 :value 1 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step28
+    rdf:reifies <<(:r3c9 :value 1)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r3c9 ],
       [ pe:var "digit"; pe:value :digit1 ],
@@ -775,19 +522,13 @@ DATA {
       [ pe:var "value"; pe:value 1 ];
     pe:uses
       _:step1,
-      _:step74,
-      _:step5,
-      _:step6.
+      <<(:r3c9 :position 27)>>,
+      <<(:digit1 :char "1")>>,
+      <<(:digit1 :digitValue 1)>>.
 
-  _:step74
-    rdf:reifies <<( :r3c9 :position 27 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 46.
-
-  _:step75
-    rdf:reifies <<( :r4c1 :value 4 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step29
+    rdf:reifies <<(:r4c1 :value 4)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r4c1 ],
       [ pe:var "digit"; pe:value :digit4 ],
@@ -797,19 +538,13 @@ DATA {
       [ pe:var "value"; pe:value 4 ];
     pe:uses
       _:step1,
-      _:step76,
-      _:step29,
-      _:step30.
+      <<(:r4c1 :position 28)>>,
+      <<(:digit4 :char "4")>>,
+      <<(:digit4 :digitValue 4)>>.
 
-  _:step76
-    rdf:reifies <<( :r4c1 :position 28 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 47.
-
-  _:step77
-    rdf:reifies <<( :r4c2 :value 7 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step30
+    rdf:reifies <<(:r4c2 :value 7)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r4c2 ],
       [ pe:var "digit"; pe:value :digit7 ],
@@ -819,19 +554,13 @@ DATA {
       [ pe:var "value"; pe:value 7 ];
     pe:uses
       _:step1,
-      _:step78,
-      _:step25,
-      _:step26.
+      <<(:r4c2 :position 29)>>,
+      <<(:digit7 :char "7")>>,
+      <<(:digit7 :digitValue 7)>>.
 
-  _:step78
-    rdf:reifies <<( :r4c2 :position 29 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 48.
-
-  _:step79
-    rdf:reifies <<( :r4c3 :value 5 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step31
+    rdf:reifies <<(:r4c3 :value 5)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r4c3 ],
       [ pe:var "digit"; pe:value :digit5 ],
@@ -841,19 +570,13 @@ DATA {
       [ pe:var "value"; pe:value 5 ];
     pe:uses
       _:step1,
-      _:step80,
-      _:step21,
-      _:step22.
+      <<(:r4c3 :position 30)>>,
+      <<(:digit5 :char "5")>>,
+      <<(:digit5 :digitValue 5)>>.
 
-  _:step80
-    rdf:reifies <<( :r4c3 :position 30 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 49.
-
-  _:step81
-    rdf:reifies <<( :r4c4 :value 3 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step32
+    rdf:reifies <<(:r4c4 :value 3)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r4c4 ],
       [ pe:var "digit"; pe:value :digit3 ],
@@ -863,19 +586,13 @@ DATA {
       [ pe:var "value"; pe:value 3 ];
     pe:uses
       _:step1,
-      _:step82,
-      _:step37,
-      _:step38.
+      <<(:r4c4 :position 31)>>,
+      <<(:digit3 :char "3")>>,
+      <<(:digit3 :digitValue 3)>>.
 
-  _:step82
-    rdf:reifies <<( :r4c4 :position 31 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 50.
-
-  _:step83
-    rdf:reifies <<( :r4c5 :value 1 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step33
+    rdf:reifies <<(:r4c5 :value 1)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r4c5 ],
       [ pe:var "digit"; pe:value :digit1 ],
@@ -885,19 +602,13 @@ DATA {
       [ pe:var "value"; pe:value 1 ];
     pe:uses
       _:step1,
-      _:step84,
-      _:step5,
-      _:step6.
+      <<(:r4c5 :position 32)>>,
+      <<(:digit1 :char "1")>>,
+      <<(:digit1 :digitValue 1)>>.
 
-  _:step84
-    rdf:reifies <<( :r4c5 :position 32 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 51.
-
-  _:step85
-    rdf:reifies <<( :r4c6 :value 2 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step34
+    rdf:reifies <<(:r4c6 :value 2)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r4c6 ],
       [ pe:var "digit"; pe:value :digit2 ],
@@ -907,19 +618,13 @@ DATA {
       [ pe:var "value"; pe:value 2 ];
     pe:uses
       _:step1,
-      _:step86,
-      _:step13,
-      _:step14.
+      <<(:r4c6 :position 33)>>,
+      <<(:digit2 :char "2")>>,
+      <<(:digit2 :digitValue 2)>>.
 
-  _:step86
-    rdf:reifies <<( :r4c6 :position 33 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 52.
-
-  _:step87
-    rdf:reifies <<( :r4c7 :value 9 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step35
+    rdf:reifies <<(:r4c7 :value 9)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r4c7 ],
       [ pe:var "digit"; pe:value :digit9 ],
@@ -929,19 +634,13 @@ DATA {
       [ pe:var "value"; pe:value 9 ];
     pe:uses
       _:step1,
-      _:step88,
-      _:step33,
-      _:step34.
+      <<(:r4c7 :position 34)>>,
+      <<(:digit9 :char "9")>>,
+      <<(:digit9 :digitValue 9)>>.
 
-  _:step88
-    rdf:reifies <<( :r4c7 :position 34 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 53.
-
-  _:step89
-    rdf:reifies <<( :r4c8 :value 8 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step36
+    rdf:reifies <<(:r4c8 :value 8)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r4c8 ],
       [ pe:var "digit"; pe:value :digit8 ],
@@ -951,19 +650,13 @@ DATA {
       [ pe:var "value"; pe:value 8 ];
     pe:uses
       _:step1,
-      _:step90,
-      _:step17,
-      _:step18.
+      <<(:r4c8 :position 35)>>,
+      <<(:digit8 :char "8")>>,
+      <<(:digit8 :digitValue 8)>>.
 
-  _:step90
-    rdf:reifies <<( :r4c8 :position 35 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 54.
-
-  _:step91
-    rdf:reifies <<( :r4c9 :value 6 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step37
+    rdf:reifies <<(:r4c9 :value 6)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r4c9 ],
       [ pe:var "digit"; pe:value :digit6 ],
@@ -973,19 +666,13 @@ DATA {
       [ pe:var "value"; pe:value 6 ];
     pe:uses
       _:step1,
-      _:step92,
-      _:step9,
-      _:step10.
+      <<(:r4c9 :position 36)>>,
+      <<(:digit6 :char "6")>>,
+      <<(:digit6 :digitValue 6)>>.
 
-  _:step92
-    rdf:reifies <<( :r4c9 :position 36 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 55.
-
-  _:step93
-    rdf:reifies <<( :r5c1 :value 9 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step38
+    rdf:reifies <<(:r5c1 :value 9)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r5c1 ],
       [ pe:var "digit"; pe:value :digit9 ],
@@ -995,19 +682,13 @@ DATA {
       [ pe:var "value"; pe:value 9 ];
     pe:uses
       _:step1,
-      _:step94,
-      _:step33,
-      _:step34.
+      <<(:r5c1 :position 37)>>,
+      <<(:digit9 :char "9")>>,
+      <<(:digit9 :digitValue 9)>>.
 
-  _:step94
-    rdf:reifies <<( :r5c1 :position 37 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 56.
-
-  _:step95
-    rdf:reifies <<( :r5c2 :value 1 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step39
+    rdf:reifies <<(:r5c2 :value 1)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r5c2 ],
       [ pe:var "digit"; pe:value :digit1 ],
@@ -1017,19 +698,13 @@ DATA {
       [ pe:var "value"; pe:value 1 ];
     pe:uses
       _:step1,
-      _:step96,
-      _:step5,
-      _:step6.
+      <<(:r5c2 :position 38)>>,
+      <<(:digit1 :char "1")>>,
+      <<(:digit1 :digitValue 1)>>.
 
-  _:step96
-    rdf:reifies <<( :r5c2 :position 38 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 57.
-
-  _:step97
-    rdf:reifies <<( :r5c3 :value 3 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step40
+    rdf:reifies <<(:r5c3 :value 3)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r5c3 ],
       [ pe:var "digit"; pe:value :digit3 ],
@@ -1039,19 +714,13 @@ DATA {
       [ pe:var "value"; pe:value 3 ];
     pe:uses
       _:step1,
-      _:step98,
-      _:step37,
-      _:step38.
+      <<(:r5c3 :position 39)>>,
+      <<(:digit3 :char "3")>>,
+      <<(:digit3 :digitValue 3)>>.
 
-  _:step98
-    rdf:reifies <<( :r5c3 :position 39 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 58.
-
-  _:step99
-    rdf:reifies <<( :r5c4 :value 5 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step41
+    rdf:reifies <<(:r5c4 :value 5)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r5c4 ],
       [ pe:var "digit"; pe:value :digit5 ],
@@ -1061,19 +730,13 @@ DATA {
       [ pe:var "value"; pe:value 5 ];
     pe:uses
       _:step1,
-      _:step100,
-      _:step21,
-      _:step22.
+      <<(:r5c4 :position 40)>>,
+      <<(:digit5 :char "5")>>,
+      <<(:digit5 :digitValue 5)>>.
 
-  _:step100
-    rdf:reifies <<( :r5c4 :position 40 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 59.
-
-  _:step101
-    rdf:reifies <<( :r5c5 :value 8 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step42
+    rdf:reifies <<(:r5c5 :value 8)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r5c5 ],
       [ pe:var "digit"; pe:value :digit8 ],
@@ -1083,19 +746,13 @@ DATA {
       [ pe:var "value"; pe:value 8 ];
     pe:uses
       _:step1,
-      _:step102,
-      _:step17,
-      _:step18.
+      <<(:r5c5 :position 41)>>,
+      <<(:digit8 :char "8")>>,
+      <<(:digit8 :digitValue 8)>>.
 
-  _:step102
-    rdf:reifies <<( :r5c5 :position 41 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 60.
-
-  _:step103
-    rdf:reifies <<( :r5c6 :value 6 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step43
+    rdf:reifies <<(:r5c6 :value 6)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r5c6 ],
       [ pe:var "digit"; pe:value :digit6 ],
@@ -1105,19 +762,13 @@ DATA {
       [ pe:var "value"; pe:value 6 ];
     pe:uses
       _:step1,
-      _:step104,
-      _:step9,
-      _:step10.
+      <<(:r5c6 :position 42)>>,
+      <<(:digit6 :char "6")>>,
+      <<(:digit6 :digitValue 6)>>.
 
-  _:step104
-    rdf:reifies <<( :r5c6 :position 42 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 61.
-
-  _:step105
-    rdf:reifies <<( :r5c7 :value 7 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step44
+    rdf:reifies <<(:r5c7 :value 7)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r5c7 ],
       [ pe:var "digit"; pe:value :digit7 ],
@@ -1127,19 +778,13 @@ DATA {
       [ pe:var "value"; pe:value 7 ];
     pe:uses
       _:step1,
-      _:step106,
-      _:step25,
-      _:step26.
+      <<(:r5c7 :position 43)>>,
+      <<(:digit7 :char "7")>>,
+      <<(:digit7 :digitValue 7)>>.
 
-  _:step106
-    rdf:reifies <<( :r5c7 :position 43 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 62.
-
-  _:step107
-    rdf:reifies <<( :r5c8 :value 4 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step45
+    rdf:reifies <<(:r5c8 :value 4)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r5c8 ],
       [ pe:var "digit"; pe:value :digit4 ],
@@ -1149,19 +794,13 @@ DATA {
       [ pe:var "value"; pe:value 4 ];
     pe:uses
       _:step1,
-      _:step108,
-      _:step29,
-      _:step30.
+      <<(:r5c8 :position 44)>>,
+      <<(:digit4 :char "4")>>,
+      <<(:digit4 :digitValue 4)>>.
 
-  _:step108
-    rdf:reifies <<( :r5c8 :position 44 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 63.
-
-  _:step109
-    rdf:reifies <<( :r5c9 :value 2 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step46
+    rdf:reifies <<(:r5c9 :value 2)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r5c9 ],
       [ pe:var "digit"; pe:value :digit2 ],
@@ -1171,19 +810,13 @@ DATA {
       [ pe:var "value"; pe:value 2 ];
     pe:uses
       _:step1,
-      _:step110,
-      _:step13,
-      _:step14.
+      <<(:r5c9 :position 45)>>,
+      <<(:digit2 :char "2")>>,
+      <<(:digit2 :digitValue 2)>>.
 
-  _:step110
-    rdf:reifies <<( :r5c9 :position 45 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 64.
-
-  _:step111
-    rdf:reifies <<( :r6c1 :value 6 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step47
+    rdf:reifies <<(:r6c1 :value 6)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r6c1 ],
       [ pe:var "digit"; pe:value :digit6 ],
@@ -1193,19 +826,13 @@ DATA {
       [ pe:var "value"; pe:value 6 ];
     pe:uses
       _:step1,
-      _:step112,
-      _:step9,
-      _:step10.
+      <<(:r6c1 :position 46)>>,
+      <<(:digit6 :char "6")>>,
+      <<(:digit6 :digitValue 6)>>.
 
-  _:step112
-    rdf:reifies <<( :r6c1 :position 46 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 65.
-
-  _:step113
-    rdf:reifies <<( :r6c2 :value 2 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step48
+    rdf:reifies <<(:r6c2 :value 2)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r6c2 ],
       [ pe:var "digit"; pe:value :digit2 ],
@@ -1215,19 +842,13 @@ DATA {
       [ pe:var "value"; pe:value 2 ];
     pe:uses
       _:step1,
-      _:step114,
-      _:step13,
-      _:step14.
+      <<(:r6c2 :position 47)>>,
+      <<(:digit2 :char "2")>>,
+      <<(:digit2 :digitValue 2)>>.
 
-  _:step114
-    rdf:reifies <<( :r6c2 :position 47 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 66.
-
-  _:step115
-    rdf:reifies <<( :r6c3 :value 8 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step49
+    rdf:reifies <<(:r6c3 :value 8)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r6c3 ],
       [ pe:var "digit"; pe:value :digit8 ],
@@ -1237,19 +858,13 @@ DATA {
       [ pe:var "value"; pe:value 8 ];
     pe:uses
       _:step1,
-      _:step116,
-      _:step17,
-      _:step18.
+      <<(:r6c3 :position 48)>>,
+      <<(:digit8 :char "8")>>,
+      <<(:digit8 :digitValue 8)>>.
 
-  _:step116
-    rdf:reifies <<( :r6c3 :position 48 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 67.
-
-  _:step117
-    rdf:reifies <<( :r6c4 :value 7 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step50
+    rdf:reifies <<(:r6c4 :value 7)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r6c4 ],
       [ pe:var "digit"; pe:value :digit7 ],
@@ -1259,19 +874,13 @@ DATA {
       [ pe:var "value"; pe:value 7 ];
     pe:uses
       _:step1,
-      _:step118,
-      _:step25,
-      _:step26.
+      <<(:r6c4 :position 49)>>,
+      <<(:digit7 :char "7")>>,
+      <<(:digit7 :digitValue 7)>>.
 
-  _:step118
-    rdf:reifies <<( :r6c4 :position 49 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 68.
-
-  _:step119
-    rdf:reifies <<( :r6c5 :value 9 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step51
+    rdf:reifies <<(:r6c5 :value 9)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r6c5 ],
       [ pe:var "digit"; pe:value :digit9 ],
@@ -1281,19 +890,13 @@ DATA {
       [ pe:var "value"; pe:value 9 ];
     pe:uses
       _:step1,
-      _:step120,
-      _:step33,
-      _:step34.
+      <<(:r6c5 :position 50)>>,
+      <<(:digit9 :char "9")>>,
+      <<(:digit9 :digitValue 9)>>.
 
-  _:step120
-    rdf:reifies <<( :r6c5 :position 50 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 69.
-
-  _:step121
-    rdf:reifies <<( :r6c6 :value 4 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step52
+    rdf:reifies <<(:r6c6 :value 4)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r6c6 ],
       [ pe:var "digit"; pe:value :digit4 ],
@@ -1303,19 +906,13 @@ DATA {
       [ pe:var "value"; pe:value 4 ];
     pe:uses
       _:step1,
-      _:step122,
-      _:step29,
-      _:step30.
+      <<(:r6c6 :position 51)>>,
+      <<(:digit4 :char "4")>>,
+      <<(:digit4 :digitValue 4)>>.
 
-  _:step122
-    rdf:reifies <<( :r6c6 :position 51 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 70.
-
-  _:step123
-    rdf:reifies <<( :r6c7 :value 1 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step53
+    rdf:reifies <<(:r6c7 :value 1)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r6c7 ],
       [ pe:var "digit"; pe:value :digit1 ],
@@ -1325,19 +922,13 @@ DATA {
       [ pe:var "value"; pe:value 1 ];
     pe:uses
       _:step1,
-      _:step124,
-      _:step5,
-      _:step6.
+      <<(:r6c7 :position 52)>>,
+      <<(:digit1 :char "1")>>,
+      <<(:digit1 :digitValue 1)>>.
 
-  _:step124
-    rdf:reifies <<( :r6c7 :position 52 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 71.
-
-  _:step125
-    rdf:reifies <<( :r6c8 :value 3 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step54
+    rdf:reifies <<(:r6c8 :value 3)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r6c8 ],
       [ pe:var "digit"; pe:value :digit3 ],
@@ -1347,19 +938,13 @@ DATA {
       [ pe:var "value"; pe:value 3 ];
     pe:uses
       _:step1,
-      _:step126,
-      _:step37,
-      _:step38.
+      <<(:r6c8 :position 53)>>,
+      <<(:digit3 :char "3")>>,
+      <<(:digit3 :digitValue 3)>>.
 
-  _:step126
-    rdf:reifies <<( :r6c8 :position 53 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 72.
-
-  _:step127
-    rdf:reifies <<( :r6c9 :value 5 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step55
+    rdf:reifies <<(:r6c9 :value 5)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r6c9 ],
       [ pe:var "digit"; pe:value :digit5 ],
@@ -1369,19 +954,13 @@ DATA {
       [ pe:var "value"; pe:value 5 ];
     pe:uses
       _:step1,
-      _:step128,
-      _:step21,
-      _:step22.
+      <<(:r6c9 :position 54)>>,
+      <<(:digit5 :char "5")>>,
+      <<(:digit5 :digitValue 5)>>.
 
-  _:step128
-    rdf:reifies <<( :r6c9 :position 54 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 73.
-
-  _:step129
-    rdf:reifies <<( :r7c1 :value 3 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step56
+    rdf:reifies <<(:r7c1 :value 3)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r7c1 ],
       [ pe:var "digit"; pe:value :digit3 ],
@@ -1391,19 +970,13 @@ DATA {
       [ pe:var "value"; pe:value 3 ];
     pe:uses
       _:step1,
-      _:step130,
-      _:step37,
-      _:step38.
+      <<(:r7c1 :position 55)>>,
+      <<(:digit3 :char "3")>>,
+      <<(:digit3 :digitValue 3)>>.
 
-  _:step130
-    rdf:reifies <<( :r7c1 :position 55 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 74.
-
-  _:step131
-    rdf:reifies <<( :r7c2 :value 5 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step57
+    rdf:reifies <<(:r7c2 :value 5)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r7c2 ],
       [ pe:var "digit"; pe:value :digit5 ],
@@ -1413,19 +986,13 @@ DATA {
       [ pe:var "value"; pe:value 5 ];
     pe:uses
       _:step1,
-      _:step132,
-      _:step21,
-      _:step22.
+      <<(:r7c2 :position 56)>>,
+      <<(:digit5 :char "5")>>,
+      <<(:digit5 :digitValue 5)>>.
 
-  _:step132
-    rdf:reifies <<( :r7c2 :position 56 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 75.
-
-  _:step133
-    rdf:reifies <<( :r7c3 :value 6 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step58
+    rdf:reifies <<(:r7c3 :value 6)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r7c3 ],
       [ pe:var "digit"; pe:value :digit6 ],
@@ -1435,19 +1002,13 @@ DATA {
       [ pe:var "value"; pe:value 6 ];
     pe:uses
       _:step1,
-      _:step134,
-      _:step9,
-      _:step10.
+      <<(:r7c3 :position 57)>>,
+      <<(:digit6 :char "6")>>,
+      <<(:digit6 :digitValue 6)>>.
 
-  _:step134
-    rdf:reifies <<( :r7c3 :position 57 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 76.
-
-  _:step135
-    rdf:reifies <<( :r7c4 :value 4 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step59
+    rdf:reifies <<(:r7c4 :value 4)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r7c4 ],
       [ pe:var "digit"; pe:value :digit4 ],
@@ -1457,19 +1018,13 @@ DATA {
       [ pe:var "value"; pe:value 4 ];
     pe:uses
       _:step1,
-      _:step136,
-      _:step29,
-      _:step30.
+      <<(:r7c4 :position 58)>>,
+      <<(:digit4 :char "4")>>,
+      <<(:digit4 :digitValue 4)>>.
 
-  _:step136
-    rdf:reifies <<( :r7c4 :position 58 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 77.
-
-  _:step137
-    rdf:reifies <<( :r7c5 :value 7 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step60
+    rdf:reifies <<(:r7c5 :value 7)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r7c5 ],
       [ pe:var "digit"; pe:value :digit7 ],
@@ -1479,19 +1034,13 @@ DATA {
       [ pe:var "value"; pe:value 7 ];
     pe:uses
       _:step1,
-      _:step138,
-      _:step25,
-      _:step26.
+      <<(:r7c5 :position 59)>>,
+      <<(:digit7 :char "7")>>,
+      <<(:digit7 :digitValue 7)>>.
 
-  _:step138
-    rdf:reifies <<( :r7c5 :position 59 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 78.
-
-  _:step139
-    rdf:reifies <<( :r7c6 :value 8 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step61
+    rdf:reifies <<(:r7c6 :value 8)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r7c6 ],
       [ pe:var "digit"; pe:value :digit8 ],
@@ -1501,19 +1050,13 @@ DATA {
       [ pe:var "value"; pe:value 8 ];
     pe:uses
       _:step1,
-      _:step140,
-      _:step17,
-      _:step18.
+      <<(:r7c6 :position 60)>>,
+      <<(:digit8 :char "8")>>,
+      <<(:digit8 :digitValue 8)>>.
 
-  _:step140
-    rdf:reifies <<( :r7c6 :position 60 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 79.
-
-  _:step141
-    rdf:reifies <<( :r7c7 :value 2 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step62
+    rdf:reifies <<(:r7c7 :value 2)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r7c7 ],
       [ pe:var "digit"; pe:value :digit2 ],
@@ -1523,19 +1066,13 @@ DATA {
       [ pe:var "value"; pe:value 2 ];
     pe:uses
       _:step1,
-      _:step142,
-      _:step13,
-      _:step14.
+      <<(:r7c7 :position 61)>>,
+      <<(:digit2 :char "2")>>,
+      <<(:digit2 :digitValue 2)>>.
 
-  _:step142
-    rdf:reifies <<( :r7c7 :position 61 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 80.
-
-  _:step143
-    rdf:reifies <<( :r7c8 :value 1 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step63
+    rdf:reifies <<(:r7c8 :value 1)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r7c8 ],
       [ pe:var "digit"; pe:value :digit1 ],
@@ -1545,19 +1082,13 @@ DATA {
       [ pe:var "value"; pe:value 1 ];
     pe:uses
       _:step1,
-      _:step144,
-      _:step5,
-      _:step6.
+      <<(:r7c8 :position 62)>>,
+      <<(:digit1 :char "1")>>,
+      <<(:digit1 :digitValue 1)>>.
 
-  _:step144
-    rdf:reifies <<( :r7c8 :position 62 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 81.
-
-  _:step145
-    rdf:reifies <<( :r7c9 :value 9 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step64
+    rdf:reifies <<(:r7c9 :value 9)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r7c9 ],
       [ pe:var "digit"; pe:value :digit9 ],
@@ -1567,19 +1098,13 @@ DATA {
       [ pe:var "value"; pe:value 9 ];
     pe:uses
       _:step1,
-      _:step146,
-      _:step33,
-      _:step34.
+      <<(:r7c9 :position 63)>>,
+      <<(:digit9 :char "9")>>,
+      <<(:digit9 :digitValue 9)>>.
 
-  _:step146
-    rdf:reifies <<( :r7c9 :position 63 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 82.
-
-  _:step147
-    rdf:reifies <<( :r8c1 :value 2 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step65
+    rdf:reifies <<(:r8c1 :value 2)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r8c1 ],
       [ pe:var "digit"; pe:value :digit2 ],
@@ -1589,19 +1114,13 @@ DATA {
       [ pe:var "value"; pe:value 2 ];
     pe:uses
       _:step1,
-      _:step148,
-      _:step13,
-      _:step14.
+      <<(:r8c1 :position 64)>>,
+      <<(:digit2 :char "2")>>,
+      <<(:digit2 :digitValue 2)>>.
 
-  _:step148
-    rdf:reifies <<( :r8c1 :position 64 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 83.
-
-  _:step149
-    rdf:reifies <<( :r8c2 :value 4 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step66
+    rdf:reifies <<(:r8c2 :value 4)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r8c2 ],
       [ pe:var "digit"; pe:value :digit4 ],
@@ -1611,19 +1130,13 @@ DATA {
       [ pe:var "value"; pe:value 4 ];
     pe:uses
       _:step1,
-      _:step150,
-      _:step29,
-      _:step30.
+      <<(:r8c2 :position 65)>>,
+      <<(:digit4 :char "4")>>,
+      <<(:digit4 :digitValue 4)>>.
 
-  _:step150
-    rdf:reifies <<( :r8c2 :position 65 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 84.
-
-  _:step151
-    rdf:reifies <<( :r8c3 :value 1 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step67
+    rdf:reifies <<(:r8c3 :value 1)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r8c3 ],
       [ pe:var "digit"; pe:value :digit1 ],
@@ -1633,19 +1146,13 @@ DATA {
       [ pe:var "value"; pe:value 1 ];
     pe:uses
       _:step1,
-      _:step152,
-      _:step5,
-      _:step6.
+      <<(:r8c3 :position 66)>>,
+      <<(:digit1 :char "1")>>,
+      <<(:digit1 :digitValue 1)>>.
 
-  _:step152
-    rdf:reifies <<( :r8c3 :position 66 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 85.
-
-  _:step153
-    rdf:reifies <<( :r8c4 :value 9 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step68
+    rdf:reifies <<(:r8c4 :value 9)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r8c4 ],
       [ pe:var "digit"; pe:value :digit9 ],
@@ -1655,19 +1162,13 @@ DATA {
       [ pe:var "value"; pe:value 9 ];
     pe:uses
       _:step1,
-      _:step154,
-      _:step33,
-      _:step34.
+      <<(:r8c4 :position 67)>>,
+      <<(:digit9 :char "9")>>,
+      <<(:digit9 :digitValue 9)>>.
 
-  _:step154
-    rdf:reifies <<( :r8c4 :position 67 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 86.
-
-  _:step155
-    rdf:reifies <<( :r8c5 :value 3 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step69
+    rdf:reifies <<(:r8c5 :value 3)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r8c5 ],
       [ pe:var "digit"; pe:value :digit3 ],
@@ -1677,19 +1178,13 @@ DATA {
       [ pe:var "value"; pe:value 3 ];
     pe:uses
       _:step1,
-      _:step156,
-      _:step37,
-      _:step38.
+      <<(:r8c5 :position 68)>>,
+      <<(:digit3 :char "3")>>,
+      <<(:digit3 :digitValue 3)>>.
 
-  _:step156
-    rdf:reifies <<( :r8c5 :position 68 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 87.
-
-  _:step157
-    rdf:reifies <<( :r8c6 :value 5 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step70
+    rdf:reifies <<(:r8c6 :value 5)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r8c6 ],
       [ pe:var "digit"; pe:value :digit5 ],
@@ -1699,19 +1194,13 @@ DATA {
       [ pe:var "value"; pe:value 5 ];
     pe:uses
       _:step1,
-      _:step158,
-      _:step21,
-      _:step22.
+      <<(:r8c6 :position 69)>>,
+      <<(:digit5 :char "5")>>,
+      <<(:digit5 :digitValue 5)>>.
 
-  _:step158
-    rdf:reifies <<( :r8c6 :position 69 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 88.
-
-  _:step159
-    rdf:reifies <<( :r8c7 :value 8 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step71
+    rdf:reifies <<(:r8c7 :value 8)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r8c7 ],
       [ pe:var "digit"; pe:value :digit8 ],
@@ -1721,19 +1210,13 @@ DATA {
       [ pe:var "value"; pe:value 8 ];
     pe:uses
       _:step1,
-      _:step160,
-      _:step17,
-      _:step18.
+      <<(:r8c7 :position 70)>>,
+      <<(:digit8 :char "8")>>,
+      <<(:digit8 :digitValue 8)>>.
 
-  _:step160
-    rdf:reifies <<( :r8c7 :position 70 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 89.
-
-  _:step161
-    rdf:reifies <<( :r8c8 :value 6 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step72
+    rdf:reifies <<(:r8c8 :value 6)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r8c8 ],
       [ pe:var "digit"; pe:value :digit6 ],
@@ -1743,19 +1226,13 @@ DATA {
       [ pe:var "value"; pe:value 6 ];
     pe:uses
       _:step1,
-      _:step162,
-      _:step9,
-      _:step10.
+      <<(:r8c8 :position 71)>>,
+      <<(:digit6 :char "6")>>,
+      <<(:digit6 :digitValue 6)>>.
 
-  _:step162
-    rdf:reifies <<( :r8c8 :position 71 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 90.
-
-  _:step163
-    rdf:reifies <<( :r8c9 :value 7 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step73
+    rdf:reifies <<(:r8c9 :value 7)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r8c9 ],
       [ pe:var "digit"; pe:value :digit7 ],
@@ -1765,19 +1242,13 @@ DATA {
       [ pe:var "value"; pe:value 7 ];
     pe:uses
       _:step1,
-      _:step164,
-      _:step25,
-      _:step26.
+      <<(:r8c9 :position 72)>>,
+      <<(:digit7 :char "7")>>,
+      <<(:digit7 :digitValue 7)>>.
 
-  _:step164
-    rdf:reifies <<( :r8c9 :position 72 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 91.
-
-  _:step165
-    rdf:reifies <<( :r9c1 :value 8 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step74
+    rdf:reifies <<(:r9c1 :value 8)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r9c1 ],
       [ pe:var "digit"; pe:value :digit8 ],
@@ -1787,19 +1258,13 @@ DATA {
       [ pe:var "value"; pe:value 8 ];
     pe:uses
       _:step1,
-      _:step166,
-      _:step17,
-      _:step18.
+      <<(:r9c1 :position 73)>>,
+      <<(:digit8 :char "8")>>,
+      <<(:digit8 :digitValue 8)>>.
 
-  _:step166
-    rdf:reifies <<( :r9c1 :position 73 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 92.
-
-  _:step167
-    rdf:reifies <<( :r9c2 :value 9 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step75
+    rdf:reifies <<(:r9c2 :value 9)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r9c2 ],
       [ pe:var "digit"; pe:value :digit9 ],
@@ -1809,19 +1274,13 @@ DATA {
       [ pe:var "value"; pe:value 9 ];
     pe:uses
       _:step1,
-      _:step168,
-      _:step33,
-      _:step34.
+      <<(:r9c2 :position 74)>>,
+      <<(:digit9 :char "9")>>,
+      <<(:digit9 :digitValue 9)>>.
 
-  _:step168
-    rdf:reifies <<( :r9c2 :position 74 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 93.
-
-  _:step169
-    rdf:reifies <<( :r9c3 :value 7 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step76
+    rdf:reifies <<(:r9c3 :value 7)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r9c3 ],
       [ pe:var "digit"; pe:value :digit7 ],
@@ -1831,19 +1290,13 @@ DATA {
       [ pe:var "value"; pe:value 7 ];
     pe:uses
       _:step1,
-      _:step170,
-      _:step25,
-      _:step26.
+      <<(:r9c3 :position 75)>>,
+      <<(:digit7 :char "7")>>,
+      <<(:digit7 :digitValue 7)>>.
 
-  _:step170
-    rdf:reifies <<( :r9c3 :position 75 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 94.
-
-  _:step171
-    rdf:reifies <<( :r9c4 :value 2 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step77
+    rdf:reifies <<(:r9c4 :value 2)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r9c4 ],
       [ pe:var "digit"; pe:value :digit2 ],
@@ -1853,19 +1306,13 @@ DATA {
       [ pe:var "value"; pe:value 2 ];
     pe:uses
       _:step1,
-      _:step172,
-      _:step13,
-      _:step14.
+      <<(:r9c4 :position 76)>>,
+      <<(:digit2 :char "2")>>,
+      <<(:digit2 :digitValue 2)>>.
 
-  _:step172
-    rdf:reifies <<( :r9c4 :position 76 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 95.
-
-  _:step173
-    rdf:reifies <<( :r9c5 :value 6 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step78
+    rdf:reifies <<(:r9c5 :value 6)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r9c5 ],
       [ pe:var "digit"; pe:value :digit6 ],
@@ -1875,19 +1322,13 @@ DATA {
       [ pe:var "value"; pe:value 6 ];
     pe:uses
       _:step1,
-      _:step174,
-      _:step9,
-      _:step10.
+      <<(:r9c5 :position 77)>>,
+      <<(:digit6 :char "6")>>,
+      <<(:digit6 :digitValue 6)>>.
 
-  _:step174
-    rdf:reifies <<( :r9c5 :position 77 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 96.
-
-  _:step175
-    rdf:reifies <<( :r9c6 :value 1 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step79
+    rdf:reifies <<(:r9c6 :value 1)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r9c6 ],
       [ pe:var "digit"; pe:value :digit1 ],
@@ -1897,19 +1338,13 @@ DATA {
       [ pe:var "value"; pe:value 1 ];
     pe:uses
       _:step1,
-      _:step176,
-      _:step5,
-      _:step6.
+      <<(:r9c6 :position 78)>>,
+      <<(:digit1 :char "1")>>,
+      <<(:digit1 :digitValue 1)>>.
 
-  _:step176
-    rdf:reifies <<( :r9c6 :position 78 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 97.
-
-  _:step177
-    rdf:reifies <<( :r9c7 :value 3 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step80
+    rdf:reifies <<(:r9c7 :value 3)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r9c7 ],
       [ pe:var "digit"; pe:value :digit3 ],
@@ -1919,19 +1354,13 @@ DATA {
       [ pe:var "value"; pe:value 3 ];
     pe:uses
       _:step1,
-      _:step178,
-      _:step37,
-      _:step38.
+      <<(:r9c7 :position 79)>>,
+      <<(:digit3 :char "3")>>,
+      <<(:digit3 :digitValue 3)>>.
 
-  _:step178
-    rdf:reifies <<( :r9c7 :position 79 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 98.
-
-  _:step179
-    rdf:reifies <<( :r9c8 :value 5 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step81
+    rdf:reifies <<(:r9c8 :value 5)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r9c8 ],
       [ pe:var "digit"; pe:value :digit5 ],
@@ -1941,19 +1370,13 @@ DATA {
       [ pe:var "value"; pe:value 5 ];
     pe:uses
       _:step1,
-      _:step180,
-      _:step21,
-      _:step22.
+      <<(:r9c8 :position 80)>>,
+      <<(:digit5 :char "5")>>,
+      <<(:digit5 :digitValue 5)>>.
 
-  _:step180
-    rdf:reifies <<( :r9c8 :position 80 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 99.
-
-  _:step181
-    rdf:reifies <<( :r9c9 :value 4 )>>;
-    pe:rule "sudoku.srl";
-    pe:line 110;
+  _:step82
+    rdf:reifies <<(:r9c9 :value 4)>>;
+    pe:rule "rule#2";
     pe:binding
       [ pe:var "cell"; pe:value :r9c9 ],
       [ pe:var "digit"; pe:value :digit4 ],
@@ -1963,12 +1386,7 @@ DATA {
       [ pe:var "value"; pe:value 4 ];
     pe:uses
       _:step1,
-      _:step182,
-      _:step29,
-      _:step30.
-
-  _:step182
-    rdf:reifies <<( :r9c9 :position 81 )>>;
-    pe:fact "sudoku.srl";
-    pe:line 100.
+      <<(:r9c9 :position 81)>>,
+      <<(:digit4 :char "4")>>,
+      <<(:digit4 :digitValue 4)>>.
 }

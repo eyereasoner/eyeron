@@ -6,9 +6,8 @@ DATA {
   :alice :mustHave :dogLicense .
 
   _:step1
-    rdf:reifies <<( :alice :mustHave :dogLicense )>>;
-    pe:rule "dog-license.srl";
-    pe:line 13;
+    rdf:reifies <<(:alice :mustHave :dogLicense)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "d1"; pe:value :dog1 ],
       [ pe:var "d2"; pe:value :dog2 ],
@@ -17,34 +16,9 @@ DATA {
       [ pe:var "d5"; pe:value :dog5 ],
       [ pe:var "person"; pe:value :alice ];
     pe:uses
-      _:step2,
-      _:step3,
-      _:step4,
-      _:step5,
-      _:step6.
-
-  _:step2
-    rdf:reifies <<( :alice :hasDog :dog1 )>>;
-    pe:fact "dog-license.srl";
-    pe:line 9.
-
-  _:step3
-    rdf:reifies <<( :alice :hasDog :dog2 )>>;
-    pe:fact "dog-license.srl";
-    pe:line 9.
-
-  _:step4
-    rdf:reifies <<( :alice :hasDog :dog3 )>>;
-    pe:fact "dog-license.srl";
-    pe:line 9.
-
-  _:step5
-    rdf:reifies <<( :alice :hasDog :dog4 )>>;
-    pe:fact "dog-license.srl";
-    pe:line 9.
-
-  _:step6
-    rdf:reifies <<( :alice :hasDog :dog5 )>>;
-    pe:fact "dog-license.srl";
-    pe:line 9.
+      <<(:alice :hasDog :dog1)>>,
+      <<(:alice :hasDog :dog2)>>,
+      <<(:alice :hasDog :dog3)>>,
+      <<(:alice :hasDog :dog4)>>,
+      <<(:alice :hasDog :dog5)>>.
 }

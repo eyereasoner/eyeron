@@ -52,384 +52,320 @@ DATA {
   :w_x_j_i :witnessZ :i .
 
   _:step1
-    rdf:reifies <<( :m_x_e :mulA :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_x_e :mulA :x)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "a"; pe:value :x ],
       [ pe:var "m"; pe:value :m_x_e ];
-    pe:uses _:step2.
+    pe:uses <<(:x :inG true)>>.
 
   _:step2
-    rdf:reifies <<( :x :inG true )>>;
-    pe:fact "group-inverse-uniqueness.srl";
-    pe:line 15.
+    rdf:reifies <<(:m_x_e :mulB :e)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "a"; pe:value :x ],
+      [ pe:var "m"; pe:value :m_x_e ];
+    pe:uses <<(:x :inG true)>>.
 
   _:step3
-    rdf:reifies <<( :m_x_e :mulB :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_x_e :mulC :x)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "a"; pe:value :x ],
       [ pe:var "m"; pe:value :m_x_e ];
-    pe:uses _:step2.
+    pe:uses <<(:x :inG true)>>.
 
   _:step4
-    rdf:reifies <<( :m_x_e :mulC :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_i_e :mulA :i)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "a"; pe:value :x ],
-      [ pe:var "m"; pe:value :m_x_e ];
-    pe:uses _:step2.
+      [ pe:var "a"; pe:value :i ],
+      [ pe:var "m"; pe:value :m_i_e ];
+    pe:uses <<(:i :inG true)>>.
 
   _:step5
-    rdf:reifies <<( :m_i_e :mulA :i )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_i_e :mulB :e)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "a"; pe:value :i ],
       [ pe:var "m"; pe:value :m_i_e ];
-    pe:uses _:step6.
+    pe:uses <<(:i :inG true)>>.
 
   _:step6
-    rdf:reifies <<( :i :inG true )>>;
-    pe:fact "group-inverse-uniqueness.srl";
-    pe:line 15.
+    rdf:reifies <<(:m_i_e :mulC :i)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "a"; pe:value :i ],
+      [ pe:var "m"; pe:value :m_i_e ];
+    pe:uses <<(:i :inG true)>>.
 
   _:step7
-    rdf:reifies <<( :m_i_e :mulB :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_j_e :mulA :j)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "a"; pe:value :i ],
-      [ pe:var "m"; pe:value :m_i_e ];
-    pe:uses _:step6.
+      [ pe:var "a"; pe:value :j ],
+      [ pe:var "m"; pe:value :m_j_e ];
+    pe:uses <<(:j :inG true)>>.
 
   _:step8
-    rdf:reifies <<( :m_i_e :mulC :i )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_j_e :mulB :e)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "a"; pe:value :i ],
-      [ pe:var "m"; pe:value :m_i_e ];
-    pe:uses _:step6.
+      [ pe:var "a"; pe:value :j ],
+      [ pe:var "m"; pe:value :m_j_e ];
+    pe:uses <<(:j :inG true)>>.
 
   _:step9
-    rdf:reifies <<( :m_j_e :mulA :j )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_j_e :mulC :j)>>;
+    pe:rule "rule#1";
     pe:binding
       [ pe:var "a"; pe:value :j ],
       [ pe:var "m"; pe:value :m_j_e ];
-    pe:uses _:step10.
+    pe:uses <<(:j :inG true)>>.
 
   _:step10
-    rdf:reifies <<( :j :inG true )>>;
-    pe:fact "group-inverse-uniqueness.srl";
-    pe:line 15.
+    rdf:reifies <<(:m_e_e :mulA :e)>>;
+    pe:rule "rule#1";
+    pe:binding
+      [ pe:var "a"; pe:value :e ],
+      [ pe:var "m"; pe:value :m_e_e ];
+    pe:uses <<(:e :inG true)>>.
 
   _:step11
-    rdf:reifies <<( :m_j_e :mulB :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_e_e :mulB :e)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "a"; pe:value :j ],
-      [ pe:var "m"; pe:value :m_j_e ];
-    pe:uses _:step10.
+      [ pe:var "a"; pe:value :e ],
+      [ pe:var "m"; pe:value :m_e_e ];
+    pe:uses <<(:e :inG true)>>.
 
   _:step12
-    rdf:reifies <<( :m_j_e :mulC :j )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_e_e :mulC :e)>>;
+    pe:rule "rule#1";
     pe:binding
-      [ pe:var "a"; pe:value :j ],
-      [ pe:var "m"; pe:value :m_j_e ];
-    pe:uses _:step10.
+      [ pe:var "a"; pe:value :e ],
+      [ pe:var "m"; pe:value :m_e_e ];
+    pe:uses <<(:e :inG true)>>.
 
   _:step13
-    rdf:reifies <<( :m_e_e :mulA :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_e_x :mulA :e)>>;
+    pe:rule "rule#2";
     pe:binding
-      [ pe:var "a"; pe:value :e ],
-      [ pe:var "m"; pe:value :m_e_e ];
-    pe:uses _:step14.
+      [ pe:var "a"; pe:value :x ],
+      [ pe:var "m"; pe:value :m_e_x ];
+    pe:uses <<(:x :inG true)>>.
 
   _:step14
-    rdf:reifies <<( :e :inG true )>>;
-    pe:fact "group-inverse-uniqueness.srl";
-    pe:line 15.
+    rdf:reifies <<(:m_e_x :mulB :x)>>;
+    pe:rule "rule#2";
+    pe:binding
+      [ pe:var "a"; pe:value :x ],
+      [ pe:var "m"; pe:value :m_e_x ];
+    pe:uses <<(:x :inG true)>>.
 
   _:step15
-    rdf:reifies <<( :m_e_e :mulB :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_e_x :mulC :x)>>;
+    pe:rule "rule#2";
     pe:binding
-      [ pe:var "a"; pe:value :e ],
-      [ pe:var "m"; pe:value :m_e_e ];
-    pe:uses _:step14.
+      [ pe:var "a"; pe:value :x ],
+      [ pe:var "m"; pe:value :m_e_x ];
+    pe:uses <<(:x :inG true)>>.
 
   _:step16
-    rdf:reifies <<( :m_e_e :mulC :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 20;
+    rdf:reifies <<(:m_e_i :mulA :e)>>;
+    pe:rule "rule#2";
     pe:binding
-      [ pe:var "a"; pe:value :e ],
-      [ pe:var "m"; pe:value :m_e_e ];
-    pe:uses _:step14.
+      [ pe:var "a"; pe:value :i ],
+      [ pe:var "m"; pe:value :m_e_i ];
+    pe:uses <<(:i :inG true)>>.
 
   _:step17
-    rdf:reifies <<( :m_e_x :mulA :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 21;
+    rdf:reifies <<(:m_e_i :mulB :i)>>;
+    pe:rule "rule#2";
     pe:binding
-      [ pe:var "a"; pe:value :x ],
-      [ pe:var "m"; pe:value :m_e_x ];
-    pe:uses _:step2.
+      [ pe:var "a"; pe:value :i ],
+      [ pe:var "m"; pe:value :m_e_i ];
+    pe:uses <<(:i :inG true)>>.
 
   _:step18
-    rdf:reifies <<( :m_e_x :mulB :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 21;
+    rdf:reifies <<(:m_e_i :mulC :i)>>;
+    pe:rule "rule#2";
     pe:binding
-      [ pe:var "a"; pe:value :x ],
-      [ pe:var "m"; pe:value :m_e_x ];
-    pe:uses _:step2.
+      [ pe:var "a"; pe:value :i ],
+      [ pe:var "m"; pe:value :m_e_i ];
+    pe:uses <<(:i :inG true)>>.
 
   _:step19
-    rdf:reifies <<( :m_e_x :mulC :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 21;
+    rdf:reifies <<(:m_e_j :mulA :e)>>;
+    pe:rule "rule#2";
     pe:binding
-      [ pe:var "a"; pe:value :x ],
-      [ pe:var "m"; pe:value :m_e_x ];
-    pe:uses _:step2.
+      [ pe:var "a"; pe:value :j ],
+      [ pe:var "m"; pe:value :m_e_j ];
+    pe:uses <<(:j :inG true)>>.
 
   _:step20
-    rdf:reifies <<( :m_e_i :mulA :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 21;
+    rdf:reifies <<(:m_e_j :mulB :j)>>;
+    pe:rule "rule#2";
     pe:binding
-      [ pe:var "a"; pe:value :i ],
-      [ pe:var "m"; pe:value :m_e_i ];
-    pe:uses _:step6.
+      [ pe:var "a"; pe:value :j ],
+      [ pe:var "m"; pe:value :m_e_j ];
+    pe:uses <<(:j :inG true)>>.
 
   _:step21
-    rdf:reifies <<( :m_e_i :mulB :i )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 21;
+    rdf:reifies <<(:m_e_j :mulC :j)>>;
+    pe:rule "rule#2";
     pe:binding
-      [ pe:var "a"; pe:value :i ],
-      [ pe:var "m"; pe:value :m_e_i ];
-    pe:uses _:step6.
+      [ pe:var "a"; pe:value :j ],
+      [ pe:var "m"; pe:value :m_e_j ];
+    pe:uses <<(:j :inG true)>>.
 
   _:step22
-    rdf:reifies <<( :m_e_i :mulC :i )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 21;
+    rdf:reifies <<(:m_x_i :mulA :x)>>;
+    pe:rule "rule#3";
     pe:binding
-      [ pe:var "a"; pe:value :i ],
-      [ pe:var "m"; pe:value :m_e_i ];
-    pe:uses _:step6.
+      [ pe:var "m"; pe:value :m_x_i ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :i ];
+    pe:uses
+      <<(:x :inG true)>>,
+      <<(:i :inG true)>>,
+      <<(:i :inverseOf :x)>>.
 
   _:step23
-    rdf:reifies <<( :m_e_j :mulA :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 21;
+    rdf:reifies <<(:m_x_i :mulB :i)>>;
+    pe:rule "rule#3";
     pe:binding
-      [ pe:var "a"; pe:value :j ],
-      [ pe:var "m"; pe:value :m_e_j ];
-    pe:uses _:step10.
+      [ pe:var "m"; pe:value :m_x_i ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :i ];
+    pe:uses
+      <<(:x :inG true)>>,
+      <<(:i :inG true)>>,
+      <<(:i :inverseOf :x)>>.
 
   _:step24
-    rdf:reifies <<( :m_e_j :mulB :j )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 21;
+    rdf:reifies <<(:m_x_i :mulC :e)>>;
+    pe:rule "rule#3";
     pe:binding
-      [ pe:var "a"; pe:value :j ],
-      [ pe:var "m"; pe:value :m_e_j ];
-    pe:uses _:step10.
+      [ pe:var "m"; pe:value :m_x_i ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :i ];
+    pe:uses
+      <<(:x :inG true)>>,
+      <<(:i :inG true)>>,
+      <<(:i :inverseOf :x)>>.
 
   _:step25
-    rdf:reifies <<( :m_e_j :mulC :j )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 21;
+    rdf:reifies <<(:m_x_j :mulA :x)>>;
+    pe:rule "rule#3";
     pe:binding
-      [ pe:var "a"; pe:value :j ],
-      [ pe:var "m"; pe:value :m_e_j ];
-    pe:uses _:step10.
+      [ pe:var "m"; pe:value :m_x_j ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :j ];
+    pe:uses
+      <<(:x :inG true)>>,
+      <<(:j :inG true)>>,
+      <<(:j :inverseOf :x)>>.
 
   _:step26
-    rdf:reifies <<( :m_x_i :mulA :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 22;
+    rdf:reifies <<(:m_x_j :mulB :j)>>;
+    pe:rule "rule#3";
     pe:binding
-      [ pe:var "m"; pe:value :m_x_i ],
+      [ pe:var "m"; pe:value :m_x_j ],
       [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
+      [ pe:var "y"; pe:value :j ];
     pe:uses
-      _:step2,
-      _:step6,
-      _:step27.
+      <<(:x :inG true)>>,
+      <<(:j :inG true)>>,
+      <<(:j :inverseOf :x)>>.
 
   _:step27
-    rdf:reifies <<( :i :inverseOf :x )>>;
-    pe:fact "group-inverse-uniqueness.srl";
-    pe:line 16.
+    rdf:reifies <<(:m_x_j :mulC :e)>>;
+    pe:rule "rule#3";
+    pe:binding
+      [ pe:var "m"; pe:value :m_x_j ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :j ];
+    pe:uses
+      <<(:x :inG true)>>,
+      <<(:j :inG true)>>,
+      <<(:j :inverseOf :x)>>.
 
   _:step28
-    rdf:reifies <<( :m_x_i :mulB :i )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 22;
+    rdf:reifies <<(:m_i_x :mulA :i)>>;
+    pe:rule "rule#4";
     pe:binding
-      [ pe:var "m"; pe:value :m_x_i ],
+      [ pe:var "m"; pe:value :m_i_x ],
       [ pe:var "x"; pe:value :x ],
       [ pe:var "y"; pe:value :i ];
     pe:uses
-      _:step2,
-      _:step6,
-      _:step27.
+      <<(:x :inG true)>>,
+      <<(:i :inG true)>>,
+      <<(:i :inverseOf :x)>>.
 
   _:step29
-    rdf:reifies <<( :m_x_i :mulC :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 22;
+    rdf:reifies <<(:m_i_x :mulB :x)>>;
+    pe:rule "rule#4";
     pe:binding
-      [ pe:var "m"; pe:value :m_x_i ],
+      [ pe:var "m"; pe:value :m_i_x ],
       [ pe:var "x"; pe:value :x ],
       [ pe:var "y"; pe:value :i ];
     pe:uses
-      _:step2,
-      _:step6,
-      _:step27.
+      <<(:x :inG true)>>,
+      <<(:i :inG true)>>,
+      <<(:i :inverseOf :x)>>.
 
   _:step30
-    rdf:reifies <<( :m_x_j :mulA :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 22;
+    rdf:reifies <<(:m_i_x :mulC :e)>>;
+    pe:rule "rule#4";
     pe:binding
-      [ pe:var "m"; pe:value :m_x_j ],
+      [ pe:var "m"; pe:value :m_i_x ],
       [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
+      [ pe:var "y"; pe:value :i ];
     pe:uses
-      _:step2,
-      _:step10,
-      _:step31.
+      <<(:x :inG true)>>,
+      <<(:i :inG true)>>,
+      <<(:i :inverseOf :x)>>.
 
   _:step31
-    rdf:reifies <<( :j :inverseOf :x )>>;
-    pe:fact "group-inverse-uniqueness.srl";
-    pe:line 17.
+    rdf:reifies <<(:m_j_x :mulA :j)>>;
+    pe:rule "rule#4";
+    pe:binding
+      [ pe:var "m"; pe:value :m_j_x ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :j ];
+    pe:uses
+      <<(:x :inG true)>>,
+      <<(:j :inG true)>>,
+      <<(:j :inverseOf :x)>>.
 
   _:step32
-    rdf:reifies <<( :m_x_j :mulB :j )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 22;
+    rdf:reifies <<(:m_j_x :mulB :x)>>;
+    pe:rule "rule#4";
     pe:binding
-      [ pe:var "m"; pe:value :m_x_j ],
+      [ pe:var "m"; pe:value :m_j_x ],
       [ pe:var "x"; pe:value :x ],
       [ pe:var "y"; pe:value :j ];
     pe:uses
-      _:step2,
-      _:step10,
-      _:step31.
+      <<(:x :inG true)>>,
+      <<(:j :inG true)>>,
+      <<(:j :inverseOf :x)>>.
 
   _:step33
-    rdf:reifies <<( :m_x_j :mulC :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 22;
+    rdf:reifies <<(:m_j_x :mulC :e)>>;
+    pe:rule "rule#4";
     pe:binding
-      [ pe:var "m"; pe:value :m_x_j ],
+      [ pe:var "m"; pe:value :m_j_x ],
       [ pe:var "x"; pe:value :x ],
       [ pe:var "y"; pe:value :j ];
     pe:uses
-      _:step2,
-      _:step10,
-      _:step31.
+      <<(:x :inG true)>>,
+      <<(:j :inG true)>>,
+      <<(:j :inverseOf :x)>>.
 
   _:step34
-    rdf:reifies <<( :m_i_x :mulA :i )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 23;
-    pe:binding
-      [ pe:var "m"; pe:value :m_i_x ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      _:step2,
-      _:step6,
-      _:step27.
-
-  _:step35
-    rdf:reifies <<( :m_i_x :mulB :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 23;
-    pe:binding
-      [ pe:var "m"; pe:value :m_i_x ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      _:step2,
-      _:step6,
-      _:step27.
-
-  _:step36
-    rdf:reifies <<( :m_i_x :mulC :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 23;
-    pe:binding
-      [ pe:var "m"; pe:value :m_i_x ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      _:step2,
-      _:step6,
-      _:step27.
-
-  _:step37
-    rdf:reifies <<( :m_j_x :mulA :j )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 23;
-    pe:binding
-      [ pe:var "m"; pe:value :m_j_x ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      _:step2,
-      _:step10,
-      _:step31.
-
-  _:step38
-    rdf:reifies <<( :m_j_x :mulB :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 23;
-    pe:binding
-      [ pe:var "m"; pe:value :m_j_x ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      _:step2,
-      _:step10,
-      _:step31.
-
-  _:step39
-    rdf:reifies <<( :m_j_x :mulC :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 23;
-    pe:binding
-      [ pe:var "m"; pe:value :m_j_x ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      _:step2,
-      _:step10,
-      _:step31.
-
-  _:step40
-    rdf:reifies <<( :x :sameTerm :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 25;
+    rdf:reifies <<(:x :sameTerm :x)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "a"; pe:value :x ],
       [ pe:var "ab"; pe:value :x ],
@@ -444,22 +380,21 @@ DATA {
       [ pe:var "right"; pe:value :x ];
     pe:uses
       _:step1,
+      _:step2,
       _:step3,
-      _:step4,
       _:step1,
+      _:step2,
       _:step3,
-      _:step4,
-      _:step13,
-      _:step15,
-      _:step16,
+      _:step10,
+      _:step11,
+      _:step12,
       _:step1,
-      _:step3,
-      _:step4.
+      _:step2,
+      _:step3.
 
-  _:step41
-    rdf:reifies <<( :e :sameTerm :e )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 25;
+  _:step35
+    rdf:reifies <<(:e :sameTerm :e)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "a"; pe:value :x ],
       [ pe:var "ab"; pe:value :x ],
@@ -474,22 +409,21 @@ DATA {
       [ pe:var "right"; pe:value :e ];
     pe:uses
       _:step1,
+      _:step2,
       _:step3,
-      _:step4,
-      _:step26,
-      _:step28,
-      _:step29,
-      _:step20,
-      _:step21,
       _:step22,
-      _:step26,
-      _:step28,
-      _:step29.
+      _:step23,
+      _:step24,
+      _:step16,
+      _:step17,
+      _:step18,
+      _:step22,
+      _:step23,
+      _:step24.
 
-  _:step42
-    rdf:reifies <<( :i :sameTerm :i )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 25;
+  _:step36
+    rdf:reifies <<(:i :sameTerm :i)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "a"; pe:value :i ],
       [ pe:var "ab"; pe:value :i ],
@@ -503,23 +437,22 @@ DATA {
       [ pe:var "left"; pe:value :i ],
       [ pe:var "right"; pe:value :i ];
     pe:uses
+      _:step4,
       _:step5,
-      _:step7,
-      _:step8,
+      _:step6,
+      _:step4,
       _:step5,
-      _:step7,
-      _:step8,
-      _:step13,
-      _:step15,
-      _:step16,
+      _:step6,
+      _:step10,
+      _:step11,
+      _:step12,
+      _:step4,
       _:step5,
-      _:step7,
-      _:step8.
+      _:step6.
 
-  _:step43
-    rdf:reifies <<( :j :sameTerm :j )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 25;
+  _:step37
+    rdf:reifies <<(:j :sameTerm :j)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "a"; pe:value :j ],
       [ pe:var "ab"; pe:value :j ],
@@ -533,23 +466,22 @@ DATA {
       [ pe:var "left"; pe:value :j ],
       [ pe:var "right"; pe:value :j ];
     pe:uses
+      _:step7,
+      _:step8,
       _:step9,
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
       _:step11,
       _:step12,
-      _:step9,
-      _:step11,
-      _:step12,
-      _:step13,
-      _:step15,
-      _:step16,
-      _:step9,
-      _:step11,
-      _:step12.
+      _:step7,
+      _:step8,
+      _:step9.
 
-  _:step44
-    rdf:reifies <<( :j :sameTerm :i )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 25;
+  _:step38
+    rdf:reifies <<(:j :sameTerm :i)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "a"; pe:value :i ],
       [ pe:var "ab"; pe:value :e ],
@@ -563,23 +495,22 @@ DATA {
       [ pe:var "left"; pe:value :j ],
       [ pe:var "right"; pe:value :i ];
     pe:uses
-      _:step34,
-      _:step35,
-      _:step36,
-      _:step23,
-      _:step24,
-      _:step25,
+      _:step28,
+      _:step29,
       _:step30,
-      _:step32,
-      _:step33,
+      _:step19,
+      _:step20,
+      _:step21,
+      _:step25,
+      _:step26,
+      _:step27,
+      _:step4,
       _:step5,
-      _:step7,
-      _:step8.
+      _:step6.
 
-  _:step45
-    rdf:reifies <<( :i :sameTerm :j )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 25;
+  _:step39
+    rdf:reifies <<(:i :sameTerm :j)>>;
+    pe:rule "rule#5";
     pe:binding
       [ pe:var "a"; pe:value :j ],
       [ pe:var "ab"; pe:value :e ],
@@ -593,128 +524,120 @@ DATA {
       [ pe:var "left"; pe:value :i ],
       [ pe:var "right"; pe:value :j ];
     pe:uses
-      _:step37,
-      _:step38,
-      _:step39,
-      _:step20,
-      _:step21,
+      _:step31,
+      _:step32,
+      _:step33,
+      _:step16,
+      _:step17,
+      _:step18,
       _:step22,
-      _:step26,
-      _:step28,
-      _:step29,
-      _:step9,
-      _:step11,
-      _:step12.
+      _:step23,
+      _:step24,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step40
+    rdf:reifies <<(:w_x_i_j a :SameInverseWitness)>>;
+    pe:rule "rule#7";
+    pe:binding
+      [ pe:var "w"; pe:value :w_x_i_j ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :i ],
+      [ pe:var "z"; pe:value :j ];
+    pe:uses
+      <<(:i :inverseOf :x)>>,
+      <<(:j :inverseOf :x)>>,
+      _:step39.
+
+  _:step41
+    rdf:reifies <<(:w_x_i_j :witnessX :x)>>;
+    pe:rule "rule#7";
+    pe:binding
+      [ pe:var "w"; pe:value :w_x_i_j ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :i ],
+      [ pe:var "z"; pe:value :j ];
+    pe:uses
+      <<(:i :inverseOf :x)>>,
+      <<(:j :inverseOf :x)>>,
+      _:step39.
+
+  _:step42
+    rdf:reifies <<(:w_x_i_j :witnessY :i)>>;
+    pe:rule "rule#7";
+    pe:binding
+      [ pe:var "w"; pe:value :w_x_i_j ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :i ],
+      [ pe:var "z"; pe:value :j ];
+    pe:uses
+      <<(:i :inverseOf :x)>>,
+      <<(:j :inverseOf :x)>>,
+      _:step39.
+
+  _:step43
+    rdf:reifies <<(:w_x_i_j :witnessZ :j)>>;
+    pe:rule "rule#7";
+    pe:binding
+      [ pe:var "w"; pe:value :w_x_i_j ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :i ],
+      [ pe:var "z"; pe:value :j ];
+    pe:uses
+      <<(:i :inverseOf :x)>>,
+      <<(:j :inverseOf :x)>>,
+      _:step39.
+
+  _:step44
+    rdf:reifies <<(:w_x_j_i a :SameInverseWitness)>>;
+    pe:rule "rule#7";
+    pe:binding
+      [ pe:var "w"; pe:value :w_x_j_i ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :j ],
+      [ pe:var "z"; pe:value :i ];
+    pe:uses
+      <<(:j :inverseOf :x)>>,
+      <<(:i :inverseOf :x)>>,
+      _:step38.
+
+  _:step45
+    rdf:reifies <<(:w_x_j_i :witnessX :x)>>;
+    pe:rule "rule#7";
+    pe:binding
+      [ pe:var "w"; pe:value :w_x_j_i ],
+      [ pe:var "x"; pe:value :x ],
+      [ pe:var "y"; pe:value :j ],
+      [ pe:var "z"; pe:value :i ];
+    pe:uses
+      <<(:j :inverseOf :x)>>,
+      <<(:i :inverseOf :x)>>,
+      _:step38.
 
   _:step46
-    rdf:reifies <<( :w_x_i_j a :SameInverseWitness )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 34;
+    rdf:reifies <<(:w_x_j_i :witnessY :j)>>;
+    pe:rule "rule#7";
     pe:binding
-      [ pe:var "w"; pe:value :w_x_i_j ],
+      [ pe:var "w"; pe:value :w_x_j_i ],
       [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ],
-      [ pe:var "z"; pe:value :j ];
+      [ pe:var "y"; pe:value :j ],
+      [ pe:var "z"; pe:value :i ];
     pe:uses
-      _:step27,
-      _:step31,
-      _:step45.
+      <<(:j :inverseOf :x)>>,
+      <<(:i :inverseOf :x)>>,
+      _:step38.
 
   _:step47
-    rdf:reifies <<( :w_x_i_j :witnessX :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 34;
-    pe:binding
-      [ pe:var "w"; pe:value :w_x_i_j ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ],
-      [ pe:var "z"; pe:value :j ];
-    pe:uses
-      _:step27,
-      _:step31,
-      _:step45.
-
-  _:step48
-    rdf:reifies <<( :w_x_i_j :witnessY :i )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 34;
-    pe:binding
-      [ pe:var "w"; pe:value :w_x_i_j ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ],
-      [ pe:var "z"; pe:value :j ];
-    pe:uses
-      _:step27,
-      _:step31,
-      _:step45.
-
-  _:step49
-    rdf:reifies <<( :w_x_i_j :witnessZ :j )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 34;
-    pe:binding
-      [ pe:var "w"; pe:value :w_x_i_j ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ],
-      [ pe:var "z"; pe:value :j ];
-    pe:uses
-      _:step27,
-      _:step31,
-      _:step45.
-
-  _:step50
-    rdf:reifies <<( :w_x_j_i a :SameInverseWitness )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 34;
+    rdf:reifies <<(:w_x_j_i :witnessZ :i)>>;
+    pe:rule "rule#7";
     pe:binding
       [ pe:var "w"; pe:value :w_x_j_i ],
       [ pe:var "x"; pe:value :x ],
       [ pe:var "y"; pe:value :j ],
       [ pe:var "z"; pe:value :i ];
     pe:uses
-      _:step31,
-      _:step27,
-      _:step44.
-
-  _:step51
-    rdf:reifies <<( :w_x_j_i :witnessX :x )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 34;
-    pe:binding
-      [ pe:var "w"; pe:value :w_x_j_i ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ],
-      [ pe:var "z"; pe:value :i ];
-    pe:uses
-      _:step31,
-      _:step27,
-      _:step44.
-
-  _:step52
-    rdf:reifies <<( :w_x_j_i :witnessY :j )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 34;
-    pe:binding
-      [ pe:var "w"; pe:value :w_x_j_i ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ],
-      [ pe:var "z"; pe:value :i ];
-    pe:uses
-      _:step31,
-      _:step27,
-      _:step44.
-
-  _:step53
-    rdf:reifies <<( :w_x_j_i :witnessZ :i )>>;
-    pe:rule "group-inverse-uniqueness.srl";
-    pe:line 34;
-    pe:binding
-      [ pe:var "w"; pe:value :w_x_j_i ],
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ],
-      [ pe:var "z"; pe:value :i ];
-    pe:uses
-      _:step31,
-      _:step27,
-      _:step44.
+      <<(:j :inverseOf :x)>>,
+      <<(:i :inverseOf :x)>>,
+      _:step38.
 }
