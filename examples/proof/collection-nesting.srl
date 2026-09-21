@@ -1,0 +1,72 @@
+PREFIX : <http://example/eyeling/collection/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :test :first 1 .
+  :test :second _:b3 .
+  :test :secondProperty :q .
+  :test :thirdFirst 2 .
+
+  _:step1
+    rdf:reifies <<( :test :first 1 )>>;
+    pe:rule "collection-nesting.srl";
+    pe:line 11;
+    pe:binding [ pe:var "first"; pe:value 1 ];
+    pe:uses
+      <<( ?__path_s_0 :nested ?__path_o_0 )>>,
+      <<( ?__path_s_1 rdf:first ?__path_o_1 )>>.
+
+  _:step2
+    rdf:reifies <<( :root :nested _:b1 )>>;
+    pe:fact "collection-nesting.srl";
+    pe:line 8.
+
+  _:step3
+    rdf:reifies <<( _:b1 rdf:first 1 )>>;
+    pe:fact "collection-nesting.srl";
+    pe:line 8.
+
+  _:step4
+    rdf:reifies <<( :test :second _:b3 )>>;
+    pe:rule "collection-nesting.srl";
+    pe:line 14;
+    pe:binding [ pe:var "second"; pe:value _:b3 ];
+    pe:uses
+      <<( ?__path_s_0 :nested ?__path_o_0 )>>,
+      <<( ?__path_s_1 rdf:rest ?__path_o_1 )>>,
+      <<( ?__path_s_2 rdf:first ?__path_o_2 )>>.
+
+  _:step5
+    rdf:reifies <<( _:b1 rdf:rest _:b2 )>>;
+    pe:fact "collection-nesting.srl";
+    pe:line 8.
+
+  _:step6
+    rdf:reifies <<( :test :secondProperty :q )>>;
+    pe:rule "collection-nesting.srl";
+    pe:line 17;
+    pe:binding [ pe:var "object"; pe:value :q ];
+    pe:uses
+      <<( ?__path_s_0 :nested ?__path_o_0 )>>,
+      <<( ?__path_s_1 rdf:rest ?__path_o_1 )>>,
+      <<( ?__path_s_2 rdf:first ?__path_o_2 )>>,
+      <<( ?__path_s_3 :p ?__path_o_3 )>>.
+
+  _:step7
+    rdf:reifies <<( _:b3 :p :q )>>;
+    pe:fact "collection-nesting.srl";
+    pe:line 8.
+
+  _:step8
+    rdf:reifies <<( :test :thirdFirst 2 )>>;
+    pe:rule "collection-nesting.srl";
+    pe:line 20;
+    pe:binding [ pe:var "item"; pe:value 2 ];
+    pe:uses
+      <<( ?__path_s_0 :nested ?__path_o_0 )>>,
+      <<( ?__path_s_1 rdf:rest ?__path_o_1 )>>,
+      <<( ?__path_s_2 rdf:rest ?__path_o_2 )>>,
+      <<( ?__path_s_3 rdf:first ?__path_o_3 )>>,
+      <<( ?__path_s_4 rdf:first ?__path_o_4 )>>.
+}

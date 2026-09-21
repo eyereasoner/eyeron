@@ -1,0 +1,137 @@
+@prefix : <http://example/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:summary :absolute 3.7 .
+:summary :root 3.0 .
+:summary :count 3 .
+:summary :sorted (-3.7 2 7) .
+
+{ :summary :absolute 3.7 . } pe:why {
+  { :summary :absolute 3.7 . }
+    pe:by [ pe:rule "builtin-call-complete.n3"; pe:line 15 ];
+    pe:binding
+      [ pe:var "absolute"; pe:value 3.7 ],
+      [ pe:var "count"; pe:value 3 ],
+      [ pe:var "root"; pe:value 3.0 ],
+      [ pe:var "sorted"; pe:value (-3.7 2 7) ],
+      [ pe:var "values"; pe:value (-3.7 7 2) ];
+    pe:uses
+      { :numbers :values (-3.7 7 2) . },
+      { -3.7 math:absoluteValue 3.7 . },
+      { (9 0.5) math:exponentiation 3.0 . },
+      { (-3.7 7 2) list:length 3 . },
+      { (-3.7 7 2) list:sort (-3.7 2 7) . }.
+
+  { :numbers :values (-3.7 7 2) . }
+    pe:by [ pe:fact "builtin-call-complete.n3"; pe:line 13 ].
+
+  { -3.7 math:absoluteValue 3.7 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { (9 0.5) math:exponentiation 3.0 . }
+    pe:by [ pe:builtin math:exponentiation ].
+
+  { (-3.7 7 2) list:length 3 . }
+    pe:by [ pe:builtin list:length ].
+
+  { (-3.7 7 2) list:sort (-3.7 2 7) . }
+    pe:by [ pe:builtin list:sort ].
+}.
+
+{ :summary :root 3.0 . } pe:why {
+  { :summary :root 3.0 . }
+    pe:by [ pe:rule "builtin-call-complete.n3"; pe:line 15 ];
+    pe:binding
+      [ pe:var "absolute"; pe:value 3.7 ],
+      [ pe:var "count"; pe:value 3 ],
+      [ pe:var "root"; pe:value 3.0 ],
+      [ pe:var "sorted"; pe:value (-3.7 2 7) ],
+      [ pe:var "values"; pe:value (-3.7 7 2) ];
+    pe:uses
+      { :numbers :values (-3.7 7 2) . },
+      { -3.7 math:absoluteValue 3.7 . },
+      { (9 0.5) math:exponentiation 3.0 . },
+      { (-3.7 7 2) list:length 3 . },
+      { (-3.7 7 2) list:sort (-3.7 2 7) . }.
+
+  { :numbers :values (-3.7 7 2) . }
+    pe:by [ pe:fact "builtin-call-complete.n3"; pe:line 13 ].
+
+  { -3.7 math:absoluteValue 3.7 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { (9 0.5) math:exponentiation 3.0 . }
+    pe:by [ pe:builtin math:exponentiation ].
+
+  { (-3.7 7 2) list:length 3 . }
+    pe:by [ pe:builtin list:length ].
+
+  { (-3.7 7 2) list:sort (-3.7 2 7) . }
+    pe:by [ pe:builtin list:sort ].
+}.
+
+{ :summary :count 3 . } pe:why {
+  { :summary :count 3 . }
+    pe:by [ pe:rule "builtin-call-complete.n3"; pe:line 15 ];
+    pe:binding
+      [ pe:var "absolute"; pe:value 3.7 ],
+      [ pe:var "count"; pe:value 3 ],
+      [ pe:var "root"; pe:value 3.0 ],
+      [ pe:var "sorted"; pe:value (-3.7 2 7) ],
+      [ pe:var "values"; pe:value (-3.7 7 2) ];
+    pe:uses
+      { :numbers :values (-3.7 7 2) . },
+      { -3.7 math:absoluteValue 3.7 . },
+      { (9 0.5) math:exponentiation 3.0 . },
+      { (-3.7 7 2) list:length 3 . },
+      { (-3.7 7 2) list:sort (-3.7 2 7) . }.
+
+  { :numbers :values (-3.7 7 2) . }
+    pe:by [ pe:fact "builtin-call-complete.n3"; pe:line 13 ].
+
+  { -3.7 math:absoluteValue 3.7 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { (9 0.5) math:exponentiation 3.0 . }
+    pe:by [ pe:builtin math:exponentiation ].
+
+  { (-3.7 7 2) list:length 3 . }
+    pe:by [ pe:builtin list:length ].
+
+  { (-3.7 7 2) list:sort (-3.7 2 7) . }
+    pe:by [ pe:builtin list:sort ].
+}.
+
+{ :summary :sorted (-3.7 2 7) . } pe:why {
+  { :summary :sorted (-3.7 2 7) . }
+    pe:by [ pe:rule "builtin-call-complete.n3"; pe:line 15 ];
+    pe:binding
+      [ pe:var "absolute"; pe:value 3.7 ],
+      [ pe:var "count"; pe:value 3 ],
+      [ pe:var "root"; pe:value 3.0 ],
+      [ pe:var "sorted"; pe:value (-3.7 2 7) ],
+      [ pe:var "values"; pe:value (-3.7 7 2) ];
+    pe:uses
+      { :numbers :values (-3.7 7 2) . },
+      { -3.7 math:absoluteValue 3.7 . },
+      { (9 0.5) math:exponentiation 3.0 . },
+      { (-3.7 7 2) list:length 3 . },
+      { (-3.7 7 2) list:sort (-3.7 2 7) . }.
+
+  { :numbers :values (-3.7 7 2) . }
+    pe:by [ pe:fact "builtin-call-complete.n3"; pe:line 13 ].
+
+  { -3.7 math:absoluteValue 3.7 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { (9 0.5) math:exponentiation 3.0 . }
+    pe:by [ pe:builtin math:exponentiation ].
+
+  { (-3.7 7 2) list:length 3 . }
+    pe:by [ pe:builtin list:length ].
+
+  { (-3.7 7 2) list:sort (-3.7 2 7) . }
+    pe:by [ pe:builtin list:sort ].
+}.

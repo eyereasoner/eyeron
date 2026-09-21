@@ -61,7 +61,7 @@ pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult)
     parts.join("\n").trim_end().to_string() + "\n"
 }
 
-fn unique_proofs(proofs: &[DerivedFact]) -> Vec<DerivedFact> {
+pub(crate) fn unique_proofs(proofs: &[DerivedFact]) -> Vec<DerivedFact> {
     let mut seen = BTreeSet::<Triple>::new();
     let mut out = Vec::new();
     for proof in proofs {
@@ -73,14 +73,14 @@ fn unique_proofs(proofs: &[DerivedFact]) -> Vec<DerivedFact> {
 }
 
 #[derive(Debug, Clone)]
-enum ProofEntry {
+pub(crate) enum ProofEntry {
     Rule(DerivedFact),
     Fact { fact: Triple, source: Option<SourceRef> },
     Builtin { fact: Triple, builtin: Term },
     Unproven { fact: Triple, reason: String },
 }
 
-fn collect_proof_entries(
+pub(crate) fn collect_proof_entries(
     root: &DerivedFact,
     derived_by_fact: &BTreeMap<Triple, Vec<DerivedFact>>,
     explicit_facts: &BTreeSet<Triple>,
@@ -151,14 +151,24 @@ impl ProofCollector<'_> {
             }
         }
 
-        if let Some(node) = find_backward_proof_for_goal(premise, self.base_facts, self.rules, 64) {
-            self.visit_proof_node(&node);
-            return;
-        }
-
+        // An exact match against an already-ground ambient fact is always
+        // more authoritative than a goal-directed backward search: a
+        // premise's own blank nodes (e.g. from a rule pattern resolved
+        // against this derivation's own bindings) are already fixed
+        // constants here, not free variables to unify afresh, but
+        // `find_backward_proof_for_goal`'s unification treats them as
+        // such and can match a *different*, merely pattern-compatible
+        // explicit fact (e.g. `:root pe:binding _:b1` for a goal of
+        // `:root pe:binding _:b2`) — checking the explicit set first, by
+        // exact triple equality, avoids that misattribution.
         if self.explicit_facts.contains(premise) {
             let source = self.explicit_sources.get(premise).cloned();
             self.remember_entry(ProofEntry::Fact { fact: premise.clone(), source });
+            return;
+        }
+
+        if let Some(node) = find_backward_proof_for_goal(premise, self.base_facts, self.rules, 64) {
+            self.visit_proof_node(&node);
             return;
         }
 
@@ -265,7 +275,7 @@ fn render_binding_items(proof: &DerivedFact, prefixes: &BTreeMap<String, String>
         .collect()
 }
 
-fn render_predicate_objects(predicate: &str, objects: &[String], is_last: bool) -> Vec<String> {
+pub(crate) fn render_predicate_objects(predicate: &str, objects: &[String], is_last: bool) -> Vec<String> {
     let end = if is_last { "." } else { ";" };
     if objects.len() == 1 && !objects[0].contains('\n') {
         return vec![format!("    {} {}{}", predicate, objects[0], end)];
@@ -278,7 +288,7 @@ fn render_predicate_objects(predicate: &str, objects: &[String], is_last: bool) 
     out
 }
 
-fn with_last_line_suffix(text: &str, suffix: &str) -> String {
+pub(crate) fn with_last_line_suffix(text: &str, suffix: &str) -> String {
     let mut lines = text.lines().map(ToOwned::to_owned).collect::<Vec<_>>();
     if let Some(last) = lines.last_mut() { last.push_str(suffix); }
     lines.join("\n")
@@ -304,7 +314,7 @@ fn by_blank_node(kind: &str, source: Option<&SourceRef>) -> String {
     format!("[ {} ]", props.join("; "))
 }
 
-fn source_label_for_proof(label: &str) -> String {
+pub(crate) fn source_label_for_proof(label: &str) -> String {
     Path::new(label)
         .file_name()
         .map(|name| name.to_string_lossy().to_string())
@@ -316,7 +326,7 @@ fn source_key(source: Option<&SourceRef>) -> String {
     source.map(|s| format!("{}:{}", source_label_for_proof(&s.label), s.line)).unwrap_or_else(|| "<unknown>".to_string())
 }
 
-fn vars_in_rule(rule: &Rule) -> BTreeSet<String> {
+pub(crate) fn vars_in_rule(rule: &Rule) -> BTreeSet<String> {
     let mut out = BTreeSet::new();
     for triple in rule.premise.iter().chain(rule.conclusion.iter()) {
         collect_vars_triple(triple, &mut out);
@@ -376,13 +386,13 @@ fn used_prefixes_for_proof(prefixes: &BTreeMap<String, String>, roots: &[(Derive
     used
 }
 
-fn collect_prefixes_triple(triple: &Triple, prefixes: &BTreeMap<String, String>, used: &mut BTreeSet<String>) {
+pub(crate) fn collect_prefixes_triple(triple: &Triple, prefixes: &BTreeMap<String, String>, used: &mut BTreeSet<String>) {
     collect_prefixes_term(&triple.s, prefixes, used);
     collect_prefixes_term(&triple.p, prefixes, used);
     collect_prefixes_term(&triple.o, prefixes, used);
 }
 
-fn collect_prefixes_term(term: &Term, prefixes: &BTreeMap<String, String>, used: &mut BTreeSet<String>) {
+pub(crate) fn collect_prefixes_term(term: &Term, prefixes: &BTreeMap<String, String>, used: &mut BTreeSet<String>) {
     match term {
         Term::Iri(iri) => {
             if let Some(prefix) = best_prefix_for_iri(iri, prefixes) { used.insert(prefix); }
@@ -404,7 +414,7 @@ fn collect_prefixes_term(term: &Term, prefixes: &BTreeMap<String, String>, used:
 }
 
 
-fn datatype_renders_without_prefix(datatype: &str, value: &str) -> bool {
+pub(crate) fn datatype_renders_without_prefix(datatype: &str, value: &str) -> bool {
     matches!(
         datatype,
         "http://www.w3.org/2001/XMLSchema#integer"
@@ -413,7 +423,7 @@ fn datatype_renders_without_prefix(datatype: &str, value: &str) -> bool {
     ) || (datatype == "http://www.w3.org/2001/XMLSchema#boolean" && matches!(value, "true" | "false"))
 }
 
-fn best_prefix_for_iri(iri: &str, prefixes: &BTreeMap<String, String>) -> Option<String> {
+pub(crate) fn best_prefix_for_iri(iri: &str, prefixes: &BTreeMap<String, String>) -> Option<String> {
     let mut best: Option<(&str, &str)> = None;
     for (prefix, base) in prefixes {
         if base.is_empty() || !iri.starts_with(base) { continue; }
@@ -432,11 +442,11 @@ fn triple_key(triple: &Triple) -> String {
     format!("{:?}\t{:?}\t{:?}", triple.s, triple.p, triple.o)
 }
 
-fn indent(text: &str, prefix: &str) -> String {
+pub(crate) fn indent(text: &str, prefix: &str) -> String {
     text.lines().map(|line| if line.is_empty() { String::new() } else { format!("{}{}", prefix, line) }).collect::<Vec<_>>().join("\n")
 }
 
-fn quoted_string(value: &str) -> String {
+pub(crate) fn quoted_string(value: &str) -> String {
     let mut out = String::new();
     out.push('"');
     for ch in value.chars() {

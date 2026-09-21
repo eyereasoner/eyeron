@@ -1,0 +1,305 @@
+PREFIX : <https://example.org/knowledge-engineering-alignment-flow#>
+PREFIX fpv: <https://example.org/fpv#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :msg1 a sosa:Observation .
+  :probe7 a sosa:Sensor .
+  :msg1 sosa:madeBySensor :probe7 .
+  :msg1 sosa:resultTime "2026-06-17T12:34:56Z"^^xsd:dateTime .
+  :msg1 sosa:hasSimpleResult 18.6 .
+  :msg1 fpv:hasFlowStep :ingestStep .
+  :msg1 sosa:hasFeatureOfInterest :platformB .
+  :observedBy fpv:runtimeRule fpv:copyToTarget .
+  :observedBy fpv:targetPredicate sosa:madeBySensor .
+  :observedAt fpv:runtimeRule fpv:copyToTarget .
+  :observedAt fpv:targetPredicate sosa:resultTime .
+  :temperatureCelsius fpv:runtimeRule fpv:copyToTarget .
+  :temperatureCelsius fpv:targetPredicate sosa:hasSimpleResult .
+  :inFlow fpv:runtimeRule fpv:copyToTarget .
+  :inFlow fpv:targetPredicate fpv:hasFlowStep .
+  :observedFeature fpv:runtimeRule fpv:copyToTarget .
+  :observedFeature fpv:targetPredicate sosa:hasFeatureOfInterest .
+  :ingestStep fpv:emits :msg1 .
+  :ingestStep fpv:trustedBy :probe7 .
+
+  _:step1
+    rdf:reifies <<( :msg1 a sosa:Observation )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 33;
+    pe:binding
+      [ pe:var "class"; pe:value :LocalObservation ],
+      [ pe:var "super"; pe:value sosa:Observation ],
+      [ pe:var "thing"; pe:value :msg1 ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :msg1 a :LocalObservation )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 23.
+
+  _:step3
+    rdf:reifies <<( :LocalObservation rdfs:subClassOf sosa:Observation )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 15.
+
+  _:step4
+    rdf:reifies <<( :probe7 a sosa:Sensor )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 33;
+    pe:binding
+      [ pe:var "class"; pe:value :TemperatureProbe ],
+      [ pe:var "super"; pe:value sosa:Sensor ],
+      [ pe:var "thing"; pe:value :probe7 ];
+    pe:uses
+      _:step5,
+      _:step6.
+
+  _:step5
+    rdf:reifies <<( :probe7 a :TemperatureProbe )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 30.
+
+  _:step6
+    rdf:reifies <<( :TemperatureProbe rdfs:subClassOf sosa:Sensor )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 16.
+
+  _:step7
+    rdf:reifies <<( :msg1 sosa:madeBySensor :probe7 )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "object"; pe:value :probe7 ],
+      [ pe:var "property"; pe:value :observedBy ],
+      [ pe:var "subject"; pe:value :msg1 ],
+      [ pe:var "superProperty"; pe:value sosa:madeBySensor ];
+    pe:uses
+      _:step8,
+      _:step9.
+
+  _:step8
+    rdf:reifies <<( :msg1 :observedBy :probe7 )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 23.
+
+  _:step9
+    rdf:reifies <<( :observedBy rdfs:subPropertyOf sosa:madeBySensor )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 17.
+
+  _:step10
+    rdf:reifies <<( :msg1 sosa:resultTime "2026-06-17T12:34:56Z"^^xsd:dateTime )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "object"; pe:value "2026-06-17T12:34:56Z"^^xsd:dateTime ],
+      [ pe:var "property"; pe:value :observedAt ],
+      [ pe:var "subject"; pe:value :msg1 ],
+      [ pe:var "superProperty"; pe:value sosa:resultTime ];
+    pe:uses
+      _:step11,
+      _:step12.
+
+  _:step11
+    rdf:reifies <<( :msg1 :observedAt "2026-06-17T12:34:56Z"^^xsd:dateTime )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 23.
+
+  _:step12
+    rdf:reifies <<( :observedAt rdfs:subPropertyOf sosa:resultTime )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 18.
+
+  _:step13
+    rdf:reifies <<( :msg1 sosa:hasSimpleResult 18.6 )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "object"; pe:value 18.6 ],
+      [ pe:var "property"; pe:value :temperatureCelsius ],
+      [ pe:var "subject"; pe:value :msg1 ],
+      [ pe:var "superProperty"; pe:value sosa:hasSimpleResult ];
+    pe:uses
+      _:step14,
+      _:step15.
+
+  _:step14
+    rdf:reifies <<( :msg1 :temperatureCelsius 18.6 )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 23.
+
+  _:step15
+    rdf:reifies <<( :temperatureCelsius rdfs:subPropertyOf sosa:hasSimpleResult )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 19.
+
+  _:step16
+    rdf:reifies <<( :msg1 fpv:hasFlowStep :ingestStep )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "object"; pe:value :ingestStep ],
+      [ pe:var "property"; pe:value :inFlow ],
+      [ pe:var "subject"; pe:value :msg1 ],
+      [ pe:var "superProperty"; pe:value fpv:hasFlowStep ];
+    pe:uses
+      _:step17,
+      _:step18.
+
+  _:step17
+    rdf:reifies <<( :msg1 :inFlow :ingestStep )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 23.
+
+  _:step18
+    rdf:reifies <<( :inFlow rdfs:subPropertyOf fpv:hasFlowStep )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 21.
+
+  _:step19
+    rdf:reifies <<( :msg1 sosa:hasFeatureOfInterest :platformB )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 35;
+    pe:binding
+      [ pe:var "o"; pe:value :platformB ],
+      [ pe:var "p"; pe:value :observedFeature ],
+      [ pe:var "q"; pe:value sosa:hasFeatureOfInterest ],
+      [ pe:var "s"; pe:value :msg1 ];
+    pe:uses
+      _:step20,
+      _:step21.
+
+  _:step20
+    rdf:reifies <<( :observedFeature owl:equivalentProperty sosa:hasFeatureOfInterest )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 20.
+
+  _:step21
+    rdf:reifies <<( :msg1 :observedFeature :platformB )>>;
+    pe:fact "knowledge-engineering-alignment-flow.srl";
+    pe:line 23.
+
+  _:step22
+    rdf:reifies <<( :observedBy fpv:runtimeRule fpv:copyToTarget )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 38;
+    pe:binding
+      [ pe:var "sourcePredicate"; pe:value :observedBy ],
+      [ pe:var "targetPredicate"; pe:value sosa:madeBySensor ];
+    pe:uses _:step9.
+
+  _:step23
+    rdf:reifies <<( :observedBy fpv:targetPredicate sosa:madeBySensor )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 38;
+    pe:binding
+      [ pe:var "sourcePredicate"; pe:value :observedBy ],
+      [ pe:var "targetPredicate"; pe:value sosa:madeBySensor ];
+    pe:uses _:step9.
+
+  _:step24
+    rdf:reifies <<( :observedAt fpv:runtimeRule fpv:copyToTarget )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 38;
+    pe:binding
+      [ pe:var "sourcePredicate"; pe:value :observedAt ],
+      [ pe:var "targetPredicate"; pe:value sosa:resultTime ];
+    pe:uses _:step12.
+
+  _:step25
+    rdf:reifies <<( :observedAt fpv:targetPredicate sosa:resultTime )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 38;
+    pe:binding
+      [ pe:var "sourcePredicate"; pe:value :observedAt ],
+      [ pe:var "targetPredicate"; pe:value sosa:resultTime ];
+    pe:uses _:step12.
+
+  _:step26
+    rdf:reifies <<( :temperatureCelsius fpv:runtimeRule fpv:copyToTarget )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 38;
+    pe:binding
+      [ pe:var "sourcePredicate"; pe:value :temperatureCelsius ],
+      [ pe:var "targetPredicate"; pe:value sosa:hasSimpleResult ];
+    pe:uses _:step15.
+
+  _:step27
+    rdf:reifies <<( :temperatureCelsius fpv:targetPredicate sosa:hasSimpleResult )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 38;
+    pe:binding
+      [ pe:var "sourcePredicate"; pe:value :temperatureCelsius ],
+      [ pe:var "targetPredicate"; pe:value sosa:hasSimpleResult ];
+    pe:uses _:step15.
+
+  _:step28
+    rdf:reifies <<( :inFlow fpv:runtimeRule fpv:copyToTarget )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 38;
+    pe:binding
+      [ pe:var "sourcePredicate"; pe:value :inFlow ],
+      [ pe:var "targetPredicate"; pe:value fpv:hasFlowStep ];
+    pe:uses _:step18.
+
+  _:step29
+    rdf:reifies <<( :inFlow fpv:targetPredicate fpv:hasFlowStep )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 38;
+    pe:binding
+      [ pe:var "sourcePredicate"; pe:value :inFlow ],
+      [ pe:var "targetPredicate"; pe:value fpv:hasFlowStep ];
+    pe:uses _:step18.
+
+  _:step30
+    rdf:reifies <<( :observedFeature fpv:runtimeRule fpv:copyToTarget )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 39;
+    pe:binding
+      [ pe:var "sourcePredicate"; pe:value :observedFeature ],
+      [ pe:var "targetPredicate"; pe:value sosa:hasFeatureOfInterest ];
+    pe:uses _:step20.
+
+  _:step31
+    rdf:reifies <<( :observedFeature fpv:targetPredicate sosa:hasFeatureOfInterest )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 39;
+    pe:binding
+      [ pe:var "sourcePredicate"; pe:value :observedFeature ],
+      [ pe:var "targetPredicate"; pe:value sosa:hasFeatureOfInterest ];
+    pe:uses _:step20.
+
+  _:step32
+    rdf:reifies <<( :ingestStep fpv:emits :msg1 )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 41;
+    pe:binding
+      [ pe:var "message"; pe:value :msg1 ],
+      [ pe:var "sensor"; pe:value :probe7 ],
+      [ pe:var "step"; pe:value :ingestStep ];
+    pe:uses
+      _:step1,
+      _:step16,
+      _:step7.
+
+  _:step33
+    rdf:reifies <<( :ingestStep fpv:trustedBy :probe7 )>>;
+    pe:rule "knowledge-engineering-alignment-flow.srl";
+    pe:line 41;
+    pe:binding
+      [ pe:var "message"; pe:value :msg1 ],
+      [ pe:var "sensor"; pe:value :probe7 ],
+      [ pe:var "step"; pe:value :ingestStep ];
+    pe:uses
+      _:step1,
+      _:step16,
+      _:step7.
+}

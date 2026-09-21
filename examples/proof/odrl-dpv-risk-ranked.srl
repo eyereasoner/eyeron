@@ -1,0 +1,2914 @@
+PREFIX : <http://example/odrl-dpv-risk-ranked#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dpv: <https://w3id.org/dpv#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX risk: <https://w3id.org/dpv/risk#>
+PREFIX tosl: <http://example/tosl#>
+
+DATA {
+  :DeleteAccountNoSafeguardsSourceC1 a risk:RiskSource .
+  :DeleteAccountNoSafeguardsSourceC1 a risk:LegalComplianceRisk .
+  :DeleteAccountNoSafeguardsSourceC1 dct:source :PermDeleteAccount .
+  :DeleteAccountNoSafeguardsSourceC1 dct:description "Account removal permitted without notice safeguards." .
+  :DeleteAccountNoSafeguardsRiskC1 a dpv:Risk .
+  :DeleteAccountNoSafeguardsRiskC1 a risk:UnwantedDataDeletion .
+  :DeleteAccountNoSafeguardsRiskC1 a risk:DataUnavailable .
+  :DeleteAccountNoSafeguardsRiskC1 a risk:DataErasureError .
+  :DeleteAccountNoSafeguardsRiskC1 a risk:DataLoss .
+  :DeleteAccountNoSafeguardsRiskC1 dct:source :PermDeleteAccount .
+  :DeleteAccountNoSafeguardsRiskC1 risk:hasRiskSource :DeleteAccountNoSafeguardsSourceC1 .
+  :DeleteAccountNoSafeguardsRiskC1 dpv:hasConsequence risk:DataLoss .
+  :DeleteAccountNoSafeguardsRiskC1 dpv:hasConsequence risk:DataUnavailable .
+  :DeleteAccountNoSafeguardsRiskC1 dpv:hasConsequence risk:CustomerConfidenceLoss .
+  :DeleteAccountNoSafeguardsRiskC1 dpv:hasImpact risk:FinancialLoss .
+  :DeleteAccountNoSafeguardsRiskC1 dpv:hasImpact risk:NonMaterialDamage .
+  :DeleteAccountNoSafeguardsRiskC1 :aboutClause :ClauseC1 .
+  :DeleteAccountNoSafeguardsRiskC1 :scoreRaw 110 .
+  :DeleteAccountNoSafeguardsRiskC1 :violatesNeed :Need_DataCannotBeRemoved .
+  :DeleteAccountNoSafeguardsRiskC1 dct:description "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." .
+  :ProcessContext1 dpv:hasRisk :DeleteAccountNoSafeguardsRiskC1 .
+  :MitigateDeleteNoticeC1 a dpv:RiskMitigationMeasure .
+  :MitigateDeleteNoticeC1 dct:description "Add a notice constraint (minimum noticeDays) before account removal." .
+  :MitigateDeleteNoticeC1 dpv:mitigatesRisk :DeleteAccountNoSafeguardsRiskC1 .
+  :MitigateDeleteNoticeC1 :suggestionText "Add odrl:constraint with tosl:noticeDays >= 14 to :PermDeleteAccount." .
+  :MitigateDeleteInformC1 a dpv:RiskMitigationMeasure .
+  :MitigateDeleteInformC1 dct:description "Add a duty to inform the consumer prior to account removal." .
+  :MitigateDeleteInformC1 dpv:mitigatesRisk :DeleteAccountNoSafeguardsRiskC1 .
+  :MitigateDeleteInformC1 :suggestionText "Add odrl:duty [ odrl:action odrl:inform ] to :PermDeleteAccount." .
+  :DeleteAccountNoSafeguardsRiskC1 dpv:isMitigatedByMeasure :MitigateDeleteNoticeC1 .
+  :DeleteAccountNoSafeguardsRiskC1 dpv:isMitigatedByMeasure :MitigateDeleteInformC1 .
+  :NoticeTooShortSourceC2 a risk:RiskSource .
+  :NoticeTooShortSourceC2 a risk:PolicyRisk .
+  :NoticeTooShortSourceC2 dct:source :PermChangeTerms .
+  :NoticeTooShortSourceC2 dct:description "Notice for changing terms is shorter than consumer requirement." .
+  :NoticeTooShortRiskC2 a dpv:Risk .
+  :NoticeTooShortRiskC2 a risk:PolicyRisk .
+  :NoticeTooShortRiskC2 a risk:CustomerConfidenceLoss .
+  :NoticeTooShortRiskC2 dct:source :PermChangeTerms .
+  :NoticeTooShortRiskC2 risk:hasRiskSource :NoticeTooShortSourceC2 .
+  :NoticeTooShortRiskC2 dpv:hasConsequence risk:CustomerConfidenceLoss .
+  :NoticeTooShortRiskC2 dpv:hasImpact risk:NonMaterialDamage .
+  :NoticeTooShortRiskC2 :aboutClause :ClauseC2 .
+  :NoticeTooShortRiskC2 :scoreRaw 85 .
+  :NoticeTooShortRiskC2 :violatesNeed :Need_ChangeOnlyWithPriorNotice .
+  :NoticeTooShortRiskC2 dct:description "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." .
+  :ProcessContext1 dpv:hasRisk :NoticeTooShortRiskC2 .
+  :MitigateNoticeTooShortC2 a dpv:RiskMitigationMeasure .
+  :MitigateNoticeTooShortC2 dct:description "Increase minimum noticeDays in the inform duty to meet the consumer requirement." .
+  :MitigateNoticeTooShortC2 dpv:mitigatesRisk :NoticeTooShortRiskC2 .
+  :MitigateNoticeTooShortC2 :suggestionText "Set the :PermChangeTerms inform-duty noticeDays constraint to >= 14." .
+  :NoticeTooShortRiskC2 dpv:isMitigatedByMeasure :MitigateNoticeTooShortC2 .
+  :ShareNoConsentSourceC3 a risk:RiskSource .
+  :ShareNoConsentSourceC3 a risk:PolicyRisk .
+  :ShareNoConsentSourceC3 dct:source :PermShareData .
+  :ShareNoConsentSourceC3 dct:description "Data sharing permitted without explicit consent constraint." .
+  :ShareNoConsentRiskC3 a dpv:Risk .
+  :ShareNoConsentRiskC3 a risk:UnwantedDisclosureData .
+  :ShareNoConsentRiskC3 a risk:CustomerConfidenceLoss .
+  :ShareNoConsentRiskC3 dct:source :PermShareData .
+  :ShareNoConsentRiskC3 risk:hasRiskSource :ShareNoConsentSourceC3 .
+  :ShareNoConsentRiskC3 dpv:hasConsequence risk:CustomerConfidenceLoss .
+  :ShareNoConsentRiskC3 dpv:hasImpact risk:NonMaterialDamage .
+  :ShareNoConsentRiskC3 dpv:hasImpact risk:FinancialLoss .
+  :ShareNoConsentRiskC3 :aboutClause :ClauseC3 .
+  :ShareNoConsentRiskC3 :scoreRaw 97 .
+  :ShareNoConsentRiskC3 :violatesNeed :Need_NoSharingWithoutConsent .
+  :ShareNoConsentRiskC3 dct:description "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." .
+  :ProcessContext1 dpv:hasRisk :ShareNoConsentRiskC3 .
+  :MitigateShareConsentC3 a dpv:RiskMitigationMeasure .
+  :MitigateShareConsentC3 dct:description "Add an explicit consent constraint before data sharing." .
+  :MitigateShareConsentC3 dpv:mitigatesRisk :ShareNoConsentRiskC3 .
+  :MitigateShareConsentC3 :suggestionText "Add odrl:constraint with tosl:consent = true to :PermShareData." .
+  :ShareNoConsentRiskC3 dpv:isMitigatedByMeasure :MitigateShareConsentC3 .
+  :NoPortabilitySourceC4 a risk:RiskSource .
+  :NoPortabilitySourceC4 a risk:PolicyRisk .
+  :NoPortabilitySourceC4 dct:source :ProhibitExportData .
+  :NoPortabilitySourceC4 dct:description "Data export is prohibited, reducing portability." .
+  :NoPortabilityRiskC4 a dpv:Risk .
+  :NoPortabilityRiskC4 a risk:PolicyRisk .
+  :NoPortabilityRiskC4 a risk:CustomerConfidenceLoss .
+  :NoPortabilityRiskC4 dct:source :ProhibitExportData .
+  :NoPortabilityRiskC4 risk:hasRiskSource :NoPortabilitySourceC4 .
+  :NoPortabilityRiskC4 dpv:hasConsequence risk:CustomerConfidenceLoss .
+  :NoPortabilityRiskC4 dpv:hasImpact risk:NonMaterialDamage .
+  :NoPortabilityRiskC4 :aboutClause :ClauseC4 .
+  :NoPortabilityRiskC4 :scoreRaw 70 .
+  :NoPortabilityRiskC4 :violatesNeed :Need_DataPortability .
+  :NoPortabilityRiskC4 dct:description "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." .
+  :ProcessContext1 dpv:hasRisk :NoPortabilityRiskC4 .
+  :MitigatePortabilityC4 a dpv:RiskMitigationMeasure .
+  :MitigatePortabilityC4 dct:description "Add a permission allowing data export (or remove the prohibition) to support portability." .
+  :MitigatePortabilityC4 dpv:mitigatesRisk :NoPortabilityRiskC4 .
+  :MitigatePortabilityC4 :suggestionText "Add an odrl:permission for tosl:exportData, or remove :ProhibitExportData." .
+  :NoPortabilityRiskC4 dpv:isMitigatedByMeasure :MitigatePortabilityC4 .
+  :ReportLine00 log:outputString "\n=== Ranked DPV Risk Report ===\nAgreement: Example Agreement\nProfile: Example consumer profile\n" .
+  :DeleteAccountNoSafeguardsRiskC1 :score 100 .
+  :NoticeTooShortRiskC2 :score 85 .
+  :ShareNoConsentRiskC3 :score 97 .
+  :NoPortabilityRiskC4 :score 70 .
+  :DeleteAccountNoSafeguardsRiskC1 dpv:hasSeverity risk:HighSeverity .
+  :DeleteAccountNoSafeguardsRiskC1 dpv:hasRiskLevel risk:HighRisk .
+  :DeleteAccountNoSafeguardsRiskC1 :severityLabel "HighSeverity" .
+  :DeleteAccountNoSafeguardsRiskC1 :riskLevelLabel "HighRisk" .
+  :NoticeTooShortRiskC2 dpv:hasSeverity risk:HighSeverity .
+  :NoticeTooShortRiskC2 dpv:hasRiskLevel risk:HighRisk .
+  :NoticeTooShortRiskC2 :severityLabel "HighSeverity" .
+  :NoticeTooShortRiskC2 :riskLevelLabel "HighRisk" .
+  :ShareNoConsentRiskC3 dpv:hasSeverity risk:HighSeverity .
+  :ShareNoConsentRiskC3 dpv:hasRiskLevel risk:HighRisk .
+  :ShareNoConsentRiskC3 :severityLabel "HighSeverity" .
+  :ShareNoConsentRiskC3 :riskLevelLabel "HighRisk" .
+  :NoPortabilityRiskC4 dpv:hasSeverity risk:ModerateSeverity .
+  :NoPortabilityRiskC4 dpv:hasRiskLevel risk:ModerateRisk .
+  :NoPortabilityRiskC4 :severityLabel "ModerateSeverity" .
+  :NoPortabilityRiskC4 :riskLevelLabel "ModerateRisk" .
+  :ReportLine01A_Risk log:outputString "score=100 (HighRisk, HighSeverity) clause C1\n Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion.\n" .
+  :ReportLine01B_MitigationA log:outputString " - mitigation for clause C1: Add a notice constraint (minimum noticeDays) before account removal.\n" .
+  :ReportLine01C_MitigationB log:outputString " - mitigation for clause C1: Add a duty to inform the consumer prior to account removal.\n" .
+  :ReportLine02A_Risk log:outputString "score=97 (HighRisk, HighSeverity) clause C3\n Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes.\n" .
+  :ReportLine02B_Mitigation log:outputString " - mitigation for clause C3: Add an explicit consent constraint before data sharing.\n" .
+  :ReportLine03A_Risk log:outputString "score=85 (HighRisk, HighSeverity) clause C2\n Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance.\n" .
+  :ReportLine03B_Mitigation log:outputString " - mitigation for clause C2: Increase minimum noticeDays in the inform duty to meet the consumer requirement.\n" .
+  :ReportLine04A_Risk log:outputString "score=70 (ModerateRisk, ModerateSeverity) clause C4\n Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data.\n" .
+  :ReportLine04B_Mitigation log:outputString " - mitigation for clause C4: Add a permission allowing data export (or remove the prohibition) to support portability.\n" .
+
+  _:step1
+    rdf:reifies <<( :DeleteAccountNoSafeguardsSourceC1 a risk:RiskSource )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step2
+    rdf:reifies <<( :Agreement1 :policy :Policy1 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 45.
+
+  _:step3
+    rdf:reifies <<( :ConsumerExample :hasNeed :Need_DataCannotBeRemoved )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 20.
+
+  _:step4
+    rdf:reifies <<( :Need_DataCannotBeRemoved :importance 20 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 27.
+
+  _:step5
+    rdf:reifies <<( :PermDeleteAccount a odrl:Permission )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 54.
+
+  _:step6
+    rdf:reifies <<( :PermDeleteAccount odrl:action tosl:removeAccount )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 54.
+
+  _:step7
+    rdf:reifies <<( :PermDeleteAccount :clause :ClauseC1 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 54.
+
+  _:step8
+    rdf:reifies <<( :ClauseC1 :clauseId "C1" )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 95.
+
+  _:step9
+    rdf:reifies <<( :ClauseC1 :text "Provider may remove the user account (and associated data) at its discretion." )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 95.
+
+  _:step10
+    rdf:reifies <<( :DeleteAccountNoSafeguardsSourceC1 a risk:LegalComplianceRisk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step11
+    rdf:reifies <<( :DeleteAccountNoSafeguardsSourceC1 dct:source :PermDeleteAccount )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step12
+    rdf:reifies <<( :DeleteAccountNoSafeguardsSourceC1 dct:description "Account removal permitted without notice safeguards." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step13
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 a dpv:Risk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step14
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 a risk:UnwantedDataDeletion )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step15
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 a risk:DataUnavailable )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step16
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 a risk:DataErasureError )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step17
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 a risk:DataLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step18
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dct:source :PermDeleteAccount )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step19
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 risk:hasRiskSource :DeleteAccountNoSafeguardsSourceC1 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step20
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dpv:hasConsequence risk:DataLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step21
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dpv:hasConsequence risk:DataUnavailable )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step22
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dpv:hasConsequence risk:CustomerConfidenceLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step23
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dpv:hasImpact risk:FinancialLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step24
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dpv:hasImpact risk:NonMaterialDamage )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step25
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 :aboutClause :ClauseC1 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step26
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 :scoreRaw 110 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step27
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 :violatesNeed :Need_DataCannotBeRemoved )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step28
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dct:description "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step29
+    rdf:reifies <<( :ProcessContext1 dpv:hasRisk :DeleteAccountNoSafeguardsRiskC1 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step30
+    rdf:reifies <<( :MitigateDeleteNoticeC1 a dpv:RiskMitigationMeasure )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step31
+    rdf:reifies <<( :MitigateDeleteNoticeC1 dct:description "Add a notice constraint (minimum noticeDays) before account removal." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step32
+    rdf:reifies <<( :MitigateDeleteNoticeC1 dpv:mitigatesRisk :DeleteAccountNoSafeguardsRiskC1 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step33
+    rdf:reifies <<( :MitigateDeleteNoticeC1 :suggestionText "Add odrl:constraint with tosl:noticeDays >= 14 to :PermDeleteAccount." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step34
+    rdf:reifies <<( :MitigateDeleteInformC1 a dpv:RiskMitigationMeasure )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step35
+    rdf:reifies <<( :MitigateDeleteInformC1 dct:description "Add a duty to inform the consumer prior to account removal." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step36
+    rdf:reifies <<( :MitigateDeleteInformC1 dpv:mitigatesRisk :DeleteAccountNoSafeguardsRiskC1 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step37
+    rdf:reifies <<( :MitigateDeleteInformC1 :suggestionText "Add odrl:duty [ odrl:action odrl:inform ] to :PermDeleteAccount." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step38
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dpv:isMitigatedByMeasure :MitigateDeleteNoticeC1 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step39
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dpv:isMitigatedByMeasure :MitigateDeleteInformC1 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "txt"; pe:value "Provider may remove the user account (and associated data) at its discretion." ],
+      [ pe:var "w"; pe:value 20 ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step40
+    rdf:reifies <<( :NoticeTooShortSourceC2 a risk:RiskSource )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step41
+    rdf:reifies <<( :ConsumerExample :hasNeed :Need_ChangeOnlyWithPriorNotice )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 20.
+
+  _:step42
+    rdf:reifies <<( :Need_ChangeOnlyWithPriorNotice :importance 15 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 31.
+
+  _:step43
+    rdf:reifies <<( :Need_ChangeOnlyWithPriorNotice :minNoticeDays 14 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 31.
+
+  _:step44
+    rdf:reifies <<( :PermChangeTerms a odrl:Permission )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 62.
+
+  _:step45
+    rdf:reifies <<( :PermChangeTerms odrl:action tosl:changeTerms )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 62.
+
+  _:step46
+    rdf:reifies <<( :PermChangeTerms odrl:duty _:b1 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 62.
+
+  _:step47
+    rdf:reifies <<( :PermChangeTerms :clause :ClauseC2 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 62.
+
+  _:step48
+    rdf:reifies <<( _:b1 odrl:action odrl:inform )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 62.
+
+  _:step49
+    rdf:reifies <<( _:b1 odrl:constraint _:b2 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 62.
+
+  _:step50
+    rdf:reifies <<( _:b2 odrl:leftOperand tosl:noticeDays )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 62.
+
+  _:step51
+    rdf:reifies <<( _:b2 odrl:rightOperand 3 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 62.
+
+  _:step52
+    rdf:reifies <<( :ClauseC2 :clauseId "C2" )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 99.
+
+  _:step53
+    rdf:reifies <<( :ClauseC2 :text "Provider may change terms by informing users at least 3 days in advance." )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 99.
+
+  _:step54
+    rdf:reifies <<( :NoticeTooShortSourceC2 a risk:PolicyRisk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step55
+    rdf:reifies <<( :NoticeTooShortSourceC2 dct:source :PermChangeTerms )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step56
+    rdf:reifies <<( :NoticeTooShortSourceC2 dct:description "Notice for changing terms is shorter than consumer requirement." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step57
+    rdf:reifies <<( :NoticeTooShortRiskC2 a dpv:Risk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step58
+    rdf:reifies <<( :NoticeTooShortRiskC2 a risk:PolicyRisk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step59
+    rdf:reifies <<( :NoticeTooShortRiskC2 a risk:CustomerConfidenceLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step60
+    rdf:reifies <<( :NoticeTooShortRiskC2 dct:source :PermChangeTerms )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step61
+    rdf:reifies <<( :NoticeTooShortRiskC2 risk:hasRiskSource :NoticeTooShortSourceC2 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step62
+    rdf:reifies <<( :NoticeTooShortRiskC2 dpv:hasConsequence risk:CustomerConfidenceLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step63
+    rdf:reifies <<( :NoticeTooShortRiskC2 dpv:hasImpact risk:NonMaterialDamage )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step64
+    rdf:reifies <<( :NoticeTooShortRiskC2 :aboutClause :ClauseC2 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step65
+    rdf:reifies <<( :NoticeTooShortRiskC2 :scoreRaw 85 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step66
+    rdf:reifies <<( :NoticeTooShortRiskC2 :violatesNeed :Need_ChangeOnlyWithPriorNotice )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step67
+    rdf:reifies <<( :NoticeTooShortRiskC2 dct:description "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step68
+    rdf:reifies <<( :ProcessContext1 dpv:hasRisk :NoticeTooShortRiskC2 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step69
+    rdf:reifies <<( :MitigateNoticeTooShortC2 a dpv:RiskMitigationMeasure )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step70
+    rdf:reifies <<( :MitigateNoticeTooShortC2 dct:description "Increase minimum noticeDays in the inform duty to meet the consumer requirement." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step71
+    rdf:reifies <<( :MitigateNoticeTooShortC2 dpv:mitigatesRisk :NoticeTooShortRiskC2 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step72
+    rdf:reifies <<( :MitigateNoticeTooShortC2 :suggestionText "Set the :PermChangeTerms inform-duty noticeDays constraint to >= 14." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step73
+    rdf:reifies <<( :NoticeTooShortRiskC2 dpv:isMitigatedByMeasure :MitigateNoticeTooShortC2 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "constraint"; pe:value _:b2 ],
+      [ pe:var "days"; pe:value 3 ],
+      [ pe:var "duty"; pe:value _:b1 ],
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "req"; pe:value 14 ],
+      [ pe:var "txt"; pe:value "Provider may change terms by informing users at least 3 days in advance." ],
+      [ pe:var "w"; pe:value 15 ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step2,
+      _:step41,
+      _:step42,
+      _:step43,
+      _:step44,
+      _:step45,
+      _:step46,
+      _:step47,
+      _:step48,
+      _:step49,
+      _:step50,
+      _:step51,
+      _:step52,
+      _:step53.
+
+  _:step74
+    rdf:reifies <<( :ShareNoConsentSourceC3 a risk:RiskSource )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step75
+    rdf:reifies <<( :ConsumerExample :hasNeed :Need_NoSharingWithoutConsent )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 20.
+
+  _:step76
+    rdf:reifies <<( :Need_NoSharingWithoutConsent :importance 12 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 36.
+
+  _:step77
+    rdf:reifies <<( :PermShareData a odrl:Permission )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 80.
+
+  _:step78
+    rdf:reifies <<( :PermShareData odrl:action tosl:shareData )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 80.
+
+  _:step79
+    rdf:reifies <<( :PermShareData :clause :ClauseC3 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 80.
+
+  _:step80
+    rdf:reifies <<( :ClauseC3 :clauseId "C3" )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 103.
+
+  _:step81
+    rdf:reifies <<( :ClauseC3 :text "Provider may share user data with partners for business purposes." )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 103.
+
+  _:step82
+    rdf:reifies <<( :ShareNoConsentSourceC3 a risk:PolicyRisk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step83
+    rdf:reifies <<( :ShareNoConsentSourceC3 dct:source :PermShareData )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step84
+    rdf:reifies <<( :ShareNoConsentSourceC3 dct:description "Data sharing permitted without explicit consent constraint." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step85
+    rdf:reifies <<( :ShareNoConsentRiskC3 a dpv:Risk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step86
+    rdf:reifies <<( :ShareNoConsentRiskC3 a risk:UnwantedDisclosureData )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step87
+    rdf:reifies <<( :ShareNoConsentRiskC3 a risk:CustomerConfidenceLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step88
+    rdf:reifies <<( :ShareNoConsentRiskC3 dct:source :PermShareData )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step89
+    rdf:reifies <<( :ShareNoConsentRiskC3 risk:hasRiskSource :ShareNoConsentSourceC3 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step90
+    rdf:reifies <<( :ShareNoConsentRiskC3 dpv:hasConsequence risk:CustomerConfidenceLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step91
+    rdf:reifies <<( :ShareNoConsentRiskC3 dpv:hasImpact risk:NonMaterialDamage )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step92
+    rdf:reifies <<( :ShareNoConsentRiskC3 dpv:hasImpact risk:FinancialLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step93
+    rdf:reifies <<( :ShareNoConsentRiskC3 :aboutClause :ClauseC3 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step94
+    rdf:reifies <<( :ShareNoConsentRiskC3 :scoreRaw 97 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step95
+    rdf:reifies <<( :ShareNoConsentRiskC3 :violatesNeed :Need_NoSharingWithoutConsent )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step96
+    rdf:reifies <<( :ShareNoConsentRiskC3 dct:description "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step97
+    rdf:reifies <<( :ProcessContext1 dpv:hasRisk :ShareNoConsentRiskC3 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step98
+    rdf:reifies <<( :MitigateShareConsentC3 a dpv:RiskMitigationMeasure )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step99
+    rdf:reifies <<( :MitigateShareConsentC3 dct:description "Add an explicit consent constraint before data sharing." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step100
+    rdf:reifies <<( :MitigateShareConsentC3 dpv:mitigatesRisk :ShareNoConsentRiskC3 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step101
+    rdf:reifies <<( :MitigateShareConsentC3 :suggestionText "Add odrl:constraint with tosl:consent = true to :PermShareData." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step102
+    rdf:reifies <<( :ShareNoConsentRiskC3 dpv:isMitigatedByMeasure :MitigateShareConsentC3 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 214;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "txt"; pe:value "Provider may share user data with partners for business purposes." ],
+      [ pe:var "w"; pe:value 12 ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step2,
+      _:step75,
+      _:step76,
+      _:step77,
+      _:step78,
+      _:step79,
+      _:step80,
+      _:step81.
+
+  _:step103
+    rdf:reifies <<( :NoPortabilitySourceC4 a risk:RiskSource )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step104
+    rdf:reifies <<( :ConsumerExample :hasNeed :Need_DataPortability )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 20.
+
+  _:step105
+    rdf:reifies <<( :Need_DataPortability :importance 10 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 40.
+
+  _:step106
+    rdf:reifies <<( :ProhibitExportData a odrl:Prohibition )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 88.
+
+  _:step107
+    rdf:reifies <<( :ProhibitExportData odrl:action tosl:exportData )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 88.
+
+  _:step108
+    rdf:reifies <<( :ProhibitExportData :clause :ClauseC4 )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 88.
+
+  _:step109
+    rdf:reifies <<( :ClauseC4 :clauseId "C4" )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 107.
+
+  _:step110
+    rdf:reifies <<( :ClauseC4 :text "Users are not permitted to export their data." )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 107.
+
+  _:step111
+    rdf:reifies <<( :NoPortabilitySourceC4 a risk:PolicyRisk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step112
+    rdf:reifies <<( :NoPortabilitySourceC4 dct:source :ProhibitExportData )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step113
+    rdf:reifies <<( :NoPortabilitySourceC4 dct:description "Data export is prohibited, reducing portability." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step114
+    rdf:reifies <<( :NoPortabilityRiskC4 a dpv:Risk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step115
+    rdf:reifies <<( :NoPortabilityRiskC4 a risk:PolicyRisk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step116
+    rdf:reifies <<( :NoPortabilityRiskC4 a risk:CustomerConfidenceLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step117
+    rdf:reifies <<( :NoPortabilityRiskC4 dct:source :ProhibitExportData )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step118
+    rdf:reifies <<( :NoPortabilityRiskC4 risk:hasRiskSource :NoPortabilitySourceC4 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step119
+    rdf:reifies <<( :NoPortabilityRiskC4 dpv:hasConsequence risk:CustomerConfidenceLoss )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step120
+    rdf:reifies <<( :NoPortabilityRiskC4 dpv:hasImpact risk:NonMaterialDamage )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step121
+    rdf:reifies <<( :NoPortabilityRiskC4 :aboutClause :ClauseC4 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step122
+    rdf:reifies <<( :NoPortabilityRiskC4 :scoreRaw 70 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step123
+    rdf:reifies <<( :NoPortabilityRiskC4 :violatesNeed :Need_DataPortability )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step124
+    rdf:reifies <<( :NoPortabilityRiskC4 dct:description "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step125
+    rdf:reifies <<( :ProcessContext1 dpv:hasRisk :NoPortabilityRiskC4 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step126
+    rdf:reifies <<( :MitigatePortabilityC4 a dpv:RiskMitigationMeasure )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step127
+    rdf:reifies <<( :MitigatePortabilityC4 dct:description "Add a permission allowing data export (or remove the prohibition) to support portability." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step128
+    rdf:reifies <<( :MitigatePortabilityC4 dpv:mitigatesRisk :NoPortabilityRiskC4 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step129
+    rdf:reifies <<( :MitigatePortabilityC4 :suggestionText "Add an odrl:permission for tosl:exportData, or remove :ProhibitExportData." )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step130
+    rdf:reifies <<( :NoPortabilityRiskC4 dpv:isMitigatedByMeasure :MitigatePortabilityC4 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 257;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "txt"; pe:value "Users are not permitted to export their data." ],
+      [ pe:var "w"; pe:value 10 ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step2,
+      _:step104,
+      _:step105,
+      _:step106,
+      _:step107,
+      _:step108,
+      _:step109,
+      _:step110.
+
+  _:step131
+    rdf:reifies <<( :ReportLine00 log:outputString "\n=== Ranked DPV Risk Report ===\nAgreement: Example Agreement\nProfile: Example consumer profile\n" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 340;
+    pe:binding
+      [ pe:var "agreementTitle"; pe:value "Example Agreement" ],
+      [ pe:var "line"; pe:value "\n=== Ranked DPV Risk Report ===\nAgreement: Example Agreement\nProfile: Example consumer profile\n" ],
+      [ pe:var "profileTitle"; pe:value "Example consumer profile" ];
+    pe:uses
+      _:step132,
+      _:step133.
+
+  _:step132
+    rdf:reifies <<( :Agreement1 dct:title "Example Agreement" )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 45.
+
+  _:step133
+    rdf:reifies <<( :ConsumerExample dct:title "Example consumer profile" )>>;
+    pe:fact "odrl-dpv-risk-ranked.srl";
+    pe:line 20.
+
+  _:step134
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 :score 100 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 294;
+    pe:binding
+      [ pe:var "raw"; pe:value 110 ],
+      [ pe:var "risk"; pe:value :DeleteAccountNoSafeguardsRiskC1 ];
+    pe:uses
+      _:step13,
+      _:step26.
+
+  _:step135
+    rdf:reifies <<( :NoticeTooShortRiskC2 :score 85 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 300;
+    pe:binding
+      [ pe:var "raw"; pe:value 85 ],
+      [ pe:var "risk"; pe:value :NoticeTooShortRiskC2 ];
+    pe:uses
+      _:step57,
+      _:step65.
+
+  _:step136
+    rdf:reifies <<( :ShareNoConsentRiskC3 :score 97 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 300;
+    pe:binding
+      [ pe:var "raw"; pe:value 97 ],
+      [ pe:var "risk"; pe:value :ShareNoConsentRiskC3 ];
+    pe:uses
+      _:step85,
+      _:step94.
+
+  _:step137
+    rdf:reifies <<( :NoPortabilityRiskC4 :score 70 )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 300;
+    pe:binding
+      [ pe:var "raw"; pe:value 70 ],
+      [ pe:var "risk"; pe:value :NoPortabilityRiskC4 ];
+    pe:uses
+      _:step114,
+      _:step122.
+
+  _:step138
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dpv:hasSeverity risk:HighSeverity )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :DeleteAccountNoSafeguardsRiskC1 ],
+      [ pe:var "score"; pe:value 100 ];
+    pe:uses
+      _:step13,
+      _:step134.
+
+  _:step139
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 dpv:hasRiskLevel risk:HighRisk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :DeleteAccountNoSafeguardsRiskC1 ],
+      [ pe:var "score"; pe:value 100 ];
+    pe:uses
+      _:step13,
+      _:step134.
+
+  _:step140
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 :severityLabel "HighSeverity" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :DeleteAccountNoSafeguardsRiskC1 ],
+      [ pe:var "score"; pe:value 100 ];
+    pe:uses
+      _:step13,
+      _:step134.
+
+  _:step141
+    rdf:reifies <<( :DeleteAccountNoSafeguardsRiskC1 :riskLevelLabel "HighRisk" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :DeleteAccountNoSafeguardsRiskC1 ],
+      [ pe:var "score"; pe:value 100 ];
+    pe:uses
+      _:step13,
+      _:step134.
+
+  _:step142
+    rdf:reifies <<( :NoticeTooShortRiskC2 dpv:hasSeverity risk:HighSeverity )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :NoticeTooShortRiskC2 ],
+      [ pe:var "score"; pe:value 85 ];
+    pe:uses
+      _:step57,
+      _:step135.
+
+  _:step143
+    rdf:reifies <<( :NoticeTooShortRiskC2 dpv:hasRiskLevel risk:HighRisk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :NoticeTooShortRiskC2 ],
+      [ pe:var "score"; pe:value 85 ];
+    pe:uses
+      _:step57,
+      _:step135.
+
+  _:step144
+    rdf:reifies <<( :NoticeTooShortRiskC2 :severityLabel "HighSeverity" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :NoticeTooShortRiskC2 ],
+      [ pe:var "score"; pe:value 85 ];
+    pe:uses
+      _:step57,
+      _:step135.
+
+  _:step145
+    rdf:reifies <<( :NoticeTooShortRiskC2 :riskLevelLabel "HighRisk" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :NoticeTooShortRiskC2 ],
+      [ pe:var "score"; pe:value 85 ];
+    pe:uses
+      _:step57,
+      _:step135.
+
+  _:step146
+    rdf:reifies <<( :ShareNoConsentRiskC3 dpv:hasSeverity risk:HighSeverity )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :ShareNoConsentRiskC3 ],
+      [ pe:var "score"; pe:value 97 ];
+    pe:uses
+      _:step85,
+      _:step136.
+
+  _:step147
+    rdf:reifies <<( :ShareNoConsentRiskC3 dpv:hasRiskLevel risk:HighRisk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :ShareNoConsentRiskC3 ],
+      [ pe:var "score"; pe:value 97 ];
+    pe:uses
+      _:step85,
+      _:step136.
+
+  _:step148
+    rdf:reifies <<( :ShareNoConsentRiskC3 :severityLabel "HighSeverity" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :ShareNoConsentRiskC3 ],
+      [ pe:var "score"; pe:value 97 ];
+    pe:uses
+      _:step85,
+      _:step136.
+
+  _:step149
+    rdf:reifies <<( :ShareNoConsentRiskC3 :riskLevelLabel "HighRisk" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "risk"; pe:value :ShareNoConsentRiskC3 ],
+      [ pe:var "score"; pe:value 97 ];
+    pe:uses
+      _:step85,
+      _:step136.
+
+  _:step150
+    rdf:reifies <<( :NoPortabilityRiskC4 dpv:hasSeverity risk:ModerateSeverity )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 317;
+    pe:binding
+      [ pe:var "risk"; pe:value :NoPortabilityRiskC4 ],
+      [ pe:var "score"; pe:value 70 ];
+    pe:uses
+      _:step114,
+      _:step137.
+
+  _:step151
+    rdf:reifies <<( :NoPortabilityRiskC4 dpv:hasRiskLevel risk:ModerateRisk )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 317;
+    pe:binding
+      [ pe:var "risk"; pe:value :NoPortabilityRiskC4 ],
+      [ pe:var "score"; pe:value 70 ];
+    pe:uses
+      _:step114,
+      _:step137.
+
+  _:step152
+    rdf:reifies <<( :NoPortabilityRiskC4 :severityLabel "ModerateSeverity" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 317;
+    pe:binding
+      [ pe:var "risk"; pe:value :NoPortabilityRiskC4 ],
+      [ pe:var "score"; pe:value 70 ];
+    pe:uses
+      _:step114,
+      _:step137.
+
+  _:step153
+    rdf:reifies <<( :NoPortabilityRiskC4 :riskLevelLabel "ModerateRisk" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 317;
+    pe:binding
+      [ pe:var "risk"; pe:value :NoPortabilityRiskC4 ],
+      [ pe:var "score"; pe:value 70 ];
+    pe:uses
+      _:step114,
+      _:step137.
+
+  _:step154
+    rdf:reifies <<( :ReportLine01A_Risk log:outputString "score=100 (HighRisk, HighSeverity) clause C1\n Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion.\n" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 347;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "level"; pe:value "HighRisk" ],
+      [ pe:var "line"; pe:value "score=100 (HighRisk, HighSeverity) clause C1\n Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion.\n" ],
+      [ pe:var "score"; pe:value 100 ],
+      [ pe:var "severity"; pe:value "HighSeverity" ],
+      [ pe:var "why"; pe:value "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." ];
+    pe:uses
+      _:step134,
+      _:step141,
+      _:step140,
+      _:step25,
+      _:step28,
+      _:step8.
+
+  _:step155
+    rdf:reifies <<( :ReportLine01B_MitigationA log:outputString " - mitigation for clause C1: Add a notice constraint (minimum noticeDays) before account removal.\n" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 358;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "description"; pe:value "Add a notice constraint (minimum noticeDays) before account removal." ],
+      [ pe:var "line"; pe:value " - mitigation for clause C1: Add a notice constraint (minimum noticeDays) before account removal.\n" ];
+    pe:uses
+      _:step38,
+      _:step25,
+      _:step31,
+      _:step8.
+
+  _:step156
+    rdf:reifies <<( :ReportLine01C_MitigationB log:outputString " - mitigation for clause C1: Add a duty to inform the consumer prior to account removal.\n" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 366;
+    pe:binding
+      [ pe:var "cid"; pe:value "C1" ],
+      [ pe:var "clause"; pe:value :ClauseC1 ],
+      [ pe:var "description"; pe:value "Add a duty to inform the consumer prior to account removal." ],
+      [ pe:var "line"; pe:value " - mitigation for clause C1: Add a duty to inform the consumer prior to account removal.\n" ];
+    pe:uses
+      _:step39,
+      _:step25,
+      _:step35,
+      _:step8.
+
+  _:step157
+    rdf:reifies <<( :ReportLine02A_Risk log:outputString "score=97 (HighRisk, HighSeverity) clause C3\n Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes.\n" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 374;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "level"; pe:value "HighRisk" ],
+      [ pe:var "line"; pe:value "score=97 (HighRisk, HighSeverity) clause C3\n Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes.\n" ],
+      [ pe:var "score"; pe:value 97 ],
+      [ pe:var "severity"; pe:value "HighSeverity" ],
+      [ pe:var "why"; pe:value "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." ];
+    pe:uses
+      _:step136,
+      _:step149,
+      _:step148,
+      _:step93,
+      _:step96,
+      _:step80.
+
+  _:step158
+    rdf:reifies <<( :ReportLine02B_Mitigation log:outputString " - mitigation for clause C3: Add an explicit consent constraint before data sharing.\n" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 385;
+    pe:binding
+      [ pe:var "cid"; pe:value "C3" ],
+      [ pe:var "clause"; pe:value :ClauseC3 ],
+      [ pe:var "description"; pe:value "Add an explicit consent constraint before data sharing." ],
+      [ pe:var "line"; pe:value " - mitigation for clause C3: Add an explicit consent constraint before data sharing.\n" ];
+    pe:uses
+      _:step102,
+      _:step93,
+      _:step99,
+      _:step80.
+
+  _:step159
+    rdf:reifies <<( :ReportLine03A_Risk log:outputString "score=85 (HighRisk, HighSeverity) clause C2\n Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance.\n" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 393;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "level"; pe:value "HighRisk" ],
+      [ pe:var "line"; pe:value "score=85 (HighRisk, HighSeverity) clause C2\n Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance.\n" ],
+      [ pe:var "score"; pe:value 85 ],
+      [ pe:var "severity"; pe:value "HighSeverity" ],
+      [ pe:var "why"; pe:value "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." ];
+    pe:uses
+      _:step135,
+      _:step145,
+      _:step144,
+      _:step64,
+      _:step67,
+      _:step52.
+
+  _:step160
+    rdf:reifies <<( :ReportLine03B_Mitigation log:outputString " - mitigation for clause C2: Increase minimum noticeDays in the inform duty to meet the consumer requirement.\n" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 404;
+    pe:binding
+      [ pe:var "cid"; pe:value "C2" ],
+      [ pe:var "clause"; pe:value :ClauseC2 ],
+      [ pe:var "description"; pe:value "Increase minimum noticeDays in the inform duty to meet the consumer requirement." ],
+      [ pe:var "line"; pe:value " - mitigation for clause C2: Increase minimum noticeDays in the inform duty to meet the consumer requirement.\n" ];
+    pe:uses
+      _:step73,
+      _:step64,
+      _:step70,
+      _:step52.
+
+  _:step161
+    rdf:reifies <<( :ReportLine04A_Risk log:outputString "score=70 (ModerateRisk, ModerateSeverity) clause C4\n Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data.\n" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 412;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "level"; pe:value "ModerateRisk" ],
+      [ pe:var "line"; pe:value "score=70 (ModerateRisk, ModerateSeverity) clause C4\n Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data.\n" ],
+      [ pe:var "score"; pe:value 70 ],
+      [ pe:var "severity"; pe:value "ModerateSeverity" ],
+      [ pe:var "why"; pe:value "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." ];
+    pe:uses
+      _:step137,
+      _:step153,
+      _:step152,
+      _:step121,
+      _:step124,
+      _:step109.
+
+  _:step162
+    rdf:reifies <<( :ReportLine04B_Mitigation log:outputString " - mitigation for clause C4: Add a permission allowing data export (or remove the prohibition) to support portability.\n" )>>;
+    pe:rule "odrl-dpv-risk-ranked.srl";
+    pe:line 423;
+    pe:binding
+      [ pe:var "cid"; pe:value "C4" ],
+      [ pe:var "clause"; pe:value :ClauseC4 ],
+      [ pe:var "description"; pe:value "Add a permission allowing data export (or remove the prohibition) to support portability." ],
+      [ pe:var "line"; pe:value " - mitigation for clause C4: Add a permission allowing data export (or remove the prohibition) to support portability.\n" ];
+    pe:uses
+      _:step130,
+      _:step121,
+      _:step127,
+      _:step109.
+}

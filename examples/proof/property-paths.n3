@@ -1,0 +1,48 @@
+@prefix : <http://example/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:a :grandparentOf :c .
+:b :hasParent :a .
+:c :hasParent :b .
+
+{ :a :grandparentOf :c . } pe:why {
+  { :a :grandparentOf :c . }
+    pe:by [ pe:rule "property-paths.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :b ],
+      [ pe:var "z"; pe:value :c ];
+    pe:uses
+      { :a :parentOf :b . },
+      { :b :parentOf :c . }.
+
+  { :a :parentOf :b . }
+    pe:by [ pe:fact "property-paths.n3"; pe:line 9 ].
+
+  { :b :parentOf :c . }
+    pe:by [ pe:fact "property-paths.n3"; pe:line 10 ].
+}.
+
+{ :b :hasParent :a . } pe:why {
+  { :b :hasParent :a . }
+    pe:by [ pe:rule "property-paths.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses { :a :parentOf :b . }.
+
+  { :a :parentOf :b . }
+    pe:by [ pe:fact "property-paths.n3"; pe:line 9 ].
+}.
+
+{ :c :hasParent :b . } pe:why {
+  { :c :hasParent :b . }
+    pe:by [ pe:rule "property-paths.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :c ];
+    pe:uses { :b :parentOf :c . }.
+
+  { :b :parentOf :c . }
+    pe:by [ pe:fact "property-paths.n3"; pe:line 10 ].
+}.

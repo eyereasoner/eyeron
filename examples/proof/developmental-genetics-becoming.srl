@@ -1,0 +1,444 @@
+PREFIX : <http://example.org/genetics#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :s2 :inheritsMarker :Sox2 .
+  :s2 :inheritsMarker :Pax6 .
+  :s2 :considers :proneuralProgram .
+  :s3 :considers :neuronalMaturationProgram .
+  :s2 :targetsMarker :NeuroD1 .
+  :s3 :targetsMarker :Tubb3 .
+  :s1 :status :stableCellState .
+  :s2 :preservesMarker :Sox2 .
+  :s2 :integrates :proneuralProgram .
+  :s2 :preservesMarker :Pax6 .
+  :s2 :expresses :NeuroD1 .
+  :s3 :expresses :Tubb3 .
+  :s3 :integrates :neuronalMaturationProgram .
+  :s3 :inheritsMarker :NeuroD1 .
+  :s2 :expresses :Sox2 .
+  :s2 :expresses :Pax6 .
+  :s2 :realizes :proneuralProgram .
+  :s3 :realizes :neuronalMaturationProgram .
+  :s3 :inheritsMarker :Sox2 .
+  :s3 :inheritsMarker :Pax6 .
+  :s3 :preservesMarker :NeuroD1 .
+  :s2 :achieves :stableCellState .
+  :s2 :availableForFurtherDifferentiation :yes .
+  :s3 :achieves :stableCellState .
+  :s3 :availableForFurtherDifferentiation :yes .
+  :s3 :preservesMarker :Pax6 .
+  :s3 :expresses :NeuroD1 .
+  :s2 :status :stableCellState .
+  :s3 :status :stableCellState .
+  :s3 :expresses :Pax6 .
+
+  _:step1
+    rdf:reifies <<( :s2 :inheritsMarker :Sox2 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 18;
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :s2 :derivesFrom :s1 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 14.
+
+  _:step3
+    rdf:reifies <<( :s1 :expresses :Sox2 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 13.
+
+  _:step4
+    rdf:reifies <<( :s2 :inheritsMarker :Pax6 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 18;
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      _:step2,
+      _:step5.
+
+  _:step5
+    rdf:reifies <<( :s1 :expresses :Pax6 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 13.
+
+  _:step6
+    rdf:reifies <<( :s2 :considers :proneuralProgram )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 19;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      _:step7,
+      _:step8.
+
+  _:step7
+    rdf:reifies <<( :s2 :receives :neurogenicSignal )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 14.
+
+  _:step8
+    rdf:reifies <<( :neurogenicSignal :suggests :proneuralProgram )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 7.
+
+  _:step9
+    rdf:reifies <<( :s3 :considers :neuronalMaturationProgram )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 19;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      _:step10,
+      _:step11.
+
+  _:step10
+    rdf:reifies <<( :s3 :receives :maturationSignal )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 15.
+
+  _:step11
+    rdf:reifies <<( :maturationSignal :suggests :neuronalMaturationProgram )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 8.
+
+  _:step12
+    rdf:reifies <<( :s2 :targetsMarker :NeuroD1 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 20;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      _:step7,
+      _:step13.
+
+  _:step13
+    rdf:reifies <<( :neurogenicSignal :introducesMarker :NeuroD1 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 7.
+
+  _:step14
+    rdf:reifies <<( :s3 :targetsMarker :Tubb3 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 20;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      _:step10,
+      _:step15.
+
+  _:step15
+    rdf:reifies <<( :maturationSignal :introducesMarker :Tubb3 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 8.
+
+  _:step16
+    rdf:reifies <<( :s1 :status :stableCellState )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 37;
+    pe:binding [ pe:var "cell"; pe:value :s1 ];
+    pe:uses _:step17.
+
+  _:step17
+    rdf:reifies <<( :s1 :achieves :stableCellState )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 13.
+
+  _:step18
+    rdf:reifies <<( :s2 :preservesMarker :Sox2 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 22;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      _:step1,
+      _:step6,
+      _:step19.
+
+  _:step19
+    rdf:reifies <<( :proneuralProgram :compatibleWith :Sox2 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 10.
+
+  _:step20
+    rdf:reifies <<( :s2 :integrates :proneuralProgram )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 22;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      _:step1,
+      _:step6,
+      _:step19.
+
+  _:step21
+    rdf:reifies <<( :s2 :preservesMarker :Pax6 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 22;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      _:step4,
+      _:step6,
+      _:step22.
+
+  _:step22
+    rdf:reifies <<( :proneuralProgram :compatibleWith :Pax6 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 10.
+
+  _:step23
+    rdf:reifies <<( :s2 :expresses :NeuroD1 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 28;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      _:step12,
+      _:step6,
+      _:step24.
+
+  _:step24
+    rdf:reifies <<( :proneuralProgram :enables :NeuroD1 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 10.
+
+  _:step25
+    rdf:reifies <<( :s3 :expresses :Tubb3 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 28;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      _:step14,
+      _:step9,
+      _:step26.
+
+  _:step26
+    rdf:reifies <<( :neuronalMaturationProgram :enables :Tubb3 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 11.
+
+  _:step27
+    rdf:reifies <<( :s3 :integrates :neuronalMaturationProgram )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 28;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      _:step14,
+      _:step9,
+      _:step26.
+
+  _:step28
+    rdf:reifies <<( :s3 :inheritsMarker :NeuroD1 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 18;
+    pe:binding
+      [ pe:var "earlier"; pe:value :s2 ],
+      [ pe:var "later"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ];
+    pe:uses
+      _:step29,
+      _:step23.
+
+  _:step29
+    rdf:reifies <<( :s3 :derivesFrom :s2 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 15.
+
+  _:step30
+    rdf:reifies <<( :s2 :expresses :Sox2 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ];
+    pe:uses _:step18.
+
+  _:step31
+    rdf:reifies <<( :s2 :expresses :Pax6 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses _:step21.
+
+  _:step32
+    rdf:reifies <<( :s2 :realizes :proneuralProgram )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 35;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses _:step20.
+
+  _:step33
+    rdf:reifies <<( :s3 :realizes :neuronalMaturationProgram )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 35;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses _:step27.
+
+  _:step34
+    rdf:reifies <<( :s3 :inheritsMarker :Sox2 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 18;
+    pe:binding
+      [ pe:var "earlier"; pe:value :s2 ],
+      [ pe:var "later"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Sox2 ];
+    pe:uses
+      _:step29,
+      _:step30.
+
+  _:step35
+    rdf:reifies <<( :s3 :inheritsMarker :Pax6 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 18;
+    pe:binding
+      [ pe:var "earlier"; pe:value :s2 ],
+      [ pe:var "later"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      _:step29,
+      _:step31.
+
+  _:step36
+    rdf:reifies <<( :s3 :preservesMarker :NeuroD1 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 22;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      _:step28,
+      _:step9,
+      _:step37.
+
+  _:step37
+    rdf:reifies <<( :neuronalMaturationProgram :compatibleWith :NeuroD1 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 11.
+
+  _:step38
+    rdf:reifies <<( :s2 :achieves :stableCellState )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses _:step32.
+
+  _:step39
+    rdf:reifies <<( :s2 :availableForFurtherDifferentiation :yes )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses _:step32.
+
+  _:step40
+    rdf:reifies <<( :s3 :achieves :stableCellState )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses _:step33.
+
+  _:step41
+    rdf:reifies <<( :s3 :availableForFurtherDifferentiation :yes )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses _:step33.
+
+  _:step42
+    rdf:reifies <<( :s3 :preservesMarker :Pax6 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 22;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Pax6 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      _:step35,
+      _:step9,
+      _:step43.
+
+  _:step43
+    rdf:reifies <<( :neuronalMaturationProgram :compatibleWith :Pax6 )>>;
+    pe:fact "developmental-genetics-becoming.srl";
+    pe:line 11.
+
+  _:step44
+    rdf:reifies <<( :s3 :expresses :NeuroD1 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ];
+    pe:uses _:step36.
+
+  _:step45
+    rdf:reifies <<( :s2 :status :stableCellState )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 37;
+    pe:binding [ pe:var "cell"; pe:value :s2 ];
+    pe:uses _:step38.
+
+  _:step46
+    rdf:reifies <<( :s3 :status :stableCellState )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 37;
+    pe:binding [ pe:var "cell"; pe:value :s3 ];
+    pe:uses _:step40.
+
+  _:step47
+    rdf:reifies <<( :s3 :expresses :Pax6 )>>;
+    pe:rule "developmental-genetics-becoming.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses _:step42.
+}

@@ -1,0 +1,663 @@
+PREFIX : <http://examples.org/#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  _:b1_14650fb0739d0383 :appFn :f .
+  _:b1_14650fb0739d0383 :appArg :a .
+  _:b1_14650fb0739d0383 :appResult :p .
+  _:b2_14650fb0739d0383 :appFn :f .
+  _:b2_14650fb0739d0383 :appArg :b .
+  _:b2_14650fb0739d0383 :appResult :q .
+  _:b3_14650fb0739d0383 :appFn :g .
+  _:b3_14650fb0739d0383 :appArg :p .
+  _:b3_14650fb0739d0383 :appResult :r .
+  _:b4_14650fb0739d0383 :appFn :g .
+  _:b4_14650fb0739d0383 :appArg :q .
+  _:b4_14650fb0739d0383 :appResult :r .
+  :a :sameTerm :a .
+  :b :sameTerm :b .
+  :p :sameTerm :p .
+  :q :sameTerm :q .
+  :r :sameTerm :r .
+  :p :sameTerm :q .
+  :q :sameTerm :p .
+  :a :sameTerm :b .
+  :b :sameTerm :a .
+  _:b5_5aa51d0d820a2bc2 :hAppArg :a .
+  _:b5_5aa51d0d820a2bc2 :hAppResult :r .
+  _:b5_99f42beca5fb0f40 :hAppArg :b .
+  _:b5_99f42beca5fb0f40 :hAppResult :r .
+  _:b6_7e58d7a74b1bed48 a :SameInputWitness .
+  _:b6_7e58d7a74b1bed48 :witnessH :h .
+  _:b6_7e58d7a74b1bed48 :witnessX :a .
+  _:b6_7e58d7a74b1bed48 :witnessY :b .
+  _:b6_35b2e27b12333e56 a :SameInputWitness .
+  _:b6_35b2e27b12333e56 :witnessH :h .
+  _:b6_35b2e27b12333e56 :witnessX :b .
+  _:b6_35b2e27b12333e56 :witnessY :a .
+
+  _:step1
+    rdf:reifies <<( _:b1_14650fb0739d0383 :appFn :f )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 29;
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :f :injective true )>>;
+    pe:fact "composition-of-injective-functions-is-injective.srl";
+    pe:line 25.
+
+  _:step3
+    rdf:reifies <<( _:b1_14650fb0739d0383 :appArg :a )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 29;
+    pe:uses _:step2.
+
+  _:step4
+    rdf:reifies <<( _:b1_14650fb0739d0383 :appResult :p )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 29;
+    pe:uses _:step2.
+
+  _:step5
+    rdf:reifies <<( _:b2_14650fb0739d0383 :appFn :f )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 30;
+    pe:uses _:step2.
+
+  _:step6
+    rdf:reifies <<( _:b2_14650fb0739d0383 :appArg :b )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 30;
+    pe:uses _:step2.
+
+  _:step7
+    rdf:reifies <<( _:b2_14650fb0739d0383 :appResult :q )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 30;
+    pe:uses _:step2.
+
+  _:step8
+    rdf:reifies <<( _:b3_14650fb0739d0383 :appFn :g )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 31;
+    pe:uses _:step9.
+
+  _:step9
+    rdf:reifies <<( :g :injective true )>>;
+    pe:fact "composition-of-injective-functions-is-injective.srl";
+    pe:line 25.
+
+  _:step10
+    rdf:reifies <<( _:b3_14650fb0739d0383 :appArg :p )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 31;
+    pe:uses _:step9.
+
+  _:step11
+    rdf:reifies <<( _:b3_14650fb0739d0383 :appResult :r )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 31;
+    pe:uses _:step9.
+
+  _:step12
+    rdf:reifies <<( _:b4_14650fb0739d0383 :appFn :g )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 32;
+    pe:uses _:step9.
+
+  _:step13
+    rdf:reifies <<( _:b4_14650fb0739d0383 :appArg :q )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 32;
+    pe:uses _:step9.
+
+  _:step14
+    rdf:reifies <<( _:b4_14650fb0739d0383 :appResult :r )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 32;
+    pe:uses _:step9.
+
+  _:step15
+    rdf:reifies <<( :a :sameTerm :a )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 34;
+    pe:binding [ pe:var "x"; pe:value :a ];
+    pe:uses _:step16.
+
+  _:step16
+    rdf:reifies <<( :a :inX true )>>;
+    pe:fact "composition-of-injective-functions-is-injective.srl";
+    pe:line 22.
+
+  _:step17
+    rdf:reifies <<( :b :sameTerm :b )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 34;
+    pe:binding [ pe:var "x"; pe:value :b ];
+    pe:uses _:step18.
+
+  _:step18
+    rdf:reifies <<( :b :inX true )>>;
+    pe:fact "composition-of-injective-functions-is-injective.srl";
+    pe:line 22.
+
+  _:step19
+    rdf:reifies <<( :p :sameTerm :p )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 35;
+    pe:binding [ pe:var "y"; pe:value :p ];
+    pe:uses _:step20.
+
+  _:step20
+    rdf:reifies <<( :p :inY true )>>;
+    pe:fact "composition-of-injective-functions-is-injective.srl";
+    pe:line 23.
+
+  _:step21
+    rdf:reifies <<( :q :sameTerm :q )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 35;
+    pe:binding [ pe:var "y"; pe:value :q ];
+    pe:uses _:step22.
+
+  _:step22
+    rdf:reifies <<( :q :inY true )>>;
+    pe:fact "composition-of-injective-functions-is-injective.srl";
+    pe:line 23.
+
+  _:step23
+    rdf:reifies <<( :r :sameTerm :r )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 36;
+    pe:binding [ pe:var "z"; pe:value :r ];
+    pe:uses _:step24.
+
+  _:step24
+    rdf:reifies <<( :r :inZ true )>>;
+    pe:fact "composition-of-injective-functions-is-injective.srl";
+    pe:line 24.
+
+  _:step25
+    rdf:reifies <<( :p :sameTerm :q )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 44;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :g ],
+      [ pe:var "u"; pe:value :r ],
+      [ pe:var "v"; pe:value :r ],
+      [ pe:var "x"; pe:value :p ],
+      [ pe:var "y"; pe:value :q ];
+    pe:uses
+      _:step9,
+      _:step8,
+      _:step10,
+      _:step11,
+      _:step12,
+      _:step13,
+      _:step14,
+      _:step23.
+
+  _:step26
+    rdf:reifies <<( :q :sameTerm :p )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 44;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :g ],
+      [ pe:var "u"; pe:value :r ],
+      [ pe:var "v"; pe:value :r ],
+      [ pe:var "x"; pe:value :q ],
+      [ pe:var "y"; pe:value :p ];
+    pe:uses
+      _:step9,
+      _:step12,
+      _:step13,
+      _:step14,
+      _:step8,
+      _:step10,
+      _:step11,
+      _:step23.
+
+  _:step27
+    rdf:reifies <<( :a :sameTerm :b )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 44;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "u"; pe:value :p ],
+      [ pe:var "v"; pe:value :q ],
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      _:step2,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step25.
+
+  _:step28
+    rdf:reifies <<( :b :sameTerm :a )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 44;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "u"; pe:value :q ],
+      [ pe:var "v"; pe:value :p ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :a ];
+    pe:uses
+      _:step2,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step26.
+
+  _:step29
+    rdf:reifies <<( _:b5_5aa51d0d820a2bc2 :hAppArg :a )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 51;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :p ],
+      [ pe:var "z"; pe:value :r ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step8,
+      _:step10,
+      _:step11.
+
+  _:step30
+    rdf:reifies <<( :h :compositeOfG :g )>>;
+    pe:fact "composition-of-injective-functions-is-injective.srl";
+    pe:line 26.
+
+  _:step31
+    rdf:reifies <<( :h :compositeOfF :f )>>;
+    pe:fact "composition-of-injective-functions-is-injective.srl";
+    pe:line 26.
+
+  _:step32
+    rdf:reifies <<( _:b5_5aa51d0d820a2bc2 :hAppResult :r )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 51;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :p ],
+      [ pe:var "z"; pe:value :r ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step8,
+      _:step10,
+      _:step11.
+
+  _:step33
+    rdf:reifies <<( _:b5_99f42beca5fb0f40 :hAppArg :b )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 51;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :q ],
+      [ pe:var "z"; pe:value :r ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step12,
+      _:step13,
+      _:step14.
+
+  _:step34
+    rdf:reifies <<( _:b5_99f42beca5fb0f40 :hAppResult :r )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 51;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :q ],
+      [ pe:var "z"; pe:value :r ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step12,
+      _:step13,
+      _:step14.
+
+  _:step35
+    rdf:reifies <<( _:b6_7e58d7a74b1bed48 a :SameInputWitness )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 57;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c3"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "c4"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "fx"; pe:value :p ],
+      [ pe:var "fy"; pe:value :q ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "u"; pe:value :r ],
+      [ pe:var "v"; pe:value :r ],
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step2,
+      _:step9,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step10,
+      _:step11,
+      _:step12,
+      _:step13,
+      _:step14,
+      _:step23,
+      _:step27.
+
+  _:step36
+    rdf:reifies <<( _:b6_7e58d7a74b1bed48 :witnessH :h )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 57;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c3"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "c4"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "fx"; pe:value :p ],
+      [ pe:var "fy"; pe:value :q ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "u"; pe:value :r ],
+      [ pe:var "v"; pe:value :r ],
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step2,
+      _:step9,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step10,
+      _:step11,
+      _:step12,
+      _:step13,
+      _:step14,
+      _:step23,
+      _:step27.
+
+  _:step37
+    rdf:reifies <<( _:b6_7e58d7a74b1bed48 :witnessX :a )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 57;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c3"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "c4"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "fx"; pe:value :p ],
+      [ pe:var "fy"; pe:value :q ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "u"; pe:value :r ],
+      [ pe:var "v"; pe:value :r ],
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step2,
+      _:step9,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step10,
+      _:step11,
+      _:step12,
+      _:step13,
+      _:step14,
+      _:step23,
+      _:step27.
+
+  _:step38
+    rdf:reifies <<( _:b6_7e58d7a74b1bed48 :witnessY :b )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 57;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c3"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "c4"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "fx"; pe:value :p ],
+      [ pe:var "fy"; pe:value :q ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "u"; pe:value :r ],
+      [ pe:var "v"; pe:value :r ],
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step2,
+      _:step9,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step10,
+      _:step11,
+      _:step12,
+      _:step13,
+      _:step14,
+      _:step23,
+      _:step27.
+
+  _:step39
+    rdf:reifies <<( _:b6_35b2e27b12333e56 a :SameInputWitness )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 57;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c3"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "c4"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "fx"; pe:value :q ],
+      [ pe:var "fy"; pe:value :p ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "u"; pe:value :r ],
+      [ pe:var "v"; pe:value :r ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :a ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step2,
+      _:step9,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step12,
+      _:step13,
+      _:step14,
+      _:step8,
+      _:step10,
+      _:step11,
+      _:step23,
+      _:step28.
+
+  _:step40
+    rdf:reifies <<( _:b6_35b2e27b12333e56 :witnessH :h )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 57;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c3"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "c4"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "fx"; pe:value :q ],
+      [ pe:var "fy"; pe:value :p ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "u"; pe:value :r ],
+      [ pe:var "v"; pe:value :r ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :a ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step2,
+      _:step9,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step12,
+      _:step13,
+      _:step14,
+      _:step8,
+      _:step10,
+      _:step11,
+      _:step23,
+      _:step28.
+
+  _:step41
+    rdf:reifies <<( _:b6_35b2e27b12333e56 :witnessX :b )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 57;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c3"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "c4"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "fx"; pe:value :q ],
+      [ pe:var "fy"; pe:value :p ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "u"; pe:value :r ],
+      [ pe:var "v"; pe:value :r ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :a ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step2,
+      _:step9,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step12,
+      _:step13,
+      _:step14,
+      _:step8,
+      _:step10,
+      _:step11,
+      _:step23,
+      _:step28.
+
+  _:step42
+    rdf:reifies <<( _:b6_35b2e27b12333e56 :witnessY :a )>>;
+    pe:rule "composition-of-injective-functions-is-injective.srl";
+    pe:line 57;
+    pe:binding
+      [ pe:var "c1"; pe:value _:b2_14650fb0739d0383 ],
+      [ pe:var "c2"; pe:value _:b1_14650fb0739d0383 ],
+      [ pe:var "c3"; pe:value _:b4_14650fb0739d0383 ],
+      [ pe:var "c4"; pe:value _:b3_14650fb0739d0383 ],
+      [ pe:var "f"; pe:value :f ],
+      [ pe:var "fx"; pe:value :q ],
+      [ pe:var "fy"; pe:value :p ],
+      [ pe:var "g"; pe:value :g ],
+      [ pe:var "u"; pe:value :r ],
+      [ pe:var "v"; pe:value :r ],
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :a ];
+    pe:uses
+      _:step30,
+      _:step31,
+      _:step2,
+      _:step9,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step1,
+      _:step3,
+      _:step4,
+      _:step12,
+      _:step13,
+      _:step14,
+      _:step8,
+      _:step10,
+      _:step11,
+      _:step23,
+      _:step28.
+}

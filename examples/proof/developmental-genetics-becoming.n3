@@ -1,0 +1,1585 @@
+@prefix : <http://example.org/genetics#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:s2 :considers :proneuralProgram .
+:s2 :targetsMarker :NeuroD1 .
+:s3 :considers :neuronalMaturationProgram .
+:s3 :targetsMarker :Tubb3 .
+:s2 :expresses :NeuroD1 .
+:s2 :integrates :proneuralProgram .
+:s3 :expresses :Tubb3 .
+:s3 :integrates :neuronalMaturationProgram .
+:s2 :inheritsMarker :Sox2 .
+:s2 :inheritsMarker :Pax6 .
+:s1 :status :stableCellState .
+:s3 :inheritsMarker :NeuroD1 .
+:s2 :preservesMarker :Sox2 .
+:s2 :preservesMarker :Pax6 .
+:s3 :preservesMarker :NeuroD1 .
+:s2 :realizes :proneuralProgram .
+:s3 :realizes :neuronalMaturationProgram .
+:s2 :expresses :Sox2 .
+:s2 :expresses :Pax6 .
+:s3 :expresses :NeuroD1 .
+:s2 :achieves :stableCellState .
+:s2 :availableForFurtherDifferentiation :yes .
+:s3 :achieves :stableCellState .
+:s3 :availableForFurtherDifferentiation :yes .
+:s3 :inheritsMarker :Sox2 .
+:s3 :inheritsMarker :Pax6 .
+:s2 :status :stableCellState .
+:s3 :status :stableCellState .
+:s3 :preservesMarker :Pax6 .
+:s3 :expresses :Pax6 .
+
+{ :s2 :considers :proneuralProgram . } pe:why {
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+}.
+
+{ :s2 :targetsMarker :NeuroD1 . } pe:why {
+  { :s2 :targetsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :introducesMarker :NeuroD1 . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :introducesMarker :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+}.
+
+{ :s3 :considers :neuronalMaturationProgram . } pe:why {
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+}.
+
+{ :s3 :targetsMarker :Tubb3 . } pe:why {
+  { :s3 :targetsMarker :Tubb3 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :introducesMarker :Tubb3 . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :introducesMarker :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+}.
+
+{ :s2 :expresses :NeuroD1 . } pe:why {
+  { :s2 :expresses :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :targetsMarker :NeuroD1 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :enables :NeuroD1 . }.
+
+  { :s2 :targetsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :introducesMarker :NeuroD1 . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :introducesMarker :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :enables :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s2 :integrates :proneuralProgram . } pe:why {
+  { :s2 :integrates :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :targetsMarker :NeuroD1 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :enables :NeuroD1 . }.
+
+  { :s2 :targetsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :introducesMarker :NeuroD1 . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :introducesMarker :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :enables :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s3 :expresses :Tubb3 . } pe:why {
+  { :s3 :expresses :Tubb3 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      { :s3 :targetsMarker :Tubb3 . },
+      { :s3 :considers :neuronalMaturationProgram . },
+      { :neuronalMaturationProgram :enables :Tubb3 . }.
+
+  { :s3 :targetsMarker :Tubb3 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :introducesMarker :Tubb3 . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :introducesMarker :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :neuronalMaturationProgram :enables :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 57 ].
+}.
+
+{ :s3 :integrates :neuronalMaturationProgram . } pe:why {
+  { :s3 :integrates :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      { :s3 :targetsMarker :Tubb3 . },
+      { :s3 :considers :neuronalMaturationProgram . },
+      { :neuronalMaturationProgram :enables :Tubb3 . }.
+
+  { :s3 :targetsMarker :Tubb3 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :introducesMarker :Tubb3 . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :introducesMarker :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :neuronalMaturationProgram :enables :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 57 ].
+}.
+
+{ :s2 :inheritsMarker :Sox2 . } pe:why {
+  { :s2 :inheritsMarker :Sox2 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ];
+    pe:uses
+      { :s2 :derivesFrom :s1 . },
+      { :s1 :expresses :Sox2 . }.
+
+  { :s2 :derivesFrom :s1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :s1 :expresses :Sox2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+}.
+
+{ :s2 :inheritsMarker :Pax6 . } pe:why {
+  { :s2 :inheritsMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      { :s2 :derivesFrom :s1 . },
+      { :s1 :expresses :Pax6 . }.
+
+  { :s2 :derivesFrom :s1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :s1 :expresses :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+}.
+
+{ :s1 :status :stableCellState . } pe:why {
+  { :s1 :status :stableCellState . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 198 ];
+    pe:binding [ pe:var "cell"; pe:value :s1 ];
+    pe:uses { :s1 :achieves :stableCellState . }.
+
+  { :s1 :achieves :stableCellState . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+}.
+
+{ :s3 :inheritsMarker :NeuroD1 . } pe:why {
+  { :s3 :inheritsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s2 ],
+      [ pe:var "later"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ];
+    pe:uses
+      { :s3 :derivesFrom :s2 . },
+      { :s2 :expresses :NeuroD1 . }.
+
+  { :s3 :derivesFrom :s2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :s2 :expresses :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :targetsMarker :NeuroD1 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :enables :NeuroD1 . }.
+
+  { :s2 :targetsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :introducesMarker :NeuroD1 . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :introducesMarker :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :enables :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s2 :preservesMarker :Sox2 . } pe:why {
+  { :s2 :preservesMarker :Sox2 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :inheritsMarker :Sox2 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :compatibleWith :Sox2 . }.
+
+  { :s2 :inheritsMarker :Sox2 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ];
+    pe:uses
+      { :s2 :derivesFrom :s1 . },
+      { :s1 :expresses :Sox2 . }.
+
+  { :s2 :derivesFrom :s1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :s1 :expresses :Sox2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :compatibleWith :Sox2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s2 :preservesMarker :Pax6 . } pe:why {
+  { :s2 :preservesMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :inheritsMarker :Pax6 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :compatibleWith :Pax6 . }.
+
+  { :s2 :inheritsMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      { :s2 :derivesFrom :s1 . },
+      { :s1 :expresses :Pax6 . }.
+
+  { :s2 :derivesFrom :s1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :s1 :expresses :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :compatibleWith :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s3 :preservesMarker :NeuroD1 . } pe:why {
+  { :s3 :preservesMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      { :s3 :inheritsMarker :NeuroD1 . },
+      { :s3 :considers :neuronalMaturationProgram . },
+      { :neuronalMaturationProgram :compatibleWith :NeuroD1 . }.
+
+  { :s3 :inheritsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s2 ],
+      [ pe:var "later"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ];
+    pe:uses
+      { :s3 :derivesFrom :s2 . },
+      { :s2 :expresses :NeuroD1 . }.
+
+  { :s3 :derivesFrom :s2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :s2 :expresses :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :targetsMarker :NeuroD1 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :enables :NeuroD1 . }.
+
+  { :s2 :targetsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :introducesMarker :NeuroD1 . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :introducesMarker :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :enables :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :neuronalMaturationProgram :compatibleWith :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 57 ].
+}.
+
+{ :s2 :realizes :proneuralProgram . } pe:why {
+  { :s2 :realizes :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 171 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses { :s2 :integrates :proneuralProgram . }.
+
+  { :s2 :integrates :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :targetsMarker :NeuroD1 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :enables :NeuroD1 . }.
+
+  { :s2 :targetsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :introducesMarker :NeuroD1 . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :introducesMarker :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :enables :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s3 :realizes :neuronalMaturationProgram . } pe:why {
+  { :s3 :realizes :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 171 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses { :s3 :integrates :neuronalMaturationProgram . }.
+
+  { :s3 :integrates :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      { :s3 :targetsMarker :Tubb3 . },
+      { :s3 :considers :neuronalMaturationProgram . },
+      { :neuronalMaturationProgram :enables :Tubb3 . }.
+
+  { :s3 :targetsMarker :Tubb3 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :introducesMarker :Tubb3 . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :introducesMarker :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :neuronalMaturationProgram :enables :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 57 ].
+}.
+
+{ :s2 :expresses :Sox2 . } pe:why {
+  { :s2 :expresses :Sox2 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 158 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ];
+    pe:uses { :s2 :preservesMarker :Sox2 . }.
+
+  { :s2 :preservesMarker :Sox2 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :inheritsMarker :Sox2 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :compatibleWith :Sox2 . }.
+
+  { :s2 :inheritsMarker :Sox2 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ];
+    pe:uses
+      { :s2 :derivesFrom :s1 . },
+      { :s1 :expresses :Sox2 . }.
+
+  { :s2 :derivesFrom :s1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :s1 :expresses :Sox2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :compatibleWith :Sox2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s2 :expresses :Pax6 . } pe:why {
+  { :s2 :expresses :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 158 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses { :s2 :preservesMarker :Pax6 . }.
+
+  { :s2 :preservesMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :inheritsMarker :Pax6 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :compatibleWith :Pax6 . }.
+
+  { :s2 :inheritsMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      { :s2 :derivesFrom :s1 . },
+      { :s1 :expresses :Pax6 . }.
+
+  { :s2 :derivesFrom :s1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :s1 :expresses :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :compatibleWith :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s3 :expresses :NeuroD1 . } pe:why {
+  { :s3 :expresses :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 158 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ];
+    pe:uses { :s3 :preservesMarker :NeuroD1 . }.
+
+  { :s3 :preservesMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      { :s3 :inheritsMarker :NeuroD1 . },
+      { :s3 :considers :neuronalMaturationProgram . },
+      { :neuronalMaturationProgram :compatibleWith :NeuroD1 . }.
+
+  { :s3 :inheritsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s2 ],
+      [ pe:var "later"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ];
+    pe:uses
+      { :s3 :derivesFrom :s2 . },
+      { :s2 :expresses :NeuroD1 . }.
+
+  { :s3 :derivesFrom :s2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :s2 :expresses :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :targetsMarker :NeuroD1 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :enables :NeuroD1 . }.
+
+  { :s2 :targetsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :introducesMarker :NeuroD1 . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :introducesMarker :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :enables :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :neuronalMaturationProgram :compatibleWith :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 57 ].
+}.
+
+{ :s2 :achieves :stableCellState . } pe:why {
+  { :s2 :achieves :stableCellState . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 184 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses { :s2 :realizes :proneuralProgram . }.
+
+  { :s2 :realizes :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 171 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses { :s2 :integrates :proneuralProgram . }.
+
+  { :s2 :integrates :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :targetsMarker :NeuroD1 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :enables :NeuroD1 . }.
+
+  { :s2 :targetsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :introducesMarker :NeuroD1 . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :introducesMarker :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :enables :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s2 :availableForFurtherDifferentiation :yes . } pe:why {
+  { :s2 :availableForFurtherDifferentiation :yes . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 184 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses { :s2 :realizes :proneuralProgram . }.
+
+  { :s2 :realizes :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 171 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses { :s2 :integrates :proneuralProgram . }.
+
+  { :s2 :integrates :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :targetsMarker :NeuroD1 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :enables :NeuroD1 . }.
+
+  { :s2 :targetsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :introducesMarker :NeuroD1 . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :introducesMarker :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :enables :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s3 :achieves :stableCellState . } pe:why {
+  { :s3 :achieves :stableCellState . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 184 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses { :s3 :realizes :neuronalMaturationProgram . }.
+
+  { :s3 :realizes :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 171 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses { :s3 :integrates :neuronalMaturationProgram . }.
+
+  { :s3 :integrates :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      { :s3 :targetsMarker :Tubb3 . },
+      { :s3 :considers :neuronalMaturationProgram . },
+      { :neuronalMaturationProgram :enables :Tubb3 . }.
+
+  { :s3 :targetsMarker :Tubb3 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :introducesMarker :Tubb3 . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :introducesMarker :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :neuronalMaturationProgram :enables :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 57 ].
+}.
+
+{ :s3 :availableForFurtherDifferentiation :yes . } pe:why {
+  { :s3 :availableForFurtherDifferentiation :yes . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 184 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses { :s3 :realizes :neuronalMaturationProgram . }.
+
+  { :s3 :realizes :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 171 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses { :s3 :integrates :neuronalMaturationProgram . }.
+
+  { :s3 :integrates :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      { :s3 :targetsMarker :Tubb3 . },
+      { :s3 :considers :neuronalMaturationProgram . },
+      { :neuronalMaturationProgram :enables :Tubb3 . }.
+
+  { :s3 :targetsMarker :Tubb3 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :introducesMarker :Tubb3 . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :introducesMarker :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :neuronalMaturationProgram :enables :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 57 ].
+}.
+
+{ :s3 :inheritsMarker :Sox2 . } pe:why {
+  { :s3 :inheritsMarker :Sox2 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s2 ],
+      [ pe:var "later"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Sox2 ];
+    pe:uses
+      { :s3 :derivesFrom :s2 . },
+      { :s2 :expresses :Sox2 . }.
+
+  { :s3 :derivesFrom :s2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :s2 :expresses :Sox2 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 158 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ];
+    pe:uses { :s2 :preservesMarker :Sox2 . }.
+
+  { :s2 :preservesMarker :Sox2 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :inheritsMarker :Sox2 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :compatibleWith :Sox2 . }.
+
+  { :s2 :inheritsMarker :Sox2 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Sox2 ];
+    pe:uses
+      { :s2 :derivesFrom :s1 . },
+      { :s1 :expresses :Sox2 . }.
+
+  { :s2 :derivesFrom :s1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :s1 :expresses :Sox2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :compatibleWith :Sox2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s3 :inheritsMarker :Pax6 . } pe:why {
+  { :s3 :inheritsMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s2 ],
+      [ pe:var "later"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      { :s3 :derivesFrom :s2 . },
+      { :s2 :expresses :Pax6 . }.
+
+  { :s3 :derivesFrom :s2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :s2 :expresses :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 158 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses { :s2 :preservesMarker :Pax6 . }.
+
+  { :s2 :preservesMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :inheritsMarker :Pax6 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :compatibleWith :Pax6 . }.
+
+  { :s2 :inheritsMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      { :s2 :derivesFrom :s1 . },
+      { :s1 :expresses :Pax6 . }.
+
+  { :s2 :derivesFrom :s1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :s1 :expresses :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :compatibleWith :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s2 :status :stableCellState . } pe:why {
+  { :s2 :status :stableCellState . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 198 ];
+    pe:binding [ pe:var "cell"; pe:value :s2 ];
+    pe:uses { :s2 :achieves :stableCellState . }.
+
+  { :s2 :achieves :stableCellState . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 184 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses { :s2 :realizes :proneuralProgram . }.
+
+  { :s2 :realizes :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 171 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses { :s2 :integrates :proneuralProgram . }.
+
+  { :s2 :integrates :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :targetsMarker :NeuroD1 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :enables :NeuroD1 . }.
+
+  { :s2 :targetsMarker :NeuroD1 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :NeuroD1 ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :introducesMarker :NeuroD1 . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :introducesMarker :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :enables :NeuroD1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+}.
+
+{ :s3 :status :stableCellState . } pe:why {
+  { :s3 :status :stableCellState . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 198 ];
+    pe:binding [ pe:var "cell"; pe:value :s3 ];
+    pe:uses { :s3 :achieves :stableCellState . }.
+
+  { :s3 :achieves :stableCellState . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 184 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses { :s3 :realizes :neuronalMaturationProgram . }.
+
+  { :s3 :realizes :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 171 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses { :s3 :integrates :neuronalMaturationProgram . }.
+
+  { :s3 :integrates :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 142 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      { :s3 :targetsMarker :Tubb3 . },
+      { :s3 :considers :neuronalMaturationProgram . },
+      { :neuronalMaturationProgram :enables :Tubb3 . }.
+
+  { :s3 :targetsMarker :Tubb3 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 112 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Tubb3 ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :introducesMarker :Tubb3 . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :introducesMarker :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :neuronalMaturationProgram :enables :Tubb3 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 57 ].
+}.
+
+{ :s3 :preservesMarker :Pax6 . } pe:why {
+  { :s3 :preservesMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Pax6 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      { :s3 :inheritsMarker :Pax6 . },
+      { :s3 :considers :neuronalMaturationProgram . },
+      { :neuronalMaturationProgram :compatibleWith :Pax6 . }.
+
+  { :s3 :inheritsMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s2 ],
+      [ pe:var "later"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      { :s3 :derivesFrom :s2 . },
+      { :s2 :expresses :Pax6 . }.
+
+  { :s3 :derivesFrom :s2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :s2 :expresses :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 158 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses { :s2 :preservesMarker :Pax6 . }.
+
+  { :s2 :preservesMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :inheritsMarker :Pax6 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :compatibleWith :Pax6 . }.
+
+  { :s2 :inheritsMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      { :s2 :derivesFrom :s1 . },
+      { :s1 :expresses :Pax6 . }.
+
+  { :s2 :derivesFrom :s1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :s1 :expresses :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :compatibleWith :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :neuronalMaturationProgram :compatibleWith :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 57 ].
+}.
+
+{ :s3 :expresses :Pax6 . } pe:why {
+  { :s3 :expresses :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 158 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses { :s3 :preservesMarker :Pax6 . }.
+
+  { :s3 :preservesMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Pax6 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ];
+    pe:uses
+      { :s3 :inheritsMarker :Pax6 . },
+      { :s3 :considers :neuronalMaturationProgram . },
+      { :neuronalMaturationProgram :compatibleWith :Pax6 . }.
+
+  { :s3 :inheritsMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s2 ],
+      [ pe:var "later"; pe:value :s3 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      { :s3 :derivesFrom :s2 . },
+      { :s2 :expresses :Pax6 . }.
+
+  { :s3 :derivesFrom :s2 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :s2 :expresses :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 158 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses { :s2 :preservesMarker :Pax6 . }.
+
+  { :s2 :preservesMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 126 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ],
+      [ pe:var "program"; pe:value :proneuralProgram ];
+    pe:uses
+      { :s2 :inheritsMarker :Pax6 . },
+      { :s2 :considers :proneuralProgram . },
+      { :proneuralProgram :compatibleWith :Pax6 . }.
+
+  { :s2 :inheritsMarker :Pax6 . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "earlier"; pe:value :s1 ],
+      [ pe:var "later"; pe:value :s2 ],
+      [ pe:var "marker"; pe:value :Pax6 ];
+    pe:uses
+      { :s2 :derivesFrom :s1 . },
+      { :s1 :expresses :Pax6 . }.
+
+  { :s2 :derivesFrom :s1 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :s1 :expresses :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 64 ].
+
+  { :s2 :considers :proneuralProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s2 ],
+      [ pe:var "program"; pe:value :proneuralProgram ],
+      [ pe:var "signal"; pe:value :neurogenicSignal ];
+    pe:uses
+      { :s2 :receives :neurogenicSignal . },
+      { :neurogenicSignal :suggests :proneuralProgram . }.
+
+  { :s2 :receives :neurogenicSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 69 ].
+
+  { :neurogenicSignal :suggests :proneuralProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 39 ].
+
+  { :proneuralProgram :compatibleWith :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 54 ].
+
+  { :s3 :considers :neuronalMaturationProgram . }
+    pe:by [ pe:rule "developmental-genetics-becoming.n3"; pe:line 98 ];
+    pe:binding
+      [ pe:var "cell"; pe:value :s3 ],
+      [ pe:var "program"; pe:value :neuronalMaturationProgram ],
+      [ pe:var "signal"; pe:value :maturationSignal ];
+    pe:uses
+      { :s3 :receives :maturationSignal . },
+      { :maturationSignal :suggests :neuronalMaturationProgram . }.
+
+  { :s3 :receives :maturationSignal . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 74 ].
+
+  { :maturationSignal :suggests :neuronalMaturationProgram . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 42 ].
+
+  { :neuronalMaturationProgram :compatibleWith :Pax6 . }
+    pe:by [ pe:fact "developmental-genetics-becoming.n3"; pe:line 57 ].
+}.

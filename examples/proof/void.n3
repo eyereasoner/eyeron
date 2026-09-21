@@ -1,0 +1,99 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/void/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <http://schema.org/> .
+
+ex:jamesWeatherall foaf:made ex:book2016 .
+ex:book2016 dct:subject ex:quantumTheory .
+ex:book2016 schema:about ex:darkEnergy .
+ex:isaacNewton schema:subjectOf ex:book2016 .
+ex:albertEinstein schema:subjectOf ex:book2016 .
+ex:book2016 ex:recommendedFor ex:curiousPhysicsReaderEn .
+
+{ ex:jamesWeatherall foaf:made ex:book2016 . } pe:why {
+  { ex:jamesWeatherall foaf:made ex:book2016 . }
+    pe:by [ pe:rule "void.n3"; pe:line 136 ];
+    pe:binding
+      [ pe:var "book"; pe:value ex:book2016 ],
+      [ pe:var "person"; pe:value ex:jamesWeatherall ];
+    pe:uses { ex:book2016 schema:author ex:jamesWeatherall . }.
+
+  { ex:book2016 schema:author ex:jamesWeatherall . }
+    pe:by [ pe:fact "void.n3"; pe:line 18 ].
+}.
+
+{ ex:book2016 dct:subject ex:quantumTheory . } pe:why {
+  { ex:book2016 dct:subject ex:quantumTheory . }
+    pe:by [ pe:rule "void.n3"; pe:line 145 ];
+    pe:binding [ pe:var "book"; pe:value ex:book2016 ];
+    pe:uses { ex:book2016 schema:about ex:quantumFieldTheory . }.
+
+  { ex:book2016 schema:about ex:quantumFieldTheory . }
+    pe:by [ pe:fact "void.n3"; pe:line 18 ].
+}.
+
+{ ex:book2016 schema:about ex:darkEnergy . } pe:why {
+  { ex:book2016 schema:about ex:darkEnergy . }
+    pe:by [ pe:rule "void.n3"; pe:line 149 ];
+    pe:binding [ pe:var "book"; pe:value ex:book2016 ];
+    pe:uses { ex:book2016 schema:about ex:cosmologicalConstant . }.
+
+  { ex:book2016 schema:about ex:cosmologicalConstant . }
+    pe:by [ pe:fact "void.n3"; pe:line 18 ].
+}.
+
+{ ex:isaacNewton schema:subjectOf ex:book2016 . } pe:why {
+  { ex:isaacNewton schema:subjectOf ex:book2016 . }
+    pe:by [ pe:rule "void.n3"; pe:line 140 ];
+    pe:binding
+      [ pe:var "book"; pe:value ex:book2016 ],
+      [ pe:var "person"; pe:value ex:isaacNewton ];
+    pe:uses
+      { ex:book2016 schema:about ex:isaacNewton . },
+      { ex:isaacNewton a foaf:Person . }.
+
+  { ex:book2016 schema:about ex:isaacNewton . }
+    pe:by [ pe:fact "void.n3"; pe:line 18 ].
+
+  { ex:isaacNewton a foaf:Person . }
+    pe:by [ pe:fact "void.n3"; pe:line 68 ].
+}.
+
+{ ex:albertEinstein schema:subjectOf ex:book2016 . } pe:why {
+  { ex:albertEinstein schema:subjectOf ex:book2016 . }
+    pe:by [ pe:rule "void.n3"; pe:line 140 ];
+    pe:binding
+      [ pe:var "book"; pe:value ex:book2016 ],
+      [ pe:var "person"; pe:value ex:albertEinstein ];
+    pe:uses
+      { ex:book2016 schema:about ex:albertEinstein . },
+      { ex:albertEinstein a foaf:Person . }.
+
+  { ex:book2016 schema:about ex:albertEinstein . }
+    pe:by [ pe:fact "void.n3"; pe:line 18 ].
+
+  { ex:albertEinstein a foaf:Person . }
+    pe:by [ pe:fact "void.n3"; pe:line 72 ].
+}.
+
+{ ex:book2016 ex:recommendedFor ex:curiousPhysicsReaderEn . } pe:why {
+  { ex:book2016 ex:recommendedFor ex:curiousPhysicsReaderEn . }
+    pe:by [ pe:rule "void.n3"; pe:line 153 ];
+    pe:binding [ pe:var "book"; pe:value ex:book2016 ];
+    pe:uses
+      { ex:book2016 dct:subject ex:quantumTheory . },
+      { ex:book2016 schema:inLanguage "en" . }.
+
+  { ex:book2016 dct:subject ex:quantumTheory . }
+    pe:by [ pe:rule "void.n3"; pe:line 145 ];
+    pe:binding [ pe:var "book"; pe:value ex:book2016 ];
+    pe:uses { ex:book2016 schema:about ex:quantumFieldTheory . }.
+
+  { ex:book2016 schema:about ex:quantumFieldTheory . }
+    pe:by [ pe:fact "void.n3"; pe:line 18 ].
+
+  { ex:book2016 schema:inLanguage "en" . }
+    pe:by [ pe:fact "void.n3"; pe:line 18 ].
+}.

@@ -1,0 +1,23 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/spec-2-3-filtering#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:town2 a :largeTown .
+
+{ :town2 a :largeTown . } pe:why {
+  { :town2 a :largeTown . }
+    pe:by [ pe:rule "spec-2-3-filtering.n3"; pe:line 10 ];
+    pe:binding
+      [ pe:var "p"; pe:value 2000 ],
+      [ pe:var "x"; pe:value :town2 ];
+    pe:uses
+      { :town2 :population 2000 . },
+      { 2000 math:greaterThan 1500 . }.
+
+  { :town2 :population 2000 . }
+    pe:by [ pe:fact "spec-2-3-filtering.n3"; pe:line 8 ].
+
+  { 2000 math:greaterThan 1500 . }
+    pe:by [ pe:builtin math:greaterThan ].
+}.

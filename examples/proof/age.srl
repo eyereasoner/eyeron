@@ -1,0 +1,28 @@
+PREFIX : <https://example.org/#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :test :is true .
+
+  _:step1
+    rdf:reifies <<( :test :is true )>>;
+    pe:rule "age.srl";
+    pe:line 14;
+    pe:binding
+      [ pe:var "birthYear"; pe:value 1944 ],
+      [ pe:var "now"; pe:value 2025 ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :patH :birthYear 1944 )>>;
+    pe:fact "age.srl";
+    pe:line 10.
+
+  _:step3
+    rdf:reifies <<( :ref :year 2025 )>>;
+    pe:fact "age.srl";
+    pe:line 11.
+}

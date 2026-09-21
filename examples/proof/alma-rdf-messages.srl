@@ -1,0 +1,147 @@
+PREFIX : <http://example.org/ns#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :rec42 :id <http://lib.ugent.be/record/rec42> .
+  <http://lib.ugent.be/record/rec42> :title "Reasoning about RDF Message Logs" .
+  <http://lib.ugent.be/record/rec42> :subject "Linked Data Streams" .
+  <http://lib.ugent.be/record/rec42> :type "book" .
+
+  _:step1
+    rdf:reifies <<( :rec42 :id <http://lib.ugent.be/record/rec42> )>>;
+    pe:rule "alma-rdf-messages.srl";
+    pe:line 20;
+    pe:binding
+      [ pe:var "ctrl"; pe:value "rec42" ],
+      [ pe:var "f"; pe:value :f001 ],
+      [ pe:var "id"; pe:value <http://lib.ugent.be/record/rec42> ],
+      [ pe:var "record"; pe:value :rec42 ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4.
+
+  _:step2
+    rdf:reifies <<( :rec42 :hasField :f001 )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 13.
+
+  _:step3
+    rdf:reifies <<( :f001 :tag "001" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 14.
+
+  _:step4
+    rdf:reifies <<( :f001 :value "rec42" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 14.
+
+  _:step5
+    rdf:reifies <<( <http://lib.ugent.be/record/rec42> :title "Reasoning about RDF Message Logs" )>>;
+    pe:rule "alma-rdf-messages.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "f"; pe:value :f245 ],
+      [ pe:var "id"; pe:value <http://lib.ugent.be/record/rec42> ],
+      [ pe:var "record"; pe:value :rec42 ],
+      [ pe:var "val"; pe:value "Reasoning about RDF Message Logs" ];
+    pe:uses
+      _:step1,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step6
+    rdf:reifies <<( :rec42 :hasField :f245 )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 13.
+
+  _:step7
+    rdf:reifies <<( :f245 :tag "245" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 15.
+
+  _:step8
+    rdf:reifies <<( :f245 :subfield "a" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 15.
+
+  _:step9
+    rdf:reifies <<( :f245 :value "Reasoning about RDF Message Logs" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 15.
+
+  _:step10
+    rdf:reifies <<( <http://lib.ugent.be/record/rec42> :subject "Linked Data Streams" )>>;
+    pe:rule "alma-rdf-messages.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "f"; pe:value :f650 ],
+      [ pe:var "id"; pe:value <http://lib.ugent.be/record/rec42> ],
+      [ pe:var "record"; pe:value :rec42 ],
+      [ pe:var "val"; pe:value "Linked Data Streams" ];
+    pe:uses
+      _:step1,
+      _:step11,
+      _:step12,
+      _:step13,
+      _:step14.
+
+  _:step11
+    rdf:reifies <<( :rec42 :hasField :f650 )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 13.
+
+  _:step12
+    rdf:reifies <<( :f650 :tag "650" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 16.
+
+  _:step13
+    rdf:reifies <<( :f650 :subfield "a" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 16.
+
+  _:step14
+    rdf:reifies <<( :f650 :value "Linked Data Streams" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 16.
+
+  _:step15
+    rdf:reifies <<( <http://lib.ugent.be/record/rec42> :type "book" )>>;
+    pe:rule "alma-rdf-messages.srl";
+    pe:line 41;
+    pe:binding
+      [ pe:var "f"; pe:value :f920 ],
+      [ pe:var "id"; pe:value <http://lib.ugent.be/record/rec42> ],
+      [ pe:var "record"; pe:value :rec42 ],
+      [ pe:var "val"; pe:value "book" ];
+    pe:uses
+      _:step1,
+      _:step16,
+      _:step17,
+      _:step18,
+      _:step19.
+
+  _:step16
+    rdf:reifies <<( :rec42 :hasField :f920 )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 13.
+
+  _:step17
+    rdf:reifies <<( :f920 :tag "920" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 17.
+
+  _:step18
+    rdf:reifies <<( :f920 :subfield "a" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 17.
+
+  _:step19
+    rdf:reifies <<( :f920 :value "book" )>>;
+    pe:fact "alma-rdf-messages.srl";
+    pe:line 17.
+}

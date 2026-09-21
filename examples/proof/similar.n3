@@ -1,0 +1,28 @@
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:test :is true .
+
+{ :test :is true . } pe:why {
+  { :test :is true . }
+    pe:by [ pe:rule "similar.n3"; pe:line 12 ];
+    pe:uses { :Alice :similar :Bob . }.
+
+  { :Alice :similar :Bob . }
+    pe:by [ pe:rule "similar.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "A"; pe:value :Alice ],
+      [ pe:var "B"; pe:value :Bob ],
+      [ pe:var "Obj"; pe:value :Human ],
+      [ pe:var "Pred"; pe:value rdf:type ];
+    pe:uses
+      { :Alice a :Human . },
+      { :Bob a :Human . }.
+
+  { :Alice a :Human . }
+    pe:by [ pe:fact "similar.n3"; pe:line 9 ].
+
+  { :Bob a :Human . }
+    pe:by [ pe:fact "similar.n3"; pe:line 10 ].
+}.

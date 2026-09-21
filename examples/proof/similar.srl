@@ -1,0 +1,51 @@
+PREFIX : <https://eyereasoner.github.io/ns#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :Alice :similar :Bob .
+  :Bob :similar :Alice .
+  :test :is true .
+
+  _:step1
+    rdf:reifies <<( :Alice :similar :Bob )>>;
+    pe:rule "similar.srl";
+    pe:line 10;
+    pe:binding
+      [ pe:var "A"; pe:value :Alice ],
+      [ pe:var "B"; pe:value :Bob ],
+      [ pe:var "Obj"; pe:value :Human ],
+      [ pe:var "Pred"; pe:value rdf:type ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :Alice a :Human )>>;
+    pe:fact "similar.srl";
+    pe:line 8.
+
+  _:step3
+    rdf:reifies <<( :Bob a :Human )>>;
+    pe:fact "similar.srl";
+    pe:line 8.
+
+  _:step4
+    rdf:reifies <<( :Bob :similar :Alice )>>;
+    pe:rule "similar.srl";
+    pe:line 10;
+    pe:binding
+      [ pe:var "A"; pe:value :Bob ],
+      [ pe:var "B"; pe:value :Alice ],
+      [ pe:var "Obj"; pe:value :Human ],
+      [ pe:var "Pred"; pe:value rdf:type ];
+    pe:uses
+      _:step3,
+      _:step2.
+
+  _:step5
+    rdf:reifies <<( :test :is true )>>;
+    pe:rule "similar.srl";
+    pe:line 11;
+    pe:uses _:step1.
+}

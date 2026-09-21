@@ -1,0 +1,31 @@
+PREFIX : <https://eyereasoner.github.io/ns#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :bob :childOf :alice .
+  :bob :hasParent :alice .
+
+  _:step1
+    rdf:reifies <<( :bob :childOf :alice )>>;
+    pe:rule "derived-backward-rule.srl";
+    pe:line 9;
+    pe:binding
+      [ pe:var "x"; pe:value :bob ],
+      [ pe:var "y"; pe:value :alice ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :alice :parentOf :bob )>>;
+    pe:fact "derived-backward-rule.srl";
+    pe:line 7.
+
+  _:step3
+    rdf:reifies <<( :bob :hasParent :alice )>>;
+    pe:rule "derived-backward-rule.srl";
+    pe:line 10;
+    pe:binding
+      [ pe:var "x"; pe:value :bob ],
+      [ pe:var "y"; pe:value :alice ];
+    pe:uses _:step1.
+}

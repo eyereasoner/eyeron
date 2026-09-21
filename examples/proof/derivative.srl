@@ -1,0 +1,313 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :leftVar :derivativeValue 1 .
+  :rightVar :derivativeValue 1 .
+  _:b1_12fb249254d0efe5 a :ResultAdd .
+  _:b2_12fb249254d0efe5 a :ResultMul .
+  _:b3_12fb249254d0efe5 a :ResultConst .
+  _:b3_12fb249254d0efe5 :resultValue 1 .
+  _:b2_12fb249254d0efe5 :resultLeft _:b3_12fb249254d0efe5 .
+  _:b2_12fb249254d0efe5 :resultRight :rightVar .
+  _:b1_12fb249254d0efe5 :resultLeft _:b2_12fb249254d0efe5 .
+  _:b4_12fb249254d0efe5 a :ResultMul .
+  _:b4_12fb249254d0efe5 :resultLeft :leftVar .
+  _:b5_12fb249254d0efe5 a :ResultConst .
+  _:b5_12fb249254d0efe5 :resultValue 1 .
+  _:b4_12fb249254d0efe5 :resultRight _:b5_12fb249254d0efe5 .
+  _:b1_12fb249254d0efe5 :resultRight _:b4_12fb249254d0efe5 .
+  :expr :derivative _:b1_12fb249254d0efe5 .
+
+  _:step1
+    rdf:reifies <<( :leftVar :derivativeValue 1 )>>;
+    pe:rule "derivative.srl";
+    pe:line 33;
+    pe:binding [ pe:var "u"; pe:value :leftVar ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :leftVar a :Var )>>;
+    pe:fact "derivative.srl";
+    pe:line 29.
+
+  _:step3
+    rdf:reifies <<( :leftVar :name :x )>>;
+    pe:fact "derivative.srl";
+    pe:line 29.
+
+  _:step4
+    rdf:reifies <<( :rightVar :derivativeValue 1 )>>;
+    pe:rule "derivative.srl";
+    pe:line 33;
+    pe:binding [ pe:var "u"; pe:value :rightVar ];
+    pe:uses
+      _:step5,
+      _:step6.
+
+  _:step5
+    rdf:reifies <<( :rightVar a :Var )>>;
+    pe:fact "derivative.srl";
+    pe:line 30.
+
+  _:step6
+    rdf:reifies <<( :rightVar :name :x )>>;
+    pe:fact "derivative.srl";
+    pe:line 30.
+
+  _:step7
+    rdf:reifies <<( _:b1_12fb249254d0efe5 a :ResultAdd )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step8
+    rdf:reifies <<( :expr a :Mul )>>;
+    pe:fact "derivative.srl";
+    pe:line 28.
+
+  _:step9
+    rdf:reifies <<( :expr :left :leftVar )>>;
+    pe:fact "derivative.srl";
+    pe:line 28.
+
+  _:step10
+    rdf:reifies <<( :expr :right :rightVar )>>;
+    pe:fact "derivative.srl";
+    pe:line 28.
+
+  _:step11
+    rdf:reifies <<( _:b2_12fb249254d0efe5 a :ResultMul )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step12
+    rdf:reifies <<( _:b3_12fb249254d0efe5 a :ResultConst )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step13
+    rdf:reifies <<( _:b3_12fb249254d0efe5 :resultValue 1 )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step14
+    rdf:reifies <<( _:b2_12fb249254d0efe5 :resultLeft _:b3_12fb249254d0efe5 )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step15
+    rdf:reifies <<( _:b2_12fb249254d0efe5 :resultRight :rightVar )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step16
+    rdf:reifies <<( _:b1_12fb249254d0efe5 :resultLeft _:b2_12fb249254d0efe5 )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step17
+    rdf:reifies <<( _:b4_12fb249254d0efe5 a :ResultMul )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step18
+    rdf:reifies <<( _:b4_12fb249254d0efe5 :resultLeft :leftVar )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step19
+    rdf:reifies <<( _:b5_12fb249254d0efe5 a :ResultConst )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step20
+    rdf:reifies <<( _:b5_12fb249254d0efe5 :resultValue 1 )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step21
+    rdf:reifies <<( _:b4_12fb249254d0efe5 :resultRight _:b5_12fb249254d0efe5 )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step22
+    rdf:reifies <<( _:b1_12fb249254d0efe5 :resultRight _:b4_12fb249254d0efe5 )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+
+  _:step23
+    rdf:reifies <<( :expr :derivative _:b1_12fb249254d0efe5 )>>;
+    pe:rule "derivative.srl";
+    pe:line 42;
+    pe:binding
+      [ pe:var "du"; pe:value 1 ],
+      [ pe:var "dv"; pe:value 1 ],
+      [ pe:var "t"; pe:value :expr ],
+      [ pe:var "u"; pe:value :leftVar ],
+      [ pe:var "v"; pe:value :rightVar ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step1,
+      _:step4.
+}

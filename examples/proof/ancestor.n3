@@ -1,0 +1,133 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/ancestor#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :ancestor :bob .
+:bob :ancestor :carol .
+:carol :ancestor :dana .
+:alice :ancestor :carol .
+:bob :ancestor :dana .
+:alice :ancestor :dana .
+
+{ :alice :ancestor :bob . } pe:why {
+  { :alice :ancestor :bob . }
+    pe:by [ pe:rule "ancestor.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "x"; pe:value :alice ],
+      [ pe:var "y"; pe:value :bob ];
+    pe:uses { :alice :parent :bob . }.
+
+  { :alice :parent :bob . }
+    pe:by [ pe:fact "ancestor.n3"; pe:line 7 ].
+}.
+
+{ :bob :ancestor :carol . } pe:why {
+  { :bob :ancestor :carol . }
+    pe:by [ pe:rule "ancestor.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "x"; pe:value :bob ],
+      [ pe:var "y"; pe:value :carol ];
+    pe:uses { :bob :parent :carol . }.
+
+  { :bob :parent :carol . }
+    pe:by [ pe:fact "ancestor.n3"; pe:line 8 ].
+}.
+
+{ :carol :ancestor :dana . } pe:why {
+  { :carol :ancestor :dana . }
+    pe:by [ pe:rule "ancestor.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "x"; pe:value :carol ],
+      [ pe:var "y"; pe:value :dana ];
+    pe:uses { :carol :parent :dana . }.
+
+  { :carol :parent :dana . }
+    pe:by [ pe:fact "ancestor.n3"; pe:line 9 ].
+}.
+
+{ :alice :ancestor :carol . } pe:why {
+  { :alice :ancestor :carol . }
+    pe:by [ pe:rule "ancestor.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :alice ],
+      [ pe:var "y"; pe:value :bob ],
+      [ pe:var "z"; pe:value :carol ];
+    pe:uses
+      { :alice :parent :bob . },
+      { :bob :ancestor :carol . }.
+
+  { :alice :parent :bob . }
+    pe:by [ pe:fact "ancestor.n3"; pe:line 7 ].
+
+  { :bob :ancestor :carol . }
+    pe:by [ pe:rule "ancestor.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "x"; pe:value :bob ],
+      [ pe:var "y"; pe:value :carol ];
+    pe:uses { :bob :parent :carol . }.
+
+  { :bob :parent :carol . }
+    pe:by [ pe:fact "ancestor.n3"; pe:line 8 ].
+}.
+
+{ :bob :ancestor :dana . } pe:why {
+  { :bob :ancestor :dana . }
+    pe:by [ pe:rule "ancestor.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :bob ],
+      [ pe:var "y"; pe:value :carol ],
+      [ pe:var "z"; pe:value :dana ];
+    pe:uses
+      { :bob :parent :carol . },
+      { :carol :ancestor :dana . }.
+
+  { :bob :parent :carol . }
+    pe:by [ pe:fact "ancestor.n3"; pe:line 8 ].
+
+  { :carol :ancestor :dana . }
+    pe:by [ pe:rule "ancestor.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "x"; pe:value :carol ],
+      [ pe:var "y"; pe:value :dana ];
+    pe:uses { :carol :parent :dana . }.
+
+  { :carol :parent :dana . }
+    pe:by [ pe:fact "ancestor.n3"; pe:line 9 ].
+}.
+
+{ :alice :ancestor :dana . } pe:why {
+  { :alice :ancestor :dana . }
+    pe:by [ pe:rule "ancestor.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :alice ],
+      [ pe:var "y"; pe:value :bob ],
+      [ pe:var "z"; pe:value :dana ];
+    pe:uses
+      { :alice :parent :bob . },
+      { :bob :ancestor :dana . }.
+
+  { :alice :parent :bob . }
+    pe:by [ pe:fact "ancestor.n3"; pe:line 7 ].
+
+  { :bob :ancestor :dana . }
+    pe:by [ pe:rule "ancestor.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :bob ],
+      [ pe:var "y"; pe:value :carol ],
+      [ pe:var "z"; pe:value :dana ];
+    pe:uses
+      { :bob :parent :carol . },
+      { :carol :ancestor :dana . }.
+
+  { :bob :parent :carol . }
+    pe:by [ pe:fact "ancestor.n3"; pe:line 8 ].
+
+  { :carol :ancestor :dana . }
+    pe:by [ pe:rule "ancestor.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "x"; pe:value :carol ],
+      [ pe:var "y"; pe:value :dana ];
+    pe:uses { :carol :parent :dana . }.
+
+  { :carol :parent :dana . }
+    pe:by [ pe:fact "ancestor.n3"; pe:line 9 ].
+}.

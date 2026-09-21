@@ -1,0 +1,399 @@
+PREFIX : <https://eyereasoner.github.io/eyeling/examples/rdf-message-cold-chain-recall#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :obs040 :alreadyCommitted true .
+  :obs041 :alreadyCommitted true .
+  :obs042 :alreadyCommitted true .
+  :obs043 :newlyEmitted true .
+  :obs044 :newlyEmitted true .
+  :obs045 :newlyEmitted true .
+  :obs046 :newlyEmitted true .
+  :obs047 :newlyEmitted true .
+  :obs048 :newlyEmitted true .
+  :obs043 :inWindow true .
+  :obs044 :inWindow true .
+  :obs045 :inWindow true .
+  :obs046 :inWindow true .
+  :obs047 :inWindow true .
+  :obs048 :inWindow true .
+  :batchA :rawConflict true .
+  :currentColdChainWindow :preferredEvidence :obs047 .
+  :currentColdChainWindow :repairedTemperatureTenthC 118 .
+  :currentColdChainWindow :preferredPriority 5 .
+  :currentColdChainWindow :preferredSource "calibrated-cold-chain-logger" .
+  :quarantineDecision :decisionText "quarantine batchA, notify QA, and hold shipment" .
+
+  _:step1
+    rdf:reifies <<( :obs040 :alreadyCommitted true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 24;
+    pe:binding
+      [ pe:var "b"; pe:value 42 ],
+      [ pe:var "m"; pe:value :obs040 ],
+      [ pe:var "seq"; pe:value 40 ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :obs040 :sequence 40 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 13.
+
+  _:step3
+    rdf:reifies <<( :telemetryStream :lastCommittedSequence 42 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 11.
+
+  _:step4
+    rdf:reifies <<( :obs041 :alreadyCommitted true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 24;
+    pe:binding
+      [ pe:var "b"; pe:value 42 ],
+      [ pe:var "m"; pe:value :obs041 ],
+      [ pe:var "seq"; pe:value 41 ];
+    pe:uses
+      _:step5,
+      _:step3.
+
+  _:step5
+    rdf:reifies <<( :obs041 :sequence 41 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 14.
+
+  _:step6
+    rdf:reifies <<( :obs042 :alreadyCommitted true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 24;
+    pe:binding
+      [ pe:var "b"; pe:value 42 ],
+      [ pe:var "m"; pe:value :obs042 ],
+      [ pe:var "seq"; pe:value 42 ];
+    pe:uses
+      _:step7,
+      _:step3.
+
+  _:step7
+    rdf:reifies <<( :obs042 :sequence 42 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 15.
+
+  _:step8
+    rdf:reifies <<( :obs043 :newlyEmitted true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "b"; pe:value 42 ],
+      [ pe:var "m"; pe:value :obs043 ],
+      [ pe:var "seq"; pe:value 43 ];
+    pe:uses
+      _:step9,
+      _:step3.
+
+  _:step9
+    rdf:reifies <<( :obs043 :sequence 43 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 16.
+
+  _:step10
+    rdf:reifies <<( :obs044 :newlyEmitted true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "b"; pe:value 42 ],
+      [ pe:var "m"; pe:value :obs044 ],
+      [ pe:var "seq"; pe:value 44 ];
+    pe:uses
+      _:step11,
+      _:step3.
+
+  _:step11
+    rdf:reifies <<( :obs044 :sequence 44 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 17.
+
+  _:step12
+    rdf:reifies <<( :obs045 :newlyEmitted true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "b"; pe:value 42 ],
+      [ pe:var "m"; pe:value :obs045 ],
+      [ pe:var "seq"; pe:value 45 ];
+    pe:uses
+      _:step13,
+      _:step3.
+
+  _:step13
+    rdf:reifies <<( :obs045 :sequence 45 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 18.
+
+  _:step14
+    rdf:reifies <<( :obs046 :newlyEmitted true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "b"; pe:value 42 ],
+      [ pe:var "m"; pe:value :obs046 ],
+      [ pe:var "seq"; pe:value 46 ];
+    pe:uses
+      _:step15,
+      _:step3.
+
+  _:step15
+    rdf:reifies <<( :obs046 :sequence 46 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 19.
+
+  _:step16
+    rdf:reifies <<( :obs047 :newlyEmitted true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "b"; pe:value 42 ],
+      [ pe:var "m"; pe:value :obs047 ],
+      [ pe:var "seq"; pe:value 47 ];
+    pe:uses
+      _:step17,
+      _:step3.
+
+  _:step17
+    rdf:reifies <<( :obs047 :sequence 47 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 20.
+
+  _:step18
+    rdf:reifies <<( :obs048 :newlyEmitted true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "b"; pe:value 42 ],
+      [ pe:var "m"; pe:value :obs048 ],
+      [ pe:var "seq"; pe:value 48 ];
+    pe:uses
+      _:step19,
+      _:step3.
+
+  _:step19
+    rdf:reifies <<( :obs048 :sequence 48 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 21.
+
+  _:step20
+    rdf:reifies <<( :obs043 :inWindow true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "m"; pe:value :obs043 ],
+      [ pe:var "seq"; pe:value 43 ],
+      [ pe:var "w"; pe:value 43 ];
+    pe:uses
+      _:step8,
+      _:step9,
+      _:step21.
+
+  _:step21
+    rdf:reifies <<( :telemetryStream :currentWindowFromSequence 43 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 11.
+
+  _:step22
+    rdf:reifies <<( :obs044 :inWindow true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "m"; pe:value :obs044 ],
+      [ pe:var "seq"; pe:value 44 ],
+      [ pe:var "w"; pe:value 43 ];
+    pe:uses
+      _:step10,
+      _:step11,
+      _:step21.
+
+  _:step23
+    rdf:reifies <<( :obs045 :inWindow true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "m"; pe:value :obs045 ],
+      [ pe:var "seq"; pe:value 45 ],
+      [ pe:var "w"; pe:value 43 ];
+    pe:uses
+      _:step12,
+      _:step13,
+      _:step21.
+
+  _:step24
+    rdf:reifies <<( :obs046 :inWindow true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "m"; pe:value :obs046 ],
+      [ pe:var "seq"; pe:value 46 ],
+      [ pe:var "w"; pe:value 43 ];
+    pe:uses
+      _:step14,
+      _:step15,
+      _:step21.
+
+  _:step25
+    rdf:reifies <<( :obs047 :inWindow true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "m"; pe:value :obs047 ],
+      [ pe:var "seq"; pe:value 47 ],
+      [ pe:var "w"; pe:value 43 ];
+    pe:uses
+      _:step16,
+      _:step17,
+      _:step21.
+
+  _:step26
+    rdf:reifies <<( :obs048 :inWindow true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "m"; pe:value :obs048 ],
+      [ pe:var "seq"; pe:value 48 ],
+      [ pe:var "w"; pe:value 43 ];
+    pe:uses
+      _:step18,
+      _:step19,
+      _:step21.
+
+  _:step27
+    rdf:reifies <<( :batchA :rawConflict true )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 37;
+    pe:binding
+      [ pe:var "limit"; pe:value 80 ],
+      [ pe:var "m1"; pe:value :obs043 ],
+      [ pe:var "m2"; pe:value :obs046 ],
+      [ pe:var "t1"; pe:value 45 ],
+      [ pe:var "t2"; pe:value 121 ];
+    pe:uses
+      _:step20,
+      _:step28,
+      _:step24,
+      _:step29,
+      _:step30.
+
+  _:step28
+    rdf:reifies <<( :obs043 :temperatureTenthC 45 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 16.
+
+  _:step29
+    rdf:reifies <<( :obs046 :temperatureTenthC 121 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 19.
+
+  _:step30
+    rdf:reifies <<( :telemetryStream :temperatureLimitTenthC 80 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 11.
+
+  _:step31
+    rdf:reifies <<( :currentColdChainWindow :preferredEvidence :obs047 )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 45;
+    pe:binding
+      [ pe:var "limit"; pe:value 80 ],
+      [ pe:var "m"; pe:value :obs047 ],
+      [ pe:var "priority"; pe:value 5 ],
+      [ pe:var "source"; pe:value "calibrated-cold-chain-logger" ],
+      [ pe:var "temp"; pe:value 118 ];
+    pe:uses
+      _:step25,
+      _:step32,
+      _:step33,
+      _:step34,
+      _:step35,
+      _:step30.
+
+  _:step32
+    rdf:reifies <<( :obs047 :temperatureTenthC 118 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 20.
+
+  _:step33
+    rdf:reifies <<( :obs047 :priority 5 )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 20.
+
+  _:step34
+    rdf:reifies <<( :obs047 :source "calibrated-cold-chain-logger" )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 20.
+
+  _:step35
+    rdf:reifies <<( :obs047 :calibrationClass :calibratedLogger )>>;
+    pe:fact "rdf-message-cold-chain-recall.srl";
+    pe:line 20.
+
+  _:step36
+    rdf:reifies <<( :currentColdChainWindow :repairedTemperatureTenthC 118 )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 45;
+    pe:binding
+      [ pe:var "limit"; pe:value 80 ],
+      [ pe:var "m"; pe:value :obs047 ],
+      [ pe:var "priority"; pe:value 5 ],
+      [ pe:var "source"; pe:value "calibrated-cold-chain-logger" ],
+      [ pe:var "temp"; pe:value 118 ];
+    pe:uses
+      _:step25,
+      _:step32,
+      _:step33,
+      _:step34,
+      _:step35,
+      _:step30.
+
+  _:step37
+    rdf:reifies <<( :currentColdChainWindow :preferredPriority 5 )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 45;
+    pe:binding
+      [ pe:var "limit"; pe:value 80 ],
+      [ pe:var "m"; pe:value :obs047 ],
+      [ pe:var "priority"; pe:value 5 ],
+      [ pe:var "source"; pe:value "calibrated-cold-chain-logger" ],
+      [ pe:var "temp"; pe:value 118 ];
+    pe:uses
+      _:step25,
+      _:step32,
+      _:step33,
+      _:step34,
+      _:step35,
+      _:step30.
+
+  _:step38
+    rdf:reifies <<( :currentColdChainWindow :preferredSource "calibrated-cold-chain-logger" )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 45;
+    pe:binding
+      [ pe:var "limit"; pe:value 80 ],
+      [ pe:var "m"; pe:value :obs047 ],
+      [ pe:var "priority"; pe:value 5 ],
+      [ pe:var "source"; pe:value "calibrated-cold-chain-logger" ],
+      [ pe:var "temp"; pe:value 118 ];
+    pe:uses
+      _:step25,
+      _:step32,
+      _:step33,
+      _:step34,
+      _:step35,
+      _:step30.
+
+  _:step39
+    rdf:reifies <<( :quarantineDecision :decisionText "quarantine batchA, notify QA, and hold shipment" )>>;
+    pe:rule "rdf-message-cold-chain-recall.srl";
+    pe:line 54;
+    pe:binding [ pe:var "_"; pe:value :obs047 ];
+    pe:uses _:step31.
+}

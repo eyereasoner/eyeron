@@ -1,0 +1,210 @@
+PREFIX : <http://example/graph-term-list/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :g1 :listCell _:b1 .
+  :g2 :listCell _:b3 .
+  :g1 :listCell _:b2 .
+  :g2 :listCell rdf:nil .
+  :g1 a :SocialGraphTerm .
+  :g1 :mentions :alice .
+  :g2 :mentions :alice .
+  :g1 :mentions :bob .
+  :g2 :mentions :tea .
+  :g1 :listCell rdf:nil .
+  :g1 :mentions :carol .
+
+  _:step1
+    rdf:reifies <<( :g1 :listCell _:b1 )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 40;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b1 ],
+      [ pe:var "g"; pe:value :g1 ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :g1 :quotedTriples _:b1 )>>;
+    pe:fact "graph-term-emulation.srl";
+    pe:line 22.
+
+  _:step3
+    rdf:reifies <<( :g2 :listCell _:b3 )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 40;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b3 ],
+      [ pe:var "g"; pe:value :g2 ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( :g2 :quotedTriples _:b3 )>>;
+    pe:fact "graph-term-emulation.srl";
+    pe:line 28.
+
+  _:step5
+    rdf:reifies <<( :g1 :listCell _:b2 )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 45;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b1 ],
+      [ pe:var "g"; pe:value :g1 ],
+      [ pe:var "rest"; pe:value _:b2 ];
+    pe:uses
+      _:step1,
+      _:step6.
+
+  _:step6
+    rdf:reifies <<( _:b1 rdf:rest _:b2 )>>;
+    pe:fact "graph-term-emulation.srl";
+    pe:line 22.
+
+  _:step7
+    rdf:reifies <<( :g2 :listCell rdf:nil )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 45;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b3 ],
+      [ pe:var "g"; pe:value :g2 ],
+      [ pe:var "rest"; pe:value rdf:nil ];
+    pe:uses
+      _:step3,
+      _:step8.
+
+  _:step8
+    rdf:reifies <<( _:b3 rdf:rest rdf:nil )>>;
+    pe:fact "graph-term-emulation.srl";
+    pe:line 28.
+
+  _:step9
+    rdf:reifies <<( :g1 a :SocialGraphTerm )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 53;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b1 ],
+      [ pe:var "g"; pe:value :g1 ],
+      [ pe:var "o"; pe:value :bob ],
+      [ pe:var "s"; pe:value :alice ];
+    pe:uses
+      _:step10,
+      _:step1,
+      _:step11.
+
+  _:step10
+    rdf:reifies <<( :g1 a :GraphTerm )>>;
+    pe:fact "graph-term-emulation.srl";
+    pe:line 22.
+
+  _:step11
+    rdf:reifies <<( _:b1 rdf:first <<( :alice :knows :bob )>> )>>;
+    pe:fact "graph-term-emulation.srl";
+    pe:line 22.
+
+  _:step12
+    rdf:reifies <<( :g1 :mentions :alice )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 61;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b1 ],
+      [ pe:var "g"; pe:value :g1 ],
+      [ pe:var "o"; pe:value :bob ],
+      [ pe:var "p"; pe:value :knows ],
+      [ pe:var "s"; pe:value :alice ];
+    pe:uses
+      _:step10,
+      _:step1,
+      _:step11.
+
+  _:step13
+    rdf:reifies <<( :g2 :mentions :alice )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 61;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b3 ],
+      [ pe:var "g"; pe:value :g2 ],
+      [ pe:var "o"; pe:value :tea ],
+      [ pe:var "p"; pe:value :likes ],
+      [ pe:var "s"; pe:value :alice ];
+    pe:uses
+      _:step14,
+      _:step3,
+      _:step15.
+
+  _:step14
+    rdf:reifies <<( :g2 a :GraphTerm )>>;
+    pe:fact "graph-term-emulation.srl";
+    pe:line 28.
+
+  _:step15
+    rdf:reifies <<( _:b3 rdf:first <<( :alice :likes :tea )>> )>>;
+    pe:fact "graph-term-emulation.srl";
+    pe:line 28.
+
+  _:step16
+    rdf:reifies <<( :g1 :mentions :bob )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 68;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b1 ],
+      [ pe:var "g"; pe:value :g1 ],
+      [ pe:var "o"; pe:value :bob ],
+      [ pe:var "p"; pe:value :knows ],
+      [ pe:var "s"; pe:value :alice ];
+    pe:uses
+      _:step10,
+      _:step1,
+      _:step11.
+
+  _:step17
+    rdf:reifies <<( :g2 :mentions :tea )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 68;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b3 ],
+      [ pe:var "g"; pe:value :g2 ],
+      [ pe:var "o"; pe:value :tea ],
+      [ pe:var "p"; pe:value :likes ],
+      [ pe:var "s"; pe:value :alice ];
+    pe:uses
+      _:step14,
+      _:step3,
+      _:step15.
+
+  _:step18
+    rdf:reifies <<( :g1 :listCell rdf:nil )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 45;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b2 ],
+      [ pe:var "g"; pe:value :g1 ],
+      [ pe:var "rest"; pe:value rdf:nil ];
+    pe:uses
+      _:step5,
+      _:step19.
+
+  _:step19
+    rdf:reifies <<( _:b2 rdf:rest rdf:nil )>>;
+    pe:fact "graph-term-emulation.srl";
+    pe:line 22.
+
+  _:step20
+    rdf:reifies <<( :g1 :mentions :carol )>>;
+    pe:rule "graph-term-emulation.srl";
+    pe:line 68;
+    pe:binding
+      [ pe:var "cell"; pe:value _:b2 ],
+      [ pe:var "g"; pe:value :g1 ],
+      [ pe:var "o"; pe:value :carol ],
+      [ pe:var "p"; pe:value :knows ],
+      [ pe:var "s"; pe:value :bob ];
+    pe:uses
+      _:step10,
+      _:step5,
+      _:step21.
+
+  _:step21
+    rdf:reifies <<( _:b2 rdf:first <<( :bob :knows :carol )>> )>>;
+    pe:fact "graph-term-emulation.srl";
+    pe:line 22.
+}

@@ -1,0 +1,50 @@
+PREFIX : <http://example/eyeling/dog/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :alice :mustHave :dogLicense .
+
+  _:step1
+    rdf:reifies <<( :alice :mustHave :dogLicense )>>;
+    pe:rule "dog-license.srl";
+    pe:line 13;
+    pe:binding
+      [ pe:var "d1"; pe:value :dog1 ],
+      [ pe:var "d2"; pe:value :dog2 ],
+      [ pe:var "d3"; pe:value :dog3 ],
+      [ pe:var "d4"; pe:value :dog4 ],
+      [ pe:var "d5"; pe:value :dog5 ],
+      [ pe:var "person"; pe:value :alice ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6.
+
+  _:step2
+    rdf:reifies <<( :alice :hasDog :dog1 )>>;
+    pe:fact "dog-license.srl";
+    pe:line 9.
+
+  _:step3
+    rdf:reifies <<( :alice :hasDog :dog2 )>>;
+    pe:fact "dog-license.srl";
+    pe:line 9.
+
+  _:step4
+    rdf:reifies <<( :alice :hasDog :dog3 )>>;
+    pe:fact "dog-license.srl";
+    pe:line 9.
+
+  _:step5
+    rdf:reifies <<( :alice :hasDog :dog4 )>>;
+    pe:fact "dog-license.srl";
+    pe:line 9.
+
+  _:step6
+    rdf:reifies <<( :alice :hasDog :dog5 )>>;
+    pe:fact "dog-license.srl";
+    pe:line 9.
+}

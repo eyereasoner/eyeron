@@ -35,7 +35,7 @@
 mod report;
 
 use eyeron::ast::{Literal, Term, Triple};
-use eyeron::srl::{parse_sparql_rl, reason};
+use eyeron::srl::{parse_sparql_rl, proof_to_srl, reason};
 use eyeron::{parse_n3, ReasonerOptions};
 use report::{green, progress_line, red};
 use std::collections::{BTreeMap, BTreeSet};
@@ -52,6 +52,8 @@ fn main() {
     every_nondeterministic_example_runs();
     let golden_checked = every_example_with_a_golden_matches_by_graph_isomorphism();
     every_packaged_example_is_accounted_for();
+    every_example_with_a_proof_golden_matches();
+    every_eligible_srl_example_has_a_proof_golden();
 
     let expected_error = ERROR_EXAMPLES.len();
     let excluded = EXCLUDED_FOR_NONDETERMINISM.len() + EXCLUDED_FOR_MESSAGE_LOG_ENCODING.len();
@@ -103,6 +105,28 @@ const EXCLUDED_FOR_NONDETERMINISM: &[&str] = &["builtin-call-complete", "now-and
 /// extension).
 const EXCLUDED_FOR_MESSAGE_LOG_ENCODING: &[&str] = &["rdf-messages"];
 
+/// Non-error, non-excluded `.srl` examples that still get no
+/// `examples/proof/` golden, and why: `import-lib.srl` is a library rule
+/// set meant to be pulled in by `import-main.srl`'s `IMPORTS` — it has no
+/// `DATA` of its own, so nothing is ever derived to explain. The
+/// `deep-taxonomy-*` sizes beyond `-10` are excluded for the same reason
+/// `tests/examples.rs`'s `NO_PROOF_EXAMPLES` excludes them there:
+/// `srl::proof::proof_to_srl` shares its dependency-tree walk with
+/// `n3::proof::proof_to_n3` (one full walk per derived fact, independent
+/// of every other derived fact's own walk), so a long single-premise
+/// chain's proof cost grows with the *square* of the chain length —
+/// `deep-taxonomy-1000.srl` alone did not finish in 30s. SRL's own
+/// blank-node-id-deduplicated `DATA` block keeps the *rendered size* far
+/// smaller than N3's nested-formula equivalent (so `transitive-closure.srl`
+/// and `dining-philosophers.srl`, both excluded on the N3 side, are fine
+/// here), but the underlying walk is exactly as slow.
+const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
+    ("import-lib", "a library rule set with no DATA of its own; nothing is ever derived"),
+    ("deep-taxonomy-1000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays fast enough to check in"),
+    ("deep-taxonomy-10000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays fast enough to check in"),
+    ("deep-taxonomy-100000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays fast enough to check in"),
+];
+
 fn all_srl_example_names() -> BTreeSet<String> {
     let dir = manifest_dir().join("examples");
     fs::read_dir(&dir)
@@ -135,16 +159,23 @@ fn file_base_iri(path: &Path) -> String {
 /// Parses `{name}.srl` and, if it has an `IMPORTS` directive, resolves and
 /// merges every imported rule set (local files only, matching the ported
 /// examples' own use of `IMPORTS`; see `import-main.srl`/`import-lib.srl`).
+/// Always parses with source tracking (matching `main.rs`'s own `--proof`
+/// path for both the top-level source and every import it resolves) so
+/// `check_proof_golden` sees real `pe:rule`/`pe:fact` file:line references
+/// rather than `"<unknown>"`; harmless for the plain-output checks, which
+/// never look at source refs.
 fn program_for(name: &str) -> eyeron::srl::SparqlRlProgram {
     let path = manifest_dir().join("examples").join(format!("{name}.srl"));
     let source = read(&path);
     let base = file_base_iri(&path);
-    let mut program = parse_sparql_rl(&source, Some(&base)).unwrap_or_else(|err| panic!("{name}: parse error: {err}"));
+    let label = format!("{name}.srl");
+    let mut program = eyeron::srl::parse_sparql_rl_with_source(&source, Some(&base), Some(&label)).unwrap_or_else(|err| panic!("{name}: parse error: {err}"));
     let mut pending = std::mem::take(&mut program.imports);
     while let Some(target) = pending.pop() {
         let import_path = target.strip_prefix("file://").unwrap_or_else(|| panic!("{name}: unsupported import IRI {target}"));
         let import_source = read(Path::new(import_path));
-        let imported = parse_sparql_rl(&import_source, Some(&target)).unwrap_or_else(|err| panic!("{name}: import parse error: {err}"));
+        let imported = eyeron::srl::parse_sparql_rl_with_source(&import_source, Some(&target), Some(&target))
+            .unwrap_or_else(|err| panic!("{name}: import parse error: {err}"));
         pending.extend(imported.imports.clone());
         eyeron::srl::merge_programs(&mut program, imported);
     }
@@ -226,6 +257,63 @@ fn every_example_with_a_golden_matches_by_graph_isomorphism() -> usize {
     let expected = example_names().len() - ERROR_EXAMPLES.len();
     assert_eq!(checked, expected, "expected every non-error, non-excluded .srl example ({expected}) to have a golden checked, got {checked}");
     checked
+}
+
+fn check_proof_golden(name: &str) -> Result<(), String> {
+    let golden_path = manifest_dir().join("examples/proof").join(format!("{name}.srl"));
+    if !golden_path.exists() {
+        return Err(format!("{name}: every eligible .srl example must have a proof golden, missing {}", golden_path.display()));
+    }
+    let program = program_for(name);
+    let result =
+        reason(&program, &[], &ReasonerOptions { proof: true, ..ReasonerOptions::default() }).map_err(|err| format!("{name}: reasoning error: {err}"))?;
+    if let Some(summary) = result.incomplete_summary() {
+        return Err(format!("{name}: {summary:?}"));
+    }
+    let actual = proof_to_srl(&program.prefixes, &result);
+    let expected = read(&golden_path);
+    if actual == expected {
+        Ok(())
+    } else {
+        Err(format!("{name}: proof does not match its golden\nactual:\n{actual}\nexpected:\n{expected}"))
+    }
+}
+
+/// Every non-error, non-`NO_PROOF_EXAMPLES` `.srl` example's `--proof`
+/// output, byte for byte against `examples/proof/<name>.srl` — the SRL
+/// counterpart to `tests/eye.rs`'s own strict plain-and-proof golden
+/// matching (SRL's forward reasoner, like Eyelang's, is fully
+/// deterministic outside the already-excluded `EXCLUDED_FOR_NONDETERMINISM`/
+/// `EXCLUDED_FOR_MESSAGE_LOG_ENCODING` examples, so an exact match is
+/// appropriate here — unlike N3's proof goldens, most of which are only
+/// checked for well-formedness because a handful legitimately embed a
+/// live timestamp).
+fn every_example_with_a_proof_golden_matches() {
+    let mut checked = 0;
+    for name in example_names() {
+        if ERROR_EXAMPLES.iter().any(|(n, _)| *n == name) {
+            continue;
+        }
+        if NO_PROOF_EXAMPLES.iter().any(|(n, _)| *n == name) {
+            continue;
+        }
+        if let Err(msg) = check_proof_golden(&name) {
+            panic!("{msg}");
+        }
+        checked += 1;
+    }
+    let expected = example_names().len() - ERROR_EXAMPLES.len() - NO_PROOF_EXAMPLES.len();
+    assert_eq!(checked, expected, "expected every eligible .srl example ({expected}) to have a proof golden checked, got {checked}");
+}
+
+/// Guards against a stale `NO_PROOF_EXAMPLES` entry naming a file that no
+/// longer exists, mirroring `every_packaged_example_is_accounted_for`'s
+/// same guard for `ERROR_EXAMPLES`/`EXCLUDED_FOR_*`.
+fn every_eligible_srl_example_has_a_proof_golden() {
+    let all = all_srl_example_names();
+    for (name, _) in NO_PROOF_EXAMPLES {
+        assert!(all.contains(*name), "NO_PROOF_EXAMPLES names {name:?}, which does not exist under examples/");
+    }
 }
 
 fn check_nondeterministic_example(name: &str) -> Result<(), String> {

@@ -1,0 +1,210 @@
+@prefix : <http://example.org/euler-identity#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:phasePi :exact (-1 0) .
+:EulerIdentity :lhsExact (0 0) .
+:EulerIdentity :rhsExact (0 0) .
+:phasePi :modSq 1 .
+:EulerIdentity :holds true .
+:phasePi :modSqIsOne true .
+
+{ :phasePi :exact (-1 0) . } pe:why {
+  { :phasePi :exact (-1 0) . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 44 ];
+    pe:binding [ pe:var "minusOne"; pe:value -1 ];
+    pe:uses { (0 1) math:difference -1 . }.
+
+  { (0 1) math:difference -1 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :EulerIdentity :lhsExact (0 0) . } pe:why {
+  { :EulerIdentity :lhsExact (0 0) . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 54 ];
+    pe:binding
+      [ pe:var "im"; pe:value 0 ],
+      [ pe:var "oneIm"; pe:value 0 ],
+      [ pe:var "oneRe"; pe:value 1 ],
+      [ pe:var "re"; pe:value -1 ],
+      [ pe:var "sumIm"; pe:value 0 ],
+      [ pe:var "sumRe"; pe:value 0 ];
+    pe:uses
+      { :phasePi :exact (-1 0) . },
+      { :one :exact (1 0) . },
+      { (-1 1) math:sum 0 . },
+      { (0 0) math:sum 0 . }.
+
+  { :phasePi :exact (-1 0) . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 44 ];
+    pe:binding [ pe:var "minusOne"; pe:value -1 ];
+    pe:uses { (0 1) math:difference -1 . }.
+
+  { (0 1) math:difference -1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { :one :exact (1 0) . }
+    pe:by [ pe:fact "euler-identity.n3"; pe:line 31 ].
+
+  { (-1 1) math:sum 0 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (0 0) math:sum 0 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :EulerIdentity :rhsExact (0 0) . } pe:why {
+  { :EulerIdentity :rhsExact (0 0) . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 54 ];
+    pe:binding
+      [ pe:var "im"; pe:value 0 ],
+      [ pe:var "oneIm"; pe:value 0 ],
+      [ pe:var "oneRe"; pe:value 1 ],
+      [ pe:var "re"; pe:value -1 ],
+      [ pe:var "sumIm"; pe:value 0 ],
+      [ pe:var "sumRe"; pe:value 0 ];
+    pe:uses
+      { :phasePi :exact (-1 0) . },
+      { :one :exact (1 0) . },
+      { (-1 1) math:sum 0 . },
+      { (0 0) math:sum 0 . }.
+
+  { :phasePi :exact (-1 0) . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 44 ];
+    pe:binding [ pe:var "minusOne"; pe:value -1 ];
+    pe:uses { (0 1) math:difference -1 . }.
+
+  { (0 1) math:difference -1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { :one :exact (1 0) . }
+    pe:by [ pe:fact "euler-identity.n3"; pe:line 31 ].
+
+  { (-1 1) math:sum 0 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (0 0) math:sum 0 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :phasePi :modSq 1 . } pe:why {
+  { :phasePi :modSq 1 . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 79 ];
+    pe:binding
+      [ pe:var "im"; pe:value 0 ],
+      [ pe:var "im2"; pe:value 0 ],
+      [ pe:var "modSq"; pe:value 1 ],
+      [ pe:var "re"; pe:value -1 ],
+      [ pe:var "re2"; pe:value 1 ];
+    pe:uses
+      { :phasePi :exact (-1 0) . },
+      { (-1 -1) math:product 1 . },
+      { (0 0) math:product 0 . },
+      { (1 0) math:sum 1 . }.
+
+  { :phasePi :exact (-1 0) . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 44 ];
+    pe:binding [ pe:var "minusOne"; pe:value -1 ];
+    pe:uses { (0 1) math:difference -1 . }.
+
+  { (0 1) math:difference -1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (-1 -1) math:product 1 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (0 0) math:product 0 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (1 0) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :EulerIdentity :holds true . } pe:why {
+  { :EulerIdentity :holds true . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 68 ];
+    pe:binding
+      [ pe:var "sumIm"; pe:value 0 ],
+      [ pe:var "sumRe"; pe:value 0 ];
+    pe:uses
+      { :EulerIdentity :lhsExact (0 0) . },
+      { :zero :exact (0 0) . }.
+
+  { :EulerIdentity :lhsExact (0 0) . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 54 ];
+    pe:binding
+      [ pe:var "im"; pe:value 0 ],
+      [ pe:var "oneIm"; pe:value 0 ],
+      [ pe:var "oneRe"; pe:value 1 ],
+      [ pe:var "re"; pe:value -1 ],
+      [ pe:var "sumIm"; pe:value 0 ],
+      [ pe:var "sumRe"; pe:value 0 ];
+    pe:uses
+      { :phasePi :exact (-1 0) . },
+      { :one :exact (1 0) . },
+      { (-1 1) math:sum 0 . },
+      { (0 0) math:sum 0 . }.
+
+  { :phasePi :exact (-1 0) . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 44 ];
+    pe:binding [ pe:var "minusOne"; pe:value -1 ];
+    pe:uses { (0 1) math:difference -1 . }.
+
+  { (0 1) math:difference -1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { :one :exact (1 0) . }
+    pe:by [ pe:fact "euler-identity.n3"; pe:line 31 ].
+
+  { (-1 1) math:sum 0 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (0 0) math:sum 0 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :zero :exact (0 0) . }
+    pe:by [ pe:fact "euler-identity.n3"; pe:line 34 ].
+}.
+
+{ :phasePi :modSqIsOne true . } pe:why {
+  { :phasePi :modSqIsOne true . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 88 ];
+    pe:binding [ pe:var "modSq"; pe:value 1 ];
+    pe:uses
+      { :phasePi :modSq 1 . },
+      { 1 math:equalTo 1 . }.
+
+  { :phasePi :modSq 1 . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 79 ];
+    pe:binding
+      [ pe:var "im"; pe:value 0 ],
+      [ pe:var "im2"; pe:value 0 ],
+      [ pe:var "modSq"; pe:value 1 ],
+      [ pe:var "re"; pe:value -1 ],
+      [ pe:var "re2"; pe:value 1 ];
+    pe:uses
+      { :phasePi :exact (-1 0) . },
+      { (-1 -1) math:product 1 . },
+      { (0 0) math:product 0 . },
+      { (1 0) math:sum 1 . }.
+
+  { :phasePi :exact (-1 0) . }
+    pe:by [ pe:rule "euler-identity.n3"; pe:line 44 ];
+    pe:binding [ pe:var "minusOne"; pe:value -1 ];
+    pe:uses { (0 1) math:difference -1 . }.
+
+  { (0 1) math:difference -1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (-1 -1) math:product 1 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (0 0) math:product 0 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (1 0) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { 1 math:equalTo 1 . }
+    pe:by [ pe:builtin math:equalTo ].
+}.

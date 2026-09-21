@@ -1,0 +1,63 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/type-inference#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:query :type :int .
+
+{ :query :type :int . } pe:why {
+  { :query :type :int . }
+    pe:by [ pe:rule "type-inference.n3"; pe:line 43 ];
+    pe:binding [ pe:var "t"; pe:value :int ];
+    pe:uses { (() (:app (:lam :x (:var :x)) (:intLit 42))) :typeOf :int . }.
+
+  { (() (:app (:lam :x (:var :x)) (:intLit 42))) :typeOf :int . }
+    pe:by [ pe:rule "type-inference.n3"; pe:line 38 ];
+    pe:binding
+      [ pe:var "arg"; pe:value (:intLit 42) ],
+      [ pe:var "env"; pe:value () ],
+      [ pe:var "fn"; pe:value (:lam :x (:var :x)) ],
+      [ pe:var "input"; pe:value :int ],
+      [ pe:var "result"; pe:value :int ];
+    pe:uses
+      { (() (:lam :x (:var :x))) :typeOf (:fun :int :int) . },
+      { (() (:intLit 42)) :typeOf :int . }.
+
+  { (() (:lam :x (:var :x))) :typeOf (:fun :int :int) . }
+    pe:by [ pe:rule "type-inference.n3"; pe:line 33 ];
+    pe:binding
+      [ pe:var "arg"; pe:value :int ],
+      [ pe:var "body"; pe:value (:var :x) ],
+      [ pe:var "env"; pe:value () ],
+      [ pe:var "name"; pe:value :x ],
+      [ pe:var "newEnv"; pe:value ((:x :int)) ],
+      [ pe:var "result"; pe:value :int ];
+    pe:uses
+      { ((:x :int)) list:firstRest ((:x :int) ()) . },
+      { (((:x :int)) (:var :x)) :typeOf :int . }.
+
+  { ((:x :int)) list:firstRest ((:x :int) ()) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (((:x :int)) (:var :x)) :typeOf :int . }
+    pe:by [ pe:rule "type-inference.n3"; pe:line 31 ];
+    pe:binding
+      [ pe:var "env"; pe:value ((:x :int)) ],
+      [ pe:var "name"; pe:value :x ],
+      [ pe:var "type"; pe:value :int ];
+    pe:uses { (:x ((:x :int))) :lookup :int . }.
+
+  { (:x ((:x :int))) :lookup :int . }
+    pe:by [ pe:rule "type-inference.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "_"; pe:value () ],
+      [ pe:var "env"; pe:value ((:x :int)) ],
+      [ pe:var "name"; pe:value :x ],
+      [ pe:var "type"; pe:value :int ];
+    pe:uses { ((:x :int)) list:firstRest ((:x :int) ()) . }.
+
+  { (() (:intLit 42)) :typeOf :int . }
+    pe:by [ pe:rule "type-inference.n3"; pe:line 30 ];
+    pe:binding
+      [ pe:var "env"; pe:value () ],
+      [ pe:var "n"; pe:value 42 ].
+}.

@@ -1,0 +1,55 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/import-lib#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:iris :ancestor :jules .
+:jules :ancestor :kai .
+:iris :ancestor :kai .
+
+{ :iris :ancestor :jules . } pe:why {
+  { :iris :ancestor :jules . }
+    pe:by [ pe:rule "import-lib.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :iris ],
+      [ pe:var "y"; pe:value :jules ];
+    pe:uses { :iris :parent :jules . }.
+
+  { :iris :parent :jules . }
+    pe:by [ pe:fact "import-lib.n3"; pe:line 9 ].
+}.
+
+{ :jules :ancestor :kai . } pe:why {
+  { :jules :ancestor :kai . }
+    pe:by [ pe:rule "import-lib.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :jules ],
+      [ pe:var "y"; pe:value :kai ];
+    pe:uses { :jules :parent :kai . }.
+
+  { :jules :parent :kai . }
+    pe:by [ pe:fact "import-lib.n3"; pe:line 10 ].
+}.
+
+{ :iris :ancestor :kai . } pe:why {
+  { :iris :ancestor :kai . }
+    pe:by [ pe:rule "import-lib.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "x"; pe:value :iris ],
+      [ pe:var "y"; pe:value :jules ],
+      [ pe:var "z"; pe:value :kai ];
+    pe:uses
+      { :iris :parent :jules . },
+      { :jules :ancestor :kai . }.
+
+  { :iris :parent :jules . }
+    pe:by [ pe:fact "import-lib.n3"; pe:line 9 ].
+
+  { :jules :ancestor :kai . }
+    pe:by [ pe:rule "import-lib.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :jules ],
+      [ pe:var "y"; pe:value :kai ];
+    pe:uses { :jules :parent :kai . }.
+
+  { :jules :parent :kai . }
+    pe:by [ pe:fact "import-lib.n3"; pe:line 10 ].
+}.

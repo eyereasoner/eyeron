@@ -1,0 +1,15 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/if-then#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:socrates a :Mortal .
+
+{ :socrates a :Mortal . } pe:why {
+  { :socrates a :Mortal . }
+    pe:by [ pe:rule "if-then.n3"; pe:line 8 ];
+    pe:binding [ pe:var "x"; pe:value :socrates ];
+    pe:uses { :socrates a :Man . }.
+
+  { :socrates a :Man . }
+    pe:by [ pe:fact "if-then.n3"; pe:line 6 ].
+}.

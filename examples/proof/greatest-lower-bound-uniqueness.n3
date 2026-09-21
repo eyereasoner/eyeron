@@ -1,24 +1,458 @@
 @prefix : <http://example.org/#> .
-@prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix pe: <https://eyereasoner.github.io/pe#> .
 
-:result :sameGreatestLowerBound (:a :b :g1 :g2) .
-:result :sameGreatestLowerBound (:a :b :g2 :g1) .
+:a :leq :a .
+:b :leq :b .
+:g1 :leq :g1 .
+:g2 :leq :g2 .
+:g1 :lowerBoundOf (:a :b) .
+:g1 :leq :a .
+:g1 :leq :b .
+:g2 :lowerBoundOf (:a :b) .
+:g2 :leq :a .
+:g2 :leq :b .
+:g1 :leq :g2 .
+(:a :a) :sameTerm true .
+(:b :b) :sameTerm true .
+(:g1 :g1) :sameTerm true .
+(:g2 :g2) :sameTerm true .
+:g2 :leq :g1 .
+(:g1 :g2) :sameTerm true .
+(:g2 :g1) :sameTerm true .
+(:a :b :g1 :g1) :sameGlb true .
+(:a :b :g2 :g2) :sameGlb true .
+(:a :b :g1 :g2) :sameGlb true .
+(:a :b :g2 :g1) :sameGlb true .
 
-{ :result :sameGreatestLowerBound (:a :b :g1 :g2) . } pe:why {
-  { :result :sameGreatestLowerBound (:a :b :g1 :g2) . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 195 ];
+{ :a :leq :a . } pe:why {
+  { :a :leq :a . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 61 ];
+    pe:binding [ pe:var "x"; pe:value :a ];
+    pe:uses { :a :inP true . }.
+
+  { :a :inP true . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 176 ].
+}.
+
+{ :b :leq :b . } pe:why {
+  { :b :leq :b . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 61 ];
+    pe:binding [ pe:var "x"; pe:value :b ];
+    pe:uses { :b :inP true . }.
+
+  { :b :inP true . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 177 ].
+}.
+
+{ :g1 :leq :g1 . } pe:why {
+  { :g1 :leq :g1 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 61 ];
+    pe:binding [ pe:var "x"; pe:value :g1 ];
+    pe:uses { :g1 :inP true . }.
+
+  { :g1 :inP true . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 178 ].
+}.
+
+{ :g2 :leq :g2 . } pe:why {
+  { :g2 :leq :g2 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 61 ];
+    pe:binding [ pe:var "x"; pe:value :g2 ];
+    pe:uses { :g2 :inP true . }.
+
+  { :g2 :inP true . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 179 ].
+}.
+
+{ :g1 :lowerBoundOf (:a :b) . } pe:why {
+  { :g1 :lowerBoundOf (:a :b) . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses { :g1 :glbOf (:a :b) . }.
+
+  { :g1 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 181 ].
+}.
+
+{ :g1 :leq :a . } pe:why {
+  { :g1 :leq :a . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses { :g1 :glbOf (:a :b) . }.
+
+  { :g1 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 181 ].
+}.
+
+{ :g1 :leq :b . } pe:why {
+  { :g1 :leq :b . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses { :g1 :glbOf (:a :b) . }.
+
+  { :g1 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 181 ].
+}.
+
+{ :g2 :lowerBoundOf (:a :b) . } pe:why {
+  { :g2 :lowerBoundOf (:a :b) . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses { :g2 :glbOf (:a :b) . }.
+
+  { :g2 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 182 ].
+}.
+
+{ :g2 :leq :a . } pe:why {
+  { :g2 :leq :a . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses { :g2 :glbOf (:a :b) . }.
+
+  { :g2 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 182 ].
+}.
+
+{ :g2 :leq :b . } pe:why {
+  { :g2 :leq :b . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses { :g2 :glbOf (:a :b) . }.
+
+  { :g2 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 182 ].
+}.
+
+{ :g1 :leq :g2 . } pe:why {
+  { :g1 :leq :g2 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 124 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "l"; pe:value :g1 ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses
+      { :g2 :glbOf (:a :b) . },
+      { :g1 :lowerBoundOf (:a :b) . }.
+
+  { :g2 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 182 ].
+
+  { :g1 :lowerBoundOf (:a :b) . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses { :g1 :glbOf (:a :b) . }.
+
+  { :g1 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 181 ].
+}.
+
+{ (:a :a) :sameTerm true . } pe:why {
+  { (:a :a) :sameTerm true . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :a ];
+    pe:uses
+      { :a :leq :a . },
+      { :a :leq :a . }.
+
+  { :a :leq :a . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 61 ];
+    pe:binding [ pe:var "x"; pe:value :a ];
+    pe:uses { :a :inP true . }.
+
+  { :a :inP true . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 176 ].
+}.
+
+{ (:b :b) :sameTerm true . } pe:why {
+  { (:b :b) :sameTerm true . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      { :b :leq :b . },
+      { :b :leq :b . }.
+
+  { :b :leq :b . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 61 ];
+    pe:binding [ pe:var "x"; pe:value :b ];
+    pe:uses { :b :inP true . }.
+
+  { :b :inP true . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 177 ].
+}.
+
+{ (:g1 :g1) :sameTerm true . } pe:why {
+  { (:g1 :g1) :sameTerm true . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "x"; pe:value :g1 ],
+      [ pe:var "y"; pe:value :g1 ];
+    pe:uses
+      { :g1 :leq :g1 . },
+      { :g1 :leq :g1 . }.
+
+  { :g1 :leq :g1 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 61 ];
+    pe:binding [ pe:var "x"; pe:value :g1 ];
+    pe:uses { :g1 :inP true . }.
+
+  { :g1 :inP true . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 178 ].
+}.
+
+{ (:g2 :g2) :sameTerm true . } pe:why {
+  { (:g2 :g2) :sameTerm true . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "x"; pe:value :g2 ],
+      [ pe:var "y"; pe:value :g2 ];
+    pe:uses
+      { :g2 :leq :g2 . },
+      { :g2 :leq :g2 . }.
+
+  { :g2 :leq :g2 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 61 ];
+    pe:binding [ pe:var "x"; pe:value :g2 ];
+    pe:uses { :g2 :inP true . }.
+
+  { :g2 :inP true . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 179 ].
+}.
+
+{ :g2 :leq :g1 . } pe:why {
+  { :g2 :leq :g1 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 124 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "l"; pe:value :g2 ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses
+      { :g1 :glbOf (:a :b) . },
+      { :g2 :lowerBoundOf (:a :b) . }.
+
+  { :g1 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 181 ].
+
+  { :g2 :lowerBoundOf (:a :b) . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses { :g2 :glbOf (:a :b) . }.
+
+  { :g2 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 182 ].
+}.
+
+{ (:g1 :g2) :sameTerm true . } pe:why {
+  { (:g1 :g2) :sameTerm true . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "x"; pe:value :g1 ],
+      [ pe:var "y"; pe:value :g2 ];
+    pe:uses
+      { :g1 :leq :g2 . },
+      { :g2 :leq :g1 . }.
+
+  { :g1 :leq :g2 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 124 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "l"; pe:value :g1 ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses
+      { :g2 :glbOf (:a :b) . },
+      { :g1 :lowerBoundOf (:a :b) . }.
+
+  { :g2 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 182 ].
+
+  { :g1 :lowerBoundOf (:a :b) . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses { :g1 :glbOf (:a :b) . }.
+
+  { :g1 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 181 ].
+
+  { :g2 :leq :g1 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 124 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "l"; pe:value :g2 ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses
+      { :g1 :glbOf (:a :b) . },
+      { :g2 :lowerBoundOf (:a :b) . }.
+
+  { :g2 :lowerBoundOf (:a :b) . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses { :g2 :glbOf (:a :b) . }.
+}.
+
+{ (:g2 :g1) :sameTerm true . } pe:why {
+  { (:g2 :g1) :sameTerm true . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "x"; pe:value :g2 ],
+      [ pe:var "y"; pe:value :g1 ];
+    pe:uses
+      { :g2 :leq :g1 . },
+      { :g1 :leq :g2 . }.
+
+  { :g2 :leq :g1 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 124 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "l"; pe:value :g2 ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses
+      { :g1 :glbOf (:a :b) . },
+      { :g2 :lowerBoundOf (:a :b) . }.
+
+  { :g1 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 181 ].
+
+  { :g2 :lowerBoundOf (:a :b) . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses { :g2 :glbOf (:a :b) . }.
+
+  { :g2 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 182 ].
+
+  { :g1 :leq :g2 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 124 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "l"; pe:value :g1 ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses
+      { :g2 :glbOf (:a :b) . },
+      { :g1 :lowerBoundOf (:a :b) . }.
+
+  { :g1 :lowerBoundOf (:a :b) . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses { :g1 :glbOf (:a :b) . }.
+}.
+
+{ (:a :b :g1 :g1) :sameGlb true . } pe:why {
+  { (:a :b :g1 :g1) :sameGlb true . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 158 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
       [ pe:var "m"; pe:value :g1 ],
+      [ pe:var "n"; pe:value :g1 ];
+    pe:uses
+      { :g1 :glbOf (:a :b) . },
+      { :g1 :glbOf (:a :b) . },
+      { (:g1 :g1) :sameTerm true . }.
+
+  { :g1 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 181 ].
+
+  { (:g1 :g1) :sameTerm true . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "x"; pe:value :g1 ],
+      [ pe:var "y"; pe:value :g1 ];
+    pe:uses
+      { :g1 :leq :g1 . },
+      { :g1 :leq :g1 . }.
+
+  { :g1 :leq :g1 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 61 ];
+    pe:binding [ pe:var "x"; pe:value :g1 ];
+    pe:uses { :g1 :inP true . }.
+
+  { :g1 :inP true . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 178 ].
+}.
+
+{ (:a :b :g2 :g2) :sameGlb true . } pe:why {
+  { (:a :b :g2 :g2) :sameGlb true . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 158 ];
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ],
       [ pe:var "n"; pe:value :g2 ];
     pe:uses
-      { (:a :b :g1 :g2) :sameGlb true . },
-      { :g1 log:notEqualTo :g2 . }.
+      { :g2 :glbOf (:a :b) . },
+      { :g2 :glbOf (:a :b) . },
+      { (:g2 :g2) :sameTerm true . }.
 
+  { :g2 :glbOf (:a :b) . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 182 ].
+
+  { (:g2 :g2) :sameTerm true . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 84 ];
+    pe:binding
+      [ pe:var "x"; pe:value :g2 ],
+      [ pe:var "y"; pe:value :g2 ];
+    pe:uses
+      { :g2 :leq :g2 . },
+      { :g2 :leq :g2 . }.
+
+  { :g2 :leq :g2 . }
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 61 ];
+    pe:binding [ pe:var "x"; pe:value :g2 ];
+    pe:uses { :g2 :inP true . }.
+
+  { :g2 :inP true . }
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 179 ].
+}.
+
+{ (:a :b :g1 :g2) :sameGlb true . } pe:why {
   { (:a :b :g1 :g2) :sameGlb true . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 161 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 158 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
@@ -30,13 +464,13 @@
       { (:g1 :g2) :sameTerm true . }.
 
   { :g1 :glbOf (:a :b) . }
-    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 185 ].
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 181 ].
 
   { :g2 :glbOf (:a :b) . }
-    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 186 ].
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 182 ].
 
   { (:g1 :g2) :sameTerm true . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 85 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 84 ];
     pe:binding
       [ pe:var "x"; pe:value :g1 ],
       [ pe:var "y"; pe:value :g2 ];
@@ -45,7 +479,7 @@
       { :g2 :leq :g1 . }.
 
   { :g1 :leq :g2 . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 126 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 124 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
@@ -56,7 +490,7 @@
       { :g1 :lowerBoundOf (:a :b) . }.
 
   { :g1 :lowerBoundOf (:a :b) . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 112 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
@@ -64,7 +498,7 @@
     pe:uses { :g1 :glbOf (:a :b) . }.
 
   { :g2 :leq :g1 . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 126 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 124 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
@@ -75,31 +509,17 @@
       { :g2 :lowerBoundOf (:a :b) . }.
 
   { :g2 :lowerBoundOf (:a :b) . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 112 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
       [ pe:var "m"; pe:value :g2 ];
     pe:uses { :g2 :glbOf (:a :b) . }.
-
-  { :g1 log:notEqualTo :g2 . }
-    pe:by [ pe:builtin log:notEqualTo ].
 }.
 
-{ :result :sameGreatestLowerBound (:a :b :g2 :g1) . } pe:why {
-  { :result :sameGreatestLowerBound (:a :b :g2 :g1) . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 195 ];
-    pe:binding
-      [ pe:var "a"; pe:value :a ],
-      [ pe:var "b"; pe:value :b ],
-      [ pe:var "m"; pe:value :g2 ],
-      [ pe:var "n"; pe:value :g1 ];
-    pe:uses
-      { (:a :b :g2 :g1) :sameGlb true . },
-      { :g2 log:notEqualTo :g1 . }.
-
+{ (:a :b :g2 :g1) :sameGlb true . } pe:why {
   { (:a :b :g2 :g1) :sameGlb true . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 161 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 158 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
@@ -111,13 +531,13 @@
       { (:g2 :g1) :sameTerm true . }.
 
   { :g2 :glbOf (:a :b) . }
-    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 186 ].
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 182 ].
 
   { :g1 :glbOf (:a :b) . }
-    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 185 ].
+    pe:by [ pe:fact "greatest-lower-bound-uniqueness.n3"; pe:line 181 ].
 
   { (:g2 :g1) :sameTerm true . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 85 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 84 ];
     pe:binding
       [ pe:var "x"; pe:value :g2 ],
       [ pe:var "y"; pe:value :g1 ];
@@ -126,7 +546,7 @@
       { :g1 :leq :g2 . }.
 
   { :g2 :leq :g1 . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 126 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 124 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
@@ -137,7 +557,7 @@
       { :g2 :lowerBoundOf (:a :b) . }.
 
   { :g2 :lowerBoundOf (:a :b) . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 112 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
@@ -145,7 +565,7 @@
     pe:uses { :g2 :glbOf (:a :b) . }.
 
   { :g1 :leq :g2 . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 126 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 124 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
@@ -156,13 +576,10 @@
       { :g1 :lowerBoundOf (:a :b) . }.
 
   { :g1 :lowerBoundOf (:a :b) . }
-    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 112 ];
+    pe:by [ pe:rule "greatest-lower-bound-uniqueness.n3"; pe:line 110 ];
     pe:binding
       [ pe:var "a"; pe:value :a ],
       [ pe:var "b"; pe:value :b ],
       [ pe:var "m"; pe:value :g1 ];
     pe:uses { :g1 :glbOf (:a :b) . }.
-
-  { :g2 log:notEqualTo :g1 . }
-    pe:by [ pe:builtin log:notEqualTo ].
 }.

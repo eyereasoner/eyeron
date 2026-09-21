@@ -1,0 +1,104 @@
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+{
+    :Koko a :Animal .
+} => {
+    _:x_44d5add673004d27 a :Cat .
+} .
+{
+    :Koko a :Animal .
+} => {
+    _:x_64f1352a2f72e196 a :BritishShortHair .
+} .
+_:x_44d5add673004d27_14650fb0739d0383 a :Cat .
+_:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair .
+:test :is true .
+
+{
+    {
+        :Koko a :Animal .
+    } => {
+        _:x_44d5add673004d27 a :Cat .
+    } .
+} pe:why {
+  {
+    {
+        :Koko a :Animal .
+    } => {
+        _:x_44d5add673004d27 a :Cat .
+    } .
+}
+    pe:by [ pe:rule "cat-koko.n3"; pe:line 11 ];
+    pe:uses { :Koko a :Animal . }.
+
+  { :Koko a :Animal . }
+    pe:by [ pe:fact "cat-koko.n3"; pe:line 9 ].
+}.
+
+{
+    {
+        :Koko a :Animal .
+    } => {
+        _:x_64f1352a2f72e196 a :BritishShortHair .
+    } .
+} pe:why {
+  {
+    {
+        :Koko a :Animal .
+    } => {
+        _:x_64f1352a2f72e196 a :BritishShortHair .
+    } .
+}
+    pe:by [ pe:rule "cat-koko.n3"; pe:line 11 ];
+    pe:uses { :Koko a :Animal . }.
+
+  { :Koko a :Animal . }
+    pe:by [ pe:fact "cat-koko.n3"; pe:line 9 ].
+}.
+
+{ _:x_44d5add673004d27_14650fb0739d0383 a :Cat . } pe:why {
+  { _:x_44d5add673004d27_14650fb0739d0383 a :Cat . }
+    pe:by [ pe:rule "<unknown>" ];
+    pe:uses { :Koko a :Animal . }.
+
+  { :Koko a :Animal . }
+    pe:by [ pe:fact "cat-koko.n3"; pe:line 9 ].
+}.
+
+{ _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair . } pe:why {
+  { _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair . }
+    pe:by [ pe:rule "<unknown>" ];
+    pe:uses { :Koko a :Animal . }.
+
+  { :Koko a :Animal . }
+    pe:by [ pe:fact "cat-koko.n3"; pe:line 9 ].
+}.
+
+{ :test :is true . } pe:why {
+  { :test :is true . }
+    pe:by [ pe:rule "cat-koko.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "X"; pe:value _:x_44d5add673004d27_14650fb0739d0383 ],
+      [ pe:var "Y"; pe:value _:x_64f1352a2f72e196_14650fb0739d0383 ];
+    pe:uses
+      { _:x_44d5add673004d27_14650fb0739d0383 a :Cat . },
+      { _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair . },
+      { _:x_44d5add673004d27_14650fb0739d0383 log:notEqualTo _:x_64f1352a2f72e196_14650fb0739d0383 . }.
+
+  { _:x_44d5add673004d27_14650fb0739d0383 a :Cat . }
+    pe:by [ pe:rule "<unknown>" ];
+    pe:uses { :Koko a :Animal . }.
+
+  { :Koko a :Animal . }
+    pe:by [ pe:fact "cat-koko.n3"; pe:line 9 ].
+
+  { _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair . }
+    pe:by [ pe:rule "<unknown>" ];
+    pe:uses { :Koko a :Animal . }.
+
+  { _:x_44d5add673004d27_14650fb0739d0383 log:notEqualTo _:x_64f1352a2f72e196_14650fb0739d0383 . }
+    pe:by [ pe:unproven "builtin evaluation did not verify this premise" ].
+}.

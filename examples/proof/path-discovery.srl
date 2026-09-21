@@ -1,0 +1,494 @@
+PREFIX : <http://example/eyeling/path-discovery/>
+PREFIX nepo: <http://neptune.aws.com/ontology/airroutes/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX res: <http://neptune.aws.com/ontology/airroutes/resource#>
+
+DATA {
+  _:b3_faa49e4da4f87af6 a :DiscoveredRoute .
+  _:b3_faa49e4da4f87af6 :from "Ostend-Bruges International Airport" .
+  _:b3_faa49e4da4f87af6 :via1 "Liège Airport" .
+  _:b3_faa49e4da4f87af6 :via2 "Heraklion International Nikos Kazantzakis Airport" .
+  _:b3_faa49e4da4f87af6 :to "Václav Havel Airport Prague" .
+  _:b3_6008e79dcd225316 a :DiscoveredRoute .
+  _:b3_6008e79dcd225316 :from "Ostend-Bruges International Airport" .
+  _:b3_6008e79dcd225316 :via1 "Liège Airport" .
+  _:b3_6008e79dcd225316 :via2 "Diagoras Airport" .
+  _:b3_6008e79dcd225316 :to "Václav Havel Airport Prague" .
+  _:b3_6c30731c98ffb702 a :DiscoveredRoute .
+  _:b3_6c30731c98ffb702 :from "Ostend-Bruges International Airport" .
+  _:b3_6c30731c98ffb702 :via1 "Liège Airport" .
+  _:b3_6c30731c98ffb702 :via2 "Palma De Mallorca Airport" .
+  _:b3_6c30731c98ffb702 :to "Václav Havel Airport Prague" .
+
+  _:step1
+    rdf:reifies <<( _:b3_faa49e4da4f87af6 a :DiscoveredRoute )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_1452 ],
+      [ pe:var "via2Label"; pe:value "Heraklion International Nikos Kazantzakis Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step11.
+
+  _:step2
+    rdf:reifies <<( :query :from res:AIRPORT_310 )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 96447.
+
+  _:step3
+    rdf:reifies <<( :query :to res:AIRPORT_1587 )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 96447.
+
+  _:step4
+    rdf:reifies <<( :query :maxStopovers 2 )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 96447.
+
+  _:step5
+    rdf:reifies <<( res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 74920.
+
+  _:step6
+    rdf:reifies <<( res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_1452 )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 74805.
+
+  _:step7
+    rdf:reifies <<( res:AIRPORT_1452 nepo:hasOutboundRouteTo res:AIRPORT_1587 )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 62792.
+
+  _:step8
+    rdf:reifies <<( res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 1768.
+
+  _:step9
+    rdf:reifies <<( res:AIRPORT_309 rdfs:label "Liège Airport" )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 1761.
+
+  _:step10
+    rdf:reifies <<( res:AIRPORT_1452 rdfs:label "Heraklion International Nikos Kazantzakis Airport" )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 811.
+
+  _:step11
+    rdf:reifies <<( res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 887.
+
+  _:step12
+    rdf:reifies <<( _:b3_faa49e4da4f87af6 :from "Ostend-Bruges International Airport" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_1452 ],
+      [ pe:var "via2Label"; pe:value "Heraklion International Nikos Kazantzakis Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step11.
+
+  _:step13
+    rdf:reifies <<( _:b3_faa49e4da4f87af6 :via1 "Liège Airport" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_1452 ],
+      [ pe:var "via2Label"; pe:value "Heraklion International Nikos Kazantzakis Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step11.
+
+  _:step14
+    rdf:reifies <<( _:b3_faa49e4da4f87af6 :via2 "Heraklion International Nikos Kazantzakis Airport" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_1452 ],
+      [ pe:var "via2Label"; pe:value "Heraklion International Nikos Kazantzakis Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step11.
+
+  _:step15
+    rdf:reifies <<( _:b3_faa49e4da4f87af6 :to "Václav Havel Airport Prague" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_1452 ],
+      [ pe:var "via2Label"; pe:value "Heraklion International Nikos Kazantzakis Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step11.
+
+  _:step16
+    rdf:reifies <<( _:b3_6008e79dcd225316 a :DiscoveredRoute )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_1472 ],
+      [ pe:var "via2Label"; pe:value "Diagoras Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step17,
+      _:step18,
+      _:step8,
+      _:step9,
+      _:step19,
+      _:step11.
+
+  _:step17
+    rdf:reifies <<( res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_1472 )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 74806.
+
+  _:step18
+    rdf:reifies <<( res:AIRPORT_1472 nepo:hasOutboundRouteTo res:AIRPORT_1587 )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 63066.
+
+  _:step19
+    rdf:reifies <<( res:AIRPORT_1472 rdfs:label "Diagoras Airport" )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 829.
+
+  _:step20
+    rdf:reifies <<( _:b3_6008e79dcd225316 :from "Ostend-Bruges International Airport" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_1472 ],
+      [ pe:var "via2Label"; pe:value "Diagoras Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step17,
+      _:step18,
+      _:step8,
+      _:step9,
+      _:step19,
+      _:step11.
+
+  _:step21
+    rdf:reifies <<( _:b3_6008e79dcd225316 :via1 "Liège Airport" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_1472 ],
+      [ pe:var "via2Label"; pe:value "Diagoras Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step17,
+      _:step18,
+      _:step8,
+      _:step9,
+      _:step19,
+      _:step11.
+
+  _:step22
+    rdf:reifies <<( _:b3_6008e79dcd225316 :via2 "Diagoras Airport" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_1472 ],
+      [ pe:var "via2Label"; pe:value "Diagoras Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step17,
+      _:step18,
+      _:step8,
+      _:step9,
+      _:step19,
+      _:step11.
+
+  _:step23
+    rdf:reifies <<( _:b3_6008e79dcd225316 :to "Václav Havel Airport Prague" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_1472 ],
+      [ pe:var "via2Label"; pe:value "Diagoras Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step17,
+      _:step18,
+      _:step8,
+      _:step9,
+      _:step19,
+      _:step11.
+
+  _:step24
+    rdf:reifies <<( _:b3_6c30731c98ffb702 a :DiscoveredRoute )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_3998 ],
+      [ pe:var "via2Label"; pe:value "Palma De Mallorca Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step25,
+      _:step26,
+      _:step8,
+      _:step9,
+      _:step27,
+      _:step11.
+
+  _:step25
+    rdf:reifies <<( res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_3998 )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 74807.
+
+  _:step26
+    rdf:reifies <<( res:AIRPORT_3998 nepo:hasOutboundRouteTo res:AIRPORT_1587 )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 86761.
+
+  _:step27
+    rdf:reifies <<( res:AIRPORT_3998 rdfs:label "Palma De Mallorca Airport" )>>;
+    pe:fact "path-discovery.srl";
+    pe:line 2294.
+
+  _:step28
+    rdf:reifies <<( _:b3_6c30731c98ffb702 :from "Ostend-Bruges International Airport" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_3998 ],
+      [ pe:var "via2Label"; pe:value "Palma De Mallorca Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step25,
+      _:step26,
+      _:step8,
+      _:step9,
+      _:step27,
+      _:step11.
+
+  _:step29
+    rdf:reifies <<( _:b3_6c30731c98ffb702 :via1 "Liège Airport" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_3998 ],
+      [ pe:var "via2Label"; pe:value "Palma De Mallorca Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step25,
+      _:step26,
+      _:step8,
+      _:step9,
+      _:step27,
+      _:step11.
+
+  _:step30
+    rdf:reifies <<( _:b3_6c30731c98ffb702 :via2 "Palma De Mallorca Airport" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_3998 ],
+      [ pe:var "via2Label"; pe:value "Palma De Mallorca Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step25,
+      _:step26,
+      _:step8,
+      _:step9,
+      _:step27,
+      _:step11.
+
+  _:step31
+    rdf:reifies <<( _:b3_6c30731c98ffb702 :to "Václav Havel Airport Prague" )>>;
+    pe:rule "path-discovery.srl";
+    pe:line 96475;
+    pe:binding
+      [ pe:var "from"; pe:value res:AIRPORT_310 ],
+      [ pe:var "fromLabel"; pe:value "Ostend-Bruges International Airport" ],
+      [ pe:var "max"; pe:value 2 ],
+      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+      [ pe:var "toLabel"; pe:value "Václav Havel Airport Prague" ],
+      [ pe:var "via1"; pe:value res:AIRPORT_309 ],
+      [ pe:var "via1Label"; pe:value "Liège Airport" ],
+      [ pe:var "via2"; pe:value res:AIRPORT_3998 ],
+      [ pe:var "via2Label"; pe:value "Palma De Mallorca Airport" ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5,
+      _:step25,
+      _:step26,
+      _:step8,
+      _:step9,
+      _:step27,
+      _:step11.
+}

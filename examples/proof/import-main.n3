@@ -1,0 +1,55 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/import-main#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :ancestor :bob .
+:bob :ancestor :carol .
+:alice :ancestor :carol .
+
+{ :alice :ancestor :bob . } pe:why {
+  { :alice :ancestor :bob . }
+    pe:by [ pe:rule "import-main.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :alice ],
+      [ pe:var "y"; pe:value :bob ];
+    pe:uses { :alice :parent :bob . }.
+
+  { :alice :parent :bob . }
+    pe:by [ pe:fact "import-main.n3"; pe:line 9 ].
+}.
+
+{ :bob :ancestor :carol . } pe:why {
+  { :bob :ancestor :carol . }
+    pe:by [ pe:rule "import-main.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :bob ],
+      [ pe:var "y"; pe:value :carol ];
+    pe:uses { :bob :parent :carol . }.
+
+  { :bob :parent :carol . }
+    pe:by [ pe:fact "import-main.n3"; pe:line 10 ].
+}.
+
+{ :alice :ancestor :carol . } pe:why {
+  { :alice :ancestor :carol . }
+    pe:by [ pe:rule "import-main.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "x"; pe:value :alice ],
+      [ pe:var "y"; pe:value :bob ],
+      [ pe:var "z"; pe:value :carol ];
+    pe:uses
+      { :alice :parent :bob . },
+      { :bob :ancestor :carol . }.
+
+  { :alice :parent :bob . }
+    pe:by [ pe:fact "import-main.n3"; pe:line 9 ].
+
+  { :bob :ancestor :carol . }
+    pe:by [ pe:rule "import-main.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :bob ],
+      [ pe:var "y"; pe:value :carol ];
+    pe:uses { :bob :parent :carol . }.
+
+  { :bob :parent :carol . }
+    pe:by [ pe:fact "import-main.n3"; pe:line 10 ].
+}.

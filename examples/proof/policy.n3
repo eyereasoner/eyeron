@@ -1,0 +1,48 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/policy#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:carol a :Blocked .
+:bob a :Eligible .
+
+{ :carol a :Blocked . } pe:why {
+  { :carol a :Blocked . }
+    pe:by [ pe:rule "policy.n3"; pe:line 16 ];
+    pe:binding [ pe:var "x"; pe:value :carol ];
+    pe:uses { :carol a :Flagged . }.
+
+  { :carol a :Flagged . }
+    pe:by [ pe:fact "policy.n3"; pe:line 14 ].
+}.
+
+{ :bob a :Eligible . } pe:why {
+  { :bob a :Eligible . }
+    pe:by [ pe:rule "policy.n3"; pe:line 18 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "x"; pe:value :bob ];
+    pe:uses
+      { :bob a :Person . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :bob a :Blocked .
+          } .
+      }.
+
+  { :bob a :Person . }
+    pe:by [ pe:fact "policy.n3"; pe:line 11 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :bob a :Blocked .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+}.

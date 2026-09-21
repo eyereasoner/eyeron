@@ -1,0 +1,708 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/four-queens#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:query :solution (3 1 4 2) .
+:query :solution (2 4 1 3) .
+
+{ :query :solution (3 1 4 2) . } pe:why {
+  { :query :solution (3 1 4 2) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 41 ];
+    pe:binding [ pe:var "rows"; pe:value (3 1 4 2) ];
+    pe:uses { (4 ()) :place (3 1 4 2) . }.
+
+  { (4 ()) :place (3 1 4 2) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 32 ];
+    pe:binding
+      [ pe:var "newPlaced"; pe:value (2) ],
+      [ pe:var "next"; pe:value 3 ],
+      [ pe:var "placed"; pe:value () ],
+      [ pe:var "remaining"; pe:value 4 ],
+      [ pe:var "row"; pe:value 2 ],
+      [ pe:var "rowRes"; pe:value :r2 ],
+      [ pe:var "rows"; pe:value (3 1 4 2) ];
+    pe:uses
+      { 4 math:greaterThan 0 . },
+      { :r2 a :Row . },
+      { :r2 :n 2 . },
+      { (2 () 1) :safe true . },
+      { (4 1) math:difference 3 . },
+      { (2) list:firstRest (2 ()) . },
+      { (3 (2)) :place (3 1 4 2) . }.
+
+  { 4 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { :r2 a :Row . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 14 ].
+
+  { :r2 :n 2 . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 14 ].
+
+  { (2 () 1) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 18 ];
+    pe:binding
+      [ pe:var "distance"; pe:value 1 ],
+      [ pe:var "row"; pe:value 2 ].
+
+  { (4 1) math:difference 3 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (2) list:firstRest (2 ()) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (3 (2)) :place (3 1 4 2) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 32 ];
+    pe:binding
+      [ pe:var "newPlaced"; pe:value (4 2) ],
+      [ pe:var "next"; pe:value 2 ],
+      [ pe:var "placed"; pe:value (2) ],
+      [ pe:var "remaining"; pe:value 3 ],
+      [ pe:var "row"; pe:value 4 ],
+      [ pe:var "rowRes"; pe:value :r4 ],
+      [ pe:var "rows"; pe:value (3 1 4 2) ];
+    pe:uses
+      { 3 math:greaterThan 0 . },
+      { :r4 a :Row . },
+      { :r4 :n 4 . },
+      { (4 (2) 1) :safe true . },
+      { (3 1) math:difference 2 . },
+      { (4 2) list:firstRest (4 (2)) . },
+      { (2 (4 2)) :place (3 1 4 2) . }.
+
+  { 3 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { :r4 a :Row . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 16 ].
+
+  { :r4 :n 4 . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 16 ].
+
+  { (4 (2) 1) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 2 ],
+      [ pe:var "diff"; pe:value 2 ],
+      [ pe:var "distance"; pe:value 1 ],
+      [ pe:var "next"; pe:value 2 ],
+      [ pe:var "other"; pe:value 2 ],
+      [ pe:var "placed"; pe:value (2) ],
+      [ pe:var "rest"; pe:value () ],
+      [ pe:var "row"; pe:value 4 ];
+    pe:uses
+      { (2) list:firstRest (2 ()) . },
+      { 4 log:notEqualTo 2 . },
+      { (4 2) math:difference 2 . },
+      { 2 math:absoluteValue 2 . },
+      { 2 log:notEqualTo 1 . },
+      { (1 1) math:sum 2 . },
+      { (4 () 2) :safe true . }.
+
+  { 4 log:notEqualTo 2 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (4 2) math:difference 2 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { 2 math:absoluteValue 2 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { 2 log:notEqualTo 1 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (4 () 2) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 18 ];
+    pe:binding
+      [ pe:var "distance"; pe:value 2 ],
+      [ pe:var "row"; pe:value 4 ].
+
+  { (3 1) math:difference 2 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (4 2) list:firstRest (4 (2)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (2 (4 2)) :place (3 1 4 2) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 32 ];
+    pe:binding
+      [ pe:var "newPlaced"; pe:value (1 4 2) ],
+      [ pe:var "next"; pe:value 1 ],
+      [ pe:var "placed"; pe:value (4 2) ],
+      [ pe:var "remaining"; pe:value 2 ],
+      [ pe:var "row"; pe:value 1 ],
+      [ pe:var "rowRes"; pe:value :r1 ],
+      [ pe:var "rows"; pe:value (3 1 4 2) ];
+    pe:uses
+      { 2 math:greaterThan 0 . },
+      { :r1 a :Row . },
+      { :r1 :n 1 . },
+      { (1 (4 2) 1) :safe true . },
+      { (2 1) math:difference 1 . },
+      { (1 4 2) list:firstRest (1 (4 2)) . },
+      { (1 (1 4 2)) :place (3 1 4 2) . }.
+
+  { 2 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { :r1 a :Row . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 13 ].
+
+  { :r1 :n 1 . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 13 ].
+
+  { (1 (4 2) 1) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 3 ],
+      [ pe:var "diff"; pe:value -3 ],
+      [ pe:var "distance"; pe:value 1 ],
+      [ pe:var "next"; pe:value 2 ],
+      [ pe:var "other"; pe:value 4 ],
+      [ pe:var "placed"; pe:value (4 2) ],
+      [ pe:var "rest"; pe:value (2) ],
+      [ pe:var "row"; pe:value 1 ];
+    pe:uses
+      { (4 2) list:firstRest (4 (2)) . },
+      { 1 log:notEqualTo 4 . },
+      { (1 4) math:difference -3 . },
+      { -3 math:absoluteValue 3 . },
+      { 3 log:notEqualTo 1 . },
+      { (1 1) math:sum 2 . },
+      { (1 (2) 2) :safe true . }.
+
+  { 1 log:notEqualTo 4 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (1 4) math:difference -3 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { -3 math:absoluteValue 3 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { 3 log:notEqualTo 1 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (1 (2) 2) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 1 ],
+      [ pe:var "diff"; pe:value -1 ],
+      [ pe:var "distance"; pe:value 2 ],
+      [ pe:var "next"; pe:value 3 ],
+      [ pe:var "other"; pe:value 2 ],
+      [ pe:var "placed"; pe:value (2) ],
+      [ pe:var "rest"; pe:value () ],
+      [ pe:var "row"; pe:value 1 ];
+    pe:uses
+      { (2) list:firstRest (2 ()) . },
+      { 1 log:notEqualTo 2 . },
+      { (1 2) math:difference -1 . },
+      { -1 math:absoluteValue 1 . },
+      { 1 log:notEqualTo 2 . },
+      { (2 1) math:sum 3 . },
+      { (1 () 3) :safe true . }.
+
+  { 1 log:notEqualTo 2 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (1 2) math:difference -1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { -1 math:absoluteValue 1 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { (2 1) math:sum 3 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 () 3) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 18 ];
+    pe:binding
+      [ pe:var "distance"; pe:value 3 ],
+      [ pe:var "row"; pe:value 1 ].
+
+  { (2 1) math:difference 1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (1 4 2) list:firstRest (1 (4 2)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (1 (1 4 2)) :place (3 1 4 2) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 32 ];
+    pe:binding
+      [ pe:var "newPlaced"; pe:value (3 1 4 2) ],
+      [ pe:var "next"; pe:value 0 ],
+      [ pe:var "placed"; pe:value (1 4 2) ],
+      [ pe:var "remaining"; pe:value 1 ],
+      [ pe:var "row"; pe:value 3 ],
+      [ pe:var "rowRes"; pe:value :r3 ],
+      [ pe:var "rows"; pe:value (3 1 4 2) ];
+    pe:uses
+      { 1 math:greaterThan 0 . },
+      { :r3 a :Row . },
+      { :r3 :n 3 . },
+      { (3 (1 4 2) 1) :safe true . },
+      { (1 1) math:difference 0 . },
+      { (3 1 4 2) list:firstRest (3 (1 4 2)) . },
+      { (0 (3 1 4 2)) :place (3 1 4 2) . }.
+
+  { 1 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { :r3 a :Row . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 15 ].
+
+  { :r3 :n 3 . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 15 ].
+
+  { (3 (1 4 2) 1) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 2 ],
+      [ pe:var "diff"; pe:value 2 ],
+      [ pe:var "distance"; pe:value 1 ],
+      [ pe:var "next"; pe:value 2 ],
+      [ pe:var "other"; pe:value 1 ],
+      [ pe:var "placed"; pe:value (1 4 2) ],
+      [ pe:var "rest"; pe:value (4 2) ],
+      [ pe:var "row"; pe:value 3 ];
+    pe:uses
+      { (1 4 2) list:firstRest (1 (4 2)) . },
+      { 3 log:notEqualTo 1 . },
+      { (3 1) math:difference 2 . },
+      { 2 math:absoluteValue 2 . },
+      { 2 log:notEqualTo 1 . },
+      { (1 1) math:sum 2 . },
+      { (3 (4 2) 2) :safe true . }.
+
+  { (3 (4 2) 2) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 1 ],
+      [ pe:var "diff"; pe:value -1 ],
+      [ pe:var "distance"; pe:value 2 ],
+      [ pe:var "next"; pe:value 3 ],
+      [ pe:var "other"; pe:value 4 ],
+      [ pe:var "placed"; pe:value (4 2) ],
+      [ pe:var "rest"; pe:value (2) ],
+      [ pe:var "row"; pe:value 3 ];
+    pe:uses
+      { (4 2) list:firstRest (4 (2)) . },
+      { 3 log:notEqualTo 4 . },
+      { (3 4) math:difference -1 . },
+      { -1 math:absoluteValue 1 . },
+      { 1 log:notEqualTo 2 . },
+      { (2 1) math:sum 3 . },
+      { (3 (2) 3) :safe true . }.
+
+  { 3 log:notEqualTo 4 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (3 4) math:difference -1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (3 (2) 3) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 1 ],
+      [ pe:var "diff"; pe:value 1 ],
+      [ pe:var "distance"; pe:value 3 ],
+      [ pe:var "next"; pe:value 4 ],
+      [ pe:var "other"; pe:value 2 ],
+      [ pe:var "placed"; pe:value (2) ],
+      [ pe:var "rest"; pe:value () ],
+      [ pe:var "row"; pe:value 3 ];
+    pe:uses
+      { (2) list:firstRest (2 ()) . },
+      { 3 log:notEqualTo 2 . },
+      { (3 2) math:difference 1 . },
+      { 1 math:absoluteValue 1 . },
+      { 1 log:notEqualTo 3 . },
+      { (3 1) math:sum 4 . },
+      { (3 () 4) :safe true . }.
+
+  { 3 log:notEqualTo 2 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (3 2) math:difference 1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { 1 math:absoluteValue 1 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { 1 log:notEqualTo 3 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (3 1) math:sum 4 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (3 () 4) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 18 ];
+    pe:binding
+      [ pe:var "distance"; pe:value 4 ],
+      [ pe:var "row"; pe:value 3 ].
+
+  { (1 1) math:difference 0 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (3 1 4 2) list:firstRest (3 (1 4 2)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (0 (3 1 4 2)) :place (3 1 4 2) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 30 ];
+    pe:binding [ pe:var "placed"; pe:value (3 1 4 2) ].
+}.
+
+{ :query :solution (2 4 1 3) . } pe:why {
+  { :query :solution (2 4 1 3) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 41 ];
+    pe:binding [ pe:var "rows"; pe:value (2 4 1 3) ];
+    pe:uses { (4 ()) :place (2 4 1 3) . }.
+
+  { (4 ()) :place (2 4 1 3) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 32 ];
+    pe:binding
+      [ pe:var "newPlaced"; pe:value (3) ],
+      [ pe:var "next"; pe:value 3 ],
+      [ pe:var "placed"; pe:value () ],
+      [ pe:var "remaining"; pe:value 4 ],
+      [ pe:var "row"; pe:value 3 ],
+      [ pe:var "rowRes"; pe:value :r3 ],
+      [ pe:var "rows"; pe:value (2 4 1 3) ];
+    pe:uses
+      { 4 math:greaterThan 0 . },
+      { :r3 a :Row . },
+      { :r3 :n 3 . },
+      { (3 () 1) :safe true . },
+      { (4 1) math:difference 3 . },
+      { (3) list:firstRest (3 ()) . },
+      { (3 (3)) :place (2 4 1 3) . }.
+
+  { 4 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { :r3 a :Row . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 15 ].
+
+  { :r3 :n 3 . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 15 ].
+
+  { (3 () 1) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 18 ];
+    pe:binding
+      [ pe:var "distance"; pe:value 1 ],
+      [ pe:var "row"; pe:value 3 ].
+
+  { (4 1) math:difference 3 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (3) list:firstRest (3 ()) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (3 (3)) :place (2 4 1 3) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 32 ];
+    pe:binding
+      [ pe:var "newPlaced"; pe:value (1 3) ],
+      [ pe:var "next"; pe:value 2 ],
+      [ pe:var "placed"; pe:value (3) ],
+      [ pe:var "remaining"; pe:value 3 ],
+      [ pe:var "row"; pe:value 1 ],
+      [ pe:var "rowRes"; pe:value :r1 ],
+      [ pe:var "rows"; pe:value (2 4 1 3) ];
+    pe:uses
+      { 3 math:greaterThan 0 . },
+      { :r1 a :Row . },
+      { :r1 :n 1 . },
+      { (1 (3) 1) :safe true . },
+      { (3 1) math:difference 2 . },
+      { (1 3) list:firstRest (1 (3)) . },
+      { (2 (1 3)) :place (2 4 1 3) . }.
+
+  { 3 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { :r1 a :Row . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 13 ].
+
+  { :r1 :n 1 . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 13 ].
+
+  { (1 (3) 1) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 2 ],
+      [ pe:var "diff"; pe:value -2 ],
+      [ pe:var "distance"; pe:value 1 ],
+      [ pe:var "next"; pe:value 2 ],
+      [ pe:var "other"; pe:value 3 ],
+      [ pe:var "placed"; pe:value (3) ],
+      [ pe:var "rest"; pe:value () ],
+      [ pe:var "row"; pe:value 1 ];
+    pe:uses
+      { (3) list:firstRest (3 ()) . },
+      { 1 log:notEqualTo 3 . },
+      { (1 3) math:difference -2 . },
+      { -2 math:absoluteValue 2 . },
+      { 2 log:notEqualTo 1 . },
+      { (1 1) math:sum 2 . },
+      { (1 () 2) :safe true . }.
+
+  { 1 log:notEqualTo 3 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (1 3) math:difference -2 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { -2 math:absoluteValue 2 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { 2 log:notEqualTo 1 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 () 2) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 18 ];
+    pe:binding
+      [ pe:var "distance"; pe:value 2 ],
+      [ pe:var "row"; pe:value 1 ].
+
+  { (3 1) math:difference 2 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (1 3) list:firstRest (1 (3)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (2 (1 3)) :place (2 4 1 3) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 32 ];
+    pe:binding
+      [ pe:var "newPlaced"; pe:value (4 1 3) ],
+      [ pe:var "next"; pe:value 1 ],
+      [ pe:var "placed"; pe:value (1 3) ],
+      [ pe:var "remaining"; pe:value 2 ],
+      [ pe:var "row"; pe:value 4 ],
+      [ pe:var "rowRes"; pe:value :r4 ],
+      [ pe:var "rows"; pe:value (2 4 1 3) ];
+    pe:uses
+      { 2 math:greaterThan 0 . },
+      { :r4 a :Row . },
+      { :r4 :n 4 . },
+      { (4 (1 3) 1) :safe true . },
+      { (2 1) math:difference 1 . },
+      { (4 1 3) list:firstRest (4 (1 3)) . },
+      { (1 (4 1 3)) :place (2 4 1 3) . }.
+
+  { 2 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { :r4 a :Row . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 16 ].
+
+  { :r4 :n 4 . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 16 ].
+
+  { (4 (1 3) 1) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 3 ],
+      [ pe:var "diff"; pe:value 3 ],
+      [ pe:var "distance"; pe:value 1 ],
+      [ pe:var "next"; pe:value 2 ],
+      [ pe:var "other"; pe:value 1 ],
+      [ pe:var "placed"; pe:value (1 3) ],
+      [ pe:var "rest"; pe:value (3) ],
+      [ pe:var "row"; pe:value 4 ];
+    pe:uses
+      { (1 3) list:firstRest (1 (3)) . },
+      { 4 log:notEqualTo 1 . },
+      { (4 1) math:difference 3 . },
+      { 3 math:absoluteValue 3 . },
+      { 3 log:notEqualTo 1 . },
+      { (1 1) math:sum 2 . },
+      { (4 (3) 2) :safe true . }.
+
+  { 4 log:notEqualTo 1 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { 3 math:absoluteValue 3 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { 3 log:notEqualTo 1 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (4 (3) 2) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 1 ],
+      [ pe:var "diff"; pe:value 1 ],
+      [ pe:var "distance"; pe:value 2 ],
+      [ pe:var "next"; pe:value 3 ],
+      [ pe:var "other"; pe:value 3 ],
+      [ pe:var "placed"; pe:value (3) ],
+      [ pe:var "rest"; pe:value () ],
+      [ pe:var "row"; pe:value 4 ];
+    pe:uses
+      { (3) list:firstRest (3 ()) . },
+      { 4 log:notEqualTo 3 . },
+      { (4 3) math:difference 1 . },
+      { 1 math:absoluteValue 1 . },
+      { 1 log:notEqualTo 2 . },
+      { (2 1) math:sum 3 . },
+      { (4 () 3) :safe true . }.
+
+  { 4 log:notEqualTo 3 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (4 3) math:difference 1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { 1 math:absoluteValue 1 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { 1 log:notEqualTo 2 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (2 1) math:sum 3 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (4 () 3) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 18 ];
+    pe:binding
+      [ pe:var "distance"; pe:value 3 ],
+      [ pe:var "row"; pe:value 4 ].
+
+  { (2 1) math:difference 1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (4 1 3) list:firstRest (4 (1 3)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (1 (4 1 3)) :place (2 4 1 3) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 32 ];
+    pe:binding
+      [ pe:var "newPlaced"; pe:value (2 4 1 3) ],
+      [ pe:var "next"; pe:value 0 ],
+      [ pe:var "placed"; pe:value (4 1 3) ],
+      [ pe:var "remaining"; pe:value 1 ],
+      [ pe:var "row"; pe:value 2 ],
+      [ pe:var "rowRes"; pe:value :r2 ],
+      [ pe:var "rows"; pe:value (2 4 1 3) ];
+    pe:uses
+      { 1 math:greaterThan 0 . },
+      { :r2 a :Row . },
+      { :r2 :n 2 . },
+      { (2 (4 1 3) 1) :safe true . },
+      { (1 1) math:difference 0 . },
+      { (2 4 1 3) list:firstRest (2 (4 1 3)) . },
+      { (0 (2 4 1 3)) :place (2 4 1 3) . }.
+
+  { 1 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { :r2 a :Row . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 14 ].
+
+  { :r2 :n 2 . }
+    pe:by [ pe:fact "four-queens.n3"; pe:line 14 ].
+
+  { (2 (4 1 3) 1) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 2 ],
+      [ pe:var "diff"; pe:value -2 ],
+      [ pe:var "distance"; pe:value 1 ],
+      [ pe:var "next"; pe:value 2 ],
+      [ pe:var "other"; pe:value 4 ],
+      [ pe:var "placed"; pe:value (4 1 3) ],
+      [ pe:var "rest"; pe:value (1 3) ],
+      [ pe:var "row"; pe:value 2 ];
+    pe:uses
+      { (4 1 3) list:firstRest (4 (1 3)) . },
+      { 2 log:notEqualTo 4 . },
+      { (2 4) math:difference -2 . },
+      { -2 math:absoluteValue 2 . },
+      { 2 log:notEqualTo 1 . },
+      { (1 1) math:sum 2 . },
+      { (2 (1 3) 2) :safe true . }.
+
+  { 2 log:notEqualTo 4 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (2 4) math:difference -2 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (2 (1 3) 2) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 1 ],
+      [ pe:var "diff"; pe:value 1 ],
+      [ pe:var "distance"; pe:value 2 ],
+      [ pe:var "next"; pe:value 3 ],
+      [ pe:var "other"; pe:value 1 ],
+      [ pe:var "placed"; pe:value (1 3) ],
+      [ pe:var "rest"; pe:value (3) ],
+      [ pe:var "row"; pe:value 2 ];
+    pe:uses
+      { (1 3) list:firstRest (1 (3)) . },
+      { 2 log:notEqualTo 1 . },
+      { (2 1) math:difference 1 . },
+      { 1 math:absoluteValue 1 . },
+      { 1 log:notEqualTo 2 . },
+      { (2 1) math:sum 3 . },
+      { (2 (3) 3) :safe true . }.
+
+  { (2 (3) 3) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "delta"; pe:value 1 ],
+      [ pe:var "diff"; pe:value -1 ],
+      [ pe:var "distance"; pe:value 3 ],
+      [ pe:var "next"; pe:value 4 ],
+      [ pe:var "other"; pe:value 3 ],
+      [ pe:var "placed"; pe:value (3) ],
+      [ pe:var "rest"; pe:value () ],
+      [ pe:var "row"; pe:value 2 ];
+    pe:uses
+      { (3) list:firstRest (3 ()) . },
+      { 2 log:notEqualTo 3 . },
+      { (2 3) math:difference -1 . },
+      { -1 math:absoluteValue 1 . },
+      { 1 log:notEqualTo 3 . },
+      { (3 1) math:sum 4 . },
+      { (2 () 4) :safe true . }.
+
+  { 2 log:notEqualTo 3 . }
+    pe:by [ pe:builtin log:notEqualTo ].
+
+  { (2 3) math:difference -1 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { -1 math:absoluteValue 1 . }
+    pe:by [ pe:builtin math:absoluteValue ].
+
+  { (3 1) math:sum 4 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (2 () 4) :safe true . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 18 ];
+    pe:binding
+      [ pe:var "distance"; pe:value 4 ],
+      [ pe:var "row"; pe:value 2 ].
+
+  { (1 1) math:difference 0 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (2 4 1 3) list:firstRest (2 (4 1 3)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (0 (2 4 1 3)) :place (2 4 1 3) . }
+    pe:by [ pe:rule "four-queens.n3"; pe:line 30 ];
+    pe:binding [ pe:var "placed"; pe:value (2 4 1 3) ].
+}.

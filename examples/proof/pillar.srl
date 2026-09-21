@@ -1,0 +1,34 @@
+PREFIX : <http://example.org/socrates#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :Pillar :to :Post .
+  :result :is :Post .
+  :test :is true .
+
+  _:step1
+    rdf:reifies <<( :Pillar :to :Post )>>;
+    pe:rule "pillar.srl";
+    pe:line 10;
+    pe:binding [ pe:var "What"; pe:value :Post ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :Post :to :Pillar )>>;
+    pe:fact "pillar.srl";
+    pe:line 8.
+
+  _:step3
+    rdf:reifies <<( :result :is :Post )>>;
+    pe:rule "pillar.srl";
+    pe:line 12;
+    pe:binding [ pe:var "What"; pe:value :Post ];
+    pe:uses _:step1.
+
+  _:step4
+    rdf:reifies <<( :test :is true )>>;
+    pe:rule "pillar.srl";
+    pe:line 13;
+    pe:uses _:step3.
+}

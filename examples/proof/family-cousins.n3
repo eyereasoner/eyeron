@@ -1,0 +1,1827 @@
+@prefix : <http://example.org/family#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:Heidi :branch :b .
+:Ivan :branch :b .
+:Judy :branch :c .
+:Adam :generation 0 .
+:Bob :generation 1 .
+:Carol :generation 1 .
+:Dave :generation 2 .
+:Eve :generation 2 .
+:Frank :generation 2 .
+:Grace :generation 2 .
+:Heidi :generation 3 .
+:Dave :cousin :Frank .
+:Dave :cousin :Grace .
+:Frank :cousin :Dave .
+:Grace :cousin :Dave .
+:Ivan :generation 3 .
+:Eve :cousin :Frank .
+:Eve :cousin :Grace .
+:Frank :cousin :Eve .
+:Grace :cousin :Eve .
+:Judy :generation 3 .
+:Heidi :cousin :Judy .
+:Judy :cousin :Heidi .
+:Ivan :cousin :Judy .
+:Judy :cousin :Ivan .
+
+{ :Heidi :branch :b . } pe:why {
+  { :Heidi :branch :b . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :b ],
+      [ pe:var "C"; pe:value :Heidi ],
+      [ pe:var "P"; pe:value :Dave ];
+    pe:uses
+      { :Dave :parentOf :Heidi . },
+      { :Dave :branch :b . }.
+
+  { :Dave :parentOf :Heidi . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 14 ].
+
+  { :Dave :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 19 ].
+}.
+
+{ :Ivan :branch :b . } pe:why {
+  { :Ivan :branch :b . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :b ],
+      [ pe:var "C"; pe:value :Ivan ],
+      [ pe:var "P"; pe:value :Eve ];
+    pe:uses
+      { :Eve :parentOf :Ivan . },
+      { :Eve :branch :b . }.
+
+  { :Eve :parentOf :Ivan . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 15 ].
+
+  { :Eve :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 20 ].
+}.
+
+{ :Judy :branch :c . } pe:why {
+  { :Judy :branch :c . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :c ],
+      [ pe:var "C"; pe:value :Judy ],
+      [ pe:var "P"; pe:value :Frank ];
+    pe:uses
+      { :Frank :parentOf :Judy . },
+      { :Frank :branch :c . }.
+
+  { :Frank :parentOf :Judy . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 16 ].
+
+  { :Frank :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 21 ].
+}.
+
+{ :Adam :generation 0 . } pe:why {
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+}.
+
+{ :Bob :generation 1 . } pe:why {
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :Carol :generation 1 . } pe:why {
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :Dave :generation 2 . } pe:why {
+  { :Dave :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Dave ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Dave . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Dave . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :Eve :generation 2 . } pe:why {
+  { :Eve :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Eve ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Eve . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Eve . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :Frank :generation 2 . } pe:why {
+  { :Frank :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Frank ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Frank . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Frank . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :Grace :generation 2 . } pe:why {
+  { :Grace :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Grace ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Grace . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Grace . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :Heidi :generation 3 . } pe:why {
+  { :Heidi :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Heidi ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Dave ];
+    pe:uses
+      { :Dave :parentOf :Heidi . },
+      { :Dave :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Dave :parentOf :Heidi . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 14 ].
+
+  { :Dave :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Dave ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Dave . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Dave . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (2 1) math:sum 3 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :Dave :cousin :Frank . } pe:why {
+  { :Dave :cousin :Frank . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :b ],
+      [ pe:var "BY"; pe:value :c ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "X"; pe:value :Dave ],
+      [ pe:var "Y"; pe:value :Frank ];
+    pe:uses
+      { :Dave :generation 2 . },
+      { :Frank :generation 2 . },
+      { :Dave :branch :b . },
+      { :Frank :branch :c . },
+      { :b :differentFrom :c . }.
+
+  { :Dave :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Dave ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Dave . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Dave . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Frank :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Frank ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Frank . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Frank . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Dave :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 19 ].
+
+  { :Frank :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 21 ].
+
+  { :b :differentFrom :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 25 ].
+}.
+
+{ :Dave :cousin :Grace . } pe:why {
+  { :Dave :cousin :Grace . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :b ],
+      [ pe:var "BY"; pe:value :c ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "X"; pe:value :Dave ],
+      [ pe:var "Y"; pe:value :Grace ];
+    pe:uses
+      { :Dave :generation 2 . },
+      { :Grace :generation 2 . },
+      { :Dave :branch :b . },
+      { :Grace :branch :c . },
+      { :b :differentFrom :c . }.
+
+  { :Dave :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Dave ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Dave . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Dave . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Grace :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Grace ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Grace . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Grace . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Dave :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 19 ].
+
+  { :Grace :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 22 ].
+
+  { :b :differentFrom :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 25 ].
+}.
+
+{ :Frank :cousin :Dave . } pe:why {
+  { :Frank :cousin :Dave . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :c ],
+      [ pe:var "BY"; pe:value :b ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "X"; pe:value :Frank ],
+      [ pe:var "Y"; pe:value :Dave ];
+    pe:uses
+      { :Frank :generation 2 . },
+      { :Dave :generation 2 . },
+      { :Frank :branch :c . },
+      { :Dave :branch :b . },
+      { :c :differentFrom :b . }.
+
+  { :Frank :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Frank ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Frank . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Frank . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Dave :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Dave ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Dave . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Dave . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Frank :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 21 ].
+
+  { :Dave :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 19 ].
+
+  { :c :differentFrom :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 26 ].
+}.
+
+{ :Grace :cousin :Dave . } pe:why {
+  { :Grace :cousin :Dave . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :c ],
+      [ pe:var "BY"; pe:value :b ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "X"; pe:value :Grace ],
+      [ pe:var "Y"; pe:value :Dave ];
+    pe:uses
+      { :Grace :generation 2 . },
+      { :Dave :generation 2 . },
+      { :Grace :branch :c . },
+      { :Dave :branch :b . },
+      { :c :differentFrom :b . }.
+
+  { :Grace :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Grace ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Grace . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Grace . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Dave :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Dave ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Dave . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Dave . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Grace :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 22 ].
+
+  { :Dave :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 19 ].
+
+  { :c :differentFrom :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 26 ].
+}.
+
+{ :Ivan :generation 3 . } pe:why {
+  { :Ivan :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Ivan ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Eve ];
+    pe:uses
+      { :Eve :parentOf :Ivan . },
+      { :Eve :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Eve :parentOf :Ivan . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 15 ].
+
+  { :Eve :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Eve ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Eve . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Eve . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (2 1) math:sum 3 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :Eve :cousin :Frank . } pe:why {
+  { :Eve :cousin :Frank . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :b ],
+      [ pe:var "BY"; pe:value :c ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "X"; pe:value :Eve ],
+      [ pe:var "Y"; pe:value :Frank ];
+    pe:uses
+      { :Eve :generation 2 . },
+      { :Frank :generation 2 . },
+      { :Eve :branch :b . },
+      { :Frank :branch :c . },
+      { :b :differentFrom :c . }.
+
+  { :Eve :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Eve ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Eve . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Eve . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Frank :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Frank ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Frank . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Frank . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Eve :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 20 ].
+
+  { :Frank :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 21 ].
+
+  { :b :differentFrom :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 25 ].
+}.
+
+{ :Eve :cousin :Grace . } pe:why {
+  { :Eve :cousin :Grace . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :b ],
+      [ pe:var "BY"; pe:value :c ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "X"; pe:value :Eve ],
+      [ pe:var "Y"; pe:value :Grace ];
+    pe:uses
+      { :Eve :generation 2 . },
+      { :Grace :generation 2 . },
+      { :Eve :branch :b . },
+      { :Grace :branch :c . },
+      { :b :differentFrom :c . }.
+
+  { :Eve :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Eve ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Eve . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Eve . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Grace :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Grace ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Grace . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Grace . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Eve :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 20 ].
+
+  { :Grace :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 22 ].
+
+  { :b :differentFrom :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 25 ].
+}.
+
+{ :Frank :cousin :Eve . } pe:why {
+  { :Frank :cousin :Eve . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :c ],
+      [ pe:var "BY"; pe:value :b ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "X"; pe:value :Frank ],
+      [ pe:var "Y"; pe:value :Eve ];
+    pe:uses
+      { :Frank :generation 2 . },
+      { :Eve :generation 2 . },
+      { :Frank :branch :c . },
+      { :Eve :branch :b . },
+      { :c :differentFrom :b . }.
+
+  { :Frank :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Frank ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Frank . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Frank . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Eve :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Eve ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Eve . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Eve . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Frank :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 21 ].
+
+  { :Eve :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 20 ].
+
+  { :c :differentFrom :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 26 ].
+}.
+
+{ :Grace :cousin :Eve . } pe:why {
+  { :Grace :cousin :Eve . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :c ],
+      [ pe:var "BY"; pe:value :b ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "X"; pe:value :Grace ],
+      [ pe:var "Y"; pe:value :Eve ];
+    pe:uses
+      { :Grace :generation 2 . },
+      { :Eve :generation 2 . },
+      { :Grace :branch :c . },
+      { :Eve :branch :b . },
+      { :c :differentFrom :b . }.
+
+  { :Grace :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Grace ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Grace . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Grace . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Eve :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Eve ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Eve . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Eve . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Grace :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 22 ].
+
+  { :Eve :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 20 ].
+
+  { :c :differentFrom :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 26 ].
+}.
+
+{ :Judy :generation 3 . } pe:why {
+  { :Judy :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Judy ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Frank ];
+    pe:uses
+      { :Frank :parentOf :Judy . },
+      { :Frank :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Frank :parentOf :Judy . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 16 ].
+
+  { :Frank :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Frank ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Frank . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Frank . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (2 1) math:sum 3 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :Heidi :cousin :Judy . } pe:why {
+  { :Heidi :cousin :Judy . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :b ],
+      [ pe:var "BY"; pe:value :c ],
+      [ pe:var "G"; pe:value 3 ],
+      [ pe:var "X"; pe:value :Heidi ],
+      [ pe:var "Y"; pe:value :Judy ];
+    pe:uses
+      { :Heidi :generation 3 . },
+      { :Judy :generation 3 . },
+      { :Heidi :branch :b . },
+      { :Judy :branch :c . },
+      { :b :differentFrom :c . }.
+
+  { :Heidi :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Heidi ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Dave ];
+    pe:uses
+      { :Dave :parentOf :Heidi . },
+      { :Dave :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Dave :parentOf :Heidi . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 14 ].
+
+  { :Dave :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Dave ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Dave . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Dave . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (2 1) math:sum 3 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Judy :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Judy ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Frank ];
+    pe:uses
+      { :Frank :parentOf :Judy . },
+      { :Frank :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Frank :parentOf :Judy . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 16 ].
+
+  { :Frank :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Frank ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Frank . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Frank . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Heidi :branch :b . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :b ],
+      [ pe:var "C"; pe:value :Heidi ],
+      [ pe:var "P"; pe:value :Dave ];
+    pe:uses
+      { :Dave :parentOf :Heidi . },
+      { :Dave :branch :b . }.
+
+  { :Dave :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 19 ].
+
+  { :Judy :branch :c . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :c ],
+      [ pe:var "C"; pe:value :Judy ],
+      [ pe:var "P"; pe:value :Frank ];
+    pe:uses
+      { :Frank :parentOf :Judy . },
+      { :Frank :branch :c . }.
+
+  { :Frank :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 21 ].
+
+  { :b :differentFrom :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 25 ].
+}.
+
+{ :Judy :cousin :Heidi . } pe:why {
+  { :Judy :cousin :Heidi . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :c ],
+      [ pe:var "BY"; pe:value :b ],
+      [ pe:var "G"; pe:value 3 ],
+      [ pe:var "X"; pe:value :Judy ],
+      [ pe:var "Y"; pe:value :Heidi ];
+    pe:uses
+      { :Judy :generation 3 . },
+      { :Heidi :generation 3 . },
+      { :Judy :branch :c . },
+      { :Heidi :branch :b . },
+      { :c :differentFrom :b . }.
+
+  { :Judy :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Judy ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Frank ];
+    pe:uses
+      { :Frank :parentOf :Judy . },
+      { :Frank :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Frank :parentOf :Judy . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 16 ].
+
+  { :Frank :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Frank ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Frank . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Frank . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (2 1) math:sum 3 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Heidi :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Heidi ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Dave ];
+    pe:uses
+      { :Dave :parentOf :Heidi . },
+      { :Dave :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Dave :parentOf :Heidi . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 14 ].
+
+  { :Dave :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Dave ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Dave . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Dave . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Judy :branch :c . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :c ],
+      [ pe:var "C"; pe:value :Judy ],
+      [ pe:var "P"; pe:value :Frank ];
+    pe:uses
+      { :Frank :parentOf :Judy . },
+      { :Frank :branch :c . }.
+
+  { :Frank :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 21 ].
+
+  { :Heidi :branch :b . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :b ],
+      [ pe:var "C"; pe:value :Heidi ],
+      [ pe:var "P"; pe:value :Dave ];
+    pe:uses
+      { :Dave :parentOf :Heidi . },
+      { :Dave :branch :b . }.
+
+  { :Dave :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 19 ].
+
+  { :c :differentFrom :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 26 ].
+}.
+
+{ :Ivan :cousin :Judy . } pe:why {
+  { :Ivan :cousin :Judy . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :b ],
+      [ pe:var "BY"; pe:value :c ],
+      [ pe:var "G"; pe:value 3 ],
+      [ pe:var "X"; pe:value :Ivan ],
+      [ pe:var "Y"; pe:value :Judy ];
+    pe:uses
+      { :Ivan :generation 3 . },
+      { :Judy :generation 3 . },
+      { :Ivan :branch :b . },
+      { :Judy :branch :c . },
+      { :b :differentFrom :c . }.
+
+  { :Ivan :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Ivan ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Eve ];
+    pe:uses
+      { :Eve :parentOf :Ivan . },
+      { :Eve :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Eve :parentOf :Ivan . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 15 ].
+
+  { :Eve :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Eve ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Eve . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Eve . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (2 1) math:sum 3 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Judy :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Judy ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Frank ];
+    pe:uses
+      { :Frank :parentOf :Judy . },
+      { :Frank :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Frank :parentOf :Judy . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 16 ].
+
+  { :Frank :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Frank ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Frank . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Frank . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Ivan :branch :b . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :b ],
+      [ pe:var "C"; pe:value :Ivan ],
+      [ pe:var "P"; pe:value :Eve ];
+    pe:uses
+      { :Eve :parentOf :Ivan . },
+      { :Eve :branch :b . }.
+
+  { :Eve :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 20 ].
+
+  { :Judy :branch :c . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :c ],
+      [ pe:var "C"; pe:value :Judy ],
+      [ pe:var "P"; pe:value :Frank ];
+    pe:uses
+      { :Frank :parentOf :Judy . },
+      { :Frank :branch :c . }.
+
+  { :Frank :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 21 ].
+
+  { :b :differentFrom :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 25 ].
+}.
+
+{ :Judy :cousin :Ivan . } pe:why {
+  { :Judy :cousin :Ivan . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "BX"; pe:value :c ],
+      [ pe:var "BY"; pe:value :b ],
+      [ pe:var "G"; pe:value 3 ],
+      [ pe:var "X"; pe:value :Judy ],
+      [ pe:var "Y"; pe:value :Ivan ];
+    pe:uses
+      { :Judy :generation 3 . },
+      { :Ivan :generation 3 . },
+      { :Judy :branch :c . },
+      { :Ivan :branch :b . },
+      { :c :differentFrom :b . }.
+
+  { :Judy :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Judy ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Frank ];
+    pe:uses
+      { :Frank :parentOf :Judy . },
+      { :Frank :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Frank :parentOf :Judy . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 16 ].
+
+  { :Frank :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Frank ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Carol ];
+    pe:uses
+      { :Carol :parentOf :Frank . },
+      { :Carol :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Carol :parentOf :Frank . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 13 ].
+
+  { :Carol :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Carol ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Carol . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Carol . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Adam :generation 0 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 32 ].
+
+  { (0 1) math:sum 1 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (1 1) math:sum 2 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (2 1) math:sum 3 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { :Ivan :generation 3 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Ivan ],
+      [ pe:var "G"; pe:value 2 ],
+      [ pe:var "G1"; pe:value 3 ],
+      [ pe:var "P"; pe:value :Eve ];
+    pe:uses
+      { :Eve :parentOf :Ivan . },
+      { :Eve :generation 2 . },
+      { (2 1) math:sum 3 . }.
+
+  { :Eve :parentOf :Ivan . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 15 ].
+
+  { :Eve :generation 2 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Eve ],
+      [ pe:var "G"; pe:value 1 ],
+      [ pe:var "G1"; pe:value 2 ],
+      [ pe:var "P"; pe:value :Bob ];
+    pe:uses
+      { :Bob :parentOf :Eve . },
+      { :Bob :generation 1 . },
+      { (1 1) math:sum 2 . }.
+
+  { :Bob :parentOf :Eve . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 12 ].
+
+  { :Bob :generation 1 . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 35 ];
+    pe:binding
+      [ pe:var "C"; pe:value :Bob ],
+      [ pe:var "G"; pe:value 0 ],
+      [ pe:var "G1"; pe:value 1 ],
+      [ pe:var "P"; pe:value :Adam ];
+    pe:uses
+      { :Adam :parentOf :Bob . },
+      { :Adam :generation 0 . },
+      { (0 1) math:sum 1 . }.
+
+  { :Adam :parentOf :Bob . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 11 ].
+
+  { :Judy :branch :c . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :c ],
+      [ pe:var "C"; pe:value :Judy ],
+      [ pe:var "P"; pe:value :Frank ];
+    pe:uses
+      { :Frank :parentOf :Judy . },
+      { :Frank :branch :c . }.
+
+  { :Frank :branch :c . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 21 ].
+
+  { :Ivan :branch :b . }
+    pe:by [ pe:rule "family-cousins.n3"; pe:line 44 ];
+    pe:binding
+      [ pe:var "B"; pe:value :b ],
+      [ pe:var "C"; pe:value :Ivan ],
+      [ pe:var "P"; pe:value :Eve ];
+    pe:uses
+      { :Eve :parentOf :Ivan . },
+      { :Eve :branch :b . }.
+
+  { :Eve :branch :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 20 ].
+
+  { :c :differentFrom :b . }
+    pe:by [ pe:fact "family-cousins.n3"; pe:line 26 ].
+}.

@@ -1,0 +1,59 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/stratified-negation#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:alice a :Blocked .
+:carol a :Blocked .
+:bob a :Eligible .
+
+{ :alice a :Blocked . } pe:why {
+  { :alice a :Blocked . }
+    pe:by [ pe:rule "stratified-negation.n3"; pe:line 17 ];
+    pe:binding [ pe:var "x"; pe:value :alice ];
+    pe:uses { :alice a :DirectlyBlocked . }.
+
+  { :alice a :DirectlyBlocked . }
+    pe:by [ pe:fact "stratified-negation.n3"; pe:line 14 ].
+}.
+
+{ :carol a :Blocked . } pe:why {
+  { :carol a :Blocked . }
+    pe:by [ pe:rule "stratified-negation.n3"; pe:line 18 ];
+    pe:binding [ pe:var "x"; pe:value :carol ];
+    pe:uses { :carol a :Flagged . }.
+
+  { :carol a :Flagged . }
+    pe:by [ pe:fact "stratified-negation.n3"; pe:line 15 ].
+}.
+
+{ :bob a :Eligible . } pe:why {
+  { :bob a :Eligible . }
+    pe:by [ pe:rule "stratified-negation.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "x"; pe:value :bob ];
+    pe:uses
+      { :bob a :Person . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :bob a :Blocked .
+          } .
+      }.
+
+  { :bob a :Person . }
+    pe:by [ pe:fact "stratified-negation.n3"; pe:line 12 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :bob a :Blocked .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+}.

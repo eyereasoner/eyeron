@@ -1,0 +1,33 @@
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+_:b1 a :Animal .
+:test :is true .
+
+{ _:b1 a :Animal . } pe:why {
+  { _:b1 a :Animal . }
+    pe:by [ pe:rule "monkey.n3"; pe:line 9 ];
+    pe:binding [ pe:var "X"; pe:value _:b1 ];
+    pe:uses { _:b1 a :Monkey . }.
+
+  { _:b1 a :Monkey . }
+    pe:by [ pe:fact "monkey.n3"; pe:line 8 ].
+}.
+
+{ :test :is true . } pe:why {
+  { :test :is true . }
+    pe:by [ pe:rule "monkey.n3"; pe:line 10 ];
+    pe:binding [ pe:var "X"; pe:value _:b1 ];
+    pe:uses
+      { _:b1 a :Monkey . },
+      { _:b1 a :Animal . }.
+
+  { _:b1 a :Monkey . }
+    pe:by [ pe:fact "monkey.n3"; pe:line 8 ].
+
+  { _:b1 a :Animal . }
+    pe:by [ pe:rule "monkey.n3"; pe:line 9 ];
+    pe:binding [ pe:var "X"; pe:value _:b1 ];
+    pe:uses { _:b1 a :Monkey . }.
+}.

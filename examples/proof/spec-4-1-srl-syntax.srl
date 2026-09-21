@@ -1,0 +1,29 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :x :bothPositive true .
+
+  _:step1
+    rdf:reifies <<( :x :bothPositive true )>>;
+    pe:rule "spec-4-1-srl-syntax.srl";
+    pe:line 5;
+    pe:binding
+      [ pe:var "v1"; pe:value 1 ],
+      [ pe:var "v2"; pe:value 2 ],
+      [ pe:var "x"; pe:value :x ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :x :p 1 )>>;
+    pe:fact "spec-4-1-srl-syntax.srl";
+    pe:line 3.
+
+  _:step3
+    rdf:reifies <<( :x :q 2 )>>;
+    pe:fact "spec-4-1-srl-syntax.srl";
+    pe:line 3.
+}

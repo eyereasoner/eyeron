@@ -1,0 +1,40 @@
+PREFIX : <http://example/eyeling/backward/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :five :moreInterestingThan :three .
+  :five :isIndeedMoreInterestingThan :three .
+
+  _:step1
+    rdf:reifies <<( :five :moreInterestingThan :three )>>;
+    pe:rule "backward.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "left"; pe:value 5 ],
+      [ pe:var "right"; pe:value 3 ],
+      [ pe:var "x"; pe:value :five ],
+      [ pe:var "y"; pe:value :three ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :five :value 5 )>>;
+    pe:fact "backward.srl";
+    pe:line 8.
+
+  _:step3
+    rdf:reifies <<( :three :value 3 )>>;
+    pe:fact "backward.srl";
+    pe:line 9.
+
+  _:step4
+    rdf:reifies <<( :five :isIndeedMoreInterestingThan :three )>>;
+    pe:rule "backward.srl";
+    pe:line 19;
+    pe:binding
+      [ pe:var "x"; pe:value :five ],
+      [ pe:var "y"; pe:value :three ];
+    pe:uses _:step1.
+}

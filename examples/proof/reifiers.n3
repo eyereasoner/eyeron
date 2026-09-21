@@ -1,0 +1,59 @@
+@prefix : <http://example/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :statementSource :chat .
+:bob :statementSource :email .
+
+{ :alice :statementSource :chat . } pe:why {
+  { :alice :statementSource :chat . }
+    pe:by [ pe:rule "reifiers.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "claim"; pe:value :claim1 ],
+      [ pe:var "object"; pe:value "hello" ],
+      [ pe:var "source"; pe:value :chat ],
+      [ pe:var "speaker"; pe:value :alice ];
+    pe:uses
+      {
+          :claim1 :statement {
+              :alice :says "hello" .
+          } .
+      },
+      { :claim1 :source :chat . }.
+
+  {
+    :claim1 :statement {
+        :alice :says "hello" .
+    } .
+}
+    pe:by [ pe:fact "reifiers.n3"; pe:line 11 ].
+
+  { :claim1 :source :chat . }
+    pe:by [ pe:fact "reifiers.n3"; pe:line 12 ].
+}.
+
+{ :bob :statementSource :email . } pe:why {
+  { :bob :statementSource :email . }
+    pe:by [ pe:rule "reifiers.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "claim"; pe:value :claim2 ],
+      [ pe:var "object"; pe:value "hi" ],
+      [ pe:var "source"; pe:value :email ],
+      [ pe:var "speaker"; pe:value :bob ];
+    pe:uses
+      {
+          :claim2 :statement {
+              :bob :says "hi" .
+          } .
+      },
+      { :claim2 :source :email . }.
+
+  {
+    :claim2 :statement {
+        :bob :says "hi" .
+    } .
+}
+    pe:by [ pe:fact "reifiers.n3"; pe:line 13 ].
+
+  { :claim2 :source :email . }
+    pe:by [ pe:fact "reifiers.n3"; pe:line 14 ].
+}.

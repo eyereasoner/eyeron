@@ -1,0 +1,51 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :alice :priority true .
+  :carol :priority true .
+  :bob :ordinary true .
+
+  _:step1
+    rdf:reifies <<( :alice :priority true )>>;
+    pe:rule "version-and-in.srl";
+    pe:line 10;
+    pe:binding
+      [ pe:var "level"; pe:value "gold" ],
+      [ pe:var "x"; pe:value :alice ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :alice :level "gold" )>>;
+    pe:fact "version-and-in.srl";
+    pe:line 5.
+
+  _:step3
+    rdf:reifies <<( :carol :priority true )>>;
+    pe:rule "version-and-in.srl";
+    pe:line 10;
+    pe:binding
+      [ pe:var "level"; pe:value "platinum" ],
+      [ pe:var "x"; pe:value :carol ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( :carol :level "platinum" )>>;
+    pe:fact "version-and-in.srl";
+    pe:line 7.
+
+  _:step5
+    rdf:reifies <<( :bob :ordinary true )>>;
+    pe:rule "version-and-in.srl";
+    pe:line 16;
+    pe:binding
+      [ pe:var "level"; pe:value "bronze" ],
+      [ pe:var "x"; pe:value :bob ];
+    pe:uses _:step6.
+
+  _:step6
+    rdf:reifies <<( :bob :level "bronze" )>>;
+    pe:fact "version-and-in.srl";
+    pe:line 6.
+}

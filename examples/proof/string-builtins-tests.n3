@@ -1,0 +1,215 @@
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+
+:ok_string_concatenation_1 a :Pass .
+:ok_string_contains_1 a :Pass .
+:ok_string_containsIgnoringCase_1 a :Pass .
+:ok_string_endsWith_1 a :Pass .
+:ok_string_equalIgnoringCase_1 a :Pass .
+:ok_string_format_1 a :Pass .
+:ok_string_format_2 a :Pass .
+:ok_string_format_3 a :Pass .
+:ok_string_format_4 a :Pass .
+:ok_string_format_5 a :Pass .
+:ok_string_format_6 a :Pass .
+:ok_string_greaterThan_1 a :Pass .
+:ok_string_lessThan_1 a :Pass .
+:ok_string_matches_1 a :Pass .
+:ok_string_notEqualIgnoringCase_1 a :Pass .
+:ok_string_notGreaterThan_1 a :Pass .
+:ok_string_notLessThan_1 a :Pass .
+:ok_string_notMatches_1 a :Pass .
+:ok_string_replace_1 a :Pass .
+:ok_string_scrape_1 a :Pass .
+:ok_string_startsWith_1 a :Pass .
+
+{ :ok_string_concatenation_1 a :Pass . } pe:why {
+  { :ok_string_concatenation_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 18 ];
+    pe:uses { ("hello" " " "world!") string:concatenation "hello world!" . }.
+
+  { ("hello" " " "world!") string:concatenation "hello world!" . }
+    pe:by [ pe:builtin string:concatenation ].
+}.
+
+{ :ok_string_contains_1 a :Pass . } pe:why {
+  { :ok_string_contains_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 28 ];
+    pe:uses { "hello world!" string:contains "llo worl" . }.
+
+  { "hello world!" string:contains "llo worl" . }
+    pe:by [ pe:builtin string:contains ].
+}.
+
+{ :ok_string_containsIgnoringCase_1 a :Pass . } pe:why {
+  { :ok_string_containsIgnoringCase_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 38 ];
+    pe:uses { "hello world!" string:containsIgnoringCase "lLO woRl" . }.
+
+  { "hello world!" string:containsIgnoringCase "lLO woRl" . }
+    pe:by [ pe:builtin string:containsIgnoringCase ].
+}.
+
+{ :ok_string_endsWith_1 a :Pass . } pe:why {
+  { :ok_string_endsWith_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 48 ];
+    pe:uses { "hello world!" string:endsWith "orld!" . }.
+
+  { "hello world!" string:endsWith "orld!" . }
+    pe:by [ pe:builtin string:endsWith ].
+}.
+
+{ :ok_string_equalIgnoringCase_1 a :Pass . } pe:why {
+  { :ok_string_equalIgnoringCase_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 58 ];
+    pe:uses { "hello world!" string:equalIgnoringCase "hELLo wORld!" . }.
+
+  { "hello world!" string:equalIgnoringCase "hELLo wORld!" . }
+    pe:by [ pe:builtin string:equalIgnoringCase ].
+}.
+
+{ :ok_string_format_1 a :Pass . } pe:why {
+  { :ok_string_format_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 68 ];
+    pe:uses { ("%s://%s/%s" "https" "w3c.github.io" "N3/spec/") string:format "https://w3c.github.io/N3/spec/" . }.
+
+  { ("%s://%s/%s" "https" "w3c.github.io" "N3/spec/") string:format "https://w3c.github.io/N3/spec/" . }
+    pe:by [ pe:builtin string:format ].
+}.
+
+{ :ok_string_format_2 a :Pass . } pe:why {
+  { :ok_string_format_2 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 77 ];
+    pe:uses { ("%5s" "x") string:format "    x" . }.
+
+  { ("%5s" "x") string:format "    x" . }
+    pe:by [ pe:builtin string:format ].
+}.
+
+{ :ok_string_format_3 a :Pass . } pe:why {
+  { :ok_string_format_3 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 85 ];
+    pe:uses { ("%-5s" "x") string:format "x    " . }.
+
+  { ("%-5s" "x") string:format "x    " . }
+    pe:by [ pe:builtin string:format ].
+}.
+
+{ :ok_string_format_4 a :Pass . } pe:why {
+  { :ok_string_format_4 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 93 ];
+    pe:uses { ("%.3s" "abcdef") string:format "abc" . }.
+
+  { ("%.3s" "abcdef") string:format "abc" . }
+    pe:by [ pe:builtin string:format ].
+}.
+
+{ :ok_string_format_5 a :Pass . } pe:why {
+  { :ok_string_format_5 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 101 ];
+    pe:uses { ("%05d" 42) string:format "00042" . }.
+
+  { ("%05d" 42) string:format "00042" . }
+    pe:by [ pe:builtin string:format ].
+}.
+
+{ :ok_string_format_6 a :Pass . } pe:why {
+  { :ok_string_format_6 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 109 ];
+    pe:uses { ("%5.1f" 12.0) string:format " 12.0" . }.
+
+  { ("%5.1f" 12.0) string:format " 12.0" . }
+    pe:by [ pe:builtin string:format ].
+}.
+
+{ :ok_string_greaterThan_1 a :Pass . } pe:why {
+  { :ok_string_greaterThan_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 119 ];
+    pe:uses { "Penguin" string:greaterThan "Cat" . }.
+
+  { "Penguin" string:greaterThan "Cat" . }
+    pe:by [ pe:builtin string:greaterThan ].
+}.
+
+{ :ok_string_lessThan_1 a :Pass . } pe:why {
+  { :ok_string_lessThan_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 129 ];
+    pe:uses { "Cat" string:lessThan "Penguin" . }.
+
+  { "Cat" string:lessThan "Penguin" . }
+    pe:by [ pe:builtin string:lessThan ].
+}.
+
+{ :ok_string_matches_1 a :Pass . } pe:why {
+  { :ok_string_matches_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 139 ];
+    pe:uses { "hello world!" string:matches ".*(l)+o wo.*" . }.
+
+  { "hello world!" string:matches ".*(l)+o wo.*" . }
+    pe:by [ pe:builtin string:matches ].
+}.
+
+{ :ok_string_notEqualIgnoringCase_1 a :Pass . } pe:why {
+  { :ok_string_notEqualIgnoringCase_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 149 ];
+    pe:uses { "hello world!" string:notEqualIgnoringCase "hELLo dunia!" . }.
+
+  { "hello world!" string:notEqualIgnoringCase "hELLo dunia!" . }
+    pe:by [ pe:builtin string:notEqualIgnoringCase ].
+}.
+
+{ :ok_string_notGreaterThan_1 a :Pass . } pe:why {
+  { :ok_string_notGreaterThan_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 159 ];
+    pe:uses { "Cat" string:notGreaterThan "Penguin" . }.
+
+  { "Cat" string:notGreaterThan "Penguin" . }
+    pe:by [ pe:builtin string:notGreaterThan ].
+}.
+
+{ :ok_string_notLessThan_1 a :Pass . } pe:why {
+  { :ok_string_notLessThan_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 169 ];
+    pe:uses { "Penguin" string:notLessThan "Cat" . }.
+
+  { "Penguin" string:notLessThan "Cat" . }
+    pe:by [ pe:builtin string:notLessThan ].
+}.
+
+{ :ok_string_notMatches_1 a :Pass . } pe:why {
+  { :ok_string_notMatches_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 179 ];
+    pe:uses { "hello world!" string:notMatches ".*(l)+o dunia.*" . }.
+
+  { "hello world!" string:notMatches ".*(l)+o dunia.*" . }
+    pe:by [ pe:builtin string:notMatches ].
+}.
+
+{ :ok_string_replace_1 a :Pass . } pe:why {
+  { :ok_string_replace_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 189 ];
+    pe:uses { ("fofof bar" "of" "baz") string:replace "fbazbaz bar" . }.
+
+  { ("fofof bar" "of" "baz") string:replace "fbazbaz bar" . }
+    pe:by [ pe:builtin string:replace ].
+}.
+
+{ :ok_string_scrape_1 a :Pass . } pe:why {
+  { :ok_string_scrape_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 200 ];
+    pe:uses { ("id=abc&x=123&y=zzz" "x=([0-9]+)") string:scrape "123" . }.
+
+  { ("id=abc&x=123&y=zzz" "x=([0-9]+)") string:scrape "123" . }
+    pe:by [ pe:builtin string:scrape ].
+}.
+
+{ :ok_string_startsWith_1 a :Pass . } pe:why {
+  { :ok_string_startsWith_1 a :Pass . }
+    pe:by [ pe:rule "string-builtins-tests.n3"; pe:line 210 ];
+    pe:uses { "hello world!" string:startsWith "hello" . }.
+
+  { "hello world!" string:startsWith "hello" . }
+    pe:by [ pe:builtin string:startsWith ].
+}.

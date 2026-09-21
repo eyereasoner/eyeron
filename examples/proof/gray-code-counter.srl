@@ -1,0 +1,480 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :state1 :qa 0 .
+  :state1 :qb 0 .
+  :state1 :qc 1 .
+  :state2 :qa 0 .
+  :state2 :qb 1 .
+  :state2 :qc 1 .
+  :state3 :qa 0 .
+  :state3 :qb 1 .
+  :state3 :qc 0 .
+  :state4 :qa 1 .
+  :state4 :qb 1 .
+  :state4 :qc 0 .
+  :state5 :qa 1 .
+  :state5 :qb 1 .
+  :state5 :qc 1 .
+  :state6 :qa 1 .
+  :state6 :qb 0 .
+  :state6 :qc 1 .
+  :state7 :qa 1 .
+  :state7 :qb 0 .
+  :state7 :qc 0 .
+  :state8 :qa 0 .
+  :state8 :qb 0 .
+  :state8 :qc 0 .
+  :state9 :qa 0 .
+  :state9 :qb 0 .
+  :state9 :qc 1 .
+
+  _:step1
+    rdf:reifies <<( :state1 :qa 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 26;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4.
+
+  _:step2
+    rdf:reifies <<( :state0 :qa 0 )>>;
+    pe:fact "gray-code-counter.srl";
+    pe:line 23.
+
+  _:step3
+    rdf:reifies <<( :state0 :qb 0 )>>;
+    pe:fact "gray-code-counter.srl";
+    pe:line 23.
+
+  _:step4
+    rdf:reifies <<( :state0 :qc 0 )>>;
+    pe:fact "gray-code-counter.srl";
+    pe:line 23.
+
+  _:step5
+    rdf:reifies <<( :state1 :qb 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 26;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4.
+
+  _:step6
+    rdf:reifies <<( :state1 :qc 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 26;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4.
+
+  _:step7
+    rdf:reifies <<( :state2 :qa 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 44;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step1,
+      _:step5,
+      _:step6.
+
+  _:step8
+    rdf:reifies <<( :state2 :qb 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 44;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step1,
+      _:step5,
+      _:step6.
+
+  _:step9
+    rdf:reifies <<( :state2 :qc 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 44;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step1,
+      _:step5,
+      _:step6.
+
+  _:step10
+    rdf:reifies <<( :state3 :qa 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 62;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step11
+    rdf:reifies <<( :state3 :qb 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 62;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step12
+    rdf:reifies <<( :state3 :qc 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 62;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step7,
+      _:step8,
+      _:step9.
+
+  _:step13
+    rdf:reifies <<( :state4 :qa 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 80;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step10,
+      _:step11,
+      _:step12.
+
+  _:step14
+    rdf:reifies <<( :state4 :qb 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 80;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step10,
+      _:step11,
+      _:step12.
+
+  _:step15
+    rdf:reifies <<( :state4 :qc 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 80;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step10,
+      _:step11,
+      _:step12.
+
+  _:step16
+    rdf:reifies <<( :state5 :qa 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 98;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step13,
+      _:step14,
+      _:step15.
+
+  _:step17
+    rdf:reifies <<( :state5 :qb 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 98;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step13,
+      _:step14,
+      _:step15.
+
+  _:step18
+    rdf:reifies <<( :state5 :qc 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 98;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 1 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step13,
+      _:step14,
+      _:step15.
+
+  _:step19
+    rdf:reifies <<( :state6 :qa 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 116;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step16,
+      _:step17,
+      _:step18.
+
+  _:step20
+    rdf:reifies <<( :state6 :qb 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 116;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step16,
+      _:step17,
+      _:step18.
+
+  _:step21
+    rdf:reifies <<( :state6 :qc 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 116;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step16,
+      _:step17,
+      _:step18.
+
+  _:step22
+    rdf:reifies <<( :state7 :qa 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 134;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step19,
+      _:step20,
+      _:step21.
+
+  _:step23
+    rdf:reifies <<( :state7 :qb 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 134;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step19,
+      _:step20,
+      _:step21.
+
+  _:step24
+    rdf:reifies <<( :state7 :qc 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 134;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 1 ],
+      [ pe:var "za"; pe:value 1 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step19,
+      _:step20,
+      _:step21.
+
+  _:step25
+    rdf:reifies <<( :state8 :qa 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 152;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step22,
+      _:step23,
+      _:step24.
+
+  _:step26
+    rdf:reifies <<( :state8 :qb 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 152;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step22,
+      _:step23,
+      _:step24.
+
+  _:step27
+    rdf:reifies <<( :state8 :qc 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 152;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 0 ];
+    pe:uses
+      _:step22,
+      _:step23,
+      _:step24.
+
+  _:step28
+    rdf:reifies <<( :state9 :qa 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 170;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step25,
+      _:step26,
+      _:step27.
+
+  _:step29
+    rdf:reifies <<( :state9 :qb 0 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 170;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step25,
+      _:step26,
+      _:step27.
+
+  _:step30
+    rdf:reifies <<( :state9 :qc 1 )>>;
+    pe:rule "gray-code-counter.srl";
+    pe:line 170;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 0 ],
+      [ pe:var "c"; pe:value 0 ],
+      [ pe:var "za"; pe:value 0 ],
+      [ pe:var "zb"; pe:value 0 ],
+      [ pe:var "zc"; pe:value 1 ];
+    pe:uses
+      _:step25,
+      _:step26,
+      _:step27.
+}

@@ -3,28 +3,13 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
 :DUCK a :ISMADEOFWOOD .
-:DUCK a :BURNS .
 :GIRL a :FLOATS .
+:DUCK a :BURNS .
 :GIRL a :ISMADEOFWOOD .
 :GIRL a :BURNS .
 :GIRL a :WITCH .
 
 { :DUCK a :ISMADEOFWOOD . } pe:why {
-  { :DUCK a :ISMADEOFWOOD . }
-    pe:by [ pe:rule "witch.n3"; pe:line 22 ];
-    pe:binding [ pe:var "x"; pe:value :DUCK ];
-    pe:uses { :DUCK a :FLOATS . }.
-
-  { :DUCK a :FLOATS . }
-    pe:by [ pe:fact "witch.n3"; pe:line 26 ].
-}.
-
-{ :DUCK a :BURNS . } pe:why {
-  { :DUCK a :BURNS . }
-    pe:by [ pe:rule "witch.n3"; pe:line 19 ];
-    pe:binding [ pe:var "x"; pe:value :DUCK ];
-    pe:uses { :DUCK a :ISMADEOFWOOD . }.
-
   { :DUCK a :ISMADEOFWOOD . }
     pe:by [ pe:rule "witch.n3"; pe:line 22 ];
     pe:binding [ pe:var "x"; pe:value :DUCK ];
@@ -49,6 +34,21 @@
 
   { :DUCK :SAMEWEIGHT :GIRL . }
     pe:by [ pe:fact "witch.n3"; pe:line 33 ].
+}.
+
+{ :DUCK a :BURNS . } pe:why {
+  { :DUCK a :BURNS . }
+    pe:by [ pe:rule "witch.n3"; pe:line 19 ];
+    pe:binding [ pe:var "x"; pe:value :DUCK ];
+    pe:uses { :DUCK a :ISMADEOFWOOD . }.
+
+  { :DUCK a :ISMADEOFWOOD . }
+    pe:by [ pe:rule "witch.n3"; pe:line 22 ];
+    pe:binding [ pe:var "x"; pe:value :DUCK ];
+    pe:uses { :DUCK a :FLOATS . }.
+
+  { :DUCK a :FLOATS . }
+    pe:by [ pe:fact "witch.n3"; pe:line 26 ].
 }.
 
 { :GIRL a :ISMADEOFWOOD . } pe:why {

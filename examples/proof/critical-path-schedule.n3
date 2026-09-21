@@ -1,0 +1,2766 @@
+@prefix : <http://example/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:requirements :finish 2 .
+:architecture :finish 5 .
+:api_design :finish 4 .
+:database :finish 9 .
+:backend :finish 15 .
+:frontend :finish 9 .
+:auth :finish 8 .
+:integration :finish 19 .
+:security_review :finish 22 .
+:load_test :finish 21 .
+:launch :finish 23 .
+:test :projectFinish 23 .
+:launch :critical true .
+:security_review :critical true .
+:integration :critical true .
+:backend :critical true .
+:database :critical true .
+:architecture :critical true .
+:requirements :critical true .
+:requirements :schedule (0 2) .
+:architecture :schedule (2 5) .
+:api_design :schedule (2 4) .
+:database :schedule (5 9) .
+:backend :schedule (9 15) .
+:frontend :schedule (4 9) .
+:auth :schedule (5 8) .
+:integration :schedule (15 19) .
+:security_review :schedule (19 22) .
+:load_test :schedule (19 21) .
+:launch :schedule (22 23) .
+
+{ :requirements :finish 2 . } pe:why {
+  { :requirements :finish 2 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 2 ],
+      [ pe:var "candidates"; pe:value (2) ],
+      [ pe:var "maxFinish"; pe:value 2 ],
+      [ pe:var "sorted"; pe:value (2) ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :requirements :duration 2 . },
+      {
+          (?candidate {
+              :requirements :durationPath (?p ?candidate) .
+          } (2)) log:collectAllIn ?SCOPE .
+      },
+      { (2) list:sort (2) . },
+      { (2) list:last 2 . }.
+
+  { :requirements :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 23 ].
+
+  {
+    (?candidate {
+        :requirements :durationPath (?p ?candidate) .
+    } (2)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (2) list:sort (2) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (2) list:last 2 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :architecture :finish 5 . } pe:why {
+  { :architecture :finish 5 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 3 ],
+      [ pe:var "candidates"; pe:value (5) ],
+      [ pe:var "maxFinish"; pe:value 5 ],
+      [ pe:var "sorted"; pe:value (5) ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :architecture :duration 3 . },
+      {
+          (?candidate {
+              :architecture :durationPath (?p ?candidate) .
+          } (5)) log:collectAllIn ?SCOPE .
+      },
+      { (5) list:sort (5) . },
+      { (5) list:last 5 . }.
+
+  { :architecture :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 24 ].
+
+  {
+    (?candidate {
+        :architecture :durationPath (?p ?candidate) .
+    } (5)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (5) list:sort (5) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (5) list:last 5 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :api_design :finish 4 . } pe:why {
+  { :api_design :finish 4 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 2 ],
+      [ pe:var "candidates"; pe:value (4) ],
+      [ pe:var "maxFinish"; pe:value 4 ],
+      [ pe:var "sorted"; pe:value (4) ],
+      [ pe:var "task"; pe:value :api_design ];
+    pe:uses
+      { :api_design :duration 2 . },
+      {
+          (?candidate {
+              :api_design :durationPath (?p ?candidate) .
+          } (4)) log:collectAllIn ?SCOPE .
+      },
+      { (4) list:sort (4) . },
+      { (4) list:last 4 . }.
+
+  { :api_design :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 25 ].
+
+  {
+    (?candidate {
+        :api_design :durationPath (?p ?candidate) .
+    } (4)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (4) list:sort (4) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (4) list:last 4 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :database :finish 9 . } pe:why {
+  { :database :finish 9 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 4 ],
+      [ pe:var "candidates"; pe:value (9) ],
+      [ pe:var "maxFinish"; pe:value 9 ],
+      [ pe:var "sorted"; pe:value (9) ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :database :duration 4 . },
+      {
+          (?candidate {
+              :database :durationPath (?p ?candidate) .
+          } (9)) log:collectAllIn ?SCOPE .
+      },
+      { (9) list:sort (9) . },
+      { (9) list:last 9 . }.
+
+  { :database :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 26 ].
+
+  {
+    (?candidate {
+        :database :durationPath (?p ?candidate) .
+    } (9)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (9) list:sort (9) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (9) list:last 9 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :backend :finish 15 . } pe:why {
+  { :backend :finish 15 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 6 ],
+      [ pe:var "candidates"; pe:value (10 15) ],
+      [ pe:var "maxFinish"; pe:value 15 ],
+      [ pe:var "sorted"; pe:value (10 15) ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :backend :duration 6 . },
+      {
+          (?candidate {
+              :backend :durationPath (?p ?candidate) .
+          } (10 15)) log:collectAllIn ?SCOPE .
+      },
+      { (10 15) list:sort (10 15) . },
+      { (10 15) list:last 15 . }.
+
+  { :backend :duration 6 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 27 ].
+
+  {
+    (?candidate {
+        :backend :durationPath (?p ?candidate) .
+    } (10 15)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (10 15) list:sort (10 15) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (10 15) list:last 15 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :frontend :finish 9 . } pe:why {
+  { :frontend :finish 9 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 5 ],
+      [ pe:var "candidates"; pe:value (9) ],
+      [ pe:var "maxFinish"; pe:value 9 ],
+      [ pe:var "sorted"; pe:value (9) ],
+      [ pe:var "task"; pe:value :frontend ];
+    pe:uses
+      { :frontend :duration 5 . },
+      {
+          (?candidate {
+              :frontend :durationPath (?p ?candidate) .
+          } (9)) log:collectAllIn ?SCOPE .
+      },
+      { (9) list:sort (9) . },
+      { (9) list:last 9 . }.
+
+  { :frontend :duration 5 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 28 ].
+
+  {
+    (?candidate {
+        :frontend :durationPath (?p ?candidate) .
+    } (9)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (9) list:sort (9) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (9) list:last 9 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :auth :finish 8 . } pe:why {
+  { :auth :finish 8 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 3 ],
+      [ pe:var "candidates"; pe:value (8) ],
+      [ pe:var "maxFinish"; pe:value 8 ],
+      [ pe:var "sorted"; pe:value (8) ],
+      [ pe:var "task"; pe:value :auth ];
+    pe:uses
+      { :auth :duration 3 . },
+      {
+          (?candidate {
+              :auth :durationPath (?p ?candidate) .
+          } (8)) log:collectAllIn ?SCOPE .
+      },
+      { (8) list:sort (8) . },
+      { (8) list:last 8 . }.
+
+  { :auth :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 29 ].
+
+  {
+    (?candidate {
+        :auth :durationPath (?p ?candidate) .
+    } (8)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (8) list:sort (8) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (8) list:last 8 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :integration :finish 19 . } pe:why {
+  { :integration :finish 19 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 4 ],
+      [ pe:var "candidates"; pe:value (14 19 13 12) ],
+      [ pe:var "maxFinish"; pe:value 19 ],
+      [ pe:var "sorted"; pe:value (12 13 14 19) ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :integration :duration 4 . },
+      {
+          (?candidate {
+              :integration :durationPath (?p ?candidate) .
+          } (14 19 13 12)) log:collectAllIn ?SCOPE .
+      },
+      { (14 19 13 12) list:sort (12 13 14 19) . },
+      { (12 13 14 19) list:last 19 . }.
+
+  { :integration :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 30 ].
+
+  {
+    (?candidate {
+        :integration :durationPath (?p ?candidate) .
+    } (14 19 13 12)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (14 19 13 12) list:sort (12 13 14 19) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (12 13 14 19) list:last 19 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :security_review :finish 22 . } pe:why {
+  { :security_review :finish 22 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 3 ],
+      [ pe:var "candidates"; pe:value (17 22 16 15) ],
+      [ pe:var "maxFinish"; pe:value 22 ],
+      [ pe:var "sorted"; pe:value (15 16 17 22) ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :security_review :duration 3 . },
+      {
+          (?candidate {
+              :security_review :durationPath (?p ?candidate) .
+          } (17 22 16 15)) log:collectAllIn ?SCOPE .
+      },
+      { (17 22 16 15) list:sort (15 16 17 22) . },
+      { (15 16 17 22) list:last 22 . }.
+
+  { :security_review :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 31 ].
+
+  {
+    (?candidate {
+        :security_review :durationPath (?p ?candidate) .
+    } (17 22 16 15)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (17 22 16 15) list:sort (15 16 17 22) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (15 16 17 22) list:last 22 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :load_test :finish 21 . } pe:why {
+  { :load_test :finish 21 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 2 ],
+      [ pe:var "candidates"; pe:value (16 21 15 14) ],
+      [ pe:var "maxFinish"; pe:value 21 ],
+      [ pe:var "sorted"; pe:value (14 15 16 21) ],
+      [ pe:var "task"; pe:value :load_test ];
+    pe:uses
+      { :load_test :duration 2 . },
+      {
+          (?candidate {
+              :load_test :durationPath (?p ?candidate) .
+          } (16 21 15 14)) log:collectAllIn ?SCOPE .
+      },
+      { (16 21 15 14) list:sort (14 15 16 21) . },
+      { (14 15 16 21) list:last 21 . }.
+
+  { :load_test :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 32 ].
+
+  {
+    (?candidate {
+        :load_test :durationPath (?p ?candidate) .
+    } (16 21 15 14)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (16 21 15 14) list:sort (14 15 16 21) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (14 15 16 21) list:last 21 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :launch :finish 23 . } pe:why {
+  { :launch :finish 23 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 1 ],
+      [ pe:var "candidates"; pe:value (18 23 17 16 17 22 16 15) ],
+      [ pe:var "maxFinish"; pe:value 23 ],
+      [ pe:var "sorted"; pe:value (15 16 16 17 17 18 22 23) ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :launch :duration 1 . },
+      {
+          (?candidate {
+              :launch :durationPath (?p ?candidate) .
+          } (18 23 17 16 17 22 16 15)) log:collectAllIn ?SCOPE .
+      },
+      { (18 23 17 16 17 22 16 15) list:sort (15 16 16 17 17 18 22 23) . },
+      { (15 16 16 17 17 18 22 23) list:last 23 . }.
+
+  { :launch :duration 1 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 33 ].
+
+  {
+    (?candidate {
+        :launch :durationPath (?p ?candidate) .
+    } (18 23 17 16 17 22 16 15)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (18 23 17 16 17 22 16 15) list:sort (15 16 16 17 17 18 22 23) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (15 16 16 17 17 18 22 23) list:last 23 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :test :projectFinish 23 . } pe:why {
+  { :test :projectFinish 23 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 68 ];
+    pe:binding
+      [ pe:var "candidates"; pe:value (2 5 4 9 15 9 8 19 22 21 23) ],
+      [ pe:var "projectFinish"; pe:value 23 ],
+      [ pe:var "sorted"; pe:value (2 4 5 8 9 9 15 19 21 22 23) ];
+    pe:uses
+      {
+          (?candidate {
+              ?any :finish ?candidate .
+          } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+      },
+      { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . },
+      { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }.
+
+  {
+    (?candidate {
+        ?any :finish ?candidate .
+    } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:unproven "builtin evaluation did not verify this premise" ].
+
+  { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }
+    pe:by [ pe:builtin list:last ].
+}.
+
+{ :launch :critical true . } pe:why {
+  { :launch :critical true . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 74 ];
+    pe:binding
+      [ pe:var "anyTask"; pe:value :launch ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "pf"; pe:value 23 ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :test :projectFinish 23 . },
+      { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :launch . }.
+
+  { :test :projectFinish 23 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 68 ];
+    pe:binding
+      [ pe:var "candidates"; pe:value (2 5 4 9 15 9 8 19 22 21 23) ],
+      [ pe:var "projectFinish"; pe:value 23 ],
+      [ pe:var "sorted"; pe:value (2 4 5 8 9 9 15 19 21 22 23) ];
+    pe:uses
+      {
+          (?candidate {
+              ?any :finish ?candidate .
+          } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+      },
+      { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . },
+      { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }.
+
+  {
+    (?candidate {
+        ?any :finish ?candidate .
+    } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:unproven "builtin evaluation did not verify this premise" ].
+
+  { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }
+    pe:by [ pe:builtin list:last ].
+
+  { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "finish"; pe:value 23 ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :security_review ],
+      [ pe:var "prevPath"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 22 ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :launch :duration 1 . },
+      { :launch :dependsOn :security_review . },
+      { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . },
+      { (22 1) math:sum 23 . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }.
+
+  { :launch :duration 1 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 33 ].
+
+  { :launch :dependsOn :security_review . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 47 ].
+
+  { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 22 ],
+      [ pe:var "path"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :integration ],
+      [ pe:var "prevPath"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 19 ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :security_review :duration 3 . },
+      { :security_review :dependsOn :integration . },
+      { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . },
+      { (19 3) math:sum 22 . },
+      { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }.
+
+  { :security_review :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 31 ].
+
+  { :security_review :dependsOn :integration . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 45 ].
+
+  { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 19 ],
+      [ pe:var "path"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :backend ],
+      [ pe:var "prevPath"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 15 ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :integration :duration 4 . },
+      { :integration :dependsOn :backend . },
+      { :backend :durationPath ((:backend :database :architecture :requirements) 15) . },
+      { (15 4) math:sum 19 . },
+      { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }.
+
+  { :integration :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 30 ].
+
+  { :integration :dependsOn :backend . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 42 ].
+
+  { :backend :durationPath ((:backend :database :architecture :requirements) 15) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 6 ],
+      [ pe:var "finish"; pe:value 15 ],
+      [ pe:var "path"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :database ],
+      [ pe:var "prevPath"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 9 ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :backend :duration 6 . },
+      { :backend :dependsOn :database . },
+      { :database :durationPath ((:database :architecture :requirements) 9) . },
+      { (9 6) math:sum 15 . },
+      { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }.
+
+  { :backend :duration 6 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 27 ].
+
+  { :backend :dependsOn :database . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 39 ].
+
+  { :database :durationPath ((:database :architecture :requirements) 9) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 9 ],
+      [ pe:var "path"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :architecture ],
+      [ pe:var "prevPath"; pe:value (:architecture :requirements) ],
+      [ pe:var "previous"; pe:value 5 ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :database :duration 4 . },
+      { :database :dependsOn :architecture . },
+      { :architecture :durationPath ((:architecture :requirements) 5) . },
+      { (5 4) math:sum 9 . },
+      { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }.
+
+  { :database :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 26 ].
+
+  { :database :dependsOn :architecture . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 37 ].
+
+  { :architecture :durationPath ((:architecture :requirements) 5) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 5 ],
+      [ pe:var "path"; pe:value (:architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :requirements ],
+      [ pe:var "prevPath"; pe:value (:requirements) ],
+      [ pe:var "previous"; pe:value 2 ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :architecture :duration 3 . },
+      { :architecture :dependsOn :requirements . },
+      { :requirements :durationPath ((:requirements) 2) . },
+      { (2 3) math:sum 5 . },
+      { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }.
+
+  { :architecture :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 24 ].
+
+  { :architecture :dependsOn :requirements . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 35 ].
+
+  { :requirements :durationPath ((:requirements) 2) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 50 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :requirements :duration 2 . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+          } .
+      }.
+
+  { :requirements :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 23 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+
+  { (2 3) math:sum 5 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (5 4) math:sum 9 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (9 6) math:sum 15 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (15 4) math:sum 19 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (19 3) math:sum 22 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (22 1) math:sum 23 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :launch . }
+    pe:by [ pe:builtin list:member ].
+}.
+
+{ :security_review :critical true . } pe:why {
+  { :security_review :critical true . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 74 ];
+    pe:binding
+      [ pe:var "anyTask"; pe:value :launch ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "pf"; pe:value 23 ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :test :projectFinish 23 . },
+      { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :security_review . }.
+
+  { :test :projectFinish 23 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 68 ];
+    pe:binding
+      [ pe:var "candidates"; pe:value (2 5 4 9 15 9 8 19 22 21 23) ],
+      [ pe:var "projectFinish"; pe:value 23 ],
+      [ pe:var "sorted"; pe:value (2 4 5 8 9 9 15 19 21 22 23) ];
+    pe:uses
+      {
+          (?candidate {
+              ?any :finish ?candidate .
+          } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+      },
+      { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . },
+      { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }.
+
+  {
+    (?candidate {
+        ?any :finish ?candidate .
+    } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:unproven "builtin evaluation did not verify this premise" ].
+
+  { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }
+    pe:by [ pe:builtin list:last ].
+
+  { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "finish"; pe:value 23 ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :security_review ],
+      [ pe:var "prevPath"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 22 ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :launch :duration 1 . },
+      { :launch :dependsOn :security_review . },
+      { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . },
+      { (22 1) math:sum 23 . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }.
+
+  { :launch :duration 1 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 33 ].
+
+  { :launch :dependsOn :security_review . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 47 ].
+
+  { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 22 ],
+      [ pe:var "path"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :integration ],
+      [ pe:var "prevPath"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 19 ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :security_review :duration 3 . },
+      { :security_review :dependsOn :integration . },
+      { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . },
+      { (19 3) math:sum 22 . },
+      { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }.
+
+  { :security_review :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 31 ].
+
+  { :security_review :dependsOn :integration . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 45 ].
+
+  { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 19 ],
+      [ pe:var "path"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :backend ],
+      [ pe:var "prevPath"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 15 ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :integration :duration 4 . },
+      { :integration :dependsOn :backend . },
+      { :backend :durationPath ((:backend :database :architecture :requirements) 15) . },
+      { (15 4) math:sum 19 . },
+      { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }.
+
+  { :integration :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 30 ].
+
+  { :integration :dependsOn :backend . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 42 ].
+
+  { :backend :durationPath ((:backend :database :architecture :requirements) 15) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 6 ],
+      [ pe:var "finish"; pe:value 15 ],
+      [ pe:var "path"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :database ],
+      [ pe:var "prevPath"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 9 ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :backend :duration 6 . },
+      { :backend :dependsOn :database . },
+      { :database :durationPath ((:database :architecture :requirements) 9) . },
+      { (9 6) math:sum 15 . },
+      { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }.
+
+  { :backend :duration 6 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 27 ].
+
+  { :backend :dependsOn :database . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 39 ].
+
+  { :database :durationPath ((:database :architecture :requirements) 9) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 9 ],
+      [ pe:var "path"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :architecture ],
+      [ pe:var "prevPath"; pe:value (:architecture :requirements) ],
+      [ pe:var "previous"; pe:value 5 ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :database :duration 4 . },
+      { :database :dependsOn :architecture . },
+      { :architecture :durationPath ((:architecture :requirements) 5) . },
+      { (5 4) math:sum 9 . },
+      { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }.
+
+  { :database :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 26 ].
+
+  { :database :dependsOn :architecture . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 37 ].
+
+  { :architecture :durationPath ((:architecture :requirements) 5) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 5 ],
+      [ pe:var "path"; pe:value (:architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :requirements ],
+      [ pe:var "prevPath"; pe:value (:requirements) ],
+      [ pe:var "previous"; pe:value 2 ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :architecture :duration 3 . },
+      { :architecture :dependsOn :requirements . },
+      { :requirements :durationPath ((:requirements) 2) . },
+      { (2 3) math:sum 5 . },
+      { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }.
+
+  { :architecture :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 24 ].
+
+  { :architecture :dependsOn :requirements . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 35 ].
+
+  { :requirements :durationPath ((:requirements) 2) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 50 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :requirements :duration 2 . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+          } .
+      }.
+
+  { :requirements :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 23 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+
+  { (2 3) math:sum 5 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (5 4) math:sum 9 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (9 6) math:sum 15 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (15 4) math:sum 19 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (19 3) math:sum 22 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (22 1) math:sum 23 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :security_review . }
+    pe:by [ pe:builtin list:member ].
+}.
+
+{ :integration :critical true . } pe:why {
+  { :integration :critical true . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 74 ];
+    pe:binding
+      [ pe:var "anyTask"; pe:value :launch ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "pf"; pe:value 23 ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :test :projectFinish 23 . },
+      { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :integration . }.
+
+  { :test :projectFinish 23 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 68 ];
+    pe:binding
+      [ pe:var "candidates"; pe:value (2 5 4 9 15 9 8 19 22 21 23) ],
+      [ pe:var "projectFinish"; pe:value 23 ],
+      [ pe:var "sorted"; pe:value (2 4 5 8 9 9 15 19 21 22 23) ];
+    pe:uses
+      {
+          (?candidate {
+              ?any :finish ?candidate .
+          } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+      },
+      { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . },
+      { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }.
+
+  {
+    (?candidate {
+        ?any :finish ?candidate .
+    } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:unproven "builtin evaluation did not verify this premise" ].
+
+  { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }
+    pe:by [ pe:builtin list:last ].
+
+  { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "finish"; pe:value 23 ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :security_review ],
+      [ pe:var "prevPath"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 22 ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :launch :duration 1 . },
+      { :launch :dependsOn :security_review . },
+      { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . },
+      { (22 1) math:sum 23 . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }.
+
+  { :launch :duration 1 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 33 ].
+
+  { :launch :dependsOn :security_review . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 47 ].
+
+  { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 22 ],
+      [ pe:var "path"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :integration ],
+      [ pe:var "prevPath"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 19 ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :security_review :duration 3 . },
+      { :security_review :dependsOn :integration . },
+      { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . },
+      { (19 3) math:sum 22 . },
+      { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }.
+
+  { :security_review :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 31 ].
+
+  { :security_review :dependsOn :integration . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 45 ].
+
+  { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 19 ],
+      [ pe:var "path"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :backend ],
+      [ pe:var "prevPath"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 15 ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :integration :duration 4 . },
+      { :integration :dependsOn :backend . },
+      { :backend :durationPath ((:backend :database :architecture :requirements) 15) . },
+      { (15 4) math:sum 19 . },
+      { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }.
+
+  { :integration :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 30 ].
+
+  { :integration :dependsOn :backend . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 42 ].
+
+  { :backend :durationPath ((:backend :database :architecture :requirements) 15) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 6 ],
+      [ pe:var "finish"; pe:value 15 ],
+      [ pe:var "path"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :database ],
+      [ pe:var "prevPath"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 9 ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :backend :duration 6 . },
+      { :backend :dependsOn :database . },
+      { :database :durationPath ((:database :architecture :requirements) 9) . },
+      { (9 6) math:sum 15 . },
+      { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }.
+
+  { :backend :duration 6 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 27 ].
+
+  { :backend :dependsOn :database . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 39 ].
+
+  { :database :durationPath ((:database :architecture :requirements) 9) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 9 ],
+      [ pe:var "path"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :architecture ],
+      [ pe:var "prevPath"; pe:value (:architecture :requirements) ],
+      [ pe:var "previous"; pe:value 5 ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :database :duration 4 . },
+      { :database :dependsOn :architecture . },
+      { :architecture :durationPath ((:architecture :requirements) 5) . },
+      { (5 4) math:sum 9 . },
+      { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }.
+
+  { :database :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 26 ].
+
+  { :database :dependsOn :architecture . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 37 ].
+
+  { :architecture :durationPath ((:architecture :requirements) 5) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 5 ],
+      [ pe:var "path"; pe:value (:architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :requirements ],
+      [ pe:var "prevPath"; pe:value (:requirements) ],
+      [ pe:var "previous"; pe:value 2 ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :architecture :duration 3 . },
+      { :architecture :dependsOn :requirements . },
+      { :requirements :durationPath ((:requirements) 2) . },
+      { (2 3) math:sum 5 . },
+      { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }.
+
+  { :architecture :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 24 ].
+
+  { :architecture :dependsOn :requirements . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 35 ].
+
+  { :requirements :durationPath ((:requirements) 2) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 50 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :requirements :duration 2 . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+          } .
+      }.
+
+  { :requirements :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 23 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+
+  { (2 3) math:sum 5 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (5 4) math:sum 9 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (9 6) math:sum 15 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (15 4) math:sum 19 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (19 3) math:sum 22 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (22 1) math:sum 23 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :integration . }
+    pe:by [ pe:builtin list:member ].
+}.
+
+{ :backend :critical true . } pe:why {
+  { :backend :critical true . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 74 ];
+    pe:binding
+      [ pe:var "anyTask"; pe:value :launch ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "pf"; pe:value 23 ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :test :projectFinish 23 . },
+      { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :backend . }.
+
+  { :test :projectFinish 23 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 68 ];
+    pe:binding
+      [ pe:var "candidates"; pe:value (2 5 4 9 15 9 8 19 22 21 23) ],
+      [ pe:var "projectFinish"; pe:value 23 ],
+      [ pe:var "sorted"; pe:value (2 4 5 8 9 9 15 19 21 22 23) ];
+    pe:uses
+      {
+          (?candidate {
+              ?any :finish ?candidate .
+          } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+      },
+      { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . },
+      { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }.
+
+  {
+    (?candidate {
+        ?any :finish ?candidate .
+    } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:unproven "builtin evaluation did not verify this premise" ].
+
+  { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }
+    pe:by [ pe:builtin list:last ].
+
+  { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "finish"; pe:value 23 ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :security_review ],
+      [ pe:var "prevPath"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 22 ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :launch :duration 1 . },
+      { :launch :dependsOn :security_review . },
+      { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . },
+      { (22 1) math:sum 23 . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }.
+
+  { :launch :duration 1 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 33 ].
+
+  { :launch :dependsOn :security_review . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 47 ].
+
+  { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 22 ],
+      [ pe:var "path"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :integration ],
+      [ pe:var "prevPath"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 19 ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :security_review :duration 3 . },
+      { :security_review :dependsOn :integration . },
+      { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . },
+      { (19 3) math:sum 22 . },
+      { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }.
+
+  { :security_review :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 31 ].
+
+  { :security_review :dependsOn :integration . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 45 ].
+
+  { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 19 ],
+      [ pe:var "path"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :backend ],
+      [ pe:var "prevPath"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 15 ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :integration :duration 4 . },
+      { :integration :dependsOn :backend . },
+      { :backend :durationPath ((:backend :database :architecture :requirements) 15) . },
+      { (15 4) math:sum 19 . },
+      { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }.
+
+  { :integration :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 30 ].
+
+  { :integration :dependsOn :backend . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 42 ].
+
+  { :backend :durationPath ((:backend :database :architecture :requirements) 15) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 6 ],
+      [ pe:var "finish"; pe:value 15 ],
+      [ pe:var "path"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :database ],
+      [ pe:var "prevPath"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 9 ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :backend :duration 6 . },
+      { :backend :dependsOn :database . },
+      { :database :durationPath ((:database :architecture :requirements) 9) . },
+      { (9 6) math:sum 15 . },
+      { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }.
+
+  { :backend :duration 6 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 27 ].
+
+  { :backend :dependsOn :database . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 39 ].
+
+  { :database :durationPath ((:database :architecture :requirements) 9) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 9 ],
+      [ pe:var "path"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :architecture ],
+      [ pe:var "prevPath"; pe:value (:architecture :requirements) ],
+      [ pe:var "previous"; pe:value 5 ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :database :duration 4 . },
+      { :database :dependsOn :architecture . },
+      { :architecture :durationPath ((:architecture :requirements) 5) . },
+      { (5 4) math:sum 9 . },
+      { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }.
+
+  { :database :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 26 ].
+
+  { :database :dependsOn :architecture . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 37 ].
+
+  { :architecture :durationPath ((:architecture :requirements) 5) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 5 ],
+      [ pe:var "path"; pe:value (:architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :requirements ],
+      [ pe:var "prevPath"; pe:value (:requirements) ],
+      [ pe:var "previous"; pe:value 2 ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :architecture :duration 3 . },
+      { :architecture :dependsOn :requirements . },
+      { :requirements :durationPath ((:requirements) 2) . },
+      { (2 3) math:sum 5 . },
+      { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }.
+
+  { :architecture :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 24 ].
+
+  { :architecture :dependsOn :requirements . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 35 ].
+
+  { :requirements :durationPath ((:requirements) 2) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 50 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :requirements :duration 2 . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+          } .
+      }.
+
+  { :requirements :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 23 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+
+  { (2 3) math:sum 5 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (5 4) math:sum 9 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (9 6) math:sum 15 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (15 4) math:sum 19 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (19 3) math:sum 22 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (22 1) math:sum 23 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :backend . }
+    pe:by [ pe:builtin list:member ].
+}.
+
+{ :database :critical true . } pe:why {
+  { :database :critical true . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 74 ];
+    pe:binding
+      [ pe:var "anyTask"; pe:value :launch ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "pf"; pe:value 23 ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :test :projectFinish 23 . },
+      { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :database . }.
+
+  { :test :projectFinish 23 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 68 ];
+    pe:binding
+      [ pe:var "candidates"; pe:value (2 5 4 9 15 9 8 19 22 21 23) ],
+      [ pe:var "projectFinish"; pe:value 23 ],
+      [ pe:var "sorted"; pe:value (2 4 5 8 9 9 15 19 21 22 23) ];
+    pe:uses
+      {
+          (?candidate {
+              ?any :finish ?candidate .
+          } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+      },
+      { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . },
+      { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }.
+
+  {
+    (?candidate {
+        ?any :finish ?candidate .
+    } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:unproven "builtin evaluation did not verify this premise" ].
+
+  { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }
+    pe:by [ pe:builtin list:last ].
+
+  { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "finish"; pe:value 23 ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :security_review ],
+      [ pe:var "prevPath"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 22 ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :launch :duration 1 . },
+      { :launch :dependsOn :security_review . },
+      { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . },
+      { (22 1) math:sum 23 . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }.
+
+  { :launch :duration 1 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 33 ].
+
+  { :launch :dependsOn :security_review . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 47 ].
+
+  { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 22 ],
+      [ pe:var "path"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :integration ],
+      [ pe:var "prevPath"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 19 ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :security_review :duration 3 . },
+      { :security_review :dependsOn :integration . },
+      { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . },
+      { (19 3) math:sum 22 . },
+      { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }.
+
+  { :security_review :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 31 ].
+
+  { :security_review :dependsOn :integration . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 45 ].
+
+  { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 19 ],
+      [ pe:var "path"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :backend ],
+      [ pe:var "prevPath"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 15 ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :integration :duration 4 . },
+      { :integration :dependsOn :backend . },
+      { :backend :durationPath ((:backend :database :architecture :requirements) 15) . },
+      { (15 4) math:sum 19 . },
+      { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }.
+
+  { :integration :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 30 ].
+
+  { :integration :dependsOn :backend . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 42 ].
+
+  { :backend :durationPath ((:backend :database :architecture :requirements) 15) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 6 ],
+      [ pe:var "finish"; pe:value 15 ],
+      [ pe:var "path"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :database ],
+      [ pe:var "prevPath"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 9 ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :backend :duration 6 . },
+      { :backend :dependsOn :database . },
+      { :database :durationPath ((:database :architecture :requirements) 9) . },
+      { (9 6) math:sum 15 . },
+      { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }.
+
+  { :backend :duration 6 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 27 ].
+
+  { :backend :dependsOn :database . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 39 ].
+
+  { :database :durationPath ((:database :architecture :requirements) 9) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 9 ],
+      [ pe:var "path"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :architecture ],
+      [ pe:var "prevPath"; pe:value (:architecture :requirements) ],
+      [ pe:var "previous"; pe:value 5 ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :database :duration 4 . },
+      { :database :dependsOn :architecture . },
+      { :architecture :durationPath ((:architecture :requirements) 5) . },
+      { (5 4) math:sum 9 . },
+      { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }.
+
+  { :database :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 26 ].
+
+  { :database :dependsOn :architecture . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 37 ].
+
+  { :architecture :durationPath ((:architecture :requirements) 5) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 5 ],
+      [ pe:var "path"; pe:value (:architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :requirements ],
+      [ pe:var "prevPath"; pe:value (:requirements) ],
+      [ pe:var "previous"; pe:value 2 ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :architecture :duration 3 . },
+      { :architecture :dependsOn :requirements . },
+      { :requirements :durationPath ((:requirements) 2) . },
+      { (2 3) math:sum 5 . },
+      { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }.
+
+  { :architecture :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 24 ].
+
+  { :architecture :dependsOn :requirements . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 35 ].
+
+  { :requirements :durationPath ((:requirements) 2) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 50 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :requirements :duration 2 . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+          } .
+      }.
+
+  { :requirements :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 23 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+
+  { (2 3) math:sum 5 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (5 4) math:sum 9 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (9 6) math:sum 15 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (15 4) math:sum 19 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (19 3) math:sum 22 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (22 1) math:sum 23 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :database . }
+    pe:by [ pe:builtin list:member ].
+}.
+
+{ :architecture :critical true . } pe:why {
+  { :architecture :critical true . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 74 ];
+    pe:binding
+      [ pe:var "anyTask"; pe:value :launch ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "pf"; pe:value 23 ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :test :projectFinish 23 . },
+      { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :architecture . }.
+
+  { :test :projectFinish 23 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 68 ];
+    pe:binding
+      [ pe:var "candidates"; pe:value (2 5 4 9 15 9 8 19 22 21 23) ],
+      [ pe:var "projectFinish"; pe:value 23 ],
+      [ pe:var "sorted"; pe:value (2 4 5 8 9 9 15 19 21 22 23) ];
+    pe:uses
+      {
+          (?candidate {
+              ?any :finish ?candidate .
+          } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+      },
+      { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . },
+      { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }.
+
+  {
+    (?candidate {
+        ?any :finish ?candidate .
+    } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:unproven "builtin evaluation did not verify this premise" ].
+
+  { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }
+    pe:by [ pe:builtin list:last ].
+
+  { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "finish"; pe:value 23 ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :security_review ],
+      [ pe:var "prevPath"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 22 ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :launch :duration 1 . },
+      { :launch :dependsOn :security_review . },
+      { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . },
+      { (22 1) math:sum 23 . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }.
+
+  { :launch :duration 1 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 33 ].
+
+  { :launch :dependsOn :security_review . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 47 ].
+
+  { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 22 ],
+      [ pe:var "path"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :integration ],
+      [ pe:var "prevPath"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 19 ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :security_review :duration 3 . },
+      { :security_review :dependsOn :integration . },
+      { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . },
+      { (19 3) math:sum 22 . },
+      { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }.
+
+  { :security_review :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 31 ].
+
+  { :security_review :dependsOn :integration . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 45 ].
+
+  { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 19 ],
+      [ pe:var "path"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :backend ],
+      [ pe:var "prevPath"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 15 ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :integration :duration 4 . },
+      { :integration :dependsOn :backend . },
+      { :backend :durationPath ((:backend :database :architecture :requirements) 15) . },
+      { (15 4) math:sum 19 . },
+      { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }.
+
+  { :integration :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 30 ].
+
+  { :integration :dependsOn :backend . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 42 ].
+
+  { :backend :durationPath ((:backend :database :architecture :requirements) 15) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 6 ],
+      [ pe:var "finish"; pe:value 15 ],
+      [ pe:var "path"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :database ],
+      [ pe:var "prevPath"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 9 ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :backend :duration 6 . },
+      { :backend :dependsOn :database . },
+      { :database :durationPath ((:database :architecture :requirements) 9) . },
+      { (9 6) math:sum 15 . },
+      { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }.
+
+  { :backend :duration 6 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 27 ].
+
+  { :backend :dependsOn :database . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 39 ].
+
+  { :database :durationPath ((:database :architecture :requirements) 9) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 9 ],
+      [ pe:var "path"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :architecture ],
+      [ pe:var "prevPath"; pe:value (:architecture :requirements) ],
+      [ pe:var "previous"; pe:value 5 ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :database :duration 4 . },
+      { :database :dependsOn :architecture . },
+      { :architecture :durationPath ((:architecture :requirements) 5) . },
+      { (5 4) math:sum 9 . },
+      { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }.
+
+  { :database :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 26 ].
+
+  { :database :dependsOn :architecture . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 37 ].
+
+  { :architecture :durationPath ((:architecture :requirements) 5) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 5 ],
+      [ pe:var "path"; pe:value (:architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :requirements ],
+      [ pe:var "prevPath"; pe:value (:requirements) ],
+      [ pe:var "previous"; pe:value 2 ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :architecture :duration 3 . },
+      { :architecture :dependsOn :requirements . },
+      { :requirements :durationPath ((:requirements) 2) . },
+      { (2 3) math:sum 5 . },
+      { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }.
+
+  { :architecture :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 24 ].
+
+  { :architecture :dependsOn :requirements . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 35 ].
+
+  { :requirements :durationPath ((:requirements) 2) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 50 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :requirements :duration 2 . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+          } .
+      }.
+
+  { :requirements :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 23 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+
+  { (2 3) math:sum 5 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (5 4) math:sum 9 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (9 6) math:sum 15 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (15 4) math:sum 19 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (19 3) math:sum 22 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (22 1) math:sum 23 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :architecture . }
+    pe:by [ pe:builtin list:member ].
+}.
+
+{ :requirements :critical true . } pe:why {
+  { :requirements :critical true . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 74 ];
+    pe:binding
+      [ pe:var "anyTask"; pe:value :launch ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "pf"; pe:value 23 ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :test :projectFinish 23 . },
+      { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :requirements . }.
+
+  { :test :projectFinish 23 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 68 ];
+    pe:binding
+      [ pe:var "candidates"; pe:value (2 5 4 9 15 9 8 19 22 21 23) ],
+      [ pe:var "projectFinish"; pe:value 23 ],
+      [ pe:var "sorted"; pe:value (2 4 5 8 9 9 15 19 21 22 23) ];
+    pe:uses
+      {
+          (?candidate {
+              ?any :finish ?candidate .
+          } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+      },
+      { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . },
+      { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }.
+
+  {
+    (?candidate {
+        ?any :finish ?candidate .
+    } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:unproven "builtin evaluation did not verify this premise" ].
+
+  { (2 5 4 9 15 9 8 19 22 21 23) list:sort (2 4 5 8 9 9 15 19 21 22 23) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (2 4 5 8 9 9 15 19 21 22 23) list:last 23 . }
+    pe:by [ pe:builtin list:last ].
+
+  { :launch :durationPath ((:launch :security_review :integration :backend :database :architecture :requirements) 23) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "finish"; pe:value 23 ],
+      [ pe:var "path"; pe:value (:launch :security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :security_review ],
+      [ pe:var "prevPath"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 22 ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :launch :duration 1 . },
+      { :launch :dependsOn :security_review . },
+      { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . },
+      { (22 1) math:sum 23 . },
+      { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }.
+
+  { :launch :duration 1 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 33 ].
+
+  { :launch :dependsOn :security_review . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 47 ].
+
+  { :security_review :durationPath ((:security_review :integration :backend :database :architecture :requirements) 22) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 22 ],
+      [ pe:var "path"; pe:value (:security_review :integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :integration ],
+      [ pe:var "prevPath"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 19 ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :security_review :duration 3 . },
+      { :security_review :dependsOn :integration . },
+      { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . },
+      { (19 3) math:sum 22 . },
+      { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }.
+
+  { :security_review :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 31 ].
+
+  { :security_review :dependsOn :integration . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 45 ].
+
+  { :integration :durationPath ((:integration :backend :database :architecture :requirements) 19) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 19 ],
+      [ pe:var "path"; pe:value (:integration :backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :backend ],
+      [ pe:var "prevPath"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 15 ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :integration :duration 4 . },
+      { :integration :dependsOn :backend . },
+      { :backend :durationPath ((:backend :database :architecture :requirements) 15) . },
+      { (15 4) math:sum 19 . },
+      { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }.
+
+  { :integration :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 30 ].
+
+  { :integration :dependsOn :backend . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 42 ].
+
+  { :backend :durationPath ((:backend :database :architecture :requirements) 15) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 6 ],
+      [ pe:var "finish"; pe:value 15 ],
+      [ pe:var "path"; pe:value (:backend :database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :database ],
+      [ pe:var "prevPath"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "previous"; pe:value 9 ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :backend :duration 6 . },
+      { :backend :dependsOn :database . },
+      { :database :durationPath ((:database :architecture :requirements) 9) . },
+      { (9 6) math:sum 15 . },
+      { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }.
+
+  { :backend :duration 6 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 27 ].
+
+  { :backend :dependsOn :database . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 39 ].
+
+  { :database :durationPath ((:database :architecture :requirements) 9) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 4 ],
+      [ pe:var "finish"; pe:value 9 ],
+      [ pe:var "path"; pe:value (:database :architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :architecture ],
+      [ pe:var "prevPath"; pe:value (:architecture :requirements) ],
+      [ pe:var "previous"; pe:value 5 ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :database :duration 4 . },
+      { :database :dependsOn :architecture . },
+      { :architecture :durationPath ((:architecture :requirements) 5) . },
+      { (5 4) math:sum 9 . },
+      { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }.
+
+  { :database :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 26 ].
+
+  { :database :dependsOn :architecture . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 37 ].
+
+  { :architecture :durationPath ((:architecture :requirements) 5) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 52 ];
+    pe:binding
+      [ pe:var "d"; pe:value 3 ],
+      [ pe:var "finish"; pe:value 5 ],
+      [ pe:var "path"; pe:value (:architecture :requirements) ],
+      [ pe:var "predecessor"; pe:value :requirements ],
+      [ pe:var "prevPath"; pe:value (:requirements) ],
+      [ pe:var "previous"; pe:value 2 ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :architecture :duration 3 . },
+      { :architecture :dependsOn :requirements . },
+      { :requirements :durationPath ((:requirements) 2) . },
+      { (2 3) math:sum 5 . },
+      { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }.
+
+  { :architecture :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 24 ].
+
+  { :architecture :dependsOn :requirements . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 35 ].
+
+  { :requirements :durationPath ((:requirements) 2) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 50 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "d"; pe:value 2 ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :requirements :duration 2 . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+          } .
+      }.
+
+  { :requirements :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 23 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :requirements :dependsOn ?__backward_6_0_50e63a02681fd882__any .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+
+  { (2 3) math:sum 5 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:architecture :requirements) list:firstRest (:architecture (:requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (5 4) math:sum 9 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:database :architecture :requirements) list:firstRest (:database (:architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (9 6) math:sum 15 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:backend :database :architecture :requirements) list:firstRest (:backend (:database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (15 4) math:sum 19 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:integration :backend :database :architecture :requirements) list:firstRest (:integration (:backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (19 3) math:sum 22 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:security_review :integration :backend :database :architecture :requirements) list:firstRest (:security_review (:integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (22 1) math:sum 23 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:firstRest (:launch (:security_review :integration :backend :database :architecture :requirements)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (:launch :security_review :integration :backend :database :architecture :requirements) list:member :requirements . }
+    pe:by [ pe:builtin list:member ].
+}.
+
+{ :requirements :schedule (0 2) . } pe:why {
+  { :requirements :schedule (0 2) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 2 ],
+      [ pe:var "finish0"; pe:value 2 ],
+      [ pe:var "start"; pe:value 0 ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :requirements :duration 2 . },
+      { :requirements :finish 2 . },
+      { (2 2) math:difference 0 . }.
+
+  { :requirements :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 23 ].
+
+  { :requirements :finish 2 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 2 ],
+      [ pe:var "candidates"; pe:value (2) ],
+      [ pe:var "maxFinish"; pe:value 2 ],
+      [ pe:var "sorted"; pe:value (2) ],
+      [ pe:var "task"; pe:value :requirements ];
+    pe:uses
+      { :requirements :duration 2 . },
+      {
+          (?candidate {
+              :requirements :durationPath (?p ?candidate) .
+          } (2)) log:collectAllIn ?SCOPE .
+      },
+      { (2) list:sort (2) . },
+      { (2) list:last 2 . }.
+
+  {
+    (?candidate {
+        :requirements :durationPath (?p ?candidate) .
+    } (2)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (2) list:sort (2) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (2) list:last 2 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (2 2) math:difference 0 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :architecture :schedule (2 5) . } pe:why {
+  { :architecture :schedule (2 5) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 5 ],
+      [ pe:var "finish0"; pe:value 3 ],
+      [ pe:var "start"; pe:value 2 ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :architecture :duration 3 . },
+      { :architecture :finish 5 . },
+      { (5 3) math:difference 2 . }.
+
+  { :architecture :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 24 ].
+
+  { :architecture :finish 5 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 3 ],
+      [ pe:var "candidates"; pe:value (5) ],
+      [ pe:var "maxFinish"; pe:value 5 ],
+      [ pe:var "sorted"; pe:value (5) ],
+      [ pe:var "task"; pe:value :architecture ];
+    pe:uses
+      { :architecture :duration 3 . },
+      {
+          (?candidate {
+              :architecture :durationPath (?p ?candidate) .
+          } (5)) log:collectAllIn ?SCOPE .
+      },
+      { (5) list:sort (5) . },
+      { (5) list:last 5 . }.
+
+  {
+    (?candidate {
+        :architecture :durationPath (?p ?candidate) .
+    } (5)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (5) list:sort (5) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (5) list:last 5 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (5 3) math:difference 2 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :api_design :schedule (2 4) . } pe:why {
+  { :api_design :schedule (2 4) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 4 ],
+      [ pe:var "finish0"; pe:value 2 ],
+      [ pe:var "start"; pe:value 2 ],
+      [ pe:var "task"; pe:value :api_design ];
+    pe:uses
+      { :api_design :duration 2 . },
+      { :api_design :finish 4 . },
+      { (4 2) math:difference 2 . }.
+
+  { :api_design :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 25 ].
+
+  { :api_design :finish 4 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 2 ],
+      [ pe:var "candidates"; pe:value (4) ],
+      [ pe:var "maxFinish"; pe:value 4 ],
+      [ pe:var "sorted"; pe:value (4) ],
+      [ pe:var "task"; pe:value :api_design ];
+    pe:uses
+      { :api_design :duration 2 . },
+      {
+          (?candidate {
+              :api_design :durationPath (?p ?candidate) .
+          } (4)) log:collectAllIn ?SCOPE .
+      },
+      { (4) list:sort (4) . },
+      { (4) list:last 4 . }.
+
+  {
+    (?candidate {
+        :api_design :durationPath (?p ?candidate) .
+    } (4)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (4) list:sort (4) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (4) list:last 4 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (4 2) math:difference 2 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :database :schedule (5 9) . } pe:why {
+  { :database :schedule (5 9) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 9 ],
+      [ pe:var "finish0"; pe:value 4 ],
+      [ pe:var "start"; pe:value 5 ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :database :duration 4 . },
+      { :database :finish 9 . },
+      { (9 4) math:difference 5 . }.
+
+  { :database :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 26 ].
+
+  { :database :finish 9 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 4 ],
+      [ pe:var "candidates"; pe:value (9) ],
+      [ pe:var "maxFinish"; pe:value 9 ],
+      [ pe:var "sorted"; pe:value (9) ],
+      [ pe:var "task"; pe:value :database ];
+    pe:uses
+      { :database :duration 4 . },
+      {
+          (?candidate {
+              :database :durationPath (?p ?candidate) .
+          } (9)) log:collectAllIn ?SCOPE .
+      },
+      { (9) list:sort (9) . },
+      { (9) list:last 9 . }.
+
+  {
+    (?candidate {
+        :database :durationPath (?p ?candidate) .
+    } (9)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (9) list:sort (9) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (9) list:last 9 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (9 4) math:difference 5 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :backend :schedule (9 15) . } pe:why {
+  { :backend :schedule (9 15) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 15 ],
+      [ pe:var "finish0"; pe:value 6 ],
+      [ pe:var "start"; pe:value 9 ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :backend :duration 6 . },
+      { :backend :finish 15 . },
+      { (15 6) math:difference 9 . }.
+
+  { :backend :duration 6 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 27 ].
+
+  { :backend :finish 15 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 6 ],
+      [ pe:var "candidates"; pe:value (10 15) ],
+      [ pe:var "maxFinish"; pe:value 15 ],
+      [ pe:var "sorted"; pe:value (10 15) ],
+      [ pe:var "task"; pe:value :backend ];
+    pe:uses
+      { :backend :duration 6 . },
+      {
+          (?candidate {
+              :backend :durationPath (?p ?candidate) .
+          } (10 15)) log:collectAllIn ?SCOPE .
+      },
+      { (10 15) list:sort (10 15) . },
+      { (10 15) list:last 15 . }.
+
+  {
+    (?candidate {
+        :backend :durationPath (?p ?candidate) .
+    } (10 15)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (10 15) list:sort (10 15) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (10 15) list:last 15 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (15 6) math:difference 9 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :frontend :schedule (4 9) . } pe:why {
+  { :frontend :schedule (4 9) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 9 ],
+      [ pe:var "finish0"; pe:value 5 ],
+      [ pe:var "start"; pe:value 4 ],
+      [ pe:var "task"; pe:value :frontend ];
+    pe:uses
+      { :frontend :duration 5 . },
+      { :frontend :finish 9 . },
+      { (9 5) math:difference 4 . }.
+
+  { :frontend :duration 5 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 28 ].
+
+  { :frontend :finish 9 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 5 ],
+      [ pe:var "candidates"; pe:value (9) ],
+      [ pe:var "maxFinish"; pe:value 9 ],
+      [ pe:var "sorted"; pe:value (9) ],
+      [ pe:var "task"; pe:value :frontend ];
+    pe:uses
+      { :frontend :duration 5 . },
+      {
+          (?candidate {
+              :frontend :durationPath (?p ?candidate) .
+          } (9)) log:collectAllIn ?SCOPE .
+      },
+      { (9) list:sort (9) . },
+      { (9) list:last 9 . }.
+
+  {
+    (?candidate {
+        :frontend :durationPath (?p ?candidate) .
+    } (9)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (9) list:sort (9) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (9) list:last 9 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (9 5) math:difference 4 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :auth :schedule (5 8) . } pe:why {
+  { :auth :schedule (5 8) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 8 ],
+      [ pe:var "finish0"; pe:value 3 ],
+      [ pe:var "start"; pe:value 5 ],
+      [ pe:var "task"; pe:value :auth ];
+    pe:uses
+      { :auth :duration 3 . },
+      { :auth :finish 8 . },
+      { (8 3) math:difference 5 . }.
+
+  { :auth :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 29 ].
+
+  { :auth :finish 8 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 3 ],
+      [ pe:var "candidates"; pe:value (8) ],
+      [ pe:var "maxFinish"; pe:value 8 ],
+      [ pe:var "sorted"; pe:value (8) ],
+      [ pe:var "task"; pe:value :auth ];
+    pe:uses
+      { :auth :duration 3 . },
+      {
+          (?candidate {
+              :auth :durationPath (?p ?candidate) .
+          } (8)) log:collectAllIn ?SCOPE .
+      },
+      { (8) list:sort (8) . },
+      { (8) list:last 8 . }.
+
+  {
+    (?candidate {
+        :auth :durationPath (?p ?candidate) .
+    } (8)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (8) list:sort (8) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (8) list:last 8 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (8 3) math:difference 5 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :integration :schedule (15 19) . } pe:why {
+  { :integration :schedule (15 19) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 19 ],
+      [ pe:var "finish0"; pe:value 4 ],
+      [ pe:var "start"; pe:value 15 ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :integration :duration 4 . },
+      { :integration :finish 19 . },
+      { (19 4) math:difference 15 . }.
+
+  { :integration :duration 4 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 30 ].
+
+  { :integration :finish 19 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 4 ],
+      [ pe:var "candidates"; pe:value (14 19 13 12) ],
+      [ pe:var "maxFinish"; pe:value 19 ],
+      [ pe:var "sorted"; pe:value (12 13 14 19) ],
+      [ pe:var "task"; pe:value :integration ];
+    pe:uses
+      { :integration :duration 4 . },
+      {
+          (?candidate {
+              :integration :durationPath (?p ?candidate) .
+          } (14 19 13 12)) log:collectAllIn ?SCOPE .
+      },
+      { (14 19 13 12) list:sort (12 13 14 19) . },
+      { (12 13 14 19) list:last 19 . }.
+
+  {
+    (?candidate {
+        :integration :durationPath (?p ?candidate) .
+    } (14 19 13 12)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (14 19 13 12) list:sort (12 13 14 19) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (12 13 14 19) list:last 19 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (19 4) math:difference 15 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :security_review :schedule (19 22) . } pe:why {
+  { :security_review :schedule (19 22) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 22 ],
+      [ pe:var "finish0"; pe:value 3 ],
+      [ pe:var "start"; pe:value 19 ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :security_review :duration 3 . },
+      { :security_review :finish 22 . },
+      { (22 3) math:difference 19 . }.
+
+  { :security_review :duration 3 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 31 ].
+
+  { :security_review :finish 22 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 3 ],
+      [ pe:var "candidates"; pe:value (17 22 16 15) ],
+      [ pe:var "maxFinish"; pe:value 22 ],
+      [ pe:var "sorted"; pe:value (15 16 17 22) ],
+      [ pe:var "task"; pe:value :security_review ];
+    pe:uses
+      { :security_review :duration 3 . },
+      {
+          (?candidate {
+              :security_review :durationPath (?p ?candidate) .
+          } (17 22 16 15)) log:collectAllIn ?SCOPE .
+      },
+      { (17 22 16 15) list:sort (15 16 17 22) . },
+      { (15 16 17 22) list:last 22 . }.
+
+  {
+    (?candidate {
+        :security_review :durationPath (?p ?candidate) .
+    } (17 22 16 15)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (17 22 16 15) list:sort (15 16 17 22) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (15 16 17 22) list:last 22 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (22 3) math:difference 19 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :load_test :schedule (19 21) . } pe:why {
+  { :load_test :schedule (19 21) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 21 ],
+      [ pe:var "finish0"; pe:value 2 ],
+      [ pe:var "start"; pe:value 19 ],
+      [ pe:var "task"; pe:value :load_test ];
+    pe:uses
+      { :load_test :duration 2 . },
+      { :load_test :finish 21 . },
+      { (21 2) math:difference 19 . }.
+
+  { :load_test :duration 2 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 32 ].
+
+  { :load_test :finish 21 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 2 ],
+      [ pe:var "candidates"; pe:value (16 21 15 14) ],
+      [ pe:var "maxFinish"; pe:value 21 ],
+      [ pe:var "sorted"; pe:value (14 15 16 21) ],
+      [ pe:var "task"; pe:value :load_test ];
+    pe:uses
+      { :load_test :duration 2 . },
+      {
+          (?candidate {
+              :load_test :durationPath (?p ?candidate) .
+          } (16 21 15 14)) log:collectAllIn ?SCOPE .
+      },
+      { (16 21 15 14) list:sort (14 15 16 21) . },
+      { (14 15 16 21) list:last 21 . }.
+
+  {
+    (?candidate {
+        :load_test :durationPath (?p ?candidate) .
+    } (16 21 15 14)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (16 21 15 14) list:sort (14 15 16 21) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (14 15 16 21) list:last 21 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (21 2) math:difference 19 . }
+    pe:by [ pe:builtin math:difference ].
+}.
+
+{ :launch :schedule (22 23) . } pe:why {
+  { :launch :schedule (22 23) . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 66 ];
+    pe:binding
+      [ pe:var "finish"; pe:value 23 ],
+      [ pe:var "finish0"; pe:value 1 ],
+      [ pe:var "start"; pe:value 22 ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :launch :duration 1 . },
+      { :launch :finish 23 . },
+      { (23 1) math:difference 22 . }.
+
+  { :launch :duration 1 . }
+    pe:by [ pe:fact "critical-path-schedule.n3"; pe:line 33 ].
+
+  { :launch :finish 23 . }
+    pe:by [ pe:rule "critical-path-schedule.n3"; pe:line 60 ];
+    pe:binding
+      [ pe:var "_"; pe:value 1 ],
+      [ pe:var "candidates"; pe:value (18 23 17 16 17 22 16 15) ],
+      [ pe:var "maxFinish"; pe:value 23 ],
+      [ pe:var "sorted"; pe:value (15 16 16 17 17 18 22 23) ],
+      [ pe:var "task"; pe:value :launch ];
+    pe:uses
+      { :launch :duration 1 . },
+      {
+          (?candidate {
+              :launch :durationPath (?p ?candidate) .
+          } (18 23 17 16 17 22 16 15)) log:collectAllIn ?SCOPE .
+      },
+      { (18 23 17 16 17 22 16 15) list:sort (15 16 16 17 17 18 22 23) . },
+      { (15 16 16 17 17 18 22 23) list:last 23 . }.
+
+  {
+    (?candidate {
+        :launch :durationPath (?p ?candidate) .
+    } (18 23 17 16 17 22 16 15)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (18 23 17 16 17 22 16 15) list:sort (15 16 16 17 17 18 22 23) . }
+    pe:by [ pe:builtin list:sort ].
+
+  { (15 16 16 17 17 18 22 23) list:last 23 . }
+    pe:by [ pe:builtin list:last ].
+
+  { (23 1) math:difference 22 . }
+    pe:by [ pe:builtin math:difference ].
+}.

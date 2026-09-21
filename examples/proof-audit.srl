@@ -1,14 +1,14 @@
-# Companion to proof-audit.n3/.eye: SRL has no proof-tracking output of
-# its own to introspect (that is specific to the N3 and eye engines'
-# own reasoning trace), so unlike the .n3 companion this cannot replay a
-# generated proof document. Instead it builds the same small proof shape
-# -- socrates.n3's own two-premise derivation -- directly as RDF-star
-# reified DATA (`rdf:reifies <<( ... )>>`, matching reifiers.srl's own
-# precedent), which is arguably a more natural fit for SRL than N3's
-# nested quoted-formula proof steps, since each step is already a flat,
-# separately-addressable reifier rather than something needing
-# log:includes to search inside. The queries mirror the eye source's own
-# `depends_on`/`support`/`answer_applied`.
+# Companion to proof-audit.n3/.eye. `--proof` on a .srl file (see
+# examples/proof/socrates.srl) now generates exactly this shape:
+# `_:stepN rdf:reifies <<( s p o )>> ; pe:rule/pe:fact "file"; pe:line N ;
+# pe:uses ...` reified DATA facts, one flat, separately-addressable
+# reifier per proof step rather than N3's nested quoted-formula steps
+# (which need log:includes to search inside). This example predates that
+# and builds the same small proof shape -- socrates.n3's own two-premise
+# derivation -- by hand instead of by replaying a generated proof
+# document, to keep its own golden output stable; matches reifiers.srl's
+# own `rdf:reifies <<( ... )>>` precedent. The queries mirror the eye
+# source's own `depends_on`/`support`/`answer_applied`.
 
 PREFIX : <http://example.org/proof-audit#>
 PREFIX pe: <https://eyereasoner.github.io/pe#>

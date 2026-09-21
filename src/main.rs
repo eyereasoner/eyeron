@@ -354,7 +354,7 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
         .map_err(|err| EyeronError::new(err.with_source_location(text, label)))?;
         srl::merge_programs(&mut program, parsed);
     }
-    resolve_sparql_rl_imports(&mut program)?;
+    resolve_sparql_rl_imports(&mut program, opt.proof)?;
 
     if opt.ast {
         println!("{:#?}", program);
@@ -413,7 +413,7 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
         return Err(EyeronError::new(summary));
     }
     if opt.proof {
-        print!("{}", proof_to_n3(&program.prefixes, &result));
+        print!("{}", srl::proof_to_srl(&program.prefixes, &result));
     } else if opt.rdf {
         print!("{}", rdf_result_to_string(&program.prefixes, &result.derived));
     } else {
@@ -759,7 +759,7 @@ fn path_to_file_iri(path: &str) -> std::result::Result<String, ()> {
 /// `http(s)://` IRI, per `resolve_iri` in `srl::parser`) by fetching,
 /// parsing, and merging every imported rule set, transitively following
 /// any further `IMPORTS` those bring in. Each IRI is loaded at most once.
-fn resolve_sparql_rl_imports(program: &mut SparqlRlProgram) -> Result<()> {
+fn resolve_sparql_rl_imports(program: &mut SparqlRlProgram, proof: bool) -> Result<()> {
     let mut loaded: std::collections::HashSet<String> = std::collections::HashSet::new();
     let mut pending: Vec<String> = std::mem::take(&mut program.imports);
     while let Some(target) = pending.pop() {
@@ -778,7 +778,12 @@ fn resolve_sparql_rl_imports(program: &mut SparqlRlProgram) -> Result<()> {
                 .ok_or_else(|| EyeronError::new(format!("cannot resolve imported rule set IRI {target}")))?;
             fs::read_to_string(&path).map_err(|err| EyeronError::new(format!("failed to read imported rule set {}: {err}", path.display())))?
         };
-        let parsed = srl::parse_sparql_rl(&text, Some(&target)).map_err(|err| EyeronError::new(err.with_source_location(&text, &target)))?;
+        let parsed = if proof {
+            srl::parse_sparql_rl_with_source(&text, Some(&target), Some(&target))
+        } else {
+            srl::parse_sparql_rl(&text, Some(&target))
+        }
+        .map_err(|err| EyeronError::new(err.with_source_location(&text, &target)))?;
         pending.extend(parsed.imports.clone());
         srl::merge_programs(program, parsed);
     }

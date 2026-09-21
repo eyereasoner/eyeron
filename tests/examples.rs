@@ -20,11 +20,39 @@ use std::path::{Path, PathBuf};
 /// `every_top_level_n3_example_parses`.
 const PARSE_ONLY_EXAMPLES: &[&str] = &["alma-rdf-messages", "collection"];
 
+/// Top-level `.n3` examples that get neither an `examples/proof/` golden
+/// nor a documented reason from `PARSE_ONLY_EXAMPLES`, and why not.
+/// `n3::proof::proof_to_n3` walks each derived fact's dependency tree
+/// independently per fact — no sharing of already-explained ancestors
+/// across different top-level facts, unlike `srl::proof::proof_to_srl`'s
+/// blank-node-id-deduplicated `DATA` block — so a rule set whose derived
+/// facts recurse deeply enough (every pair of a transitive closure, every
+/// step of a long taxonomy chain) produces a proof many orders of
+/// magnitude bigger than its plain output; not a useful artifact to check
+/// into git regardless of the underlying cause.
+const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
+    ("check-unsafe", "deliberately derives nothing: its head variable is unsafe/unbound by design"),
+    ("monoid-identity-uniqueness", "its printed result comes from a log:query goal, not a forward-derived fact --proof tracks"),
+    (
+        "proof-audit",
+        "its companion input (examples/input/proof-audit.trig) is itself an N3 proof document with quoted formulas, which the CLI's second positional file argument parses in RDF-only mode and rejects",
+    ),
+    ("deep-taxonomy-100", "quadratic per-fact proof cost; only deep-taxonomy-10 stays small enough to check in"),
+    ("deep-taxonomy-1000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays small enough to check in"),
+    ("deep-taxonomy-10000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays small enough to check in"),
+    ("deep-taxonomy-100000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays small enough to check in"),
+    ("dining-philosophers", "quadratic per-fact proof cost: over 1,000,000 lines"),
+    ("transitive-closure", "quadratic per-fact proof cost: over 5,000,000 lines"),
+    ("rdf-message-cold-chain-recall", "quadratic per-fact proof cost: over 100,000 lines"),
+    ("rdf-message-ldes-incremental", "quadratic per-fact proof cost: over 90,000 lines"),
+];
+
 fn main() {
     let started = std::time::Instant::now();
     proof_goldens_are_valid_n3_documents();
     every_proof_golden_has_a_source_that_generates_a_valid_proof();
     selected_proof_examples_match_eyeling_style_goldens();
+    every_eligible_n3_example_has_a_proof_golden();
     every_top_level_n3_example_parses();
     let golden_checked = all_packaged_example_goldens_match_expected_lines();
     let total = every_n3_example_is_accounted_for(golden_checked);
@@ -77,6 +105,31 @@ fn proof_goldens_are_valid_n3_documents() {
     }
 }
 
+/// As `parse_n3_with_source`, but also merges in `examples/input/{name}.trig`
+/// when present — the same companion-input mechanism
+/// `all_packaged_example_goldens_match_expected_lines`/`run_golden_case`
+/// use for plain-output goldens, needed here too now that
+/// `examples/proof/` covers examples (the `rdf-message-*` ones) that
+/// derive nothing without their companion data.
+fn effective_n3_document(name: &str, source_path: &Path) -> eyeron::Document {
+    let source = read(source_path);
+    let label = source_path.to_string_lossy();
+    let mut doc = parse_n3_with_source(&source, None, Some(label.as_ref())).unwrap_or_else(|err| panic!("failed to parse {}: {}", source_path.display(), err));
+    let input_path = Path::new(env!("CARGO_MANIFEST_DIR")).join("examples/input").join(format!("{name}.trig"));
+    if input_path.exists() {
+        let input = read(&input_path);
+        let parsed_input = if eyeron::is_rdf_message_log(&input) {
+            eyeron::parse_rdf_message_log(&input, None)
+        } else {
+            let input_label = input_path.to_string_lossy();
+            parse_n3_with_source(&input, None, Some(input_label.as_ref()))
+        }
+        .unwrap_or_else(|err| panic!("failed to parse {}: {}", input_path.display(), err));
+        doc.merge(parsed_input);
+    }
+    doc
+}
+
 fn every_proof_golden_has_a_source_that_generates_a_valid_proof() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
     let proof_dir = root.join("examples/proof");
@@ -92,10 +145,8 @@ fn every_proof_golden_has_a_source_that_generates_a_valid_proof() {
             "{} has no corresponding source example",
             golden_path.display()
         );
-        let source = read(&source_path);
-        let label = source_path.to_string_lossy();
-        let doc = parse_n3_with_source(&source, None, Some(label.as_ref()))
-            .unwrap_or_else(|err| panic!("failed to parse {}: {}", source_path.display(), err));
+        let stem = golden_path.file_stem().and_then(|s| s.to_str()).expect("utf8 proof stem");
+        let doc = effective_n3_document(stem, &source_path);
         let result = reason_document(
             &doc,
             &ReasonerOptions {
@@ -146,6 +197,37 @@ fn selected_proof_examples_match_eyeling_style_goldens() {
             out
         );
     }
+}
+
+/// Guards against a top-level `.n3` example silently getting no
+/// `examples/proof/` golden and no documented reason why not (mirroring
+/// `every_n3_example_is_accounted_for`'s guard for output goldens), and
+/// against a stale `NO_PROOF_EXAMPLES` entry naming a file that no longer
+/// exists.
+fn every_eligible_n3_example_has_a_proof_golden() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let examples_dir = root.join("examples");
+    let proof_dir = root.join("examples/proof");
+    let all = sorted_n3_files(&examples_dir, "examples");
+
+    for (name, _) in NO_PROOF_EXAMPLES {
+        assert!(
+            all.iter().any(|p| p.file_stem().and_then(|s| s.to_str()) == Some(*name)),
+            "NO_PROOF_EXAMPLES names {name:?}, which does not exist under examples/"
+        );
+    }
+
+    let missing: Vec<String> = all
+        .iter()
+        .filter_map(|path| {
+            let name = path.file_stem().and_then(|s| s.to_str()).expect("utf8 example name");
+            if PARSE_ONLY_EXAMPLES.contains(&name) || NO_PROOF_EXAMPLES.iter().any(|(n, _)| *n == name) {
+                return None;
+            }
+            (!proof_dir.join(format!("{name}.n3")).exists()).then(|| name.to_string())
+        })
+        .collect();
+    assert!(missing.is_empty(), "packaged .n3 examples with no proof golden, PARSE_ONLY, or NO_PROOF_EXAMPLES entry: {missing:?}");
 }
 
 fn every_top_level_n3_example_parses() {

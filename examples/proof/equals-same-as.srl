@@ -1,0 +1,19 @@
+PREFIX : <http://example/eyeling/equals/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :test :is true .
+
+  _:step1
+    rdf:reifies <<( :test :is true )>>;
+    pe:rule "equals-same-as.srl";
+    pe:line 12;
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :X owl:sameAs :Y )>>;
+    pe:fact "equals-same-as.srl";
+    pe:line 9.
+}

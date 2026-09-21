@@ -1,0 +1,76 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :alice :statementSource :chat .
+  :bob :statementSource :email .
+  :claim1 :isClaim true .
+  :claim2 :isClaim true .
+
+  _:step1
+    rdf:reifies <<( :alice :statementSource :chat )>>;
+    pe:rule "reifiers.srl";
+    pe:line 8;
+    pe:binding
+      [ pe:var "claim"; pe:value :claim1 ],
+      [ pe:var "object"; pe:value :hello ],
+      [ pe:var "source"; pe:value :chat ],
+      [ pe:var "speaker"; pe:value :alice ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :claim1 rdf:reifies <<( :alice :says :hello )>> )>>;
+    pe:fact "reifiers.srl";
+    pe:line 4.
+
+  _:step3
+    rdf:reifies <<( :claim1 :source :chat )>>;
+    pe:fact "reifiers.srl";
+    pe:line 4.
+
+  _:step4
+    rdf:reifies <<( :bob :statementSource :email )>>;
+    pe:rule "reifiers.srl";
+    pe:line 8;
+    pe:binding
+      [ pe:var "claim"; pe:value :claim2 ],
+      [ pe:var "object"; pe:value :hi ],
+      [ pe:var "source"; pe:value :email ],
+      [ pe:var "speaker"; pe:value :bob ];
+    pe:uses
+      _:step5,
+      _:step6.
+
+  _:step5
+    rdf:reifies <<( :claim2 rdf:reifies <<( :bob :says :hi )>> )>>;
+    pe:fact "reifiers.srl";
+    pe:line 5.
+
+  _:step6
+    rdf:reifies <<( :claim2 :source :email )>>;
+    pe:fact "reifiers.srl";
+    pe:line 5.
+
+  _:step7
+    rdf:reifies <<( :claim1 :isClaim true )>>;
+    pe:rule "reifiers.srl";
+    pe:line 14;
+    pe:binding
+      [ pe:var "claim"; pe:value :claim1 ],
+      [ pe:var "object"; pe:value :hello ],
+      [ pe:var "speaker"; pe:value :alice ];
+    pe:uses _:step2.
+
+  _:step8
+    rdf:reifies <<( :claim2 :isClaim true )>>;
+    pe:rule "reifiers.srl";
+    pe:line 14;
+    pe:binding
+      [ pe:var "claim"; pe:value :claim2 ],
+      [ pe:var "object"; pe:value :hi ],
+      [ pe:var "speaker"; pe:value :bob ];
+    pe:uses _:step5.
+}

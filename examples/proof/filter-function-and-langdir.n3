@@ -1,0 +1,39 @@
+@prefix : <http://example/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:n1 :negative true .
+:msg :languageDirection "ltr" .
+
+{ :n1 :negative true . } pe:why {
+  { :n1 :negative true . }
+    pe:by [ pe:rule "filter-function-and-langdir.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "v"; pe:value -3.5 ],
+      [ pe:var "x"; pe:value :n1 ];
+    pe:uses
+      { :n1 :value -3.5 . },
+      { -3.5 math:lessThan 0 . }.
+
+  { :n1 :value -3.5 . }
+    pe:by [ pe:fact "filter-function-and-langdir.n3"; pe:line 12 ].
+
+  { -3.5 math:lessThan 0 . }
+    pe:by [ pe:builtin math:lessThan ].
+}.
+
+{ :msg :languageDirection "ltr" . } pe:why {
+  { :msg :languageDirection "ltr" . }
+    pe:by [ pe:rule "filter-function-and-langdir.n3"; pe:line 17 ];
+    pe:binding [ pe:var "text"; pe:value "bonjour"@fr--ltr ];
+    pe:uses
+      { :msg :text "bonjour"@fr--ltr . },
+      { "bonjour"@fr--ltr log:equalTo "bonjour"@fr--ltr . }.
+
+  { :msg :text "bonjour"@fr--ltr . }
+    pe:by [ pe:fact "filter-function-and-langdir.n3"; pe:line 14 ].
+
+  { "bonjour"@fr--ltr log:equalTo "bonjour"@fr--ltr . }
+    pe:by [ pe:builtin log:equalTo ].
+}.

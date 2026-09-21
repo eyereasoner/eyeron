@@ -1,0 +1,90 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :alice :ancestor :bob .
+  :bob :ancestor :carol .
+  :carol :ancestor :dana .
+  :alice :ancestor :carol .
+  :bob :ancestor :dana .
+  :alice :ancestor :dana .
+
+  _:step1
+    rdf:reifies <<( :alice :ancestor :bob )>>;
+    pe:rule "ancestor.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "x"; pe:value :alice ],
+      [ pe:var "y"; pe:value :bob ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :alice :parent :bob )>>;
+    pe:fact "ancestor.srl";
+    pe:line 7.
+
+  _:step3
+    rdf:reifies <<( :bob :ancestor :carol )>>;
+    pe:rule "ancestor.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "x"; pe:value :bob ],
+      [ pe:var "y"; pe:value :carol ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( :bob :parent :carol )>>;
+    pe:fact "ancestor.srl";
+    pe:line 8.
+
+  _:step5
+    rdf:reifies <<( :carol :ancestor :dana )>>;
+    pe:rule "ancestor.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "x"; pe:value :carol ],
+      [ pe:var "y"; pe:value :dana ];
+    pe:uses _:step6.
+
+  _:step6
+    rdf:reifies <<( :carol :parent :dana )>>;
+    pe:fact "ancestor.srl";
+    pe:line 9.
+
+  _:step7
+    rdf:reifies <<( :alice :ancestor :carol )>>;
+    pe:rule "ancestor.srl";
+    pe:line 13;
+    pe:binding
+      [ pe:var "x"; pe:value :alice ],
+      [ pe:var "y"; pe:value :bob ],
+      [ pe:var "z"; pe:value :carol ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step8
+    rdf:reifies <<( :bob :ancestor :dana )>>;
+    pe:rule "ancestor.srl";
+    pe:line 13;
+    pe:binding
+      [ pe:var "x"; pe:value :bob ],
+      [ pe:var "y"; pe:value :carol ],
+      [ pe:var "z"; pe:value :dana ];
+    pe:uses
+      _:step4,
+      _:step5.
+
+  _:step9
+    rdf:reifies <<( :alice :ancestor :dana )>>;
+    pe:rule "ancestor.srl";
+    pe:line 13;
+    pe:binding
+      [ pe:var "x"; pe:value :alice ],
+      [ pe:var "y"; pe:value :bob ],
+      [ pe:var "z"; pe:value :dana ];
+    pe:uses
+      _:step2,
+      _:step8.
+}

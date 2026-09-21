@@ -1,0 +1,109 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :puzzle :move1From :left .
+  :puzzle :move1To :right .
+  :puzzle :move2From :left .
+  :puzzle :move2To :center .
+  :puzzle :move3From :right .
+  :puzzle :move3To :center .
+  :puzzle :move4From :left .
+  :puzzle :move4To :right .
+  :puzzle :move5From :center .
+  :puzzle :move5To :left .
+  :puzzle :move6From :center .
+  :puzzle :move6To :right .
+  :puzzle :move7From :left .
+  :puzzle :move7To :right .
+
+  _:step1
+    rdf:reifies <<( :puzzle :move1From :left )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :puzzle a :Hanoi )>>;
+    pe:fact "hanoi.srl";
+    pe:line 16.
+
+  _:step3
+    rdf:reifies <<( :puzzle :move1To :right )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step4
+    rdf:reifies <<( :puzzle :move2From :left )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step5
+    rdf:reifies <<( :puzzle :move2To :center )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step6
+    rdf:reifies <<( :puzzle :move3From :right )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step7
+    rdf:reifies <<( :puzzle :move3To :center )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step8
+    rdf:reifies <<( :puzzle :move4From :left )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step9
+    rdf:reifies <<( :puzzle :move4To :right )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step10
+    rdf:reifies <<( :puzzle :move5From :center )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step11
+    rdf:reifies <<( :puzzle :move5To :left )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step12
+    rdf:reifies <<( :puzzle :move6From :center )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step13
+    rdf:reifies <<( :puzzle :move6To :right )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step14
+    rdf:reifies <<( :puzzle :move7From :left )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+
+  _:step15
+    rdf:reifies <<( :puzzle :move7To :right )>>;
+    pe:rule "hanoi.srl";
+    pe:line 18;
+    pe:uses _:step2.
+}

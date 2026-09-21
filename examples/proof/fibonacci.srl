@@ -1,0 +1,1017 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :n2 :fib 1 .
+  :n3 :fib 2 .
+  :n4 :fib 3 .
+  :n5 :fib 5 .
+  :n6 :fib 8 .
+  :n7 :fib 13 .
+  :n8 :fib 21 .
+  :n9 :fib 34 .
+  :n10 :fib 55 .
+  :n11 :fib 89 .
+  :n12 :fib 144 .
+  :n13 :fib 233 .
+  :n14 :fib 377 .
+  :n15 :fib 610 .
+  :n16 :fib 987 .
+  :n17 :fib 1597 .
+  :n18 :fib 2584 .
+  :n19 :fib 4181 .
+  :n20 :fib 6765 .
+  :n21 :fib 10946 .
+  :n22 :fib 17711 .
+  :n23 :fib 28657 .
+  :n24 :fib 46368 .
+  :n25 :fib 75025 .
+  :n26 :fib 121393 .
+  :n27 :fib 196418 .
+  :n28 :fib 317811 .
+  :n29 :fib 514229 .
+  :n30 :fib 832040 .
+  :n31 :fib 1346269 .
+  :n32 :fib 2178309 .
+  :n33 :fib 3524578 .
+  :n34 :fib 5702887 .
+  :n35 :fib 9227465 .
+  :n36 :fib 14930352 .
+  :n37 :fib 24157817 .
+  :n38 :fib 39088169 .
+  :n39 :fib 63245986 .
+  :n40 :fib 102334155 .
+  :n41 :fib 165580141 .
+  :n42 :fib 267914296 .
+  :n43 :fib 433494437 .
+  :n44 :fib 701408733 .
+  :n45 :fib 1134903170 .
+  :n46 :fib 1836311903 .
+  :n47 :fib 2971215073 .
+  :n48 :fib 4807526976 .
+  :n49 :fib 7778742049 .
+  :n50 :fib 12586269025 .
+  :n51 :fib 20365011074 .
+  :n52 :fib 32951280099 .
+  :n53 :fib 53316291173 .
+  :n54 :fib 86267571272 .
+  :n55 :fib 139583862445 .
+  :n56 :fib 225851433717 .
+  :n57 :fib 365435296162 .
+  :n58 :fib 591286729879 .
+  :n59 :fib 956722026041 .
+  :n60 :fib 1548008755920 .
+  :n61 :fib 2504730781961 .
+  :n62 :fib 4052739537881 .
+  :n63 :fib 6557470319842 .
+  :n64 :fib 10610209857723 .
+  :n65 :fib 17167680177565 .
+  :n66 :fib 27777890035288 .
+  :n67 :fib 44945570212853 .
+  :n68 :fib 72723460248141 .
+  :n69 :fib 117669030460994 .
+  :n70 :fib 190392490709135 .
+  :n71 :fib 308061521170129 .
+  :n72 :fib 498454011879264 .
+  :n73 :fib 806515533049393 .
+  :n74 :fib 1304969544928657 .
+  :n75 :fib 2111485077978050 .
+  :n76 :fib 3416454622906707 .
+  :n77 :fib 5527939700884757 .
+  :n78 :fib 8944394323791464 .
+
+  _:step1
+    rdf:reifies <<( :n2 :fib 1 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 102;
+    pe:binding
+      [ pe:var "a"; pe:value 0 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "f"; pe:value 1 ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :n0 :fib 0 )>>;
+    pe:fact "fibonacci.srl";
+    pe:line 20.
+
+  _:step3
+    rdf:reifies <<( :n1 :fib 1 )>>;
+    pe:fact "fibonacci.srl";
+    pe:line 21.
+
+  _:step4
+    rdf:reifies <<( :n3 :fib 2 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 105;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 1 ],
+      [ pe:var "f"; pe:value 2 ];
+    pe:uses
+      _:step3,
+      _:step1.
+
+  _:step5
+    rdf:reifies <<( :n4 :fib 3 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 108;
+    pe:binding
+      [ pe:var "a"; pe:value 1 ],
+      [ pe:var "b"; pe:value 2 ],
+      [ pe:var "f"; pe:value 3 ];
+    pe:uses
+      _:step1,
+      _:step4.
+
+  _:step6
+    rdf:reifies <<( :n5 :fib 5 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 111;
+    pe:binding
+      [ pe:var "a"; pe:value 2 ],
+      [ pe:var "b"; pe:value 3 ],
+      [ pe:var "f"; pe:value 5 ];
+    pe:uses
+      _:step4,
+      _:step5.
+
+  _:step7
+    rdf:reifies <<( :n6 :fib 8 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 114;
+    pe:binding
+      [ pe:var "a"; pe:value 3 ],
+      [ pe:var "b"; pe:value 5 ],
+      [ pe:var "f"; pe:value 8 ];
+    pe:uses
+      _:step5,
+      _:step6.
+
+  _:step8
+    rdf:reifies <<( :n7 :fib 13 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 117;
+    pe:binding
+      [ pe:var "a"; pe:value 5 ],
+      [ pe:var "b"; pe:value 8 ],
+      [ pe:var "f"; pe:value 13 ];
+    pe:uses
+      _:step6,
+      _:step7.
+
+  _:step9
+    rdf:reifies <<( :n8 :fib 21 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 120;
+    pe:binding
+      [ pe:var "a"; pe:value 8 ],
+      [ pe:var "b"; pe:value 13 ],
+      [ pe:var "f"; pe:value 21 ];
+    pe:uses
+      _:step7,
+      _:step8.
+
+  _:step10
+    rdf:reifies <<( :n9 :fib 34 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 123;
+    pe:binding
+      [ pe:var "a"; pe:value 13 ],
+      [ pe:var "b"; pe:value 21 ],
+      [ pe:var "f"; pe:value 34 ];
+    pe:uses
+      _:step8,
+      _:step9.
+
+  _:step11
+    rdf:reifies <<( :n10 :fib 55 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 126;
+    pe:binding
+      [ pe:var "a"; pe:value 21 ],
+      [ pe:var "b"; pe:value 34 ],
+      [ pe:var "f"; pe:value 55 ];
+    pe:uses
+      _:step9,
+      _:step10.
+
+  _:step12
+    rdf:reifies <<( :n11 :fib 89 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 129;
+    pe:binding
+      [ pe:var "a"; pe:value 34 ],
+      [ pe:var "b"; pe:value 55 ],
+      [ pe:var "f"; pe:value 89 ];
+    pe:uses
+      _:step10,
+      _:step11.
+
+  _:step13
+    rdf:reifies <<( :n12 :fib 144 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 132;
+    pe:binding
+      [ pe:var "a"; pe:value 55 ],
+      [ pe:var "b"; pe:value 89 ],
+      [ pe:var "f"; pe:value 144 ];
+    pe:uses
+      _:step11,
+      _:step12.
+
+  _:step14
+    rdf:reifies <<( :n13 :fib 233 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 135;
+    pe:binding
+      [ pe:var "a"; pe:value 89 ],
+      [ pe:var "b"; pe:value 144 ],
+      [ pe:var "f"; pe:value 233 ];
+    pe:uses
+      _:step12,
+      _:step13.
+
+  _:step15
+    rdf:reifies <<( :n14 :fib 377 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 138;
+    pe:binding
+      [ pe:var "a"; pe:value 144 ],
+      [ pe:var "b"; pe:value 233 ],
+      [ pe:var "f"; pe:value 377 ];
+    pe:uses
+      _:step13,
+      _:step14.
+
+  _:step16
+    rdf:reifies <<( :n15 :fib 610 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 141;
+    pe:binding
+      [ pe:var "a"; pe:value 233 ],
+      [ pe:var "b"; pe:value 377 ],
+      [ pe:var "f"; pe:value 610 ];
+    pe:uses
+      _:step14,
+      _:step15.
+
+  _:step17
+    rdf:reifies <<( :n16 :fib 987 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 144;
+    pe:binding
+      [ pe:var "a"; pe:value 377 ],
+      [ pe:var "b"; pe:value 610 ],
+      [ pe:var "f"; pe:value 987 ];
+    pe:uses
+      _:step15,
+      _:step16.
+
+  _:step18
+    rdf:reifies <<( :n17 :fib 1597 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 147;
+    pe:binding
+      [ pe:var "a"; pe:value 610 ],
+      [ pe:var "b"; pe:value 987 ],
+      [ pe:var "f"; pe:value 1597 ];
+    pe:uses
+      _:step16,
+      _:step17.
+
+  _:step19
+    rdf:reifies <<( :n18 :fib 2584 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 150;
+    pe:binding
+      [ pe:var "a"; pe:value 987 ],
+      [ pe:var "b"; pe:value 1597 ],
+      [ pe:var "f"; pe:value 2584 ];
+    pe:uses
+      _:step17,
+      _:step18.
+
+  _:step20
+    rdf:reifies <<( :n19 :fib 4181 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 153;
+    pe:binding
+      [ pe:var "a"; pe:value 1597 ],
+      [ pe:var "b"; pe:value 2584 ],
+      [ pe:var "f"; pe:value 4181 ];
+    pe:uses
+      _:step18,
+      _:step19.
+
+  _:step21
+    rdf:reifies <<( :n20 :fib 6765 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 156;
+    pe:binding
+      [ pe:var "a"; pe:value 2584 ],
+      [ pe:var "b"; pe:value 4181 ],
+      [ pe:var "f"; pe:value 6765 ];
+    pe:uses
+      _:step19,
+      _:step20.
+
+  _:step22
+    rdf:reifies <<( :n21 :fib 10946 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 159;
+    pe:binding
+      [ pe:var "a"; pe:value 4181 ],
+      [ pe:var "b"; pe:value 6765 ],
+      [ pe:var "f"; pe:value 10946 ];
+    pe:uses
+      _:step20,
+      _:step21.
+
+  _:step23
+    rdf:reifies <<( :n22 :fib 17711 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 162;
+    pe:binding
+      [ pe:var "a"; pe:value 6765 ],
+      [ pe:var "b"; pe:value 10946 ],
+      [ pe:var "f"; pe:value 17711 ];
+    pe:uses
+      _:step21,
+      _:step22.
+
+  _:step24
+    rdf:reifies <<( :n23 :fib 28657 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 165;
+    pe:binding
+      [ pe:var "a"; pe:value 10946 ],
+      [ pe:var "b"; pe:value 17711 ],
+      [ pe:var "f"; pe:value 28657 ];
+    pe:uses
+      _:step22,
+      _:step23.
+
+  _:step25
+    rdf:reifies <<( :n24 :fib 46368 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 168;
+    pe:binding
+      [ pe:var "a"; pe:value 17711 ],
+      [ pe:var "b"; pe:value 28657 ],
+      [ pe:var "f"; pe:value 46368 ];
+    pe:uses
+      _:step23,
+      _:step24.
+
+  _:step26
+    rdf:reifies <<( :n25 :fib 75025 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 171;
+    pe:binding
+      [ pe:var "a"; pe:value 28657 ],
+      [ pe:var "b"; pe:value 46368 ],
+      [ pe:var "f"; pe:value 75025 ];
+    pe:uses
+      _:step24,
+      _:step25.
+
+  _:step27
+    rdf:reifies <<( :n26 :fib 121393 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 174;
+    pe:binding
+      [ pe:var "a"; pe:value 46368 ],
+      [ pe:var "b"; pe:value 75025 ],
+      [ pe:var "f"; pe:value 121393 ];
+    pe:uses
+      _:step25,
+      _:step26.
+
+  _:step28
+    rdf:reifies <<( :n27 :fib 196418 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 177;
+    pe:binding
+      [ pe:var "a"; pe:value 75025 ],
+      [ pe:var "b"; pe:value 121393 ],
+      [ pe:var "f"; pe:value 196418 ];
+    pe:uses
+      _:step26,
+      _:step27.
+
+  _:step29
+    rdf:reifies <<( :n28 :fib 317811 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 180;
+    pe:binding
+      [ pe:var "a"; pe:value 121393 ],
+      [ pe:var "b"; pe:value 196418 ],
+      [ pe:var "f"; pe:value 317811 ];
+    pe:uses
+      _:step27,
+      _:step28.
+
+  _:step30
+    rdf:reifies <<( :n29 :fib 514229 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 183;
+    pe:binding
+      [ pe:var "a"; pe:value 196418 ],
+      [ pe:var "b"; pe:value 317811 ],
+      [ pe:var "f"; pe:value 514229 ];
+    pe:uses
+      _:step28,
+      _:step29.
+
+  _:step31
+    rdf:reifies <<( :n30 :fib 832040 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 186;
+    pe:binding
+      [ pe:var "a"; pe:value 317811 ],
+      [ pe:var "b"; pe:value 514229 ],
+      [ pe:var "f"; pe:value 832040 ];
+    pe:uses
+      _:step29,
+      _:step30.
+
+  _:step32
+    rdf:reifies <<( :n31 :fib 1346269 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 189;
+    pe:binding
+      [ pe:var "a"; pe:value 514229 ],
+      [ pe:var "b"; pe:value 832040 ],
+      [ pe:var "f"; pe:value 1346269 ];
+    pe:uses
+      _:step30,
+      _:step31.
+
+  _:step33
+    rdf:reifies <<( :n32 :fib 2178309 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 192;
+    pe:binding
+      [ pe:var "a"; pe:value 832040 ],
+      [ pe:var "b"; pe:value 1346269 ],
+      [ pe:var "f"; pe:value 2178309 ];
+    pe:uses
+      _:step31,
+      _:step32.
+
+  _:step34
+    rdf:reifies <<( :n33 :fib 3524578 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 195;
+    pe:binding
+      [ pe:var "a"; pe:value 1346269 ],
+      [ pe:var "b"; pe:value 2178309 ],
+      [ pe:var "f"; pe:value 3524578 ];
+    pe:uses
+      _:step32,
+      _:step33.
+
+  _:step35
+    rdf:reifies <<( :n34 :fib 5702887 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 198;
+    pe:binding
+      [ pe:var "a"; pe:value 2178309 ],
+      [ pe:var "b"; pe:value 3524578 ],
+      [ pe:var "f"; pe:value 5702887 ];
+    pe:uses
+      _:step33,
+      _:step34.
+
+  _:step36
+    rdf:reifies <<( :n35 :fib 9227465 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 201;
+    pe:binding
+      [ pe:var "a"; pe:value 3524578 ],
+      [ pe:var "b"; pe:value 5702887 ],
+      [ pe:var "f"; pe:value 9227465 ];
+    pe:uses
+      _:step34,
+      _:step35.
+
+  _:step37
+    rdf:reifies <<( :n36 :fib 14930352 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 204;
+    pe:binding
+      [ pe:var "a"; pe:value 5702887 ],
+      [ pe:var "b"; pe:value 9227465 ],
+      [ pe:var "f"; pe:value 14930352 ];
+    pe:uses
+      _:step35,
+      _:step36.
+
+  _:step38
+    rdf:reifies <<( :n37 :fib 24157817 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 207;
+    pe:binding
+      [ pe:var "a"; pe:value 9227465 ],
+      [ pe:var "b"; pe:value 14930352 ],
+      [ pe:var "f"; pe:value 24157817 ];
+    pe:uses
+      _:step36,
+      _:step37.
+
+  _:step39
+    rdf:reifies <<( :n38 :fib 39088169 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 210;
+    pe:binding
+      [ pe:var "a"; pe:value 14930352 ],
+      [ pe:var "b"; pe:value 24157817 ],
+      [ pe:var "f"; pe:value 39088169 ];
+    pe:uses
+      _:step37,
+      _:step38.
+
+  _:step40
+    rdf:reifies <<( :n39 :fib 63245986 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 213;
+    pe:binding
+      [ pe:var "a"; pe:value 24157817 ],
+      [ pe:var "b"; pe:value 39088169 ],
+      [ pe:var "f"; pe:value 63245986 ];
+    pe:uses
+      _:step38,
+      _:step39.
+
+  _:step41
+    rdf:reifies <<( :n40 :fib 102334155 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 216;
+    pe:binding
+      [ pe:var "a"; pe:value 39088169 ],
+      [ pe:var "b"; pe:value 63245986 ],
+      [ pe:var "f"; pe:value 102334155 ];
+    pe:uses
+      _:step39,
+      _:step40.
+
+  _:step42
+    rdf:reifies <<( :n41 :fib 165580141 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 219;
+    pe:binding
+      [ pe:var "a"; pe:value 63245986 ],
+      [ pe:var "b"; pe:value 102334155 ],
+      [ pe:var "f"; pe:value 165580141 ];
+    pe:uses
+      _:step40,
+      _:step41.
+
+  _:step43
+    rdf:reifies <<( :n42 :fib 267914296 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 222;
+    pe:binding
+      [ pe:var "a"; pe:value 102334155 ],
+      [ pe:var "b"; pe:value 165580141 ],
+      [ pe:var "f"; pe:value 267914296 ];
+    pe:uses
+      _:step41,
+      _:step42.
+
+  _:step44
+    rdf:reifies <<( :n43 :fib 433494437 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 225;
+    pe:binding
+      [ pe:var "a"; pe:value 165580141 ],
+      [ pe:var "b"; pe:value 267914296 ],
+      [ pe:var "f"; pe:value 433494437 ];
+    pe:uses
+      _:step42,
+      _:step43.
+
+  _:step45
+    rdf:reifies <<( :n44 :fib 701408733 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 228;
+    pe:binding
+      [ pe:var "a"; pe:value 267914296 ],
+      [ pe:var "b"; pe:value 433494437 ],
+      [ pe:var "f"; pe:value 701408733 ];
+    pe:uses
+      _:step43,
+      _:step44.
+
+  _:step46
+    rdf:reifies <<( :n45 :fib 1134903170 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 231;
+    pe:binding
+      [ pe:var "a"; pe:value 433494437 ],
+      [ pe:var "b"; pe:value 701408733 ],
+      [ pe:var "f"; pe:value 1134903170 ];
+    pe:uses
+      _:step44,
+      _:step45.
+
+  _:step47
+    rdf:reifies <<( :n46 :fib 1836311903 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 234;
+    pe:binding
+      [ pe:var "a"; pe:value 701408733 ],
+      [ pe:var "b"; pe:value 1134903170 ],
+      [ pe:var "f"; pe:value 1836311903 ];
+    pe:uses
+      _:step45,
+      _:step46.
+
+  _:step48
+    rdf:reifies <<( :n47 :fib 2971215073 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 237;
+    pe:binding
+      [ pe:var "a"; pe:value 1134903170 ],
+      [ pe:var "b"; pe:value 1836311903 ],
+      [ pe:var "f"; pe:value 2971215073 ];
+    pe:uses
+      _:step46,
+      _:step47.
+
+  _:step49
+    rdf:reifies <<( :n48 :fib 4807526976 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 240;
+    pe:binding
+      [ pe:var "a"; pe:value 1836311903 ],
+      [ pe:var "b"; pe:value 2971215073 ],
+      [ pe:var "f"; pe:value 4807526976 ];
+    pe:uses
+      _:step47,
+      _:step48.
+
+  _:step50
+    rdf:reifies <<( :n49 :fib 7778742049 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 243;
+    pe:binding
+      [ pe:var "a"; pe:value 2971215073 ],
+      [ pe:var "b"; pe:value 4807526976 ],
+      [ pe:var "f"; pe:value 7778742049 ];
+    pe:uses
+      _:step48,
+      _:step49.
+
+  _:step51
+    rdf:reifies <<( :n50 :fib 12586269025 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 246;
+    pe:binding
+      [ pe:var "a"; pe:value 4807526976 ],
+      [ pe:var "b"; pe:value 7778742049 ],
+      [ pe:var "f"; pe:value 12586269025 ];
+    pe:uses
+      _:step49,
+      _:step50.
+
+  _:step52
+    rdf:reifies <<( :n51 :fib 20365011074 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 249;
+    pe:binding
+      [ pe:var "a"; pe:value 7778742049 ],
+      [ pe:var "b"; pe:value 12586269025 ],
+      [ pe:var "f"; pe:value 20365011074 ];
+    pe:uses
+      _:step50,
+      _:step51.
+
+  _:step53
+    rdf:reifies <<( :n52 :fib 32951280099 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 252;
+    pe:binding
+      [ pe:var "a"; pe:value 12586269025 ],
+      [ pe:var "b"; pe:value 20365011074 ],
+      [ pe:var "f"; pe:value 32951280099 ];
+    pe:uses
+      _:step51,
+      _:step52.
+
+  _:step54
+    rdf:reifies <<( :n53 :fib 53316291173 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 255;
+    pe:binding
+      [ pe:var "a"; pe:value 20365011074 ],
+      [ pe:var "b"; pe:value 32951280099 ],
+      [ pe:var "f"; pe:value 53316291173 ];
+    pe:uses
+      _:step52,
+      _:step53.
+
+  _:step55
+    rdf:reifies <<( :n54 :fib 86267571272 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 258;
+    pe:binding
+      [ pe:var "a"; pe:value 32951280099 ],
+      [ pe:var "b"; pe:value 53316291173 ],
+      [ pe:var "f"; pe:value 86267571272 ];
+    pe:uses
+      _:step53,
+      _:step54.
+
+  _:step56
+    rdf:reifies <<( :n55 :fib 139583862445 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 261;
+    pe:binding
+      [ pe:var "a"; pe:value 53316291173 ],
+      [ pe:var "b"; pe:value 86267571272 ],
+      [ pe:var "f"; pe:value 139583862445 ];
+    pe:uses
+      _:step54,
+      _:step55.
+
+  _:step57
+    rdf:reifies <<( :n56 :fib 225851433717 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 264;
+    pe:binding
+      [ pe:var "a"; pe:value 86267571272 ],
+      [ pe:var "b"; pe:value 139583862445 ],
+      [ pe:var "f"; pe:value 225851433717 ];
+    pe:uses
+      _:step55,
+      _:step56.
+
+  _:step58
+    rdf:reifies <<( :n57 :fib 365435296162 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 267;
+    pe:binding
+      [ pe:var "a"; pe:value 139583862445 ],
+      [ pe:var "b"; pe:value 225851433717 ],
+      [ pe:var "f"; pe:value 365435296162 ];
+    pe:uses
+      _:step56,
+      _:step57.
+
+  _:step59
+    rdf:reifies <<( :n58 :fib 591286729879 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 270;
+    pe:binding
+      [ pe:var "a"; pe:value 225851433717 ],
+      [ pe:var "b"; pe:value 365435296162 ],
+      [ pe:var "f"; pe:value 591286729879 ];
+    pe:uses
+      _:step57,
+      _:step58.
+
+  _:step60
+    rdf:reifies <<( :n59 :fib 956722026041 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 273;
+    pe:binding
+      [ pe:var "a"; pe:value 365435296162 ],
+      [ pe:var "b"; pe:value 591286729879 ],
+      [ pe:var "f"; pe:value 956722026041 ];
+    pe:uses
+      _:step58,
+      _:step59.
+
+  _:step61
+    rdf:reifies <<( :n60 :fib 1548008755920 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 276;
+    pe:binding
+      [ pe:var "a"; pe:value 591286729879 ],
+      [ pe:var "b"; pe:value 956722026041 ],
+      [ pe:var "f"; pe:value 1548008755920 ];
+    pe:uses
+      _:step59,
+      _:step60.
+
+  _:step62
+    rdf:reifies <<( :n61 :fib 2504730781961 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 279;
+    pe:binding
+      [ pe:var "a"; pe:value 956722026041 ],
+      [ pe:var "b"; pe:value 1548008755920 ],
+      [ pe:var "f"; pe:value 2504730781961 ];
+    pe:uses
+      _:step60,
+      _:step61.
+
+  _:step63
+    rdf:reifies <<( :n62 :fib 4052739537881 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 282;
+    pe:binding
+      [ pe:var "a"; pe:value 1548008755920 ],
+      [ pe:var "b"; pe:value 2504730781961 ],
+      [ pe:var "f"; pe:value 4052739537881 ];
+    pe:uses
+      _:step61,
+      _:step62.
+
+  _:step64
+    rdf:reifies <<( :n63 :fib 6557470319842 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 285;
+    pe:binding
+      [ pe:var "a"; pe:value 2504730781961 ],
+      [ pe:var "b"; pe:value 4052739537881 ],
+      [ pe:var "f"; pe:value 6557470319842 ];
+    pe:uses
+      _:step62,
+      _:step63.
+
+  _:step65
+    rdf:reifies <<( :n64 :fib 10610209857723 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 288;
+    pe:binding
+      [ pe:var "a"; pe:value 4052739537881 ],
+      [ pe:var "b"; pe:value 6557470319842 ],
+      [ pe:var "f"; pe:value 10610209857723 ];
+    pe:uses
+      _:step63,
+      _:step64.
+
+  _:step66
+    rdf:reifies <<( :n65 :fib 17167680177565 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 291;
+    pe:binding
+      [ pe:var "a"; pe:value 6557470319842 ],
+      [ pe:var "b"; pe:value 10610209857723 ],
+      [ pe:var "f"; pe:value 17167680177565 ];
+    pe:uses
+      _:step64,
+      _:step65.
+
+  _:step67
+    rdf:reifies <<( :n66 :fib 27777890035288 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 294;
+    pe:binding
+      [ pe:var "a"; pe:value 10610209857723 ],
+      [ pe:var "b"; pe:value 17167680177565 ],
+      [ pe:var "f"; pe:value 27777890035288 ];
+    pe:uses
+      _:step65,
+      _:step66.
+
+  _:step68
+    rdf:reifies <<( :n67 :fib 44945570212853 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 297;
+    pe:binding
+      [ pe:var "a"; pe:value 17167680177565 ],
+      [ pe:var "b"; pe:value 27777890035288 ],
+      [ pe:var "f"; pe:value 44945570212853 ];
+    pe:uses
+      _:step66,
+      _:step67.
+
+  _:step69
+    rdf:reifies <<( :n68 :fib 72723460248141 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 300;
+    pe:binding
+      [ pe:var "a"; pe:value 27777890035288 ],
+      [ pe:var "b"; pe:value 44945570212853 ],
+      [ pe:var "f"; pe:value 72723460248141 ];
+    pe:uses
+      _:step67,
+      _:step68.
+
+  _:step70
+    rdf:reifies <<( :n69 :fib 117669030460994 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 303;
+    pe:binding
+      [ pe:var "a"; pe:value 44945570212853 ],
+      [ pe:var "b"; pe:value 72723460248141 ],
+      [ pe:var "f"; pe:value 117669030460994 ];
+    pe:uses
+      _:step68,
+      _:step69.
+
+  _:step71
+    rdf:reifies <<( :n70 :fib 190392490709135 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 306;
+    pe:binding
+      [ pe:var "a"; pe:value 72723460248141 ],
+      [ pe:var "b"; pe:value 117669030460994 ],
+      [ pe:var "f"; pe:value 190392490709135 ];
+    pe:uses
+      _:step69,
+      _:step70.
+
+  _:step72
+    rdf:reifies <<( :n71 :fib 308061521170129 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 309;
+    pe:binding
+      [ pe:var "a"; pe:value 117669030460994 ],
+      [ pe:var "b"; pe:value 190392490709135 ],
+      [ pe:var "f"; pe:value 308061521170129 ];
+    pe:uses
+      _:step70,
+      _:step71.
+
+  _:step73
+    rdf:reifies <<( :n72 :fib 498454011879264 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 312;
+    pe:binding
+      [ pe:var "a"; pe:value 190392490709135 ],
+      [ pe:var "b"; pe:value 308061521170129 ],
+      [ pe:var "f"; pe:value 498454011879264 ];
+    pe:uses
+      _:step71,
+      _:step72.
+
+  _:step74
+    rdf:reifies <<( :n73 :fib 806515533049393 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 315;
+    pe:binding
+      [ pe:var "a"; pe:value 308061521170129 ],
+      [ pe:var "b"; pe:value 498454011879264 ],
+      [ pe:var "f"; pe:value 806515533049393 ];
+    pe:uses
+      _:step72,
+      _:step73.
+
+  _:step75
+    rdf:reifies <<( :n74 :fib 1304969544928657 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 318;
+    pe:binding
+      [ pe:var "a"; pe:value 498454011879264 ],
+      [ pe:var "b"; pe:value 806515533049393 ],
+      [ pe:var "f"; pe:value 1304969544928657 ];
+    pe:uses
+      _:step73,
+      _:step74.
+
+  _:step76
+    rdf:reifies <<( :n75 :fib 2111485077978050 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 321;
+    pe:binding
+      [ pe:var "a"; pe:value 806515533049393 ],
+      [ pe:var "b"; pe:value 1304969544928657 ],
+      [ pe:var "f"; pe:value 2111485077978050 ];
+    pe:uses
+      _:step74,
+      _:step75.
+
+  _:step77
+    rdf:reifies <<( :n76 :fib 3416454622906707 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 324;
+    pe:binding
+      [ pe:var "a"; pe:value 1304969544928657 ],
+      [ pe:var "b"; pe:value 2111485077978050 ],
+      [ pe:var "f"; pe:value 3416454622906707 ];
+    pe:uses
+      _:step75,
+      _:step76.
+
+  _:step78
+    rdf:reifies <<( :n77 :fib 5527939700884757 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 327;
+    pe:binding
+      [ pe:var "a"; pe:value 2111485077978050 ],
+      [ pe:var "b"; pe:value 3416454622906707 ],
+      [ pe:var "f"; pe:value 5527939700884757 ];
+    pe:uses
+      _:step76,
+      _:step77.
+
+  _:step79
+    rdf:reifies <<( :n78 :fib 8944394323791464 )>>;
+    pe:rule "fibonacci.srl";
+    pe:line 330;
+    pe:binding
+      [ pe:var "a"; pe:value 3416454622906707 ],
+      [ pe:var "b"; pe:value 5527939700884757 ],
+      [ pe:var "f"; pe:value 8944394323791464 ];
+    pe:uses
+      _:step77,
+      _:step78.
+}

@@ -1,0 +1,74 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/variable-predicate-dependency#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:a a :Derived .
+:a a :Blocked .
+
+{ :a a :Derived . } pe:why {
+  { :a a :Derived . }
+    pe:by [ pe:rule "variable-predicate-dependency.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "x"; pe:value :a ];
+    pe:uses
+      { :a :source :blocked . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :a a :Blocked .
+          } .
+      }.
+
+  { :a :source :blocked . }
+    pe:by [ pe:fact "variable-predicate-dependency.n3"; pe:line 21 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :a a :Blocked .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+}.
+
+{ :a a :Blocked . } pe:why {
+  { :a a :Blocked . }
+    pe:by [ pe:rule "variable-predicate-dependency.n3"; pe:line 24 ];
+    pe:binding [ pe:var "x"; pe:value :a ];
+    pe:uses { :a a :Derived . }.
+
+  { :a a :Derived . }
+    pe:by [ pe:rule "variable-predicate-dependency.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "x"; pe:value :a ];
+    pe:uses
+      { :a :source :blocked . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :a a :Blocked .
+          } .
+      }.
+
+  { :a :source :blocked . }
+    pe:by [ pe:fact "variable-predicate-dependency.n3"; pe:line 21 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :a a :Blocked .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+}.

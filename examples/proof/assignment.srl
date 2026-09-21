@@ -1,0 +1,22 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :alice :grade "pass-7" .
+
+  _:step1
+    rdf:reifies <<( :alice :grade "pass-7" )>>;
+    pe:rule "assignment.srl";
+    pe:line 8;
+    pe:binding
+      [ pe:var "grade"; pe:value "pass-7" ],
+      [ pe:var "score"; pe:value 7 ],
+      [ pe:var "x"; pe:value :alice ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :alice :score 7 )>>;
+    pe:fact "assignment.srl";
+    pe:line 4.
+}

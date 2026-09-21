@@ -1,0 +1,43 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :a :grandparentOf :c .
+  :b :hasParent :a .
+  :c :hasParent :b .
+
+  _:step1
+    rdf:reifies <<( :a :grandparentOf :c )>>;
+    pe:rule "property-paths.srl";
+    pe:line 10;
+    pe:binding
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "z"; pe:value :c ];
+    pe:uses
+      <<( ?__path_s_0 :parentOf ?__path_o_0 )>>,
+      <<( ?__path_s_1 :parentOf ?__path_o_1 )>>.
+
+  _:step2
+    rdf:reifies <<( :a :parentOf :b )>>;
+    pe:fact "property-paths.srl";
+    pe:line 6.
+
+  _:step3
+    rdf:reifies <<( :b :hasParent :a )>>;
+    pe:rule "property-paths.srl";
+    pe:line 11;
+    pe:binding
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :a ];
+    pe:uses <<( ?__path_s_0 :parentOf ?__path_o_0 )>>.
+
+  _:step4
+    rdf:reifies <<( :c :hasParent :b )>>;
+    pe:rule "property-paths.srl";
+    pe:line 11;
+    pe:binding
+      [ pe:var "x"; pe:value :c ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses <<( ?__path_s_0 :parentOf ?__path_o_0 )>>.
+}

@@ -1,0 +1,59 @@
+@prefix : <http://example/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :priority true .
+:carol :priority true .
+:bob :ordinary true .
+
+{ :alice :priority true . } pe:why {
+  { :alice :priority true . }
+    pe:by [ pe:rule "version-and-in.n3"; pe:line 14 ];
+    pe:binding [ pe:var "x"; pe:value :alice ];
+    pe:uses { :alice :level "gold" . }.
+
+  { :alice :level "gold" . }
+    pe:by [ pe:fact "version-and-in.n3"; pe:line 10 ].
+}.
+
+{ :carol :priority true . } pe:why {
+  { :carol :priority true . }
+    pe:by [ pe:rule "version-and-in.n3"; pe:line 15 ];
+    pe:binding [ pe:var "x"; pe:value :carol ];
+    pe:uses { :carol :level "platinum" . }.
+
+  { :carol :level "platinum" . }
+    pe:by [ pe:fact "version-and-in.n3"; pe:line 12 ].
+}.
+
+{ :bob :ordinary true . } pe:why {
+  { :bob :ordinary true . }
+    pe:by [ pe:rule "version-and-in.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "level"; pe:value "bronze" ],
+      [ pe:var "x"; pe:value :bob ];
+    pe:uses
+      { :bob :level "bronze" . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :bob :priority true .
+          } .
+      }.
+
+  { :bob :level "bronze" . }
+    pe:by [ pe:fact "version-and-in.n3"; pe:line 11 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :bob :priority true .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+}.

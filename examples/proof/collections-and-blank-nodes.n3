@@ -1,0 +1,42 @@
+@prefix : <http://example/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :knowsNamed "Bob" .
+:team :firstMember :alice .
+
+{ :alice :knowsNamed "Bob" . } pe:why {
+  { :alice :knowsNamed "Bob" . }
+    pe:by [ pe:rule "collections-and-blank-nodes.n3"; pe:line 15 ];
+    pe:binding
+      [ pe:var "name"; pe:value "Bob" ],
+      [ pe:var "node"; pe:value _:b1 ],
+      [ pe:var "person"; pe:value :alice ];
+    pe:uses
+      { :alice :knows _:b1 . },
+      { _:b1 :name "Bob" . }.
+
+  { :alice :knows _:b1 . }
+    pe:by [ pe:fact "collections-and-blank-nodes.n3"; pe:line 12 ].
+
+  { _:b1 :name "Bob" . }
+    pe:by [ pe:fact "collections-and-blank-nodes.n3"; pe:line 12 ].
+}.
+
+{ :team :firstMember :alice . } pe:why {
+  { :team :firstMember :alice . }
+    pe:by [ pe:rule "collections-and-blank-nodes.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "first"; pe:value :alice ],
+      [ pe:var "members"; pe:value (:alice :bob :carol) ],
+      [ pe:var "rest"; pe:value (:bob :carol) ];
+    pe:uses
+      { :team :members (:alice :bob :carol) . },
+      { (:alice :bob :carol) list:firstRest (:alice (:bob :carol)) . }.
+
+  { :team :members (:alice :bob :carol) . }
+    pe:by [ pe:fact "collections-and-blank-nodes.n3"; pe:line 13 ].
+
+  { (:alice :bob :carol) list:firstRest (:alice (:bob :carol)) . }
+    pe:by [ pe:builtin list:firstRest ].
+}.

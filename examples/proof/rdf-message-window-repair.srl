@@ -1,0 +1,171 @@
+PREFIX : <https://eyereasoner.github.io/eyeling/examples/rdf-message-window-repair#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :doorA :rawConflict true .
+  :currentWindow :preferredEvidence :reading004 .
+  :currentWindow :resolvedDoorState :closed .
+  :currentWindow :preferredPriority 3 .
+  :currentWindow :preferredSource "safety-controller" .
+  :currentWindow :materializedActionText "mark the fire compartment as sealed" .
+
+  _:step1
+    rdf:reifies <<( :doorA :rawConflict true )>>;
+    pe:rule "rdf-message-window-repair.srl";
+    pe:line 17;
+    pe:binding
+      [ pe:var "door"; pe:value :doorA ],
+      [ pe:var "r1"; pe:value :reading002 ],
+      [ pe:var "r2"; pe:value :reading003 ];
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5.
+
+  _:step2
+    rdf:reifies <<( :reading002 :about :doorA )>>;
+    pe:fact "rdf-message-window-repair.srl";
+    pe:line 9.
+
+  _:step3
+    rdf:reifies <<( :reading002 :doorState :open )>>;
+    pe:fact "rdf-message-window-repair.srl";
+    pe:line 9.
+
+  _:step4
+    rdf:reifies <<( :reading003 :about :doorA )>>;
+    pe:fact "rdf-message-window-repair.srl";
+    pe:line 10.
+
+  _:step5
+    rdf:reifies <<( :reading003 :doorState :closed )>>;
+    pe:fact "rdf-message-window-repair.srl";
+    pe:line 10.
+
+  _:step6
+    rdf:reifies <<( :currentWindow :preferredEvidence :reading004 )>>;
+    pe:rule "rdf-message-window-repair.srl";
+    pe:line 23;
+    pe:binding
+      [ pe:var "preferred"; pe:value :reading004 ],
+      [ pe:var "priority"; pe:value 3 ],
+      [ pe:var "rejected"; pe:value :reading002 ],
+      [ pe:var "rejectedPriority"; pe:value 1 ],
+      [ pe:var "rejectedState"; pe:value :open ],
+      [ pe:var "source"; pe:value "safety-controller" ],
+      [ pe:var "state"; pe:value :closed ];
+    pe:uses
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step2,
+      _:step3,
+      _:step11.
+
+  _:step7
+    rdf:reifies <<( :reading004 :about :doorA )>>;
+    pe:fact "rdf-message-window-repair.srl";
+    pe:line 11.
+
+  _:step8
+    rdf:reifies <<( :reading004 :doorState :closed )>>;
+    pe:fact "rdf-message-window-repair.srl";
+    pe:line 11.
+
+  _:step9
+    rdf:reifies <<( :reading004 :priority 3 )>>;
+    pe:fact "rdf-message-window-repair.srl";
+    pe:line 11.
+
+  _:step10
+    rdf:reifies <<( :reading004 :source "safety-controller" )>>;
+    pe:fact "rdf-message-window-repair.srl";
+    pe:line 11.
+
+  _:step11
+    rdf:reifies <<( :reading002 :priority 1 )>>;
+    pe:fact "rdf-message-window-repair.srl";
+    pe:line 9.
+
+  _:step12
+    rdf:reifies <<( :currentWindow :resolvedDoorState :closed )>>;
+    pe:rule "rdf-message-window-repair.srl";
+    pe:line 23;
+    pe:binding
+      [ pe:var "preferred"; pe:value :reading004 ],
+      [ pe:var "priority"; pe:value 3 ],
+      [ pe:var "rejected"; pe:value :reading002 ],
+      [ pe:var "rejectedPriority"; pe:value 1 ],
+      [ pe:var "rejectedState"; pe:value :open ],
+      [ pe:var "source"; pe:value "safety-controller" ],
+      [ pe:var "state"; pe:value :closed ];
+    pe:uses
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step2,
+      _:step3,
+      _:step11.
+
+  _:step13
+    rdf:reifies <<( :currentWindow :preferredPriority 3 )>>;
+    pe:rule "rdf-message-window-repair.srl";
+    pe:line 23;
+    pe:binding
+      [ pe:var "preferred"; pe:value :reading004 ],
+      [ pe:var "priority"; pe:value 3 ],
+      [ pe:var "rejected"; pe:value :reading002 ],
+      [ pe:var "rejectedPriority"; pe:value 1 ],
+      [ pe:var "rejectedState"; pe:value :open ],
+      [ pe:var "source"; pe:value "safety-controller" ],
+      [ pe:var "state"; pe:value :closed ];
+    pe:uses
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step2,
+      _:step3,
+      _:step11.
+
+  _:step14
+    rdf:reifies <<( :currentWindow :preferredSource "safety-controller" )>>;
+    pe:rule "rdf-message-window-repair.srl";
+    pe:line 23;
+    pe:binding
+      [ pe:var "preferred"; pe:value :reading004 ],
+      [ pe:var "priority"; pe:value 3 ],
+      [ pe:var "rejected"; pe:value :reading002 ],
+      [ pe:var "rejectedPriority"; pe:value 1 ],
+      [ pe:var "rejectedState"; pe:value :open ],
+      [ pe:var "source"; pe:value "safety-controller" ],
+      [ pe:var "state"; pe:value :closed ];
+    pe:uses
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step2,
+      _:step3,
+      _:step11.
+
+  _:step15
+    rdf:reifies <<( :currentWindow :materializedActionText "mark the fire compartment as sealed" )>>;
+    pe:rule "rdf-message-window-repair.srl";
+    pe:line 31;
+    pe:binding
+      [ pe:var "state"; pe:value :closed ],
+      [ pe:var "text"; pe:value "mark the fire compartment as sealed" ];
+    pe:uses
+      _:step12,
+      _:step16.
+
+  _:step16
+    rdf:reifies <<( :closed :actionText "mark the fire compartment as sealed" )>>;
+    pe:fact "rdf-message-window-repair.srl";
+    pe:line 14.
+}

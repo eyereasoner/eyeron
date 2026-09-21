@@ -1,0 +1,86 @@
+@prefix : <http://example/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:test :hasStatement true .
+:test :hasNamedStatement :claim .
+:test :statementAuthor :bob .
+:test :statementDate "2021-07-07"^^xsd:date .
+
+{ :test :hasStatement true . } pe:why {
+  { :test :hasStatement true . }
+    pe:by [ pe:rule "annotation-evidence.n3"; pe:line 13 ];
+    pe:uses { :alice :name "Alice" . }.
+
+  { :alice :name "Alice" . }
+    pe:by [ pe:fact "annotation-evidence.n3"; pe:line 10 ].
+}.
+
+{ :test :hasNamedStatement :claim . } pe:why {
+  { :test :hasNamedStatement :claim . }
+    pe:by [ pe:rule "annotation-evidence.n3"; pe:line 14 ];
+    pe:binding [ pe:var "claim"; pe:value :claim ];
+    pe:uses
+      {
+          :claim :statement {
+              :alice :name "Alice" .
+          } .
+      }.
+
+  {
+    :claim :statement {
+        :alice :name "Alice" .
+    } .
+}
+    pe:by [ pe:fact "annotation-evidence.n3"; pe:line 11 ].
+}.
+
+{ :test :statementAuthor :bob . } pe:why {
+  { :test :statementAuthor :bob . }
+    pe:by [ pe:rule "annotation-evidence.n3"; pe:line 15 ];
+    pe:binding
+      [ pe:var "claim"; pe:value :claim ],
+      [ pe:var "who"; pe:value :bob ];
+    pe:uses
+      {
+          :claim :statement {
+              :alice :name "Alice" .
+          } .
+      },
+      { :claim :statedBy :bob . }.
+
+  {
+    :claim :statement {
+        :alice :name "Alice" .
+    } .
+}
+    pe:by [ pe:fact "annotation-evidence.n3"; pe:line 11 ].
+
+  { :claim :statedBy :bob . }
+    pe:by [ pe:fact "annotation-evidence.n3"; pe:line 11 ].
+}.
+
+{ :test :statementDate "2021-07-07"^^xsd:date . } pe:why {
+  { :test :statementDate "2021-07-07"^^xsd:date . }
+    pe:by [ pe:rule "annotation-evidence.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "claim"; pe:value :claim ],
+      [ pe:var "date"; pe:value "2021-07-07"^^xsd:date ];
+    pe:uses
+      {
+          :claim :statement {
+              :alice :name "Alice" .
+          } .
+      },
+      { :claim :recorded "2021-07-07"^^xsd:date . }.
+
+  {
+    :claim :statement {
+        :alice :name "Alice" .
+    } .
+}
+    pe:by [ pe:fact "annotation-evidence.n3"; pe:line 11 ].
+
+  { :claim :recorded "2021-07-07"^^xsd:date . }
+    pe:by [ pe:fact "annotation-evidence.n3"; pe:line 11 ].
+}.

@@ -1,0 +1,282 @@
+@prefix : <http://example/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:g1 a :SocialGraphTerm .
+:g1 :mentions :alice .
+:g1 :mentions :bob .
+:g2 :mentions :alice .
+:g1 :mentions :carol .
+:g2 :mentions :tea .
+
+{ :g1 a :SocialGraphTerm . } pe:why {
+  { :g1 a :SocialGraphTerm . }
+    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 15 ];
+    pe:binding
+      [ pe:var "formula"; pe:value {
+          :alice :knows :bob .
+          :bob :knows :carol .
+      } ],
+      [ pe:var "g"; pe:value :g1 ],
+      [ pe:var "o"; pe:value :bob ],
+      [ pe:var "s"; pe:value :alice ];
+    pe:uses
+      {
+          :g1 :graphTerm {
+              :alice :knows :bob .
+              :bob :knows :carol .
+          } .
+      },
+      {
+          {
+              :alice :knows :bob .
+              :bob :knows :carol .
+          } log:includes {
+              :alice :knows :bob .
+          } .
+      }.
+
+  {
+    :g1 :graphTerm {
+        :alice :knows :bob .
+        :bob :knows :carol .
+    } .
+}
+    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 11 ].
+
+  {
+    {
+        :alice :knows :bob .
+        :bob :knows :carol .
+    } log:includes {
+        :alice :knows :bob .
+    } .
+}
+    pe:by [ pe:builtin log:includes ].
+}.
+
+{ :g1 :mentions :alice . } pe:why {
+  { :g1 :mentions :alice . }
+    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "formula"; pe:value {
+          :alice :knows :bob .
+          :bob :knows :carol .
+      } ],
+      [ pe:var "g"; pe:value :g1 ],
+      [ pe:var "o"; pe:value :bob ],
+      [ pe:var "p"; pe:value :knows ],
+      [ pe:var "s"; pe:value :alice ];
+    pe:uses
+      {
+          :g1 :graphTerm {
+              :alice :knows :bob .
+              :bob :knows :carol .
+          } .
+      },
+      {
+          {
+              :alice :knows :bob .
+              :bob :knows :carol .
+          } log:includes {
+              :alice :knows :bob .
+          } .
+      }.
+
+  {
+    :g1 :graphTerm {
+        :alice :knows :bob .
+        :bob :knows :carol .
+    } .
+}
+    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 11 ].
+
+  {
+    {
+        :alice :knows :bob .
+        :bob :knows :carol .
+    } log:includes {
+        :alice :knows :bob .
+    } .
+}
+    pe:by [ pe:builtin log:includes ].
+}.
+
+{ :g1 :mentions :bob . } pe:why {
+  { :g1 :mentions :bob . }
+    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "formula"; pe:value {
+          :alice :knows :bob .
+          :bob :knows :carol .
+      } ],
+      [ pe:var "g"; pe:value :g1 ],
+      [ pe:var "o"; pe:value :carol ],
+      [ pe:var "p"; pe:value :knows ],
+      [ pe:var "s"; pe:value :bob ];
+    pe:uses
+      {
+          :g1 :graphTerm {
+              :alice :knows :bob .
+              :bob :knows :carol .
+          } .
+      },
+      {
+          {
+              :alice :knows :bob .
+              :bob :knows :carol .
+          } log:includes {
+              :bob :knows :carol .
+          } .
+      }.
+
+  {
+    :g1 :graphTerm {
+        :alice :knows :bob .
+        :bob :knows :carol .
+    } .
+}
+    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 11 ].
+
+  {
+    {
+        :alice :knows :bob .
+        :bob :knows :carol .
+    } log:includes {
+        :bob :knows :carol .
+    } .
+}
+    pe:by [ pe:builtin log:includes ].
+}.
+
+{ :g2 :mentions :alice . } pe:why {
+  { :g2 :mentions :alice . }
+    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "formula"; pe:value {
+          :alice :likes :tea .
+      } ],
+      [ pe:var "g"; pe:value :g2 ],
+      [ pe:var "o"; pe:value :tea ],
+      [ pe:var "p"; pe:value :likes ],
+      [ pe:var "s"; pe:value :alice ];
+    pe:uses
+      {
+          :g2 :graphTerm {
+              :alice :likes :tea .
+          } .
+      },
+      {
+          {
+              :alice :likes :tea .
+          } log:includes {
+              :alice :likes :tea .
+          } .
+      }.
+
+  {
+    :g2 :graphTerm {
+        :alice :likes :tea .
+    } .
+}
+    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 12 ].
+
+  {
+    {
+        :alice :likes :tea .
+    } log:includes {
+        :alice :likes :tea .
+    } .
+}
+    pe:by [ pe:builtin log:includes ].
+}.
+
+{ :g1 :mentions :carol . } pe:why {
+  { :g1 :mentions :carol . }
+    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "formula"; pe:value {
+          :alice :knows :bob .
+          :bob :knows :carol .
+      } ],
+      [ pe:var "g"; pe:value :g1 ],
+      [ pe:var "o"; pe:value :carol ],
+      [ pe:var "p"; pe:value :knows ],
+      [ pe:var "s"; pe:value :bob ];
+    pe:uses
+      {
+          :g1 :graphTerm {
+              :alice :knows :bob .
+              :bob :knows :carol .
+          } .
+      },
+      {
+          {
+              :alice :knows :bob .
+              :bob :knows :carol .
+          } log:includes {
+              :bob :knows :carol .
+          } .
+      }.
+
+  {
+    :g1 :graphTerm {
+        :alice :knows :bob .
+        :bob :knows :carol .
+    } .
+}
+    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 11 ].
+
+  {
+    {
+        :alice :knows :bob .
+        :bob :knows :carol .
+    } log:includes {
+        :bob :knows :carol .
+    } .
+}
+    pe:by [ pe:builtin log:includes ].
+}.
+
+{ :g2 :mentions :tea . } pe:why {
+  { :g2 :mentions :tea . }
+    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "formula"; pe:value {
+          :alice :likes :tea .
+      } ],
+      [ pe:var "g"; pe:value :g2 ],
+      [ pe:var "o"; pe:value :tea ],
+      [ pe:var "p"; pe:value :likes ],
+      [ pe:var "s"; pe:value :alice ];
+    pe:uses
+      {
+          :g2 :graphTerm {
+              :alice :likes :tea .
+          } .
+      },
+      {
+          {
+              :alice :likes :tea .
+          } log:includes {
+              :alice :likes :tea .
+          } .
+      }.
+
+  {
+    :g2 :graphTerm {
+        :alice :likes :tea .
+    } .
+}
+    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 12 ].
+
+  {
+    {
+        :alice :likes :tea .
+    } log:includes {
+        :alice :likes :tea .
+    } .
+}
+    pe:by [ pe:builtin log:includes ].
+}.

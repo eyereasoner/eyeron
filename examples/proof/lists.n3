@@ -1,0 +1,58 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/lists#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:query :appendResult (:a :b) .
+:query :member :a .
+:query :member :b .
+
+{ :query :appendResult (:a :b) . } pe:why {
+  { :query :appendResult (:a :b) . }
+    pe:by [ pe:rule "lists.n3"; pe:line 26 ];
+    pe:binding [ pe:var "result"; pe:value (:a :b) ];
+    pe:uses { ((:a) (:b)) :append (:a :b) . }.
+
+  { ((:a) (:b)) :append (:a :b) . }
+    pe:by [ pe:rule "lists.n3"; pe:line 18 ];
+    pe:binding
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "xrest"; pe:value () ],
+      [ pe:var "xs"; pe:value (:a) ],
+      [ pe:var "ys"; pe:value (:b) ],
+      [ pe:var "zs"; pe:value (:a :b) ],
+      [ pe:var "zsrest"; pe:value (:b) ];
+    pe:uses
+      { (:a) list:firstRest (:a ()) . },
+      { (() (:b)) :append (:b) . },
+      { (:a :b) list:firstRest (:a (:b)) . }.
+
+  { (:a) list:firstRest (:a ()) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (() (:b)) :append (:b) . }
+    pe:by [ pe:rule "lists.n3"; pe:line 24 ];
+    pe:binding [ pe:var "ys"; pe:value (:b) ].
+
+  { (:a :b) list:firstRest (:a (:b)) . }
+    pe:by [ pe:builtin list:firstRest ].
+}.
+
+{ :query :member :a . } pe:why {
+  { :query :member :a . }
+    pe:by [ pe:rule "lists.n3"; pe:line 27 ];
+    pe:binding [ pe:var "x"; pe:value :a ];
+    pe:uses { (:a :b :a) list:member :a . }.
+
+  { (:a :b :a) list:member :a . }
+    pe:by [ pe:builtin list:member ].
+}.
+
+{ :query :member :b . } pe:why {
+  { :query :member :b . }
+    pe:by [ pe:rule "lists.n3"; pe:line 27 ];
+    pe:binding [ pe:var "x"; pe:value :b ];
+    pe:uses { (:a :b :a) list:member :b . }.
+
+  { (:a :b :a) list:member :b . }
+    pe:by [ pe:builtin list:member ].
+}.

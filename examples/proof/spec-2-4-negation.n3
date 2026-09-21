@@ -1,0 +1,37 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/spec-2-4-negation#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:x3 a :UnclassifiedSize .
+
+{ :x3 a :UnclassifiedSize . } pe:why {
+  { :x3 a :UnclassifiedSize . }
+    pe:by [ pe:rule "spec-2-4-negation.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "SCOPE"; pe:value {
+          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+      } ],
+      [ pe:var "x"; pe:value :x3 ];
+    pe:uses
+      { :x3 a :Place . },
+      {
+          {
+              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+          } log:notIncludes {
+              :x3 :population ?p .
+          } .
+      }.
+
+  { :x3 a :Place . }
+    pe:by [ pe:fact "spec-2-4-negation.n3"; pe:line 9 ].
+
+  {
+    {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } log:notIncludes {
+        :x3 :population ?p .
+    } .
+}
+    pe:by [ pe:builtin log:notIncludes ].
+}.

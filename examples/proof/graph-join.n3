@@ -1,0 +1,47 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/graph-join#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:claim1 :trusted true .
+
+{ :claim1 :trusted true . } pe:why {
+  { :claim1 :trusted true . }
+    pe:by [ pe:rule "graph-join.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "claim"; pe:value :claim1 ],
+      [ pe:var "person"; pe:value :alice ],
+      [ pe:var "q1"; pe:value _:b1 ],
+      [ pe:var "q2"; pe:value _:b2 ];
+    pe:uses
+      { _:b1 :subject :alice . },
+      { _:b1 :predicate :role . },
+      { _:b1 :object :reviewer . },
+      { _:b1 :graph :staff . },
+      { _:b2 :subject :alice . },
+      { _:b2 :predicate :approved . },
+      { _:b2 :object :claim1 . },
+      { _:b2 :graph :reviews . }.
+
+  { _:b1 :subject :alice . }
+    pe:by [ pe:fact "graph-join.n3"; pe:line 10 ].
+
+  { _:b1 :predicate :role . }
+    pe:by [ pe:fact "graph-join.n3"; pe:line 10 ].
+
+  { _:b1 :object :reviewer . }
+    pe:by [ pe:fact "graph-join.n3"; pe:line 10 ].
+
+  { _:b1 :graph :staff . }
+    pe:by [ pe:fact "graph-join.n3"; pe:line 10 ].
+
+  { _:b2 :subject :alice . }
+    pe:by [ pe:fact "graph-join.n3"; pe:line 11 ].
+
+  { _:b2 :predicate :approved . }
+    pe:by [ pe:fact "graph-join.n3"; pe:line 11 ].
+
+  { _:b2 :object :claim1 . }
+    pe:by [ pe:fact "graph-join.n3"; pe:line 11 ].
+
+  { _:b2 :graph :reviews . }
+    pe:by [ pe:fact "graph-join.n3"; pe:line 11 ].
+}.

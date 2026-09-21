@@ -1,0 +1,444 @@
+PREFIX : <http://example.org/#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :a :leq :a .
+  :b :leq :b .
+  :g1 :leq :g1 .
+  :g2 :leq :g2 .
+  :g1 :lowerBoundOfA :a .
+  :g1 :lowerBoundOfB :b .
+  :g2 :lowerBoundOfA :a .
+  :g2 :lowerBoundOfB :b .
+  :g1 :leq :a .
+  :g2 :leq :a .
+  :g1 :leq :b .
+  :g2 :leq :b .
+  :a :sameTerm :a .
+  :b :sameTerm :b .
+  :g1 :sameTerm :g1 .
+  :g2 :sameTerm :g2 .
+  :g2 :leq :g1 .
+  :g1 :leq :g2 .
+  :g2 :sameTerm :g1 .
+  :g1 :sameTerm :g2 .
+  _:b1_b648fc5553315d7b a :SameGlbWitness .
+  _:b1_b648fc5553315d7b :witnessA :a .
+  _:b1_b648fc5553315d7b :witnessB :b .
+  _:b1_b648fc5553315d7b :witnessM :g1 .
+  _:b1_b648fc5553315d7b :witnessN :g2 .
+  _:b1_36ad155a7d394a17 a :SameGlbWitness .
+  _:b1_36ad155a7d394a17 :witnessA :a .
+  _:b1_36ad155a7d394a17 :witnessB :b .
+  _:b1_36ad155a7d394a17 :witnessM :g2 .
+  _:b1_36ad155a7d394a17 :witnessN :g1 .
+
+  _:step1
+    rdf:reifies <<( :a :leq :a )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 25;
+    pe:binding [ pe:var "x"; pe:value :a ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :a :inP true )>>;
+    pe:fact "greatest-lower-bound-uniqueness.srl";
+    pe:line 20.
+
+  _:step3
+    rdf:reifies <<( :b :leq :b )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 25;
+    pe:binding [ pe:var "x"; pe:value :b ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( :b :inP true )>>;
+    pe:fact "greatest-lower-bound-uniqueness.srl";
+    pe:line 20.
+
+  _:step5
+    rdf:reifies <<( :g1 :leq :g1 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 25;
+    pe:binding [ pe:var "x"; pe:value :g1 ];
+    pe:uses _:step6.
+
+  _:step6
+    rdf:reifies <<( :g1 :inP true )>>;
+    pe:fact "greatest-lower-bound-uniqueness.srl";
+    pe:line 20.
+
+  _:step7
+    rdf:reifies <<( :g2 :leq :g2 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 25;
+    pe:binding [ pe:var "x"; pe:value :g2 ];
+    pe:uses _:step8.
+
+  _:step8
+    rdf:reifies <<( :g2 :inP true )>>;
+    pe:fact "greatest-lower-bound-uniqueness.srl";
+    pe:line 20.
+
+  _:step9
+    rdf:reifies <<( :g1 :lowerBoundOfA :a )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses
+      _:step10,
+      _:step11.
+
+  _:step10
+    rdf:reifies <<( :g1 :glbOfA :a )>>;
+    pe:fact "greatest-lower-bound-uniqueness.srl";
+    pe:line 21.
+
+  _:step11
+    rdf:reifies <<( :g1 :glbOfB :b )>>;
+    pe:fact "greatest-lower-bound-uniqueness.srl";
+    pe:line 21.
+
+  _:step12
+    rdf:reifies <<( :g1 :lowerBoundOfB :b )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses
+      _:step10,
+      _:step11.
+
+  _:step13
+    rdf:reifies <<( :g2 :lowerBoundOfA :a )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses
+      _:step14,
+      _:step15.
+
+  _:step14
+    rdf:reifies <<( :g2 :glbOfA :a )>>;
+    pe:fact "greatest-lower-bound-uniqueness.srl";
+    pe:line 22.
+
+  _:step15
+    rdf:reifies <<( :g2 :glbOfB :b )>>;
+    pe:fact "greatest-lower-bound-uniqueness.srl";
+    pe:line 22.
+
+  _:step16
+    rdf:reifies <<( :g2 :lowerBoundOfB :b )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses
+      _:step14,
+      _:step15.
+
+  _:step17
+    rdf:reifies <<( :g1 :leq :a )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 31;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses _:step10.
+
+  _:step18
+    rdf:reifies <<( :g2 :leq :a )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 31;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses _:step14.
+
+  _:step19
+    rdf:reifies <<( :g1 :leq :b )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 32;
+    pe:binding
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses _:step11.
+
+  _:step20
+    rdf:reifies <<( :g2 :leq :b )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 32;
+    pe:binding
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses _:step15.
+
+  _:step21
+    rdf:reifies <<( :a :sameTerm :a )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :a ];
+    pe:uses
+      _:step1,
+      _:step1.
+
+  _:step22
+    rdf:reifies <<( :b :sameTerm :b )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "x"; pe:value :b ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      _:step3,
+      _:step3.
+
+  _:step23
+    rdf:reifies <<( :g1 :sameTerm :g1 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "x"; pe:value :g1 ],
+      [ pe:var "y"; pe:value :g1 ];
+    pe:uses
+      _:step5,
+      _:step5.
+
+  _:step24
+    rdf:reifies <<( :g2 :sameTerm :g2 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "x"; pe:value :g2 ],
+      [ pe:var "y"; pe:value :g2 ];
+    pe:uses
+      _:step7,
+      _:step7.
+
+  _:step25
+    rdf:reifies <<( :g2 :leq :g1 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "l"; pe:value :g2 ],
+      [ pe:var "m"; pe:value :g1 ];
+    pe:uses
+      _:step10,
+      _:step11,
+      _:step13,
+      _:step16.
+
+  _:step26
+    rdf:reifies <<( :g1 :leq :g2 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 34;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "l"; pe:value :g1 ],
+      [ pe:var "m"; pe:value :g2 ];
+    pe:uses
+      _:step14,
+      _:step15,
+      _:step9,
+      _:step12.
+
+  _:step27
+    rdf:reifies <<( :g2 :sameTerm :g1 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "x"; pe:value :g2 ],
+      [ pe:var "y"; pe:value :g1 ];
+    pe:uses
+      _:step25,
+      _:step26.
+
+  _:step28
+    rdf:reifies <<( :g1 :sameTerm :g2 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "x"; pe:value :g1 ],
+      [ pe:var "y"; pe:value :g2 ];
+    pe:uses
+      _:step26,
+      _:step25.
+
+  _:step29
+    rdf:reifies <<( _:b1_b648fc5553315d7b a :SameGlbWitness )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ],
+      [ pe:var "n"; pe:value :g2 ];
+    pe:uses
+      _:step10,
+      _:step11,
+      _:step14,
+      _:step15,
+      _:step28.
+
+  _:step30
+    rdf:reifies <<( _:b1_b648fc5553315d7b :witnessA :a )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ],
+      [ pe:var "n"; pe:value :g2 ];
+    pe:uses
+      _:step10,
+      _:step11,
+      _:step14,
+      _:step15,
+      _:step28.
+
+  _:step31
+    rdf:reifies <<( _:b1_b648fc5553315d7b :witnessB :b )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ],
+      [ pe:var "n"; pe:value :g2 ];
+    pe:uses
+      _:step10,
+      _:step11,
+      _:step14,
+      _:step15,
+      _:step28.
+
+  _:step32
+    rdf:reifies <<( _:b1_b648fc5553315d7b :witnessM :g1 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ],
+      [ pe:var "n"; pe:value :g2 ];
+    pe:uses
+      _:step10,
+      _:step11,
+      _:step14,
+      _:step15,
+      _:step28.
+
+  _:step33
+    rdf:reifies <<( _:b1_b648fc5553315d7b :witnessN :g2 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g1 ],
+      [ pe:var "n"; pe:value :g2 ];
+    pe:uses
+      _:step10,
+      _:step11,
+      _:step14,
+      _:step15,
+      _:step28.
+
+  _:step34
+    rdf:reifies <<( _:b1_36ad155a7d394a17 a :SameGlbWitness )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ],
+      [ pe:var "n"; pe:value :g1 ];
+    pe:uses
+      _:step14,
+      _:step15,
+      _:step10,
+      _:step11,
+      _:step27.
+
+  _:step35
+    rdf:reifies <<( _:b1_36ad155a7d394a17 :witnessA :a )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ],
+      [ pe:var "n"; pe:value :g1 ];
+    pe:uses
+      _:step14,
+      _:step15,
+      _:step10,
+      _:step11,
+      _:step27.
+
+  _:step36
+    rdf:reifies <<( _:b1_36ad155a7d394a17 :witnessB :b )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ],
+      [ pe:var "n"; pe:value :g1 ];
+    pe:uses
+      _:step14,
+      _:step15,
+      _:step10,
+      _:step11,
+      _:step27.
+
+  _:step37
+    rdf:reifies <<( _:b1_36ad155a7d394a17 :witnessM :g2 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ],
+      [ pe:var "n"; pe:value :g1 ];
+    pe:uses
+      _:step14,
+      _:step15,
+      _:step10,
+      _:step11,
+      _:step27.
+
+  _:step38
+    rdf:reifies <<( _:b1_36ad155a7d394a17 :witnessN :g1 )>>;
+    pe:rule "greatest-lower-bound-uniqueness.srl";
+    pe:line 36;
+    pe:binding
+      [ pe:var "a"; pe:value :a ],
+      [ pe:var "b"; pe:value :b ],
+      [ pe:var "m"; pe:value :g2 ],
+      [ pe:var "n"; pe:value :g1 ];
+    pe:uses
+      _:step14,
+      _:step15,
+      _:step10,
+      _:step11,
+      _:step27.
+}

@@ -1,0 +1,66 @@
+PREFIX ex: <https://example.org/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <https://schema.org/>
+
+DATA {
+  ex:alice a foaf:Person .
+  ex:alice foaf:name "Alice Example" .
+  ex:alice foaf:givenName "Alice" .
+  ex:alice foaf:familyName "Example" .
+
+  _:step1
+    rdf:reifies <<( ex:alice a foaf:Person )>>;
+    pe:rule "schema-foaf-mapping.srl";
+    pe:line 15;
+    pe:binding [ pe:var "p"; pe:value ex:alice ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( ex:alice a schema:Person )>>;
+    pe:fact "schema-foaf-mapping.srl";
+    pe:line 9.
+
+  _:step3
+    rdf:reifies <<( ex:alice foaf:name "Alice Example" )>>;
+    pe:rule "schema-foaf-mapping.srl";
+    pe:line 16;
+    pe:binding
+      [ pe:var "name"; pe:value "Alice Example" ],
+      [ pe:var "p"; pe:value ex:alice ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( ex:alice schema:name "Alice Example" )>>;
+    pe:fact "schema-foaf-mapping.srl";
+    pe:line 9.
+
+  _:step5
+    rdf:reifies <<( ex:alice foaf:givenName "Alice" )>>;
+    pe:rule "schema-foaf-mapping.srl";
+    pe:line 17;
+    pe:binding
+      [ pe:var "given"; pe:value "Alice" ],
+      [ pe:var "p"; pe:value ex:alice ];
+    pe:uses _:step6.
+
+  _:step6
+    rdf:reifies <<( ex:alice schema:givenName "Alice" )>>;
+    pe:fact "schema-foaf-mapping.srl";
+    pe:line 9.
+
+  _:step7
+    rdf:reifies <<( ex:alice foaf:familyName "Example" )>>;
+    pe:rule "schema-foaf-mapping.srl";
+    pe:line 18;
+    pe:binding
+      [ pe:var "family"; pe:value "Example" ],
+      [ pe:var "p"; pe:value ex:alice ];
+    pe:uses _:step8.
+
+  _:step8
+    rdf:reifies <<( ex:alice schema:familyName "Example" )>>;
+    pe:fact "schema-foaf-mapping.srl";
+    pe:line 9.
+}

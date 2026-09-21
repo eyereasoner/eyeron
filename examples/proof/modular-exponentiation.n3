@@ -1,0 +1,1350 @@
+@prefix : <http://example.org/modular-exponentiation#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:test :smallCheck 38 .
+:test :largeCase 453343 .
+
+{ :test :smallCheck 38 . } pe:why {
+  { :test :smallCheck 38 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 36 ];
+    pe:binding [ pe:var "r"; pe:value 38 ];
+    pe:uses { (7 13 97) :modPow 38 . }.
+
+  { (7 13 97) :modPow 38 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 7 ],
+      [ pe:var "bb"; pe:value 49 ],
+      [ pe:var "bt"; pe:value 329 ],
+      [ pe:var "e"; pe:value 13 ],
+      [ pe:var "e1"; pe:value 12 ],
+      [ pe:var "half"; pe:value 6 ],
+      [ pe:var "m"; pe:value 97 ],
+      [ pe:var "r"; pe:value 38 ],
+      [ pe:var "squared"; pe:value 49 ],
+      [ pe:var "tail"; pe:value 47 ];
+    pe:uses
+      { 97 math:greaterThan 0 . },
+      { 13 math:greaterThan 1 . },
+      { (13 2) math:remainder 1 . },
+      { (7 7) math:product 49 . },
+      { (49 97) math:remainder 49 . },
+      { (13 1) math:difference 12 . },
+      { (12 2) math:integerQuotient 6 . },
+      { (49 6 97) :modPow 47 . },
+      { (7 47) math:product 329 . },
+      { (329 97) math:remainder 38 . }.
+
+  { 97 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { 13 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (13 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (7 7) math:product 49 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (49 97) math:remainder 49 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (13 1) math:difference 12 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (12 2) math:integerQuotient 6 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (49 6 97) :modPow 47 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 49 ],
+      [ pe:var "bb"; pe:value 2401 ],
+      [ pe:var "e"; pe:value 6 ],
+      [ pe:var "half"; pe:value 3 ],
+      [ pe:var "m"; pe:value 97 ],
+      [ pe:var "r"; pe:value 47 ],
+      [ pe:var "squared"; pe:value 73 ];
+    pe:uses
+      { 97 math:greaterThan 0 . },
+      { 6 math:greaterThan 1 . },
+      { (6 2) math:remainder 0 . },
+      { (49 49) math:product 2401 . },
+      { (2401 97) math:remainder 73 . },
+      { (6 2) math:integerQuotient 3 . },
+      { (73 3 97) :modPow 47 . }.
+
+  { 6 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (6 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (49 49) math:product 2401 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (2401 97) math:remainder 73 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (6 2) math:integerQuotient 3 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (73 3 97) :modPow 47 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 73 ],
+      [ pe:var "bb"; pe:value 5329 ],
+      [ pe:var "bt"; pe:value 6643 ],
+      [ pe:var "e"; pe:value 3 ],
+      [ pe:var "e1"; pe:value 2 ],
+      [ pe:var "half"; pe:value 1 ],
+      [ pe:var "m"; pe:value 97 ],
+      [ pe:var "r"; pe:value 47 ],
+      [ pe:var "squared"; pe:value 91 ],
+      [ pe:var "tail"; pe:value 91 ];
+    pe:uses
+      { 97 math:greaterThan 0 . },
+      { 3 math:greaterThan 1 . },
+      { (3 2) math:remainder 1 . },
+      { (73 73) math:product 5329 . },
+      { (5329 97) math:remainder 91 . },
+      { (3 1) math:difference 2 . },
+      { (2 2) math:integerQuotient 1 . },
+      { (91 1 97) :modPow 91 . },
+      { (73 91) math:product 6643 . },
+      { (6643 97) math:remainder 47 . }.
+
+  { 3 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (3 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (73 73) math:product 5329 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (5329 97) math:remainder 91 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (3 1) math:difference 2 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (2 2) math:integerQuotient 1 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (91 1 97) :modPow 91 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "b"; pe:value 91 ],
+      [ pe:var "m"; pe:value 97 ],
+      [ pe:var "r"; pe:value 91 ];
+    pe:uses
+      { 97 math:greaterThan 0 . },
+      { (91 97) math:remainder 91 . }.
+
+  { (91 97) math:remainder 91 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (73 91) math:product 6643 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (6643 97) math:remainder 47 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (7 47) math:product 329 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (329 97) math:remainder 38 . }
+    pe:by [ pe:builtin math:remainder ].
+}.
+
+{ :test :largeCase 453343 . } pe:why {
+  { :test :largeCase 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 37 ];
+    pe:binding [ pe:var "r"; pe:value 453343 ];
+    pe:uses { (7 1000000000 1000003) :modPow 453343 . }.
+
+  { (7 1000000000 1000003) :modPow 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 7 ],
+      [ pe:var "bb"; pe:value 49 ],
+      [ pe:var "e"; pe:value 1000000000 ],
+      [ pe:var "half"; pe:value 500000000 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 453343 ],
+      [ pe:var "squared"; pe:value 49 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 1000000000 math:greaterThan 1 . },
+      { (1000000000 2) math:remainder 0 . },
+      { (7 7) math:product 49 . },
+      { (49 1000003) math:remainder 49 . },
+      { (1000000000 2) math:integerQuotient 500000000 . },
+      { (49 500000000 1000003) :modPow 453343 . }.
+
+  { 1000003 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { 1000000000 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (1000000000 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (7 7) math:product 49 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (49 1000003) math:remainder 49 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (1000000000 2) math:integerQuotient 500000000 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (49 500000000 1000003) :modPow 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 49 ],
+      [ pe:var "bb"; pe:value 2401 ],
+      [ pe:var "e"; pe:value 500000000 ],
+      [ pe:var "half"; pe:value 250000000 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 453343 ],
+      [ pe:var "squared"; pe:value 2401 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 500000000 math:greaterThan 1 . },
+      { (500000000 2) math:remainder 0 . },
+      { (49 49) math:product 2401 . },
+      { (2401 1000003) math:remainder 2401 . },
+      { (500000000 2) math:integerQuotient 250000000 . },
+      { (2401 250000000 1000003) :modPow 453343 . }.
+
+  { 500000000 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (500000000 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (49 49) math:product 2401 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (2401 1000003) math:remainder 2401 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (500000000 2) math:integerQuotient 250000000 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (2401 250000000 1000003) :modPow 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 2401 ],
+      [ pe:var "bb"; pe:value 5764801 ],
+      [ pe:var "e"; pe:value 250000000 ],
+      [ pe:var "half"; pe:value 125000000 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 453343 ],
+      [ pe:var "squared"; pe:value 764786 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 250000000 math:greaterThan 1 . },
+      { (250000000 2) math:remainder 0 . },
+      { (2401 2401) math:product 5764801 . },
+      { (5764801 1000003) math:remainder 764786 . },
+      { (250000000 2) math:integerQuotient 125000000 . },
+      { (764786 125000000 1000003) :modPow 453343 . }.
+
+  { 250000000 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (250000000 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (2401 2401) math:product 5764801 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (5764801 1000003) math:remainder 764786 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (250000000 2) math:integerQuotient 125000000 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (764786 125000000 1000003) :modPow 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 764786 ],
+      [ pe:var "bb"; pe:value 584897625796 ],
+      [ pe:var "e"; pe:value 125000000 ],
+      [ pe:var "half"; pe:value 62500000 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 453343 ],
+      [ pe:var "squared"; pe:value 871111 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 125000000 math:greaterThan 1 . },
+      { (125000000 2) math:remainder 0 . },
+      { (764786 764786) math:product 584897625796 . },
+      { (584897625796 1000003) math:remainder 871111 . },
+      { (125000000 2) math:integerQuotient 62500000 . },
+      { (871111 62500000 1000003) :modPow 453343 . }.
+
+  { 125000000 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (125000000 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (764786 764786) math:product 584897625796 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (584897625796 1000003) math:remainder 871111 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (125000000 2) math:integerQuotient 62500000 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (871111 62500000 1000003) :modPow 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 871111 ],
+      [ pe:var "bb"; pe:value 758834374321 ],
+      [ pe:var "e"; pe:value 62500000 ],
+      [ pe:var "half"; pe:value 31250000 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 453343 ],
+      [ pe:var "squared"; pe:value 97825 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 62500000 math:greaterThan 1 . },
+      { (62500000 2) math:remainder 0 . },
+      { (871111 871111) math:product 758834374321 . },
+      { (758834374321 1000003) math:remainder 97825 . },
+      { (62500000 2) math:integerQuotient 31250000 . },
+      { (97825 31250000 1000003) :modPow 453343 . }.
+
+  { 62500000 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (62500000 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (871111 871111) math:product 758834374321 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (758834374321 1000003) math:remainder 97825 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (62500000 2) math:integerQuotient 31250000 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (97825 31250000 1000003) :modPow 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 97825 ],
+      [ pe:var "bb"; pe:value 9569730625 ],
+      [ pe:var "e"; pe:value 31250000 ],
+      [ pe:var "half"; pe:value 15625000 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 453343 ],
+      [ pe:var "squared"; pe:value 701918 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 31250000 math:greaterThan 1 . },
+      { (31250000 2) math:remainder 0 . },
+      { (97825 97825) math:product 9569730625 . },
+      { (9569730625 1000003) math:remainder 701918 . },
+      { (31250000 2) math:integerQuotient 15625000 . },
+      { (701918 15625000 1000003) :modPow 453343 . }.
+
+  { 31250000 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (31250000 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (97825 97825) math:product 9569730625 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (9569730625 1000003) math:remainder 701918 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (31250000 2) math:integerQuotient 15625000 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (701918 15625000 1000003) :modPow 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 701918 ],
+      [ pe:var "bb"; pe:value 492688878724 ],
+      [ pe:var "e"; pe:value 15625000 ],
+      [ pe:var "half"; pe:value 7812500 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 453343 ],
+      [ pe:var "squared"; pe:value 400663 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 15625000 math:greaterThan 1 . },
+      { (15625000 2) math:remainder 0 . },
+      { (701918 701918) math:product 492688878724 . },
+      { (492688878724 1000003) math:remainder 400663 . },
+      { (15625000 2) math:integerQuotient 7812500 . },
+      { (400663 7812500 1000003) :modPow 453343 . }.
+
+  { 15625000 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (15625000 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (701918 701918) math:product 492688878724 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (492688878724 1000003) math:remainder 400663 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (15625000 2) math:integerQuotient 7812500 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (400663 7812500 1000003) :modPow 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 400663 ],
+      [ pe:var "bb"; pe:value 160530839569 ],
+      [ pe:var "e"; pe:value 7812500 ],
+      [ pe:var "half"; pe:value 3906250 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 453343 ],
+      [ pe:var "squared"; pe:value 357979 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 7812500 math:greaterThan 1 . },
+      { (7812500 2) math:remainder 0 . },
+      { (400663 400663) math:product 160530839569 . },
+      { (160530839569 1000003) math:remainder 357979 . },
+      { (7812500 2) math:integerQuotient 3906250 . },
+      { (357979 3906250 1000003) :modPow 453343 . }.
+
+  { 7812500 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (7812500 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (400663 400663) math:product 160530839569 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (160530839569 1000003) math:remainder 357979 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (7812500 2) math:integerQuotient 3906250 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (357979 3906250 1000003) :modPow 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 357979 ],
+      [ pe:var "bb"; pe:value 128148964441 ],
+      [ pe:var "e"; pe:value 3906250 ],
+      [ pe:var "half"; pe:value 1953125 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 453343 ],
+      [ pe:var "squared"; pe:value 579997 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 3906250 math:greaterThan 1 . },
+      { (3906250 2) math:remainder 0 . },
+      { (357979 357979) math:product 128148964441 . },
+      { (128148964441 1000003) math:remainder 579997 . },
+      { (3906250 2) math:integerQuotient 1953125 . },
+      { (579997 1953125 1000003) :modPow 453343 . }.
+
+  { 3906250 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (3906250 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (357979 357979) math:product 128148964441 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (128148964441 1000003) math:remainder 579997 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (3906250 2) math:integerQuotient 1953125 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (579997 1953125 1000003) :modPow 453343 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 579997 ],
+      [ pe:var "bb"; pe:value 336396520009 ],
+      [ pe:var "bt"; pe:value 478028887424 ],
+      [ pe:var "e"; pe:value 1953125 ],
+      [ pe:var "e1"; pe:value 1953124 ],
+      [ pe:var "half"; pe:value 976562 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 453343 ],
+      [ pe:var "squared"; pe:value 510824 ],
+      [ pe:var "tail"; pe:value 824192 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 1953125 math:greaterThan 1 . },
+      { (1953125 2) math:remainder 1 . },
+      { (579997 579997) math:product 336396520009 . },
+      { (336396520009 1000003) math:remainder 510824 . },
+      { (1953125 1) math:difference 1953124 . },
+      { (1953124 2) math:integerQuotient 976562 . },
+      { (510824 976562 1000003) :modPow 824192 . },
+      { (579997 824192) math:product 478028887424 . },
+      { (478028887424 1000003) math:remainder 453343 . }.
+
+  { 1953125 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (1953125 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (579997 579997) math:product 336396520009 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (336396520009 1000003) math:remainder 510824 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (1953125 1) math:difference 1953124 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (1953124 2) math:integerQuotient 976562 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (510824 976562 1000003) :modPow 824192 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 510824 ],
+      [ pe:var "bb"; pe:value 260941158976 ],
+      [ pe:var "e"; pe:value 976562 ],
+      [ pe:var "half"; pe:value 488281 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 824192 ],
+      [ pe:var "squared"; pe:value 376156 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 976562 math:greaterThan 1 . },
+      { (976562 2) math:remainder 0 . },
+      { (510824 510824) math:product 260941158976 . },
+      { (260941158976 1000003) math:remainder 376156 . },
+      { (976562 2) math:integerQuotient 488281 . },
+      { (376156 488281 1000003) :modPow 824192 . }.
+
+  { 976562 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (976562 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (510824 510824) math:product 260941158976 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (260941158976 1000003) math:remainder 376156 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (976562 2) math:integerQuotient 488281 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (376156 488281 1000003) :modPow 824192 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 376156 ],
+      [ pe:var "bb"; pe:value 141493336336 ],
+      [ pe:var "bt"; pe:value 284289677056 ],
+      [ pe:var "e"; pe:value 488281 ],
+      [ pe:var "e1"; pe:value 488280 ],
+      [ pe:var "half"; pe:value 244140 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 824192 ],
+      [ pe:var "squared"; pe:value 911860 ],
+      [ pe:var "tail"; pe:value 755776 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 488281 math:greaterThan 1 . },
+      { (488281 2) math:remainder 1 . },
+      { (376156 376156) math:product 141493336336 . },
+      { (141493336336 1000003) math:remainder 911860 . },
+      { (488281 1) math:difference 488280 . },
+      { (488280 2) math:integerQuotient 244140 . },
+      { (911860 244140 1000003) :modPow 755776 . },
+      { (376156 755776) math:product 284289677056 . },
+      { (284289677056 1000003) math:remainder 824192 . }.
+
+  { 488281 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (488281 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (376156 376156) math:product 141493336336 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (141493336336 1000003) math:remainder 911860 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (488281 1) math:difference 488280 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (488280 2) math:integerQuotient 244140 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (911860 244140 1000003) :modPow 755776 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 911860 ],
+      [ pe:var "bb"; pe:value 831488659600 ],
+      [ pe:var "e"; pe:value 244140 ],
+      [ pe:var "half"; pe:value 122070 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 755776 ],
+      [ pe:var "squared"; pe:value 165142 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 244140 math:greaterThan 1 . },
+      { (244140 2) math:remainder 0 . },
+      { (911860 911860) math:product 831488659600 . },
+      { (831488659600 1000003) math:remainder 165142 . },
+      { (244140 2) math:integerQuotient 122070 . },
+      { (165142 122070 1000003) :modPow 755776 . }.
+
+  { 244140 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (244140 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (911860 911860) math:product 831488659600 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (831488659600 1000003) math:remainder 165142 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (244140 2) math:integerQuotient 122070 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (165142 122070 1000003) :modPow 755776 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 165142 ],
+      [ pe:var "bb"; pe:value 27271880164 ],
+      [ pe:var "e"; pe:value 122070 ],
+      [ pe:var "half"; pe:value 61035 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 755776 ],
+      [ pe:var "squared"; pe:value 798351 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 122070 math:greaterThan 1 . },
+      { (122070 2) math:remainder 0 . },
+      { (165142 165142) math:product 27271880164 . },
+      { (27271880164 1000003) math:remainder 798351 . },
+      { (122070 2) math:integerQuotient 61035 . },
+      { (798351 61035 1000003) :modPow 755776 . }.
+
+  { 122070 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (122070 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (165142 165142) math:product 27271880164 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (27271880164 1000003) math:remainder 798351 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (122070 2) math:integerQuotient 61035 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (798351 61035 1000003) :modPow 755776 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 798351 ],
+      [ pe:var "bb"; pe:value 637364319201 ],
+      [ pe:var "bt"; pe:value 496321244733 ],
+      [ pe:var "e"; pe:value 61035 ],
+      [ pe:var "e1"; pe:value 61034 ],
+      [ pe:var "half"; pe:value 30517 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 755776 ],
+      [ pe:var "squared"; pe:value 407115 ],
+      [ pe:var "tail"; pe:value 621683 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 61035 math:greaterThan 1 . },
+      { (61035 2) math:remainder 1 . },
+      { (798351 798351) math:product 637364319201 . },
+      { (637364319201 1000003) math:remainder 407115 . },
+      { (61035 1) math:difference 61034 . },
+      { (61034 2) math:integerQuotient 30517 . },
+      { (407115 30517 1000003) :modPow 621683 . },
+      { (798351 621683) math:product 496321244733 . },
+      { (496321244733 1000003) math:remainder 755776 . }.
+
+  { 61035 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (61035 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (798351 798351) math:product 637364319201 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (637364319201 1000003) math:remainder 407115 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (61035 1) math:difference 61034 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (61034 2) math:integerQuotient 30517 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (407115 30517 1000003) :modPow 621683 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 407115 ],
+      [ pe:var "bb"; pe:value 165742623225 ],
+      [ pe:var "bt"; pe:value 357110693010 ],
+      [ pe:var "e"; pe:value 30517 ],
+      [ pe:var "e1"; pe:value 30516 ],
+      [ pe:var "half"; pe:value 15258 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 621683 ],
+      [ pe:var "squared"; pe:value 125999 ],
+      [ pe:var "tail"; pe:value 877174 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 30517 math:greaterThan 1 . },
+      { (30517 2) math:remainder 1 . },
+      { (407115 407115) math:product 165742623225 . },
+      { (165742623225 1000003) math:remainder 125999 . },
+      { (30517 1) math:difference 30516 . },
+      { (30516 2) math:integerQuotient 15258 . },
+      { (125999 15258 1000003) :modPow 877174 . },
+      { (407115 877174) math:product 357110693010 . },
+      { (357110693010 1000003) math:remainder 621683 . }.
+
+  { 30517 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (30517 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (407115 407115) math:product 165742623225 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (165742623225 1000003) math:remainder 125999 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (30517 1) math:difference 30516 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (30516 2) math:integerQuotient 15258 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (125999 15258 1000003) :modPow 877174 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 125999 ],
+      [ pe:var "bb"; pe:value 15875748001 ],
+      [ pe:var "e"; pe:value 15258 ],
+      [ pe:var "half"; pe:value 7629 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 877174 ],
+      [ pe:var "squared"; pe:value 700376 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 15258 math:greaterThan 1 . },
+      { (15258 2) math:remainder 0 . },
+      { (125999 125999) math:product 15875748001 . },
+      { (15875748001 1000003) math:remainder 700376 . },
+      { (15258 2) math:integerQuotient 7629 . },
+      { (700376 7629 1000003) :modPow 877174 . }.
+
+  { 15258 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (15258 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (125999 125999) math:product 15875748001 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (15875748001 1000003) math:remainder 700376 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (15258 2) math:integerQuotient 7629 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (700376 7629 1000003) :modPow 877174 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 700376 ],
+      [ pe:var "bb"; pe:value 490526541376 ],
+      [ pe:var "bt"; pe:value 409432105464 ],
+      [ pe:var "e"; pe:value 7629 ],
+      [ pe:var "e1"; pe:value 7628 ],
+      [ pe:var "half"; pe:value 3814 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 877174 ],
+      [ pe:var "squared"; pe:value 69801 ],
+      [ pe:var "tail"; pe:value 584589 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 7629 math:greaterThan 1 . },
+      { (7629 2) math:remainder 1 . },
+      { (700376 700376) math:product 490526541376 . },
+      { (490526541376 1000003) math:remainder 69801 . },
+      { (7629 1) math:difference 7628 . },
+      { (7628 2) math:integerQuotient 3814 . },
+      { (69801 3814 1000003) :modPow 584589 . },
+      { (700376 584589) math:product 409432105464 . },
+      { (409432105464 1000003) math:remainder 877174 . }.
+
+  { 7629 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (7629 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (700376 700376) math:product 490526541376 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (490526541376 1000003) math:remainder 69801 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (7629 1) math:difference 7628 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (7628 2) math:integerQuotient 3814 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (69801 3814 1000003) :modPow 584589 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 69801 ],
+      [ pe:var "bb"; pe:value 4872179601 ],
+      [ pe:var "e"; pe:value 3814 ],
+      [ pe:var "half"; pe:value 1907 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 584589 ],
+      [ pe:var "squared"; pe:value 164985 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 3814 math:greaterThan 1 . },
+      { (3814 2) math:remainder 0 . },
+      { (69801 69801) math:product 4872179601 . },
+      { (4872179601 1000003) math:remainder 164985 . },
+      { (3814 2) math:integerQuotient 1907 . },
+      { (164985 1907 1000003) :modPow 584589 . }.
+
+  { 3814 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (3814 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (69801 69801) math:product 4872179601 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (4872179601 1000003) math:remainder 164985 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (3814 2) math:integerQuotient 1907 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (164985 1907 1000003) :modPow 584589 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 164985 ],
+      [ pe:var "bb"; pe:value 27220050225 ],
+      [ pe:var "bt"; pe:value 54147747030 ],
+      [ pe:var "e"; pe:value 1907 ],
+      [ pe:var "e1"; pe:value 1906 ],
+      [ pe:var "half"; pe:value 953 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 584589 ],
+      [ pe:var "squared"; pe:value 968568 ],
+      [ pe:var "tail"; pe:value 328198 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 1907 math:greaterThan 1 . },
+      { (1907 2) math:remainder 1 . },
+      { (164985 164985) math:product 27220050225 . },
+      { (27220050225 1000003) math:remainder 968568 . },
+      { (1907 1) math:difference 1906 . },
+      { (1906 2) math:integerQuotient 953 . },
+      { (968568 953 1000003) :modPow 328198 . },
+      { (164985 328198) math:product 54147747030 . },
+      { (54147747030 1000003) math:remainder 584589 . }.
+
+  { 1907 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (1907 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (164985 164985) math:product 27220050225 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (27220050225 1000003) math:remainder 968568 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (1907 1) math:difference 1906 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (1906 2) math:integerQuotient 953 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (968568 953 1000003) :modPow 328198 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 968568 ],
+      [ pe:var "bb"; pe:value 938123970624 ],
+      [ pe:var "bt"; pe:value 868144932624 ],
+      [ pe:var "e"; pe:value 953 ],
+      [ pe:var "e1"; pe:value 952 ],
+      [ pe:var "half"; pe:value 476 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 328198 ],
+      [ pe:var "squared"; pe:value 156261 ],
+      [ pe:var "tail"; pe:value 896318 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 953 math:greaterThan 1 . },
+      { (953 2) math:remainder 1 . },
+      { (968568 968568) math:product 938123970624 . },
+      { (938123970624 1000003) math:remainder 156261 . },
+      { (953 1) math:difference 952 . },
+      { (952 2) math:integerQuotient 476 . },
+      { (156261 476 1000003) :modPow 896318 . },
+      { (968568 896318) math:product 868144932624 . },
+      { (868144932624 1000003) math:remainder 328198 . }.
+
+  { 953 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (953 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (968568 968568) math:product 938123970624 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (938123970624 1000003) math:remainder 156261 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (953 1) math:difference 952 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (952 2) math:integerQuotient 476 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (156261 476 1000003) :modPow 896318 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 156261 ],
+      [ pe:var "bb"; pe:value 24417500121 ],
+      [ pe:var "e"; pe:value 476 ],
+      [ pe:var "half"; pe:value 238 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 896318 ],
+      [ pe:var "squared"; pe:value 426870 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 476 math:greaterThan 1 . },
+      { (476 2) math:remainder 0 . },
+      { (156261 156261) math:product 24417500121 . },
+      { (24417500121 1000003) math:remainder 426870 . },
+      { (476 2) math:integerQuotient 238 . },
+      { (426870 238 1000003) :modPow 896318 . }.
+
+  { 476 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (476 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (156261 156261) math:product 24417500121 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (24417500121 1000003) math:remainder 426870 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (476 2) math:integerQuotient 238 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (426870 238 1000003) :modPow 896318 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 426870 ],
+      [ pe:var "bb"; pe:value 182217996900 ],
+      [ pe:var "e"; pe:value 238 ],
+      [ pe:var "half"; pe:value 119 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 896318 ],
+      [ pe:var "squared"; pe:value 450249 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 238 math:greaterThan 1 . },
+      { (238 2) math:remainder 0 . },
+      { (426870 426870) math:product 182217996900 . },
+      { (182217996900 1000003) math:remainder 450249 . },
+      { (238 2) math:integerQuotient 119 . },
+      { (450249 119 1000003) :modPow 896318 . }.
+
+  { 238 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (238 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (426870 426870) math:product 182217996900 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (182217996900 1000003) math:remainder 450249 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (238 2) math:integerQuotient 119 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (450249 119 1000003) :modPow 896318 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 450249 ],
+      [ pe:var "bb"; pe:value 202724162001 ],
+      [ pe:var "bt"; pe:value 42173022834 ],
+      [ pe:var "e"; pe:value 119 ],
+      [ pe:var "e1"; pe:value 118 ],
+      [ pe:var "half"; pe:value 59 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 896318 ],
+      [ pe:var "squared"; pe:value 553832 ],
+      [ pe:var "tail"; pe:value 93666 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 119 math:greaterThan 1 . },
+      { (119 2) math:remainder 1 . },
+      { (450249 450249) math:product 202724162001 . },
+      { (202724162001 1000003) math:remainder 553832 . },
+      { (119 1) math:difference 118 . },
+      { (118 2) math:integerQuotient 59 . },
+      { (553832 59 1000003) :modPow 93666 . },
+      { (450249 93666) math:product 42173022834 . },
+      { (42173022834 1000003) math:remainder 896318 . }.
+
+  { 119 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (119 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (450249 450249) math:product 202724162001 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (202724162001 1000003) math:remainder 553832 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (119 1) math:difference 118 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (118 2) math:integerQuotient 59 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (553832 59 1000003) :modPow 93666 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 553832 ],
+      [ pe:var "bb"; pe:value 306729884224 ],
+      [ pe:var "bt"; pe:value 64602287472 ],
+      [ pe:var "e"; pe:value 59 ],
+      [ pe:var "e1"; pe:value 58 ],
+      [ pe:var "half"; pe:value 29 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 93666 ],
+      [ pe:var "squared"; pe:value 964040 ],
+      [ pe:var "tail"; pe:value 116646 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 59 math:greaterThan 1 . },
+      { (59 2) math:remainder 1 . },
+      { (553832 553832) math:product 306729884224 . },
+      { (306729884224 1000003) math:remainder 964040 . },
+      { (59 1) math:difference 58 . },
+      { (58 2) math:integerQuotient 29 . },
+      { (964040 29 1000003) :modPow 116646 . },
+      { (553832 116646) math:product 64602287472 . },
+      { (64602287472 1000003) math:remainder 93666 . }.
+
+  { 59 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (59 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (553832 553832) math:product 306729884224 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (306729884224 1000003) math:remainder 964040 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (59 1) math:difference 58 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (58 2) math:integerQuotient 29 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (964040 29 1000003) :modPow 116646 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 964040 ],
+      [ pe:var "bb"; pe:value 929373121600 ],
+      [ pe:var "bt"; pe:value 33478217080 ],
+      [ pe:var "e"; pe:value 29 ],
+      [ pe:var "e1"; pe:value 28 ],
+      [ pe:var "half"; pe:value 14 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 116646 ],
+      [ pe:var "squared"; pe:value 333490 ],
+      [ pe:var "tail"; pe:value 34727 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 29 math:greaterThan 1 . },
+      { (29 2) math:remainder 1 . },
+      { (964040 964040) math:product 929373121600 . },
+      { (929373121600 1000003) math:remainder 333490 . },
+      { (29 1) math:difference 28 . },
+      { (28 2) math:integerQuotient 14 . },
+      { (333490 14 1000003) :modPow 34727 . },
+      { (964040 34727) math:product 33478217080 . },
+      { (33478217080 1000003) math:remainder 116646 . }.
+
+  { 29 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (29 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (964040 964040) math:product 929373121600 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (929373121600 1000003) math:remainder 333490 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (29 1) math:difference 28 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (28 2) math:integerQuotient 14 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (333490 14 1000003) :modPow 34727 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "b"; pe:value 333490 ],
+      [ pe:var "bb"; pe:value 111215580100 ],
+      [ pe:var "e"; pe:value 14 ],
+      [ pe:var "half"; pe:value 7 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 34727 ],
+      [ pe:var "squared"; pe:value 246455 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 14 math:greaterThan 1 . },
+      { (14 2) math:remainder 0 . },
+      { (333490 333490) math:product 111215580100 . },
+      { (111215580100 1000003) math:remainder 246455 . },
+      { (14 2) math:integerQuotient 7 . },
+      { (246455 7 1000003) :modPow 34727 . }.
+
+  { 14 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (14 2) math:remainder 0 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (333490 333490) math:product 111215580100 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (111215580100 1000003) math:remainder 246455 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (14 2) math:integerQuotient 7 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (246455 7 1000003) :modPow 34727 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 246455 ],
+      [ pe:var "bb"; pe:value 60740067025 ],
+      [ pe:var "bt"; pe:value 202246641465 ],
+      [ pe:var "e"; pe:value 7 ],
+      [ pe:var "e1"; pe:value 6 ],
+      [ pe:var "half"; pe:value 3 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 34727 ],
+      [ pe:var "squared"; pe:value 884808 ],
+      [ pe:var "tail"; pe:value 820623 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 7 math:greaterThan 1 . },
+      { (7 2) math:remainder 1 . },
+      { (246455 246455) math:product 60740067025 . },
+      { (60740067025 1000003) math:remainder 884808 . },
+      { (7 1) math:difference 6 . },
+      { (6 2) math:integerQuotient 3 . },
+      { (884808 3 1000003) :modPow 820623 . },
+      { (246455 820623) math:product 202246641465 . },
+      { (202246641465 1000003) math:remainder 34727 . }.
+
+  { 7 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (7 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (246455 246455) math:product 60740067025 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (60740067025 1000003) math:remainder 884808 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (7 1) math:difference 6 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (6 2) math:integerQuotient 3 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (884808 3 1000003) :modPow 820623 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 27 ];
+    pe:binding
+      [ pe:var "b"; pe:value 884808 ],
+      [ pe:var "bb"; pe:value 782885196864 ],
+      [ pe:var "bt"; pe:value 750510072144 ],
+      [ pe:var "e"; pe:value 3 ],
+      [ pe:var "e1"; pe:value 2 ],
+      [ pe:var "half"; pe:value 1 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 820623 ],
+      [ pe:var "squared"; pe:value 848218 ],
+      [ pe:var "tail"; pe:value 848218 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { 3 math:greaterThan 1 . },
+      { (3 2) math:remainder 1 . },
+      { (884808 884808) math:product 782885196864 . },
+      { (782885196864 1000003) math:remainder 848218 . },
+      { (3 1) math:difference 2 . },
+      { (2 2) math:integerQuotient 1 . },
+      { (848218 1 1000003) :modPow 848218 . },
+      { (884808 848218) math:product 750510072144 . },
+      { (750510072144 1000003) math:remainder 820623 . }.
+
+  { 3 math:greaterThan 1 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { (3 2) math:remainder 1 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (884808 884808) math:product 782885196864 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (782885196864 1000003) math:remainder 848218 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (3 1) math:difference 2 . }
+    pe:by [ pe:builtin math:difference ].
+
+  { (2 2) math:integerQuotient 1 . }
+    pe:by [ pe:builtin math:integerQuotient ].
+
+  { (848218 1 1000003) :modPow 848218 . }
+    pe:by [ pe:rule "modular-exponentiation.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "b"; pe:value 848218 ],
+      [ pe:var "m"; pe:value 1000003 ],
+      [ pe:var "r"; pe:value 848218 ];
+    pe:uses
+      { 1000003 math:greaterThan 0 . },
+      { (848218 1000003) math:remainder 848218 . }.
+
+  { (848218 1000003) math:remainder 848218 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (884808 848218) math:product 750510072144 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (750510072144 1000003) math:remainder 820623 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (246455 820623) math:product 202246641465 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (202246641465 1000003) math:remainder 34727 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (964040 34727) math:product 33478217080 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (33478217080 1000003) math:remainder 116646 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (553832 116646) math:product 64602287472 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (64602287472 1000003) math:remainder 93666 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (450249 93666) math:product 42173022834 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (42173022834 1000003) math:remainder 896318 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (968568 896318) math:product 868144932624 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (868144932624 1000003) math:remainder 328198 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (164985 328198) math:product 54147747030 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (54147747030 1000003) math:remainder 584589 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (700376 584589) math:product 409432105464 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (409432105464 1000003) math:remainder 877174 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (407115 877174) math:product 357110693010 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (357110693010 1000003) math:remainder 621683 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (798351 621683) math:product 496321244733 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (496321244733 1000003) math:remainder 755776 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (376156 755776) math:product 284289677056 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (284289677056 1000003) math:remainder 824192 . }
+    pe:by [ pe:builtin math:remainder ].
+
+  { (579997 824192) math:product 478028887424 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (478028887424 1000003) math:remainder 453343 . }
+    pe:by [ pe:builtin math:remainder ].
+}.

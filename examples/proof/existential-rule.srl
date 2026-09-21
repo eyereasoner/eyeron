@@ -1,0 +1,36 @@
+PREFIX : <http://example.org/socrates#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :Socrates :is _:srl1 .
+  :Plato :is _:srl2 .
+
+  _:step1
+    rdf:reifies <<( :Socrates :is _:srl1 )>>;
+    pe:rule "existential-rule.srl";
+    pe:line 8;
+    pe:binding
+      [ pe:var "s"; pe:value :Socrates ],
+      [ pe:var "w"; pe:value _:srl1 ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :Socrates a :Human )>>;
+    pe:fact "existential-rule.srl";
+    pe:line 6.
+
+  _:step3
+    rdf:reifies <<( :Plato :is _:srl2 )>>;
+    pe:rule "existential-rule.srl";
+    pe:line 8;
+    pe:binding
+      [ pe:var "s"; pe:value :Plato ],
+      [ pe:var "w"; pe:value _:srl2 ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( :Plato a :Human )>>;
+    pe:fact "existential-rule.srl";
+    pe:line 6.
+}

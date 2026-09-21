@@ -188,6 +188,7 @@ A small representative set — see [`docs/n3.md`](n3.md), [`docs/sparql-rl.md`](
 cargo run --release -- examples/socrates.n3
 cargo run --release -- --proof examples/backward.n3
 cargo run --release -- examples/family.srl
+cargo run --release -- --proof examples/socrates.srl
 cargo run --release -- --proof examples/socrates.eye
 ```
 

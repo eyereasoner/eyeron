@@ -9,7 +9,7 @@
     pe:by [ pe:rule "rule-matching.n3"; pe:line 8 ];
     pe:binding
       [ pe:var "A"; pe:value {
-          ?A__0 => ?B__1 .
+          ?__rulefact_0__A log:implies ?__rulefact_0__B .
       } ],
       [ pe:var "B"; pe:value {
           :result :is true .
@@ -17,7 +17,7 @@
     pe:uses
       {
           {
-              ?A__0 => ?B__1 .
+              ?__rulefact_0__A log:implies ?__rulefact_0__B .
           } => {
               :result :is true .
           } .
@@ -25,10 +25,10 @@
 
   {
     {
-        ?A__0 => ?B__1 .
+        ?__rulefact_0__A log:implies ?__rulefact_0__B .
     } => {
         :result :is true .
     } .
 }
-    pe:by [ pe:builtin log:implies ].
+    pe:by [ pe:unproven "builtin evaluation did not verify this premise" ].
 }.

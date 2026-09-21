@@ -1,0 +1,44 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/grammar#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:query :parsed (:command :open :door) .
+
+{ :query :parsed (:command :open :door) . } pe:why {
+  { :query :parsed (:command :open :door) . }
+    pe:by [ pe:rule "grammar.n3"; pe:line 25 ];
+    pe:binding [ pe:var "ast"; pe:value (:command :open :door) ];
+    pe:uses { ((:open :door) ()) :sentence (:command :open :door) . }.
+
+  { ((:open :door) ()) :sentence (:command :open :door) . }
+    pe:by [ pe:rule "grammar.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "input"; pe:value (:open :door) ],
+      [ pe:var "middle"; pe:value (:door) ],
+      [ pe:var "object"; pe:value :door ],
+      [ pe:var "rest"; pe:value () ],
+      [ pe:var "verb"; pe:value :open ];
+    pe:uses
+      { (:open :door) :verbMatch (:open (:door)) . },
+      { (:door) :nounMatch (:door ()) . }.
+
+  { (:open :door) :verbMatch (:open (:door)) . }
+    pe:by [ pe:rule "grammar.n3"; pe:line 15 ];
+    pe:binding
+      [ pe:var "input"; pe:value (:open :door) ],
+      [ pe:var "rest"; pe:value (:door) ];
+    pe:uses { (:open :door) list:firstRest (:open (:door)) . }.
+
+  { (:open :door) list:firstRest (:open (:door)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (:door) :nounMatch (:door ()) . }
+    pe:by [ pe:rule "grammar.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "input"; pe:value (:door) ],
+      [ pe:var "rest"; pe:value () ];
+    pe:uses { (:door) list:firstRest (:door ()) . }.
+
+  { (:door) list:firstRest (:door ()) . }
+    pe:by [ pe:builtin list:firstRest ].
+}.

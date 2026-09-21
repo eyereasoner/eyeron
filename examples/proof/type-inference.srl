@@ -1,0 +1,101 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :lit1 :hasType :Int .
+  :var1 :hasType :Int .
+  :app1 :hasType :Int .
+
+  _:step1
+    rdf:reifies <<( :lit1 :hasType :Int )>>;
+    pe:rule "type-inference.srl";
+    pe:line 19;
+    pe:binding [ pe:var "t"; pe:value :lit1 ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :lit1 a :IntLit )>>;
+    pe:fact "type-inference.srl";
+    pe:line 16.
+
+  _:step3
+    rdf:reifies <<( :var1 :hasType :Int )>>;
+    pe:rule "type-inference.srl";
+    pe:line 22;
+    pe:binding
+      [ pe:var "app"; pe:value :app1 ],
+      [ pe:var "arg"; pe:value :lit1 ],
+      [ pe:var "argType"; pe:value :Int ],
+      [ pe:var "body"; pe:value :var1 ],
+      [ pe:var "lam"; pe:value :lam1 ],
+      [ pe:var "p"; pe:value :x ];
+    pe:uses
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step8,
+      _:step9,
+      _:step10,
+      _:step11,
+      _:step1.
+
+  _:step4
+    rdf:reifies <<( :app1 a :App )>>;
+    pe:fact "type-inference.srl";
+    pe:line 13.
+
+  _:step5
+    rdf:reifies <<( :app1 :fn :lam1 )>>;
+    pe:fact "type-inference.srl";
+    pe:line 13.
+
+  _:step6
+    rdf:reifies <<( :app1 :arg :lit1 )>>;
+    pe:fact "type-inference.srl";
+    pe:line 13.
+
+  _:step7
+    rdf:reifies <<( :lam1 a :Lam )>>;
+    pe:fact "type-inference.srl";
+    pe:line 14.
+
+  _:step8
+    rdf:reifies <<( :lam1 :param :x )>>;
+    pe:fact "type-inference.srl";
+    pe:line 14.
+
+  _:step9
+    rdf:reifies <<( :lam1 :body :var1 )>>;
+    pe:fact "type-inference.srl";
+    pe:line 14.
+
+  _:step10
+    rdf:reifies <<( :var1 a :Var )>>;
+    pe:fact "type-inference.srl";
+    pe:line 15.
+
+  _:step11
+    rdf:reifies <<( :var1 :name :x )>>;
+    pe:fact "type-inference.srl";
+    pe:line 15.
+
+  _:step12
+    rdf:reifies <<( :app1 :hasType :Int )>>;
+    pe:rule "type-inference.srl";
+    pe:line 30;
+    pe:binding
+      [ pe:var "app"; pe:value :app1 ],
+      [ pe:var "arg"; pe:value :lit1 ],
+      [ pe:var "body"; pe:value :var1 ],
+      [ pe:var "lam"; pe:value :lam1 ],
+      [ pe:var "resultType"; pe:value :Int ];
+    pe:uses
+      _:step4,
+      _:step5,
+      _:step6,
+      _:step7,
+      _:step9,
+      _:step3.
+}

@@ -1,0 +1,641 @@
+@prefix : <https://example.org/dpv-odrl-purpose-mapping#> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix dpv-odrl: <https://w3id.org/dpv/mappings/odrl#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:AlphaPolicy a odrl:Policy .
+:AlphaPolicy odrl:permission :AlphaPermission .
+:AlphaPermission a odrl:Permission .
+:AlphaPermission odrl:assigner :HospitalA .
+:AlphaPermission odrl:assignee :ResearchPartner .
+:AlphaPermission odrl:target :LabResult .
+:AlphaPermission odrl:action dpv:Use .
+:AlphaPermission :derivedFromProcess :AlphaCareProcess .
+:AlphaPermission odrl:constraint :AlphaPurposeConstraint .
+:AlphaPurposeConstraint a odrl:Constraint .
+:AlphaPurposeConstraint odrl:leftOperand dpv-odrl:Purpose .
+:AlphaPurposeConstraint odrl:operator odrl:isA .
+:AlphaPurposeConstraint odrl:rightOperand dpv:Healthcare .
+:AlphaPermission odrl:constraint :AlphaBasisConstraint .
+:AlphaBasisConstraint a odrl:Constraint .
+:AlphaBasisConstraint odrl:leftOperand dpv-odrl:LegalBasis .
+:AlphaBasisConstraint odrl:operator odrl:isA .
+:AlphaBasisConstraint odrl:rightOperand dpv:Consent .
+
+{ :AlphaPolicy a odrl:Policy . } pe:why {
+  { :AlphaPolicy a odrl:Policy . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "controller"; pe:value :HospitalA ],
+      [ pe:var "data"; pe:value :LabResult ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "processing"; pe:value dpv:Use ],
+      [ pe:var "recipient"; pe:value :ResearchPartner ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaCareProcess a dpv:Process . },
+      { :AlphaCareProcess dpv:hasDataController :HospitalA . },
+      { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . },
+      { :AlphaCareProcess dpv:hasPersonalData :LabResult . },
+      { :AlphaCareProcess dpv:hasProcessing dpv:Use . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess a dpv:Process . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasDataController :HospitalA . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasPersonalData :LabResult . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasProcessing dpv:Use . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPolicy odrl:permission :AlphaPermission . } pe:why {
+  { :AlphaPolicy odrl:permission :AlphaPermission . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "controller"; pe:value :HospitalA ],
+      [ pe:var "data"; pe:value :LabResult ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "processing"; pe:value dpv:Use ],
+      [ pe:var "recipient"; pe:value :ResearchPartner ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaCareProcess a dpv:Process . },
+      { :AlphaCareProcess dpv:hasDataController :HospitalA . },
+      { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . },
+      { :AlphaCareProcess dpv:hasPersonalData :LabResult . },
+      { :AlphaCareProcess dpv:hasProcessing dpv:Use . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess a dpv:Process . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasDataController :HospitalA . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasPersonalData :LabResult . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasProcessing dpv:Use . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPermission a odrl:Permission . } pe:why {
+  { :AlphaPermission a odrl:Permission . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "controller"; pe:value :HospitalA ],
+      [ pe:var "data"; pe:value :LabResult ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "processing"; pe:value dpv:Use ],
+      [ pe:var "recipient"; pe:value :ResearchPartner ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaCareProcess a dpv:Process . },
+      { :AlphaCareProcess dpv:hasDataController :HospitalA . },
+      { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . },
+      { :AlphaCareProcess dpv:hasPersonalData :LabResult . },
+      { :AlphaCareProcess dpv:hasProcessing dpv:Use . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess a dpv:Process . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasDataController :HospitalA . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasPersonalData :LabResult . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasProcessing dpv:Use . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPermission odrl:assigner :HospitalA . } pe:why {
+  { :AlphaPermission odrl:assigner :HospitalA . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "controller"; pe:value :HospitalA ],
+      [ pe:var "data"; pe:value :LabResult ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "processing"; pe:value dpv:Use ],
+      [ pe:var "recipient"; pe:value :ResearchPartner ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaCareProcess a dpv:Process . },
+      { :AlphaCareProcess dpv:hasDataController :HospitalA . },
+      { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . },
+      { :AlphaCareProcess dpv:hasPersonalData :LabResult . },
+      { :AlphaCareProcess dpv:hasProcessing dpv:Use . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess a dpv:Process . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasDataController :HospitalA . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasPersonalData :LabResult . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasProcessing dpv:Use . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPermission odrl:assignee :ResearchPartner . } pe:why {
+  { :AlphaPermission odrl:assignee :ResearchPartner . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "controller"; pe:value :HospitalA ],
+      [ pe:var "data"; pe:value :LabResult ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "processing"; pe:value dpv:Use ],
+      [ pe:var "recipient"; pe:value :ResearchPartner ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaCareProcess a dpv:Process . },
+      { :AlphaCareProcess dpv:hasDataController :HospitalA . },
+      { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . },
+      { :AlphaCareProcess dpv:hasPersonalData :LabResult . },
+      { :AlphaCareProcess dpv:hasProcessing dpv:Use . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess a dpv:Process . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasDataController :HospitalA . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasPersonalData :LabResult . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasProcessing dpv:Use . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPermission odrl:target :LabResult . } pe:why {
+  { :AlphaPermission odrl:target :LabResult . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "controller"; pe:value :HospitalA ],
+      [ pe:var "data"; pe:value :LabResult ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "processing"; pe:value dpv:Use ],
+      [ pe:var "recipient"; pe:value :ResearchPartner ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaCareProcess a dpv:Process . },
+      { :AlphaCareProcess dpv:hasDataController :HospitalA . },
+      { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . },
+      { :AlphaCareProcess dpv:hasPersonalData :LabResult . },
+      { :AlphaCareProcess dpv:hasProcessing dpv:Use . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess a dpv:Process . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasDataController :HospitalA . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasPersonalData :LabResult . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasProcessing dpv:Use . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPermission odrl:action dpv:Use . } pe:why {
+  { :AlphaPermission odrl:action dpv:Use . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "controller"; pe:value :HospitalA ],
+      [ pe:var "data"; pe:value :LabResult ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "processing"; pe:value dpv:Use ],
+      [ pe:var "recipient"; pe:value :ResearchPartner ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaCareProcess a dpv:Process . },
+      { :AlphaCareProcess dpv:hasDataController :HospitalA . },
+      { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . },
+      { :AlphaCareProcess dpv:hasPersonalData :LabResult . },
+      { :AlphaCareProcess dpv:hasProcessing dpv:Use . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess a dpv:Process . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasDataController :HospitalA . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasPersonalData :LabResult . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasProcessing dpv:Use . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPermission :derivedFromProcess :AlphaCareProcess . } pe:why {
+  { :AlphaPermission :derivedFromProcess :AlphaCareProcess . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "controller"; pe:value :HospitalA ],
+      [ pe:var "data"; pe:value :LabResult ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "processing"; pe:value dpv:Use ],
+      [ pe:var "recipient"; pe:value :ResearchPartner ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaCareProcess a dpv:Process . },
+      { :AlphaCareProcess dpv:hasDataController :HospitalA . },
+      { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . },
+      { :AlphaCareProcess dpv:hasPersonalData :LabResult . },
+      { :AlphaCareProcess dpv:hasProcessing dpv:Use . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess a dpv:Process . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasDataController :HospitalA . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasRecipient :ResearchPartner . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasPersonalData :LabResult . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+
+  { :AlphaCareProcess dpv:hasProcessing dpv:Use . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPermission odrl:constraint :AlphaPurposeConstraint . } pe:why {
+  { :AlphaPermission odrl:constraint :AlphaPurposeConstraint . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 38 ];
+    pe:binding
+      [ pe:var "constraint"; pe:value :AlphaPurposeConstraint ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "purpose"; pe:value dpv:Healthcare ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaPolicy :purposeConstraint :AlphaPurposeConstraint . },
+      { :AlphaCareProcess dpv:hasPurpose dpv:Healthcare . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :purposeConstraint :AlphaPurposeConstraint . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess dpv:hasPurpose dpv:Healthcare . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPurposeConstraint a odrl:Constraint . } pe:why {
+  { :AlphaPurposeConstraint a odrl:Constraint . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 38 ];
+    pe:binding
+      [ pe:var "constraint"; pe:value :AlphaPurposeConstraint ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "purpose"; pe:value dpv:Healthcare ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaPolicy :purposeConstraint :AlphaPurposeConstraint . },
+      { :AlphaCareProcess dpv:hasPurpose dpv:Healthcare . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :purposeConstraint :AlphaPurposeConstraint . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess dpv:hasPurpose dpv:Healthcare . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPurposeConstraint odrl:leftOperand dpv-odrl:Purpose . } pe:why {
+  { :AlphaPurposeConstraint odrl:leftOperand dpv-odrl:Purpose . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 38 ];
+    pe:binding
+      [ pe:var "constraint"; pe:value :AlphaPurposeConstraint ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "purpose"; pe:value dpv:Healthcare ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaPolicy :purposeConstraint :AlphaPurposeConstraint . },
+      { :AlphaCareProcess dpv:hasPurpose dpv:Healthcare . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :purposeConstraint :AlphaPurposeConstraint . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess dpv:hasPurpose dpv:Healthcare . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPurposeConstraint odrl:operator odrl:isA . } pe:why {
+  { :AlphaPurposeConstraint odrl:operator odrl:isA . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 38 ];
+    pe:binding
+      [ pe:var "constraint"; pe:value :AlphaPurposeConstraint ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "purpose"; pe:value dpv:Healthcare ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaPolicy :purposeConstraint :AlphaPurposeConstraint . },
+      { :AlphaCareProcess dpv:hasPurpose dpv:Healthcare . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :purposeConstraint :AlphaPurposeConstraint . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess dpv:hasPurpose dpv:Healthcare . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPurposeConstraint odrl:rightOperand dpv:Healthcare . } pe:why {
+  { :AlphaPurposeConstraint odrl:rightOperand dpv:Healthcare . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 38 ];
+    pe:binding
+      [ pe:var "constraint"; pe:value :AlphaPurposeConstraint ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ],
+      [ pe:var "purpose"; pe:value dpv:Healthcare ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaPolicy :purposeConstraint :AlphaPurposeConstraint . },
+      { :AlphaCareProcess dpv:hasPurpose dpv:Healthcare . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :purposeConstraint :AlphaPurposeConstraint . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess dpv:hasPurpose dpv:Healthcare . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaPermission odrl:constraint :AlphaBasisConstraint . } pe:why {
+  { :AlphaPermission odrl:constraint :AlphaBasisConstraint . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 47 ];
+    pe:binding
+      [ pe:var "basis"; pe:value dpv:Consent ],
+      [ pe:var "constraint"; pe:value :AlphaBasisConstraint ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaPolicy :basisConstraint :AlphaBasisConstraint . },
+      { :AlphaCareProcess dpv:hasLegalBasis dpv:Consent . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :basisConstraint :AlphaBasisConstraint . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess dpv:hasLegalBasis dpv:Consent . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaBasisConstraint a odrl:Constraint . } pe:why {
+  { :AlphaBasisConstraint a odrl:Constraint . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 47 ];
+    pe:binding
+      [ pe:var "basis"; pe:value dpv:Consent ],
+      [ pe:var "constraint"; pe:value :AlphaBasisConstraint ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaPolicy :basisConstraint :AlphaBasisConstraint . },
+      { :AlphaCareProcess dpv:hasLegalBasis dpv:Consent . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :basisConstraint :AlphaBasisConstraint . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess dpv:hasLegalBasis dpv:Consent . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaBasisConstraint odrl:leftOperand dpv-odrl:LegalBasis . } pe:why {
+  { :AlphaBasisConstraint odrl:leftOperand dpv-odrl:LegalBasis . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 47 ];
+    pe:binding
+      [ pe:var "basis"; pe:value dpv:Consent ],
+      [ pe:var "constraint"; pe:value :AlphaBasisConstraint ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaPolicy :basisConstraint :AlphaBasisConstraint . },
+      { :AlphaCareProcess dpv:hasLegalBasis dpv:Consent . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :basisConstraint :AlphaBasisConstraint . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess dpv:hasLegalBasis dpv:Consent . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaBasisConstraint odrl:operator odrl:isA . } pe:why {
+  { :AlphaBasisConstraint odrl:operator odrl:isA . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 47 ];
+    pe:binding
+      [ pe:var "basis"; pe:value dpv:Consent ],
+      [ pe:var "constraint"; pe:value :AlphaBasisConstraint ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaPolicy :basisConstraint :AlphaBasisConstraint . },
+      { :AlphaCareProcess dpv:hasLegalBasis dpv:Consent . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :basisConstraint :AlphaBasisConstraint . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess dpv:hasLegalBasis dpv:Consent . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.
+
+{ :AlphaBasisConstraint odrl:rightOperand dpv:Consent . } pe:why {
+  { :AlphaBasisConstraint odrl:rightOperand dpv:Consent . }
+    pe:by [ pe:rule "dpv-odrl-purpose-mapping.n3"; pe:line 47 ];
+    pe:binding
+      [ pe:var "basis"; pe:value dpv:Consent ],
+      [ pe:var "constraint"; pe:value :AlphaBasisConstraint ],
+      [ pe:var "permission"; pe:value :AlphaPermission ],
+      [ pe:var "policy"; pe:value :AlphaPolicy ],
+      [ pe:var "process"; pe:value :AlphaCareProcess ];
+    pe:uses
+      { :AlphaPolicy :representsProcess :AlphaCareProcess . },
+      { :AlphaPolicy :permissionNode :AlphaPermission . },
+      { :AlphaPolicy :basisConstraint :AlphaBasisConstraint . },
+      { :AlphaCareProcess dpv:hasLegalBasis dpv:Consent . }.
+
+  { :AlphaPolicy :representsProcess :AlphaCareProcess . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :permissionNode :AlphaPermission . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaPolicy :basisConstraint :AlphaBasisConstraint . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 18 ].
+
+  { :AlphaCareProcess dpv:hasLegalBasis dpv:Consent . }
+    pe:by [ pe:fact "dpv-odrl-purpose-mapping.n3"; pe:line 10 ].
+}.

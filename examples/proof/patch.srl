@@ -1,0 +1,59 @@
+PREFIX : <http://example.org/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :patch1 :resultTriple <<( :alice a :Person )>> .
+  :patch1 :resultTriple <<( :bob a :Person )>> .
+  :patch1 :resultTriple <<( :alice :age 31 )>> .
+  :patch1 :resultTriple <<( :alice :status :ActiveStatus )>> .
+  :patch1 :resultTriple <<( :alice :verified true )>> .
+
+  _:step1
+    rdf:reifies <<( :patch1 :resultTriple <<( :alice a :Person )>> )>>;
+    pe:rule "patch.srl";
+    pe:line 20;
+    pe:binding
+      [ pe:var "o"; pe:value :Person ],
+      [ pe:var "s"; pe:value :alice ],
+      [ pe:var "t"; pe:value <<( :alice a :Person )>> ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :alice a :Person )>>;
+    pe:fact "patch.srl";
+    pe:line 16.
+
+  _:step3
+    rdf:reifies <<( :patch1 :resultTriple <<( :bob a :Person )>> )>>;
+    pe:rule "patch.srl";
+    pe:line 20;
+    pe:binding
+      [ pe:var "o"; pe:value :Person ],
+      [ pe:var "s"; pe:value :bob ],
+      [ pe:var "t"; pe:value <<( :bob a :Person )>> ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( :bob a :Person )>>;
+    pe:fact "patch.srl";
+    pe:line 17.
+
+  _:step5
+    rdf:reifies <<( :patch1 :resultTriple <<( :alice :age 31 )>> )>>;
+    pe:rule "patch.srl";
+    pe:line 25;
+    pe:binding [ pe:var "t"; pe:value <<( :alice :age 31 )>> ].
+
+  _:step6
+    rdf:reifies <<( :patch1 :resultTriple <<( :alice :status :ActiveStatus )>> )>>;
+    pe:rule "patch.srl";
+    pe:line 29;
+    pe:binding [ pe:var "t"; pe:value <<( :alice :status :ActiveStatus )>> ].
+
+  _:step7
+    rdf:reifies <<( :patch1 :resultTriple <<( :alice :verified true )>> )>>;
+    pe:rule "patch.srl";
+    pe:line 33;
+    pe:binding [ pe:var "t"; pe:value <<( :alice :verified true )>> ].
+}

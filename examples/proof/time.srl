@@ -1,0 +1,102 @@
+PREFIX : <http://example.org/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DATA {
+  :out :year 2023 .
+  :out :month 4 .
+  :out :day 1 .
+  :out :minute 6 .
+  :out :second 4 .
+  :out :tz "Z" .
+
+  _:step1
+    rdf:reifies <<( :out :year 2023 )>>;
+    pe:rule "time.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "dt"; pe:value "2023-04-01T18:06:04Z"^^xsd:dateTime ],
+      [ pe:var "m"; pe:value 4 ],
+      [ pe:var "min"; pe:value 6 ],
+      [ pe:var "sec"; pe:value 4 ],
+      [ pe:var "tz"; pe:value "Z" ],
+      [ pe:var "y"; pe:value 2023 ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :Let :dt "2023-04-01T18:06:04Z"^^xsd:dateTime )>>;
+    pe:fact "time.srl";
+    pe:line 9.
+
+  _:step3
+    rdf:reifies <<( :out :month 4 )>>;
+    pe:rule "time.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "dt"; pe:value "2023-04-01T18:06:04Z"^^xsd:dateTime ],
+      [ pe:var "m"; pe:value 4 ],
+      [ pe:var "min"; pe:value 6 ],
+      [ pe:var "sec"; pe:value 4 ],
+      [ pe:var "tz"; pe:value "Z" ],
+      [ pe:var "y"; pe:value 2023 ];
+    pe:uses _:step2.
+
+  _:step4
+    rdf:reifies <<( :out :day 1 )>>;
+    pe:rule "time.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "dt"; pe:value "2023-04-01T18:06:04Z"^^xsd:dateTime ],
+      [ pe:var "m"; pe:value 4 ],
+      [ pe:var "min"; pe:value 6 ],
+      [ pe:var "sec"; pe:value 4 ],
+      [ pe:var "tz"; pe:value "Z" ],
+      [ pe:var "y"; pe:value 2023 ];
+    pe:uses _:step2.
+
+  _:step5
+    rdf:reifies <<( :out :minute 6 )>>;
+    pe:rule "time.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "dt"; pe:value "2023-04-01T18:06:04Z"^^xsd:dateTime ],
+      [ pe:var "m"; pe:value 4 ],
+      [ pe:var "min"; pe:value 6 ],
+      [ pe:var "sec"; pe:value 4 ],
+      [ pe:var "tz"; pe:value "Z" ],
+      [ pe:var "y"; pe:value 2023 ];
+    pe:uses _:step2.
+
+  _:step6
+    rdf:reifies <<( :out :second 4 )>>;
+    pe:rule "time.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "dt"; pe:value "2023-04-01T18:06:04Z"^^xsd:dateTime ],
+      [ pe:var "m"; pe:value 4 ],
+      [ pe:var "min"; pe:value 6 ],
+      [ pe:var "sec"; pe:value 4 ],
+      [ pe:var "tz"; pe:value "Z" ],
+      [ pe:var "y"; pe:value 2023 ];
+    pe:uses _:step2.
+
+  _:step7
+    rdf:reifies <<( :out :tz "Z" )>>;
+    pe:rule "time.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "d"; pe:value 1 ],
+      [ pe:var "dt"; pe:value "2023-04-01T18:06:04Z"^^xsd:dateTime ],
+      [ pe:var "m"; pe:value 4 ],
+      [ pe:var "min"; pe:value 6 ],
+      [ pe:var "sec"; pe:value 4 ],
+      [ pe:var "tz"; pe:value "Z" ],
+      [ pe:var "y"; pe:value 2023 ];
+    pe:uses _:step2.
+}

@@ -45,6 +45,10 @@ pub fn term_to_n3_object(term: &Term, prefixes: &BTreeMap<String, String>) -> St
     term_to_n3(term, prefixes, Position::Object)
 }
 
+pub fn term_to_n3_predicate(term: &Term, prefixes: &BTreeMap<String, String>) -> String {
+    term_to_n3(term, prefixes, Position::Predicate)
+}
+
 pub fn triples_to_n3(prefixes: &BTreeMap<String, String>, triples: &[Triple]) -> String {
     if triples.is_empty() { return String::new(); }
     let used = used_prefixes(prefixes, triples);

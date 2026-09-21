@@ -1,0 +1,31 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/unicode-and-signed-numbers#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:sample a :UnicodeDecoded .
+:thermo a :BelowZero .
+
+{ :sample a :UnicodeDecoded . } pe:why {
+  { :sample a :UnicodeDecoded . }
+    pe:by [ pe:rule "unicode-and-signed-numbers.n3"; pe:line 10 ];
+    pe:uses { :sample :text "ABC" . }.
+
+  { :sample :text "ABC" . }
+    pe:by [ pe:fact "unicode-and-signed-numbers.n3"; pe:line 7 ].
+}.
+
+{ :thermo a :BelowZero . } pe:why {
+  { :thermo a :BelowZero . }
+    pe:by [ pe:rule "unicode-and-signed-numbers.n3"; pe:line 11 ];
+    pe:binding [ pe:var "d"; pe:value -12 ];
+    pe:uses
+      { :thermo :delta -12 . },
+      { -12 math:lessThan 0 . }.
+
+  { :thermo :delta -12 . }
+    pe:by [ pe:fact "unicode-and-signed-numbers.n3"; pe:line 8 ].
+
+  { -12 math:lessThan 0 . }
+    pe:by [ pe:builtin math:lessThan ].
+}.

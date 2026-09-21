@@ -1,0 +1,50 @@
+@prefix : <http://example/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :adult true .
+
+{ :alice :adult true . } pe:why {
+  { :alice :adult true . }
+    pe:by [ pe:rule "base-and-literals.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "age"; pe:value 22 ],
+      [ pe:var "lang"; pe:value "en" ],
+      [ pe:var "name"; pe:value "Alice Smith"@en ],
+      [ pe:var "pair"; pe:value ("Alice Smith" "en") ],
+      [ pe:var "person"; pe:value :alice ],
+      [ pe:var "rest"; pe:value ("en") ],
+      [ pe:var "rest2"; pe:value () ],
+      [ pe:var "value"; pe:value "Alice Smith" ];
+    pe:uses
+      { :alice :name "Alice Smith"@en . },
+      { :alice :age 22 . },
+      { ("Alice Smith" "en") log:langlit "Alice Smith"@en . },
+      { ("Alice Smith" "en") list:firstRest ("Alice Smith" ("en")) . },
+      { ("en") list:firstRest ("en" ()) . },
+      { "en" log:equalTo "en" . },
+      { 22 math:notLessThan 18 . }.
+
+  { :alice :name "Alice Smith"@en . }
+    pe:by [ pe:fact "base-and-literals.n3"; pe:line 13 ].
+
+  { :alice :age 22 . }
+    pe:by [ pe:fact "base-and-literals.n3"; pe:line 13 ].
+
+  { ("Alice Smith" "en") log:langlit "Alice Smith"@en . }
+    pe:by [ pe:builtin log:langlit ].
+
+  { ("Alice Smith" "en") list:firstRest ("Alice Smith" ("en")) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { ("en") list:firstRest ("en" ()) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { "en" log:equalTo "en" . }
+    pe:by [ pe:builtin log:equalTo ].
+
+  { 22 math:notLessThan 18 . }
+    pe:by [ pe:builtin math:notLessThan ].
+}.

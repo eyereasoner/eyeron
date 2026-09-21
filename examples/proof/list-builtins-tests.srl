@@ -1,0 +1,131 @@
+PREFIX : <https://eyereasoner.github.io/ns#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :ok_list_append_1 a :Pass .
+  :ok_list_first_1 a :Pass .
+  :ok_list_in_1 a :Pass .
+  :ok_list_iterate_1 a :Pass .
+  :ok_list_last_1 a :Pass .
+  :ok_list_length_1 a :Pass .
+  :ok_list_member_1 a :Pass .
+  :ok_list_memberAt_1 a :Pass .
+  :ok_list_remove_1 a :Pass .
+  :ok_list_rest_1 a :Pass .
+  :ok_list_firstRest_1 a :Pass .
+
+  _:step1
+    rdf:reifies <<( :ok_list_append_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 21;
+    pe:uses
+      _:step2,
+      _:step3,
+      _:step4,
+      _:step5.
+
+  _:step2
+    rdf:reifies <<( :l1 :item0 1 )>>;
+    pe:fact "list-builtins-tests.srl";
+    pe:line 16.
+
+  _:step3
+    rdf:reifies <<( :l1 :item1 2 )>>;
+    pe:fact "list-builtins-tests.srl";
+    pe:line 16.
+
+  _:step4
+    rdf:reifies <<( :l1 :item2 3 )>>;
+    pe:fact "list-builtins-tests.srl";
+    pe:line 16.
+
+  _:step5
+    rdf:reifies <<( :l1 :item3 4 )>>;
+    pe:fact "list-builtins-tests.srl";
+    pe:line 16.
+
+  _:step6
+    rdf:reifies <<( :ok_list_first_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 22;
+    pe:uses _:step2.
+
+  _:step7
+    rdf:reifies <<( :ok_list_in_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 23;
+    pe:uses _:step8.
+
+  _:step8
+    rdf:reifies <<( :l2 :item2 "cat" )>>;
+    pe:fact "list-builtins-tests.srl";
+    pe:line 17.
+
+  _:step9
+    rdf:reifies <<( :ok_list_iterate_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 24;
+    pe:uses _:step8.
+
+  _:step10
+    rdf:reifies <<( :ok_list_last_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 25;
+    pe:uses _:step5.
+
+  _:step11
+    rdf:reifies <<( :ok_list_length_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 26;
+    pe:uses _:step12.
+
+  _:step12
+    rdf:reifies <<( :l1 :length 4 )>>;
+    pe:fact "list-builtins-tests.srl";
+    pe:line 16.
+
+  _:step13
+    rdf:reifies <<( :ok_list_member_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 27;
+    pe:uses _:step8.
+
+  _:step14
+    rdf:reifies <<( :ok_list_memberAt_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 28;
+    pe:uses _:step8.
+
+  _:step15
+    rdf:reifies <<( :ok_list_remove_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 29;
+    pe:uses
+      _:step16,
+      _:step17.
+
+  _:step16
+    rdf:reifies <<( :l3 :item0 "dog" )>>;
+    pe:fact "list-builtins-tests.srl";
+    pe:line 18.
+
+  _:step17
+    rdf:reifies <<( :l3 :item2 "cat" )>>;
+    pe:fact "list-builtins-tests.srl";
+    pe:line 18.
+
+  _:step18
+    rdf:reifies <<( :ok_list_rest_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 30;
+    pe:uses _:step3.
+
+  _:step19
+    rdf:reifies <<( :ok_list_firstRest_1 a :Pass )>>;
+    pe:rule "list-builtins-tests.srl";
+    pe:line 31;
+    pe:uses
+      _:step2,
+      _:step3.
+}

@@ -1,0 +1,94 @@
+PREFIX : <http://example.com/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :X :childOf :A .
+  :X :childOf :B .
+  :A :childOf :C .
+  :X :descendedFrom :A .
+  :X :descendedFrom :B .
+  :A :descendedFrom :C .
+  :X :descendedFrom :C .
+
+  _:step1
+    rdf:reifies <<( :X :childOf :A )>>;
+    pe:rule "spec-2-2-recursion.srl";
+    pe:line 9;
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :A ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :A :fatherOf :X )>>;
+    pe:fact "spec-2-2-recursion.srl";
+    pe:line 4.
+
+  _:step3
+    rdf:reifies <<( :X :childOf :B )>>;
+    pe:rule "spec-2-2-recursion.srl";
+    pe:line 10;
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :B ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( :B :motherOf :X )>>;
+    pe:fact "spec-2-2-recursion.srl";
+    pe:line 5.
+
+  _:step5
+    rdf:reifies <<( :A :childOf :C )>>;
+    pe:rule "spec-2-2-recursion.srl";
+    pe:line 10;
+    pe:binding
+      [ pe:var "x"; pe:value :A ],
+      [ pe:var "y"; pe:value :C ];
+    pe:uses _:step6.
+
+  _:step6
+    rdf:reifies <<( :C :motherOf :A )>>;
+    pe:fact "spec-2-2-recursion.srl";
+    pe:line 6.
+
+  _:step7
+    rdf:reifies <<( :X :descendedFrom :A )>>;
+    pe:rule "spec-2-2-recursion.srl";
+    pe:line 11;
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :A ];
+    pe:uses _:step1.
+
+  _:step8
+    rdf:reifies <<( :X :descendedFrom :B )>>;
+    pe:rule "spec-2-2-recursion.srl";
+    pe:line 11;
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :B ];
+    pe:uses _:step3.
+
+  _:step9
+    rdf:reifies <<( :A :descendedFrom :C )>>;
+    pe:rule "spec-2-2-recursion.srl";
+    pe:line 11;
+    pe:binding
+      [ pe:var "x"; pe:value :A ],
+      [ pe:var "y"; pe:value :C ];
+    pe:uses _:step5.
+
+  _:step10
+    rdf:reifies <<( :X :descendedFrom :C )>>;
+    pe:rule "spec-2-2-recursion.srl";
+    pe:line 12;
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :C ],
+      [ pe:var "z"; pe:value :A ];
+    pe:uses
+      _:step1,
+      _:step9.
+}

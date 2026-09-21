@@ -1,0 +1,51 @@
+@prefix : <http://example.org/ns#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:result :is true .
+
+{ :result :is true . } pe:why {
+  { :result :is true . }
+    pe:by [ pe:rule "rdf-list.n3"; pe:line 15 ];
+    pe:binding
+      [ pe:var "H"; pe:value 1 ],
+      [ pe:var "T"; pe:value (2) ],
+      [ pe:var "X"; pe:value :X ],
+      [ pe:var "Y"; pe:value (1 2) ];
+    pe:uses
+      { :X :val (1 2) . },
+      { (1 2) :head 1 . },
+      { (1 2) :tail (2) . },
+      { 1 log:equalTo 1 . },
+      { (2) log:equalTo (2) . }.
+
+  { :X :val (1 2) . }
+    pe:by [ pe:fact "rdf-list.n3"; pe:line 10 ].
+
+  { (1 2) :head 1 . }
+    pe:by [ pe:rule "rdf-list.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "X"; pe:value (1 2) ],
+      [ pe:var "Y"; pe:value 1 ];
+    pe:uses { (1 2) rdf:first 1 . }.
+
+  { (1 2) rdf:first 1 . }
+    pe:by [ pe:builtin rdf:first ].
+
+  { (1 2) :tail (2) . }
+    pe:by [ pe:rule "rdf-list.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "X"; pe:value (1 2) ],
+      [ pe:var "Y"; pe:value (2) ];
+    pe:uses { (1 2) rdf:rest (2) . }.
+
+  { (1 2) rdf:rest (2) . }
+    pe:by [ pe:builtin rdf:rest ].
+
+  { 1 log:equalTo 1 . }
+    pe:by [ pe:builtin log:equalTo ].
+
+  { (2) log:equalTo (2) . }
+    pe:by [ pe:builtin log:equalTo ].
+}.

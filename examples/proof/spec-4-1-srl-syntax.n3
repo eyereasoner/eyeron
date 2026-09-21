@@ -1,0 +1,31 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/spec-4-1-srl-syntax#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:x :bothPositive true .
+
+{ :x :bothPositive true . } pe:why {
+  { :x :bothPositive true . }
+    pe:by [ pe:rule "spec-4-1-srl-syntax.n3"; pe:line 10 ];
+    pe:binding
+      [ pe:var "v1"; pe:value 1 ],
+      [ pe:var "v2"; pe:value 2 ],
+      [ pe:var "x"; pe:value :x ];
+    pe:uses
+      { :x :p 1 . },
+      { :x :q 2 . },
+      { 1 math:greaterThan 0 . },
+      { 2 math:greaterThan 0 . }.
+
+  { :x :p 1 . }
+    pe:by [ pe:fact "spec-4-1-srl-syntax.n3"; pe:line 8 ].
+
+  { :x :q 2 . }
+    pe:by [ pe:fact "spec-4-1-srl-syntax.n3"; pe:line 8 ].
+
+  { 1 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+
+  { 2 math:greaterThan 0 . }
+    pe:by [ pe:builtin math:greaterThan ].
+}.

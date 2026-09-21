@@ -1,0 +1,343 @@
+PREFIX : <http://example.org/engineering#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :r2 :inheritsRequirement :stiffnessReq .
+  :r2 :inheritsRequirement :assemblyReq .
+  :r2 :considers :carbonFrame .
+  :r3 :considers :ribbedHousing .
+  :r1 :availableForFutureIteration :yes .
+  :r1 :status :approvedBaseline .
+  :r2 :preserves :stiffnessReq .
+  :r2 :integrates :carbonFrame .
+  :r2 :preserves :assemblyReq .
+  :r2 :satisfies :stiffnessReq .
+  :r2 :satisfies :assemblyReq .
+  :r2 :realizes :carbonFrame .
+  :r3 :inheritsRequirement :stiffnessReq .
+  :r3 :inheritsRequirement :assemblyReq .
+  :r2 :achieves :approvedBaseline .
+  :r2 :availableForFutureIteration :yes .
+  :r3 :preserves :assemblyReq .
+  :r3 :integrates :ribbedHousing .
+  :r2 :status :approvedBaseline .
+  :r3 :satisfies :assemblyReq .
+  :r3 :realizes :ribbedHousing .
+  :r3 :achieves :approvedBaseline .
+  :r3 :availableForFutureIteration :yes .
+  :r3 :status :approvedBaseline .
+
+  _:step1
+    rdf:reifies <<( :r2 :inheritsRequirement :stiffnessReq )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 18;
+    pe:binding
+      [ pe:var "earlier"; pe:value :r1 ],
+      [ pe:var "later"; pe:value :r2 ],
+      [ pe:var "req"; pe:value :stiffnessReq ];
+    pe:uses
+      _:step2,
+      _:step3.
+
+  _:step2
+    rdf:reifies <<( :r2 :derivesFrom :r1 )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 14.
+
+  _:step3
+    rdf:reifies <<( :r1 :satisfies :stiffnessReq )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 13.
+
+  _:step4
+    rdf:reifies <<( :r2 :inheritsRequirement :assemblyReq )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 18;
+    pe:binding
+      [ pe:var "earlier"; pe:value :r1 ],
+      [ pe:var "later"; pe:value :r2 ],
+      [ pe:var "req"; pe:value :assemblyReq ];
+    pe:uses
+      _:step2,
+      _:step5.
+
+  _:step5
+    rdf:reifies <<( :r1 :satisfies :assemblyReq )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 13.
+
+  _:step6
+    rdf:reifies <<( :r2 :considers :carbonFrame )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 19;
+    pe:binding
+      [ pe:var "goal"; pe:value :reduceWeight ],
+      [ pe:var "opt"; pe:value :carbonFrame ],
+      [ pe:var "rev"; pe:value :r2 ];
+    pe:uses
+      _:step7,
+      _:step8.
+
+  _:step7
+    rdf:reifies <<( :r2 :designGoal :reduceWeight )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 14.
+
+  _:step8
+    rdf:reifies <<( :reduceWeight :suggests :carbonFrame )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 7.
+
+  _:step9
+    rdf:reifies <<( :r3 :considers :ribbedHousing )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 19;
+    pe:binding
+      [ pe:var "goal"; pe:value :improveCooling ],
+      [ pe:var "opt"; pe:value :ribbedHousing ],
+      [ pe:var "rev"; pe:value :r3 ];
+    pe:uses
+      _:step10,
+      _:step11.
+
+  _:step10
+    rdf:reifies <<( :r3 :designGoal :improveCooling )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 15.
+
+  _:step11
+    rdf:reifies <<( :improveCooling :suggests :ribbedHousing )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 8.
+
+  _:step12
+    rdf:reifies <<( :r1 :availableForFutureIteration :yes )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 29;
+    pe:binding
+      [ pe:var "opt"; pe:value :aluminumFrame ],
+      [ pe:var "rev"; pe:value :r1 ];
+    pe:uses _:step13.
+
+  _:step13
+    rdf:reifies <<( :r1 :realizes :aluminumFrame )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 13.
+
+  _:step14
+    rdf:reifies <<( :r1 :status :approvedBaseline )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 30;
+    pe:binding [ pe:var "rev"; pe:value :r1 ];
+    pe:uses _:step15.
+
+  _:step15
+    rdf:reifies <<( :r1 :achieves :approvedBaseline )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 13.
+
+  _:step16
+    rdf:reifies <<( :r2 :preserves :stiffnessReq )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "opt"; pe:value :carbonFrame ],
+      [ pe:var "req"; pe:value :stiffnessReq ],
+      [ pe:var "rev"; pe:value :r2 ];
+    pe:uses
+      _:step1,
+      _:step6,
+      _:step17.
+
+  _:step17
+    rdf:reifies <<( :carbonFrame :compatibleWith :stiffnessReq )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 10.
+
+  _:step18
+    rdf:reifies <<( :r2 :integrates :carbonFrame )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "opt"; pe:value :carbonFrame ],
+      [ pe:var "req"; pe:value :stiffnessReq ],
+      [ pe:var "rev"; pe:value :r2 ];
+    pe:uses
+      _:step1,
+      _:step6,
+      _:step17.
+
+  _:step19
+    rdf:reifies <<( :r2 :preserves :assemblyReq )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "opt"; pe:value :carbonFrame ],
+      [ pe:var "req"; pe:value :assemblyReq ],
+      [ pe:var "rev"; pe:value :r2 ];
+    pe:uses
+      _:step4,
+      _:step6,
+      _:step20.
+
+  _:step20
+    rdf:reifies <<( :carbonFrame :compatibleWith :assemblyReq )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 10.
+
+  _:step21
+    rdf:reifies <<( :r2 :satisfies :stiffnessReq )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "req"; pe:value :stiffnessReq ],
+      [ pe:var "rev"; pe:value :r2 ];
+    pe:uses _:step16.
+
+  _:step22
+    rdf:reifies <<( :r2 :satisfies :assemblyReq )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "req"; pe:value :assemblyReq ],
+      [ pe:var "rev"; pe:value :r2 ];
+    pe:uses _:step19.
+
+  _:step23
+    rdf:reifies <<( :r2 :realizes :carbonFrame )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 28;
+    pe:binding
+      [ pe:var "opt"; pe:value :carbonFrame ],
+      [ pe:var "rev"; pe:value :r2 ];
+    pe:uses _:step18.
+
+  _:step24
+    rdf:reifies <<( :r3 :inheritsRequirement :stiffnessReq )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 18;
+    pe:binding
+      [ pe:var "earlier"; pe:value :r2 ],
+      [ pe:var "later"; pe:value :r3 ],
+      [ pe:var "req"; pe:value :stiffnessReq ];
+    pe:uses
+      _:step25,
+      _:step21.
+
+  _:step25
+    rdf:reifies <<( :r3 :derivesFrom :r2 )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 15.
+
+  _:step26
+    rdf:reifies <<( :r3 :inheritsRequirement :assemblyReq )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 18;
+    pe:binding
+      [ pe:var "earlier"; pe:value :r2 ],
+      [ pe:var "later"; pe:value :r3 ],
+      [ pe:var "req"; pe:value :assemblyReq ];
+    pe:uses
+      _:step25,
+      _:step22.
+
+  _:step27
+    rdf:reifies <<( :r2 :achieves :approvedBaseline )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 29;
+    pe:binding
+      [ pe:var "opt"; pe:value :carbonFrame ],
+      [ pe:var "rev"; pe:value :r2 ];
+    pe:uses _:step23.
+
+  _:step28
+    rdf:reifies <<( :r2 :availableForFutureIteration :yes )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 29;
+    pe:binding
+      [ pe:var "opt"; pe:value :carbonFrame ],
+      [ pe:var "rev"; pe:value :r2 ];
+    pe:uses _:step23.
+
+  _:step29
+    rdf:reifies <<( :r3 :preserves :assemblyReq )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "opt"; pe:value :ribbedHousing ],
+      [ pe:var "req"; pe:value :assemblyReq ],
+      [ pe:var "rev"; pe:value :r3 ];
+    pe:uses
+      _:step26,
+      _:step9,
+      _:step30.
+
+  _:step30
+    rdf:reifies <<( :ribbedHousing :compatibleWith :assemblyReq )>>;
+    pe:fact "engineering-becoming.srl";
+    pe:line 11.
+
+  _:step31
+    rdf:reifies <<( :r3 :integrates :ribbedHousing )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "opt"; pe:value :ribbedHousing ],
+      [ pe:var "req"; pe:value :assemblyReq ],
+      [ pe:var "rev"; pe:value :r3 ];
+    pe:uses
+      _:step26,
+      _:step9,
+      _:step30.
+
+  _:step32
+    rdf:reifies <<( :r2 :status :approvedBaseline )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 30;
+    pe:binding [ pe:var "rev"; pe:value :r2 ];
+    pe:uses _:step27.
+
+  _:step33
+    rdf:reifies <<( :r3 :satisfies :assemblyReq )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 27;
+    pe:binding
+      [ pe:var "req"; pe:value :assemblyReq ],
+      [ pe:var "rev"; pe:value :r3 ];
+    pe:uses _:step29.
+
+  _:step34
+    rdf:reifies <<( :r3 :realizes :ribbedHousing )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 28;
+    pe:binding
+      [ pe:var "opt"; pe:value :ribbedHousing ],
+      [ pe:var "rev"; pe:value :r3 ];
+    pe:uses _:step31.
+
+  _:step35
+    rdf:reifies <<( :r3 :achieves :approvedBaseline )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 29;
+    pe:binding
+      [ pe:var "opt"; pe:value :ribbedHousing ],
+      [ pe:var "rev"; pe:value :r3 ];
+    pe:uses _:step34.
+
+  _:step36
+    rdf:reifies <<( :r3 :availableForFutureIteration :yes )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 29;
+    pe:binding
+      [ pe:var "opt"; pe:value :ribbedHousing ],
+      [ pe:var "rev"; pe:value :r3 ];
+    pe:uses _:step34.
+
+  _:step37
+    rdf:reifies <<( :r3 :status :approvedBaseline )>>;
+    pe:rule "engineering-becoming.srl";
+    pe:line 30;
+    pe:binding [ pe:var "rev"; pe:value :r3 ];
+    pe:uses _:step35.
+}

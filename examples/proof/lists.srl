@@ -1,0 +1,80 @@
+PREFIX : <http://example/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :query1 :appendResultLeft :a .
+  :query1 :appendResultRight :b .
+  :items :member :a .
+  :items :member :b .
+
+  _:step1
+    rdf:reifies <<( :query1 :appendResultLeft :a )>>;
+    pe:rule "lists.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      <<( ?__path_s_0 :xs ?__path_o_0 )>>,
+      <<( ?__path_s_1 rdf:first ?__path_o_1 )>>,
+      <<( ?__path_s_0 :ys ?__path_o_0 )>>,
+      <<( ?__path_s_1 rdf:first ?__path_o_1 )>>.
+
+  _:step2
+    rdf:reifies <<( :query1 :xs _:b1 )>>;
+    pe:fact "lists.srl";
+    pe:line 17.
+
+  _:step3
+    rdf:reifies <<( _:b1 rdf:first :a )>>;
+    pe:fact "lists.srl";
+    pe:line 17.
+
+  _:step4
+    rdf:reifies <<( :query1 :ys _:b2 )>>;
+    pe:fact "lists.srl";
+    pe:line 17.
+
+  _:step5
+    rdf:reifies <<( :query1 :appendResultRight :b )>>;
+    pe:rule "lists.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "x"; pe:value :a ],
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      <<( ?__path_s_0 :xs ?__path_o_0 )>>,
+      <<( ?__path_s_1 rdf:first ?__path_o_1 )>>,
+      <<( ?__path_s_0 :ys ?__path_o_0 )>>,
+      <<( ?__path_s_1 rdf:first ?__path_o_1 )>>.
+
+  _:step6
+    rdf:reifies <<( :items :member :a )>>;
+    pe:rule "lists.srl";
+    pe:line 24;
+    pe:binding [ pe:var "m"; pe:value :a ];
+    pe:uses
+      <<( ?__path_s_0 :list ?__path_o_0 )>>,
+      <<( ?__path_s_1 rdf:first ?__path_o_1 )>>.
+
+  _:step7
+    rdf:reifies <<( :items :list _:b3 )>>;
+    pe:fact "lists.srl";
+    pe:line 18.
+
+  _:step8
+    rdf:reifies <<( :items :member :b )>>;
+    pe:rule "lists.srl";
+    pe:line 27;
+    pe:binding [ pe:var "m"; pe:value :b ];
+    pe:uses
+      <<( ?__path_s_0 :list ?__path_o_0 )>>,
+      <<( ?__path_s_1 rdf:rest ?__path_o_1 )>>,
+      <<( ?__path_s_2 rdf:first ?__path_o_2 )>>.
+
+  _:step9
+    rdf:reifies <<( _:b1 rdf:rest rdf:nil )>>;
+    pe:fact "lists.srl";
+    pe:line 17.
+}

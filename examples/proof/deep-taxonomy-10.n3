@@ -1,0 +1,1561 @@
+@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:arc :check1 "C1 OK - the starting classification N0 is present." .
+:ind a :N1 .
+:ind a :I1 .
+:ind a :J1 .
+:arc :check2 "C2 OK - the first expansion produced N1 together with side labels I1 and J1." .
+:ind a :N2 .
+:ind a :I2 .
+:ind a :J2 .
+:ind a :N3 .
+:ind a :I3 .
+:ind a :J3 .
+:ind a :N4 .
+:ind a :I4 .
+:ind a :J4 .
+:ind a :N5 .
+:ind a :I5 .
+:ind a :J5 .
+:arc :check3 "C3 OK - the chain reaches the midpoint N5 and still carries both side-label branches." .
+:ind a :N6 .
+:ind a :I6 .
+:ind a :J6 .
+:ind a :N7 .
+:ind a :I7 .
+:ind a :J7 .
+:ind a :N8 .
+:ind a :I8 .
+:ind a :J8 .
+:ind a :N9 .
+:ind a :I9 .
+:ind a :J9 .
+:ind a :N10 .
+:ind a :I10 .
+:ind a :J10 .
+:arc :check4 "C4 OK - the final taxonomy step from N9 to N10 was completed." .
+:ind a :A2 .
+:test :is true .
+:arc :check5 "C5 OK - once N10 is reached, the terminal class A2 is derived." .
+:arc :check6 "C6 OK - the success flag is raised only after the terminal class A2 is present." .
+:report log:outputString "Deep Taxonomy - deep classification benchmark\n\n## Answer\nThe test succeeds: starting from one individual classified as N0, the rules eventually classify it as N10 and then as A2.\n\n## Reason Why\nEach rule moves the same individual one level deeper in the taxonomy and also adds two side labels. Because that chain continues all the way from N0 to N10, the final rule deriving A2 fires, and that in turn makes the test true.\n\n## Check\nC1 OK - the starting classification N0 is present.\nC2 OK - the first expansion produced N1 together with side labels I1 and J1.\nC3 OK - the chain reaches the midpoint N5 and still carries both side-label branches.\nC4 OK - the final taxonomy step from N9 to N10 was completed.\nC5 OK - once N10 is reached, the terminal class A2 is derived.\nC6 OK - the success flag is raised only after the terminal class A2 is present.\n" .
+
+{ :arc :check1 "C1 OK - the starting classification N0 is present." . } pe:why {
+  { :arc :check1 "C1 OK - the starting classification N0 is present." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 37 ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :N1 . } pe:why {
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :I1 . } pe:why {
+  { :ind a :I1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :J1 . } pe:why {
+  { :ind a :J1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :arc :check2 "C2 OK - the first expansion produced N1 together with side labels I1 and J1." . } pe:why {
+  { :arc :check2 "C2 OK - the first expansion produced N1 together with side labels I1 and J1." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 40 ];
+    pe:uses
+      { :ind a :N1 . },
+      { :ind a :I1 . },
+      { :ind a :J1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+
+  { :ind a :I1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :J1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+}.
+
+{ :ind a :N2 . } pe:why {
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :I2 . } pe:why {
+  { :ind a :I2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :J2 . } pe:why {
+  { :ind a :J2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :N3 . } pe:why {
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :I3 . } pe:why {
+  { :ind a :I3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :J3 . } pe:why {
+  { :ind a :J3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :N4 . } pe:why {
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :I4 . } pe:why {
+  { :ind a :I4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :J4 . } pe:why {
+  { :ind a :J4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :N5 . } pe:why {
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :I5 . } pe:why {
+  { :ind a :I5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :J5 . } pe:why {
+  { :ind a :J5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :arc :check3 "C3 OK - the chain reaches the midpoint N5 and still carries both side-label branches." . } pe:why {
+  { :arc :check3 "C3 OK - the chain reaches the midpoint N5 and still carries both side-label branches." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 43 ];
+    pe:uses
+      { :ind a :N5 . },
+      { :ind a :I5 . },
+      { :ind a :J5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+
+  { :ind a :I5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :J5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+}.
+
+{ :ind a :N6 . } pe:why {
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :I6 . } pe:why {
+  { :ind a :I6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :J6 . } pe:why {
+  { :ind a :J6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :N7 . } pe:why {
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :I7 . } pe:why {
+  { :ind a :I7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :J7 . } pe:why {
+  { :ind a :J7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :N8 . } pe:why {
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :I8 . } pe:why {
+  { :ind a :I8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :J8 . } pe:why {
+  { :ind a :J8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :N9 . } pe:why {
+  { :ind a :N9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :I9 . } pe:why {
+  { :ind a :I9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :J9 . } pe:why {
+  { :ind a :J9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :N10 . } pe:why {
+  { :ind a :N10 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 28 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N9 . }.
+
+  { :ind a :N9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :I10 . } pe:why {
+  { :ind a :I10 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 28 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N9 . }.
+
+  { :ind a :N9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :ind a :J10 . } pe:why {
+  { :ind a :J10 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 28 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N9 . }.
+
+  { :ind a :N9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :arc :check4 "C4 OK - the final taxonomy step from N9 to N10 was completed." . } pe:why {
+  { :arc :check4 "C4 OK - the final taxonomy step from N9 to N10 was completed." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 46 ];
+    pe:uses
+      { :ind a :N9 . },
+      { :ind a :N10 . }.
+
+  { :ind a :N9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+
+  { :ind a :N10 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 28 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N9 . }.
+}.
+
+{ :ind a :A2 . } pe:why {
+  { :ind a :A2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 30 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N10 . }.
+
+  { :ind a :N10 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 28 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N9 . }.
+
+  { :ind a :N9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :test :is true . } pe:why {
+  { :test :is true . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 17 ];
+    pe:uses { :ind a :A2 . }.
+
+  { :ind a :A2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 30 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N10 . }.
+
+  { :ind a :N10 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 28 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N9 . }.
+
+  { :ind a :N9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+}.
+
+{ :arc :check5 "C5 OK - once N10 is reached, the terminal class A2 is derived." . } pe:why {
+  { :arc :check5 "C5 OK - once N10 is reached, the terminal class A2 is derived." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 49 ];
+    pe:uses
+      { :ind a :N10 . },
+      { :ind a :A2 . }.
+
+  { :ind a :N10 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 28 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N9 . }.
+
+  { :ind a :N9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+
+  { :ind a :A2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 30 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N10 . }.
+}.
+
+{ :arc :check6 "C6 OK - the success flag is raised only after the terminal class A2 is present." . } pe:why {
+  { :arc :check6 "C6 OK - the success flag is raised only after the terminal class A2 is present." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 52 ];
+    pe:uses
+      { :ind a :A2 . },
+      { :test :is true . }.
+
+  { :ind a :A2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 30 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N10 . }.
+
+  { :ind a :N10 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 28 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N9 . }.
+
+  { :ind a :N9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+
+  { :test :is true . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 17 ];
+    pe:uses { :ind a :A2 . }.
+}.
+
+{ :report log:outputString "Deep Taxonomy - deep classification benchmark\n\n## Answer\nThe test succeeds: starting from one individual classified as N0, the rules eventually classify it as N10 and then as A2.\n\n## Reason Why\nEach rule moves the same individual one level deeper in the taxonomy and also adds two side labels. Because that chain continues all the way from N0 to N10, the final rule deriving A2 fires, and that in turn makes the test true.\n\n## Check\nC1 OK - the starting classification N0 is present.\nC2 OK - the first expansion produced N1 together with side labels I1 and J1.\nC3 OK - the chain reaches the midpoint N5 and still carries both side-label branches.\nC4 OK - the final taxonomy step from N9 to N10 was completed.\nC5 OK - once N10 is reached, the terminal class A2 is derived.\nC6 OK - the success flag is raised only after the terminal class A2 is present.\n" . } pe:why {
+  { :report log:outputString "Deep Taxonomy - deep classification benchmark\n\n## Answer\nThe test succeeds: starting from one individual classified as N0, the rules eventually classify it as N10 and then as A2.\n\n## Reason Why\nEach rule moves the same individual one level deeper in the taxonomy and also adds two side labels. Because that chain continues all the way from N0 to N10, the final rule deriving A2 fires, and that in turn makes the test true.\n\n## Check\nC1 OK - the starting classification N0 is present.\nC2 OK - the first expansion produced N1 together with side labels I1 and J1.\nC3 OK - the chain reaches the midpoint N5 and still carries both side-label branches.\nC4 OK - the final taxonomy step from N9 to N10 was completed.\nC5 OK - once N10 is reached, the terminal class A2 is derived.\nC6 OK - the success flag is raised only after the terminal class A2 is present.\n" . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 56 ];
+    pe:binding
+      [ pe:var "C1"; pe:value "C1 OK - the starting classification N0 is present." ],
+      [ pe:var "C2"; pe:value "C2 OK - the first expansion produced N1 together with side labels I1 and J1." ],
+      [ pe:var "C3"; pe:value "C3 OK - the chain reaches the midpoint N5 and still carries both side-label branches." ],
+      [ pe:var "C4"; pe:value "C4 OK - the final taxonomy step from N9 to N10 was completed." ],
+      [ pe:var "C5"; pe:value "C5 OK - once N10 is reached, the terminal class A2 is derived." ],
+      [ pe:var "C6"; pe:value "C6 OK - the success flag is raised only after the terminal class A2 is present." ];
+    pe:uses
+      { :test :is true . },
+      { :arc :check1 "C1 OK - the starting classification N0 is present." . },
+      { :arc :check2 "C2 OK - the first expansion produced N1 together with side labels I1 and J1." . },
+      { :arc :check3 "C3 OK - the chain reaches the midpoint N5 and still carries both side-label branches." . },
+      { :arc :check4 "C4 OK - the final taxonomy step from N9 to N10 was completed." . },
+      { :arc :check5 "C5 OK - once N10 is reached, the terminal class A2 is derived." . },
+      { :arc :check6 "C6 OK - the success flag is raised only after the terminal class A2 is present." . }.
+
+  { :test :is true . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 17 ];
+    pe:uses { :ind a :A2 . }.
+
+  { :ind a :A2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 30 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N10 . }.
+
+  { :ind a :N10 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 28 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N9 . }.
+
+  { :ind a :N9 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 27 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N8 . }.
+
+  { :ind a :N8 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 26 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N7 . }.
+
+  { :ind a :N7 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 25 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N6 . }.
+
+  { :ind a :N6 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 24 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N5 . }.
+
+  { :ind a :N5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :N4 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 22 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N3 . }.
+
+  { :ind a :N3 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 21 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N2 . }.
+
+  { :ind a :N2 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 20 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N1 . }.
+
+  { :ind a :N1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :N0 . }
+    pe:by [ pe:fact "deep-taxonomy-10.n3"; pe:line 14 ].
+
+  { :arc :check1 "C1 OK - the starting classification N0 is present." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 37 ];
+    pe:uses { :ind a :N0 . }.
+
+  { :arc :check2 "C2 OK - the first expansion produced N1 together with side labels I1 and J1." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 40 ];
+    pe:uses
+      { :ind a :N1 . },
+      { :ind a :I1 . },
+      { :ind a :J1 . }.
+
+  { :ind a :I1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :ind a :J1 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 19 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N0 . }.
+
+  { :arc :check3 "C3 OK - the chain reaches the midpoint N5 and still carries both side-label branches." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 43 ];
+    pe:uses
+      { :ind a :N5 . },
+      { :ind a :I5 . },
+      { :ind a :J5 . }.
+
+  { :ind a :I5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :ind a :J5 . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 23 ];
+    pe:binding [ pe:var "X"; pe:value :ind ];
+    pe:uses { :ind a :N4 . }.
+
+  { :arc :check4 "C4 OK - the final taxonomy step from N9 to N10 was completed." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 46 ];
+    pe:uses
+      { :ind a :N9 . },
+      { :ind a :N10 . }.
+
+  { :arc :check5 "C5 OK - once N10 is reached, the terminal class A2 is derived." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 49 ];
+    pe:uses
+      { :ind a :N10 . },
+      { :ind a :A2 . }.
+
+  { :arc :check6 "C6 OK - the success flag is raised only after the terminal class A2 is present." . }
+    pe:by [ pe:rule "deep-taxonomy-10.n3"; pe:line 52 ];
+    pe:uses
+      { :ind a :A2 . },
+      { :test :is true . }.
+}.

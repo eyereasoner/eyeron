@@ -1,0 +1,122 @@
+PREFIX : <http://example.org/expression-eval#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :n2 :value 2 .
+  :n3 :value 3 .
+  :n10 :value 10 .
+  :n4 :value 4 .
+  :eMul :value 6 .
+  :eSub :value 6 .
+  :eAdd :value 12 .
+  :Root :result 12 .
+
+  _:step1
+    rdf:reifies <<( :n2 :value 2 )>>;
+    pe:rule "expression-eval.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "N"; pe:value :n2 ],
+      [ pe:var "V"; pe:value 2 ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :n2 :n 2 )>>;
+    pe:fact "expression-eval.srl";
+    pe:line 14.
+
+  _:step3
+    rdf:reifies <<( :n3 :value 3 )>>;
+    pe:rule "expression-eval.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "N"; pe:value :n3 ],
+      [ pe:var "V"; pe:value 3 ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( :n3 :n 3 )>>;
+    pe:fact "expression-eval.srl";
+    pe:line 14.
+
+  _:step5
+    rdf:reifies <<( :n10 :value 10 )>>;
+    pe:rule "expression-eval.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "N"; pe:value :n10 ],
+      [ pe:var "V"; pe:value 10 ];
+    pe:uses _:step6.
+
+  _:step6
+    rdf:reifies <<( :n10 :n 10 )>>;
+    pe:fact "expression-eval.srl";
+    pe:line 14.
+
+  _:step7
+    rdf:reifies <<( :n4 :value 4 )>>;
+    pe:rule "expression-eval.srl";
+    pe:line 21;
+    pe:binding
+      [ pe:var "N"; pe:value :n4 ],
+      [ pe:var "V"; pe:value 4 ];
+    pe:uses _:step8.
+
+  _:step8
+    rdf:reifies <<( :n4 :n 4 )>>;
+    pe:fact "expression-eval.srl";
+    pe:line 14.
+
+  _:step9
+    rdf:reifies <<( :eMul :value 6 )>>;
+    pe:rule "expression-eval.srl";
+    pe:line 22;
+    pe:binding
+      [ pe:var "A"; pe:value 2 ],
+      [ pe:var "B"; pe:value 3 ],
+      [ pe:var "V"; pe:value 6 ];
+    pe:uses
+      _:step1,
+      _:step3.
+
+  _:step10
+    rdf:reifies <<( :eSub :value 6 )>>;
+    pe:rule "expression-eval.srl";
+    pe:line 23;
+    pe:binding
+      [ pe:var "A"; pe:value 10 ],
+      [ pe:var "B"; pe:value 4 ],
+      [ pe:var "V"; pe:value 6 ];
+    pe:uses
+      _:step5,
+      _:step7.
+
+  _:step11
+    rdf:reifies <<( :eAdd :value 12 )>>;
+    pe:rule "expression-eval.srl";
+    pe:line 24;
+    pe:binding
+      [ pe:var "A"; pe:value 6 ],
+      [ pe:var "B"; pe:value 6 ],
+      [ pe:var "V"; pe:value 12 ];
+    pe:uses
+      _:step9,
+      _:step10.
+
+  _:step12
+    rdf:reifies <<( :Root :result 12 )>>;
+    pe:rule "expression-eval.srl";
+    pe:line 25;
+    pe:binding
+      [ pe:var "E"; pe:value :eAdd ],
+      [ pe:var "V"; pe:value 12 ];
+    pe:uses
+      _:step13,
+      _:step11.
+
+  _:step13
+    rdf:reifies <<( :Root :expr :eAdd )>>;
+    pe:fact "expression-eval.srl";
+    pe:line 18.
+}

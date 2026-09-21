@@ -164,7 +164,7 @@ fn run_srl_with_imports(main_source: &str, imported_source: &str, data: &str, pr
         return Err(summary);
     }
     if proof {
-        return Ok(proof_to_n3(&program.prefixes, &result));
+        return Ok(crate::srl::proof_to_srl(&program.prefixes, &result));
     }
     let trimmed_query = query.trim();
     if trimmed_query.is_empty() {

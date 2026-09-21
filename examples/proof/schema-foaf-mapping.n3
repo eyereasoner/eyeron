@@ -1,0 +1,56 @@
+@prefix ex: <https://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <https://schema.org/> .
+
+ex:alice a foaf:Person .
+ex:alice foaf:name "Alice Example" .
+ex:alice foaf:givenName "Alice" .
+ex:alice foaf:familyName "Example" .
+
+{ ex:alice a foaf:Person . } pe:why {
+  { ex:alice a foaf:Person . }
+    pe:by [ pe:rule "schema-foaf-mapping.n3"; pe:line 19 ];
+    pe:binding [ pe:var "p"; pe:value ex:alice ];
+    pe:uses { ex:alice a schema:Person . }.
+
+  { ex:alice a schema:Person . }
+    pe:by [ pe:fact "schema-foaf-mapping.n3"; pe:line 13 ].
+}.
+
+{ ex:alice foaf:name "Alice Example" . } pe:why {
+  { ex:alice foaf:name "Alice Example" . }
+    pe:by [ pe:rule "schema-foaf-mapping.n3"; pe:line 28 ];
+    pe:binding
+      [ pe:var "name"; pe:value "Alice Example" ],
+      [ pe:var "p"; pe:value ex:alice ];
+    pe:uses { ex:alice schema:name "Alice Example" . }.
+
+  { ex:alice schema:name "Alice Example" . }
+    pe:by [ pe:fact "schema-foaf-mapping.n3"; pe:line 13 ].
+}.
+
+{ ex:alice foaf:givenName "Alice" . } pe:why {
+  { ex:alice foaf:givenName "Alice" . }
+    pe:by [ pe:rule "schema-foaf-mapping.n3"; pe:line 37 ];
+    pe:binding
+      [ pe:var "given"; pe:value "Alice" ],
+      [ pe:var "p"; pe:value ex:alice ];
+    pe:uses { ex:alice schema:givenName "Alice" . }.
+
+  { ex:alice schema:givenName "Alice" . }
+    pe:by [ pe:fact "schema-foaf-mapping.n3"; pe:line 13 ].
+}.
+
+{ ex:alice foaf:familyName "Example" . } pe:why {
+  { ex:alice foaf:familyName "Example" . }
+    pe:by [ pe:rule "schema-foaf-mapping.n3"; pe:line 46 ];
+    pe:binding
+      [ pe:var "family"; pe:value "Example" ],
+      [ pe:var "p"; pe:value ex:alice ];
+    pe:uses { ex:alice schema:familyName "Example" . }.
+
+  { ex:alice schema:familyName "Example" . }
+    pe:by [ pe:fact "schema-foaf-mapping.n3"; pe:line 13 ].
+}.

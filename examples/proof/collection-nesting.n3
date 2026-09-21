@@ -1,0 +1,45 @@
+@prefix : <http://example/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:test :first 1 .
+:test :secondProperty :q .
+:test :thirdFirst 2 .
+
+{ :test :first 1 . } pe:why {
+  { :test :first 1 . }
+    pe:by [ pe:rule "collection-nesting.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "first"; pe:value 1 ],
+      [ pe:var "second"; pe:value (:node :q) ],
+      [ pe:var "third"; pe:value (2) ];
+    pe:uses { :root :nested (1 (:node :q) (2)) . }.
+
+  { :root :nested (1 (:node :q) (2)) . }
+    pe:by [ pe:fact "collection-nesting.n3"; pe:line 9 ].
+}.
+
+{ :test :secondProperty :q . } pe:why {
+  { :test :secondProperty :q . }
+    pe:by [ pe:rule "collection-nesting.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "first"; pe:value 1 ],
+      [ pe:var "third"; pe:value (2) ],
+      [ pe:var "value"; pe:value :q ];
+    pe:uses { :root :nested (1 (:node :q) (2)) . }.
+
+  { :root :nested (1 (:node :q) (2)) . }
+    pe:by [ pe:fact "collection-nesting.n3"; pe:line 9 ].
+}.
+
+{ :test :thirdFirst 2 . } pe:why {
+  { :test :thirdFirst 2 . }
+    pe:by [ pe:rule "collection-nesting.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "first"; pe:value 1 ],
+      [ pe:var "second"; pe:value (:node :q) ],
+      [ pe:var "value"; pe:value 2 ];
+    pe:uses { :root :nested (1 (:node :q) (2)) . }.
+
+  { :root :nested (1 (:node :q) (2)) . }
+    pe:by [ pe:fact "collection-nesting.n3"; pe:line 9 ].
+}.

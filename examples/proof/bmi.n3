@@ -1,0 +1,385 @@
+@prefix : <http://example/> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:case :bmi 22.724403484408533 .
+:case :healthyMin 58.6154 .
+:case :healthyMax 78.89316 .
+:case :bmiRounded 22.72 .
+:case :category "normal" .
+:case :healthyMinRounded 58.6 .
+:case :healthyMaxRounded 78.9 .
+
+{ :case :bmi 22.724403484408533 . } pe:why {
+  { :case :bmi 22.724403484408533 . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "bmi"; pe:value 22.724403484408533 ],
+      [ pe:var "healthyMax"; pe:value 78.89316 ],
+      [ pe:var "healthyMin"; pe:value 58.6154 ],
+      [ pe:var "heightCm"; pe:value 178.0 ],
+      [ pe:var "heightSquared"; pe:value 3.1684 ],
+      [ pe:var "meters"; pe:value 1.78 ],
+      [ pe:var "weight"; pe:value 72.0 ];
+    pe:uses
+      { :input :weight 72.0 . },
+      { :input :height 178.0 . },
+      { (178.0 100.0) math:quotient 1.78 . },
+      { (1.78 1.78) math:product 3.1684 . },
+      { (72.0 3.1684) math:quotient 22.724403484408533 . },
+      { (18.5 3.1684) math:product 58.6154 . },
+      { (24.9 3.1684) math:product 78.89316 . }.
+
+  { :input :weight 72.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { :input :height 178.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { (178.0 100.0) math:quotient 1.78 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (1.78 1.78) math:product 3.1684 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (72.0 3.1684) math:quotient 22.724403484408533 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (18.5 3.1684) math:product 58.6154 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (24.9 3.1684) math:product 78.89316 . }
+    pe:by [ pe:builtin math:product ].
+}.
+
+{ :case :healthyMin 58.6154 . } pe:why {
+  { :case :healthyMin 58.6154 . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "bmi"; pe:value 22.724403484408533 ],
+      [ pe:var "healthyMax"; pe:value 78.89316 ],
+      [ pe:var "healthyMin"; pe:value 58.6154 ],
+      [ pe:var "heightCm"; pe:value 178.0 ],
+      [ pe:var "heightSquared"; pe:value 3.1684 ],
+      [ pe:var "meters"; pe:value 1.78 ],
+      [ pe:var "weight"; pe:value 72.0 ];
+    pe:uses
+      { :input :weight 72.0 . },
+      { :input :height 178.0 . },
+      { (178.0 100.0) math:quotient 1.78 . },
+      { (1.78 1.78) math:product 3.1684 . },
+      { (72.0 3.1684) math:quotient 22.724403484408533 . },
+      { (18.5 3.1684) math:product 58.6154 . },
+      { (24.9 3.1684) math:product 78.89316 . }.
+
+  { :input :weight 72.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { :input :height 178.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { (178.0 100.0) math:quotient 1.78 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (1.78 1.78) math:product 3.1684 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (72.0 3.1684) math:quotient 22.724403484408533 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (18.5 3.1684) math:product 58.6154 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (24.9 3.1684) math:product 78.89316 . }
+    pe:by [ pe:builtin math:product ].
+}.
+
+{ :case :healthyMax 78.89316 . } pe:why {
+  { :case :healthyMax 78.89316 . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "bmi"; pe:value 22.724403484408533 ],
+      [ pe:var "healthyMax"; pe:value 78.89316 ],
+      [ pe:var "healthyMin"; pe:value 58.6154 ],
+      [ pe:var "heightCm"; pe:value 178.0 ],
+      [ pe:var "heightSquared"; pe:value 3.1684 ],
+      [ pe:var "meters"; pe:value 1.78 ],
+      [ pe:var "weight"; pe:value 72.0 ];
+    pe:uses
+      { :input :weight 72.0 . },
+      { :input :height 178.0 . },
+      { (178.0 100.0) math:quotient 1.78 . },
+      { (1.78 1.78) math:product 3.1684 . },
+      { (72.0 3.1684) math:quotient 22.724403484408533 . },
+      { (18.5 3.1684) math:product 58.6154 . },
+      { (24.9 3.1684) math:product 78.89316 . }.
+
+  { :input :weight 72.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { :input :height 178.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { (178.0 100.0) math:quotient 1.78 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (1.78 1.78) math:product 3.1684 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (72.0 3.1684) math:quotient 22.724403484408533 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (18.5 3.1684) math:product 58.6154 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (24.9 3.1684) math:product 78.89316 . }
+    pe:by [ pe:builtin math:product ].
+}.
+
+{ :case :bmiRounded 22.72 . } pe:why {
+  { :case :bmiRounded 22.72 . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 19 ];
+    pe:binding
+      [ pe:var "bmi"; pe:value 22.724403484408533 ],
+      [ pe:var "bmiInt"; pe:value 2272 ],
+      [ pe:var "bmiRounded"; pe:value 22.72 ],
+      [ pe:var "bmiScaled"; pe:value 2272.4403484408535 ];
+    pe:uses
+      { :case :bmi 22.724403484408533 . },
+      { (22.724403484408533 100.0) math:product 2272.4403484408535 . },
+      { 2272.4403484408535 math:rounded 2272 . },
+      { (2272 100.0) math:quotient 22.72 . }.
+
+  { :case :bmi 22.724403484408533 . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "bmi"; pe:value 22.724403484408533 ],
+      [ pe:var "healthyMax"; pe:value 78.89316 ],
+      [ pe:var "healthyMin"; pe:value 58.6154 ],
+      [ pe:var "heightCm"; pe:value 178.0 ],
+      [ pe:var "heightSquared"; pe:value 3.1684 ],
+      [ pe:var "meters"; pe:value 1.78 ],
+      [ pe:var "weight"; pe:value 72.0 ];
+    pe:uses
+      { :input :weight 72.0 . },
+      { :input :height 178.0 . },
+      { (178.0 100.0) math:quotient 1.78 . },
+      { (1.78 1.78) math:product 3.1684 . },
+      { (72.0 3.1684) math:quotient 22.724403484408533 . },
+      { (18.5 3.1684) math:product 58.6154 . },
+      { (24.9 3.1684) math:product 78.89316 . }.
+
+  { :input :weight 72.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { :input :height 178.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { (178.0 100.0) math:quotient 1.78 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (1.78 1.78) math:product 3.1684 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (72.0 3.1684) math:quotient 22.724403484408533 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (18.5 3.1684) math:product 58.6154 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (24.9 3.1684) math:product 78.89316 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (22.724403484408533 100.0) math:product 2272.4403484408535 . }
+    pe:by [ pe:builtin math:product ].
+
+  { 2272.4403484408535 math:rounded 2272 . }
+    pe:by [ pe:builtin math:rounded ].
+
+  { (2272 100.0) math:quotient 22.72 . }
+    pe:by [ pe:builtin math:quotient ].
+}.
+
+{ :case :category "normal" . } pe:why {
+  { :case :category "normal" . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 24 ];
+    pe:binding [ pe:var "bmi"; pe:value 22.724403484408533 ];
+    pe:uses
+      { :case :bmi 22.724403484408533 . },
+      { 22.724403484408533 math:notLessThan 18.5 . },
+      { 22.724403484408533 math:lessThan 25.0 . }.
+
+  { :case :bmi 22.724403484408533 . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "bmi"; pe:value 22.724403484408533 ],
+      [ pe:var "healthyMax"; pe:value 78.89316 ],
+      [ pe:var "healthyMin"; pe:value 58.6154 ],
+      [ pe:var "heightCm"; pe:value 178.0 ],
+      [ pe:var "heightSquared"; pe:value 3.1684 ],
+      [ pe:var "meters"; pe:value 1.78 ],
+      [ pe:var "weight"; pe:value 72.0 ];
+    pe:uses
+      { :input :weight 72.0 . },
+      { :input :height 178.0 . },
+      { (178.0 100.0) math:quotient 1.78 . },
+      { (1.78 1.78) math:product 3.1684 . },
+      { (72.0 3.1684) math:quotient 22.724403484408533 . },
+      { (18.5 3.1684) math:product 58.6154 . },
+      { (24.9 3.1684) math:product 78.89316 . }.
+
+  { :input :weight 72.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { :input :height 178.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { (178.0 100.0) math:quotient 1.78 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (1.78 1.78) math:product 3.1684 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (72.0 3.1684) math:quotient 22.724403484408533 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (18.5 3.1684) math:product 58.6154 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (24.9 3.1684) math:product 78.89316 . }
+    pe:by [ pe:builtin math:product ].
+
+  { 22.724403484408533 math:notLessThan 18.5 . }
+    pe:by [ pe:builtin math:notLessThan ].
+
+  { 22.724403484408533 math:lessThan 25.0 . }
+    pe:by [ pe:builtin math:lessThan ].
+}.
+
+{ :case :healthyMinRounded 58.6 . } pe:why {
+  { :case :healthyMinRounded 58.6 . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 20 ];
+    pe:binding
+      [ pe:var "min"; pe:value 58.6154 ],
+      [ pe:var "minInt"; pe:value 586 ],
+      [ pe:var "minRounded"; pe:value 58.6 ],
+      [ pe:var "minScaled"; pe:value 586.154 ];
+    pe:uses
+      { :case :healthyMin 58.6154 . },
+      { (58.6154 10.0) math:product 586.154 . },
+      { 586.154 math:rounded 586 . },
+      { (586 10.0) math:quotient 58.6 . }.
+
+  { :case :healthyMin 58.6154 . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "bmi"; pe:value 22.724403484408533 ],
+      [ pe:var "healthyMax"; pe:value 78.89316 ],
+      [ pe:var "healthyMin"; pe:value 58.6154 ],
+      [ pe:var "heightCm"; pe:value 178.0 ],
+      [ pe:var "heightSquared"; pe:value 3.1684 ],
+      [ pe:var "meters"; pe:value 1.78 ],
+      [ pe:var "weight"; pe:value 72.0 ];
+    pe:uses
+      { :input :weight 72.0 . },
+      { :input :height 178.0 . },
+      { (178.0 100.0) math:quotient 1.78 . },
+      { (1.78 1.78) math:product 3.1684 . },
+      { (72.0 3.1684) math:quotient 22.724403484408533 . },
+      { (18.5 3.1684) math:product 58.6154 . },
+      { (24.9 3.1684) math:product 78.89316 . }.
+
+  { :input :weight 72.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { :input :height 178.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { (178.0 100.0) math:quotient 1.78 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (1.78 1.78) math:product 3.1684 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (72.0 3.1684) math:quotient 22.724403484408533 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (18.5 3.1684) math:product 58.6154 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (24.9 3.1684) math:product 78.89316 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (58.6154 10.0) math:product 586.154 . }
+    pe:by [ pe:builtin math:product ].
+
+  { 586.154 math:rounded 586 . }
+    pe:by [ pe:builtin math:rounded ].
+
+  { (586 10.0) math:quotient 58.6 . }
+    pe:by [ pe:builtin math:quotient ].
+}.
+
+{ :case :healthyMaxRounded 78.9 . } pe:why {
+  { :case :healthyMaxRounded 78.9 . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 21 ];
+    pe:binding
+      [ pe:var "max"; pe:value 78.89316 ],
+      [ pe:var "maxInt"; pe:value 789 ],
+      [ pe:var "maxRounded"; pe:value 78.9 ],
+      [ pe:var "maxScaled"; pe:value 788.9315999999999 ];
+    pe:uses
+      { :case :healthyMax 78.89316 . },
+      { (78.89316 10.0) math:product 788.9315999999999 . },
+      { 788.9315999999999 math:rounded 789 . },
+      { (789 10.0) math:quotient 78.9 . }.
+
+  { :case :healthyMax 78.89316 . }
+    pe:by [ pe:rule "bmi.n3"; pe:line 11 ];
+    pe:binding
+      [ pe:var "bmi"; pe:value 22.724403484408533 ],
+      [ pe:var "healthyMax"; pe:value 78.89316 ],
+      [ pe:var "healthyMin"; pe:value 58.6154 ],
+      [ pe:var "heightCm"; pe:value 178.0 ],
+      [ pe:var "heightSquared"; pe:value 3.1684 ],
+      [ pe:var "meters"; pe:value 1.78 ],
+      [ pe:var "weight"; pe:value 72.0 ];
+    pe:uses
+      { :input :weight 72.0 . },
+      { :input :height 178.0 . },
+      { (178.0 100.0) math:quotient 1.78 . },
+      { (1.78 1.78) math:product 3.1684 . },
+      { (72.0 3.1684) math:quotient 22.724403484408533 . },
+      { (18.5 3.1684) math:product 58.6154 . },
+      { (24.9 3.1684) math:product 78.89316 . }.
+
+  { :input :weight 72.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { :input :height 178.0 . }
+    pe:by [ pe:fact "bmi.n3"; pe:line 9 ].
+
+  { (178.0 100.0) math:quotient 1.78 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (1.78 1.78) math:product 3.1684 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (72.0 3.1684) math:quotient 22.724403484408533 . }
+    pe:by [ pe:builtin math:quotient ].
+
+  { (18.5 3.1684) math:product 58.6154 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (24.9 3.1684) math:product 78.89316 . }
+    pe:by [ pe:builtin math:product ].
+
+  { (78.89316 10.0) math:product 788.9315999999999 . }
+    pe:by [ pe:builtin math:product ].
+
+  { 788.9315999999999 math:rounded 789 . }
+    pe:by [ pe:builtin math:rounded ].
+
+  { (789 10.0) math:quotient 78.9 . }
+    pe:by [ pe:builtin math:quotient ].
+}.

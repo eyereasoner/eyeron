@@ -1,0 +1,186 @@
+PREFIX : <http://example.org/#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  _:b1_14650fb0739d0383 rdf:first "Huey" .
+  _:b1_14650fb0739d0383 rdf:rest _:b2_14650fb0739d0383 .
+  _:b2_14650fb0739d0383 rdf:first "Dewey" .
+  _:b2_14650fb0739d0383 rdf:rest _:b3_14650fb0739d0383 .
+  _:b3_14650fb0739d0383 rdf:first "Louie" .
+  _:b3_14650fb0739d0383 rdf:rest rdf:nil .
+  :result1 :is _:b1_14650fb0739d0383 .
+  _:b5_14650fb0739d0383 rdf:first "Huey" .
+  _:b5_14650fb0739d0383 rdf:rest rdf:nil .
+  _:b4_14650fb0739d0383 rdf:first _:b5_14650fb0739d0383 .
+  _:b4_14650fb0739d0383 rdf:rest _:b6_14650fb0739d0383 .
+  _:b7_14650fb0739d0383 rdf:first "Dewey" .
+  _:b7_14650fb0739d0383 rdf:rest rdf:nil .
+  _:b6_14650fb0739d0383 rdf:first _:b7_14650fb0739d0383 .
+  _:b6_14650fb0739d0383 rdf:rest _:b8_14650fb0739d0383 .
+  _:b9_14650fb0739d0383 rdf:first "Louie" .
+  _:b9_14650fb0739d0383 rdf:rest rdf:nil .
+  _:b8_14650fb0739d0383 rdf:first _:b9_14650fb0739d0383 .
+  _:b8_14650fb0739d0383 rdf:rest rdf:nil .
+  :result2 :is _:b4_14650fb0739d0383 .
+  _:b10_14650fb0739d0383 rdf:first "Huey" .
+  _:b10_14650fb0739d0383 rdf:rest _:b11_14650fb0739d0383 .
+  _:b11_14650fb0739d0383 rdf:first "Dewey" .
+  _:b11_14650fb0739d0383 rdf:rest rdf:nil .
+  :result3 :is _:b10_14650fb0739d0383 .
+
+  _:step1
+    rdf:reifies <<( _:b1_14650fb0739d0383 rdf:first "Huey" )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 13;
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :Let :param "Huey" )>>;
+    pe:fact "log-collect-all-in.srl";
+    pe:line 10.
+
+  _:step3
+    rdf:reifies <<( _:b1_14650fb0739d0383 rdf:rest _:b2_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 13;
+    pe:uses _:step2.
+
+  _:step4
+    rdf:reifies <<( _:b2_14650fb0739d0383 rdf:first "Dewey" )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 13;
+    pe:uses _:step2.
+
+  _:step5
+    rdf:reifies <<( _:b2_14650fb0739d0383 rdf:rest _:b3_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 13;
+    pe:uses _:step2.
+
+  _:step6
+    rdf:reifies <<( _:b3_14650fb0739d0383 rdf:first "Louie" )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 13;
+    pe:uses _:step2.
+
+  _:step7
+    rdf:reifies <<( _:b3_14650fb0739d0383 rdf:rest rdf:nil )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 13;
+    pe:uses _:step2.
+
+  _:step8
+    rdf:reifies <<( :result1 :is _:b1_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 13;
+    pe:uses _:step2.
+
+  _:step9
+    rdf:reifies <<( _:b5_14650fb0739d0383 rdf:first "Huey" )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step10
+    rdf:reifies <<( _:b5_14650fb0739d0383 rdf:rest rdf:nil )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step11
+    rdf:reifies <<( _:b4_14650fb0739d0383 rdf:first _:b5_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step12
+    rdf:reifies <<( _:b4_14650fb0739d0383 rdf:rest _:b6_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step13
+    rdf:reifies <<( _:b7_14650fb0739d0383 rdf:first "Dewey" )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step14
+    rdf:reifies <<( _:b7_14650fb0739d0383 rdf:rest rdf:nil )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step15
+    rdf:reifies <<( _:b6_14650fb0739d0383 rdf:first _:b7_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step16
+    rdf:reifies <<( _:b6_14650fb0739d0383 rdf:rest _:b8_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step17
+    rdf:reifies <<( _:b9_14650fb0739d0383 rdf:first "Louie" )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step18
+    rdf:reifies <<( _:b9_14650fb0739d0383 rdf:rest rdf:nil )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step19
+    rdf:reifies <<( _:b8_14650fb0739d0383 rdf:first _:b9_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step20
+    rdf:reifies <<( _:b8_14650fb0739d0383 rdf:rest rdf:nil )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step21
+    rdf:reifies <<( :result2 :is _:b4_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 14;
+    pe:uses _:step2.
+
+  _:step22
+    rdf:reifies <<( _:b10_14650fb0739d0383 rdf:first "Huey" )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 15;
+    pe:uses _:step2.
+
+  _:step23
+    rdf:reifies <<( _:b10_14650fb0739d0383 rdf:rest _:b11_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 15;
+    pe:uses _:step2.
+
+  _:step24
+    rdf:reifies <<( _:b11_14650fb0739d0383 rdf:first "Dewey" )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 15;
+    pe:uses _:step2.
+
+  _:step25
+    rdf:reifies <<( _:b11_14650fb0739d0383 rdf:rest rdf:nil )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 15;
+    pe:uses _:step2.
+
+  _:step26
+    rdf:reifies <<( :result3 :is _:b10_14650fb0739d0383 )>>;
+    pe:rule "log-collect-all-in.srl";
+    pe:line 15;
+    pe:uses _:step2.
+}

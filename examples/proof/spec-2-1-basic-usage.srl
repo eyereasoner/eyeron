@@ -1,0 +1,51 @@
+PREFIX : <http://example.com/>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :X :childOf :A .
+  :X :childOf :B .
+  :A :childOf :C .
+
+  _:step1
+    rdf:reifies <<( :X :childOf :A )>>;
+    pe:rule "spec-2-1-basic-usage.srl";
+    pe:line 9;
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :A ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :A :fatherOf :X )>>;
+    pe:fact "spec-2-1-basic-usage.srl";
+    pe:line 4.
+
+  _:step3
+    rdf:reifies <<( :X :childOf :B )>>;
+    pe:rule "spec-2-1-basic-usage.srl";
+    pe:line 10;
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :B ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( :B :motherOf :X )>>;
+    pe:fact "spec-2-1-basic-usage.srl";
+    pe:line 5.
+
+  _:step5
+    rdf:reifies <<( :A :childOf :C )>>;
+    pe:rule "spec-2-1-basic-usage.srl";
+    pe:line 10;
+    pe:binding
+      [ pe:var "x"; pe:value :A ],
+      [ pe:var "y"; pe:value :C ];
+    pe:uses _:step6.
+
+  _:step6
+    rdf:reifies <<( :C :motherOf :A )>>;
+    pe:fact "spec-2-1-basic-usage.srl";
+    pe:line 6.
+}

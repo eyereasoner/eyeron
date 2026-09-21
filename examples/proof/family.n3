@@ -1,0 +1,142 @@
+@prefix : <http://example/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:X :childOf :A .
+:X :childOf :B .
+:A :childOf :C .
+:X :descendedFrom :A .
+:X :descendedFrom :B .
+:A :descendedFrom :C .
+:X :descendedFrom :C .
+
+{ :X :childOf :A . } pe:why {
+  { :X :childOf :A . }
+    pe:by [ pe:rule "family.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :A ];
+    pe:uses { :A :fatherOf :X . }.
+
+  { :A :fatherOf :X . }
+    pe:by [ pe:fact "family.n3"; pe:line 8 ].
+}.
+
+{ :X :childOf :B . } pe:why {
+  { :X :childOf :B . }
+    pe:by [ pe:rule "family.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :B ];
+    pe:uses { :B :motherOf :X . }.
+
+  { :B :motherOf :X . }
+    pe:by [ pe:fact "family.n3"; pe:line 9 ].
+}.
+
+{ :A :childOf :C . } pe:why {
+  { :A :childOf :C . }
+    pe:by [ pe:rule "family.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "x"; pe:value :A ],
+      [ pe:var "y"; pe:value :C ];
+    pe:uses { :C :motherOf :A . }.
+
+  { :C :motherOf :A . }
+    pe:by [ pe:fact "family.n3"; pe:line 10 ].
+}.
+
+{ :X :descendedFrom :A . } pe:why {
+  { :X :descendedFrom :A . }
+    pe:by [ pe:rule "family.n3"; pe:line 14 ];
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :A ];
+    pe:uses { :X :childOf :A . }.
+
+  { :X :childOf :A . }
+    pe:by [ pe:rule "family.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :A ];
+    pe:uses { :A :fatherOf :X . }.
+
+  { :A :fatherOf :X . }
+    pe:by [ pe:fact "family.n3"; pe:line 8 ].
+}.
+
+{ :X :descendedFrom :B . } pe:why {
+  { :X :descendedFrom :B . }
+    pe:by [ pe:rule "family.n3"; pe:line 14 ];
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :B ];
+    pe:uses { :X :childOf :B . }.
+
+  { :X :childOf :B . }
+    pe:by [ pe:rule "family.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :B ];
+    pe:uses { :B :motherOf :X . }.
+
+  { :B :motherOf :X . }
+    pe:by [ pe:fact "family.n3"; pe:line 9 ].
+}.
+
+{ :A :descendedFrom :C . } pe:why {
+  { :A :descendedFrom :C . }
+    pe:by [ pe:rule "family.n3"; pe:line 14 ];
+    pe:binding
+      [ pe:var "x"; pe:value :A ],
+      [ pe:var "y"; pe:value :C ];
+    pe:uses { :A :childOf :C . }.
+
+  { :A :childOf :C . }
+    pe:by [ pe:rule "family.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "x"; pe:value :A ],
+      [ pe:var "y"; pe:value :C ];
+    pe:uses { :C :motherOf :A . }.
+
+  { :C :motherOf :A . }
+    pe:by [ pe:fact "family.n3"; pe:line 10 ].
+}.
+
+{ :X :descendedFrom :C . } pe:why {
+  { :X :descendedFrom :C . }
+    pe:by [ pe:rule "family.n3"; pe:line 15 ];
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :C ],
+      [ pe:var "z"; pe:value :A ];
+    pe:uses
+      { :X :childOf :A . },
+      { :A :descendedFrom :C . }.
+
+  { :X :childOf :A . }
+    pe:by [ pe:rule "family.n3"; pe:line 12 ];
+    pe:binding
+      [ pe:var "x"; pe:value :X ],
+      [ pe:var "y"; pe:value :A ];
+    pe:uses { :A :fatherOf :X . }.
+
+  { :A :fatherOf :X . }
+    pe:by [ pe:fact "family.n3"; pe:line 8 ].
+
+  { :A :descendedFrom :C . }
+    pe:by [ pe:rule "family.n3"; pe:line 14 ];
+    pe:binding
+      [ pe:var "x"; pe:value :A ],
+      [ pe:var "y"; pe:value :C ];
+    pe:uses { :A :childOf :C . }.
+
+  { :A :childOf :C . }
+    pe:by [ pe:rule "family.n3"; pe:line 13 ];
+    pe:binding
+      [ pe:var "x"; pe:value :A ],
+      [ pe:var "y"; pe:value :C ];
+    pe:uses { :C :motherOf :A . }.
+
+  { :C :motherOf :A . }
+    pe:by [ pe:fact "family.n3"; pe:line 10 ].
+}.

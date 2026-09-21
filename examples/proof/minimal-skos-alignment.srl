@@ -1,0 +1,42 @@
+PREFIX anpr: <http://example.org/anpr/>
+PREFIX ex: <http://example.org/#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ref: <http://example.org/ref/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+DATA {
+  anpr:VehicleWithPlate ex:treatedAs ref:Car .
+  anpr:PassengerCar ex:treatedAs ref:Car .
+
+  _:step1
+    rdf:reifies <<( anpr:VehicleWithPlate ex:treatedAs ref:Car )>>;
+    pe:rule "minimal-skos-alignment.srl";
+    pe:line 15;
+    pe:binding
+      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
+      [ pe:var "b"; pe:value ref:Car ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( anpr:VehicleWithPlate skos:broadMatch ref:Car )>>;
+    pe:fact "minimal-skos-alignment.srl";
+    pe:line 11.
+
+  _:step3
+    rdf:reifies <<( anpr:PassengerCar ex:treatedAs ref:Car )>>;
+    pe:rule "minimal-skos-alignment.srl";
+    pe:line 16;
+    pe:binding
+      [ pe:var "x"; pe:value anpr:PassengerCar ],
+      [ pe:var "y"; pe:value anpr:VehicleWithPlate ],
+      [ pe:var "z"; pe:value ref:Car ];
+    pe:uses
+      _:step4,
+      _:step1.
+
+  _:step4
+    rdf:reifies <<( anpr:PassengerCar skos:broader anpr:VehicleWithPlate )>>;
+    pe:fact "minimal-skos-alignment.srl";
+    pe:line 12.
+}

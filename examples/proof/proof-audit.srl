@@ -1,0 +1,358 @@
+PREFIX : <http://example.org/proof-audit#>
+PREFIX pe: <https://eyereasoner.github.io/pe#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+DATA {
+  :stepMortal :dependsOn :stepHuman .
+  :stepMortal :dependsOn :stepSubClass .
+  :stepHuman :sourceFact true .
+  :stepSubClass :sourceFact true .
+  :test :root :stepMortal .
+  :stepHuman :supportedBy :stepHuman .
+  :stepSubClass :supportedBy :stepSubClass .
+  :stepMortal :supportedBy :stepHuman .
+  :stepMortal :supportedBy :stepSubClass .
+  :test :queryDependency :stepHuman .
+  :test :queryDependency :stepSubClass .
+  :test :support :stepHuman .
+  :test :support :stepSubClass .
+  _:b4_517b3be80e8ffd1b a :AnswerApplied .
+  _:b4_517b3be80e8ffd1b :var "A" .
+  _:b4_517b3be80e8ffd1b :value :Human .
+  _:b4_b74b502731877675 a :AnswerApplied .
+  _:b4_b74b502731877675 :var "B" .
+  _:b4_b74b502731877675 :value :Mortal .
+  _:b4_67f64218deb828d6 a :AnswerApplied .
+  _:b4_67f64218deb828d6 :var "S" .
+  _:b4_67f64218deb828d6 :value :Socrates .
+
+  _:step1
+    rdf:reifies <<( :stepMortal :dependsOn :stepHuman )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 32;
+    pe:binding
+      [ pe:var "dep"; pe:value :stepHuman ],
+      [ pe:var "step"; pe:value :stepMortal ];
+    pe:uses _:step2.
+
+  _:step2
+    rdf:reifies <<( :stepMortal pe:uses :stepHuman )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step3
+    rdf:reifies <<( :stepMortal :dependsOn :stepSubClass )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 32;
+    pe:binding
+      [ pe:var "dep"; pe:value :stepSubClass ],
+      [ pe:var "step"; pe:value :stepMortal ];
+    pe:uses _:step4.
+
+  _:step4
+    rdf:reifies <<( :stepMortal pe:uses :stepSubClass )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step5
+    rdf:reifies <<( :stepHuman :sourceFact true )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 38;
+    pe:binding
+      [ pe:var "src"; pe:value "socrates.srl" ],
+      [ pe:var "step"; pe:value :stepHuman ];
+    pe:uses _:step6.
+
+  _:step6
+    rdf:reifies <<( :stepHuman pe:fact "socrates.srl" )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 26.
+
+  _:step7
+    rdf:reifies <<( :stepSubClass :sourceFact true )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 38;
+    pe:binding
+      [ pe:var "src"; pe:value "socrates.srl" ],
+      [ pe:var "step"; pe:value :stepSubClass ];
+    pe:uses _:step8.
+
+  _:step8
+    rdf:reifies <<( :stepSubClass pe:fact "socrates.srl" )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 28.
+
+  _:step9
+    rdf:reifies <<( :test :root :stepMortal )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 47;
+    pe:binding
+      [ pe:var "root"; pe:value :stepMortal ],
+      [ pe:var "ruleName"; pe:value "socrates.srl" ];
+    pe:uses _:step10.
+
+  _:step10
+    rdf:reifies <<( :stepMortal pe:rule "socrates.srl" )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step11
+    rdf:reifies <<( :stepHuman :supportedBy :stepHuman )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 41;
+    pe:binding [ pe:var "step"; pe:value :stepHuman ];
+    pe:uses _:step5.
+
+  _:step12
+    rdf:reifies <<( :stepSubClass :supportedBy :stepSubClass )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 41;
+    pe:binding [ pe:var "step"; pe:value :stepSubClass ];
+    pe:uses _:step7.
+
+  _:step13
+    rdf:reifies <<( :stepMortal :supportedBy :stepHuman )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 44;
+    pe:binding
+      [ pe:var "anc"; pe:value :stepHuman ],
+      [ pe:var "step"; pe:value :stepMortal ];
+    pe:uses
+      _:step1,
+      _:step5.
+
+  _:step14
+    rdf:reifies <<( :stepMortal :supportedBy :stepSubClass )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 44;
+    pe:binding
+      [ pe:var "anc"; pe:value :stepSubClass ],
+      [ pe:var "step"; pe:value :stepMortal ];
+    pe:uses
+      _:step3,
+      _:step7.
+
+  _:step15
+    rdf:reifies <<( :test :queryDependency :stepHuman )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 50;
+    pe:binding
+      [ pe:var "anc"; pe:value :stepHuman ],
+      [ pe:var "root"; pe:value :stepMortal ];
+    pe:uses
+      _:step9,
+      _:step1.
+
+  _:step16
+    rdf:reifies <<( :test :queryDependency :stepSubClass )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 50;
+    pe:binding
+      [ pe:var "anc"; pe:value :stepSubClass ],
+      [ pe:var "root"; pe:value :stepMortal ];
+    pe:uses
+      _:step9,
+      _:step3.
+
+  _:step17
+    rdf:reifies <<( :test :support :stepHuman )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 53;
+    pe:binding
+      [ pe:var "fact"; pe:value :stepHuman ],
+      [ pe:var "root"; pe:value :stepMortal ];
+    pe:uses
+      _:step9,
+      _:step13.
+
+  _:step18
+    rdf:reifies <<( :test :support :stepSubClass )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 53;
+    pe:binding
+      [ pe:var "fact"; pe:value :stepSubClass ],
+      [ pe:var "root"; pe:value :stepMortal ];
+    pe:uses
+      _:step9,
+      _:step14.
+
+  _:step19
+    rdf:reifies <<( _:b4_517b3be80e8ffd1b a :AnswerApplied )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 56;
+    pe:binding
+      [ pe:var "bindingNode"; pe:value _:b1 ],
+      [ pe:var "name"; pe:value "A" ],
+      [ pe:var "root"; pe:value :stepMortal ],
+      [ pe:var "value"; pe:value :Human ];
+    pe:uses
+      _:step9,
+      _:step20,
+      _:step21,
+      _:step22.
+
+  _:step20
+    rdf:reifies <<( :stepMortal pe:binding _:b1 )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step21
+    rdf:reifies <<( _:b1 pe:var "A" )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step22
+    rdf:reifies <<( _:b1 pe:value :Human )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step23
+    rdf:reifies <<( _:b4_517b3be80e8ffd1b :var "A" )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 56;
+    pe:binding
+      [ pe:var "bindingNode"; pe:value _:b1 ],
+      [ pe:var "name"; pe:value "A" ],
+      [ pe:var "root"; pe:value :stepMortal ],
+      [ pe:var "value"; pe:value :Human ];
+    pe:uses
+      _:step9,
+      _:step20,
+      _:step21,
+      _:step22.
+
+  _:step24
+    rdf:reifies <<( _:b4_517b3be80e8ffd1b :value :Human )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 56;
+    pe:binding
+      [ pe:var "bindingNode"; pe:value _:b1 ],
+      [ pe:var "name"; pe:value "A" ],
+      [ pe:var "root"; pe:value :stepMortal ],
+      [ pe:var "value"; pe:value :Human ];
+    pe:uses
+      _:step9,
+      _:step20,
+      _:step21,
+      _:step22.
+
+  _:step25
+    rdf:reifies <<( _:b4_b74b502731877675 a :AnswerApplied )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 56;
+    pe:binding
+      [ pe:var "bindingNode"; pe:value _:b2 ],
+      [ pe:var "name"; pe:value "B" ],
+      [ pe:var "root"; pe:value :stepMortal ],
+      [ pe:var "value"; pe:value :Mortal ];
+    pe:uses
+      _:step9,
+      _:step26,
+      _:step27,
+      _:step28.
+
+  _:step26
+    rdf:reifies <<( :stepMortal pe:binding _:b2 )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step27
+    rdf:reifies <<( _:b2 pe:var "B" )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step28
+    rdf:reifies <<( _:b2 pe:value :Mortal )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step29
+    rdf:reifies <<( _:b4_b74b502731877675 :var "B" )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 56;
+    pe:binding
+      [ pe:var "bindingNode"; pe:value _:b2 ],
+      [ pe:var "name"; pe:value "B" ],
+      [ pe:var "root"; pe:value :stepMortal ],
+      [ pe:var "value"; pe:value :Mortal ];
+    pe:uses
+      _:step9,
+      _:step26,
+      _:step27,
+      _:step28.
+
+  _:step30
+    rdf:reifies <<( _:b4_b74b502731877675 :value :Mortal )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 56;
+    pe:binding
+      [ pe:var "bindingNode"; pe:value _:b2 ],
+      [ pe:var "name"; pe:value "B" ],
+      [ pe:var "root"; pe:value :stepMortal ],
+      [ pe:var "value"; pe:value :Mortal ];
+    pe:uses
+      _:step9,
+      _:step26,
+      _:step27,
+      _:step28.
+
+  _:step31
+    rdf:reifies <<( _:b4_67f64218deb828d6 a :AnswerApplied )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 56;
+    pe:binding
+      [ pe:var "bindingNode"; pe:value _:b3 ],
+      [ pe:var "name"; pe:value "S" ],
+      [ pe:var "root"; pe:value :stepMortal ],
+      [ pe:var "value"; pe:value :Socrates ];
+    pe:uses
+      _:step9,
+      _:step32,
+      _:step33,
+      _:step34.
+
+  _:step32
+    rdf:reifies <<( :stepMortal pe:binding _:b3 )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step33
+    rdf:reifies <<( _:b3 pe:var "S" )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step34
+    rdf:reifies <<( _:b3 pe:value :Socrates )>>;
+    pe:fact "proof-audit.srl";
+    pe:line 22.
+
+  _:step35
+    rdf:reifies <<( _:b4_67f64218deb828d6 :var "S" )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 56;
+    pe:binding
+      [ pe:var "bindingNode"; pe:value _:b3 ],
+      [ pe:var "name"; pe:value "S" ],
+      [ pe:var "root"; pe:value :stepMortal ],
+      [ pe:var "value"; pe:value :Socrates ];
+    pe:uses
+      _:step9,
+      _:step32,
+      _:step33,
+      _:step34.
+
+  _:step36
+    rdf:reifies <<( _:b4_67f64218deb828d6 :value :Socrates )>>;
+    pe:rule "proof-audit.srl";
+    pe:line 56;
+    pe:binding
+      [ pe:var "bindingNode"; pe:value _:b3 ],
+      [ pe:var "name"; pe:value "S" ],
+      [ pe:var "root"; pe:value :stepMortal ],
+      [ pe:var "value"; pe:value :Socrates ];
+    pe:uses
+      _:step9,
+      _:step32,
+      _:step33,
+      _:step34.
+}

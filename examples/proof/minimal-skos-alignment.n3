@@ -1,0 +1,45 @@
+@prefix anpr: <http://example.org/anpr/> .
+@prefix ex: <http://example.org/#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix ref: <http://example.org/ref/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+anpr:VehicleWithPlate ex:treatedAs ref:Car .
+anpr:PassengerCar ex:treatedAs ref:Car .
+
+{ anpr:VehicleWithPlate ex:treatedAs ref:Car . } pe:why {
+  { anpr:VehicleWithPlate ex:treatedAs ref:Car . }
+    pe:by [ pe:rule "minimal-skos-alignment.n3"; pe:line 33 ];
+    pe:binding
+      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
+      [ pe:var "b"; pe:value ref:Car ];
+    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
+
+  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
+    pe:by [ pe:fact "minimal-skos-alignment.n3"; pe:line 25 ].
+}.
+
+{ anpr:PassengerCar ex:treatedAs ref:Car . } pe:why {
+  { anpr:PassengerCar ex:treatedAs ref:Car . }
+    pe:by [ pe:rule "minimal-skos-alignment.n3"; pe:line 37 ];
+    pe:binding
+      [ pe:var "x"; pe:value anpr:PassengerCar ],
+      [ pe:var "y"; pe:value anpr:VehicleWithPlate ],
+      [ pe:var "z"; pe:value ref:Car ];
+    pe:uses
+      { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . },
+      { anpr:VehicleWithPlate ex:treatedAs ref:Car . }.
+
+  { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
+    pe:by [ pe:fact "minimal-skos-alignment.n3"; pe:line 28 ].
+
+  { anpr:VehicleWithPlate ex:treatedAs ref:Car . }
+    pe:by [ pe:rule "minimal-skos-alignment.n3"; pe:line 33 ];
+    pe:binding
+      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
+      [ pe:var "b"; pe:value ref:Car ];
+    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
+
+  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
+    pe:by [ pe:fact "minimal-skos-alignment.n3"; pe:line 25 ].
+}.

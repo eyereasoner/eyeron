@@ -1,0 +1,27 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/derivative#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:query :derivative (:add (:mul (:const 1) (:var :x)) (:mul (:var :x) (:const 1))) .
+
+{ :query :derivative (:add (:mul (:const 1) (:var :x)) (:mul (:var :x) (:const 1))) . } pe:why {
+  { :query :derivative (:add (:mul (:const 1) (:var :x)) (:mul (:var :x) (:const 1))) . }
+    pe:by [ pe:rule "derivative.n3"; pe:line 26 ];
+    pe:binding [ pe:var "d"; pe:value (:add (:mul (:const 1) (:var :x)) (:mul (:var :x) (:const 1))) ];
+    pe:uses { ((:mul (:var :x) (:var :x)) :x) :derivative (:add (:mul (:const 1) (:var :x)) (:mul (:var :x) (:const 1))) . }.
+
+  { ((:mul (:var :x) (:var :x)) :x) :derivative (:add (:mul (:const 1) (:var :x)) (:mul (:var :x) (:const 1))) . }
+    pe:by [ pe:rule "derivative.n3"; pe:line 21 ];
+    pe:binding
+      [ pe:var "du"; pe:value (:const 1) ],
+      [ pe:var "dv"; pe:value (:const 1) ],
+      [ pe:var "u"; pe:value (:var :x) ],
+      [ pe:var "v"; pe:value (:var :x) ],
+      [ pe:var "x"; pe:value :x ];
+    pe:uses
+      { ((:var :x) :x) :derivative (:const 1) . },
+      { ((:var :x) :x) :derivative (:const 1) . }.
+
+  { ((:var :x) :x) :derivative (:const 1) . }
+    pe:by [ pe:rule "derivative.n3"; pe:line 13 ];
+    pe:binding [ pe:var "x"; pe:value :x ].
+}.

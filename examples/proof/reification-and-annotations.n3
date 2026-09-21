@@ -1,0 +1,59 @@
+@prefix : <http://example/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :statementSource :chat .
+:bob :statementSource :email .
+
+{ :alice :statementSource :chat . } pe:why {
+  { :alice :statementSource :chat . }
+    pe:by [ pe:rule "reification-and-annotations.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "claim"; pe:value _:b1 ],
+      [ pe:var "object"; pe:value :hello ],
+      [ pe:var "source"; pe:value :chat ],
+      [ pe:var "speaker"; pe:value :alice ];
+    pe:uses
+      {
+          _:b1 :statement {
+              :alice :says :hello .
+          } .
+      },
+      { _:b1 :source :chat . }.
+
+  {
+    _:b1 :statement {
+        :alice :says :hello .
+    } .
+}
+    pe:by [ pe:fact "reification-and-annotations.n3"; pe:line 12 ].
+
+  { _:b1 :source :chat . }
+    pe:by [ pe:fact "reification-and-annotations.n3"; pe:line 12 ].
+}.
+
+{ :bob :statementSource :email . } pe:why {
+  { :bob :statementSource :email . }
+    pe:by [ pe:rule "reification-and-annotations.n3"; pe:line 16 ];
+    pe:binding
+      [ pe:var "claim"; pe:value :bobClaim ],
+      [ pe:var "object"; pe:value :hi ],
+      [ pe:var "source"; pe:value :email ],
+      [ pe:var "speaker"; pe:value :bob ];
+    pe:uses
+      {
+          :bobClaim :statement {
+              :bob :says :hi .
+          } .
+      },
+      { :bobClaim :source :email . }.
+
+  {
+    :bobClaim :statement {
+        :bob :says :hi .
+    } .
+}
+    pe:by [ pe:fact "reification-and-annotations.n3"; pe:line 14 ].
+
+  { :bobClaim :source :email . }
+    pe:by [ pe:fact "reification-and-annotations.n3"; pe:line 14 ].
+}.

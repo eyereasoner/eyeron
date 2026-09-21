@@ -1,0 +1,182 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/aggregation#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:query :count 3 .
+:query :total 35 .
+
+{ :query :count 3 . } pe:why {
+  { :query :count 3 . }
+    pe:by [ pe:rule "aggregation.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "allValues"; pe:value (10 15 10) ],
+      [ pe:var "count"; pe:value 3 ],
+      [ pe:var "total"; pe:value 35 ];
+    pe:uses
+      {
+          (?value {
+              ?sensor :reading ?value .
+          } (10 15 10)) log:collectAllIn ?SCOPE .
+      },
+      { (10 15 10) list:length 3 . },
+      { (10 15 10) :total 35 . }.
+
+  {
+    (?value {
+        ?sensor :reading ?value .
+    } (10 15 10)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (10 15 10) list:length 3 . }
+    pe:by [ pe:builtin list:length ].
+
+  { (10 15 10) :total 35 . }
+    pe:by [ pe:rule "aggregation.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "first"; pe:value 10 ],
+      [ pe:var "list"; pe:value (10 15 10) ],
+      [ pe:var "rest"; pe:value (15 10) ],
+      [ pe:var "tail"; pe:value 25 ],
+      [ pe:var "total"; pe:value 35 ];
+    pe:uses
+      { (10 15 10) list:firstRest (10 (15 10)) . },
+      { (15 10) :total 25 . },
+      { (10 25) math:sum 35 . }.
+
+  { (10 15 10) list:firstRest (10 (15 10)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (15 10) :total 25 . }
+    pe:by [ pe:rule "aggregation.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "first"; pe:value 15 ],
+      [ pe:var "list"; pe:value (15 10) ],
+      [ pe:var "rest"; pe:value (10) ],
+      [ pe:var "tail"; pe:value 10 ],
+      [ pe:var "total"; pe:value 25 ];
+    pe:uses
+      { (15 10) list:firstRest (15 (10)) . },
+      { (10) :total 10 . },
+      { (15 10) math:sum 25 . }.
+
+  { (15 10) list:firstRest (15 (10)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (10) :total 10 . }
+    pe:by [ pe:rule "aggregation.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "first"; pe:value 10 ],
+      [ pe:var "list"; pe:value (10) ],
+      [ pe:var "rest"; pe:value () ],
+      [ pe:var "tail"; pe:value 0 ],
+      [ pe:var "total"; pe:value 10 ];
+    pe:uses
+      { (10) list:firstRest (10 ()) . },
+      { () :total 0 . },
+      { (10 0) math:sum 10 . }.
+
+  { (10) list:firstRest (10 ()) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { () :total 0 . }
+    pe:by [ pe:rule "aggregation.n3"; pe:line 15 ].
+
+  { (10 0) math:sum 10 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (15 10) math:sum 25 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (10 25) math:sum 35 . }
+    pe:by [ pe:builtin math:sum ].
+}.
+
+{ :query :total 35 . } pe:why {
+  { :query :total 35 . }
+    pe:by [ pe:rule "aggregation.n3"; pe:line 23 ];
+    pe:binding
+      [ pe:var "allValues"; pe:value (10 15 10) ],
+      [ pe:var "count"; pe:value 3 ],
+      [ pe:var "total"; pe:value 35 ];
+    pe:uses
+      {
+          (?value {
+              ?sensor :reading ?value .
+          } (10 15 10)) log:collectAllIn ?SCOPE .
+      },
+      { (10 15 10) list:length 3 . },
+      { (10 15 10) :total 35 . }.
+
+  {
+    (?value {
+        ?sensor :reading ?value .
+    } (10 15 10)) log:collectAllIn ?SCOPE .
+}
+    pe:by [ pe:builtin log:collectAllIn ].
+
+  { (10 15 10) list:length 3 . }
+    pe:by [ pe:builtin list:length ].
+
+  { (10 15 10) :total 35 . }
+    pe:by [ pe:rule "aggregation.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "first"; pe:value 10 ],
+      [ pe:var "list"; pe:value (10 15 10) ],
+      [ pe:var "rest"; pe:value (15 10) ],
+      [ pe:var "tail"; pe:value 25 ],
+      [ pe:var "total"; pe:value 35 ];
+    pe:uses
+      { (10 15 10) list:firstRest (10 (15 10)) . },
+      { (15 10) :total 25 . },
+      { (10 25) math:sum 35 . }.
+
+  { (10 15 10) list:firstRest (10 (15 10)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (15 10) :total 25 . }
+    pe:by [ pe:rule "aggregation.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "first"; pe:value 15 ],
+      [ pe:var "list"; pe:value (15 10) ],
+      [ pe:var "rest"; pe:value (10) ],
+      [ pe:var "tail"; pe:value 10 ],
+      [ pe:var "total"; pe:value 25 ];
+    pe:uses
+      { (15 10) list:firstRest (15 (10)) . },
+      { (10) :total 10 . },
+      { (15 10) math:sum 25 . }.
+
+  { (15 10) list:firstRest (15 (10)) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { (10) :total 10 . }
+    pe:by [ pe:rule "aggregation.n3"; pe:line 17 ];
+    pe:binding
+      [ pe:var "first"; pe:value 10 ],
+      [ pe:var "list"; pe:value (10) ],
+      [ pe:var "rest"; pe:value () ],
+      [ pe:var "tail"; pe:value 0 ],
+      [ pe:var "total"; pe:value 10 ];
+    pe:uses
+      { (10) list:firstRest (10 ()) . },
+      { () :total 0 . },
+      { (10 0) math:sum 10 . }.
+
+  { (10) list:firstRest (10 ()) . }
+    pe:by [ pe:builtin list:firstRest ].
+
+  { () :total 0 . }
+    pe:by [ pe:rule "aggregation.n3"; pe:line 15 ].
+
+  { (10 0) math:sum 10 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (15 10) math:sum 25 . }
+    pe:by [ pe:builtin math:sum ].
+
+  { (10 25) math:sum 35 . }
+    pe:by [ pe:builtin math:sum ].
+}.
