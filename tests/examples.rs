@@ -26,20 +26,23 @@ fn main() {
     every_proof_golden_has_a_source_that_generates_a_valid_proof();
     selected_proof_examples_match_eyeling_style_goldens();
     every_top_level_n3_example_parses();
-    let count = all_packaged_example_goldens_match_expected_lines();
-    every_n3_example_is_accounted_for(count);
+    let golden_checked = all_packaged_example_goldens_match_expected_lines();
+    let total = every_n3_example_is_accounted_for(golden_checked);
 
+    let parse_only = PARSE_ONLY_EXAMPLES.len();
+    let elapsed = started.elapsed().as_secs_f64();
     progress_line(&format!(
-        "\nexample result: {}. {count} passed; 0 failed; finished in {:.2}s",
+        "\nn3 result: {}. {total} passed; 0 failed; finished in {elapsed:.2}s ({golden_checked} by golden match, {parse_only} parse-only)",
         green("ok"),
-        started.elapsed().as_secs_f64()
     ));
 }
 
 /// Guards against a top-level `.n3` example silently getting neither a
 /// golden check nor a documented reason why not, by requiring every file to
-/// be exactly one or the other.
-fn every_n3_example_is_accounted_for(golden_checked: usize) {
+/// be exactly one or the other. Returns the total example count so the
+/// summary line can report every example as checked, not just the ones a
+/// golden covers.
+fn every_n3_example_is_accounted_for(golden_checked: usize) -> usize {
     let examples_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("examples");
     let total = sorted_n3_files(&examples_dir, "examples").len();
     assert_eq!(
@@ -48,6 +51,7 @@ fn every_n3_example_is_accounted_for(golden_checked: usize) {
         "expected every one of the {total} top-level .n3 examples to either match a golden ({golden_checked} did) or be listed in PARSE_ONLY_EXAMPLES ({} are); update whichever list is out of date",
         PARSE_ONLY_EXAMPLES.len()
     );
+    total
 }
 
 fn proof_goldens_are_valid_n3_documents() {

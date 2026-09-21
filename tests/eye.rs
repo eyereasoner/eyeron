@@ -82,14 +82,16 @@ fn run_source(source: &str) -> Result<eye::RunResult, String> {
 fn main() {
     let started = std::time::Instant::now();
     every_error_example_fails_with_its_expected_message();
-    let checked = every_example_matches_its_plain_and_proof_goldens();
+    let golden_checked = every_example_matches_its_plain_and_proof_goldens();
     every_proof_golden_reparses_as_a_valid_eyelang_program();
     cli_behavior_checks();
 
+    let expected_error = ERROR_EXAMPLES.len();
+    let total = golden_checked + expected_error;
+    let elapsed = started.elapsed().as_secs_f64();
     progress_line(&format!(
-        "\neye result: {}. {checked} passed; 0 failed; finished in {:.2}s",
+        "\neye result: {}. {total} passed; 0 failed; finished in {elapsed:.2}s ({golden_checked} by golden match, {expected_error} expected-error)",
         green("ok"),
-        started.elapsed().as_secs_f64()
     ));
 }
 

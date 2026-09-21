@@ -148,6 +148,12 @@ cargo test --release --test sparql_rl_examples
 cargo test --release --test eye
 ```
 
+`tests/examples.rs`, `tests/eye.rs`, and `tests/sparql_rl_examples.rs` each check every one of the 133 packaged examples in their format (`.n3`, `.eye`, `.srl`) — by golden match, by an expected-error assertion, or (for `.srl` alone) by running without checking exact output when it is inherently non-reproducible — and their summary lines (`n3 result: ...`, `eye result: ...`, `srl result: ...`) report that full count with a breakdown, not just the golden-matched subset. `cargo test` does not run specific test targets adjacently; to see all three summary lines back to back (with a combined grand total), pass all three explicitly:
+
+```bash
+./scripts/test-all --test examples --test eye --test sparql_rl_examples
+```
+
 Refresh both vendored upstream test suites with:
 
 ```bash

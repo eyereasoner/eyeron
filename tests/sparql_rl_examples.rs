@@ -50,13 +50,16 @@ fn main() {
     let started = std::time::Instant::now();
     every_error_example_fails_with_its_expected_message();
     every_nondeterministic_example_runs();
-    let checked = every_example_with_a_golden_matches_by_graph_isomorphism();
+    let golden_checked = every_example_with_a_golden_matches_by_graph_isomorphism();
     every_packaged_example_is_accounted_for();
 
+    let expected_error = ERROR_EXAMPLES.len();
+    let excluded = EXCLUDED_FOR_NONDETERMINISM.len() + EXCLUDED_FOR_MESSAGE_LOG_ENCODING.len();
+    let total = golden_checked + expected_error + excluded;
+    let elapsed = started.elapsed().as_secs_f64();
     progress_line(&format!(
-        "\nsparql_rl_examples result: {}. {checked} passed; 0 failed; finished in {:.2}s",
+        "\nsrl result: {}. {total} passed; 0 failed; finished in {elapsed:.2}s ({golden_checked} by golden match, {expected_error} expected-error, {excluded} excluded-nondeterministic)",
         green("ok"),
-        started.elapsed().as_secs_f64()
     ));
 }
 

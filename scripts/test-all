@@ -52,7 +52,7 @@ plain_log=$(sed -E 's/\x1b\[[0-9;]*m//g' "$log")
 # false runners' summaries all end in this phrase (just with a different
 # leading word), so no per-binary special-casing is needed.
 totals=$(echo "$plain_log" | awk '
-  /^[A-Za-z_]+ result: / {
+  /^[A-Za-z0-9_]+ result: / {
     binaries++
     for (i = 1; i <= NF; i++) {
       if ($i == "passed;") passed += $(i - 1)
