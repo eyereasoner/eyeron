@@ -7,7 +7,9 @@ Eyeron is a Rust reasoner for **Notation3 (N3)**, **SPARQL 1.2 RL**, and **Eyela
 > [!TIP]
 > [Try Eyeron in the browser](https://eyereasoner.github.io/eyeron/playground).
 
-## Three formats, one engine
+Read [Why Eyeron?](why-eyeron.md) for language choices, practical uses, and tradeoffs.
+
+## Three formats, one tool
 
 | Format | File extension | Documentation |
 | --- | --- | --- |

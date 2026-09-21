@@ -37,11 +37,15 @@ This is resolved by the CLI (`main.rs`), not inside the library's `parse_sparql_
 
 ## Two graphs
 
-SPARQL-RL distinguishes two graphs. The rule set's own `DATA { ... }` facts seed the **inference** graph, which also grows with rule conclusions and is what ordinary (non-`DATA`) body clauses match against. `--data FILE` supplies an immutable **base** graph that only `WHERE DATA { ... }` and `NOT DATA { ... }` clauses read:
+SPARQL-RL distinguishes two graphs. The rule set's own `DATA { ... }` facts seed the **inference** graph, which grows with rule conclusions. `--data FILE` supplies an immutable **base** graph. Ordinary rule-body clauses match their union; `WHERE DATA { ... }` and `NOT DATA { ... }` restrict matching to the base graph:
 
 ```bash
 cargo run --release -- --data facts.ttl rules.srl
 ```
+
+The external base graph and the inference graph have separate membership. A rule can derive a triple into the inference graph even if it already exists in `--data`; unrelated base facts are not copied into the output. Repeated triples and overlap between the graphs count as one fact when matching a rule body, including before volatile expressions such as `UUID()`.
+
+The CLI normally prints newly derived facts. The library's `ReasonerResult::closure` additionally includes the rule set's own `DATA` facts.
 
 ## Body clauses
 

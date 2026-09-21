@@ -222,7 +222,7 @@ reports/              Generated and checked-in reports
 ## Current limitations
 
 - Persistent stores and custom external built-in modules are not implemented.
-- Proof output does not yet include every possible trace comment or explanation detail, and is not yet implemented at all for `.srl` input.
+- All three formats support proof output. Traces do not include every explanation detail; SPARQL-RL proofs record positive premises but do not separately reify `FILTER`, `NOT`, or `SET` clauses.
 - Eyeron implements the features and built-ins documented for each format, not every extension in every historical implementation of that format.
 
 Each format's own doc lists further limitations specific to it: [N3](n3.md#known-limitations), [SPARQL 1.2 RL](sparql-rl.md#known-limitations), [Eyelang](eyelang.md#known-limitations).

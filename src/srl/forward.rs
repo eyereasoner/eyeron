@@ -43,6 +43,7 @@
 //! correctness one — already-seen facts are still deduplicated via `seen`
 //! before being added to `new_facts`.
 
+use std::borrow::Cow;
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 
 use crate::ast::{Rule, Term, Triple};
@@ -68,8 +69,8 @@ use super::stratify::{rule_positive_patterns, stratify};
 /// to the inference graph itself. `program.data` (the rule set's own
 /// `DATA { ... }` facts) seeds the inference graph, which also grows with
 /// rule conclusions; `ReasonerResult::closure` is exactly this inference
-/// graph (`program.data` plus everything derived, but never the base
-/// graph), matching SPARQL 1.2 RL's two-graph model (see
+/// graph (`program.data` plus everything derived, including conclusions
+/// that also occur in the base graph), matching SPARQL 1.2 RL's two-graph model (see
 /// `super::eval::BodyCtx`) and the W3C SPARQL-RL test suite's `mf:result`
 /// convention (`src/bin/w3c_sparql_rl.rs` compares against `closure`, not
 /// `derived`, for exactly this reason).
@@ -93,11 +94,29 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     let proof_rules: Vec<Rule> = if options.proof { program.rules.iter().map(build_proof_rule).collect() } else { Vec::new() };
     let mut proofs: Vec<DerivedFact> = Vec::new();
 
-    let base_index = build_index(base_graph);
+    // Normalize graph membership before both indexed lookups and broad scans.
+    // Borrow the original base slice when it is already duplicate-free.
+    let mut base_seen = HashSet::new();
+    let mut match_facts = Vec::new();
+    for fact in base_graph {
+        if base_seen.insert(fact) {
+            match_facts.push(fact.clone());
+        }
+    }
+    let base_graph = if base_seen.len() == base_graph.len() {
+        Cow::Borrowed(base_graph)
+    } else {
+        Cow::Owned(match_facts.clone())
+    };
+    let base_index = build_index(&base_graph);
     let explicit_seen: HashSet<Triple> = program.data.iter().cloned().collect();
 
-    let mut inference_facts: Vec<Triple> = program.data.clone();
-    let mut seen: HashSet<Triple> = inference_facts.iter().cloned().chain(base_graph.iter().cloned()).collect();
+    // A base fact may still be a new conclusion in the inference graph.
+    // Keep inference membership separate from membership in the matching union.
+    let mut seen = HashSet::new();
+    let mut inference_facts: Vec<Triple> = program.data.iter()
+        .filter(|fact| seen.insert((*fact).clone())).cloned().collect();
+    let explicit = inference_facts.clone();
     let mut fired_once: HashSet<usize> = HashSet::new();
     let eval_ctx = EvalCtx::new();
     let mut statistics = ReasonerStatistics::default();
@@ -110,8 +129,7 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     // facts into a persistent index rather than rebuilding one from
     // scratch, so its maintenance cost is proportional to the number of
     // facts ever added, not to (passes × facts-so-far).
-    let mut match_facts: Vec<Triple> = base_graph.to_vec();
-    match_facts.extend(inference_facts.iter().cloned());
+    match_facts.extend(inference_facts.iter().filter(|fact| !base_seen.contains(fact)).cloned());
     let mut match_index = build_index(&match_facts);
 
     'strata: for layer in &layers {
@@ -121,7 +139,7 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
         let mut first_pass = true;
 
         loop {
-            let base = Graph { facts: base_graph, index: &base_index };
+            let base = Graph { facts: &base_graph, index: &base_index };
             let inference = Graph { facts: &match_facts, index: &match_index };
             let ctx = BodyCtx::new(inference, base, &eval_ctx);
 
@@ -155,8 +173,12 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
                 break;
             }
             for fact in &new_facts {
-                match_index.insert(match_facts.len(), fact);
-                match_facts.push(fact.clone());
+                // `seen` already guarantees this is new to inference. It
+                // expands the matching union only if it is absent from base.
+                if !base_seen.contains(fact) {
+                    match_index.insert(match_facts.len(), fact);
+                    match_facts.push(fact.clone());
+                }
             }
             inference_facts.extend(new_facts.iter().cloned());
             previous_new_facts = new_facts;
@@ -174,7 +196,7 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
         limits_reached: if status == CompletionStatus::Incomplete { vec![crate::n3::reasoner::ReasonerLimit::Iterations] } else { Vec::new() },
         errors: Vec::new(),
         statistics,
-        explicit: program.data.clone(),
+        explicit,
         explicit_sources: program.data_sources.clone(),
         derived,
         closure: inference_facts,
@@ -380,6 +402,69 @@ mod tests {
         let base = vec![Triple::new(iri("bob"), crate::ast::Term::iri(crate::ast::RDF_TYPE), iri("Person"))];
         let result_with_base = reason(&program, &base, &ReasonerOptions::default()).unwrap();
         assert!(result_with_base.closure.contains(&Triple::new(iri("bob"), crate::ast::Term::iri(crate::ast::RDF_TYPE), iri("Known"))));
+    }
+
+    #[test]
+    fn base_fact_can_be_derived_into_inference_graph_with_proof() {
+        let program = parse_sparql_rl(
+            "PREFIX : <http://example/> RULE { ?s :p ?o } WHERE DATA { ?s :p ?o }",
+            None,
+        ).unwrap();
+        let fact = Triple::new(iri("s"), iri("p"), iri("o"));
+        let unrelated = Triple::new(iri("s"), iri("other"), iri("o"));
+        let options = ReasonerOptions { proof: true, ..ReasonerOptions::default() };
+        let result = reason(&program, &[fact.clone(), unrelated], &options).unwrap();
+        assert_eq!(result.status, CompletionStatus::Complete);
+        assert_eq!(result.closure, vec![fact.clone()]);
+        assert_eq!(result.derived, vec![fact.clone()]);
+        assert!(result.explicit.is_empty());
+        assert_eq!(result.proofs.len(), 1);
+        assert_eq!(result.proofs[0].fact, fact);
+    }
+
+    #[test]
+    fn overlapping_and_repeated_graph_facts_do_not_repeat_volatile_set() {
+        for scope in ["", "DATA"] {
+            let program = parse_sparql_rl(&format!(
+                "PREFIX : <http://example/> DATA {{ :s :p :o . :s :p :o }}
+                 RULE {{ ?s :id ?id }} WHERE {scope} {{ ?s :p :o . SET(?id := UUID()) }}"
+            ), None).unwrap();
+            let fact = Triple::new(iri("s"), iri("p"), iri("o"));
+            let result = reason(&program, &[fact.clone(), fact.clone()], &ReasonerOptions::default()).unwrap();
+            assert_eq!(result.status, CompletionStatus::Complete);
+            assert_eq!(result.derived.len(), 1, "scope={scope}: {:?}", result.derived);
+            assert_eq!(result.closure.len(), 2);
+            assert_eq!(result.explicit, vec![fact]);
+        }
+    }
+
+    #[test]
+    fn deriving_a_base_fact_does_not_duplicate_later_matches() {
+        let program = parse_sparql_rl(
+            "PREFIX : <http://example/>
+             RULE { ?s :p ?o } WHERE DATA { ?s :p ?o }
+             RULE { ?s :id ?id } WHERE { ?s :p ?o . SET(?id := UUID()) }",
+            None,
+        ).unwrap();
+        let fact = Triple::new(iri("s"), iri("p"), iri("o"));
+        let result = reason(&program, &[fact.clone()], &ReasonerOptions::default()).unwrap();
+        assert_eq!(result.status, CompletionStatus::Complete);
+        assert!(result.derived.contains(&fact));
+        assert_eq!(result.derived.iter().filter(|t| t.p == iri("id")).count(), 1);
+        assert_eq!(result.closure.len(), 2);
+    }
+
+    #[test]
+    fn repeated_base_facts_do_not_repeat_unindexed_matches() {
+        let program = parse_sparql_rl(
+            "PREFIX : <http://example/>
+             RULE { ?s :id ?id } WHERE DATA { ?s ?p ?o . SET(?id := UUID()) }",
+            None,
+        ).unwrap();
+        let fact = Triple::new(iri("s"), iri("p"), iri("o"));
+        let result = reason(&program, &[fact.clone(), fact], &ReasonerOptions::default()).unwrap();
+        assert_eq!(result.status, CompletionStatus::Complete);
+        assert_eq!(result.derived.len(), 1);
     }
 
     #[test]
