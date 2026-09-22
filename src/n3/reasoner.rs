@@ -1995,13 +1995,24 @@ pub enum BackwardStep {
 /// Explain `goal` by goal-directed search, reporting each step to `emit`.
 /// Returns whether the goal was explained at all. Every conclusion is
 /// explained once.
-pub fn explain_backward(goal: &Triple, facts: &[Triple], rules: &[Rule], max_depth: usize, emit: &mut dyn FnMut(BackwardStep)) -> bool {
+/// `facts` is what a rule body may match — the completed closure, so a
+/// premise derived along the way is available the way it was when the rule
+/// fired. `given` is the subset the document actually asserts: only those
+/// are reported as facts, and anything else has to be explained by a rule.
+pub fn explain_backward(
+    goal: &Triple,
+    facts: &[Triple],
+    given: &BTreeSet<Triple>,
+    rules: &[Rule],
+    max_depth: usize,
+    emit: &mut dyn FnMut(BackwardStep),
+) -> bool {
     let mut fact_index = FactIndex::default();
     for (idx, fact) in facts.iter().enumerate() {
         fact_index.insert(idx, fact);
     }
     let mut state = ExplainState { visited: HashSet::new(), done: HashSet::new(), budget: SearchBudget::for_proof(max_depth) };
-    explain_backward_inner(goal, facts, &fact_index, rules, 0, max_depth, &mut state, emit)
+    explain_backward_inner(goal, facts, &fact_index, given, rules, 0, max_depth, &mut state, emit)
 }
 
 struct ExplainState {
@@ -2011,6 +2022,24 @@ struct ExplainState {
     /// Ground goals already explained, so each is explained once.
     done: HashSet<String>,
     budget: SearchBudget,
+}
+
+/// True iff this built-in's result depends on something outside the triple
+/// it appears in: the fact set, the clock, the network.
+///
+/// Re-evaluating one of these later is not decisive. A proof walk runs
+/// after the fixpoint, over a closure that has grown since the rule fired,
+/// so `log:collectAllIn` can legitimately collect more than it did then.
+/// Recording such a premise as unproven would claim the chain is broken
+/// when it is not; it is a trust obligation, which is what
+/// `docs/proof-checking.md` §6.3 calls it.
+pub fn builtin_reads_outside_its_triple(predicate: &Term) -> bool {
+    let Term::Iri(iri) = predicate else { return false };
+    matches!(
+        iri.as_str(),
+        LOG_COLLECT_ALL_IN | LOG_FOR_ALL_IN | LOG_INCLUDES | LOG_NOT_INCLUDES | LOG_CONCLUSION | LOG_CONJUNCTION
+            | LOG_CONTENT | LOG_SEMANTICS | LOG_SEMANTICS_OR_ERROR | LIST_MAP
+    ) || iri.as_str() == TIME_LOCAL_TIME
 }
 
 /// True iff `goal` holds by evaluating a built-in on it alone — what a
@@ -2028,10 +2057,12 @@ pub fn verify_builtin_triple(goal: &Triple) -> bool {
     eval_builtin(goal, &concrete, &[], None, &[], 0, &mut backward_stack, &mut budget).is_some_and(|matches| !matches.is_empty())
 }
 
+#[allow(clippy::too_many_arguments)]
 fn explain_backward_inner(
     goal: &Triple,
     facts: &[Triple],
     fact_index: &FactIndex,
+    given: &BTreeSet<Triple>,
     rules: &[Rule],
     depth: usize,
     max_depth: usize,
@@ -2055,7 +2086,10 @@ fn explain_backward_inner(
     let empty = BTreeMap::new();
     for fact in fact_index.candidates(facts, goal, &empty) {
         let mut local = BTreeMap::new();
-        if match_triple(goal, fact, &mut local) {
+        // Only a statement the document gives is reported as a fact;
+        // anything else in the closure was derived, and has to be explained
+        // by the rule that derived it.
+        if given.contains(fact) && match_triple(goal, fact, &mut local) {
             emit(BackwardStep::Fact { fact: fact.clone() });
             if reusable {
                 state.done.insert(key);
@@ -2076,13 +2110,17 @@ fn explain_backward_inner(
         let mut backward_stack = HashSet::new();
         let verified = eval_builtin(goal, &concrete, facts, Some(fact_index), rules, depth, &mut backward_stack, &mut state.budget)
             .is_some_and(|matches| !matches.is_empty());
-        if verified {
+        // A built-in that reads outside its own triple held when the rule
+        // fired; this walk runs afterwards, against a larger closure, so
+        // its disagreement is not evidence of anything.
+        if verified || builtin_reads_outside_its_triple(&goal.p) {
             emit(BackwardStep::Builtin { fact: goal.clone(), builtin: goal.p.clone() });
             if reusable {
                 state.done.insert(key);
             }
+            return true;
         }
-        return verified;
+        return false;
     }
 
     let Term::Iri(goal_pred) = &goal.p else { return false };
@@ -2126,7 +2164,7 @@ fn explain_backward_inner(
         }
         emit(BackwardStep::Rule(DerivedFact { fact, rule: renamed, premises: premises.clone(), bindings }));
         for premise in &premises {
-            if !explain_backward_inner(premise, facts, fact_index, rules, depth + 1, max_depth, state, emit) {
+            if !explain_backward_inner(premise, facts, fact_index, given, rules, depth + 1, max_depth, state, emit) {
                 emit(BackwardStep::Unproven {
                     fact: premise.clone(),
                     reason: if is_builtin_premise(premise) {

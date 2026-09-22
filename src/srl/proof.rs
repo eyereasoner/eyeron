@@ -47,7 +47,7 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
 
     let mut root_entries = Vec::<(DerivedFact, Vec<ProofEntry>)>::new();
     for proof in selected {
-        let entries = collect_proof_entries(&proof, &derived_by_fact, &explicit_facts, &result.explicit_sources, &result.explicit, &result.rules);
+        let entries = collect_proof_entries(&proof, &derived_by_fact, &explicit_facts, &result.explicit_sources, &result.closure, &result.rules);
         root_entries.push((proof, entries));
     }
 

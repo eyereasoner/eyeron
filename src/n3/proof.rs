@@ -23,7 +23,7 @@ pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult)
             &derived_by_fact,
             &explicit_facts,
             &result.explicit_sources,
-            &result.explicit,
+            &result.closure,
             &result.rules,
         );
         root_entries.push((proof, entries));
@@ -166,11 +166,36 @@ impl ProofCollector<'_> {
         // The explanation comes back as a flat set of steps rather than a
         // tree, so a premise used more than once is explained once.
         let mut steps = Vec::new();
-        if explain_backward(premise, self.base_facts, self.rules, 4096, &mut |step| steps.push(step)) {
+        if explain_backward(premise, self.base_facts, self.explicit_facts, self.rules, 4096, &mut |step| steps.push(step)) {
             for step in steps {
                 self.remember_backward_step(step);
             }
             return;
+        }
+
+        // A statement the document gives may carry variables, and N3 reads
+        // those as universally quantified: `:ruleCat :formula { {?X a :Cat}
+        // => ... }` gives every instance of itself. A premise is therefore
+        // given when some explicit statement matches it, not only when one
+        // equals it.
+        for candidate in self.explicit_facts.iter().filter(|fact| !fact.is_ground()) {
+            let mut bindings = BTreeMap::new();
+            if crate::n3::reasoner::match_triple(candidate, premise, &mut bindings) {
+                let source = self.explicit_sources.get(candidate).cloned();
+                self.remember_entry(ProofEntry::Fact { fact: premise.clone(), source });
+                return;
+            }
+        }
+
+        // N3 treats a rule as data, so a rule *written in the source* is a
+        // statement the document gives. A premise matching one — which is
+        // how `{ ?A => ?B } => { ... }` fires — is given, not unproven.
+        for rule in self.rules.iter().filter(|rule| rule.source.is_some()) {
+            let mut bindings = BTreeMap::new();
+            if crate::n3::reasoner::match_triple(&rule_statement(rule), premise, &mut bindings) {
+                self.remember_entry(ProofEntry::Fact { fact: premise.clone(), source: rule.source.clone() });
+                return;
+            }
         }
 
         self.remember_entry(ProofEntry::Unproven {
@@ -348,17 +373,23 @@ pub(crate) fn rule_reference(rule: &Rule, rules: &[Rule], prefixes: &BTreeMap<St
     term_to_n3_object(&generated_rule_term(rule), prefixes)
 }
 
-/// A generated rule as the statement it is, in its own direction: a
+/// A rule as the statement it is, in its own direction: a
 /// forward rule reads `{premises} => {conclusion}` and a backward one
 /// `{conclusion} <= {premises}`. Writing it the way the engine derived it
 /// is what lets a checker find the step that derived it.
 pub(crate) fn generated_rule_term(rule: &Rule) -> Term {
-    let statement = if rule.is_forward {
+    Term::Formula(vec![rule_statement(rule)])
+}
+
+/// The triple a rule *is*, which N3 can match like any other: `{premises}
+/// log:implies {conclusion}`, or the `log:impliedBy` form for a backward
+/// rule.
+pub fn rule_statement(rule: &Rule) -> Triple {
+    if rule.is_forward {
         Triple::new(Term::Formula(rule.premise.clone()), Term::Iri(LOG_IMPLIES.to_string()), Term::Formula(rule.conclusion.clone()))
     } else {
         Triple::new(Term::Formula(rule.conclusion.clone()), Term::Iri(LOG_IMPLIED_BY.to_string()), Term::Formula(rule.premise.clone()))
-    };
-    Term::Formula(vec![statement])
+    }
 }
 
 /// How a step cites a fact it was simply given: the document it came from.

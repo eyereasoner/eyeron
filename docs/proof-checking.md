@@ -286,39 +286,39 @@ establishes.
 ## 10. What eyeron's own proofs establish
 
 `tests/proof_checking.rs` checks every packaged proof document against the
-program it was produced from. Of the **373 documents** — 120 N3, 122
-SPARQL-RL, 131 Prolog — **367 are valid**, covering **131,520 steps**, of
-which **130,655 are verified** and **848 are trust obligations** (§6). All
-122 SPARQL-RL and all 131 Prolog documents check.
+program it was produced from. **All 373** — 120 N3, 122 SPARQL-RL, 131
+Prolog — are valid, covering **132,178 steps**, of which **131,240 are
+verified** and **938 are trust obligations** (§6).
 
-The remaining 6 are listed in that test's `KNOWN_GAPS`, and each names a
-defect in proof *generation* rather than in the checker.
+Getting there meant fixing the proof writers, not relaxing the rules. What
+checking found, in the order it mattered:
 
-**A premise re-checked against the wrong fact set (5 documents).** A
-built-in that reads the store — `log:collectAllIn` and its relatives — held
-when the rule fired, but the proof walk re-evaluates it against the
-*completed* closure, which has grown since. When the re-evaluation
-disagrees the premise is recorded as `pe:unproven`, which §7.1 makes
-invalid. The premise is not in fact unjustified: it is exactly the kind of
-step §6.3 calls a trust obligation, and recording it as one would be both
-honest and valid.
+- **A circular derivation.** The same conclusion can be an answer of more
+  than one memo table, and citing whichever table a consumer read produced
+  a step justified by its own conclusion. Taking the derivation found
+  earliest in the whole run makes the graph acyclic by construction.
+- **Premises that were never recorded.** A SPARQL-RL rule body with a
+  property path expanded to patterns whose variables the solver invented
+  afresh each visit, so every such premise was dropped as non-ground —
+  `reordering.srl` recorded a step with no premises and no bindings at all.
+  Paths are now expanded once, when the rule is prepared.
+- **Rules the proof did not carry.** A step citing a rule the engine
+  generated while reasoning cited a position in a list the source does not
+  reproduce. Such a rule is now carried by the step, in its own direction,
+  and the checker holds it to the step that derives it.
+- **An explanation that cost more than the derivation.** Explaining a
+  premise rebuilt its whole derivation, so `fib(30)` cost exponentially
+  more to explain than to derive and ran out of budget. An explanation is
+  now a flat set of steps, each conclusion explained once: three minutes
+  and 19 unproven premises became 0.03 seconds and none.
+- **Three things N3 gives that the walker did not recognise**: a built-in
+  whose truth depends on the fact set and cannot be re-checked afterwards
+  (a trust obligation, not a broken chain); a rule written in the document,
+  which N3 reads as data like any other statement; and an instance of a
+  given statement that carries variables, which N3 reads as universally
+  quantified.
 
-**A conclusion the rule does not state (1 document).**
-`quoted-head-unquote.n3`'s rule is `{ :a :b ?C. } => ?C.`, whose conclusion
-is a variable unquoted at run time. The rule alone does not say what it
-concludes, so §5.1's re-performance has nothing to compare against. The
-step does record the binding for `?C`, so a checker could be extended to
-take the conclusion from there.
-
-One defect that used to sit here is gone. Explaining a premise derived by
-backward chaining rebuilt that premise's whole derivation, so a definition
-using a goal twice — `fib(N) <= fib(N-1), fib(N-2)` — cost exponentially
-more to explain than to derive, and ran out of budget. An explanation is
-now a flat set of steps, each conclusion explained once:
-`examples/fibonacci.n3` went from 19 `pe:unproven` premises and three
-minutes to none and 0.03 seconds.
-
-This does not fix the *size* of an N3 proof, which is a separate matter:
-`proof_to_n3` still walks each derived fact's dependencies independently
-and writes one `pe:why` block per fact, so a shared premise is repeated
-under every block that uses it.
+One thing checking did *not* fix: the size of an N3 proof. `proof_to_n3`
+still walks each derived fact's dependencies independently and writes one
+`pe:why` block per fact, so a shared premise is repeated under every block
+that uses it, and a long chain costs the square of its length.

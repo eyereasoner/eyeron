@@ -19,27 +19,14 @@ use report::{green, progress_line, red};
 use std::fs;
 use std::path::{Path, PathBuf};
 
-/// Documents that do not check yet, and the defect each one exposes.
-/// These are gaps in eyeron's proof *generation*, not in the checker: the
-/// specification says what a valid proof must contain, and these do not
-/// contain it. Removing an entry from this list is what fixing one looks
-/// like.
-const KNOWN_GAPS: &[(&str, &str)] = &[
-    // Â§7.1: the proof walk re-runs a backward search to explain a premise
-    // the original run already derived, and that re-search has its own
-    // budget. When it runs out the premise is recorded as `pe:unproven`,
-    // which makes the document invalid. Recording the derivation when it is
-    // first found, instead of replaying it, is what fixing this looks like.
-    ("n3/critical-path-schedule", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
-    ("n3/dijkstra", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
-    ("n3/quoted-head-unquote-select", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
-    ("n3/rule-matching", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
-    ("n3/wolf-goat-cabbage", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
-    // Â§5.1: `{ :a :b ?C. } => ?C.` takes its conclusion from a variable
-    // unquoted at run time, so the rule alone does not say what it
-    // concludes and the step cannot be re-performed from it.
-    ("n3/quoted-head-unquote", "the rule's conclusion is a variable unquoted at run time, so the rule alone does not say what it concludes (§5.1)"),
-];
+/// Documents that do not check, and the defect each one exposes. An entry
+/// here is a gap in eyeron's proof *generation*, not in the checker: the
+/// specification says what a valid proof must contain, and such a document
+/// does not contain it.
+///
+/// The list is empty. Every packaged proof checks, and the test fails if
+/// one stops doing so.
+const KNOWN_GAPS: &[(&str, &str)] = &[];
 
 fn manifest_dir() -> &'static Path {
     Path::new(env!("CARGO_MANIFEST_DIR"))

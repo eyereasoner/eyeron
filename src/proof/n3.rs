@@ -76,6 +76,12 @@ struct Step {
 pub struct N3Proof {
     rules: Vec<crate::ast::Rule>,
     given: BTreeSet<Triple>,
+    /// Written rules, as the statements they are, for a premise or a
+    /// `pe:fact` step that names one up to renaming.
+    rule_statements: Vec<Triple>,
+    /// Given statements that carry variables. N3 reads those as
+    /// universally quantified, so each gives every instance of itself.
+    general: Vec<Triple>,
     steps: Vec<Step>,
     claims: Vec<Triple>,
     index: BTreeMap<Triple, usize>,
@@ -100,7 +106,12 @@ impl N3Proof {
         // `reason` numbers the rules it was given, having dropped the query
         // rules; a checker must number them the same way (§5.1).
         let rules: Vec<crate::ast::Rule> = document.rules.iter().filter(|rule| !rule.is_query).cloned().collect();
-        let given: BTreeSet<Triple> = document.facts.iter().cloned().collect();
+        // N3 treats a rule as data, so a rule written in the document is
+        // itself a statement the document gives.
+        let mut given: BTreeSet<Triple> = document.facts.iter().cloned().collect();
+        let rule_statements: Vec<Triple> = rules.iter().map(crate::n3::proof::rule_statement).collect();
+        given.extend(rule_statements.iter().cloned());
+        let general: Vec<Triple> = document.facts.iter().filter(|fact| !fact.is_ground()).cloned().collect();
 
         let parsed = crate::n3::parser::parse_n3(proof, None)?;
         let mut steps = Vec::new();
@@ -120,7 +131,7 @@ impl N3Proof {
         for (position, step) in steps.iter().enumerate() {
             index.entry(step.conclusion.clone()).or_insert(position);
         }
-        Ok(Self { rules, given, steps, claims, index })
+        Ok(Self { rules, given, rule_statements, general, steps, claims, index })
     }
 
     fn resolve(&self, statement: &Triple) -> Resolution {
@@ -129,7 +140,7 @@ impl N3Proof {
         if let Some(position) = self.index.get(statement) {
             return Resolution::Step(*position);
         }
-        if self.given.contains(statement) {
+        if self.given.contains(statement) || self.gives_rule(statement) {
             return Resolution::Given;
         }
         Resolution::Unresolved(describe(statement))
@@ -187,6 +198,12 @@ impl N3Proof {
             bindings.insert(internal.to_string(), value.clone());
         }
 
+        // `{ :a :b ?C. } => ?C.` takes its conclusion from a term resolved
+        // when the rule fires, which the rule alone does not state. The step
+        // records the binding, so the conclusion is recoverable from there.
+        let unquoted = unquoted_conclusion(&conclusion, &bindings);
+        let conclusion = unquoted.unwrap_or(conclusion);
+
         let rule = RuleView { premise: &premise, conclusion: &conclusion };
         if rule.premise.len() != step.uses.len() {
             return Err(format!("uses {} premise(s), but {} has {}", step.uses.len(), number, rule.premise.len()));
@@ -206,8 +223,17 @@ impl N3Proof {
         Ok(Checked::Verified)
     }
 
+    /// A written rule, matched up to renaming: the engine standardizes a
+    /// rule's variables apart before using it.
+    fn gives_rule(&self, statement: &Triple) -> bool {
+        self.rule_statements
+            .iter()
+            .chain(self.general.iter())
+            .any(|candidate| candidate.p == statement.p && match_triple(candidate, statement, &mut Bindings::new()))
+    }
+
     fn check_fact(&self, step: &Step) -> Verdict {
-        if self.given.contains(&step.conclusion) {
+        if self.given.contains(&step.conclusion) || self.gives_rule(&step.conclusion) {
             Ok(Checked::Verified)
         } else {
             Err("is justified as a fact, but the source does not give it".to_string())
@@ -262,6 +288,25 @@ pub(crate) fn match_term(pattern: &Term, target: &Term, bindings: &mut Bindings)
 
 pub(crate) fn match_triple(pattern: &Triple, target: &Triple, bindings: &mut Bindings) -> bool {
     match_term(&pattern.s, &target.s, bindings) && match_term(&pattern.p, &target.p, bindings) && match_term(&pattern.o, &target.o, bindings)
+}
+
+/// The triples a rule concludes when its conclusion is not written out but
+/// resolved from a term at firing time. `None` when the rule states its
+/// conclusion in the ordinary way.
+fn unquoted_conclusion(conclusion: &[Triple], bindings: &Bindings) -> Option<Vec<Triple>> {
+    let [only] = conclusion else { return None };
+    let unquote = Term::Iri(crate::ast::EYERON_UNQUOTE.to_string());
+    if only.s != unquote || only.p != unquote {
+        return None;
+    }
+    let resolved = match &only.o {
+        Term::Var(name) => bindings.get(name)?,
+        other => other,
+    };
+    match resolved {
+        Term::Formula(triples) => Some(triples.clone()),
+        _ => None,
+    }
 }
 
 /// A rule's two halves, however the step got hold of them.
