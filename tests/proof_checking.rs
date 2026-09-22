@@ -32,7 +32,6 @@ const KNOWN_GAPS: &[(&str, &str)] = &[
     // first found, instead of replaying it, is what fixing this looks like.
     ("n3/critical-path-schedule", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
     ("n3/dijkstra", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
-    ("n3/fibonacci", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
     ("n3/quoted-head-unquote-select", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
     ("n3/rule-matching", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
     ("n3/wolf-goat-cabbage", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),

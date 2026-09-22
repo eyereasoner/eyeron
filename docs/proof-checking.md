@@ -287,22 +287,21 @@ establishes.
 
 `tests/proof_checking.rs` checks every packaged proof document against the
 program it was produced from. Of the **373 documents** — 120 N3, 122
-SPARQL-RL, 131 Prolog — **366 are valid**, covering **131,520 steps**, of
-which **130,636 are verified** and **848 are trust obligations** (§6). All
+SPARQL-RL, 131 Prolog — **367 are valid**, covering **131,520 steps**, of
+which **130,655 are verified** and **848 are trust obligations** (§6). All
 122 SPARQL-RL and all 131 Prolog documents check.
 
-The remaining 7 are listed in that test's `KNOWN_GAPS`, and each names a
-defect in proof *generation* rather than in the checker: the specification
-says what a valid proof must contain, and these do not contain it.
+The remaining 6 are listed in that test's `KNOWN_GAPS`, and each names a
+defect in proof *generation* rather than in the checker.
 
-**A premise the writer could not justify (6 documents).** Explaining a
-premise the run derived by backward chaining re-runs that search at proof
-time, under its own budget. When the budget runs out the premise is
-recorded as `pe:unproven`, which §7.1 makes invalid — `fibonacci.n3`'s
-`fib(30)` is the clearest case. Recording each backward derivation when it
-is first found, instead of replaying it afterwards, is what fixing this
-looks like; it would also remove the quadratic cost of the present
-per-conclusion re-walk.
+**A premise re-checked against the wrong fact set (5 documents).** A
+built-in that reads the store — `log:collectAllIn` and its relatives — held
+when the rule fired, but the proof walk re-evaluates it against the
+*completed* closure, which has grown since. When the re-evaluation
+disagrees the premise is recorded as `pe:unproven`, which §7.1 makes
+invalid. The premise is not in fact unjustified: it is exactly the kind of
+step §6.3 calls a trust obligation, and recording it as one would be both
+honest and valid.
 
 **A conclusion the rule does not state (1 document).**
 `quoted-head-unquote.n3`'s rule is `{ :a :b ?C. } => ?C.`, whose conclusion
@@ -310,3 +309,16 @@ is a variable unquoted at run time. The rule alone does not say what it
 concludes, so §5.1's re-performance has nothing to compare against. The
 step does record the binding for `?C`, so a checker could be extended to
 take the conclusion from there.
+
+One defect that used to sit here is gone. Explaining a premise derived by
+backward chaining rebuilt that premise's whole derivation, so a definition
+using a goal twice — `fib(N) <= fib(N-1), fib(N-2)` — cost exponentially
+more to explain than to derive, and ran out of budget. An explanation is
+now a flat set of steps, each conclusion explained once:
+`examples/fibonacci.n3` went from 19 `pe:unproven` premises and three
+minutes to none and 0.03 seconds.
+
+This does not fix the *size* of an N3 proof, which is a separate matter:
+`proof_to_n3` still walks each derived fact's dependencies independently
+and writes one `pe:why` block per fact, so a shared premise is repeated
+under every block that uses it.

@@ -1977,6 +1977,173 @@ fn rule_may_prove_goal(rule: &Rule, goal: &Triple) -> bool {
 }
 
 
+/// One step of a backward explanation, with no children of its own.
+///
+/// A step names what it used by those premises' own triples, so an
+/// explanation is a flat set of steps rather than a tree. That is not only
+/// tidier: rebuilding it as a tree makes explaining a definition that uses
+/// a goal more than once — `fib(N) <= fib(N-1), fib(N-2)` — cost
+/// exponentially more than deriving it did, because answer search memoizes
+/// and a tree cannot.
+pub enum BackwardStep {
+    Rule(DerivedFact),
+    Fact { fact: Triple },
+    Builtin { fact: Triple, builtin: Term },
+    Unproven { fact: Triple, reason: String },
+}
+
+/// Explain `goal` by goal-directed search, reporting each step to `emit`.
+/// Returns whether the goal was explained at all. Every conclusion is
+/// explained once.
+pub fn explain_backward(goal: &Triple, facts: &[Triple], rules: &[Rule], max_depth: usize, emit: &mut dyn FnMut(BackwardStep)) -> bool {
+    let mut fact_index = FactIndex::default();
+    for (idx, fact) in facts.iter().enumerate() {
+        fact_index.insert(idx, fact);
+    }
+    let mut state = ExplainState { visited: HashSet::new(), done: HashSet::new(), budget: SearchBudget::for_proof(max_depth) };
+    explain_backward_inner(goal, facts, &fact_index, rules, 0, max_depth, &mut state, emit)
+}
+
+struct ExplainState {
+    /// Goals whose explanation is in progress, to stop a goal explaining
+    /// itself.
+    visited: HashSet<String>,
+    /// Ground goals already explained, so each is explained once.
+    done: HashSet<String>,
+    budget: SearchBudget,
+}
+
+/// True iff `goal` holds by evaluating a built-in on it alone — what a
+/// proof checker re-performs for a `pe:builtin` step.
+pub fn verify_builtin_triple(goal: &Triple) -> bool {
+    if !is_builtin_premise(goal) {
+        return false;
+    }
+    let mut concrete = BTreeMap::new();
+    for term in [&goal.s, &goal.p, &goal.o] {
+        bind_concrete_blanks(term, &mut concrete);
+    }
+    let mut budget = SearchBudget::for_proof(1);
+    let mut backward_stack = HashSet::new();
+    eval_builtin(goal, &concrete, &[], None, &[], 0, &mut backward_stack, &mut budget).is_some_and(|matches| !matches.is_empty())
+}
+
+fn explain_backward_inner(
+    goal: &Triple,
+    facts: &[Triple],
+    fact_index: &FactIndex,
+    rules: &[Rule],
+    depth: usize,
+    max_depth: usize,
+    state: &mut ExplainState,
+    emit: &mut dyn FnMut(BackwardStep),
+) -> bool {
+    if depth > max_depth {
+        state.budget.hit_limit(ReasonerLimit::BackwardDepth);
+        return false;
+    }
+    if !state.budget.tick() {
+        return false;
+    }
+
+    let key = backward_goal_key(goal);
+    let reusable = goal.is_ground();
+    if reusable && state.done.contains(&key) {
+        return true;
+    }
+
+    let empty = BTreeMap::new();
+    for fact in fact_index.candidates(facts, goal, &empty) {
+        let mut local = BTreeMap::new();
+        if match_triple(goal, fact, &mut local) {
+            emit(BackwardStep::Fact { fact: fact.clone() });
+            if reusable {
+                state.done.insert(key);
+            }
+            return true;
+        }
+    }
+
+    if is_builtin_premise(goal) {
+        // Evaluated against the real fact set and rules: a built-in such as
+        // `log:collectAllIn` reads the store, so checking it in isolation
+        // would report it unproven. (A *checker* has no store and must
+        // treat those as trust obligations instead.)
+        let mut concrete = BTreeMap::new();
+        for term in [&goal.s, &goal.p, &goal.o] {
+            bind_concrete_blanks(term, &mut concrete);
+        }
+        let mut backward_stack = HashSet::new();
+        let verified = eval_builtin(goal, &concrete, facts, Some(fact_index), rules, depth, &mut backward_stack, &mut state.budget)
+            .is_some_and(|matches| !matches.is_empty());
+        if verified {
+            emit(BackwardStep::Builtin { fact: goal.clone(), builtin: goal.p.clone() });
+            if reusable {
+                state.done.insert(key);
+            }
+        }
+        return verified;
+    }
+
+    let Term::Iri(goal_pred) = &goal.p else { return false };
+    if !state.visited.insert(key.clone()) {
+        return false;
+    }
+
+    let mut explained = false;
+    for (idx, rule) in rules.iter().enumerate() {
+        if rule.is_forward || rule.conclusion.len() != 1 {
+            continue;
+        }
+        let raw_head = &rule.conclusion[0];
+        if let Term::Iri(head_pred) = &raw_head.p {
+            if head_pred != goal_pred {
+                continue;
+            }
+        }
+
+        let prefix = salted_backward_prefix(depth, idx, goal, &BTreeMap::new());
+        let renamed = standardize_apart(rule, &prefix);
+        let head = &renamed.conclusion[0];
+        let mut initial = BTreeMap::new();
+        if !unify_triple(head, goal, &mut initial) {
+            continue;
+        }
+
+        let mut body_matches = Vec::new();
+        let mut local_stack = state.visited.clone();
+        match_premise_at(&renamed.premise, facts, Some(fact_index), rules, 0, initial, depth + 1, &mut local_stack, &mut state.budget, &mut body_matches);
+        let Some(subst) = body_matches.into_iter().next() else { continue };
+        let subst = canonicalize_bindings(&subst);
+        let fact = resolve_pattern_triple(head, &subst);
+        let premises = renamed.premise.iter().map(|prem| resolve_pattern_triple(prem, &subst)).collect::<Vec<_>>();
+        let bindings = subst.iter().map(|(k, v)| (k.clone(), resolve(v, &subst))).collect();
+
+        // Recorded before the premises are explained, so a premise needing
+        // this same goal finds it done rather than starting it again.
+        if reusable {
+            state.done.insert(key.clone());
+        }
+        emit(BackwardStep::Rule(DerivedFact { fact, rule: renamed, premises: premises.clone(), bindings }));
+        for premise in &premises {
+            if !explain_backward_inner(premise, facts, fact_index, rules, depth + 1, max_depth, state, emit) {
+                emit(BackwardStep::Unproven {
+                    fact: premise.clone(),
+                    reason: if is_builtin_premise(premise) {
+                        "builtin evaluation did not verify this premise".to_string()
+                    } else {
+                        "no explicit fact, verified builtin, or backward proof was found".to_string()
+                    },
+                });
+            }
+        }
+        explained = true;
+        break;
+    }
+    state.visited.remove(&key);
+    explained
+}
+
 /// Bind every blank node in `term` to itself, so a term that is already a
 /// concrete graph value is not re-read as a pattern variable.
 fn bind_concrete_blanks(term: &Term, out: &mut Bindings) {
@@ -2001,9 +2168,20 @@ pub fn find_backward_proof_for_goal(goal: &Triple, facts: &[Triple], rules: &[Ru
     }
     let mut visited = HashSet::<String>::new();
     let mut budget = SearchBudget::for_proof(max_depth);
-    find_backward_proof_inner(goal, facts, &fact_index, rules, 0, max_depth, &mut visited, &mut budget)
+    let mut explained = HashMap::<String, ProofNode>::new();
+    find_backward_proof_inner(goal, facts, &fact_index, rules, 0, max_depth, &mut visited, &mut budget, &mut explained)
 }
 
+/// `explained` memoizes the derivation found for a ground goal.
+///
+/// Without it, explaining a premise rebuilds that premise's whole
+/// derivation, and a definition that uses a goal more than once — as
+/// `fib(N) <= fib(N-1), fib(N-2)` does — costs exponentially more to
+/// explain than it cost to derive, because answer search memoizes and
+/// this did not. Only successes for ground goals are cached: a goal that
+/// returned nothing because it was already on the `visited` stack failed
+/// for that context alone, not in general.
+#[allow(clippy::too_many_arguments)]
 fn find_backward_proof_inner(
     goal: &Triple,
     facts: &[Triple],
@@ -2013,6 +2191,7 @@ fn find_backward_proof_inner(
     max_depth: usize,
     visited: &mut HashSet<String>,
     budget: &mut SearchBudget,
+    explained: &mut HashMap<String, ProofNode>,
 ) -> Option<ProofNode> {
     if depth > max_depth {
         budget.hit_limit(ReasonerLimit::BackwardDepth);
@@ -2056,6 +2235,12 @@ fn find_backward_proof_inner(
 
     let Term::Iri(goal_pred) = &goal.p else { return None; };
     let key = backward_goal_key(goal);
+    let cacheable = goal.is_ground();
+    if cacheable {
+        if let Some(node) = explained.get(&key) {
+            return Some(node.clone());
+        }
+    }
     if !visited.insert(key.clone()) { return None; }
 
     let mut out = None;
@@ -2095,7 +2280,7 @@ fn find_backward_proof_inner(
         let children = premises
             .iter()
             .map(|prem| {
-                find_backward_proof_inner(prem, facts, fact_index, rules, depth + 1, max_depth, visited, budget)
+                find_backward_proof_inner(prem, facts, fact_index, rules, depth + 1, max_depth, visited, budget, explained)
                     .unwrap_or_else(|| ProofNode::Unproven {
                         fact: prem.clone(),
                         reason: "no explicit fact, verified builtin, or backward proof was found".to_string(),
@@ -2107,6 +2292,11 @@ fn find_backward_proof_inner(
     }
 
     visited.remove(&key);
+    if cacheable {
+        if let Some(node) = &out {
+            explained.insert(key, node.clone());
+        }
+    }
     out
 }
 

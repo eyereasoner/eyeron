@@ -222,12 +222,10 @@ impl N3Proof {
         if IMPURE_BUILTINS.contains(&name.as_str()) {
             return Ok(Checked::Trusted("impure built-in"));
         }
-        // A goal-directed search over *no* facts and *no* rules can only
-        // succeed by evaluating the built-in itself, which is exactly the
-        // re-evaluation §5.3 asks for.
-        match crate::n3::reasoner::find_backward_proof_for_goal(&step.conclusion, &[], &[], 1) {
-            Some(crate::n3::reasoner::ProofNode::Builtin { .. }) => Ok(Checked::Verified),
-            _ => Err(format!("re-evaluating {} did not hold", name)),
+        if crate::n3::reasoner::verify_builtin_triple(&step.conclusion) {
+            Ok(Checked::Verified)
+        } else {
+            Err(format!("re-evaluating {} did not hold", name))
         }
     }
 }

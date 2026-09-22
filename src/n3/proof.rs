@@ -1,6 +1,6 @@
 use crate::ast::*;
 use crate::n3::printing::{term_to_n3_object, triple_to_n3};
-use crate::n3::reasoner::{find_backward_proof_for_goal, DerivedFact, ProofNode, ReasonerResult};
+use crate::n3::reasoner::{explain_backward, BackwardStep, DerivedFact, ReasonerResult};
 use std::collections::{BTreeMap, BTreeSet, HashSet};
 use std::path::Path;
 
@@ -97,7 +97,7 @@ pub(crate) fn collect_proof_entries(
         seen: HashSet::new(),
         entries: Vec::new(),
     };
-    collector.visit_derived_fact(root, None);
+    collector.visit_derived_fact(root);
     collector.entries
 }
 
@@ -112,41 +112,37 @@ struct ProofCollector<'a> {
 }
 
 impl ProofCollector<'_> {
-    fn visit_derived_fact(&mut self, proof: &DerivedFact, children: Option<&[ProofNode]>) {
+    fn visit_derived_fact(&mut self, proof: &DerivedFact) {
         let key = format!("rule:{}:{}", triple_key(&proof.fact), source_key(proof.rule.source.as_ref()));
         if !self.seen.insert(key) { return; }
         self.entries.push(ProofEntry::Rule(proof.clone()));
-
-        if let Some(children) = children {
-            for child in children { self.visit_proof_node(child); }
-            return;
-        }
 
         for premise in &proof.premises {
             self.visit_premise(premise, Some(proof));
         }
     }
 
-    fn visit_proof_node(&mut self, node: &ProofNode) {
-        match node {
-            ProofNode::Rule { df, children } => self.visit_derived_fact(df, Some(children)),
-            ProofNode::Fact { fact, source } => {
-                let source = source.clone().or_else(|| self.explicit_sources.get(fact).cloned());
-                self.remember_entry(ProofEntry::Fact { fact: fact.clone(), source });
+    fn remember_backward_step(&mut self, step: BackwardStep) {
+        match step {
+            BackwardStep::Rule(df) => {
+                let key = format!("rule:{}:{}", triple_key(&df.fact), source_key(df.rule.source.as_ref()));
+                if self.seen.insert(key) {
+                    self.entries.push(ProofEntry::Rule(df));
+                }
             }
-            ProofNode::Builtin { fact, builtin } => {
-                self.remember_entry(ProofEntry::Builtin { fact: fact.clone(), builtin: builtin.clone() });
+            BackwardStep::Fact { fact } => {
+                let source = self.explicit_sources.get(&fact).cloned();
+                self.remember_entry(ProofEntry::Fact { fact, source });
             }
-            ProofNode::Unproven { fact, reason } => {
-                self.remember_entry(ProofEntry::Unproven { fact: fact.clone(), reason: reason.clone() });
-            }
+            BackwardStep::Builtin { fact, builtin } => self.remember_entry(ProofEntry::Builtin { fact, builtin }),
+            BackwardStep::Unproven { fact, reason } => self.remember_entry(ProofEntry::Unproven { fact, reason }),
         }
     }
 
     fn visit_premise(&mut self, premise: &Triple, parent: Option<&DerivedFact>) {
         if let Some(candidates) = self.derived_by_fact.get(premise) {
             if let Some(child) = candidates.iter().find(|candidate| match parent { Some(p) => candidate.fact != p.fact, None => true }) {
-                self.visit_derived_fact(child, None);
+                self.visit_derived_fact(child);
                 return;
             }
         }
@@ -167,8 +163,13 @@ impl ProofCollector<'_> {
             return;
         }
 
-        if let Some(node) = find_backward_proof_for_goal(premise, self.base_facts, self.rules, 4096) {
-            self.visit_proof_node(&node);
+        // The explanation comes back as a flat set of steps rather than a
+        // tree, so a premise used more than once is explained once.
+        let mut steps = Vec::new();
+        if explain_backward(premise, self.base_facts, self.rules, 4096, &mut |step| steps.push(step)) {
+            for step in steps {
+                self.remember_backward_step(step);
+            }
             return;
         }
 
