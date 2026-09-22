@@ -4,19 +4,17 @@
 
 :alice :grade (:pass 7) .
 
-{ :alice :grade (:pass 7) . } pe:why {
-  { :alice :grade (:pass 7) . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "score"; pe:value 7 ],
-      [ pe:var "x"; pe:value :alice ];
-    pe:uses
-      { :alice :score 7 . },
-      { 7 math:notLessThan 5 . }.
+{ :alice :grade (:pass 7) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "score"; pe:value 7 ],
+    [ pe:var "x"; pe:value :alice ];
+  pe:uses
+    { :alice :score 7 . },
+    { 7 math:notLessThan 5 . }.
 
-  { :alice :score 7 . }
-    pe:fact "assignment.n3".
+{ :alice :score 7 . }
+  pe:fact "assignment.n3".
 
-  { 7 math:notLessThan 5 . }
-    pe:builtin math:notLessThan.
-}.
+{ 7 math:notLessThan 5 . }
+  pe:builtin math:notLessThan.

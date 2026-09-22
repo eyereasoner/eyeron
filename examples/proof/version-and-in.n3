@@ -6,54 +6,48 @@
 :carol :priority true .
 :bob :ordinary true .
 
-{ :alice :priority true . } pe:why {
-  { :alice :priority true . }
-    pe:rule 1;
-    pe:binding [ pe:var "x"; pe:value :alice ];
-    pe:uses { :alice :level "gold" . }.
+{ :alice :priority true . }
+  pe:rule 1;
+  pe:binding [ pe:var "x"; pe:value :alice ];
+  pe:uses { :alice :level "gold" . }.
 
-  { :alice :level "gold" . }
-    pe:fact "version-and-in.n3".
-}.
+{ :alice :level "gold" . }
+  pe:fact "version-and-in.n3".
 
-{ :carol :priority true . } pe:why {
-  { :carol :priority true . }
-    pe:rule 2;
-    pe:binding [ pe:var "x"; pe:value :carol ];
-    pe:uses { :carol :level "platinum" . }.
+{ :carol :priority true . }
+  pe:rule 2;
+  pe:binding [ pe:var "x"; pe:value :carol ];
+  pe:uses { :carol :level "platinum" . }.
 
-  { :carol :level "platinum" . }
-    pe:fact "version-and-in.n3".
-}.
+{ :carol :level "platinum" . }
+  pe:fact "version-and-in.n3".
 
-{ :bob :ordinary true . } pe:why {
-  { :bob :ordinary true . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "SCOPE"; pe:value {
-          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-      } ],
-      [ pe:var "level"; pe:value "bronze" ],
-      [ pe:var "x"; pe:value :bob ];
-    pe:uses
-      { :bob :level "bronze" . },
-      {
-          {
-              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-          } log:notIncludes {
-              :bob :priority true .
-          } .
-      }.
-
-  { :bob :level "bronze" . }
-    pe:fact "version-and-in.n3".
-
-  {
-    {
+{ :bob :ordinary true . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
         <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-    } log:notIncludes {
-        :bob :priority true .
-    } .
+    } ],
+    [ pe:var "level"; pe:value "bronze" ],
+    [ pe:var "x"; pe:value :bob ];
+  pe:uses
+    { :bob :level "bronze" . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :bob :priority true .
+        } .
+    }.
+
+{ :bob :level "bronze" . }
+  pe:fact "version-and-in.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :bob :priority true .
+  } .
 }
-    pe:builtin log:notIncludes.
-}.
+  pe:builtin log:notIncludes.

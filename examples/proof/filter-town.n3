@@ -5,19 +5,17 @@
 
 :town2 a :largeTown .
 
-{ :town2 a :largeTown . } pe:why {
-  { :town2 a :largeTown . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "p"; pe:value 2000 ],
-      [ pe:var "x"; pe:value :town2 ];
-    pe:uses
-      { :town2 :population 2000 . },
-      { 2000 math:greaterThan 1500 . }.
+{ :town2 a :largeTown . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "p"; pe:value 2000 ],
+    [ pe:var "x"; pe:value :town2 ];
+  pe:uses
+    { :town2 :population 2000 . },
+    { 2000 math:greaterThan 1500 . }.
 
-  { :town2 :population 2000 . }
-    pe:fact "filter-town.n3".
+{ :town2 :population 2000 . }
+  pe:fact "filter-town.n3".
 
-  { 2000 math:greaterThan 1500 . }
-    pe:builtin math:greaterThan.
-}.
+{ 2000 math:greaterThan 1500 . }
+  pe:builtin math:greaterThan.

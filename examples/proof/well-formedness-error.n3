@@ -5,17 +5,15 @@
 
 :alice a :Bad .
 
-{ :alice a :Bad . } pe:why {
-  { :alice a :Bad . }
-    pe:rule 1;
-    pe:binding [ pe:var "score"; pe:value 10 ];
-    pe:uses
-      { 10 math:greaterThan 5 . },
-      { :alice :score 10 . }.
+{ :alice a :Bad . }
+  pe:rule 1;
+  pe:binding [ pe:var "score"; pe:value 10 ];
+  pe:uses
+    { 10 math:greaterThan 5 . },
+    { :alice :score 10 . }.
 
-  { 10 math:greaterThan 5 . }
-    pe:builtin math:greaterThan.
+{ 10 math:greaterThan 5 . }
+  pe:builtin math:greaterThan.
 
-  { :alice :score 10 . }
-    pe:fact "well-formedness-error.n3".
-}.
+{ :alice :score 10 . }
+  pe:fact "well-formedness-error.n3".

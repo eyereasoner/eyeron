@@ -5,33 +5,31 @@
 
 :alice a :In .
 
-{ :alice a :In . } pe:why {
-  { :alice a :In . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "SCOPE"; pe:value {
-          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-      } ],
-      [ pe:var "x"; pe:value :alice ];
-    pe:uses
-      { :alice a :Person . },
-      {
-          {
-              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-          } log:notIncludes {
-              :alice a :Out .
-          } .
-      }.
-
-  { :alice a :Person . }
-    pe:fact "unstratified-negation.n3".
-
-  {
-    {
+{ :alice a :In . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
         <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-    } log:notIncludes {
-        :alice a :Out .
-    } .
+    } ],
+    [ pe:var "x"; pe:value :alice ];
+  pe:uses
+    { :alice a :Person . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :alice a :Out .
+        } .
+    }.
+
+{ :alice a :Person . }
+  pe:fact "unstratified-negation.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :alice a :Out .
+  } .
 }
-    pe:builtin log:notIncludes.
-}.
+  pe:builtin log:notIncludes.

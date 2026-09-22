@@ -4,31 +4,29 @@
 
 :result :is true .
 
-{ :result :is true . } pe:why {
-  { :result :is true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "A"; pe:value {
-          ?__rulefact_0__A log:implies ?__rulefact_0__B .
-      } ],
-      [ pe:var "B"; pe:value {
-          :result :is true .
-      } ];
-    pe:uses
-      {
-          {
-              ?__rulefact_0__A log:implies ?__rulefact_0__B .
-          } => {
-              :result :is true .
-          } .
-      }.
-
-  {
-    {
+{ :result :is true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value {
         ?__rulefact_0__A log:implies ?__rulefact_0__B .
-    } => {
+    } ],
+    [ pe:var "B"; pe:value {
         :result :is true .
-    } .
+    } ];
+  pe:uses
+    {
+        {
+            ?__rulefact_0__A log:implies ?__rulefact_0__B .
+        } => {
+            :result :is true .
+        } .
+    }.
+
+{
+  {
+      ?__rulefact_0__A log:implies ?__rulefact_0__B .
+  } => {
+      :result :is true .
+  } .
 }
-    pe:fact "rule-matching.n3".
-}.
+  pe:fact "rule-matching.n3".

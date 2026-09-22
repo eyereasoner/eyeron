@@ -1,39 +1,37 @@
 # N3 example: proof-audit.
 # Companion to proof-audit.pl: the Prolog source replays socrates.pl's own
-# golden proof document (a flat `step(conclusion, by, bindings, uses)` /
-# `why(query, _, goals)` relation) and queries it for dependency chains,
-# supporting source facts, and the bindings a rule application used. N3's
-# own `-p/--proof` output (examples/proof/socrates.n3, supplied here via
+# golden proof document (a flat `step(conclusion, by, bindings, uses)`
+# relation) and queries it for dependency chains, supporting source facts,
+# and the bindings a rule application used. N3's own `-p/--proof` output
+# (examples/proof/socrates.n3, supplied here via
 # examples/input/proof-audit.trig, the same "extra input file" mechanism
-# the rdf-message-*.n3 examples use) represents a proof step as an
-# ordinary quoted formula rather than a numbered fact: `{claim} pe:why
-# {...proof steps...}`, where each step's `pe:uses` names its own
-# premises. `log:includes` on that bound ?proofGraph formula (not the
-# main graph) searches its steps directly, mirroring the Prolog source's
-# own `member(Used, Uses)` search. Each step carries exactly one
-# justification: `pe:fact` (an original source assertion) or `pe:rule`
-# (the number of the rule the engine applied); the proof's root is the
-# one step of the latter kind.
+# the rdf-message-*.n3 examples use) writes each step as an ordinary
+# top-level triple whose subject is the quoted conclusion: `{claim}
+# pe:rule 1; pe:binding ...; pe:uses ...`. So auditing a proof needs no
+# special traversal at all -- the steps are already facts in the graph,
+# and matching `?step pe:uses ?dep` searches them directly, mirroring the
+# Prolog source's own `member(Used, Uses)` search. Each step carries
+# exactly one justification: `pe:fact` (an original source assertion) or
+# `pe:rule` (the number of the rule the engine applied); the proof's root
+# is the one step of the latter kind.
 
 @prefix pe: <https://eyereasoner.github.io/pe#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix pa: <http://example.org/proof-audit#>.
 
-{?claim pe:why ?proofGraph. ?proofGraph log:includes {?step pe:uses ?dep}} => {?step pa:dependsOn ?dep}.
+{?step pe:uses ?dep} => {?step pa:dependsOn ?dep}.
 {?a pa:dependsOn ?b. ?b pa:dependsOn ?c} => {?a pa:dependsOn ?c}.
 
-{?claim pe:why ?proofGraph. ?proofGraph log:includes {?step pe:fact ?src}} => {?step pa:sourceFact true}.
+{?step pe:fact ?src} => {?step pa:sourceFact true}.
 
 {?step pa:sourceFact true} => {?step pa:supportedBy ?step}.
 {?step pa:dependsOn ?anc. ?anc pa:sourceFact true} => {?step pa:supportedBy ?anc}.
 
-{?claim pe:why ?proofGraph. ?proofGraph log:includes {?root pe:rule ?ruleName}} => {pa:test pa:root ?root}.
+{?root pe:rule ?ruleName} => {pa:test pa:root ?root}.
 
 {pa:test pa:root ?root. ?root pa:dependsOn ?anc} => {pa:test pa:queryDependency ?anc}.
 {pa:test pa:root ?root. ?root pa:supportedBy ?fact} => {pa:test pa:support ?fact}.
 
 {
-  ?claim pe:why ?proofGraph.
-  ?proofGraph log:includes {?root pe:binding ?bindingNode. ?bindingNode pe:var ?name. ?bindingNode pe:value ?value}.
+  ?root pe:binding ?bindingNode. ?bindingNode pe:var ?name. ?bindingNode pe:value ?value.
   pa:test pa:root ?root.
 } => {pa:test pa:answerApplied (?name ?value)}.

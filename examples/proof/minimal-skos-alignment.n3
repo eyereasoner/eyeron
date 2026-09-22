@@ -7,39 +7,25 @@
 anpr:VehicleWithPlate ex:treatedAs ref:Car .
 anpr:PassengerCar ex:treatedAs ref:Car .
 
-{ anpr:VehicleWithPlate ex:treatedAs ref:Car . } pe:why {
-  { anpr:VehicleWithPlate ex:treatedAs ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
+{ anpr:VehicleWithPlate ex:treatedAs ref:Car . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
+    [ pe:var "b"; pe:value ref:Car ];
+  pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
 
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "minimal-skos-alignment.n3".
-}.
+{ anpr:VehicleWithPlate skos:broadMatch ref:Car . }
+  pe:fact "minimal-skos-alignment.n3".
 
-{ anpr:PassengerCar ex:treatedAs ref:Car . } pe:why {
-  { anpr:PassengerCar ex:treatedAs ref:Car . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value anpr:PassengerCar ],
-      [ pe:var "y"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "z"; pe:value ref:Car ];
-    pe:uses
-      { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . },
-      { anpr:VehicleWithPlate ex:treatedAs ref:Car . }.
+{ anpr:PassengerCar ex:treatedAs ref:Car . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value anpr:PassengerCar ],
+    [ pe:var "y"; pe:value anpr:VehicleWithPlate ],
+    [ pe:var "z"; pe:value ref:Car ];
+  pe:uses
+    { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . },
+    { anpr:VehicleWithPlate ex:treatedAs ref:Car . }.
 
-  { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
-    pe:fact "minimal-skos-alignment.n3".
-
-  { anpr:VehicleWithPlate ex:treatedAs ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "minimal-skos-alignment.n3".
-}.
+{ anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
+  pe:fact "minimal-skos-alignment.n3".

@@ -3,26 +3,6 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-{
-    :Socrates a :Mortal .
-} pa:dependsOn {
-    :Socrates a :Human .
-} .
-
-{
-    :Socrates a :Mortal .
-} pa:dependsOn {
-    :Human rdfs:subClassOf :Mortal .
-} .
-
-{
-    :Socrates a :Human .
-} pa:sourceFact true .
-
-{
-    :Human rdfs:subClassOf :Mortal .
-} pa:sourceFact true .
-
 pa:test pa:root {
     :Socrates a :Mortal .
 } .
@@ -33,21 +13,41 @@ pa:test pa:answerApplied ("S" :Socrates) .
 
 {
     :Socrates a :Mortal .
-} pa:supportedBy {
+} pa:dependsOn {
+    :Socrates a :Human .
+} .
+
+{
+    :Socrates a :Mortal .
+} pa:dependsOn {
+    :Human rdfs:subClassOf :Mortal .
+} .
+
+{
+    :Socrates a :Human .
+} pa:sourceFact true .
+
+{
+    :Human rdfs:subClassOf :Mortal .
+} pa:sourceFact true .
+
+pa:test pa:queryDependency {
     :Socrates a :Human .
 } .
 
 pa:test pa:queryDependency {
+    :Human rdfs:subClassOf :Mortal .
+} .
+
+{
+    :Socrates a :Mortal .
+} pa:supportedBy {
     :Socrates a :Human .
 } .
 
 {
     :Socrates a :Mortal .
 } pa:supportedBy {
-    :Human rdfs:subClassOf :Mortal .
-} .
-
-pa:test pa:queryDependency {
     :Human rdfs:subClassOf :Mortal .
 } .
 

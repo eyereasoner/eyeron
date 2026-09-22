@@ -5,92 +5,77 @@
 :a :reaches :c .
 :a :reaches :d .
 
-{ :a :reaches :b . } pe:why {
-  { :a :reaches :b . }
-    pe:rule 3;
-    pe:binding [ pe:var "who"; pe:value :b ];
-    pe:uses { :a :ancestor :b . }.
+{ :a :reaches :b . }
+  pe:rule 3;
+  pe:binding [ pe:var "who"; pe:value :b ];
+  pe:uses { :a :ancestor :b . }.
 
-  { :a :ancestor :b . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ];
-    pe:uses { :a :parent :b . }.
+{ :a :ancestor :b . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :b ];
+  pe:uses { :a :parent :b . }.
 
-  { :a :parent :b . }
-    pe:fact "backward-recursion.n3".
-}.
+{ :a :parent :b . }
+  pe:fact "backward-recursion.n3".
 
-{ :a :reaches :c . } pe:why {
-  { :a :reaches :c . }
-    pe:rule 3;
-    pe:binding [ pe:var "who"; pe:value :c ];
-    pe:uses { :a :ancestor :c . }.
+{ :a :reaches :c . }
+  pe:rule 3;
+  pe:binding [ pe:var "who"; pe:value :c ];
+  pe:uses { :a :ancestor :c . }.
 
-  { :a :ancestor :c . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ],
-      [ pe:var "z"; pe:value :c ];
-    pe:uses
-      { :a :parent :b . },
-      { :b :ancestor :c . }.
+{ :a :ancestor :c . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :b ],
+    [ pe:var "z"; pe:value :c ];
+  pe:uses
+    { :a :parent :b . },
+    { :b :ancestor :c . }.
 
-  { :a :parent :b . }
-    pe:fact "backward-recursion.n3".
+{ :b :ancestor :c . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :b ],
+    [ pe:var "y"; pe:value :c ];
+  pe:uses { :b :parent :c . }.
 
-  { :b :ancestor :c . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses { :b :parent :c . }.
+{ :b :parent :c . }
+  pe:fact "backward-recursion.n3".
 
-  { :b :parent :c . }
-    pe:fact "backward-recursion.n3".
-}.
+{ :a :reaches :d . }
+  pe:rule 3;
+  pe:binding [ pe:var "who"; pe:value :d ];
+  pe:uses { :a :ancestor :d . }.
 
-{ :a :reaches :d . } pe:why {
-  { :a :reaches :d . }
-    pe:rule 3;
-    pe:binding [ pe:var "who"; pe:value :d ];
-    pe:uses { :a :ancestor :d . }.
+{ :a :ancestor :d . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :b ],
+    [ pe:var "z"; pe:value :d ];
+  pe:uses
+    { :a :parent :b . },
+    { :b :ancestor :d . }.
 
-  { :a :ancestor :d . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ],
-      [ pe:var "z"; pe:value :d ];
-    pe:uses
-      { :a :parent :b . },
-      { :b :ancestor :d . }.
+{ :b :ancestor :d . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :b ],
+    [ pe:var "y"; pe:value :c ],
+    [ pe:var "z"; pe:value :d ];
+  pe:uses
+    { :b :parent :c . },
+    { :c :ancestor :d . }.
 
-  { :a :parent :b . }
-    pe:fact "backward-recursion.n3".
+{ :c :ancestor :d . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :c ],
+    [ pe:var "y"; pe:value :d ];
+  pe:uses { :c :parent :d . }.
 
-  { :b :ancestor :d . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ],
-      [ pe:var "z"; pe:value :d ];
-    pe:uses
-      { :b :parent :c . },
-      { :c :ancestor :d . }.
-
-  { :b :parent :c . }
-    pe:fact "backward-recursion.n3".
-
-  { :c :ancestor :d . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :c ],
-      [ pe:var "y"; pe:value :d ];
-    pe:uses { :c :parent :d . }.
-
-  { :c :parent :d . }
-    pe:fact "backward-recursion.n3".
-}.
+{ :c :parent :d . }
+  pe:fact "backward-recursion.n3".

@@ -108,23 +108,17 @@ const EXCLUDED_FOR_MESSAGE_LOG_ENCODING: &[&str] = &["rdf-messages"];
 /// Non-error, non-excluded `.srl` examples that still get no
 /// `examples/proof/` golden, and why: `import-lib.srl` is a library rule
 /// set meant to be pulled in by `import-main.srl`'s `IMPORTS` — it has no
-/// `DATA` of its own, so nothing is ever derived to explain. The
-/// `deep-taxonomy-*` sizes beyond `-10` are excluded for the same reason
-/// `tests/examples.rs`'s `NO_PROOF_EXAMPLES` excludes them there:
-/// `srl::proof::proof_to_srl` shares its dependency-tree walk with
-/// `n3::proof::proof_to_n3` (one full walk per derived fact, independent
-/// of every other derived fact's own walk), so a long single-premise
-/// chain's proof cost grows with the *square* of the chain length —
-/// `deep-taxonomy-1000.srl` alone did not finish in 30s. SRL's own
-/// blank-node-id-deduplicated `DATA` block keeps the *rendered size* far
-/// smaller than N3's nested-formula equivalent (so `transitive-closure.srl`
-/// and `dining-philosophers.srl`, both excluded on the N3 side, are fine
-/// here), but the underlying walk is exactly as slow.
+/// `DATA` of its own, so nothing is ever derived to explain. The two
+/// largest `deep-taxonomy-*` sizes are excluded for the same reason
+/// `tests/examples.rs`'s `NO_PROOF_EXAMPLES` excludes them there: the
+/// dependency walk `srl::proof::proof_to_srl` shares with
+/// `n3::proof::proof_to_n3` is linear now, and their proofs are correct,
+/// but they run to megabytes of repetition `deep-taxonomy-1000.srl`
+/// already covers.
 const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
     ("import-lib", "a library rule set with no DATA of its own; nothing is ever derived"),
-    ("deep-taxonomy-1000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays fast enough to check in"),
-    ("deep-taxonomy-10000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays fast enough to check in"),
-    ("deep-taxonomy-100000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays fast enough to check in"),
+    ("deep-taxonomy-10000", "its proof is correct and linear, but megabytes of it; deep-taxonomy-1000 covers the same shape"),
+    ("deep-taxonomy-100000", "its proof is correct and linear, but megabytes of it; deep-taxonomy-1000 covers the same shape"),
 ];
 
 fn all_srl_example_names() -> BTreeSet<String> {

@@ -15,102 +15,80 @@
 :ok_list_rest_1 a :Pass .
 :ok_list_firstRest_1 a :Pass .
 
-{ :ok_list_append_1 a :Pass . } pe:why {
-  { :ok_list_append_1 a :Pass . }
-    pe:rule 1;
-    pe:uses { ((1 2) (3 4)) list:append (1 2 3 4) . }.
+{ :ok_list_append_1 a :Pass . }
+  pe:rule 1;
+  pe:uses { ((1 2) (3 4)) list:append (1 2 3 4) . }.
 
-  { ((1 2) (3 4)) list:append (1 2 3 4) . }
-    pe:builtin list:append.
-}.
+{ ((1 2) (3 4)) list:append (1 2 3 4) . }
+  pe:builtin list:append.
 
-{ :ok_list_first_1 a :Pass . } pe:why {
-  { :ok_list_first_1 a :Pass . }
-    pe:rule 2;
-    pe:uses { (1 2 3 4) list:first 1 . }.
+{ :ok_list_first_1 a :Pass . }
+  pe:rule 2;
+  pe:uses { (1 2 3 4) list:first 1 . }.
 
-  { (1 2 3 4) list:first 1 . }
-    pe:builtin list:first.
-}.
+{ (1 2 3 4) list:first 1 . }
+  pe:builtin list:first.
 
-{ :ok_list_in_1 a :Pass . } pe:why {
-  { :ok_list_in_1 a :Pass . }
-    pe:rule 3;
-    pe:uses { "cat" list:in ("dog" "penguin" "cat") . }.
+{ :ok_list_in_1 a :Pass . }
+  pe:rule 3;
+  pe:uses { "cat" list:in ("dog" "penguin" "cat") . }.
 
-  { "cat" list:in ("dog" "penguin" "cat") . }
-    pe:builtin list:in.
-}.
+{ "cat" list:in ("dog" "penguin" "cat") . }
+  pe:builtin list:in.
 
-{ :ok_list_iterate_1 a :Pass . } pe:why {
-  { :ok_list_iterate_1 a :Pass . }
-    pe:rule 4;
-    pe:binding [ pe:var "index"; pe:value 2 ];
-    pe:uses { ("dog" "penguin" "cat") list:iterate (2 "cat") . }.
+{ :ok_list_iterate_1 a :Pass . }
+  pe:rule 4;
+  pe:binding [ pe:var "index"; pe:value 2 ];
+  pe:uses { ("dog" "penguin" "cat") list:iterate (2 "cat") . }.
 
-  { ("dog" "penguin" "cat") list:iterate (2 "cat") . }
-    pe:builtin list:iterate.
-}.
+{ ("dog" "penguin" "cat") list:iterate (2 "cat") . }
+  pe:builtin list:iterate.
 
-{ :ok_list_last_1 a :Pass . } pe:why {
-  { :ok_list_last_1 a :Pass . }
-    pe:rule 5;
-    pe:uses { (1 2 3 4) list:last 4 . }.
+{ :ok_list_last_1 a :Pass . }
+  pe:rule 5;
+  pe:uses { (1 2 3 4) list:last 4 . }.
 
-  { (1 2 3 4) list:last 4 . }
-    pe:builtin list:last.
-}.
+{ (1 2 3 4) list:last 4 . }
+  pe:builtin list:last.
 
-{ :ok_list_length_1 a :Pass . } pe:why {
-  { :ok_list_length_1 a :Pass . }
-    pe:rule 6;
-    pe:uses { (1 2 3 4) list:length 4 . }.
+{ :ok_list_length_1 a :Pass . }
+  pe:rule 6;
+  pe:uses { (1 2 3 4) list:length 4 . }.
 
-  { (1 2 3 4) list:length 4 . }
-    pe:builtin list:length.
-}.
+{ (1 2 3 4) list:length 4 . }
+  pe:builtin list:length.
 
-{ :ok_list_member_1 a :Pass . } pe:why {
-  { :ok_list_member_1 a :Pass . }
-    pe:rule 7;
-    pe:uses { ("dog" "penguin" "cat") list:member "cat" . }.
+{ :ok_list_member_1 a :Pass . }
+  pe:rule 7;
+  pe:uses { ("dog" "penguin" "cat") list:member "cat" . }.
 
-  { ("dog" "penguin" "cat") list:member "cat" . }
-    pe:builtin list:member.
-}.
+{ ("dog" "penguin" "cat") list:member "cat" . }
+  pe:builtin list:member.
 
-{ :ok_list_memberAt_1 a :Pass . } pe:why {
-  { :ok_list_memberAt_1 a :Pass . }
-    pe:rule 8;
-    pe:uses { (("dog" "penguin" "cat") 2) list:memberAt "cat" . }.
+{ :ok_list_memberAt_1 a :Pass . }
+  pe:rule 8;
+  pe:uses { (("dog" "penguin" "cat") 2) list:memberAt "cat" . }.
 
-  { (("dog" "penguin" "cat") 2) list:memberAt "cat" . }
-    pe:builtin list:memberAt.
-}.
+{ (("dog" "penguin" "cat") 2) list:memberAt "cat" . }
+  pe:builtin list:memberAt.
 
-{ :ok_list_remove_1 a :Pass . } pe:why {
-  { :ok_list_remove_1 a :Pass . }
-    pe:rule 9;
-    pe:uses { (("dog" "penguin" "cat" "penguin") "penguin") list:remove ("dog" "cat") . }.
+{ :ok_list_remove_1 a :Pass . }
+  pe:rule 9;
+  pe:uses { (("dog" "penguin" "cat" "penguin") "penguin") list:remove ("dog" "cat") . }.
 
-  { (("dog" "penguin" "cat" "penguin") "penguin") list:remove ("dog" "cat") . }
-    pe:builtin list:remove.
-}.
+{ (("dog" "penguin" "cat" "penguin") "penguin") list:remove ("dog" "cat") . }
+  pe:builtin list:remove.
 
-{ :ok_list_rest_1 a :Pass . } pe:why {
-  { :ok_list_rest_1 a :Pass . }
-    pe:rule 10;
-    pe:uses { (1 2 3 4) list:rest (2 3 4) . }.
+{ :ok_list_rest_1 a :Pass . }
+  pe:rule 10;
+  pe:uses { (1 2 3 4) list:rest (2 3 4) . }.
 
-  { (1 2 3 4) list:rest (2 3 4) . }
-    pe:builtin list:rest.
-}.
+{ (1 2 3 4) list:rest (2 3 4) . }
+  pe:builtin list:rest.
 
-{ :ok_list_firstRest_1 a :Pass . } pe:why {
-  { :ok_list_firstRest_1 a :Pass . }
-    pe:rule 11;
-    pe:uses { (1 2 3 4) list:firstRest (1 (2 3 4)) . }.
+{ :ok_list_firstRest_1 a :Pass . }
+  pe:rule 11;
+  pe:uses { (1 2 3 4) list:firstRest (1 (2 3 4)) . }.
 
-  { (1 2 3 4) list:firstRest (1 (2 3 4)) . }
-    pe:builtin list:firstRest.
-}.
+{ (1 2 3 4) list:firstRest (1 (2 3 4)) . }
+  pe:builtin list:firstRest.

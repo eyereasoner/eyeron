@@ -606,18 +606,12 @@ impl Parser {
                             if self.check(&TokenKind::Comma) { self.advance(); continue; }
                             break;
                         }
+                        // The remaining `; <verb> <objects>` groups are an
+                        // ordinary predicate-object list about the same
+                        // subject, however many of them there are.
                         if self.check(&TokenKind::Semicolon) {
                             while self.check(&TokenKind::Semicolon) { self.advance(); }
-                            if !matches!(self.peek_kind(), TokenKind::Dot | TokenKind::RBrace | TokenKind::RBracket) {
-                                let next_pred = self.parse_verb()?;
-                                loop {
-                                    let (object, mut generated) = self.parse_term()?;
-                                    triples.push(Triple::new(subject.clone(), next_pred.clone(), object));
-                                    triples.append(&mut generated);
-                                    if self.check(&TokenKind::Comma) { self.advance(); continue; }
-                                    break;
-                                }
-                            }
+                            triples.extend(self.parse_predicate_object_list(subject.clone())?);
                         }
                         self.add_facts(triples, source.clone());
                     }

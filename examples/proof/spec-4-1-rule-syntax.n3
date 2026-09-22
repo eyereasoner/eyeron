@@ -4,28 +4,26 @@
 
 :x :bothPositive true .
 
-{ :x :bothPositive true . } pe:why {
-  { :x :bothPositive true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "v1"; pe:value 1 ],
-      [ pe:var "v2"; pe:value 2 ],
-      [ pe:var "x"; pe:value :x ];
-    pe:uses
-      { :x :p 1 . },
-      { :x :q 2 . },
-      { 1 math:greaterThan 0 . },
-      { 2 math:greaterThan 0 . }.
+{ :x :bothPositive true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "v1"; pe:value 1 ],
+    [ pe:var "v2"; pe:value 2 ],
+    [ pe:var "x"; pe:value :x ];
+  pe:uses
+    { :x :p 1 . },
+    { :x :q 2 . },
+    { 1 math:greaterThan 0 . },
+    { 2 math:greaterThan 0 . }.
 
-  { :x :p 1 . }
-    pe:fact "spec-4-1-rule-syntax.n3".
+{ :x :p 1 . }
+  pe:fact "spec-4-1-rule-syntax.n3".
 
-  { :x :q 2 . }
-    pe:fact "spec-4-1-rule-syntax.n3".
+{ :x :q 2 . }
+  pe:fact "spec-4-1-rule-syntax.n3".
 
-  { 1 math:greaterThan 0 . }
-    pe:builtin math:greaterThan.
+{ 1 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
 
-  { 2 math:greaterThan 0 . }
-    pe:builtin math:greaterThan.
-}.
+{ 2 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.

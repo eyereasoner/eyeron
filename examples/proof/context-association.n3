@@ -6,83 +6,79 @@
 (:bob :g0 :g1 :g3 "ecdsa-rdfc-2019" <https://university.example/issuers/14>) :association true .
 :test :graphScopeRespected true .
 
-{ (:bob :g0 :g1 :g3 "ecdsa-rdfc-2019" <https://university.example/issuers/14>) :association true . } pe:why {
-  { (:bob :g0 :g1 :g3 "ecdsa-rdfc-2019" <https://university.example/issuers/14>) :association true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "dataGraph"; pe:value :g0 ],
-      [ pe:var "dataSignature"; pe:value :dataSignature ],
-      [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
-      [ pe:var "metadataGraph"; pe:value :g3 ],
-      [ pe:var "metadataProof"; pe:value :signature2 ],
-      [ pe:var "metadataSignature"; pe:value :signature2 ],
-      [ pe:var "proof"; pe:value :signature1 ],
-      [ pe:var "signatureGraph"; pe:value :g1 ];
-    pe:uses
-      { (:bob :name "Bob" :g0) :quad true . },
-      { (:g0 :proof :dataSignature :g1) :quad true . },
-      { (:signature1 :type :DataIntegrityProof :g1) :quad true . },
-      { (:signature1 :cryptosuite "ecdsa-rdfc-2019" :g1) :quad true . },
-      { (:signature1 :issuer <https://university.example/issuers/14> :g1) :quad true . },
-      { <https://university.example/issuers/14> log:equalTo <https://university.example/issuers/14> . },
-      { (:signature1 :validUntil "2025-04-03T00:00:00.000Z"^^xsd:dateTime :g1) :quad true . },
-      { (:g1 :proof :signature2 :g3) :quad true . },
-      { (:signature2 :type :DataIntegrityProof :g3) :quad true . },
-      { (:signature2 :proofPurpose "assertionMethod" :g3) :quad true . }.
+{ (:bob :g0 :g1 :g3 "ecdsa-rdfc-2019" <https://university.example/issuers/14>) :association true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "dataGraph"; pe:value :g0 ],
+    [ pe:var "dataSignature"; pe:value :dataSignature ],
+    [ pe:var "issuer"; pe:value <https://university.example/issuers/14> ],
+    [ pe:var "metadataGraph"; pe:value :g3 ],
+    [ pe:var "metadataProof"; pe:value :signature2 ],
+    [ pe:var "metadataSignature"; pe:value :signature2 ],
+    [ pe:var "proof"; pe:value :signature1 ],
+    [ pe:var "signatureGraph"; pe:value :g1 ];
+  pe:uses
+    { (:bob :name "Bob" :g0) :quad true . },
+    { (:g0 :proof :dataSignature :g1) :quad true . },
+    { (:signature1 :type :DataIntegrityProof :g1) :quad true . },
+    { (:signature1 :cryptosuite "ecdsa-rdfc-2019" :g1) :quad true . },
+    { (:signature1 :issuer <https://university.example/issuers/14> :g1) :quad true . },
+    { <https://university.example/issuers/14> log:equalTo <https://university.example/issuers/14> . },
+    { (:signature1 :validUntil "2025-04-03T00:00:00.000Z"^^xsd:dateTime :g1) :quad true . },
+    { (:g1 :proof :signature2 :g3) :quad true . },
+    { (:signature2 :type :DataIntegrityProof :g3) :quad true . },
+    { (:signature2 :proofPurpose "assertionMethod" :g3) :quad true . }.
 
-  { (:bob :name "Bob" :g0) :quad true . }
-    pe:fact "context-association.n3".
+{ (:bob :name "Bob" :g0) :quad true . }
+  pe:fact "context-association.n3".
 
-  { (:g0 :proof :dataSignature :g1) :quad true . }
-    pe:fact "context-association.n3".
+{ (:g0 :proof :dataSignature :g1) :quad true . }
+  pe:fact "context-association.n3".
 
-  { (:signature1 :type :DataIntegrityProof :g1) :quad true . }
-    pe:fact "context-association.n3".
+{ (:signature1 :type :DataIntegrityProof :g1) :quad true . }
+  pe:fact "context-association.n3".
 
-  { (:signature1 :cryptosuite "ecdsa-rdfc-2019" :g1) :quad true . }
-    pe:fact "context-association.n3".
+{ (:signature1 :cryptosuite "ecdsa-rdfc-2019" :g1) :quad true . }
+  pe:fact "context-association.n3".
 
-  { (:signature1 :issuer <https://university.example/issuers/14> :g1) :quad true . }
-    pe:fact "context-association.n3".
+{ (:signature1 :issuer <https://university.example/issuers/14> :g1) :quad true . }
+  pe:fact "context-association.n3".
 
-  { <https://university.example/issuers/14> log:equalTo <https://university.example/issuers/14> . }
-    pe:builtin log:equalTo.
+{ <https://university.example/issuers/14> log:equalTo <https://university.example/issuers/14> . }
+  pe:builtin log:equalTo.
 
-  { (:signature1 :validUntil "2025-04-03T00:00:00.000Z"^^xsd:dateTime :g1) :quad true . }
-    pe:fact "context-association.n3".
+{ (:signature1 :validUntil "2025-04-03T00:00:00.000Z"^^xsd:dateTime :g1) :quad true . }
+  pe:fact "context-association.n3".
 
-  { (:g1 :proof :signature2 :g3) :quad true . }
-    pe:fact "context-association.n3".
+{ (:g1 :proof :signature2 :g3) :quad true . }
+  pe:fact "context-association.n3".
 
-  { (:signature2 :type :DataIntegrityProof :g3) :quad true . }
-    pe:fact "context-association.n3".
+{ (:signature2 :type :DataIntegrityProof :g3) :quad true . }
+  pe:fact "context-association.n3".
 
-  { (:signature2 :proofPurpose "assertionMethod" :g3) :quad true . }
-    pe:fact "context-association.n3".
-}.
+{ (:signature2 :proofPurpose "assertionMethod" :g3) :quad true . }
+  pe:fact "context-association.n3".
 
-{ :test :graphScopeRespected true . } pe:why {
-  { :test :graphScopeRespected true . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "SCOPE"; pe:value {
-          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-      } ];
-    pe:uses
-      {
-          {
-              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-          } log:notIncludes {
-              (:bob :name "Bob" :g1) :quad true .
-          } .
-      }.
-
-  {
-    {
+{ :test :graphScopeRespected true . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
         <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-    } log:notIncludes {
-        (:bob :name "Bob" :g1) :quad true .
-    } .
+    } ];
+  pe:uses
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            (:bob :name "Bob" :g1) :quad true .
+        } .
+    }.
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      (:bob :name "Bob" :g1) :quad true .
+  } .
 }
-    pe:builtin log:notIncludes.
-}.
+  pe:builtin log:notIncludes.

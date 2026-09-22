@@ -11,227 +11,92 @@
 :b :path :b .
 :c :path :c .
 
-{ :a :path :b . } pe:why {
-  { :a :path :b . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ];
-    pe:uses { :a :edge :b . }.
+{ :a :path :b . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :b ];
+  pe:uses { :a :edge :b . }.
 
-  { :a :edge :b . }
-    pe:fact "cyclic-reachability.n3".
-}.
+{ :a :edge :b . }
+  pe:fact "cyclic-reachability.n3".
 
-{ :b :path :c . } pe:why {
-  { :b :path :c . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses { :b :edge :c . }.
+{ :b :path :c . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :b ],
+    [ pe:var "y"; pe:value :c ];
+  pe:uses { :b :edge :c . }.
 
-  { :b :edge :c . }
-    pe:fact "cyclic-reachability.n3".
-}.
+{ :b :edge :c . }
+  pe:fact "cyclic-reachability.n3".
 
-{ :a :path :c . } pe:why {
-  { :a :path :c . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ],
-      [ pe:var "z"; pe:value :c ];
-    pe:uses
-      { :a :path :b . },
-      { :b :edge :c . }.
+{ :a :path :c . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :b ],
+    [ pe:var "z"; pe:value :c ];
+  pe:uses
+    { :a :path :b . },
+    { :b :edge :c . }.
 
-  { :a :path :b . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ];
-    pe:uses { :a :edge :b . }.
+{ :c :path :a . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :c ],
+    [ pe:var "y"; pe:value :a ];
+  pe:uses { :c :edge :a . }.
 
-  { :a :edge :b . }
-    pe:fact "cyclic-reachability.n3".
+{ :c :edge :a . }
+  pe:fact "cyclic-reachability.n3".
 
-  { :b :edge :c . }
-    pe:fact "cyclic-reachability.n3".
-}.
+{ :b :path :a . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :b ],
+    [ pe:var "y"; pe:value :c ],
+    [ pe:var "z"; pe:value :a ];
+  pe:uses
+    { :b :path :c . },
+    { :c :edge :a . }.
 
-{ :c :path :a . } pe:why {
-  { :c :path :a . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :c ],
-      [ pe:var "y"; pe:value :a ];
-    pe:uses { :c :edge :a . }.
+{ :a :path :a . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :c ],
+    [ pe:var "z"; pe:value :a ];
+  pe:uses
+    { :a :path :c . },
+    { :c :edge :a . }.
 
-  { :c :edge :a . }
-    pe:fact "cyclic-reachability.n3".
-}.
+{ :c :path :b . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :c ],
+    [ pe:var "y"; pe:value :a ],
+    [ pe:var "z"; pe:value :b ];
+  pe:uses
+    { :c :path :a . },
+    { :a :edge :b . }.
 
-{ :b :path :a . } pe:why {
-  { :b :path :a . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ],
-      [ pe:var "z"; pe:value :a ];
-    pe:uses
-      { :b :path :c . },
-      { :c :edge :a . }.
+{ :b :path :b . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :b ],
+    [ pe:var "y"; pe:value :a ],
+    [ pe:var "z"; pe:value :b ];
+  pe:uses
+    { :b :path :a . },
+    { :a :edge :b . }.
 
-  { :b :path :c . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses { :b :edge :c . }.
-
-  { :b :edge :c . }
-    pe:fact "cyclic-reachability.n3".
-
-  { :c :edge :a . }
-    pe:fact "cyclic-reachability.n3".
-}.
-
-{ :a :path :a . } pe:why {
-  { :a :path :a . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :c ],
-      [ pe:var "z"; pe:value :a ];
-    pe:uses
-      { :a :path :c . },
-      { :c :edge :a . }.
-
-  { :a :path :c . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ],
-      [ pe:var "z"; pe:value :c ];
-    pe:uses
-      { :a :path :b . },
-      { :b :edge :c . }.
-
-  { :a :path :b . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ];
-    pe:uses { :a :edge :b . }.
-
-  { :a :edge :b . }
-    pe:fact "cyclic-reachability.n3".
-
-  { :b :edge :c . }
-    pe:fact "cyclic-reachability.n3".
-
-  { :c :edge :a . }
-    pe:fact "cyclic-reachability.n3".
-}.
-
-{ :c :path :b . } pe:why {
-  { :c :path :b . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :c ],
-      [ pe:var "y"; pe:value :a ],
-      [ pe:var "z"; pe:value :b ];
-    pe:uses
-      { :c :path :a . },
-      { :a :edge :b . }.
-
-  { :c :path :a . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :c ],
-      [ pe:var "y"; pe:value :a ];
-    pe:uses { :c :edge :a . }.
-
-  { :c :edge :a . }
-    pe:fact "cyclic-reachability.n3".
-
-  { :a :edge :b . }
-    pe:fact "cyclic-reachability.n3".
-}.
-
-{ :b :path :b . } pe:why {
-  { :b :path :b . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :a ],
-      [ pe:var "z"; pe:value :b ];
-    pe:uses
-      { :b :path :a . },
-      { :a :edge :b . }.
-
-  { :b :path :a . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ],
-      [ pe:var "z"; pe:value :a ];
-    pe:uses
-      { :b :path :c . },
-      { :c :edge :a . }.
-
-  { :b :path :c . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses { :b :edge :c . }.
-
-  { :b :edge :c . }
-    pe:fact "cyclic-reachability.n3".
-
-  { :c :edge :a . }
-    pe:fact "cyclic-reachability.n3".
-
-  { :a :edge :b . }
-    pe:fact "cyclic-reachability.n3".
-}.
-
-{ :c :path :c . } pe:why {
-  { :c :path :c . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :c ],
-      [ pe:var "y"; pe:value :b ],
-      [ pe:var "z"; pe:value :c ];
-    pe:uses
-      { :c :path :b . },
-      { :b :edge :c . }.
-
-  { :c :path :b . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :c ],
-      [ pe:var "y"; pe:value :a ],
-      [ pe:var "z"; pe:value :b ];
-    pe:uses
-      { :c :path :a . },
-      { :a :edge :b . }.
-
-  { :c :path :a . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :c ],
-      [ pe:var "y"; pe:value :a ];
-    pe:uses { :c :edge :a . }.
-
-  { :c :edge :a . }
-    pe:fact "cyclic-reachability.n3".
-
-  { :a :edge :b . }
-    pe:fact "cyclic-reachability.n3".
-
-  { :b :edge :c . }
-    pe:fact "cyclic-reachability.n3".
-}.
+{ :c :path :c . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :c ],
+    [ pe:var "y"; pe:value :b ],
+    [ pe:var "z"; pe:value :c ];
+  pe:uses
+    { :c :path :b . },
+    { :b :edge :c . }.

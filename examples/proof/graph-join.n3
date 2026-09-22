@@ -3,45 +3,43 @@
 
 :claim1 :trusted true .
 
-{ :claim1 :trusted true . } pe:why {
-  { :claim1 :trusted true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "claim"; pe:value :claim1 ],
-      [ pe:var "person"; pe:value :alice ],
-      [ pe:var "q1"; pe:value _:b1 ],
-      [ pe:var "q2"; pe:value _:b2 ];
-    pe:uses
-      { _:b1 :subject :alice . },
-      { _:b1 :predicate :role . },
-      { _:b1 :object :reviewer . },
-      { _:b1 :graph :staff . },
-      { _:b2 :subject :alice . },
-      { _:b2 :predicate :approved . },
-      { _:b2 :object :claim1 . },
-      { _:b2 :graph :reviews . }.
+{ :claim1 :trusted true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value :claim1 ],
+    [ pe:var "person"; pe:value :alice ],
+    [ pe:var "q1"; pe:value _:b1 ],
+    [ pe:var "q2"; pe:value _:b2 ];
+  pe:uses
+    { _:b1 :subject :alice . },
+    { _:b1 :predicate :role . },
+    { _:b1 :object :reviewer . },
+    { _:b1 :graph :staff . },
+    { _:b2 :subject :alice . },
+    { _:b2 :predicate :approved . },
+    { _:b2 :object :claim1 . },
+    { _:b2 :graph :reviews . }.
 
-  { _:b1 :subject :alice . }
-    pe:fact "graph-join.n3".
+{ _:b1 :subject :alice . }
+  pe:fact "graph-join.n3".
 
-  { _:b1 :predicate :role . }
-    pe:fact "graph-join.n3".
+{ _:b1 :predicate :role . }
+  pe:fact "graph-join.n3".
 
-  { _:b1 :object :reviewer . }
-    pe:fact "graph-join.n3".
+{ _:b1 :object :reviewer . }
+  pe:fact "graph-join.n3".
 
-  { _:b1 :graph :staff . }
-    pe:fact "graph-join.n3".
+{ _:b1 :graph :staff . }
+  pe:fact "graph-join.n3".
 
-  { _:b2 :subject :alice . }
-    pe:fact "graph-join.n3".
+{ _:b2 :subject :alice . }
+  pe:fact "graph-join.n3".
 
-  { _:b2 :predicate :approved . }
-    pe:fact "graph-join.n3".
+{ _:b2 :predicate :approved . }
+  pe:fact "graph-join.n3".
 
-  { _:b2 :object :claim1 . }
-    pe:fact "graph-join.n3".
+{ _:b2 :object :claim1 . }
+  pe:fact "graph-join.n3".
 
-  { _:b2 :graph :reviews . }
-    pe:fact "graph-join.n3".
-}.
+{ _:b2 :graph :reviews . }
+  pe:fact "graph-join.n3".

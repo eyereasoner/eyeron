@@ -39,717 +39,239 @@ anpr:PassengerCar ex:narrowerOrEqualOf ref:Car .
 anpr:VehicleWithPlate ex:rollsUpTo ref:Car .
 anpr:PassengerCar ex:rollsUpTo ref:Car .
 
-{ ref:Car ex:narrowerOrEqualOf ref:Car . } pe:why {
-  { ref:Car ex:narrowerOrEqualOf ref:Car . }
-    pe:rule 9;
-    pe:binding [ pe:var "c"; pe:value ref:Car ];
-    pe:uses { ref:Car a skos:Concept . }.
-
-  { ref:Car a skos:Concept . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ tel:Car ex:narrowerOrEqualOf tel:Car . } pe:why {
-  { tel:Car ex:narrowerOrEqualOf tel:Car . }
-    pe:rule 9;
-    pe:binding [ pe:var "c"; pe:value tel:Car ];
-    pe:uses { tel:Car a skos:Concept . }.
-
-  { tel:Car a skos:Concept . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ tel:HeavyVehicle ex:narrowerOrEqualOf tel:HeavyVehicle . } pe:why {
-  { tel:HeavyVehicle ex:narrowerOrEqualOf tel:HeavyVehicle . }
-    pe:rule 9;
-    pe:binding [ pe:var "c"; pe:value tel:HeavyVehicle ];
-    pe:uses { tel:HeavyVehicle a skos:Concept . }.
-
-  { tel:HeavyVehicle a skos:Concept . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:VehicleWithPlate ex:narrowerOrEqualOf anpr:VehicleWithPlate . } pe:why {
-  { anpr:VehicleWithPlate ex:narrowerOrEqualOf anpr:VehicleWithPlate . }
-    pe:rule 9;
-    pe:binding [ pe:var "c"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate a skos:Concept . }.
-
-  { anpr:VehicleWithPlate a skos:Concept . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:PassengerCar ex:narrowerOrEqualOf anpr:PassengerCar . } pe:why {
-  { anpr:PassengerCar ex:narrowerOrEqualOf anpr:PassengerCar . }
-    pe:rule 9;
-    pe:binding [ pe:var "c"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar a skos:Concept . }.
-
-  { anpr:PassengerCar a skos:Concept . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:VehicleWithPlate skos:narrower anpr:PassengerCar . } pe:why {
-  { anpr:VehicleWithPlate skos:narrower anpr:PassengerCar . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }.
-
-  { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . } pe:why {
-  { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }.
-
-  { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ tel:Car skos:broader ref:Car . } pe:why {
-  { tel:Car skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:Car ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:Car skos:broadMatch ref:Car . }.
-
-  { tel:Car skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ tel:HeavyVehicle skos:broader ref:Car . } pe:why {
-  { tel:HeavyVehicle skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:HeavyVehicle ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:HeavyVehicle skos:broadMatch ref:Car . }.
-
-  { tel:HeavyVehicle skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:VehicleWithPlate skos:broader ref:Car . } pe:why {
-  { anpr:VehicleWithPlate skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ ref:Car ex:rollsUpTo ref:Car . } pe:why {
-  { ref:Car ex:rollsUpTo ref:Car . }
-    pe:rule 11;
-    pe:binding [ pe:var "x"; pe:value ref:Car ];
-    pe:uses { ref:Car ex:narrowerOrEqualOf ref:Car . }.
-
-  { ref:Car ex:narrowerOrEqualOf ref:Car . }
-    pe:rule 9;
-    pe:binding [ pe:var "c"; pe:value ref:Car ];
-    pe:uses { ref:Car a skos:Concept . }.
-
-  { ref:Car a skos:Concept . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:VehicleWithPlate skos:narrowerTransitive anpr:PassengerCar . } pe:why {
-  { anpr:VehicleWithPlate skos:narrowerTransitive anpr:PassengerCar . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "c"; pe:value anpr:PassengerCar ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:narrower anpr:PassengerCar . }.
-
-  { anpr:VehicleWithPlate skos:narrower anpr:PassengerCar . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }.
-
-  { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:PassengerCar ex:narrowerOrEqualOf anpr:VehicleWithPlate . } pe:why {
-  { anpr:PassengerCar ex:narrowerOrEqualOf anpr:VehicleWithPlate . }
-    pe:rule 10;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "c"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . }.
-
-  { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }.
-
-  { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ ref:Car skos:narrower tel:Car . } pe:why {
-  { ref:Car skos:narrower tel:Car . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:Car ];
-    pe:uses { tel:Car skos:broader ref:Car . }.
-
-  { tel:Car skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:Car ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:Car skos:broadMatch ref:Car . }.
-
-  { tel:Car skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ tel:Car skos:broaderTransitive ref:Car . } pe:why {
-  { tel:Car skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:Car ];
-    pe:uses { tel:Car skos:broader ref:Car . }.
-
-  { tel:Car skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:Car ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:Car skos:broadMatch ref:Car . }.
-
-  { tel:Car skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ ref:Car skos:narrower tel:HeavyVehicle . } pe:why {
-  { ref:Car skos:narrower tel:HeavyVehicle . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:HeavyVehicle ];
-    pe:uses { tel:HeavyVehicle skos:broader ref:Car . }.
-
-  { tel:HeavyVehicle skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:HeavyVehicle ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:HeavyVehicle skos:broadMatch ref:Car . }.
-
-  { tel:HeavyVehicle skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ tel:HeavyVehicle skos:broaderTransitive ref:Car . } pe:why {
-  { tel:HeavyVehicle skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:HeavyVehicle ];
-    pe:uses { tel:HeavyVehicle skos:broader ref:Car . }.
-
-  { tel:HeavyVehicle skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:HeavyVehicle ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:HeavyVehicle skos:broadMatch ref:Car . }.
-
-  { tel:HeavyVehicle skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ ref:Car skos:narrower anpr:VehicleWithPlate . } pe:why {
-  { ref:Car skos:narrower anpr:VehicleWithPlate . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:VehicleWithPlate skos:broaderTransitive ref:Car . } pe:why {
-  { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ ref:Car skos:narrowerTransitive tel:Car . } pe:why {
-  { ref:Car skos:narrowerTransitive tel:Car . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "c"; pe:value tel:Car ],
-      [ pe:var "n"; pe:value ref:Car ];
-    pe:uses { ref:Car skos:narrower tel:Car . }.
-
-  { ref:Car skos:narrower tel:Car . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:Car ];
-    pe:uses { tel:Car skos:broader ref:Car . }.
-
-  { tel:Car skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:Car ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:Car skos:broadMatch ref:Car . }.
-
-  { tel:Car skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ tel:Car ex:narrowerOrEqualOf ref:Car . } pe:why {
-  { tel:Car ex:narrowerOrEqualOf ref:Car . }
-    pe:rule 10;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "c"; pe:value tel:Car ];
-    pe:uses { tel:Car skos:broaderTransitive ref:Car . }.
-
-  { tel:Car skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:Car ];
-    pe:uses { tel:Car skos:broader ref:Car . }.
-
-  { tel:Car skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:Car ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:Car skos:broadMatch ref:Car . }.
-
-  { tel:Car skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ ref:Car skos:narrowerTransitive tel:HeavyVehicle . } pe:why {
-  { ref:Car skos:narrowerTransitive tel:HeavyVehicle . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "c"; pe:value tel:HeavyVehicle ],
-      [ pe:var "n"; pe:value ref:Car ];
-    pe:uses { ref:Car skos:narrower tel:HeavyVehicle . }.
-
-  { ref:Car skos:narrower tel:HeavyVehicle . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:HeavyVehicle ];
-    pe:uses { tel:HeavyVehicle skos:broader ref:Car . }.
-
-  { tel:HeavyVehicle skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:HeavyVehicle ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:HeavyVehicle skos:broadMatch ref:Car . }.
-
-  { tel:HeavyVehicle skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ tel:HeavyVehicle ex:narrowerOrEqualOf ref:Car . } pe:why {
-  { tel:HeavyVehicle ex:narrowerOrEqualOf ref:Car . }
-    pe:rule 10;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "c"; pe:value tel:HeavyVehicle ];
-    pe:uses { tel:HeavyVehicle skos:broaderTransitive ref:Car . }.
-
-  { tel:HeavyVehicle skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:HeavyVehicle ];
-    pe:uses { tel:HeavyVehicle skos:broader ref:Car . }.
-
-  { tel:HeavyVehicle skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:HeavyVehicle ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:HeavyVehicle skos:broadMatch ref:Car . }.
-
-  { tel:HeavyVehicle skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ ref:Car skos:narrowerTransitive anpr:VehicleWithPlate . } pe:why {
-  { ref:Car skos:narrowerTransitive anpr:VehicleWithPlate . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "c"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value ref:Car ];
-    pe:uses { ref:Car skos:narrower anpr:VehicleWithPlate . }.
-
-  { ref:Car skos:narrower anpr:VehicleWithPlate . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:PassengerCar skos:broaderTransitive ref:Car . } pe:why {
-  { anpr:PassengerCar skos:broaderTransitive ref:Car . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:PassengerCar ],
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "c"; pe:value ref:Car ];
-    pe:uses
-      { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . },
-      { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }.
-
-  { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }.
-
-  { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
-    pe:fact "alignment-demo.n3".
-
-  { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:VehicleWithPlate ex:narrowerOrEqualOf ref:Car . } pe:why {
-  { anpr:VehicleWithPlate ex:narrowerOrEqualOf ref:Car . }
-    pe:rule 10;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "c"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ tel:Car ex:rollsUpTo ref:Car . } pe:why {
-  { tel:Car ex:rollsUpTo ref:Car . }
-    pe:rule 11;
-    pe:binding [ pe:var "x"; pe:value tel:Car ];
-    pe:uses { tel:Car ex:narrowerOrEqualOf ref:Car . }.
-
-  { tel:Car ex:narrowerOrEqualOf ref:Car . }
-    pe:rule 10;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "c"; pe:value tel:Car ];
-    pe:uses { tel:Car skos:broaderTransitive ref:Car . }.
-
-  { tel:Car skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:Car ];
-    pe:uses { tel:Car skos:broader ref:Car . }.
-
-  { tel:Car skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:Car ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:Car skos:broadMatch ref:Car . }.
-
-  { tel:Car skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ tel:HeavyVehicle ex:rollsUpTo ref:Car . } pe:why {
-  { tel:HeavyVehicle ex:rollsUpTo ref:Car . }
-    pe:rule 11;
-    pe:binding [ pe:var "x"; pe:value tel:HeavyVehicle ];
-    pe:uses { tel:HeavyVehicle ex:narrowerOrEqualOf ref:Car . }.
-
-  { tel:HeavyVehicle ex:narrowerOrEqualOf ref:Car . }
-    pe:rule 10;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "c"; pe:value tel:HeavyVehicle ];
-    pe:uses { tel:HeavyVehicle skos:broaderTransitive ref:Car . }.
-
-  { tel:HeavyVehicle skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value tel:HeavyVehicle ];
-    pe:uses { tel:HeavyVehicle skos:broader ref:Car . }.
-
-  { tel:HeavyVehicle skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value tel:HeavyVehicle ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { tel:HeavyVehicle skos:broadMatch ref:Car . }.
-
-  { tel:HeavyVehicle skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ ref:Car skos:narrowerTransitive anpr:PassengerCar . } pe:why {
-  { ref:Car skos:narrowerTransitive anpr:PassengerCar . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "a"; pe:value ref:Car ],
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "c"; pe:value anpr:PassengerCar ];
-    pe:uses
-      { ref:Car skos:narrowerTransitive anpr:VehicleWithPlate . },
-      { anpr:VehicleWithPlate skos:narrowerTransitive anpr:PassengerCar . }.
-
-  { ref:Car skos:narrowerTransitive anpr:VehicleWithPlate . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "c"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value ref:Car ];
-    pe:uses { ref:Car skos:narrower anpr:VehicleWithPlate . }.
-
-  { ref:Car skos:narrower anpr:VehicleWithPlate . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-
-  { anpr:VehicleWithPlate skos:narrowerTransitive anpr:PassengerCar . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "c"; pe:value anpr:PassengerCar ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:narrower anpr:PassengerCar . }.
-
-  { anpr:VehicleWithPlate skos:narrower anpr:PassengerCar . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }.
-
-  { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:PassengerCar ex:narrowerOrEqualOf ref:Car . } pe:why {
-  { anpr:PassengerCar ex:narrowerOrEqualOf ref:Car . }
-    pe:rule 10;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "c"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broaderTransitive ref:Car . }.
-
-  { anpr:PassengerCar skos:broaderTransitive ref:Car . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:PassengerCar ],
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "c"; pe:value ref:Car ];
-    pe:uses
-      { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . },
-      { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }.
-
-  { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }.
-
-  { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
-    pe:fact "alignment-demo.n3".
-
-  { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:VehicleWithPlate ex:rollsUpTo ref:Car . } pe:why {
-  { anpr:VehicleWithPlate ex:rollsUpTo ref:Car . }
-    pe:rule 11;
-    pe:binding [ pe:var "x"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate ex:narrowerOrEqualOf ref:Car . }.
-
-  { anpr:VehicleWithPlate ex:narrowerOrEqualOf ref:Car . }
-    pe:rule 10;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "c"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
-
-{ anpr:PassengerCar ex:rollsUpTo ref:Car . } pe:why {
-  { anpr:PassengerCar ex:rollsUpTo ref:Car . }
-    pe:rule 11;
-    pe:binding [ pe:var "x"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar ex:narrowerOrEqualOf ref:Car . }.
-
-  { anpr:PassengerCar ex:narrowerOrEqualOf ref:Car . }
-    pe:rule 10;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "c"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broaderTransitive ref:Car . }.
-
-  { anpr:PassengerCar skos:broaderTransitive ref:Car . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:PassengerCar ],
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "c"; pe:value ref:Car ];
-    pe:uses
-      { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . },
-      { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }.
-
-  { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "n"; pe:value anpr:PassengerCar ];
-    pe:uses { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }.
-
-  { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
-    pe:fact "alignment-demo.n3".
-
-  { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "b"; pe:value ref:Car ],
-      [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
-    pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broader ref:Car . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
-      [ pe:var "b"; pe:value ref:Car ];
-    pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
-
-  { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:fact "alignment-demo.n3".
-}.
+{ ref:Car ex:narrowerOrEqualOf ref:Car . }
+  pe:rule 9;
+  pe:binding [ pe:var "c"; pe:value ref:Car ];
+  pe:uses { ref:Car a skos:Concept . }.
+
+{ ref:Car a skos:Concept . }
+  pe:fact "alignment-demo.n3".
+
+{ tel:Car ex:narrowerOrEqualOf tel:Car . }
+  pe:rule 9;
+  pe:binding [ pe:var "c"; pe:value tel:Car ];
+  pe:uses { tel:Car a skos:Concept . }.
+
+{ tel:Car a skos:Concept . }
+  pe:fact "alignment-demo.n3".
+
+{ tel:HeavyVehicle ex:narrowerOrEqualOf tel:HeavyVehicle . }
+  pe:rule 9;
+  pe:binding [ pe:var "c"; pe:value tel:HeavyVehicle ];
+  pe:uses { tel:HeavyVehicle a skos:Concept . }.
+
+{ tel:HeavyVehicle a skos:Concept . }
+  pe:fact "alignment-demo.n3".
+
+{ anpr:VehicleWithPlate ex:narrowerOrEqualOf anpr:VehicleWithPlate . }
+  pe:rule 9;
+  pe:binding [ pe:var "c"; pe:value anpr:VehicleWithPlate ];
+  pe:uses { anpr:VehicleWithPlate a skos:Concept . }.
+
+{ anpr:VehicleWithPlate a skos:Concept . }
+  pe:fact "alignment-demo.n3".
+
+{ anpr:PassengerCar ex:narrowerOrEqualOf anpr:PassengerCar . }
+  pe:rule 9;
+  pe:binding [ pe:var "c"; pe:value anpr:PassengerCar ];
+  pe:uses { anpr:PassengerCar a skos:Concept . }.
+
+{ anpr:PassengerCar a skos:Concept . }
+  pe:fact "alignment-demo.n3".
+
+{ anpr:VehicleWithPlate skos:narrower anpr:PassengerCar . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
+    [ pe:var "n"; pe:value anpr:PassengerCar ];
+  pe:uses { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }.
+
+{ anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
+  pe:fact "alignment-demo.n3".
+
+{ anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
+    [ pe:var "n"; pe:value anpr:PassengerCar ];
+  pe:uses { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }.
+
+{ tel:Car skos:broader ref:Car . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value tel:Car ],
+    [ pe:var "b"; pe:value ref:Car ];
+  pe:uses { tel:Car skos:broadMatch ref:Car . }.
+
+{ tel:Car skos:broadMatch ref:Car . }
+  pe:fact "alignment-demo.n3".
+
+{ tel:HeavyVehicle skos:broader ref:Car . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value tel:HeavyVehicle ],
+    [ pe:var "b"; pe:value ref:Car ];
+  pe:uses { tel:HeavyVehicle skos:broadMatch ref:Car . }.
+
+{ tel:HeavyVehicle skos:broadMatch ref:Car . }
+  pe:fact "alignment-demo.n3".
+
+{ anpr:VehicleWithPlate skos:broader ref:Car . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
+    [ pe:var "b"; pe:value ref:Car ];
+  pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
+
+{ anpr:VehicleWithPlate skos:broadMatch ref:Car . }
+  pe:fact "alignment-demo.n3".
+
+{ ref:Car ex:rollsUpTo ref:Car . }
+  pe:rule 11;
+  pe:binding [ pe:var "x"; pe:value ref:Car ];
+  pe:uses { ref:Car ex:narrowerOrEqualOf ref:Car . }.
+
+{ anpr:VehicleWithPlate skos:narrowerTransitive anpr:PassengerCar . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "c"; pe:value anpr:PassengerCar ],
+    [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
+  pe:uses { anpr:VehicleWithPlate skos:narrower anpr:PassengerCar . }.
+
+{ anpr:PassengerCar ex:narrowerOrEqualOf anpr:VehicleWithPlate . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
+    [ pe:var "c"; pe:value anpr:PassengerCar ];
+  pe:uses { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . }.
+
+{ ref:Car skos:narrower tel:Car . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "b"; pe:value ref:Car ],
+    [ pe:var "n"; pe:value tel:Car ];
+  pe:uses { tel:Car skos:broader ref:Car . }.
+
+{ tel:Car skos:broaderTransitive ref:Car . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "b"; pe:value ref:Car ],
+    [ pe:var "n"; pe:value tel:Car ];
+  pe:uses { tel:Car skos:broader ref:Car . }.
+
+{ ref:Car skos:narrower tel:HeavyVehicle . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "b"; pe:value ref:Car ],
+    [ pe:var "n"; pe:value tel:HeavyVehicle ];
+  pe:uses { tel:HeavyVehicle skos:broader ref:Car . }.
+
+{ tel:HeavyVehicle skos:broaderTransitive ref:Car . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "b"; pe:value ref:Car ],
+    [ pe:var "n"; pe:value tel:HeavyVehicle ];
+  pe:uses { tel:HeavyVehicle skos:broader ref:Car . }.
+
+{ ref:Car skos:narrower anpr:VehicleWithPlate . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "b"; pe:value ref:Car ],
+    [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
+  pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
+
+{ anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "b"; pe:value ref:Car ],
+    [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
+  pe:uses { anpr:VehicleWithPlate skos:broader ref:Car . }.
+
+{ ref:Car skos:narrowerTransitive tel:Car . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "c"; pe:value tel:Car ],
+    [ pe:var "n"; pe:value ref:Car ];
+  pe:uses { ref:Car skos:narrower tel:Car . }.
+
+{ tel:Car ex:narrowerOrEqualOf ref:Car . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "b"; pe:value ref:Car ],
+    [ pe:var "c"; pe:value tel:Car ];
+  pe:uses { tel:Car skos:broaderTransitive ref:Car . }.
+
+{ ref:Car skos:narrowerTransitive tel:HeavyVehicle . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "c"; pe:value tel:HeavyVehicle ],
+    [ pe:var "n"; pe:value ref:Car ];
+  pe:uses { ref:Car skos:narrower tel:HeavyVehicle . }.
+
+{ tel:HeavyVehicle ex:narrowerOrEqualOf ref:Car . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "b"; pe:value ref:Car ],
+    [ pe:var "c"; pe:value tel:HeavyVehicle ];
+  pe:uses { tel:HeavyVehicle skos:broaderTransitive ref:Car . }.
+
+{ ref:Car skos:narrowerTransitive anpr:VehicleWithPlate . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "c"; pe:value anpr:VehicleWithPlate ],
+    [ pe:var "n"; pe:value ref:Car ];
+  pe:uses { ref:Car skos:narrower anpr:VehicleWithPlate . }.
+
+{ anpr:PassengerCar skos:broaderTransitive ref:Car . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "a"; pe:value anpr:PassengerCar ],
+    [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
+    [ pe:var "c"; pe:value ref:Car ];
+  pe:uses
+    { anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate . },
+    { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }.
+
+{ anpr:VehicleWithPlate ex:narrowerOrEqualOf ref:Car . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "b"; pe:value ref:Car ],
+    [ pe:var "c"; pe:value anpr:VehicleWithPlate ];
+  pe:uses { anpr:VehicleWithPlate skos:broaderTransitive ref:Car . }.
+
+{ tel:Car ex:rollsUpTo ref:Car . }
+  pe:rule 11;
+  pe:binding [ pe:var "x"; pe:value tel:Car ];
+  pe:uses { tel:Car ex:narrowerOrEqualOf ref:Car . }.
+
+{ tel:HeavyVehicle ex:rollsUpTo ref:Car . }
+  pe:rule 11;
+  pe:binding [ pe:var "x"; pe:value tel:HeavyVehicle ];
+  pe:uses { tel:HeavyVehicle ex:narrowerOrEqualOf ref:Car . }.
+
+{ ref:Car skos:narrowerTransitive anpr:PassengerCar . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "a"; pe:value ref:Car ],
+    [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
+    [ pe:var "c"; pe:value anpr:PassengerCar ];
+  pe:uses
+    { ref:Car skos:narrowerTransitive anpr:VehicleWithPlate . },
+    { anpr:VehicleWithPlate skos:narrowerTransitive anpr:PassengerCar . }.
+
+{ anpr:PassengerCar ex:narrowerOrEqualOf ref:Car . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "b"; pe:value ref:Car ],
+    [ pe:var "c"; pe:value anpr:PassengerCar ];
+  pe:uses { anpr:PassengerCar skos:broaderTransitive ref:Car . }.
+
+{ anpr:VehicleWithPlate ex:rollsUpTo ref:Car . }
+  pe:rule 11;
+  pe:binding [ pe:var "x"; pe:value anpr:VehicleWithPlate ];
+  pe:uses { anpr:VehicleWithPlate ex:narrowerOrEqualOf ref:Car . }.
+
+{ anpr:PassengerCar ex:rollsUpTo ref:Car . }
+  pe:rule 11;
+  pe:binding [ pe:var "x"; pe:value anpr:PassengerCar ];
+  pe:uses { anpr:PassengerCar ex:narrowerOrEqualOf ref:Car . }.

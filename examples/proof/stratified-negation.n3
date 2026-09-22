@@ -7,53 +7,47 @@
 :carol a :Blocked .
 :bob a :Eligible .
 
-{ :alice a :Blocked . } pe:why {
-  { :alice a :Blocked . }
-    pe:rule 1;
-    pe:binding [ pe:var "x"; pe:value :alice ];
-    pe:uses { :alice a :DirectlyBlocked . }.
+{ :alice a :Blocked . }
+  pe:rule 1;
+  pe:binding [ pe:var "x"; pe:value :alice ];
+  pe:uses { :alice a :DirectlyBlocked . }.
 
-  { :alice a :DirectlyBlocked . }
-    pe:fact "stratified-negation.n3".
-}.
+{ :alice a :DirectlyBlocked . }
+  pe:fact "stratified-negation.n3".
 
-{ :carol a :Blocked . } pe:why {
-  { :carol a :Blocked . }
-    pe:rule 2;
-    pe:binding [ pe:var "x"; pe:value :carol ];
-    pe:uses { :carol a :Flagged . }.
+{ :carol a :Blocked . }
+  pe:rule 2;
+  pe:binding [ pe:var "x"; pe:value :carol ];
+  pe:uses { :carol a :Flagged . }.
 
-  { :carol a :Flagged . }
-    pe:fact "stratified-negation.n3".
-}.
+{ :carol a :Flagged . }
+  pe:fact "stratified-negation.n3".
 
-{ :bob a :Eligible . } pe:why {
-  { :bob a :Eligible . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "SCOPE"; pe:value {
-          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-      } ],
-      [ pe:var "x"; pe:value :bob ];
-    pe:uses
-      { :bob a :Person . },
-      {
-          {
-              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-          } log:notIncludes {
-              :bob a :Blocked .
-          } .
-      }.
-
-  { :bob a :Person . }
-    pe:fact "stratified-negation.n3".
-
-  {
-    {
+{ :bob a :Eligible . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
         <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-    } log:notIncludes {
-        :bob a :Blocked .
-    } .
+    } ],
+    [ pe:var "x"; pe:value :bob ];
+  pe:uses
+    { :bob a :Person . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :bob a :Blocked .
+        } .
+    }.
+
+{ :bob a :Person . }
+  pe:fact "stratified-negation.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :bob a :Blocked .
+  } .
 }
-    pe:builtin log:notIncludes.
-}.
+  pe:builtin log:notIncludes.

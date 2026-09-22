@@ -81,7 +81,7 @@ pub fn triples_to_n3(prefixes: &BTreeMap<String, String>, triples: &[Triple]) ->
             )
         };
         // A triple whose subject or object is itself a quoted formula (an
-        // implication, a `pe:why` proof step, ...) renders as several
+        // implication, a proof step, ...) renders as several
         // lines; give it its own paragraph rather than crowding it
         // against a neighboring one-line triple or another such block.
         let this_multiline = rendered.trim_end().contains('\n');

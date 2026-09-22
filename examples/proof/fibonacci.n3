@@ -4,856 +4,854 @@
 
 :query :fib 832040 .
 
-{ :query :fib 832040 . } pe:why {
-  { :query :fib 832040 . }
-    pe:rule 4;
-    pe:binding [ pe:var "value"; pe:value 832040 ];
-    pe:uses { (30) :fib 832040 . }.
-
-  { (30) :fib 832040 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 514229 ],
-      [ pe:var "b"; pe:value 317811 ],
-      [ pe:var "earlier"; pe:value 28 ],
-      [ pe:var "f"; pe:value 832040 ],
-      [ pe:var "n"; pe:value 30 ],
-      [ pe:var "previous"; pe:value 29 ];
-    pe:uses
-      { 30 math:greaterThan 1 . },
-      { (30 1) math:difference 29 . },
-      { (30 2) math:difference 28 . },
-      { (29) :fib 514229 . },
-      { (28) :fib 317811 . },
-      { (514229 317811) math:sum 832040 . }.
-
-  { 30 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (30 1) math:difference 29 . }
-    pe:builtin math:difference.
-
-  { (30 2) math:difference 28 . }
-    pe:builtin math:difference.
-
-  { (29) :fib 514229 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 317811 ],
-      [ pe:var "b"; pe:value 196418 ],
-      [ pe:var "earlier"; pe:value 27 ],
-      [ pe:var "f"; pe:value 514229 ],
-      [ pe:var "n"; pe:value 29 ],
-      [ pe:var "previous"; pe:value 28 ];
-    pe:uses
-      { 29 math:greaterThan 1 . },
-      { (29 1) math:difference 28 . },
-      { (29 2) math:difference 27 . },
-      { (28) :fib 317811 . },
-      { (27) :fib 196418 . },
-      { (317811 196418) math:sum 514229 . }.
-
-  { 29 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (29 1) math:difference 28 . }
-    pe:builtin math:difference.
-
-  { (29 2) math:difference 27 . }
-    pe:builtin math:difference.
-
-  { (28) :fib 317811 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 196418 ],
-      [ pe:var "b"; pe:value 121393 ],
-      [ pe:var "earlier"; pe:value 26 ],
-      [ pe:var "f"; pe:value 317811 ],
-      [ pe:var "n"; pe:value 28 ],
-      [ pe:var "previous"; pe:value 27 ];
-    pe:uses
-      { 28 math:greaterThan 1 . },
-      { (28 1) math:difference 27 . },
-      { (28 2) math:difference 26 . },
-      { (27) :fib 196418 . },
-      { (26) :fib 121393 . },
-      { (196418 121393) math:sum 317811 . }.
-
-  { 28 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (28 1) math:difference 27 . }
-    pe:builtin math:difference.
-
-  { (28 2) math:difference 26 . }
-    pe:builtin math:difference.
-
-  { (27) :fib 196418 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 121393 ],
-      [ pe:var "b"; pe:value 75025 ],
-      [ pe:var "earlier"; pe:value 25 ],
-      [ pe:var "f"; pe:value 196418 ],
-      [ pe:var "n"; pe:value 27 ],
-      [ pe:var "previous"; pe:value 26 ];
-    pe:uses
-      { 27 math:greaterThan 1 . },
-      { (27 1) math:difference 26 . },
-      { (27 2) math:difference 25 . },
-      { (26) :fib 121393 . },
-      { (25) :fib 75025 . },
-      { (121393 75025) math:sum 196418 . }.
-
-  { 27 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (27 1) math:difference 26 . }
-    pe:builtin math:difference.
-
-  { (27 2) math:difference 25 . }
-    pe:builtin math:difference.
-
-  { (26) :fib 121393 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 75025 ],
-      [ pe:var "b"; pe:value 46368 ],
-      [ pe:var "earlier"; pe:value 24 ],
-      [ pe:var "f"; pe:value 121393 ],
-      [ pe:var "n"; pe:value 26 ],
-      [ pe:var "previous"; pe:value 25 ];
-    pe:uses
-      { 26 math:greaterThan 1 . },
-      { (26 1) math:difference 25 . },
-      { (26 2) math:difference 24 . },
-      { (25) :fib 75025 . },
-      { (24) :fib 46368 . },
-      { (75025 46368) math:sum 121393 . }.
-
-  { 26 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (26 1) math:difference 25 . }
-    pe:builtin math:difference.
-
-  { (26 2) math:difference 24 . }
-    pe:builtin math:difference.
-
-  { (25) :fib 75025 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 46368 ],
-      [ pe:var "b"; pe:value 28657 ],
-      [ pe:var "earlier"; pe:value 23 ],
-      [ pe:var "f"; pe:value 75025 ],
-      [ pe:var "n"; pe:value 25 ],
-      [ pe:var "previous"; pe:value 24 ];
-    pe:uses
-      { 25 math:greaterThan 1 . },
-      { (25 1) math:difference 24 . },
-      { (25 2) math:difference 23 . },
-      { (24) :fib 46368 . },
-      { (23) :fib 28657 . },
-      { (46368 28657) math:sum 75025 . }.
-
-  { 25 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (25 1) math:difference 24 . }
-    pe:builtin math:difference.
-
-  { (25 2) math:difference 23 . }
-    pe:builtin math:difference.
-
-  { (24) :fib 46368 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 28657 ],
-      [ pe:var "b"; pe:value 17711 ],
-      [ pe:var "earlier"; pe:value 22 ],
-      [ pe:var "f"; pe:value 46368 ],
-      [ pe:var "n"; pe:value 24 ],
-      [ pe:var "previous"; pe:value 23 ];
-    pe:uses
-      { 24 math:greaterThan 1 . },
-      { (24 1) math:difference 23 . },
-      { (24 2) math:difference 22 . },
-      { (23) :fib 28657 . },
-      { (22) :fib 17711 . },
-      { (28657 17711) math:sum 46368 . }.
-
-  { 24 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (24 1) math:difference 23 . }
-    pe:builtin math:difference.
-
-  { (24 2) math:difference 22 . }
-    pe:builtin math:difference.
-
-  { (23) :fib 28657 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 17711 ],
-      [ pe:var "b"; pe:value 10946 ],
-      [ pe:var "earlier"; pe:value 21 ],
-      [ pe:var "f"; pe:value 28657 ],
-      [ pe:var "n"; pe:value 23 ],
-      [ pe:var "previous"; pe:value 22 ];
-    pe:uses
-      { 23 math:greaterThan 1 . },
-      { (23 1) math:difference 22 . },
-      { (23 2) math:difference 21 . },
-      { (22) :fib 17711 . },
-      { (21) :fib 10946 . },
-      { (17711 10946) math:sum 28657 . }.
-
-  { 23 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (23 1) math:difference 22 . }
-    pe:builtin math:difference.
-
-  { (23 2) math:difference 21 . }
-    pe:builtin math:difference.
-
-  { (22) :fib 17711 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 10946 ],
-      [ pe:var "b"; pe:value 6765 ],
-      [ pe:var "earlier"; pe:value 20 ],
-      [ pe:var "f"; pe:value 17711 ],
-      [ pe:var "n"; pe:value 22 ],
-      [ pe:var "previous"; pe:value 21 ];
-    pe:uses
-      { 22 math:greaterThan 1 . },
-      { (22 1) math:difference 21 . },
-      { (22 2) math:difference 20 . },
-      { (21) :fib 10946 . },
-      { (20) :fib 6765 . },
-      { (10946 6765) math:sum 17711 . }.
-
-  { 22 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (22 1) math:difference 21 . }
-    pe:builtin math:difference.
-
-  { (22 2) math:difference 20 . }
-    pe:builtin math:difference.
-
-  { (21) :fib 10946 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 6765 ],
-      [ pe:var "b"; pe:value 4181 ],
-      [ pe:var "earlier"; pe:value 19 ],
-      [ pe:var "f"; pe:value 10946 ],
-      [ pe:var "n"; pe:value 21 ],
-      [ pe:var "previous"; pe:value 20 ];
-    pe:uses
-      { 21 math:greaterThan 1 . },
-      { (21 1) math:difference 20 . },
-      { (21 2) math:difference 19 . },
-      { (20) :fib 6765 . },
-      { (19) :fib 4181 . },
-      { (6765 4181) math:sum 10946 . }.
-
-  { 21 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (21 1) math:difference 20 . }
-    pe:builtin math:difference.
-
-  { (21 2) math:difference 19 . }
-    pe:builtin math:difference.
-
-  { (20) :fib 6765 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 4181 ],
-      [ pe:var "b"; pe:value 2584 ],
-      [ pe:var "earlier"; pe:value 18 ],
-      [ pe:var "f"; pe:value 6765 ],
-      [ pe:var "n"; pe:value 20 ],
-      [ pe:var "previous"; pe:value 19 ];
-    pe:uses
-      { 20 math:greaterThan 1 . },
-      { (20 1) math:difference 19 . },
-      { (20 2) math:difference 18 . },
-      { (19) :fib 4181 . },
-      { (18) :fib 2584 . },
-      { (4181 2584) math:sum 6765 . }.
-
-  { 20 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (20 1) math:difference 19 . }
-    pe:builtin math:difference.
-
-  { (20 2) math:difference 18 . }
-    pe:builtin math:difference.
-
-  { (19) :fib 4181 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 2584 ],
-      [ pe:var "b"; pe:value 1597 ],
-      [ pe:var "earlier"; pe:value 17 ],
-      [ pe:var "f"; pe:value 4181 ],
-      [ pe:var "n"; pe:value 19 ],
-      [ pe:var "previous"; pe:value 18 ];
-    pe:uses
-      { 19 math:greaterThan 1 . },
-      { (19 1) math:difference 18 . },
-      { (19 2) math:difference 17 . },
-      { (18) :fib 2584 . },
-      { (17) :fib 1597 . },
-      { (2584 1597) math:sum 4181 . }.
-
-  { 19 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (19 1) math:difference 18 . }
-    pe:builtin math:difference.
-
-  { (19 2) math:difference 17 . }
-    pe:builtin math:difference.
-
-  { (18) :fib 2584 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 1597 ],
-      [ pe:var "b"; pe:value 987 ],
-      [ pe:var "earlier"; pe:value 16 ],
-      [ pe:var "f"; pe:value 2584 ],
-      [ pe:var "n"; pe:value 18 ],
-      [ pe:var "previous"; pe:value 17 ];
-    pe:uses
-      { 18 math:greaterThan 1 . },
-      { (18 1) math:difference 17 . },
-      { (18 2) math:difference 16 . },
-      { (17) :fib 1597 . },
-      { (16) :fib 987 . },
-      { (1597 987) math:sum 2584 . }.
-
-  { 18 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (18 1) math:difference 17 . }
-    pe:builtin math:difference.
-
-  { (18 2) math:difference 16 . }
-    pe:builtin math:difference.
-
-  { (17) :fib 1597 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 987 ],
-      [ pe:var "b"; pe:value 610 ],
-      [ pe:var "earlier"; pe:value 15 ],
-      [ pe:var "f"; pe:value 1597 ],
-      [ pe:var "n"; pe:value 17 ],
-      [ pe:var "previous"; pe:value 16 ];
-    pe:uses
-      { 17 math:greaterThan 1 . },
-      { (17 1) math:difference 16 . },
-      { (17 2) math:difference 15 . },
-      { (16) :fib 987 . },
-      { (15) :fib 610 . },
-      { (987 610) math:sum 1597 . }.
-
-  { 17 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (17 1) math:difference 16 . }
-    pe:builtin math:difference.
-
-  { (17 2) math:difference 15 . }
-    pe:builtin math:difference.
-
-  { (16) :fib 987 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 610 ],
-      [ pe:var "b"; pe:value 377 ],
-      [ pe:var "earlier"; pe:value 14 ],
-      [ pe:var "f"; pe:value 987 ],
-      [ pe:var "n"; pe:value 16 ],
-      [ pe:var "previous"; pe:value 15 ];
-    pe:uses
-      { 16 math:greaterThan 1 . },
-      { (16 1) math:difference 15 . },
-      { (16 2) math:difference 14 . },
-      { (15) :fib 610 . },
-      { (14) :fib 377 . },
-      { (610 377) math:sum 987 . }.
-
-  { 16 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (16 1) math:difference 15 . }
-    pe:builtin math:difference.
-
-  { (16 2) math:difference 14 . }
-    pe:builtin math:difference.
-
-  { (15) :fib 610 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 377 ],
-      [ pe:var "b"; pe:value 233 ],
-      [ pe:var "earlier"; pe:value 13 ],
-      [ pe:var "f"; pe:value 610 ],
-      [ pe:var "n"; pe:value 15 ],
-      [ pe:var "previous"; pe:value 14 ];
-    pe:uses
-      { 15 math:greaterThan 1 . },
-      { (15 1) math:difference 14 . },
-      { (15 2) math:difference 13 . },
-      { (14) :fib 377 . },
-      { (13) :fib 233 . },
-      { (377 233) math:sum 610 . }.
-
-  { 15 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (15 1) math:difference 14 . }
-    pe:builtin math:difference.
-
-  { (15 2) math:difference 13 . }
-    pe:builtin math:difference.
-
-  { (14) :fib 377 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 233 ],
-      [ pe:var "b"; pe:value 144 ],
-      [ pe:var "earlier"; pe:value 12 ],
-      [ pe:var "f"; pe:value 377 ],
-      [ pe:var "n"; pe:value 14 ],
-      [ pe:var "previous"; pe:value 13 ];
-    pe:uses
-      { 14 math:greaterThan 1 . },
-      { (14 1) math:difference 13 . },
-      { (14 2) math:difference 12 . },
-      { (13) :fib 233 . },
-      { (12) :fib 144 . },
-      { (233 144) math:sum 377 . }.
-
-  { 14 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (14 1) math:difference 13 . }
-    pe:builtin math:difference.
-
-  { (14 2) math:difference 12 . }
-    pe:builtin math:difference.
-
-  { (13) :fib 233 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 144 ],
-      [ pe:var "b"; pe:value 89 ],
-      [ pe:var "earlier"; pe:value 11 ],
-      [ pe:var "f"; pe:value 233 ],
-      [ pe:var "n"; pe:value 13 ],
-      [ pe:var "previous"; pe:value 12 ];
-    pe:uses
-      { 13 math:greaterThan 1 . },
-      { (13 1) math:difference 12 . },
-      { (13 2) math:difference 11 . },
-      { (12) :fib 144 . },
-      { (11) :fib 89 . },
-      { (144 89) math:sum 233 . }.
-
-  { 13 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (13 1) math:difference 12 . }
-    pe:builtin math:difference.
-
-  { (13 2) math:difference 11 . }
-    pe:builtin math:difference.
-
-  { (12) :fib 144 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 89 ],
-      [ pe:var "b"; pe:value 55 ],
-      [ pe:var "earlier"; pe:value 10 ],
-      [ pe:var "f"; pe:value 144 ],
-      [ pe:var "n"; pe:value 12 ],
-      [ pe:var "previous"; pe:value 11 ];
-    pe:uses
-      { 12 math:greaterThan 1 . },
-      { (12 1) math:difference 11 . },
-      { (12 2) math:difference 10 . },
-      { (11) :fib 89 . },
-      { (10) :fib 55 . },
-      { (89 55) math:sum 144 . }.
-
-  { 12 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (12 1) math:difference 11 . }
-    pe:builtin math:difference.
-
-  { (12 2) math:difference 10 . }
-    pe:builtin math:difference.
-
-  { (11) :fib 89 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 55 ],
-      [ pe:var "b"; pe:value 34 ],
-      [ pe:var "earlier"; pe:value 9 ],
-      [ pe:var "f"; pe:value 89 ],
-      [ pe:var "n"; pe:value 11 ],
-      [ pe:var "previous"; pe:value 10 ];
-    pe:uses
-      { 11 math:greaterThan 1 . },
-      { (11 1) math:difference 10 . },
-      { (11 2) math:difference 9 . },
-      { (10) :fib 55 . },
-      { (9) :fib 34 . },
-      { (55 34) math:sum 89 . }.
-
-  { 11 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (11 1) math:difference 10 . }
-    pe:builtin math:difference.
-
-  { (11 2) math:difference 9 . }
-    pe:builtin math:difference.
-
-  { (10) :fib 55 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 34 ],
-      [ pe:var "b"; pe:value 21 ],
-      [ pe:var "earlier"; pe:value 8 ],
-      [ pe:var "f"; pe:value 55 ],
-      [ pe:var "n"; pe:value 10 ],
-      [ pe:var "previous"; pe:value 9 ];
-    pe:uses
-      { 10 math:greaterThan 1 . },
-      { (10 1) math:difference 9 . },
-      { (10 2) math:difference 8 . },
-      { (9) :fib 34 . },
-      { (8) :fib 21 . },
-      { (34 21) math:sum 55 . }.
-
-  { 10 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (10 1) math:difference 9 . }
-    pe:builtin math:difference.
-
-  { (10 2) math:difference 8 . }
-    pe:builtin math:difference.
-
-  { (9) :fib 34 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 21 ],
-      [ pe:var "b"; pe:value 13 ],
-      [ pe:var "earlier"; pe:value 7 ],
-      [ pe:var "f"; pe:value 34 ],
-      [ pe:var "n"; pe:value 9 ],
-      [ pe:var "previous"; pe:value 8 ];
-    pe:uses
-      { 9 math:greaterThan 1 . },
-      { (9 1) math:difference 8 . },
-      { (9 2) math:difference 7 . },
-      { (8) :fib 21 . },
-      { (7) :fib 13 . },
-      { (21 13) math:sum 34 . }.
-
-  { 9 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (9 1) math:difference 8 . }
-    pe:builtin math:difference.
-
-  { (9 2) math:difference 7 . }
-    pe:builtin math:difference.
-
-  { (8) :fib 21 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 13 ],
-      [ pe:var "b"; pe:value 8 ],
-      [ pe:var "earlier"; pe:value 6 ],
-      [ pe:var "f"; pe:value 21 ],
-      [ pe:var "n"; pe:value 8 ],
-      [ pe:var "previous"; pe:value 7 ];
-    pe:uses
-      { 8 math:greaterThan 1 . },
-      { (8 1) math:difference 7 . },
-      { (8 2) math:difference 6 . },
-      { (7) :fib 13 . },
-      { (6) :fib 8 . },
-      { (13 8) math:sum 21 . }.
-
-  { 8 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (8 1) math:difference 7 . }
-    pe:builtin math:difference.
-
-  { (8 2) math:difference 6 . }
-    pe:builtin math:difference.
-
-  { (7) :fib 13 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 8 ],
-      [ pe:var "b"; pe:value 5 ],
-      [ pe:var "earlier"; pe:value 5 ],
-      [ pe:var "f"; pe:value 13 ],
-      [ pe:var "n"; pe:value 7 ],
-      [ pe:var "previous"; pe:value 6 ];
-    pe:uses
-      { 7 math:greaterThan 1 . },
-      { (7 1) math:difference 6 . },
-      { (7 2) math:difference 5 . },
-      { (6) :fib 8 . },
-      { (5) :fib 5 . },
-      { (8 5) math:sum 13 . }.
-
-  { 7 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (7 1) math:difference 6 . }
-    pe:builtin math:difference.
-
-  { (7 2) math:difference 5 . }
-    pe:builtin math:difference.
-
-  { (6) :fib 8 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 5 ],
-      [ pe:var "b"; pe:value 3 ],
-      [ pe:var "earlier"; pe:value 4 ],
-      [ pe:var "f"; pe:value 8 ],
-      [ pe:var "n"; pe:value 6 ],
-      [ pe:var "previous"; pe:value 5 ];
-    pe:uses
-      { 6 math:greaterThan 1 . },
-      { (6 1) math:difference 5 . },
-      { (6 2) math:difference 4 . },
-      { (5) :fib 5 . },
-      { (4) :fib 3 . },
-      { (5 3) math:sum 8 . }.
-
-  { 6 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (6 1) math:difference 5 . }
-    pe:builtin math:difference.
-
-  { (6 2) math:difference 4 . }
-    pe:builtin math:difference.
-
-  { (5) :fib 5 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 3 ],
-      [ pe:var "b"; pe:value 2 ],
-      [ pe:var "earlier"; pe:value 3 ],
-      [ pe:var "f"; pe:value 5 ],
-      [ pe:var "n"; pe:value 5 ],
-      [ pe:var "previous"; pe:value 4 ];
-    pe:uses
-      { 5 math:greaterThan 1 . },
-      { (5 1) math:difference 4 . },
-      { (5 2) math:difference 3 . },
-      { (4) :fib 3 . },
-      { (3) :fib 2 . },
-      { (3 2) math:sum 5 . }.
-
-  { 5 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (5 1) math:difference 4 . }
-    pe:builtin math:difference.
-
-  { (5 2) math:difference 3 . }
-    pe:builtin math:difference.
-
-  { (4) :fib 3 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 2 ],
-      [ pe:var "b"; pe:value 1 ],
-      [ pe:var "earlier"; pe:value 2 ],
-      [ pe:var "f"; pe:value 3 ],
-      [ pe:var "n"; pe:value 4 ],
-      [ pe:var "previous"; pe:value 3 ];
-    pe:uses
-      { 4 math:greaterThan 1 . },
-      { (4 1) math:difference 3 . },
-      { (4 2) math:difference 2 . },
-      { (3) :fib 2 . },
-      { (2) :fib 1 . },
-      { (2 1) math:sum 3 . }.
-
-  { 4 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (4 1) math:difference 3 . }
-    pe:builtin math:difference.
-
-  { (4 2) math:difference 2 . }
-    pe:builtin math:difference.
-
-  { (3) :fib 2 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 1 ],
-      [ pe:var "b"; pe:value 1 ],
-      [ pe:var "earlier"; pe:value 1 ],
-      [ pe:var "f"; pe:value 2 ],
-      [ pe:var "n"; pe:value 3 ],
-      [ pe:var "previous"; pe:value 2 ];
-    pe:uses
-      { 3 math:greaterThan 1 . },
-      { (3 1) math:difference 2 . },
-      { (3 2) math:difference 1 . },
-      { (2) :fib 1 . },
-      { (1) :fib 1 . },
-      { (1 1) math:sum 2 . }.
-
-  { 3 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (3 1) math:difference 2 . }
-    pe:builtin math:difference.
-
-  { (3 2) math:difference 1 . }
-    pe:builtin math:difference.
-
-  { (2) :fib 1 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "a"; pe:value 1 ],
-      [ pe:var "b"; pe:value 0 ],
-      [ pe:var "earlier"; pe:value 0 ],
-      [ pe:var "f"; pe:value 1 ],
-      [ pe:var "n"; pe:value 2 ],
-      [ pe:var "previous"; pe:value 1 ];
-    pe:uses
-      { 2 math:greaterThan 1 . },
-      { (2 1) math:difference 1 . },
-      { (2 2) math:difference 0 . },
-      { (1) :fib 1 . },
-      { (0) :fib 0 . },
-      { (1 0) math:sum 1 . }.
-
-  { 2 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
-
-  { (2 1) math:difference 1 . }
-    pe:builtin math:difference.
-
-  { (2 2) math:difference 0 . }
-    pe:builtin math:difference.
-
-  { (1) :fib 1 . }
-    pe:rule 2.
-
-  { (0) :fib 0 . }
-    pe:rule 1.
-
-  { (1 0) math:sum 1 . }
-    pe:builtin math:sum.
-
-  { (1 1) math:sum 2 . }
-    pe:builtin math:sum.
-
-  { (2 1) math:sum 3 . }
-    pe:builtin math:sum.
-
-  { (3 2) math:sum 5 . }
-    pe:builtin math:sum.
-
-  { (5 3) math:sum 8 . }
-    pe:builtin math:sum.
-
-  { (8 5) math:sum 13 . }
-    pe:builtin math:sum.
-
-  { (13 8) math:sum 21 . }
-    pe:builtin math:sum.
-
-  { (21 13) math:sum 34 . }
-    pe:builtin math:sum.
-
-  { (34 21) math:sum 55 . }
-    pe:builtin math:sum.
-
-  { (55 34) math:sum 89 . }
-    pe:builtin math:sum.
-
-  { (89 55) math:sum 144 . }
-    pe:builtin math:sum.
-
-  { (144 89) math:sum 233 . }
-    pe:builtin math:sum.
-
-  { (233 144) math:sum 377 . }
-    pe:builtin math:sum.
-
-  { (377 233) math:sum 610 . }
-    pe:builtin math:sum.
-
-  { (610 377) math:sum 987 . }
-    pe:builtin math:sum.
-
-  { (987 610) math:sum 1597 . }
-    pe:builtin math:sum.
-
-  { (1597 987) math:sum 2584 . }
-    pe:builtin math:sum.
-
-  { (2584 1597) math:sum 4181 . }
-    pe:builtin math:sum.
-
-  { (4181 2584) math:sum 6765 . }
-    pe:builtin math:sum.
-
-  { (6765 4181) math:sum 10946 . }
-    pe:builtin math:sum.
-
-  { (10946 6765) math:sum 17711 . }
-    pe:builtin math:sum.
-
-  { (17711 10946) math:sum 28657 . }
-    pe:builtin math:sum.
-
-  { (28657 17711) math:sum 46368 . }
-    pe:builtin math:sum.
-
-  { (46368 28657) math:sum 75025 . }
-    pe:builtin math:sum.
-
-  { (75025 46368) math:sum 121393 . }
-    pe:builtin math:sum.
-
-  { (121393 75025) math:sum 196418 . }
-    pe:builtin math:sum.
-
-  { (196418 121393) math:sum 317811 . }
-    pe:builtin math:sum.
-
-  { (317811 196418) math:sum 514229 . }
-    pe:builtin math:sum.
-
-  { (514229 317811) math:sum 832040 . }
-    pe:builtin math:sum.
-}.
+{ :query :fib 832040 . }
+  pe:rule 4;
+  pe:binding [ pe:var "value"; pe:value 832040 ];
+  pe:uses { (30) :fib 832040 . }.
+
+{ (30) :fib 832040 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 514229 ],
+    [ pe:var "b"; pe:value 317811 ],
+    [ pe:var "earlier"; pe:value 28 ],
+    [ pe:var "f"; pe:value 832040 ],
+    [ pe:var "n"; pe:value 30 ],
+    [ pe:var "previous"; pe:value 29 ];
+  pe:uses
+    { 30 math:greaterThan 1 . },
+    { (30 1) math:difference 29 . },
+    { (30 2) math:difference 28 . },
+    { (29) :fib 514229 . },
+    { (28) :fib 317811 . },
+    { (514229 317811) math:sum 832040 . }.
+
+{ 30 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (30 1) math:difference 29 . }
+  pe:builtin math:difference.
+
+{ (30 2) math:difference 28 . }
+  pe:builtin math:difference.
+
+{ (29) :fib 514229 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 317811 ],
+    [ pe:var "b"; pe:value 196418 ],
+    [ pe:var "earlier"; pe:value 27 ],
+    [ pe:var "f"; pe:value 514229 ],
+    [ pe:var "n"; pe:value 29 ],
+    [ pe:var "previous"; pe:value 28 ];
+  pe:uses
+    { 29 math:greaterThan 1 . },
+    { (29 1) math:difference 28 . },
+    { (29 2) math:difference 27 . },
+    { (28) :fib 317811 . },
+    { (27) :fib 196418 . },
+    { (317811 196418) math:sum 514229 . }.
+
+{ 29 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (29 1) math:difference 28 . }
+  pe:builtin math:difference.
+
+{ (29 2) math:difference 27 . }
+  pe:builtin math:difference.
+
+{ (28) :fib 317811 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 196418 ],
+    [ pe:var "b"; pe:value 121393 ],
+    [ pe:var "earlier"; pe:value 26 ],
+    [ pe:var "f"; pe:value 317811 ],
+    [ pe:var "n"; pe:value 28 ],
+    [ pe:var "previous"; pe:value 27 ];
+  pe:uses
+    { 28 math:greaterThan 1 . },
+    { (28 1) math:difference 27 . },
+    { (28 2) math:difference 26 . },
+    { (27) :fib 196418 . },
+    { (26) :fib 121393 . },
+    { (196418 121393) math:sum 317811 . }.
+
+{ 28 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (28 1) math:difference 27 . }
+  pe:builtin math:difference.
+
+{ (28 2) math:difference 26 . }
+  pe:builtin math:difference.
+
+{ (27) :fib 196418 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 121393 ],
+    [ pe:var "b"; pe:value 75025 ],
+    [ pe:var "earlier"; pe:value 25 ],
+    [ pe:var "f"; pe:value 196418 ],
+    [ pe:var "n"; pe:value 27 ],
+    [ pe:var "previous"; pe:value 26 ];
+  pe:uses
+    { 27 math:greaterThan 1 . },
+    { (27 1) math:difference 26 . },
+    { (27 2) math:difference 25 . },
+    { (26) :fib 121393 . },
+    { (25) :fib 75025 . },
+    { (121393 75025) math:sum 196418 . }.
+
+{ 27 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (27 1) math:difference 26 . }
+  pe:builtin math:difference.
+
+{ (27 2) math:difference 25 . }
+  pe:builtin math:difference.
+
+{ (26) :fib 121393 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 75025 ],
+    [ pe:var "b"; pe:value 46368 ],
+    [ pe:var "earlier"; pe:value 24 ],
+    [ pe:var "f"; pe:value 121393 ],
+    [ pe:var "n"; pe:value 26 ],
+    [ pe:var "previous"; pe:value 25 ];
+  pe:uses
+    { 26 math:greaterThan 1 . },
+    { (26 1) math:difference 25 . },
+    { (26 2) math:difference 24 . },
+    { (25) :fib 75025 . },
+    { (24) :fib 46368 . },
+    { (75025 46368) math:sum 121393 . }.
+
+{ 26 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (26 1) math:difference 25 . }
+  pe:builtin math:difference.
+
+{ (26 2) math:difference 24 . }
+  pe:builtin math:difference.
+
+{ (25) :fib 75025 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 46368 ],
+    [ pe:var "b"; pe:value 28657 ],
+    [ pe:var "earlier"; pe:value 23 ],
+    [ pe:var "f"; pe:value 75025 ],
+    [ pe:var "n"; pe:value 25 ],
+    [ pe:var "previous"; pe:value 24 ];
+  pe:uses
+    { 25 math:greaterThan 1 . },
+    { (25 1) math:difference 24 . },
+    { (25 2) math:difference 23 . },
+    { (24) :fib 46368 . },
+    { (23) :fib 28657 . },
+    { (46368 28657) math:sum 75025 . }.
+
+{ 25 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (25 1) math:difference 24 . }
+  pe:builtin math:difference.
+
+{ (25 2) math:difference 23 . }
+  pe:builtin math:difference.
+
+{ (24) :fib 46368 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 28657 ],
+    [ pe:var "b"; pe:value 17711 ],
+    [ pe:var "earlier"; pe:value 22 ],
+    [ pe:var "f"; pe:value 46368 ],
+    [ pe:var "n"; pe:value 24 ],
+    [ pe:var "previous"; pe:value 23 ];
+  pe:uses
+    { 24 math:greaterThan 1 . },
+    { (24 1) math:difference 23 . },
+    { (24 2) math:difference 22 . },
+    { (23) :fib 28657 . },
+    { (22) :fib 17711 . },
+    { (28657 17711) math:sum 46368 . }.
+
+{ 24 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (24 1) math:difference 23 . }
+  pe:builtin math:difference.
+
+{ (24 2) math:difference 22 . }
+  pe:builtin math:difference.
+
+{ (23) :fib 28657 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 17711 ],
+    [ pe:var "b"; pe:value 10946 ],
+    [ pe:var "earlier"; pe:value 21 ],
+    [ pe:var "f"; pe:value 28657 ],
+    [ pe:var "n"; pe:value 23 ],
+    [ pe:var "previous"; pe:value 22 ];
+  pe:uses
+    { 23 math:greaterThan 1 . },
+    { (23 1) math:difference 22 . },
+    { (23 2) math:difference 21 . },
+    { (22) :fib 17711 . },
+    { (21) :fib 10946 . },
+    { (17711 10946) math:sum 28657 . }.
+
+{ 23 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (23 1) math:difference 22 . }
+  pe:builtin math:difference.
+
+{ (23 2) math:difference 21 . }
+  pe:builtin math:difference.
+
+{ (22) :fib 17711 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 10946 ],
+    [ pe:var "b"; pe:value 6765 ],
+    [ pe:var "earlier"; pe:value 20 ],
+    [ pe:var "f"; pe:value 17711 ],
+    [ pe:var "n"; pe:value 22 ],
+    [ pe:var "previous"; pe:value 21 ];
+  pe:uses
+    { 22 math:greaterThan 1 . },
+    { (22 1) math:difference 21 . },
+    { (22 2) math:difference 20 . },
+    { (21) :fib 10946 . },
+    { (20) :fib 6765 . },
+    { (10946 6765) math:sum 17711 . }.
+
+{ 22 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (22 1) math:difference 21 . }
+  pe:builtin math:difference.
+
+{ (22 2) math:difference 20 . }
+  pe:builtin math:difference.
+
+{ (21) :fib 10946 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 6765 ],
+    [ pe:var "b"; pe:value 4181 ],
+    [ pe:var "earlier"; pe:value 19 ],
+    [ pe:var "f"; pe:value 10946 ],
+    [ pe:var "n"; pe:value 21 ],
+    [ pe:var "previous"; pe:value 20 ];
+  pe:uses
+    { 21 math:greaterThan 1 . },
+    { (21 1) math:difference 20 . },
+    { (21 2) math:difference 19 . },
+    { (20) :fib 6765 . },
+    { (19) :fib 4181 . },
+    { (6765 4181) math:sum 10946 . }.
+
+{ 21 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (21 1) math:difference 20 . }
+  pe:builtin math:difference.
+
+{ (21 2) math:difference 19 . }
+  pe:builtin math:difference.
+
+{ (20) :fib 6765 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 4181 ],
+    [ pe:var "b"; pe:value 2584 ],
+    [ pe:var "earlier"; pe:value 18 ],
+    [ pe:var "f"; pe:value 6765 ],
+    [ pe:var "n"; pe:value 20 ],
+    [ pe:var "previous"; pe:value 19 ];
+  pe:uses
+    { 20 math:greaterThan 1 . },
+    { (20 1) math:difference 19 . },
+    { (20 2) math:difference 18 . },
+    { (19) :fib 4181 . },
+    { (18) :fib 2584 . },
+    { (4181 2584) math:sum 6765 . }.
+
+{ 20 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (20 1) math:difference 19 . }
+  pe:builtin math:difference.
+
+{ (20 2) math:difference 18 . }
+  pe:builtin math:difference.
+
+{ (19) :fib 4181 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 2584 ],
+    [ pe:var "b"; pe:value 1597 ],
+    [ pe:var "earlier"; pe:value 17 ],
+    [ pe:var "f"; pe:value 4181 ],
+    [ pe:var "n"; pe:value 19 ],
+    [ pe:var "previous"; pe:value 18 ];
+  pe:uses
+    { 19 math:greaterThan 1 . },
+    { (19 1) math:difference 18 . },
+    { (19 2) math:difference 17 . },
+    { (18) :fib 2584 . },
+    { (17) :fib 1597 . },
+    { (2584 1597) math:sum 4181 . }.
+
+{ 19 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (19 1) math:difference 18 . }
+  pe:builtin math:difference.
+
+{ (19 2) math:difference 17 . }
+  pe:builtin math:difference.
+
+{ (18) :fib 2584 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 1597 ],
+    [ pe:var "b"; pe:value 987 ],
+    [ pe:var "earlier"; pe:value 16 ],
+    [ pe:var "f"; pe:value 2584 ],
+    [ pe:var "n"; pe:value 18 ],
+    [ pe:var "previous"; pe:value 17 ];
+  pe:uses
+    { 18 math:greaterThan 1 . },
+    { (18 1) math:difference 17 . },
+    { (18 2) math:difference 16 . },
+    { (17) :fib 1597 . },
+    { (16) :fib 987 . },
+    { (1597 987) math:sum 2584 . }.
+
+{ 18 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (18 1) math:difference 17 . }
+  pe:builtin math:difference.
+
+{ (18 2) math:difference 16 . }
+  pe:builtin math:difference.
+
+{ (17) :fib 1597 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 987 ],
+    [ pe:var "b"; pe:value 610 ],
+    [ pe:var "earlier"; pe:value 15 ],
+    [ pe:var "f"; pe:value 1597 ],
+    [ pe:var "n"; pe:value 17 ],
+    [ pe:var "previous"; pe:value 16 ];
+  pe:uses
+    { 17 math:greaterThan 1 . },
+    { (17 1) math:difference 16 . },
+    { (17 2) math:difference 15 . },
+    { (16) :fib 987 . },
+    { (15) :fib 610 . },
+    { (987 610) math:sum 1597 . }.
+
+{ 17 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (17 1) math:difference 16 . }
+  pe:builtin math:difference.
+
+{ (17 2) math:difference 15 . }
+  pe:builtin math:difference.
+
+{ (16) :fib 987 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 610 ],
+    [ pe:var "b"; pe:value 377 ],
+    [ pe:var "earlier"; pe:value 14 ],
+    [ pe:var "f"; pe:value 987 ],
+    [ pe:var "n"; pe:value 16 ],
+    [ pe:var "previous"; pe:value 15 ];
+  pe:uses
+    { 16 math:greaterThan 1 . },
+    { (16 1) math:difference 15 . },
+    { (16 2) math:difference 14 . },
+    { (15) :fib 610 . },
+    { (14) :fib 377 . },
+    { (610 377) math:sum 987 . }.
+
+{ 16 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (16 1) math:difference 15 . }
+  pe:builtin math:difference.
+
+{ (16 2) math:difference 14 . }
+  pe:builtin math:difference.
+
+{ (15) :fib 610 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 377 ],
+    [ pe:var "b"; pe:value 233 ],
+    [ pe:var "earlier"; pe:value 13 ],
+    [ pe:var "f"; pe:value 610 ],
+    [ pe:var "n"; pe:value 15 ],
+    [ pe:var "previous"; pe:value 14 ];
+  pe:uses
+    { 15 math:greaterThan 1 . },
+    { (15 1) math:difference 14 . },
+    { (15 2) math:difference 13 . },
+    { (14) :fib 377 . },
+    { (13) :fib 233 . },
+    { (377 233) math:sum 610 . }.
+
+{ 15 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (15 1) math:difference 14 . }
+  pe:builtin math:difference.
+
+{ (15 2) math:difference 13 . }
+  pe:builtin math:difference.
+
+{ (14) :fib 377 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 233 ],
+    [ pe:var "b"; pe:value 144 ],
+    [ pe:var "earlier"; pe:value 12 ],
+    [ pe:var "f"; pe:value 377 ],
+    [ pe:var "n"; pe:value 14 ],
+    [ pe:var "previous"; pe:value 13 ];
+  pe:uses
+    { 14 math:greaterThan 1 . },
+    { (14 1) math:difference 13 . },
+    { (14 2) math:difference 12 . },
+    { (13) :fib 233 . },
+    { (12) :fib 144 . },
+    { (233 144) math:sum 377 . }.
+
+{ 14 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (14 1) math:difference 13 . }
+  pe:builtin math:difference.
+
+{ (14 2) math:difference 12 . }
+  pe:builtin math:difference.
+
+{ (13) :fib 233 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 144 ],
+    [ pe:var "b"; pe:value 89 ],
+    [ pe:var "earlier"; pe:value 11 ],
+    [ pe:var "f"; pe:value 233 ],
+    [ pe:var "n"; pe:value 13 ],
+    [ pe:var "previous"; pe:value 12 ];
+  pe:uses
+    { 13 math:greaterThan 1 . },
+    { (13 1) math:difference 12 . },
+    { (13 2) math:difference 11 . },
+    { (12) :fib 144 . },
+    { (11) :fib 89 . },
+    { (144 89) math:sum 233 . }.
+
+{ 13 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (13 1) math:difference 12 . }
+  pe:builtin math:difference.
+
+{ (13 2) math:difference 11 . }
+  pe:builtin math:difference.
+
+{ (12) :fib 144 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 89 ],
+    [ pe:var "b"; pe:value 55 ],
+    [ pe:var "earlier"; pe:value 10 ],
+    [ pe:var "f"; pe:value 144 ],
+    [ pe:var "n"; pe:value 12 ],
+    [ pe:var "previous"; pe:value 11 ];
+  pe:uses
+    { 12 math:greaterThan 1 . },
+    { (12 1) math:difference 11 . },
+    { (12 2) math:difference 10 . },
+    { (11) :fib 89 . },
+    { (10) :fib 55 . },
+    { (89 55) math:sum 144 . }.
+
+{ 12 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (12 1) math:difference 11 . }
+  pe:builtin math:difference.
+
+{ (12 2) math:difference 10 . }
+  pe:builtin math:difference.
+
+{ (11) :fib 89 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 55 ],
+    [ pe:var "b"; pe:value 34 ],
+    [ pe:var "earlier"; pe:value 9 ],
+    [ pe:var "f"; pe:value 89 ],
+    [ pe:var "n"; pe:value 11 ],
+    [ pe:var "previous"; pe:value 10 ];
+  pe:uses
+    { 11 math:greaterThan 1 . },
+    { (11 1) math:difference 10 . },
+    { (11 2) math:difference 9 . },
+    { (10) :fib 55 . },
+    { (9) :fib 34 . },
+    { (55 34) math:sum 89 . }.
+
+{ 11 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (11 1) math:difference 10 . }
+  pe:builtin math:difference.
+
+{ (11 2) math:difference 9 . }
+  pe:builtin math:difference.
+
+{ (10) :fib 55 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 34 ],
+    [ pe:var "b"; pe:value 21 ],
+    [ pe:var "earlier"; pe:value 8 ],
+    [ pe:var "f"; pe:value 55 ],
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "previous"; pe:value 9 ];
+  pe:uses
+    { 10 math:greaterThan 1 . },
+    { (10 1) math:difference 9 . },
+    { (10 2) math:difference 8 . },
+    { (9) :fib 34 . },
+    { (8) :fib 21 . },
+    { (34 21) math:sum 55 . }.
+
+{ 10 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (10 1) math:difference 9 . }
+  pe:builtin math:difference.
+
+{ (10 2) math:difference 8 . }
+  pe:builtin math:difference.
+
+{ (9) :fib 34 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 21 ],
+    [ pe:var "b"; pe:value 13 ],
+    [ pe:var "earlier"; pe:value 7 ],
+    [ pe:var "f"; pe:value 34 ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "previous"; pe:value 8 ];
+  pe:uses
+    { 9 math:greaterThan 1 . },
+    { (9 1) math:difference 8 . },
+    { (9 2) math:difference 7 . },
+    { (8) :fib 21 . },
+    { (7) :fib 13 . },
+    { (21 13) math:sum 34 . }.
+
+{ 9 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (9 1) math:difference 8 . }
+  pe:builtin math:difference.
+
+{ (9 2) math:difference 7 . }
+  pe:builtin math:difference.
+
+{ (8) :fib 21 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 13 ],
+    [ pe:var "b"; pe:value 8 ],
+    [ pe:var "earlier"; pe:value 6 ],
+    [ pe:var "f"; pe:value 21 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "previous"; pe:value 7 ];
+  pe:uses
+    { 8 math:greaterThan 1 . },
+    { (8 1) math:difference 7 . },
+    { (8 2) math:difference 6 . },
+    { (7) :fib 13 . },
+    { (6) :fib 8 . },
+    { (13 8) math:sum 21 . }.
+
+{ 8 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (8 1) math:difference 7 . }
+  pe:builtin math:difference.
+
+{ (8 2) math:difference 6 . }
+  pe:builtin math:difference.
+
+{ (7) :fib 13 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 8 ],
+    [ pe:var "b"; pe:value 5 ],
+    [ pe:var "earlier"; pe:value 5 ],
+    [ pe:var "f"; pe:value 13 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "previous"; pe:value 6 ];
+  pe:uses
+    { 7 math:greaterThan 1 . },
+    { (7 1) math:difference 6 . },
+    { (7 2) math:difference 5 . },
+    { (6) :fib 8 . },
+    { (5) :fib 5 . },
+    { (8 5) math:sum 13 . }.
+
+{ 7 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (7 1) math:difference 6 . }
+  pe:builtin math:difference.
+
+{ (7 2) math:difference 5 . }
+  pe:builtin math:difference.
+
+{ (6) :fib 8 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 5 ],
+    [ pe:var "b"; pe:value 3 ],
+    [ pe:var "earlier"; pe:value 4 ],
+    [ pe:var "f"; pe:value 8 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "previous"; pe:value 5 ];
+  pe:uses
+    { 6 math:greaterThan 1 . },
+    { (6 1) math:difference 5 . },
+    { (6 2) math:difference 4 . },
+    { (5) :fib 5 . },
+    { (4) :fib 3 . },
+    { (5 3) math:sum 8 . }.
+
+{ 6 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (6 1) math:difference 5 . }
+  pe:builtin math:difference.
+
+{ (6 2) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ (5) :fib 5 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 3 ],
+    [ pe:var "b"; pe:value 2 ],
+    [ pe:var "earlier"; pe:value 3 ],
+    [ pe:var "f"; pe:value 5 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "previous"; pe:value 4 ];
+  pe:uses
+    { 5 math:greaterThan 1 . },
+    { (5 1) math:difference 4 . },
+    { (5 2) math:difference 3 . },
+    { (4) :fib 3 . },
+    { (3) :fib 2 . },
+    { (3 2) math:sum 5 . }.
+
+{ 5 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (5 1) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ (5 2) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (4) :fib 3 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 2 ],
+    [ pe:var "b"; pe:value 1 ],
+    [ pe:var "earlier"; pe:value 2 ],
+    [ pe:var "f"; pe:value 3 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "previous"; pe:value 3 ];
+  pe:uses
+    { 4 math:greaterThan 1 . },
+    { (4 1) math:difference 3 . },
+    { (4 2) math:difference 2 . },
+    { (3) :fib 2 . },
+    { (2) :fib 1 . },
+    { (2 1) math:sum 3 . }.
+
+{ 4 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (4 1) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (4 2) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (3) :fib 2 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 1 ],
+    [ pe:var "b"; pe:value 1 ],
+    [ pe:var "earlier"; pe:value 1 ],
+    [ pe:var "f"; pe:value 2 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "previous"; pe:value 2 ];
+  pe:uses
+    { 3 math:greaterThan 1 . },
+    { (3 1) math:difference 2 . },
+    { (3 2) math:difference 1 . },
+    { (2) :fib 1 . },
+    { (1) :fib 1 . },
+    { (1 1) math:sum 2 . }.
+
+{ 3 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (3 1) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (3 2) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (2) :fib 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value 1 ],
+    [ pe:var "b"; pe:value 0 ],
+    [ pe:var "earlier"; pe:value 0 ],
+    [ pe:var "f"; pe:value 1 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "previous"; pe:value 1 ];
+  pe:uses
+    { 2 math:greaterThan 1 . },
+    { (2 1) math:difference 1 . },
+    { (2 2) math:difference 0 . },
+    { (1) :fib 1 . },
+    { (0) :fib 0 . },
+    { (1 0) math:sum 1 . }.
+
+{ 2 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (2 1) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (2 2) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ (1) :fib 1 . }
+  pe:rule 2.
+
+{ (0) :fib 0 . }
+  pe:rule 1.
+
+{ (1 0) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ (2 1) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ (3 2) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ (5 3) math:sum 8 . }
+  pe:builtin math:sum.
+
+{ (8 5) math:sum 13 . }
+  pe:builtin math:sum.
+
+{ (13 8) math:sum 21 . }
+  pe:builtin math:sum.
+
+{ (21 13) math:sum 34 . }
+  pe:builtin math:sum.
+
+{ (34 21) math:sum 55 . }
+  pe:builtin math:sum.
+
+{ (55 34) math:sum 89 . }
+  pe:builtin math:sum.
+
+{ (89 55) math:sum 144 . }
+  pe:builtin math:sum.
+
+{ (144 89) math:sum 233 . }
+  pe:builtin math:sum.
+
+{ (233 144) math:sum 377 . }
+  pe:builtin math:sum.
+
+{ (377 233) math:sum 610 . }
+  pe:builtin math:sum.
+
+{ (610 377) math:sum 987 . }
+  pe:builtin math:sum.
+
+{ (987 610) math:sum 1597 . }
+  pe:builtin math:sum.
+
+{ (1597 987) math:sum 2584 . }
+  pe:builtin math:sum.
+
+{ (2584 1597) math:sum 4181 . }
+  pe:builtin math:sum.
+
+{ (4181 2584) math:sum 6765 . }
+  pe:builtin math:sum.
+
+{ (6765 4181) math:sum 10946 . }
+  pe:builtin math:sum.
+
+{ (10946 6765) math:sum 17711 . }
+  pe:builtin math:sum.
+
+{ (17711 10946) math:sum 28657 . }
+  pe:builtin math:sum.
+
+{ (28657 17711) math:sum 46368 . }
+  pe:builtin math:sum.
+
+{ (46368 28657) math:sum 75025 . }
+  pe:builtin math:sum.
+
+{ (75025 46368) math:sum 121393 . }
+  pe:builtin math:sum.
+
+{ (121393 75025) math:sum 196418 . }
+  pe:builtin math:sum.
+
+{ (196418 121393) math:sum 317811 . }
+  pe:builtin math:sum.
+
+{ (317811 196418) math:sum 514229 . }
+  pe:builtin math:sum.
+
+{ (514229 317811) math:sum 832040 . }
+  pe:builtin math:sum.

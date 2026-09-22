@@ -6,69 +6,36 @@
 :a a :Derived .
 :a a :Blocked .
 
-{ :a a :Derived . } pe:why {
-  { :a a :Derived . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "SCOPE"; pe:value {
-          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-      } ],
-      [ pe:var "x"; pe:value :a ];
-    pe:uses
-      { :a :source :blocked . },
-      {
-          {
-              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-          } log:notIncludes {
-              :a a :Blocked .
-          } .
-      }.
-
-  { :a :source :blocked . }
-    pe:fact "variable-predicate-dependency.n3".
-
-  {
-    {
+{ :a a :Derived . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
         <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-    } log:notIncludes {
-        :a a :Blocked .
-    } .
-}
-    pe:builtin log:notIncludes.
-}.
-
-{ :a a :Blocked . } pe:why {
-  { :a a :Blocked . }
-    pe:rule 2;
-    pe:binding [ pe:var "x"; pe:value :a ];
-    pe:uses { :a a :Derived . }.
-
-  { :a a :Derived . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "SCOPE"; pe:value {
-          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-      } ],
-      [ pe:var "x"; pe:value :a ];
-    pe:uses
-      { :a :source :blocked . },
-      {
-          {
-              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-          } log:notIncludes {
-              :a a :Blocked .
-          } .
-      }.
-
-  { :a :source :blocked . }
-    pe:fact "variable-predicate-dependency.n3".
-
-  {
+    } ],
+    [ pe:var "x"; pe:value :a ];
+  pe:uses
+    { :a :source :blocked . },
     {
-        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-    } log:notIncludes {
-        :a a :Blocked .
-    } .
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :a a :Blocked .
+        } .
+    }.
+
+{ :a :source :blocked . }
+  pe:fact "variable-predicate-dependency.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :a a :Blocked .
+  } .
 }
-    pe:builtin log:notIncludes.
-}.
+  pe:builtin log:notIncludes.
+
+{ :a a :Blocked . }
+  pe:rule 2;
+  pe:binding [ pe:var "x"; pe:value :a ];
+  pe:uses { :a a :Derived . }.

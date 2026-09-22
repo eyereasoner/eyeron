@@ -23,761 +23,235 @@
 (:x :j :i) :sameInverse true .
 (:x :j :j) :sameInverse true .
 
-{ (:e :x) :mul :x . } pe:why {
-  { (:e :x) :mul :x . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :x ];
-    pe:uses { :x :inG true . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:x :e) :mul :x . } pe:why {
-  { (:x :e) :mul :x . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :x ];
-    pe:uses { :x :inG true . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:x :i) :mul :e . } pe:why {
-  { (:x :i) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:i :x) :mul :e . } pe:why {
-  { (:i :x) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:x :j) :mul :e . } pe:why {
-  { (:x :j) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      { :x :inG true . },
-      { :j :inG true . },
-      { :j :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:j :x) :mul :e . } pe:why {
-  { (:j :x) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      { :x :inG true . },
-      { :j :inG true . },
-      { :j :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:e :i) :mul :i . } pe:why {
-  { (:e :i) :mul :i . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :i ];
-    pe:uses { :i :inG true . }.
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:i :e) :mul :i . } pe:why {
-  { (:i :e) :mul :i . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :i ];
-    pe:uses { :i :inG true . }.
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:e :j) :mul :j . } pe:why {
-  { (:e :j) :mul :j . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :j ];
-    pe:uses { :j :inG true . }.
-
-  { :j :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:j :e) :mul :j . } pe:why {
-  { (:j :e) :mul :j . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :j ];
-    pe:uses { :j :inG true . }.
-
-  { :j :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:e :e) :mul :e . } pe:why {
-  { (:e :e) :mul :e . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :e ];
-    pe:uses { :e :inG true . }.
-
-  { :e :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:x :x) :sameTerm true . } pe:why {
-  { (:x :x) :sameTerm true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value :e ],
-      [ pe:var "ab"; pe:value :x ],
-      [ pe:var "b"; pe:value :x ],
-      [ pe:var "bc"; pe:value :x ],
-      [ pe:var "c"; pe:value :e ],
-      [ pe:var "left"; pe:value :x ],
-      [ pe:var "right"; pe:value :x ];
-    pe:uses
-      { (:e :x) :mul :x . },
-      { (:x :e) :mul :x . },
-      { (:x :e) :mul :x . },
-      { (:e :x) :mul :x . }.
-
-  { (:e :x) :mul :x . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :x ];
-    pe:uses { :x :inG true . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:x :e) :mul :x . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :x ];
-    pe:uses { :x :inG true . }.
-}.
-
-{ (:e :e) :sameTerm true . } pe:why {
-  { (:e :e) :sameTerm true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value :e ],
-      [ pe:var "ab"; pe:value :x ],
-      [ pe:var "b"; pe:value :x ],
-      [ pe:var "bc"; pe:value :e ],
-      [ pe:var "c"; pe:value :i ],
-      [ pe:var "left"; pe:value :e ],
-      [ pe:var "right"; pe:value :e ];
-    pe:uses
-      { (:e :x) :mul :x . },
-      { (:x :i) :mul :e . },
-      { (:x :i) :mul :e . },
-      { (:e :e) :mul :e . }.
-
-  { (:e :x) :mul :x . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :x ];
-    pe:uses { :x :inG true . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:x :i) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:e :e) :mul :e . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :e ];
-    pe:uses { :e :inG true . }.
-
-  { :e :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-}.
-
-{ (:i :i) :sameTerm true . } pe:why {
-  { (:i :i) :sameTerm true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value :i ],
-      [ pe:var "ab"; pe:value :e ],
-      [ pe:var "b"; pe:value :x ],
-      [ pe:var "bc"; pe:value :e ],
-      [ pe:var "c"; pe:value :i ],
-      [ pe:var "left"; pe:value :i ],
-      [ pe:var "right"; pe:value :i ];
-    pe:uses
-      { (:i :x) :mul :e . },
-      { (:e :i) :mul :i . },
-      { (:x :i) :mul :e . },
-      { (:i :e) :mul :i . }.
-
-  { (:i :x) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:e :i) :mul :i . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :i ];
-    pe:uses { :i :inG true . }.
-
-  { (:x :i) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { (:i :e) :mul :i . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :i ];
-    pe:uses { :i :inG true . }.
-}.
-
-{ (:i :j) :sameTerm true . } pe:why {
-  { (:i :j) :sameTerm true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value :j ],
-      [ pe:var "ab"; pe:value :e ],
-      [ pe:var "b"; pe:value :x ],
-      [ pe:var "bc"; pe:value :e ],
-      [ pe:var "c"; pe:value :i ],
-      [ pe:var "left"; pe:value :i ],
-      [ pe:var "right"; pe:value :j ];
-    pe:uses
-      { (:j :x) :mul :e . },
-      { (:e :i) :mul :i . },
-      { (:x :i) :mul :e . },
-      { (:j :e) :mul :j . }.
-
-  { (:j :x) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      { :x :inG true . },
-      { :j :inG true . },
-      { :j :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:e :i) :mul :i . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :i ];
-    pe:uses { :i :inG true . }.
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:x :i) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { :i :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:j :e) :mul :j . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :j ];
-    pe:uses { :j :inG true . }.
-}.
-
-{ (:j :i) :sameTerm true . } pe:why {
-  { (:j :i) :sameTerm true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value :i ],
-      [ pe:var "ab"; pe:value :e ],
-      [ pe:var "b"; pe:value :x ],
-      [ pe:var "bc"; pe:value :e ],
-      [ pe:var "c"; pe:value :j ],
-      [ pe:var "left"; pe:value :j ],
-      [ pe:var "right"; pe:value :i ];
-    pe:uses
-      { (:i :x) :mul :e . },
-      { (:e :j) :mul :j . },
-      { (:x :j) :mul :e . },
-      { (:i :e) :mul :i . }.
-
-  { (:i :x) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:e :j) :mul :j . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :j ];
-    pe:uses { :j :inG true . }.
-
-  { :j :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:x :j) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      { :x :inG true . },
-      { :j :inG true . },
-      { :j :inverseOf :x . }.
-
-  { :j :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:i :e) :mul :i . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :i ];
-    pe:uses { :i :inG true . }.
-}.
-
-{ (:j :j) :sameTerm true . } pe:why {
-  { (:j :j) :sameTerm true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value :j ],
-      [ pe:var "ab"; pe:value :e ],
-      [ pe:var "b"; pe:value :x ],
-      [ pe:var "bc"; pe:value :e ],
-      [ pe:var "c"; pe:value :j ],
-      [ pe:var "left"; pe:value :j ],
-      [ pe:var "right"; pe:value :j ];
-    pe:uses
-      { (:j :x) :mul :e . },
-      { (:e :j) :mul :j . },
-      { (:x :j) :mul :e . },
-      { (:j :e) :mul :j . }.
-
-  { (:j :x) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      { :x :inG true . },
-      { :j :inG true . },
-      { :j :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:e :j) :mul :j . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :j ];
-    pe:uses { :j :inG true . }.
-
-  { (:x :j) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      { :x :inG true . },
-      { :j :inG true . },
-      { :j :inverseOf :x . }.
-
-  { (:j :e) :mul :j . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :j ];
-    pe:uses { :j :inG true . }.
-}.
-
-{ (:x :i :i) :sameInverse true . } pe:why {
-  { (:x :i :i) :sameInverse true . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ],
-      [ pe:var "z"; pe:value :i ];
-    pe:uses
-      { :i :inverseOf :x . },
-      { :i :inverseOf :x . },
-      { (:i :i) :sameTerm true . }.
-
-  { :i :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:i :i) :sameTerm true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value :i ],
-      [ pe:var "ab"; pe:value :e ],
-      [ pe:var "b"; pe:value :x ],
-      [ pe:var "bc"; pe:value :e ],
-      [ pe:var "c"; pe:value :i ],
-      [ pe:var "left"; pe:value :i ],
-      [ pe:var "right"; pe:value :i ];
-    pe:uses
-      { (:i :x) :mul :e . },
-      { (:e :i) :mul :i . },
-      { (:x :i) :mul :e . },
-      { (:i :e) :mul :i . }.
-
-  { (:i :x) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:e :i) :mul :i . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :i ];
-    pe:uses { :i :inG true . }.
-
-  { (:x :i) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { (:i :e) :mul :i . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :i ];
-    pe:uses { :i :inG true . }.
-}.
-
-{ (:x :i :j) :sameInverse true . } pe:why {
-  { (:x :i :j) :sameInverse true . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ],
-      [ pe:var "z"; pe:value :j ];
-    pe:uses
-      { :i :inverseOf :x . },
-      { :j :inverseOf :x . },
-      { (:i :j) :sameTerm true . }.
-
-  { :i :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:i :j) :sameTerm true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value :j ],
-      [ pe:var "ab"; pe:value :e ],
-      [ pe:var "b"; pe:value :x ],
-      [ pe:var "bc"; pe:value :e ],
-      [ pe:var "c"; pe:value :i ],
-      [ pe:var "left"; pe:value :i ],
-      [ pe:var "right"; pe:value :j ];
-    pe:uses
-      { (:j :x) :mul :e . },
-      { (:e :i) :mul :i . },
-      { (:x :i) :mul :e . },
-      { (:j :e) :mul :j . }.
-
-  { (:j :x) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      { :x :inG true . },
-      { :j :inG true . },
-      { :j :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:e :i) :mul :i . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :i ];
-    pe:uses { :i :inG true . }.
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:x :i) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { (:j :e) :mul :j . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :j ];
-    pe:uses { :j :inG true . }.
-}.
-
-{ (:x :j :i) :sameInverse true . } pe:why {
-  { (:x :j :i) :sameInverse true . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ],
-      [ pe:var "z"; pe:value :i ];
-    pe:uses
-      { :j :inverseOf :x . },
-      { :i :inverseOf :x . },
-      { (:j :i) :sameTerm true . }.
-
-  { :j :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:j :i) :sameTerm true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value :i ],
-      [ pe:var "ab"; pe:value :e ],
-      [ pe:var "b"; pe:value :x ],
-      [ pe:var "bc"; pe:value :e ],
-      [ pe:var "c"; pe:value :j ],
-      [ pe:var "left"; pe:value :j ],
-      [ pe:var "right"; pe:value :i ];
-    pe:uses
-      { (:i :x) :mul :e . },
-      { (:e :j) :mul :j . },
-      { (:x :j) :mul :e . },
-      { (:i :e) :mul :i . }.
-
-  { (:i :x) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :i ];
-    pe:uses
-      { :x :inG true . },
-      { :i :inG true . },
-      { :i :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :i :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:e :j) :mul :j . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :j ];
-    pe:uses { :j :inG true . }.
-
-  { :j :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:x :j) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      { :x :inG true . },
-      { :j :inG true . },
-      { :j :inverseOf :x . }.
-
-  { (:i :e) :mul :i . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :i ];
-    pe:uses { :i :inG true . }.
-}.
-
-{ (:x :j :j) :sameInverse true . } pe:why {
-  { (:x :j :j) :sameInverse true . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ],
-      [ pe:var "z"; pe:value :j ];
-    pe:uses
-      { :j :inverseOf :x . },
-      { :j :inverseOf :x . },
-      { (:j :j) :sameTerm true . }.
-
-  { :j :inverseOf :x . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:j :j) :sameTerm true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "a"; pe:value :j ],
-      [ pe:var "ab"; pe:value :e ],
-      [ pe:var "b"; pe:value :x ],
-      [ pe:var "bc"; pe:value :e ],
-      [ pe:var "c"; pe:value :j ],
-      [ pe:var "left"; pe:value :j ],
-      [ pe:var "right"; pe:value :j ];
-    pe:uses
-      { (:j :x) :mul :e . },
-      { (:e :j) :mul :j . },
-      { (:x :j) :mul :e . },
-      { (:j :e) :mul :j . }.
-
-  { (:j :x) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      { :x :inG true . },
-      { :j :inG true . },
-      { :j :inverseOf :x . }.
-
-  { :x :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { :j :inG true . }
-    pe:fact "group-inverse-uniqueness.n3".
-
-  { (:e :j) :mul :j . }
-    pe:rule 3;
-    pe:binding [ pe:var "a"; pe:value :j ];
-    pe:uses { :j :inG true . }.
-
-  { (:x :j) :mul :e . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "x"; pe:value :x ],
-      [ pe:var "y"; pe:value :j ];
-    pe:uses
-      { :x :inG true . },
-      { :j :inG true . },
-      { :j :inverseOf :x . }.
-
-  { (:j :e) :mul :j . }
-    pe:rule 4;
-    pe:binding [ pe:var "a"; pe:value :j ];
-    pe:uses { :j :inG true . }.
-}.
+{ (:e :x) :mul :x . }
+  pe:rule 3;
+  pe:binding [ pe:var "a"; pe:value :x ];
+  pe:uses { :x :inG true . }.
+
+{ :x :inG true . }
+  pe:fact "group-inverse-uniqueness.n3".
+
+{ (:x :e) :mul :x . }
+  pe:rule 4;
+  pe:binding [ pe:var "a"; pe:value :x ];
+  pe:uses { :x :inG true . }.
+
+{ (:x :i) :mul :e . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "x"; pe:value :x ],
+    [ pe:var "y"; pe:value :i ];
+  pe:uses
+    { :x :inG true . },
+    { :i :inG true . },
+    { :i :inverseOf :x . }.
+
+{ :i :inG true . }
+  pe:fact "group-inverse-uniqueness.n3".
+
+{ :i :inverseOf :x . }
+  pe:fact "group-inverse-uniqueness.n3".
+
+{ (:i :x) :mul :e . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "x"; pe:value :x ],
+    [ pe:var "y"; pe:value :i ];
+  pe:uses
+    { :x :inG true . },
+    { :i :inG true . },
+    { :i :inverseOf :x . }.
+
+{ (:x :j) :mul :e . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "x"; pe:value :x ],
+    [ pe:var "y"; pe:value :j ];
+  pe:uses
+    { :x :inG true . },
+    { :j :inG true . },
+    { :j :inverseOf :x . }.
+
+{ :j :inG true . }
+  pe:fact "group-inverse-uniqueness.n3".
+
+{ :j :inverseOf :x . }
+  pe:fact "group-inverse-uniqueness.n3".
+
+{ (:j :x) :mul :e . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "x"; pe:value :x ],
+    [ pe:var "y"; pe:value :j ];
+  pe:uses
+    { :x :inG true . },
+    { :j :inG true . },
+    { :j :inverseOf :x . }.
+
+{ (:e :i) :mul :i . }
+  pe:rule 3;
+  pe:binding [ pe:var "a"; pe:value :i ];
+  pe:uses { :i :inG true . }.
+
+{ (:i :e) :mul :i . }
+  pe:rule 4;
+  pe:binding [ pe:var "a"; pe:value :i ];
+  pe:uses { :i :inG true . }.
+
+{ (:e :j) :mul :j . }
+  pe:rule 3;
+  pe:binding [ pe:var "a"; pe:value :j ];
+  pe:uses { :j :inG true . }.
+
+{ (:j :e) :mul :j . }
+  pe:rule 4;
+  pe:binding [ pe:var "a"; pe:value :j ];
+  pe:uses { :j :inG true . }.
+
+{ (:e :e) :mul :e . }
+  pe:rule 3;
+  pe:binding [ pe:var "a"; pe:value :e ];
+  pe:uses { :e :inG true . }.
+
+{ :e :inG true . }
+  pe:fact "group-inverse-uniqueness.n3".
+
+{ (:x :x) :sameTerm true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :e ],
+    [ pe:var "ab"; pe:value :x ],
+    [ pe:var "b"; pe:value :x ],
+    [ pe:var "bc"; pe:value :x ],
+    [ pe:var "c"; pe:value :e ],
+    [ pe:var "left"; pe:value :x ],
+    [ pe:var "right"; pe:value :x ];
+  pe:uses
+    { (:e :x) :mul :x . },
+    { (:x :e) :mul :x . },
+    { (:x :e) :mul :x . },
+    { (:e :x) :mul :x . }.
+
+{ (:e :e) :sameTerm true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :e ],
+    [ pe:var "ab"; pe:value :x ],
+    [ pe:var "b"; pe:value :x ],
+    [ pe:var "bc"; pe:value :e ],
+    [ pe:var "c"; pe:value :i ],
+    [ pe:var "left"; pe:value :e ],
+    [ pe:var "right"; pe:value :e ];
+  pe:uses
+    { (:e :x) :mul :x . },
+    { (:x :i) :mul :e . },
+    { (:x :i) :mul :e . },
+    { (:e :e) :mul :e . }.
+
+{ (:i :i) :sameTerm true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :i ],
+    [ pe:var "ab"; pe:value :e ],
+    [ pe:var "b"; pe:value :x ],
+    [ pe:var "bc"; pe:value :e ],
+    [ pe:var "c"; pe:value :i ],
+    [ pe:var "left"; pe:value :i ],
+    [ pe:var "right"; pe:value :i ];
+  pe:uses
+    { (:i :x) :mul :e . },
+    { (:e :i) :mul :i . },
+    { (:x :i) :mul :e . },
+    { (:i :e) :mul :i . }.
+
+{ (:i :j) :sameTerm true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :j ],
+    [ pe:var "ab"; pe:value :e ],
+    [ pe:var "b"; pe:value :x ],
+    [ pe:var "bc"; pe:value :e ],
+    [ pe:var "c"; pe:value :i ],
+    [ pe:var "left"; pe:value :i ],
+    [ pe:var "right"; pe:value :j ];
+  pe:uses
+    { (:j :x) :mul :e . },
+    { (:e :i) :mul :i . },
+    { (:x :i) :mul :e . },
+    { (:j :e) :mul :j . }.
+
+{ (:j :i) :sameTerm true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :i ],
+    [ pe:var "ab"; pe:value :e ],
+    [ pe:var "b"; pe:value :x ],
+    [ pe:var "bc"; pe:value :e ],
+    [ pe:var "c"; pe:value :j ],
+    [ pe:var "left"; pe:value :j ],
+    [ pe:var "right"; pe:value :i ];
+  pe:uses
+    { (:i :x) :mul :e . },
+    { (:e :j) :mul :j . },
+    { (:x :j) :mul :e . },
+    { (:i :e) :mul :i . }.
+
+{ (:j :j) :sameTerm true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :j ],
+    [ pe:var "ab"; pe:value :e ],
+    [ pe:var "b"; pe:value :x ],
+    [ pe:var "bc"; pe:value :e ],
+    [ pe:var "c"; pe:value :j ],
+    [ pe:var "left"; pe:value :j ],
+    [ pe:var "right"; pe:value :j ];
+  pe:uses
+    { (:j :x) :mul :e . },
+    { (:e :j) :mul :j . },
+    { (:x :j) :mul :e . },
+    { (:j :e) :mul :j . }.
+
+{ (:x :i :i) :sameInverse true . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "x"; pe:value :x ],
+    [ pe:var "y"; pe:value :i ],
+    [ pe:var "z"; pe:value :i ];
+  pe:uses
+    { :i :inverseOf :x . },
+    { :i :inverseOf :x . },
+    { (:i :i) :sameTerm true . }.
+
+{ (:x :i :j) :sameInverse true . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "x"; pe:value :x ],
+    [ pe:var "y"; pe:value :i ],
+    [ pe:var "z"; pe:value :j ];
+  pe:uses
+    { :i :inverseOf :x . },
+    { :j :inverseOf :x . },
+    { (:i :j) :sameTerm true . }.
+
+{ (:x :j :i) :sameInverse true . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "x"; pe:value :x ],
+    [ pe:var "y"; pe:value :j ],
+    [ pe:var "z"; pe:value :i ];
+  pe:uses
+    { :j :inverseOf :x . },
+    { :i :inverseOf :x . },
+    { (:j :i) :sameTerm true . }.
+
+{ (:x :j :j) :sameInverse true . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "x"; pe:value :x ],
+    [ pe:var "y"; pe:value :j ],
+    [ pe:var "z"; pe:value :j ];
+  pe:uses
+    { :j :inverseOf :x . },
+    { :j :inverseOf :x . },
+    { (:j :j) :sameTerm true . }.

@@ -18,115 +18,59 @@ _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair .
 :test :is true .
 
 {
-    {
-        :Koko a :Animal .
-    } => {
-        _:x_44d5add673004d27 a :Cat .
-    } .
-} pe:why {
   {
-    {
-        :Koko a :Animal .
-    } => {
-        _:x_44d5add673004d27 a :Cat .
-    } .
+      :Koko a :Animal .
+  } => {
+      _:x_44d5add673004d27 a :Cat .
+  } .
 }
-    pe:rule 1;
-    pe:uses { :Koko a :Animal . }.
+  pe:rule 1;
+  pe:uses { :Koko a :Animal . }.
 
-  { :Koko a :Animal . }
-    pe:fact "cat-koko.n3".
-}.
+{ :Koko a :Animal . }
+  pe:fact "cat-koko.n3".
 
 {
-    {
-        :Koko a :Animal .
-    } => {
-        _:x_64f1352a2f72e196 a :BritishShortHair .
-    } .
-} pe:why {
   {
-    {
-        :Koko a :Animal .
-    } => {
-        _:x_64f1352a2f72e196 a :BritishShortHair .
-    } .
+      :Koko a :Animal .
+  } => {
+      _:x_64f1352a2f72e196 a :BritishShortHair .
+  } .
 }
-    pe:rule 1;
-    pe:uses { :Koko a :Animal . }.
+  pe:rule 1;
+  pe:uses { :Koko a :Animal . }.
 
-  { :Koko a :Animal . }
-    pe:fact "cat-koko.n3".
-}.
+{ _:x_44d5add673004d27_14650fb0739d0383 a :Cat . }
+  pe:rule
+    {
+        {
+            :Koko a :Animal .
+        } => {
+            _:x_44d5add673004d27 a :Cat .
+        } .
+    };
+  pe:uses { :Koko a :Animal . }.
 
-{ _:x_44d5add673004d27_14650fb0739d0383 a :Cat . } pe:why {
-  { _:x_44d5add673004d27_14650fb0739d0383 a :Cat . }
-    pe:rule
-      {
-          {
-              :Koko a :Animal .
-          } => {
-              _:x_44d5add673004d27 a :Cat .
-          } .
-      };
-    pe:uses { :Koko a :Animal . }.
+{ _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair . }
+  pe:rule
+    {
+        {
+            :Koko a :Animal .
+        } => {
+            _:x_64f1352a2f72e196 a :BritishShortHair .
+        } .
+    };
+  pe:uses { :Koko a :Animal . }.
 
-  { :Koko a :Animal . }
-    pe:fact "cat-koko.n3".
-}.
+{ :test :is true . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value _:x_44d5add673004d27_14650fb0739d0383 ],
+    [ pe:var "Y"; pe:value _:x_64f1352a2f72e196_14650fb0739d0383 ];
+  pe:uses
+    { _:x_44d5add673004d27_14650fb0739d0383 a :Cat . },
+    { _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair . },
+    { _:x_44d5add673004d27_14650fb0739d0383 log:notEqualTo _:x_64f1352a2f72e196_14650fb0739d0383 . }.
 
-{ _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair . } pe:why {
-  { _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair . }
-    pe:rule
-      {
-          {
-              :Koko a :Animal .
-          } => {
-              _:x_64f1352a2f72e196 a :BritishShortHair .
-          } .
-      };
-    pe:uses { :Koko a :Animal . }.
-
-  { :Koko a :Animal . }
-    pe:fact "cat-koko.n3".
-}.
-
-{ :test :is true . } pe:why {
-  { :test :is true . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "X"; pe:value _:x_44d5add673004d27_14650fb0739d0383 ],
-      [ pe:var "Y"; pe:value _:x_64f1352a2f72e196_14650fb0739d0383 ];
-    pe:uses
-      { _:x_44d5add673004d27_14650fb0739d0383 a :Cat . },
-      { _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair . },
-      { _:x_44d5add673004d27_14650fb0739d0383 log:notEqualTo _:x_64f1352a2f72e196_14650fb0739d0383 . }.
-
-  { _:x_44d5add673004d27_14650fb0739d0383 a :Cat . }
-    pe:rule
-      {
-          {
-              :Koko a :Animal .
-          } => {
-              _:x_44d5add673004d27 a :Cat .
-          } .
-      };
-    pe:uses { :Koko a :Animal . }.
-
-  { :Koko a :Animal . }
-    pe:fact "cat-koko.n3".
-
-  { _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair . }
-    pe:rule
-      {
-          {
-              :Koko a :Animal .
-          } => {
-              _:x_64f1352a2f72e196 a :BritishShortHair .
-          } .
-      };
-    pe:uses { :Koko a :Animal . }.
-
-  { _:x_44d5add673004d27_14650fb0739d0383 log:notEqualTo _:x_64f1352a2f72e196_14650fb0739d0383 . }
-    pe:builtin log:notEqualTo.
-}.
+{ _:x_44d5add673004d27_14650fb0739d0383 log:notEqualTo _:x_64f1352a2f72e196_14650fb0739d0383 . }
+  pe:builtin log:notEqualTo.

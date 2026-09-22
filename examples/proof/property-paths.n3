@@ -5,44 +5,32 @@
 :b :hasParent :a .
 :c :hasParent :b .
 
-{ :a :grandparentOf :c . } pe:why {
-  { :a :grandparentOf :c . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ],
-      [ pe:var "z"; pe:value :c ];
-    pe:uses
-      { :a :parentOf :b . },
-      { :b :parentOf :c . }.
+{ :a :grandparentOf :c . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :b ],
+    [ pe:var "z"; pe:value :c ];
+  pe:uses
+    { :a :parentOf :b . },
+    { :b :parentOf :c . }.
 
-  { :a :parentOf :b . }
-    pe:fact "property-paths.n3".
+{ :a :parentOf :b . }
+  pe:fact "property-paths.n3".
 
-  { :b :parentOf :c . }
-    pe:fact "property-paths.n3".
-}.
+{ :b :parentOf :c . }
+  pe:fact "property-paths.n3".
 
-{ :b :hasParent :a . } pe:why {
-  { :b :hasParent :a . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ];
-    pe:uses { :a :parentOf :b . }.
+{ :b :hasParent :a . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :b ];
+  pe:uses { :a :parentOf :b . }.
 
-  { :a :parentOf :b . }
-    pe:fact "property-paths.n3".
-}.
-
-{ :c :hasParent :b . } pe:why {
-  { :c :hasParent :b . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :c ];
-    pe:uses { :b :parentOf :c . }.
-
-  { :b :parentOf :c . }
-    pe:fact "property-paths.n3".
-}.
+{ :c :hasParent :b . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :b ],
+    [ pe:var "y"; pe:value :c ];
+  pe:uses { :b :parentOf :c . }.

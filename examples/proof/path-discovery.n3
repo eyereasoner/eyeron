@@ -11,410 +11,332 @@
 :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Diagoras Airport" "Václav Havel Airport Prague") .
 :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Palma De Mallorca Airport" "Václav Havel Airport Prague") .
 
-{ :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Heraklion International Nikos Kazantzakis Airport" "Václav Havel Airport Prague") . } pe:why {
-  { :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Heraklion International Nikos Kazantzakis Airport" "Václav Havel Airport Prague") . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "airports"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) ],
-      [ pe:var "destination"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "route"; pe:value ("Ostend-Bruges International Airport" "Liège Airport" "Heraklion International Nikos Kazantzakis Airport" "Václav Havel Airport Prague") ],
-      [ pe:var "source"; pe:value res:AIRPORT_310 ];
-    pe:uses
-      { res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" . },
-      { res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" . },
-      { (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) . },
-      {
-          (?city {
-              (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:member ?airport .
-              ?airport rdfs:label ?city .
-          } ("Ostend-Bruges International Airport" "Liège Airport" "Heraklion International Nikos Kazantzakis Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
-      }.
+{ :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Heraklion International Nikos Kazantzakis Airport" "Václav Havel Airport Prague") . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "airports"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) ],
+    [ pe:var "destination"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "route"; pe:value ("Ostend-Bruges International Airport" "Liège Airport" "Heraklion International Nikos Kazantzakis Airport" "Václav Havel Airport Prague") ],
+    [ pe:var "source"; pe:value res:AIRPORT_310 ];
+  pe:uses
+    { res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" . },
+    { res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" . },
+    { (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) . },
+    {
+        (?city {
+            (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:member ?airport .
+            ?airport rdfs:label ?city .
+        } ("Ostend-Bruges International Airport" "Liège Airport" "Heraklion International Nikos Kazantzakis Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
+    }.
 
-  { res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" . }
-    pe:fact "path-discovery.n3".
+{ res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" . }
+  pe:fact "path-discovery.n3".
 
-  { res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" . }
-    pe:fact "path-discovery.n3".
+{ res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" . }
+  pe:fact "path-discovery.n3".
 
-  { (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "from"; pe:value res:AIRPORT_310 ],
-      [ pe:var "length"; pe:value 0 ],
-      [ pe:var "max"; pe:value 2 ],
-      [ pe:var "newLength"; pe:value 1 ],
-      [ pe:var "newRoute"; pe:value (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) ],
-      [ pe:var "newVisited"; pe:value (res:AIRPORT_310) ],
-      [ pe:var "route"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) ],
-      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "via"; pe:value res:AIRPORT_309 ],
-      [ pe:var "visited"; pe:value () ];
-    pe:uses
-      { 0 math:notGreaterThan 2 . },
-      { res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 . },
-      { () list:notMember res:AIRPORT_309 . },
-      { (res:AIRPORT_310) list:firstRest (res:AIRPORT_310 ()) . },
-      { (0 1) math:sum 1 . },
-      { (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) . },
-      { (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587)) . }.
+{ (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "from"; pe:value res:AIRPORT_310 ],
+    [ pe:var "length"; pe:value 0 ],
+    [ pe:var "max"; pe:value 2 ],
+    [ pe:var "newLength"; pe:value 1 ],
+    [ pe:var "newRoute"; pe:value (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) ],
+    [ pe:var "newVisited"; pe:value (res:AIRPORT_310) ],
+    [ pe:var "route"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) ],
+    [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "via"; pe:value res:AIRPORT_309 ],
+    [ pe:var "visited"; pe:value () ];
+  pe:uses
+    { 0 math:notGreaterThan 2 . },
+    { res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 . },
+    { () list:notMember res:AIRPORT_309 . },
+    { (res:AIRPORT_310) list:firstRest (res:AIRPORT_310 ()) . },
+    { (0 1) math:sum 1 . },
+    { (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) . },
+    { (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587)) . }.
 
-  { 0 math:notGreaterThan 2 . }
-    pe:builtin math:notGreaterThan.
+{ 0 math:notGreaterThan 2 . }
+  pe:builtin math:notGreaterThan.
 
-  { res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 . }
-    pe:fact "path-discovery.n3".
+{ res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 . }
+  pe:fact "path-discovery.n3".
 
-  { () list:notMember res:AIRPORT_309 . }
-    pe:builtin list:notMember.
+{ () list:notMember res:AIRPORT_309 . }
+  pe:builtin list:notMember.
 
-  { (res:AIRPORT_310) list:firstRest (res:AIRPORT_310 ()) . }
-    pe:builtin list:firstRest.
+{ (res:AIRPORT_310) list:firstRest (res:AIRPORT_310 ()) . }
+  pe:builtin list:firstRest.
 
-  { (0 1) math:sum 1 . }
-    pe:builtin math:sum.
+{ (0 1) math:sum 1 . }
+  pe:builtin math:sum.
 
-  { (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "from"; pe:value res:AIRPORT_309 ],
-      [ pe:var "length"; pe:value 1 ],
-      [ pe:var "max"; pe:value 2 ],
-      [ pe:var "newLength"; pe:value 2 ],
-      [ pe:var "newRoute"; pe:value (res:AIRPORT_1452 res:AIRPORT_1587) ],
-      [ pe:var "newVisited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ],
-      [ pe:var "route"; pe:value (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) ],
-      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "via"; pe:value res:AIRPORT_1452 ],
-      [ pe:var "visited"; pe:value (res:AIRPORT_310) ];
-    pe:uses
-      { 1 math:notGreaterThan 2 . },
-      { res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_1452 . },
-      { (res:AIRPORT_310) list:notMember res:AIRPORT_1452 . },
-      { (res:AIRPORT_309 res:AIRPORT_310) list:firstRest (res:AIRPORT_309 (res:AIRPORT_310)) . },
-      { (1 1) math:sum 2 . },
-      { (res:AIRPORT_1452 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_1452 res:AIRPORT_1587) . },
-      { (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_1452 res:AIRPORT_1587)) . }.
+{ (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "from"; pe:value res:AIRPORT_309 ],
+    [ pe:var "length"; pe:value 1 ],
+    [ pe:var "max"; pe:value 2 ],
+    [ pe:var "newLength"; pe:value 2 ],
+    [ pe:var "newRoute"; pe:value (res:AIRPORT_1452 res:AIRPORT_1587) ],
+    [ pe:var "newVisited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ],
+    [ pe:var "route"; pe:value (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) ],
+    [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "via"; pe:value res:AIRPORT_1452 ],
+    [ pe:var "visited"; pe:value (res:AIRPORT_310) ];
+  pe:uses
+    { 1 math:notGreaterThan 2 . },
+    { res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_1452 . },
+    { (res:AIRPORT_310) list:notMember res:AIRPORT_1452 . },
+    { (res:AIRPORT_309 res:AIRPORT_310) list:firstRest (res:AIRPORT_309 (res:AIRPORT_310)) . },
+    { (1 1) math:sum 2 . },
+    { (res:AIRPORT_1452 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_1452 res:AIRPORT_1587) . },
+    { (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_1452 res:AIRPORT_1587)) . }.
 
-  { 1 math:notGreaterThan 2 . }
-    pe:builtin math:notGreaterThan.
+{ 1 math:notGreaterThan 2 . }
+  pe:builtin math:notGreaterThan.
 
-  { res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_1452 . }
-    pe:fact "path-discovery.n3".
+{ res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_1452 . }
+  pe:fact "path-discovery.n3".
 
-  { (res:AIRPORT_310) list:notMember res:AIRPORT_1452 . }
-    pe:builtin list:notMember.
+{ (res:AIRPORT_310) list:notMember res:AIRPORT_1452 . }
+  pe:builtin list:notMember.
 
-  { (res:AIRPORT_309 res:AIRPORT_310) list:firstRest (res:AIRPORT_309 (res:AIRPORT_310)) . }
-    pe:builtin list:firstRest.
+{ (res:AIRPORT_309 res:AIRPORT_310) list:firstRest (res:AIRPORT_309 (res:AIRPORT_310)) . }
+  pe:builtin list:firstRest.
 
-  { (1 1) math:sum 2 . }
-    pe:builtin math:sum.
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
 
-  { (res:AIRPORT_1452 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_1452 res:AIRPORT_1587) . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "from"; pe:value res:AIRPORT_1452 ],
-      [ pe:var "length"; pe:value 2 ],
-      [ pe:var "max"; pe:value 2 ],
-      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "visited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ];
-    pe:uses
-      { 2 math:notGreaterThan 2 . },
-      { res:AIRPORT_1452 nepo:hasOutboundRouteTo res:AIRPORT_1587 . },
-      { (res:AIRPORT_309 res:AIRPORT_310) list:notMember res:AIRPORT_1587 . }.
+{ (res:AIRPORT_1452 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_1452 res:AIRPORT_1587) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "from"; pe:value res:AIRPORT_1452 ],
+    [ pe:var "length"; pe:value 2 ],
+    [ pe:var "max"; pe:value 2 ],
+    [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "visited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ];
+  pe:uses
+    { 2 math:notGreaterThan 2 . },
+    { res:AIRPORT_1452 nepo:hasOutboundRouteTo res:AIRPORT_1587 . },
+    { (res:AIRPORT_309 res:AIRPORT_310) list:notMember res:AIRPORT_1587 . }.
 
-  { 2 math:notGreaterThan 2 . }
-    pe:builtin math:notGreaterThan.
+{ 2 math:notGreaterThan 2 . }
+  pe:builtin math:notGreaterThan.
 
-  { res:AIRPORT_1452 nepo:hasOutboundRouteTo res:AIRPORT_1587 . }
-    pe:fact "path-discovery.n3".
+{ res:AIRPORT_1452 nepo:hasOutboundRouteTo res:AIRPORT_1587 . }
+  pe:fact "path-discovery.n3".
 
-  { (res:AIRPORT_309 res:AIRPORT_310) list:notMember res:AIRPORT_1587 . }
-    pe:builtin list:notMember.
+{ (res:AIRPORT_309 res:AIRPORT_310) list:notMember res:AIRPORT_1587 . }
+  pe:builtin list:notMember.
 
-  { (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_1452 res:AIRPORT_1587)) . }
-    pe:builtin list:firstRest.
+{ (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_1452 res:AIRPORT_1587)) . }
+  pe:builtin list:firstRest.
 
-  { (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587)) . }
-    pe:builtin list:firstRest.
+{ (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587)) . }
+  pe:builtin list:firstRest.
 
-  {
-    (?city {
-        (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:member ?airport .
-        ?airport rdfs:label ?city .
-    } ("Ostend-Bruges International Airport" "Liège Airport" "Heraklion International Nikos Kazantzakis Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
+{
+  (?city {
+      (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1452 res:AIRPORT_1587) list:member ?airport .
+      ?airport rdfs:label ?city .
+  } ("Ostend-Bruges International Airport" "Liège Airport" "Heraklion International Nikos Kazantzakis Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
 }
-    pe:builtin log:collectAllIn.
-}.
+  pe:builtin log:collectAllIn.
 
-{ :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Diagoras Airport" "Václav Havel Airport Prague") . } pe:why {
-  { :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Diagoras Airport" "Václav Havel Airport Prague") . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "airports"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) ],
-      [ pe:var "destination"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "route"; pe:value ("Ostend-Bruges International Airport" "Liège Airport" "Diagoras Airport" "Václav Havel Airport Prague") ],
-      [ pe:var "source"; pe:value res:AIRPORT_310 ];
-    pe:uses
-      { res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" . },
-      { res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" . },
-      { (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) . },
-      {
-          (?city {
-              (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:member ?airport .
-              ?airport rdfs:label ?city .
-          } ("Ostend-Bruges International Airport" "Liège Airport" "Diagoras Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
-      }.
+{ :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Diagoras Airport" "Václav Havel Airport Prague") . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "airports"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) ],
+    [ pe:var "destination"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "route"; pe:value ("Ostend-Bruges International Airport" "Liège Airport" "Diagoras Airport" "Václav Havel Airport Prague") ],
+    [ pe:var "source"; pe:value res:AIRPORT_310 ];
+  pe:uses
+    { res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" . },
+    { res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" . },
+    { (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) . },
+    {
+        (?city {
+            (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:member ?airport .
+            ?airport rdfs:label ?city .
+        } ("Ostend-Bruges International Airport" "Liège Airport" "Diagoras Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
+    }.
 
-  { res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" . }
-    pe:fact "path-discovery.n3".
+{ (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "from"; pe:value res:AIRPORT_310 ],
+    [ pe:var "length"; pe:value 0 ],
+    [ pe:var "max"; pe:value 2 ],
+    [ pe:var "newLength"; pe:value 1 ],
+    [ pe:var "newRoute"; pe:value (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) ],
+    [ pe:var "newVisited"; pe:value (res:AIRPORT_310) ],
+    [ pe:var "route"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) ],
+    [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "via"; pe:value res:AIRPORT_309 ],
+    [ pe:var "visited"; pe:value () ];
+  pe:uses
+    { 0 math:notGreaterThan 2 . },
+    { res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 . },
+    { () list:notMember res:AIRPORT_309 . },
+    { (res:AIRPORT_310) list:firstRest (res:AIRPORT_310 ()) . },
+    { (0 1) math:sum 1 . },
+    { (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) . },
+    { (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587)) . }.
 
-  { res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" . }
-    pe:fact "path-discovery.n3".
+{ (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "from"; pe:value res:AIRPORT_309 ],
+    [ pe:var "length"; pe:value 1 ],
+    [ pe:var "max"; pe:value 2 ],
+    [ pe:var "newLength"; pe:value 2 ],
+    [ pe:var "newRoute"; pe:value (res:AIRPORT_1472 res:AIRPORT_1587) ],
+    [ pe:var "newVisited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ],
+    [ pe:var "route"; pe:value (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) ],
+    [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "via"; pe:value res:AIRPORT_1472 ],
+    [ pe:var "visited"; pe:value (res:AIRPORT_310) ];
+  pe:uses
+    { 1 math:notGreaterThan 2 . },
+    { res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_1472 . },
+    { (res:AIRPORT_310) list:notMember res:AIRPORT_1472 . },
+    { (res:AIRPORT_309 res:AIRPORT_310) list:firstRest (res:AIRPORT_309 (res:AIRPORT_310)) . },
+    { (1 1) math:sum 2 . },
+    { (res:AIRPORT_1472 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_1472 res:AIRPORT_1587) . },
+    { (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_1472 res:AIRPORT_1587)) . }.
 
-  { (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "from"; pe:value res:AIRPORT_310 ],
-      [ pe:var "length"; pe:value 0 ],
-      [ pe:var "max"; pe:value 2 ],
-      [ pe:var "newLength"; pe:value 1 ],
-      [ pe:var "newRoute"; pe:value (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) ],
-      [ pe:var "newVisited"; pe:value (res:AIRPORT_310) ],
-      [ pe:var "route"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) ],
-      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "via"; pe:value res:AIRPORT_309 ],
-      [ pe:var "visited"; pe:value () ];
-    pe:uses
-      { 0 math:notGreaterThan 2 . },
-      { res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 . },
-      { () list:notMember res:AIRPORT_309 . },
-      { (res:AIRPORT_310) list:firstRest (res:AIRPORT_310 ()) . },
-      { (0 1) math:sum 1 . },
-      { (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) . },
-      { (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587)) . }.
+{ res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_1472 . }
+  pe:fact "path-discovery.n3".
 
-  { 0 math:notGreaterThan 2 . }
-    pe:builtin math:notGreaterThan.
+{ (res:AIRPORT_310) list:notMember res:AIRPORT_1472 . }
+  pe:builtin list:notMember.
 
-  { res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 . }
-    pe:fact "path-discovery.n3".
+{ (res:AIRPORT_1472 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_1472 res:AIRPORT_1587) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "from"; pe:value res:AIRPORT_1472 ],
+    [ pe:var "length"; pe:value 2 ],
+    [ pe:var "max"; pe:value 2 ],
+    [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "visited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ];
+  pe:uses
+    { 2 math:notGreaterThan 2 . },
+    { res:AIRPORT_1472 nepo:hasOutboundRouteTo res:AIRPORT_1587 . },
+    { (res:AIRPORT_309 res:AIRPORT_310) list:notMember res:AIRPORT_1587 . }.
 
-  { () list:notMember res:AIRPORT_309 . }
-    pe:builtin list:notMember.
+{ res:AIRPORT_1472 nepo:hasOutboundRouteTo res:AIRPORT_1587 . }
+  pe:fact "path-discovery.n3".
 
-  { (res:AIRPORT_310) list:firstRest (res:AIRPORT_310 ()) . }
-    pe:builtin list:firstRest.
+{ (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_1472 res:AIRPORT_1587)) . }
+  pe:builtin list:firstRest.
 
-  { (0 1) math:sum 1 . }
-    pe:builtin math:sum.
+{ (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587)) . }
+  pe:builtin list:firstRest.
 
-  { (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "from"; pe:value res:AIRPORT_309 ],
-      [ pe:var "length"; pe:value 1 ],
-      [ pe:var "max"; pe:value 2 ],
-      [ pe:var "newLength"; pe:value 2 ],
-      [ pe:var "newRoute"; pe:value (res:AIRPORT_1472 res:AIRPORT_1587) ],
-      [ pe:var "newVisited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ],
-      [ pe:var "route"; pe:value (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) ],
-      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "via"; pe:value res:AIRPORT_1472 ],
-      [ pe:var "visited"; pe:value (res:AIRPORT_310) ];
-    pe:uses
-      { 1 math:notGreaterThan 2 . },
-      { res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_1472 . },
-      { (res:AIRPORT_310) list:notMember res:AIRPORT_1472 . },
-      { (res:AIRPORT_309 res:AIRPORT_310) list:firstRest (res:AIRPORT_309 (res:AIRPORT_310)) . },
-      { (1 1) math:sum 2 . },
-      { (res:AIRPORT_1472 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_1472 res:AIRPORT_1587) . },
-      { (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_1472 res:AIRPORT_1587)) . }.
-
-  { 1 math:notGreaterThan 2 . }
-    pe:builtin math:notGreaterThan.
-
-  { res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_1472 . }
-    pe:fact "path-discovery.n3".
-
-  { (res:AIRPORT_310) list:notMember res:AIRPORT_1472 . }
-    pe:builtin list:notMember.
-
-  { (res:AIRPORT_309 res:AIRPORT_310) list:firstRest (res:AIRPORT_309 (res:AIRPORT_310)) . }
-    pe:builtin list:firstRest.
-
-  { (1 1) math:sum 2 . }
-    pe:builtin math:sum.
-
-  { (res:AIRPORT_1472 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_1472 res:AIRPORT_1587) . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "from"; pe:value res:AIRPORT_1472 ],
-      [ pe:var "length"; pe:value 2 ],
-      [ pe:var "max"; pe:value 2 ],
-      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "visited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ];
-    pe:uses
-      { 2 math:notGreaterThan 2 . },
-      { res:AIRPORT_1472 nepo:hasOutboundRouteTo res:AIRPORT_1587 . },
-      { (res:AIRPORT_309 res:AIRPORT_310) list:notMember res:AIRPORT_1587 . }.
-
-  { 2 math:notGreaterThan 2 . }
-    pe:builtin math:notGreaterThan.
-
-  { res:AIRPORT_1472 nepo:hasOutboundRouteTo res:AIRPORT_1587 . }
-    pe:fact "path-discovery.n3".
-
-  { (res:AIRPORT_309 res:AIRPORT_310) list:notMember res:AIRPORT_1587 . }
-    pe:builtin list:notMember.
-
-  { (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_1472 res:AIRPORT_1587)) . }
-    pe:builtin list:firstRest.
-
-  { (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587)) . }
-    pe:builtin list:firstRest.
-
-  {
-    (?city {
-        (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:member ?airport .
-        ?airport rdfs:label ?city .
-    } ("Ostend-Bruges International Airport" "Liège Airport" "Diagoras Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
+{
+  (?city {
+      (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_1472 res:AIRPORT_1587) list:member ?airport .
+      ?airport rdfs:label ?city .
+  } ("Ostend-Bruges International Airport" "Liège Airport" "Diagoras Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
 }
-    pe:builtin log:collectAllIn.
-}.
+  pe:builtin log:collectAllIn.
 
-{ :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Palma De Mallorca Airport" "Václav Havel Airport Prague") . } pe:why {
-  { :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Palma De Mallorca Airport" "Václav Havel Airport Prague") . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "airports"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) ],
-      [ pe:var "destination"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "route"; pe:value ("Ostend-Bruges International Airport" "Liège Airport" "Palma De Mallorca Airport" "Václav Havel Airport Prague") ],
-      [ pe:var "source"; pe:value res:AIRPORT_310 ];
-    pe:uses
-      { res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" . },
-      { res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" . },
-      { (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) . },
-      {
-          (?city {
-              (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:member ?airport .
-              ?airport rdfs:label ?city .
-          } ("Ostend-Bruges International Airport" "Liège Airport" "Palma De Mallorca Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
-      }.
+{ :discovered :airroute ("Ostend-Bruges International Airport" "Liège Airport" "Palma De Mallorca Airport" "Václav Havel Airport Prague") . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "airports"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) ],
+    [ pe:var "destination"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "route"; pe:value ("Ostend-Bruges International Airport" "Liège Airport" "Palma De Mallorca Airport" "Václav Havel Airport Prague") ],
+    [ pe:var "source"; pe:value res:AIRPORT_310 ];
+  pe:uses
+    { res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" . },
+    { res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" . },
+    { (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) . },
+    {
+        (?city {
+            (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:member ?airport .
+            ?airport rdfs:label ?city .
+        } ("Ostend-Bruges International Airport" "Liège Airport" "Palma De Mallorca Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
+    }.
 
-  { res:AIRPORT_310 rdfs:label "Ostend-Bruges International Airport" . }
-    pe:fact "path-discovery.n3".
+{ (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "from"; pe:value res:AIRPORT_310 ],
+    [ pe:var "length"; pe:value 0 ],
+    [ pe:var "max"; pe:value 2 ],
+    [ pe:var "newLength"; pe:value 1 ],
+    [ pe:var "newRoute"; pe:value (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) ],
+    [ pe:var "newVisited"; pe:value (res:AIRPORT_310) ],
+    [ pe:var "route"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) ],
+    [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "via"; pe:value res:AIRPORT_309 ],
+    [ pe:var "visited"; pe:value () ];
+  pe:uses
+    { 0 math:notGreaterThan 2 . },
+    { res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 . },
+    { () list:notMember res:AIRPORT_309 . },
+    { (res:AIRPORT_310) list:firstRest (res:AIRPORT_310 ()) . },
+    { (0 1) math:sum 1 . },
+    { (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) . },
+    { (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587)) . }.
 
-  { res:AIRPORT_1587 rdfs:label "Václav Havel Airport Prague" . }
-    pe:fact "path-discovery.n3".
+{ (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "from"; pe:value res:AIRPORT_309 ],
+    [ pe:var "length"; pe:value 1 ],
+    [ pe:var "max"; pe:value 2 ],
+    [ pe:var "newLength"; pe:value 2 ],
+    [ pe:var "newRoute"; pe:value (res:AIRPORT_3998 res:AIRPORT_1587) ],
+    [ pe:var "newVisited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ],
+    [ pe:var "route"; pe:value (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) ],
+    [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "via"; pe:value res:AIRPORT_3998 ],
+    [ pe:var "visited"; pe:value (res:AIRPORT_310) ];
+  pe:uses
+    { 1 math:notGreaterThan 2 . },
+    { res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_3998 . },
+    { (res:AIRPORT_310) list:notMember res:AIRPORT_3998 . },
+    { (res:AIRPORT_309 res:AIRPORT_310) list:firstRest (res:AIRPORT_309 (res:AIRPORT_310)) . },
+    { (1 1) math:sum 2 . },
+    { (res:AIRPORT_3998 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_3998 res:AIRPORT_1587) . },
+    { (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_3998 res:AIRPORT_1587)) . }.
 
-  { (res:AIRPORT_310 res:AIRPORT_1587 () 0 2) :route (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "from"; pe:value res:AIRPORT_310 ],
-      [ pe:var "length"; pe:value 0 ],
-      [ pe:var "max"; pe:value 2 ],
-      [ pe:var "newLength"; pe:value 1 ],
-      [ pe:var "newRoute"; pe:value (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) ],
-      [ pe:var "newVisited"; pe:value (res:AIRPORT_310) ],
-      [ pe:var "route"; pe:value (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) ],
-      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "via"; pe:value res:AIRPORT_309 ],
-      [ pe:var "visited"; pe:value () ];
-    pe:uses
-      { 0 math:notGreaterThan 2 . },
-      { res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 . },
-      { () list:notMember res:AIRPORT_309 . },
-      { (res:AIRPORT_310) list:firstRest (res:AIRPORT_310 ()) . },
-      { (0 1) math:sum 1 . },
-      { (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) . },
-      { (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587)) . }.
+{ res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_3998 . }
+  pe:fact "path-discovery.n3".
 
-  { 0 math:notGreaterThan 2 . }
-    pe:builtin math:notGreaterThan.
+{ (res:AIRPORT_310) list:notMember res:AIRPORT_3998 . }
+  pe:builtin list:notMember.
 
-  { res:AIRPORT_310 nepo:hasOutboundRouteTo res:AIRPORT_309 . }
-    pe:fact "path-discovery.n3".
+{ (res:AIRPORT_3998 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_3998 res:AIRPORT_1587) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "from"; pe:value res:AIRPORT_3998 ],
+    [ pe:var "length"; pe:value 2 ],
+    [ pe:var "max"; pe:value 2 ],
+    [ pe:var "to"; pe:value res:AIRPORT_1587 ],
+    [ pe:var "visited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ];
+  pe:uses
+    { 2 math:notGreaterThan 2 . },
+    { res:AIRPORT_3998 nepo:hasOutboundRouteTo res:AIRPORT_1587 . },
+    { (res:AIRPORT_309 res:AIRPORT_310) list:notMember res:AIRPORT_1587 . }.
 
-  { () list:notMember res:AIRPORT_309 . }
-    pe:builtin list:notMember.
+{ res:AIRPORT_3998 nepo:hasOutboundRouteTo res:AIRPORT_1587 . }
+  pe:fact "path-discovery.n3".
 
-  { (res:AIRPORT_310) list:firstRest (res:AIRPORT_310 ()) . }
-    pe:builtin list:firstRest.
+{ (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_3998 res:AIRPORT_1587)) . }
+  pe:builtin list:firstRest.
 
-  { (0 1) math:sum 1 . }
-    pe:builtin math:sum.
+{ (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587)) . }
+  pe:builtin list:firstRest.
 
-  { (res:AIRPORT_309 res:AIRPORT_1587 (res:AIRPORT_310) 1 2) :route (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "from"; pe:value res:AIRPORT_309 ],
-      [ pe:var "length"; pe:value 1 ],
-      [ pe:var "max"; pe:value 2 ],
-      [ pe:var "newLength"; pe:value 2 ],
-      [ pe:var "newRoute"; pe:value (res:AIRPORT_3998 res:AIRPORT_1587) ],
-      [ pe:var "newVisited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ],
-      [ pe:var "route"; pe:value (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) ],
-      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "via"; pe:value res:AIRPORT_3998 ],
-      [ pe:var "visited"; pe:value (res:AIRPORT_310) ];
-    pe:uses
-      { 1 math:notGreaterThan 2 . },
-      { res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_3998 . },
-      { (res:AIRPORT_310) list:notMember res:AIRPORT_3998 . },
-      { (res:AIRPORT_309 res:AIRPORT_310) list:firstRest (res:AIRPORT_309 (res:AIRPORT_310)) . },
-      { (1 1) math:sum 2 . },
-      { (res:AIRPORT_3998 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_3998 res:AIRPORT_1587) . },
-      { (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_3998 res:AIRPORT_1587)) . }.
-
-  { 1 math:notGreaterThan 2 . }
-    pe:builtin math:notGreaterThan.
-
-  { res:AIRPORT_309 nepo:hasOutboundRouteTo res:AIRPORT_3998 . }
-    pe:fact "path-discovery.n3".
-
-  { (res:AIRPORT_310) list:notMember res:AIRPORT_3998 . }
-    pe:builtin list:notMember.
-
-  { (res:AIRPORT_309 res:AIRPORT_310) list:firstRest (res:AIRPORT_309 (res:AIRPORT_310)) . }
-    pe:builtin list:firstRest.
-
-  { (1 1) math:sum 2 . }
-    pe:builtin math:sum.
-
-  { (res:AIRPORT_3998 res:AIRPORT_1587 (res:AIRPORT_309 res:AIRPORT_310) 2 2) :route (res:AIRPORT_3998 res:AIRPORT_1587) . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "from"; pe:value res:AIRPORT_3998 ],
-      [ pe:var "length"; pe:value 2 ],
-      [ pe:var "max"; pe:value 2 ],
-      [ pe:var "to"; pe:value res:AIRPORT_1587 ],
-      [ pe:var "visited"; pe:value (res:AIRPORT_309 res:AIRPORT_310) ];
-    pe:uses
-      { 2 math:notGreaterThan 2 . },
-      { res:AIRPORT_3998 nepo:hasOutboundRouteTo res:AIRPORT_1587 . },
-      { (res:AIRPORT_309 res:AIRPORT_310) list:notMember res:AIRPORT_1587 . }.
-
-  { 2 math:notGreaterThan 2 . }
-    pe:builtin math:notGreaterThan.
-
-  { res:AIRPORT_3998 nepo:hasOutboundRouteTo res:AIRPORT_1587 . }
-    pe:fact "path-discovery.n3".
-
-  { (res:AIRPORT_309 res:AIRPORT_310) list:notMember res:AIRPORT_1587 . }
-    pe:builtin list:notMember.
-
-  { (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:firstRest (res:AIRPORT_309 (res:AIRPORT_3998 res:AIRPORT_1587)) . }
-    pe:builtin list:firstRest.
-
-  { (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:firstRest (res:AIRPORT_310 (res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587)) . }
-    pe:builtin list:firstRest.
-
-  {
-    (?city {
-        (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:member ?airport .
-        ?airport rdfs:label ?city .
-    } ("Ostend-Bruges International Airport" "Liège Airport" "Palma De Mallorca Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
+{
+  (?city {
+      (res:AIRPORT_310 res:AIRPORT_309 res:AIRPORT_3998 res:AIRPORT_1587) list:member ?airport .
+      ?airport rdfs:label ?city .
+  } ("Ostend-Bruges International Airport" "Liège Airport" "Palma De Mallorca Airport" "Václav Havel Airport Prague")) log:collectAllIn ?scope .
 }
-    pe:builtin log:collectAllIn.
-}.
+  pe:builtin log:collectAllIn.

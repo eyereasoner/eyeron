@@ -5,33 +5,31 @@
 
 :bob a :Orphan .
 
-{ :bob a :Orphan . } pe:why {
-  { :bob a :Orphan . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "SCOPE"; pe:value {
-          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-      } ],
-      [ pe:var "x"; pe:value :bob ];
-    pe:uses
-      { :bob a :Person . },
-      {
-          {
-              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-          } log:notIncludes {
-              :bob :childOf ?y .
-          } .
-      }.
-
-  { :bob a :Person . }
-    pe:fact "negation-orphan.n3".
-
-  {
-    {
+{ :bob a :Orphan . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
         <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-    } log:notIncludes {
-        :bob :childOf ?y .
-    } .
+    } ],
+    [ pe:var "x"; pe:value :bob ];
+  pe:uses
+    { :bob a :Person . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :bob :childOf ?y .
+        } .
+    }.
+
+{ :bob a :Person . }
+  pe:fact "negation-orphan.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :bob :childOf ?y .
+  } .
 }
-    pe:builtin log:notIncludes.
-}.
+  pe:builtin log:notIncludes.

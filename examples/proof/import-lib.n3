@@ -5,51 +5,32 @@
 :jules :ancestor :kai .
 :iris :ancestor :kai .
 
-{ :iris :ancestor :jules . } pe:why {
-  { :iris :ancestor :jules . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :iris ],
-      [ pe:var "y"; pe:value :jules ];
-    pe:uses { :iris :parent :jules . }.
+{ :iris :ancestor :jules . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :iris ],
+    [ pe:var "y"; pe:value :jules ];
+  pe:uses { :iris :parent :jules . }.
 
-  { :iris :parent :jules . }
-    pe:fact "import-lib.n3".
-}.
+{ :iris :parent :jules . }
+  pe:fact "import-lib.n3".
 
-{ :jules :ancestor :kai . } pe:why {
-  { :jules :ancestor :kai . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :jules ],
-      [ pe:var "y"; pe:value :kai ];
-    pe:uses { :jules :parent :kai . }.
+{ :jules :ancestor :kai . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :jules ],
+    [ pe:var "y"; pe:value :kai ];
+  pe:uses { :jules :parent :kai . }.
 
-  { :jules :parent :kai . }
-    pe:fact "import-lib.n3".
-}.
+{ :jules :parent :kai . }
+  pe:fact "import-lib.n3".
 
-{ :iris :ancestor :kai . } pe:why {
-  { :iris :ancestor :kai . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :iris ],
-      [ pe:var "y"; pe:value :jules ],
-      [ pe:var "z"; pe:value :kai ];
-    pe:uses
-      { :iris :parent :jules . },
-      { :jules :ancestor :kai . }.
-
-  { :iris :parent :jules . }
-    pe:fact "import-lib.n3".
-
-  { :jules :ancestor :kai . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :jules ],
-      [ pe:var "y"; pe:value :kai ];
-    pe:uses { :jules :parent :kai . }.
-
-  { :jules :parent :kai . }
-    pe:fact "import-lib.n3".
-}.
+{ :iris :ancestor :kai . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :iris ],
+    [ pe:var "y"; pe:value :jules ],
+    [ pe:var "z"; pe:value :kai ];
+  pe:uses
+    { :iris :parent :jules . },
+    { :jules :ancestor :kai . }.

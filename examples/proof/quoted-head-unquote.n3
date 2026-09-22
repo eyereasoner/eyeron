@@ -12,85 +12,58 @@
 :test :is true .
 
 {
-    {
-        ?X a :Cat .
-    } => {
-        ?X a :Animal .
-    } .
-} pe:why {
   {
-    {
-        ?X a :Cat .
-    } => {
-        ?X a :Animal .
-    } .
+      ?X a :Cat .
+  } => {
+      ?X a :Animal .
+  } .
 }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "C"; pe:value {
-          {
-              ?X a :Cat .
-          } => {
-              ?X a :Animal .
-          } .
-      } ];
-    pe:uses
-      {
-          :a :b {
-              {
-                  ?X a :Cat .
-              } => {
-                  ?X a :Animal .
-              } .
-          } .
-      }.
-
-  {
-    :a :b {
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value {
         {
             ?X a :Cat .
         } => {
             ?X a :Animal .
         } .
-    } .
+    } ];
+  pe:uses
+    {
+        :a :b {
+            {
+                ?X a :Cat .
+            } => {
+                ?X a :Animal .
+            } .
+        } .
+    }.
+
+{
+  :a :b {
+      {
+          ?X a :Cat .
+      } => {
+          ?X a :Animal .
+      } .
+  } .
 }
-    pe:fact "quoted-head-unquote.n3".
-}.
+  pe:fact "quoted-head-unquote.n3".
 
-{ :c a :Animal . } pe:why {
-  { :c a :Animal . }
-    pe:rule
-      {
-          {
-              ?X a :Cat .
-          } => {
-              ?X a :Animal .
-          } .
-      };
-    pe:binding [ pe:var "X"; pe:value :c ];
-    pe:uses { :c a :Cat . }.
+{ :c a :Animal . }
+  pe:rule
+    {
+        {
+            ?X a :Cat .
+        } => {
+            ?X a :Animal .
+        } .
+    };
+  pe:binding [ pe:var "X"; pe:value :c ];
+  pe:uses { :c a :Cat . }.
 
-  { :c a :Cat . }
-    pe:fact "quoted-head-unquote.n3".
-}.
+{ :c a :Cat . }
+  pe:fact "quoted-head-unquote.n3".
 
-{ :test :is true . } pe:why {
-  { :test :is true . }
-    pe:rule 2;
-    pe:uses { :c a :Animal . }.
-
-  { :c a :Animal . }
-    pe:rule
-      {
-          {
-              ?X a :Cat .
-          } => {
-              ?X a :Animal .
-          } .
-      };
-    pe:binding [ pe:var "X"; pe:value :c ];
-    pe:uses { :c a :Cat . }.
-
-  { :c a :Cat . }
-    pe:fact "quoted-head-unquote.n3".
-}.
+{ :test :is true . }
+  pe:rule 2;
+  pe:uses { :c a :Animal . }.

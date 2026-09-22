@@ -12,215 +12,205 @@
 } .
 
 {
-    :patch1 :result {
-        :alice a :Person .
-        :bob a :Person .
-        :alice :age 31 .
-        :alice :status :ActiveStatus .
-        :alice :verified true .
-    } .
-} pe:why {
-  {
-    :patch1 :result {
-        :alice a :Person .
-        :bob a :Person .
-        :alice :age 31 .
-        :alice :status :ActiveStatus .
-        :alice :verified true .
-    } .
+  :patch1 :result {
+      :alice a :Person .
+      :bob a :Person .
+      :alice :age 31 .
+      :alice :status :ActiveStatus .
+      :alice :verified true .
+  } .
 }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "Del"; pe:value {
-          :alice :age 30 .
-          :alice :status :OldStatus .
-          :alice :email "alice@example.org" .
-      } ],
-      [ pe:var "G"; pe:value {
-          :alice a :Person .
-          :alice :age 30 .
-          :alice :status :OldStatus .
-          :alice :email "alice@example.org" .
-          :bob a :Person .
-      } ],
-      [ pe:var "Ins"; pe:value {
-          :alice :age 31 .
-          :alice :status :ActiveStatus .
-          :alice :verified true .
-      } ],
-      [ pe:var "keptGraph"; pe:value {
-          :alice a :Person .
-          :bob a :Person .
-      } ],
-      [ pe:var "keptTriples"; pe:value ({
-          :alice a :Person .
-      } {
-          :bob a :Person .
-      }) ],
-      [ pe:var "patched"; pe:value {
-          :alice a :Person .
-          :bob a :Person .
-          :alice :age 31 .
-          :alice :status :ActiveStatus .
-          :alice :verified true .
-      } ];
-    pe:uses
-      {
-          :patch1 :source {
-              :alice a :Person .
-              :alice :age 30 .
-              :alice :status :OldStatus .
-              :alice :email "alice@example.org" .
-              :bob a :Person .
-          } .
-      },
-      {
-          :patch1 :delete {
-              :alice :age 30 .
-              :alice :status :OldStatus .
-              :alice :email "alice@example.org" .
-          } .
-      },
-      {
-          :patch1 :insert {
-              :alice :age 31 .
-              :alice :status :ActiveStatus .
-              :alice :verified true .
-          } .
-      },
-      {
-          ({
-              ?S ?P ?O .
-          } {
-              ?S ?P ?O .
-              {
-              :alice :age 30 .
-              :alice :status :OldStatus .
-              :alice :email "alice@example.org" .
-          } log:notIncludes {
-              ?S ?P ?O .
-          } .
-          } ({
-              :alice a :Person .
-          } {
-              :bob a :Person .
-          })) log:collectAllIn {
-              :alice a :Person .
-              :alice :age 30 .
-              :alice :status :OldStatus .
-              :alice :email "alice@example.org" .
-              :bob a :Person .
-          } .
-      },
-      {
-          ({
-              :alice a :Person .
-          } {
-              :bob a :Person .
-          }) log:conjunction {
-              :alice a :Person .
-              :bob a :Person .
-          } .
-      },
-      {
-          ({
-              :alice a :Person .
-              :bob a :Person .
-          } {
-              :alice :age 31 .
-              :alice :status :ActiveStatus .
-              :alice :verified true .
-          }) log:conjunction {
-              :alice a :Person .
-              :bob a :Person .
-              :alice :age 31 .
-              :alice :status :ActiveStatus .
-              :alice :verified true .
-          } .
-      }.
-
-  {
-    :patch1 :source {
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Del"; pe:value {
+        :alice :age 30 .
+        :alice :status :OldStatus .
+        :alice :email "alice@example.org" .
+    } ],
+    [ pe:var "G"; pe:value {
         :alice a :Person .
         :alice :age 30 .
         :alice :status :OldStatus .
         :alice :email "alice@example.org" .
         :bob a :Person .
-    } .
-}
-    pe:fact "patch.n3".
-
-  {
-    :patch1 :delete {
-        :alice :age 30 .
-        :alice :status :OldStatus .
-        :alice :email "alice@example.org" .
-    } .
-}
-    pe:fact "patch.n3".
-
-  {
-    :patch1 :insert {
+    } ],
+    [ pe:var "Ins"; pe:value {
         :alice :age 31 .
         :alice :status :ActiveStatus .
         :alice :verified true .
-    } .
-}
-    pe:fact "patch.n3".
-
-  {
-    ({
-        ?S ?P ?O .
-    } {
-        ?S ?P ?O .
-        {
-        :alice :age 30 .
-        :alice :status :OldStatus .
-        :alice :email "alice@example.org" .
-    } log:notIncludes {
-        ?S ?P ?O .
-    } .
-    } ({
+    } ],
+    [ pe:var "keptGraph"; pe:value {
+        :alice a :Person .
+        :bob a :Person .
+    } ],
+    [ pe:var "keptTriples"; pe:value ({
         :alice a :Person .
     } {
         :bob a :Person .
-    })) log:collectAllIn {
-        :alice a :Person .
-        :alice :age 30 .
-        :alice :status :OldStatus .
-        :alice :email "alice@example.org" .
-        :bob a :Person .
-    } .
-}
-    pe:builtin log:collectAllIn.
-
-  {
-    ({
-        :alice a :Person .
-    } {
-        :bob a :Person .
-    }) log:conjunction {
-        :alice a :Person .
-        :bob a :Person .
-    } .
-}
-    pe:builtin log:conjunction.
-
-  {
-    ({
-        :alice a :Person .
-        :bob a :Person .
-    } {
-        :alice :age 31 .
-        :alice :status :ActiveStatus .
-        :alice :verified true .
-    }) log:conjunction {
+    }) ],
+    [ pe:var "patched"; pe:value {
         :alice a :Person .
         :bob a :Person .
         :alice :age 31 .
         :alice :status :ActiveStatus .
         :alice :verified true .
-    } .
+    } ];
+  pe:uses
+    {
+        :patch1 :source {
+            :alice a :Person .
+            :alice :age 30 .
+            :alice :status :OldStatus .
+            :alice :email "alice@example.org" .
+            :bob a :Person .
+        } .
+    },
+    {
+        :patch1 :delete {
+            :alice :age 30 .
+            :alice :status :OldStatus .
+            :alice :email "alice@example.org" .
+        } .
+    },
+    {
+        :patch1 :insert {
+            :alice :age 31 .
+            :alice :status :ActiveStatus .
+            :alice :verified true .
+        } .
+    },
+    {
+        ({
+            ?S ?P ?O .
+        } {
+            ?S ?P ?O .
+            {
+            :alice :age 30 .
+            :alice :status :OldStatus .
+            :alice :email "alice@example.org" .
+        } log:notIncludes {
+            ?S ?P ?O .
+        } .
+        } ({
+            :alice a :Person .
+        } {
+            :bob a :Person .
+        })) log:collectAllIn {
+            :alice a :Person .
+            :alice :age 30 .
+            :alice :status :OldStatus .
+            :alice :email "alice@example.org" .
+            :bob a :Person .
+        } .
+    },
+    {
+        ({
+            :alice a :Person .
+        } {
+            :bob a :Person .
+        }) log:conjunction {
+            :alice a :Person .
+            :bob a :Person .
+        } .
+    },
+    {
+        ({
+            :alice a :Person .
+            :bob a :Person .
+        } {
+            :alice :age 31 .
+            :alice :status :ActiveStatus .
+            :alice :verified true .
+        }) log:conjunction {
+            :alice a :Person .
+            :bob a :Person .
+            :alice :age 31 .
+            :alice :status :ActiveStatus .
+            :alice :verified true .
+        } .
+    }.
+
+{
+  :patch1 :source {
+      :alice a :Person .
+      :alice :age 30 .
+      :alice :status :OldStatus .
+      :alice :email "alice@example.org" .
+      :bob a :Person .
+  } .
 }
-    pe:builtin log:conjunction.
-}.
+  pe:fact "patch.n3".
+
+{
+  :patch1 :delete {
+      :alice :age 30 .
+      :alice :status :OldStatus .
+      :alice :email "alice@example.org" .
+  } .
+}
+  pe:fact "patch.n3".
+
+{
+  :patch1 :insert {
+      :alice :age 31 .
+      :alice :status :ActiveStatus .
+      :alice :verified true .
+  } .
+}
+  pe:fact "patch.n3".
+
+{
+  ({
+      ?S ?P ?O .
+  } {
+      ?S ?P ?O .
+      {
+      :alice :age 30 .
+      :alice :status :OldStatus .
+      :alice :email "alice@example.org" .
+  } log:notIncludes {
+      ?S ?P ?O .
+  } .
+  } ({
+      :alice a :Person .
+  } {
+      :bob a :Person .
+  })) log:collectAllIn {
+      :alice a :Person .
+      :alice :age 30 .
+      :alice :status :OldStatus .
+      :alice :email "alice@example.org" .
+      :bob a :Person .
+  } .
+}
+  pe:builtin log:collectAllIn.
+
+{
+  ({
+      :alice a :Person .
+  } {
+      :bob a :Person .
+  }) log:conjunction {
+      :alice a :Person .
+      :bob a :Person .
+  } .
+}
+  pe:builtin log:conjunction.
+
+{
+  ({
+      :alice a :Person .
+      :bob a :Person .
+  } {
+      :alice :age 31 .
+      :alice :status :ActiveStatus .
+      :alice :verified true .
+  }) log:conjunction {
+      :alice a :Person .
+      :bob a :Person .
+      :alice :age 31 .
+      :alice :status :ActiveStatus .
+      :alice :verified true .
+  } .
+}
+  pe:builtin log:conjunction.

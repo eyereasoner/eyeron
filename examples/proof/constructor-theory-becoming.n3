@@ -18,664 +18,192 @@
 :v3 :hasAttribute :stabilizedMemory .
 :v3 :availableForFurtherTask :yes .
 
-{ :perfectRestoreTask :status :impossibleTask . } pe:why {
-  { :perfectRestoreTask :status :impossibleTask . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "principle"; pe:value :noMiraclePrinciple ],
-      [ pe:var "task"; pe:value :perfectRestoreTask ];
-    pe:uses { :perfectRestoreTask :forbiddenBy :noMiraclePrinciple . }.
-
-  { :perfectRestoreTask :forbiddenBy :noMiraclePrinciple . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :writeTask :status :possibleTask . } pe:why {
-  { :writeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses { :writer :canPerform :writeTask . }.
-
-  { :writer :canPerform :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :writer :retainsCapacityFor :writeTask . } pe:why {
-  { :writer :retainsCapacityFor :writeTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses { :writer :canPerform :writeTask . }.
-
-  { :writer :canPerform :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :stabilizeTask :status :possibleTask . } pe:why {
-  { :stabilizeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :stabilizer ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses { :stabilizer :canPerform :stabilizeTask . }.
-
-  { :stabilizer :canPerform :stabilizeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :stabilizer :retainsCapacityFor :stabilizeTask . } pe:why {
-  { :stabilizer :retainsCapacityFor :stabilizeTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :stabilizer ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses { :stabilizer :canPerform :stabilizeTask . }.
-
-  { :stabilizer :canPerform :stabilizeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :v2 :canUndergo :writeTask . } pe:why {
-  { :v2 :canUndergo :writeTask . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :blankMemory ],
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "prev"; pe:value :v1 ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :derivesFrom :v1 . },
-      { :v2 :intendsTask :writeTask . },
-      { :writeTask :status :possibleTask . },
-      { :writeTask :input :blankMemory . },
-      { :v1 :hasAttribute :blankMemory . }.
-
-  { :v2 :derivesFrom :v1 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :intendsTask :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses { :writer :canPerform :writeTask . }.
-
-  { :writer :canPerform :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :input :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v1 :hasAttribute :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :v2 :becomesFrom :v1 . } pe:why {
-  { :v2 :becomesFrom :v1 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :blankMemory ],
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "prev"; pe:value :v1 ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :derivesFrom :v1 . },
-      { :v2 :intendsTask :writeTask . },
-      { :writeTask :status :possibleTask . },
-      { :writeTask :input :blankMemory . },
-      { :v1 :hasAttribute :blankMemory . }.
-
-  { :v2 :derivesFrom :v1 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :intendsTask :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses { :writer :canPerform :writeTask . }.
-
-  { :writer :canPerform :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :input :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v1 :hasAttribute :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :v1 :availableForFurtherTask :yes . } pe:why {
-  { :v1 :availableForFurtherTask :yes . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "attr"; pe:value :blankMemory ],
-      [ pe:var "next"; pe:value :v1 ];
-    pe:uses { :v1 :hasAttribute :blankMemory . }.
-
-  { :v1 :hasAttribute :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :damaged1 :availableForFurtherTask :yes . } pe:why {
-  { :damaged1 :availableForFurtherTask :yes . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "attr"; pe:value :damagedMemory ],
-      [ pe:var "next"; pe:value :damaged1 ];
-    pe:uses { :damaged1 :hasAttribute :damagedMemory . }.
-
-  { :damaged1 :hasAttribute :damagedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :vBad :status :blockedTransition . } pe:why {
-  { :vBad :status :blockedTransition . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "next"; pe:value :vBad ],
-      [ pe:var "task"; pe:value :perfectRestoreTask ];
-    pe:uses
-      { :vBad :intendsTask :perfectRestoreTask . },
-      { :perfectRestoreTask :status :impossibleTask . }.
-
-  { :vBad :intendsTask :perfectRestoreTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :perfectRestoreTask :status :impossibleTask . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "principle"; pe:value :noMiraclePrinciple ],
-      [ pe:var "task"; pe:value :perfectRestoreTask ];
-    pe:uses { :perfectRestoreTask :forbiddenBy :noMiraclePrinciple . }.
-
-  { :perfectRestoreTask :forbiddenBy :noMiraclePrinciple . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :v2 :hasAttribute :encodedMemory . } pe:why {
-  { :v2 :hasAttribute :encodedMemory . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "out"; pe:value :encodedMemory ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :canUndergo :writeTask . },
-      { :writeTask :output :encodedMemory . }.
-
-  { :v2 :canUndergo :writeTask . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :blankMemory ],
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "prev"; pe:value :v1 ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :derivesFrom :v1 . },
-      { :v2 :intendsTask :writeTask . },
-      { :writeTask :status :possibleTask . },
-      { :writeTask :input :blankMemory . },
-      { :v1 :hasAttribute :blankMemory . }.
-
-  { :v2 :derivesFrom :v1 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :intendsTask :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses { :writer :canPerform :writeTask . }.
-
-  { :writer :canPerform :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :input :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v1 :hasAttribute :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :output :encodedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :v3 :canUndergo :stabilizeTask . } pe:why {
-  { :v3 :canUndergo :stabilizeTask . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :encodedMemory ],
-      [ pe:var "next"; pe:value :v3 ],
-      [ pe:var "prev"; pe:value :v2 ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses
-      { :v3 :derivesFrom :v2 . },
-      { :v3 :intendsTask :stabilizeTask . },
-      { :stabilizeTask :status :possibleTask . },
-      { :stabilizeTask :input :encodedMemory . },
-      { :v2 :hasAttribute :encodedMemory . }.
-
-  { :v3 :derivesFrom :v2 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v3 :intendsTask :stabilizeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :stabilizeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :stabilizer ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses { :stabilizer :canPerform :stabilizeTask . }.
-
-  { :stabilizer :canPerform :stabilizeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :stabilizeTask :input :encodedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :hasAttribute :encodedMemory . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "out"; pe:value :encodedMemory ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :canUndergo :writeTask . },
-      { :writeTask :output :encodedMemory . }.
-
-  { :v2 :canUndergo :writeTask . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :blankMemory ],
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "prev"; pe:value :v1 ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :derivesFrom :v1 . },
-      { :v2 :intendsTask :writeTask . },
-      { :writeTask :status :possibleTask . },
-      { :writeTask :input :blankMemory . },
-      { :v1 :hasAttribute :blankMemory . }.
-
-  { :v2 :derivesFrom :v1 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :intendsTask :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses { :writer :canPerform :writeTask . }.
-
-  { :writer :canPerform :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :input :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v1 :hasAttribute :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :output :encodedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :v3 :becomesFrom :v2 . } pe:why {
-  { :v3 :becomesFrom :v2 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :encodedMemory ],
-      [ pe:var "next"; pe:value :v3 ],
-      [ pe:var "prev"; pe:value :v2 ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses
-      { :v3 :derivesFrom :v2 . },
-      { :v3 :intendsTask :stabilizeTask . },
-      { :stabilizeTask :status :possibleTask . },
-      { :stabilizeTask :input :encodedMemory . },
-      { :v2 :hasAttribute :encodedMemory . }.
-
-  { :v3 :derivesFrom :v2 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v3 :intendsTask :stabilizeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :stabilizeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :stabilizer ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses { :stabilizer :canPerform :stabilizeTask . }.
-
-  { :stabilizer :canPerform :stabilizeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :stabilizeTask :input :encodedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :hasAttribute :encodedMemory . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "out"; pe:value :encodedMemory ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :canUndergo :writeTask . },
-      { :writeTask :output :encodedMemory . }.
-
-  { :v2 :canUndergo :writeTask . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :blankMemory ],
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "prev"; pe:value :v1 ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :derivesFrom :v1 . },
-      { :v2 :intendsTask :writeTask . },
-      { :writeTask :status :possibleTask . },
-      { :writeTask :input :blankMemory . },
-      { :v1 :hasAttribute :blankMemory . }.
-
-  { :v2 :derivesFrom :v1 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :intendsTask :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses { :writer :canPerform :writeTask . }.
-
-  { :writer :canPerform :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :input :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v1 :hasAttribute :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :output :encodedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :v2 :availableForFurtherTask :yes . } pe:why {
-  { :v2 :availableForFurtherTask :yes . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "attr"; pe:value :encodedMemory ],
-      [ pe:var "next"; pe:value :v2 ];
-    pe:uses { :v2 :hasAttribute :encodedMemory . }.
-
-  { :v2 :hasAttribute :encodedMemory . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "out"; pe:value :encodedMemory ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :canUndergo :writeTask . },
-      { :writeTask :output :encodedMemory . }.
-
-  { :v2 :canUndergo :writeTask . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :blankMemory ],
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "prev"; pe:value :v1 ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :derivesFrom :v1 . },
-      { :v2 :intendsTask :writeTask . },
-      { :writeTask :status :possibleTask . },
-      { :writeTask :input :blankMemory . },
-      { :v1 :hasAttribute :blankMemory . }.
-
-  { :v2 :derivesFrom :v1 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :intendsTask :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses { :writer :canPerform :writeTask . }.
-
-  { :writer :canPerform :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :input :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v1 :hasAttribute :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :output :encodedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :v3 :hasAttribute :stabilizedMemory . } pe:why {
-  { :v3 :hasAttribute :stabilizedMemory . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "next"; pe:value :v3 ],
-      [ pe:var "out"; pe:value :stabilizedMemory ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses
-      { :v3 :canUndergo :stabilizeTask . },
-      { :stabilizeTask :output :stabilizedMemory . }.
-
-  { :v3 :canUndergo :stabilizeTask . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :encodedMemory ],
-      [ pe:var "next"; pe:value :v3 ],
-      [ pe:var "prev"; pe:value :v2 ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses
-      { :v3 :derivesFrom :v2 . },
-      { :v3 :intendsTask :stabilizeTask . },
-      { :stabilizeTask :status :possibleTask . },
-      { :stabilizeTask :input :encodedMemory . },
-      { :v2 :hasAttribute :encodedMemory . }.
-
-  { :v3 :derivesFrom :v2 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v3 :intendsTask :stabilizeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :stabilizeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :stabilizer ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses { :stabilizer :canPerform :stabilizeTask . }.
-
-  { :stabilizer :canPerform :stabilizeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :stabilizeTask :input :encodedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :hasAttribute :encodedMemory . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "out"; pe:value :encodedMemory ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :canUndergo :writeTask . },
-      { :writeTask :output :encodedMemory . }.
-
-  { :v2 :canUndergo :writeTask . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :blankMemory ],
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "prev"; pe:value :v1 ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :derivesFrom :v1 . },
-      { :v2 :intendsTask :writeTask . },
-      { :writeTask :status :possibleTask . },
-      { :writeTask :input :blankMemory . },
-      { :v1 :hasAttribute :blankMemory . }.
-
-  { :v2 :derivesFrom :v1 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :intendsTask :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses { :writer :canPerform :writeTask . }.
-
-  { :writer :canPerform :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :input :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v1 :hasAttribute :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :output :encodedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :stabilizeTask :output :stabilizedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
-
-{ :v3 :availableForFurtherTask :yes . } pe:why {
-  { :v3 :availableForFurtherTask :yes . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "attr"; pe:value :stabilizedMemory ],
-      [ pe:var "next"; pe:value :v3 ];
-    pe:uses { :v3 :hasAttribute :stabilizedMemory . }.
-
-  { :v3 :hasAttribute :stabilizedMemory . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "next"; pe:value :v3 ],
-      [ pe:var "out"; pe:value :stabilizedMemory ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses
-      { :v3 :canUndergo :stabilizeTask . },
-      { :stabilizeTask :output :stabilizedMemory . }.
-
-  { :v3 :canUndergo :stabilizeTask . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :encodedMemory ],
-      [ pe:var "next"; pe:value :v3 ],
-      [ pe:var "prev"; pe:value :v2 ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses
-      { :v3 :derivesFrom :v2 . },
-      { :v3 :intendsTask :stabilizeTask . },
-      { :stabilizeTask :status :possibleTask . },
-      { :stabilizeTask :input :encodedMemory . },
-      { :v2 :hasAttribute :encodedMemory . }.
-
-  { :v3 :derivesFrom :v2 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v3 :intendsTask :stabilizeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :stabilizeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :stabilizer ],
-      [ pe:var "task"; pe:value :stabilizeTask ];
-    pe:uses { :stabilizer :canPerform :stabilizeTask . }.
-
-  { :stabilizer :canPerform :stabilizeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :stabilizeTask :input :encodedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :hasAttribute :encodedMemory . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "out"; pe:value :encodedMemory ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :canUndergo :writeTask . },
-      { :writeTask :output :encodedMemory . }.
-
-  { :v2 :canUndergo :writeTask . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "in"; pe:value :blankMemory ],
-      [ pe:var "next"; pe:value :v2 ],
-      [ pe:var "prev"; pe:value :v1 ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses
-      { :v2 :derivesFrom :v1 . },
-      { :v2 :intendsTask :writeTask . },
-      { :writeTask :status :possibleTask . },
-      { :writeTask :input :blankMemory . },
-      { :v1 :hasAttribute :blankMemory . }.
-
-  { :v2 :derivesFrom :v1 . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v2 :intendsTask :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :status :possibleTask . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "constructor"; pe:value :writer ],
-      [ pe:var "task"; pe:value :writeTask ];
-    pe:uses { :writer :canPerform :writeTask . }.
-
-  { :writer :canPerform :writeTask . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :input :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :v1 :hasAttribute :blankMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :writeTask :output :encodedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-
-  { :stabilizeTask :output :stabilizedMemory . }
-    pe:fact "constructor-theory-becoming.n3".
-}.
+{ :perfectRestoreTask :status :impossibleTask . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "principle"; pe:value :noMiraclePrinciple ],
+    [ pe:var "task"; pe:value :perfectRestoreTask ];
+  pe:uses { :perfectRestoreTask :forbiddenBy :noMiraclePrinciple . }.
+
+{ :perfectRestoreTask :forbiddenBy :noMiraclePrinciple . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :writeTask :status :possibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "constructor"; pe:value :writer ],
+    [ pe:var "task"; pe:value :writeTask ];
+  pe:uses { :writer :canPerform :writeTask . }.
+
+{ :writer :canPerform :writeTask . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :writer :retainsCapacityFor :writeTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "constructor"; pe:value :writer ],
+    [ pe:var "task"; pe:value :writeTask ];
+  pe:uses { :writer :canPerform :writeTask . }.
+
+{ :stabilizeTask :status :possibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "constructor"; pe:value :stabilizer ],
+    [ pe:var "task"; pe:value :stabilizeTask ];
+  pe:uses { :stabilizer :canPerform :stabilizeTask . }.
+
+{ :stabilizer :canPerform :stabilizeTask . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :stabilizer :retainsCapacityFor :stabilizeTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "constructor"; pe:value :stabilizer ],
+    [ pe:var "task"; pe:value :stabilizeTask ];
+  pe:uses { :stabilizer :canPerform :stabilizeTask . }.
+
+{ :v2 :canUndergo :writeTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "in"; pe:value :blankMemory ],
+    [ pe:var "next"; pe:value :v2 ],
+    [ pe:var "prev"; pe:value :v1 ],
+    [ pe:var "task"; pe:value :writeTask ];
+  pe:uses
+    { :v2 :derivesFrom :v1 . },
+    { :v2 :intendsTask :writeTask . },
+    { :writeTask :status :possibleTask . },
+    { :writeTask :input :blankMemory . },
+    { :v1 :hasAttribute :blankMemory . }.
+
+{ :v2 :derivesFrom :v1 . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :v2 :intendsTask :writeTask . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :writeTask :input :blankMemory . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :v1 :hasAttribute :blankMemory . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :v2 :becomesFrom :v1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "in"; pe:value :blankMemory ],
+    [ pe:var "next"; pe:value :v2 ],
+    [ pe:var "prev"; pe:value :v1 ],
+    [ pe:var "task"; pe:value :writeTask ];
+  pe:uses
+    { :v2 :derivesFrom :v1 . },
+    { :v2 :intendsTask :writeTask . },
+    { :writeTask :status :possibleTask . },
+    { :writeTask :input :blankMemory . },
+    { :v1 :hasAttribute :blankMemory . }.
+
+{ :v1 :availableForFurtherTask :yes . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "attr"; pe:value :blankMemory ],
+    [ pe:var "next"; pe:value :v1 ];
+  pe:uses { :v1 :hasAttribute :blankMemory . }.
+
+{ :damaged1 :availableForFurtherTask :yes . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "attr"; pe:value :damagedMemory ],
+    [ pe:var "next"; pe:value :damaged1 ];
+  pe:uses { :damaged1 :hasAttribute :damagedMemory . }.
+
+{ :damaged1 :hasAttribute :damagedMemory . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :vBad :status :blockedTransition . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "next"; pe:value :vBad ],
+    [ pe:var "task"; pe:value :perfectRestoreTask ];
+  pe:uses
+    { :vBad :intendsTask :perfectRestoreTask . },
+    { :perfectRestoreTask :status :impossibleTask . }.
+
+{ :vBad :intendsTask :perfectRestoreTask . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :v2 :hasAttribute :encodedMemory . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "next"; pe:value :v2 ],
+    [ pe:var "out"; pe:value :encodedMemory ],
+    [ pe:var "task"; pe:value :writeTask ];
+  pe:uses
+    { :v2 :canUndergo :writeTask . },
+    { :writeTask :output :encodedMemory . }.
+
+{ :writeTask :output :encodedMemory . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :v3 :canUndergo :stabilizeTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "in"; pe:value :encodedMemory ],
+    [ pe:var "next"; pe:value :v3 ],
+    [ pe:var "prev"; pe:value :v2 ],
+    [ pe:var "task"; pe:value :stabilizeTask ];
+  pe:uses
+    { :v3 :derivesFrom :v2 . },
+    { :v3 :intendsTask :stabilizeTask . },
+    { :stabilizeTask :status :possibleTask . },
+    { :stabilizeTask :input :encodedMemory . },
+    { :v2 :hasAttribute :encodedMemory . }.
+
+{ :v3 :derivesFrom :v2 . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :v3 :intendsTask :stabilizeTask . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :stabilizeTask :input :encodedMemory . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :v3 :becomesFrom :v2 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "in"; pe:value :encodedMemory ],
+    [ pe:var "next"; pe:value :v3 ],
+    [ pe:var "prev"; pe:value :v2 ],
+    [ pe:var "task"; pe:value :stabilizeTask ];
+  pe:uses
+    { :v3 :derivesFrom :v2 . },
+    { :v3 :intendsTask :stabilizeTask . },
+    { :stabilizeTask :status :possibleTask . },
+    { :stabilizeTask :input :encodedMemory . },
+    { :v2 :hasAttribute :encodedMemory . }.
+
+{ :v2 :availableForFurtherTask :yes . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "attr"; pe:value :encodedMemory ],
+    [ pe:var "next"; pe:value :v2 ];
+  pe:uses { :v2 :hasAttribute :encodedMemory . }.
+
+{ :v3 :hasAttribute :stabilizedMemory . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "next"; pe:value :v3 ],
+    [ pe:var "out"; pe:value :stabilizedMemory ],
+    [ pe:var "task"; pe:value :stabilizeTask ];
+  pe:uses
+    { :v3 :canUndergo :stabilizeTask . },
+    { :stabilizeTask :output :stabilizedMemory . }.
+
+{ :stabilizeTask :output :stabilizedMemory . }
+  pe:fact "constructor-theory-becoming.n3".
+
+{ :v3 :availableForFurtherTask :yes . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "attr"; pe:value :stabilizedMemory ],
+    [ pe:var "next"; pe:value :v3 ];
+  pe:uses { :v3 :hasAttribute :stabilizedMemory . }.

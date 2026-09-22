@@ -4,41 +4,39 @@
 
 :query :parsed (:command :open :door) .
 
-{ :query :parsed (:command :open :door) . } pe:why {
-  { :query :parsed (:command :open :door) . }
-    pe:rule 6;
-    pe:binding [ pe:var "ast"; pe:value (:command :open :door) ];
-    pe:uses { ((:open :door) ()) :sentence (:command :open :door) . }.
+{ :query :parsed (:command :open :door) . }
+  pe:rule 6;
+  pe:binding [ pe:var "ast"; pe:value (:command :open :door) ];
+  pe:uses { ((:open :door) ()) :sentence (:command :open :door) . }.
 
-  { ((:open :door) ()) :sentence (:command :open :door) . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "input"; pe:value (:open :door) ],
-      [ pe:var "middle"; pe:value (:door) ],
-      [ pe:var "object"; pe:value :door ],
-      [ pe:var "rest"; pe:value () ],
-      [ pe:var "verb"; pe:value :open ];
-    pe:uses
-      { (:open :door) :verbMatch (:open (:door)) . },
-      { (:door) :nounMatch (:door ()) . }.
+{ ((:open :door) ()) :sentence (:command :open :door) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "input"; pe:value (:open :door) ],
+    [ pe:var "middle"; pe:value (:door) ],
+    [ pe:var "object"; pe:value :door ],
+    [ pe:var "rest"; pe:value () ],
+    [ pe:var "verb"; pe:value :open ];
+  pe:uses
+    { (:open :door) :verbMatch (:open (:door)) . },
+    { (:door) :nounMatch (:door ()) . }.
 
-  { (:open :door) :verbMatch (:open (:door)) . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "input"; pe:value (:open :door) ],
-      [ pe:var "rest"; pe:value (:door) ];
-    pe:uses { (:open :door) list:firstRest (:open (:door)) . }.
+{ (:open :door) :verbMatch (:open (:door)) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "input"; pe:value (:open :door) ],
+    [ pe:var "rest"; pe:value (:door) ];
+  pe:uses { (:open :door) list:firstRest (:open (:door)) . }.
 
-  { (:open :door) list:firstRest (:open (:door)) . }
-    pe:builtin list:firstRest.
+{ (:open :door) list:firstRest (:open (:door)) . }
+  pe:builtin list:firstRest.
 
-  { (:door) :nounMatch (:door ()) . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "input"; pe:value (:door) ],
-      [ pe:var "rest"; pe:value () ];
-    pe:uses { (:door) list:firstRest (:door ()) . }.
+{ (:door) :nounMatch (:door ()) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "input"; pe:value (:door) ],
+    [ pe:var "rest"; pe:value () ];
+  pe:uses { (:door) list:firstRest (:door ()) . }.
 
-  { (:door) list:firstRest (:door ()) . }
-    pe:builtin list:firstRest.
-}.
+{ (:door) list:firstRest (:door ()) . }
+  pe:builtin list:firstRest.

@@ -6,26 +6,22 @@
 :sample a :UnicodeDecoded .
 :thermo a :BelowZero .
 
-{ :sample a :UnicodeDecoded . } pe:why {
-  { :sample a :UnicodeDecoded . }
-    pe:rule 1;
-    pe:uses { :sample :text "ABC" . }.
+{ :sample a :UnicodeDecoded . }
+  pe:rule 1;
+  pe:uses { :sample :text "ABC" . }.
 
-  { :sample :text "ABC" . }
-    pe:fact "unicode-and-signed-numbers.n3".
-}.
+{ :sample :text "ABC" . }
+  pe:fact "unicode-and-signed-numbers.n3".
 
-{ :thermo a :BelowZero . } pe:why {
-  { :thermo a :BelowZero . }
-    pe:rule 2;
-    pe:binding [ pe:var "d"; pe:value -12 ];
-    pe:uses
-      { :thermo :delta -12 . },
-      { -12 math:lessThan 0 . }.
+{ :thermo a :BelowZero . }
+  pe:rule 2;
+  pe:binding [ pe:var "d"; pe:value -12 ];
+  pe:uses
+    { :thermo :delta -12 . },
+    { -12 math:lessThan 0 . }.
 
-  { :thermo :delta -12 . }
-    pe:fact "unicode-and-signed-numbers.n3".
+{ :thermo :delta -12 . }
+  pe:fact "unicode-and-signed-numbers.n3".
 
-  { -12 math:lessThan 0 . }
-    pe:builtin math:lessThan.
-}.
+{ -12 math:lessThan 0 . }
+  pe:builtin math:lessThan.

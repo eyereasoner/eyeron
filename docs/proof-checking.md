@@ -241,8 +241,8 @@ numbered as the program's clauses are, from 1.
 
 | model | document |
 | --- | --- |
-| claims | the subject of each `pe:why` |
-| step | a subject formula carrying one justification predicate |
+| claims | the document's plain triples (no formula subject) |
+| step | a top-level triple whose subject is the quoted conclusion |
 | `bindings` | `pe:binding [ pe:var "N"; pe:value V ]` |
 | `uses` | `pe:uses { s p o }` |
 | `rule N` | `pe:rule N` |
@@ -286,9 +286,9 @@ establishes.
 ## 10. What eyeron's own proofs establish
 
 `tests/proof_checking.rs` checks every packaged proof document against the
-program it was produced from. **All 373** — 120 N3, 122 SPARQL-RL, 131
-Prolog — are valid, covering **132,178 steps**, of which **131,240 are
-verified** and **938 are trust obligations** (§6).
+program it was produced from. **All 380** — 126 N3, 123 SPARQL-RL, 131
+Prolog — are valid, covering **135,121 steps**, of which **134,724 are
+verified** and **397 are trust obligations** (§6).
 
 Getting there meant fixing the proof writers, not relaxing the rules. What
 checking found, in the order it mattered:
@@ -318,7 +318,12 @@ checking found, in the order it mattered:
   given statement that carries variables, which N3 reads as universally
   quantified.
 
-One thing checking did *not* fix: the size of an N3 proof. `proof_to_n3`
-still walks each derived fact's dependencies independently and writes one
-`pe:why` block per fact, so a shared premise is repeated under every block
-that uses it, and a long chain costs the square of its length.
+- **A proof that grew with the square of the derivation.** `proof_to_n3`
+  walked each claim's dependencies independently and wrapped the result in
+  its own `pe:why` graph, so a premise shared by several claims was written
+  out again under each one. Reading a proof back as a flat set of steps
+  made the nesting pointless: one walk now covers every claim, each step is
+  written once, and a step is an ordinary top-level triple whose subject is
+  its quoted conclusion. `deep-taxonomy-100`'s proof went from 81,031 lines
+  to 1,880, and sizes that previously could not be produced at all now take
+  seconds.

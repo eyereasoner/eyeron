@@ -4,27 +4,25 @@
 
 :test :is true .
 
-{ :test :is true . } pe:why {
-  { :test :is true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "N1"; pe:value 1 ],
-      [ pe:var "N2"; pe:value 1 ],
-      [ pe:var "O1"; pe:value :Book ],
-      [ pe:var "O2"; pe:value :Table ],
-      [ pe:var "W1"; pe:value :Alice ],
-      [ pe:var "W2"; pe:value :Bob ];
-    pe:uses
-      { :Book log:notEqualTo :Table . },
-      { :Alice :has (:Book 1) . },
-      { :Bob :has (:Table 1) . }.
+{ :test :is true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N1"; pe:value 1 ],
+    [ pe:var "N2"; pe:value 1 ],
+    [ pe:var "O1"; pe:value :Book ],
+    [ pe:var "O2"; pe:value :Table ],
+    [ pe:var "W1"; pe:value :Alice ],
+    [ pe:var "W2"; pe:value :Bob ];
+  pe:uses
+    { :Book log:notEqualTo :Table . },
+    { :Alice :has (:Book 1) . },
+    { :Bob :has (:Table 1) . }.
 
-  { :Book log:notEqualTo :Table . }
-    pe:builtin log:notEqualTo.
+{ :Book log:notEqualTo :Table . }
+  pe:builtin log:notEqualTo.
 
-  { :Alice :has (:Book 1) . }
-    pe:fact "reordering.n3".
+{ :Alice :has (:Book 1) . }
+  pe:fact "reordering.n3".
 
-  { :Bob :has (:Table 1) . }
-    pe:fact "reordering.n3".
-}.
+{ :Bob :has (:Table 1) . }
+  pe:fact "reordering.n3".

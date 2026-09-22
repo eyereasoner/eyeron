@@ -7,80 +7,58 @@
 :test :statementAuthor :bob .
 :test :statementDate "2021-07-07"^^xsd:date .
 
-{ :test :hasStatement true . } pe:why {
-  { :test :hasStatement true . }
-    pe:rule 1;
-    pe:uses { :alice :name "Alice" . }.
+{ :test :hasStatement true . }
+  pe:rule 1;
+  pe:uses { :alice :name "Alice" . }.
 
-  { :alice :name "Alice" . }
-    pe:fact "annotation-evidence.n3".
-}.
+{ :alice :name "Alice" . }
+  pe:fact "annotation-evidence.n3".
 
-{ :test :hasNamedStatement :claim . } pe:why {
-  { :test :hasNamedStatement :claim . }
-    pe:rule 2;
-    pe:binding [ pe:var "claim"; pe:value :claim ];
-    pe:uses
-      {
-          :claim :statement {
-              :alice :name "Alice" .
-          } .
-      }.
+{ :test :hasNamedStatement :claim . }
+  pe:rule 2;
+  pe:binding [ pe:var "claim"; pe:value :claim ];
+  pe:uses
+    {
+        :claim :statement {
+            :alice :name "Alice" .
+        } .
+    }.
 
-  {
-    :claim :statement {
-        :alice :name "Alice" .
-    } .
+{
+  :claim :statement {
+      :alice :name "Alice" .
+  } .
 }
-    pe:fact "annotation-evidence.n3".
-}.
+  pe:fact "annotation-evidence.n3".
 
-{ :test :statementAuthor :bob . } pe:why {
-  { :test :statementAuthor :bob . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "claim"; pe:value :claim ],
-      [ pe:var "who"; pe:value :bob ];
-    pe:uses
-      {
-          :claim :statement {
-              :alice :name "Alice" .
-          } .
-      },
-      { :claim :statedBy :bob . }.
+{ :test :statementAuthor :bob . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "claim"; pe:value :claim ],
+    [ pe:var "who"; pe:value :bob ];
+  pe:uses
+    {
+        :claim :statement {
+            :alice :name "Alice" .
+        } .
+    },
+    { :claim :statedBy :bob . }.
 
-  {
-    :claim :statement {
-        :alice :name "Alice" .
-    } .
-}
-    pe:fact "annotation-evidence.n3".
+{ :claim :statedBy :bob . }
+  pe:fact "annotation-evidence.n3".
 
-  { :claim :statedBy :bob . }
-    pe:fact "annotation-evidence.n3".
-}.
+{ :test :statementDate "2021-07-07"^^xsd:date . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "claim"; pe:value :claim ],
+    [ pe:var "date"; pe:value "2021-07-07"^^xsd:date ];
+  pe:uses
+    {
+        :claim :statement {
+            :alice :name "Alice" .
+        } .
+    },
+    { :claim :recorded "2021-07-07"^^xsd:date . }.
 
-{ :test :statementDate "2021-07-07"^^xsd:date . } pe:why {
-  { :test :statementDate "2021-07-07"^^xsd:date . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "claim"; pe:value :claim ],
-      [ pe:var "date"; pe:value "2021-07-07"^^xsd:date ];
-    pe:uses
-      {
-          :claim :statement {
-              :alice :name "Alice" .
-          } .
-      },
-      { :claim :recorded "2021-07-07"^^xsd:date . }.
-
-  {
-    :claim :statement {
-        :alice :name "Alice" .
-    } .
-}
-    pe:fact "annotation-evidence.n3".
-
-  { :claim :recorded "2021-07-07"^^xsd:date . }
-    pe:fact "annotation-evidence.n3".
-}.
+{ :claim :recorded "2021-07-07"^^xsd:date . }
+  pe:fact "annotation-evidence.n3".

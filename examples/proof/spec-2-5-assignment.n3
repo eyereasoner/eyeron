@@ -5,38 +5,34 @@
 :route1 :distanceKm 16.0934 .
 :route2 :distanceKm 8.0467 .
 
-{ :route1 :distanceKm 16.0934 . } pe:why {
-  { :route1 :distanceKm 16.0934 . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "km"; pe:value 16.0934 ],
-      [ pe:var "miles"; pe:value 10 ],
-      [ pe:var "x"; pe:value :route1 ];
-    pe:uses
-      { :route1 :distanceMiles 10 . },
-      { (10 1.60934) math:product 16.0934 . }.
+{ :route1 :distanceKm 16.0934 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "km"; pe:value 16.0934 ],
+    [ pe:var "miles"; pe:value 10 ],
+    [ pe:var "x"; pe:value :route1 ];
+  pe:uses
+    { :route1 :distanceMiles 10 . },
+    { (10 1.60934) math:product 16.0934 . }.
 
-  { :route1 :distanceMiles 10 . }
-    pe:fact "spec-2-5-assignment.n3".
+{ :route1 :distanceMiles 10 . }
+  pe:fact "spec-2-5-assignment.n3".
 
-  { (10 1.60934) math:product 16.0934 . }
-    pe:builtin math:product.
-}.
+{ (10 1.60934) math:product 16.0934 . }
+  pe:builtin math:product.
 
-{ :route2 :distanceKm 8.0467 . } pe:why {
-  { :route2 :distanceKm 8.0467 . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "km"; pe:value 8.0467 ],
-      [ pe:var "miles"; pe:value 5 ],
-      [ pe:var "x"; pe:value :route2 ];
-    pe:uses
-      { :route2 :distanceMiles 5 . },
-      { (5 1.60934) math:product 8.0467 . }.
+{ :route2 :distanceKm 8.0467 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "km"; pe:value 8.0467 ],
+    [ pe:var "miles"; pe:value 5 ],
+    [ pe:var "x"; pe:value :route2 ];
+  pe:uses
+    { :route2 :distanceMiles 5 . },
+    { (5 1.60934) math:product 8.0467 . }.
 
-  { :route2 :distanceMiles 5 . }
-    pe:fact "spec-2-5-assignment.n3".
+{ :route2 :distanceMiles 5 . }
+  pe:fact "spec-2-5-assignment.n3".
 
-  { (5 1.60934) math:product 8.0467 . }
-    pe:builtin math:product.
-}.
+{ (5 1.60934) math:product 8.0467 . }
+  pe:builtin math:product.

@@ -7,176 +7,102 @@
 :query :count 3 .
 :query :total 35 .
 
-{ :query :count 3 . } pe:why {
-  { :query :count 3 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "allValues"; pe:value (10 15 10) ],
-      [ pe:var "count"; pe:value 3 ],
-      [ pe:var "total"; pe:value 35 ];
-    pe:uses
-      {
-          (?value {
-              ?sensor :reading ?value .
-          } (10 15 10)) log:collectAllIn ?SCOPE .
-      },
-      { (10 15 10) list:length 3 . },
-      { (10 15 10) :total 35 . }.
+{ :query :count 3 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "allValues"; pe:value (10 15 10) ],
+    [ pe:var "count"; pe:value 3 ],
+    [ pe:var "total"; pe:value 35 ];
+  pe:uses
+    {
+        (?value {
+            ?sensor :reading ?value .
+        } (10 15 10)) log:collectAllIn ?SCOPE .
+    },
+    { (10 15 10) list:length 3 . },
+    { (10 15 10) :total 35 . }.
 
-  {
-    (?value {
-        ?sensor :reading ?value .
-    } (10 15 10)) log:collectAllIn ?SCOPE .
+{
+  (?value {
+      ?sensor :reading ?value .
+  } (10 15 10)) log:collectAllIn ?SCOPE .
 }
-    pe:builtin log:collectAllIn.
+  pe:builtin log:collectAllIn.
 
-  { (10 15 10) list:length 3 . }
-    pe:builtin list:length.
+{ (10 15 10) list:length 3 . }
+  pe:builtin list:length.
 
-  { (10 15 10) :total 35 . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "first"; pe:value 10 ],
-      [ pe:var "list"; pe:value (10 15 10) ],
-      [ pe:var "rest"; pe:value (15 10) ],
-      [ pe:var "tail"; pe:value 25 ],
-      [ pe:var "total"; pe:value 35 ];
-    pe:uses
-      { (10 15 10) list:firstRest (10 (15 10)) . },
-      { (15 10) :total 25 . },
-      { (10 25) math:sum 35 . }.
+{ (10 15 10) :total 35 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "first"; pe:value 10 ],
+    [ pe:var "list"; pe:value (10 15 10) ],
+    [ pe:var "rest"; pe:value (15 10) ],
+    [ pe:var "tail"; pe:value 25 ],
+    [ pe:var "total"; pe:value 35 ];
+  pe:uses
+    { (10 15 10) list:firstRest (10 (15 10)) . },
+    { (15 10) :total 25 . },
+    { (10 25) math:sum 35 . }.
 
-  { (10 15 10) list:firstRest (10 (15 10)) . }
-    pe:builtin list:firstRest.
+{ (10 15 10) list:firstRest (10 (15 10)) . }
+  pe:builtin list:firstRest.
 
-  { (15 10) :total 25 . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "first"; pe:value 15 ],
-      [ pe:var "list"; pe:value (15 10) ],
-      [ pe:var "rest"; pe:value (10) ],
-      [ pe:var "tail"; pe:value 10 ],
-      [ pe:var "total"; pe:value 25 ];
-    pe:uses
-      { (15 10) list:firstRest (15 (10)) . },
-      { (10) :total 10 . },
-      { (15 10) math:sum 25 . }.
+{ (15 10) :total 25 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "first"; pe:value 15 ],
+    [ pe:var "list"; pe:value (15 10) ],
+    [ pe:var "rest"; pe:value (10) ],
+    [ pe:var "tail"; pe:value 10 ],
+    [ pe:var "total"; pe:value 25 ];
+  pe:uses
+    { (15 10) list:firstRest (15 (10)) . },
+    { (10) :total 10 . },
+    { (15 10) math:sum 25 . }.
 
-  { (15 10) list:firstRest (15 (10)) . }
-    pe:builtin list:firstRest.
+{ (15 10) list:firstRest (15 (10)) . }
+  pe:builtin list:firstRest.
 
-  { (10) :total 10 . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "first"; pe:value 10 ],
-      [ pe:var "list"; pe:value (10) ],
-      [ pe:var "rest"; pe:value () ],
-      [ pe:var "tail"; pe:value 0 ],
-      [ pe:var "total"; pe:value 10 ];
-    pe:uses
-      { (10) list:firstRest (10 ()) . },
-      { () :total 0 . },
-      { (10 0) math:sum 10 . }.
+{ (10) :total 10 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "first"; pe:value 10 ],
+    [ pe:var "list"; pe:value (10) ],
+    [ pe:var "rest"; pe:value () ],
+    [ pe:var "tail"; pe:value 0 ],
+    [ pe:var "total"; pe:value 10 ];
+  pe:uses
+    { (10) list:firstRest (10 ()) . },
+    { () :total 0 . },
+    { (10 0) math:sum 10 . }.
 
-  { (10) list:firstRest (10 ()) . }
-    pe:builtin list:firstRest.
+{ (10) list:firstRest (10 ()) . }
+  pe:builtin list:firstRest.
 
-  { () :total 0 . }
-    pe:rule 1.
+{ () :total 0 . }
+  pe:rule 1.
 
-  { (10 0) math:sum 10 . }
-    pe:builtin math:sum.
+{ (10 0) math:sum 10 . }
+  pe:builtin math:sum.
 
-  { (15 10) math:sum 25 . }
-    pe:builtin math:sum.
+{ (15 10) math:sum 25 . }
+  pe:builtin math:sum.
 
-  { (10 25) math:sum 35 . }
-    pe:builtin math:sum.
-}.
+{ (10 25) math:sum 35 . }
+  pe:builtin math:sum.
 
-{ :query :total 35 . } pe:why {
-  { :query :total 35 . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "allValues"; pe:value (10 15 10) ],
-      [ pe:var "count"; pe:value 3 ],
-      [ pe:var "total"; pe:value 35 ];
-    pe:uses
-      {
-          (?value {
-              ?sensor :reading ?value .
-          } (10 15 10)) log:collectAllIn ?SCOPE .
-      },
-      { (10 15 10) list:length 3 . },
-      { (10 15 10) :total 35 . }.
-
-  {
-    (?value {
-        ?sensor :reading ?value .
-    } (10 15 10)) log:collectAllIn ?SCOPE .
-}
-    pe:builtin log:collectAllIn.
-
-  { (10 15 10) list:length 3 . }
-    pe:builtin list:length.
-
-  { (10 15 10) :total 35 . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "first"; pe:value 10 ],
-      [ pe:var "list"; pe:value (10 15 10) ],
-      [ pe:var "rest"; pe:value (15 10) ],
-      [ pe:var "tail"; pe:value 25 ],
-      [ pe:var "total"; pe:value 35 ];
-    pe:uses
-      { (10 15 10) list:firstRest (10 (15 10)) . },
-      { (15 10) :total 25 . },
-      { (10 25) math:sum 35 . }.
-
-  { (10 15 10) list:firstRest (10 (15 10)) . }
-    pe:builtin list:firstRest.
-
-  { (15 10) :total 25 . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "first"; pe:value 15 ],
-      [ pe:var "list"; pe:value (15 10) ],
-      [ pe:var "rest"; pe:value (10) ],
-      [ pe:var "tail"; pe:value 10 ],
-      [ pe:var "total"; pe:value 25 ];
-    pe:uses
-      { (15 10) list:firstRest (15 (10)) . },
-      { (10) :total 10 . },
-      { (15 10) math:sum 25 . }.
-
-  { (15 10) list:firstRest (15 (10)) . }
-    pe:builtin list:firstRest.
-
-  { (10) :total 10 . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "first"; pe:value 10 ],
-      [ pe:var "list"; pe:value (10) ],
-      [ pe:var "rest"; pe:value () ],
-      [ pe:var "tail"; pe:value 0 ],
-      [ pe:var "total"; pe:value 10 ];
-    pe:uses
-      { (10) list:firstRest (10 ()) . },
-      { () :total 0 . },
-      { (10 0) math:sum 10 . }.
-
-  { (10) list:firstRest (10 ()) . }
-    pe:builtin list:firstRest.
-
-  { () :total 0 . }
-    pe:rule 1.
-
-  { (10 0) math:sum 10 . }
-    pe:builtin math:sum.
-
-  { (15 10) math:sum 25 . }
-    pe:builtin math:sum.
-
-  { (10 25) math:sum 35 . }
-    pe:builtin math:sum.
-}.
+{ :query :total 35 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "allValues"; pe:value (10 15 10) ],
+    [ pe:var "count"; pe:value 3 ],
+    [ pe:var "total"; pe:value 35 ];
+  pe:uses
+    {
+        (?value {
+            ?sensor :reading ?value .
+        } (10 15 10)) log:collectAllIn ?SCOPE .
+    },
+    { (10 15 10) list:length 3 . },
+    { (10 15 10) :total 35 . }.

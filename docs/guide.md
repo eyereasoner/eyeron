@@ -67,7 +67,7 @@ cargo run --release -- --proof examples/socrates.pl > socrates.why.pl
 cargo run --release -- --check-proof socrates.why.pl examples/socrates.pl
 ```
 
-A trace explains how an answer followed from the input; it does not establish that the input facts are true. Coverage has limits: SPARQL-RL records the positive premises that fed a rule, not a separate reification of every `FILTER`, `NOT`, or `SET`, and a Prolog step for a built-in, a `\+` or a `findall/3` is a trusted record rather than a checked one. Proof collection costs memory and, for a derivation with many interdependent facts, time — enable it when you want the explanation.
+A trace explains how an answer followed from the input; it does not establish that the input facts are true. Coverage has limits: SPARQL-RL records the positive premises that fed a rule, not a separate reification of every `FILTER`, `NOT`, or `SET`, and a Prolog step for a built-in, a `\+` or a `findall/3` is a trusted record rather than a checked one. Proof collection costs memory — each derived fact retains the rule, premises and bindings that produced it — so enable it when you want the explanation.
 
 ## Rust library
 

@@ -12,94 +12,65 @@
 :test :is true .
 
 {
-    {
-        :c a :Cat .
-    } => {
-        :c a :Animal .
-    } .
-} pe:why {
   {
-    {
-        :c a :Cat .
-    } => {
-        :c a :Animal .
-    } .
+      :c a :Cat .
+  } => {
+      :c a :Animal .
+  } .
 }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "Class"; pe:value :Cat ],
-      [ pe:var "F"; pe:value {
-          {
-              :c a :Cat .
-          } => {
-              :c a :Animal .
-          } .
-      } ],
-      [ pe:var "Rule"; pe:value :ruleCat ],
-      [ pe:var "X"; pe:value :c ];
-    pe:uses
-      { :c a :Cat . },
-      { :Cat :activates :ruleCat . },
-      {
-          :ruleCat :formula {
-              {
-                  :c a :Cat .
-              } => {
-                  :c a :Animal .
-              } .
-          } .
-      }.
-
-  { :c a :Cat . }
-    pe:fact "quoted-head-unquote-select.n3".
-
-  { :Cat :activates :ruleCat . }
-    pe:fact "quoted-head-unquote-select.n3".
-
-  {
-    :ruleCat :formula {
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Class"; pe:value :Cat ],
+    [ pe:var "F"; pe:value {
         {
             :c a :Cat .
         } => {
             :c a :Animal .
         } .
-    } .
+    } ],
+    [ pe:var "Rule"; pe:value :ruleCat ],
+    [ pe:var "X"; pe:value :c ];
+  pe:uses
+    { :c a :Cat . },
+    { :Cat :activates :ruleCat . },
+    {
+        :ruleCat :formula {
+            {
+                :c a :Cat .
+            } => {
+                :c a :Animal .
+            } .
+        } .
+    }.
+
+{ :c a :Cat . }
+  pe:fact "quoted-head-unquote-select.n3".
+
+{ :Cat :activates :ruleCat . }
+  pe:fact "quoted-head-unquote-select.n3".
+
+{
+  :ruleCat :formula {
+      {
+          :c a :Cat .
+      } => {
+          :c a :Animal .
+      } .
+  } .
 }
-    pe:fact "quoted-head-unquote-select.n3".
-}.
+  pe:fact "quoted-head-unquote-select.n3".
 
-{ :c a :Animal . } pe:why {
-  { :c a :Animal . }
-    pe:rule
-      {
-          {
-              :c a :Cat .
-          } => {
-              :c a :Animal .
-          } .
-      };
-    pe:uses { :c a :Cat . }.
+{ :c a :Animal . }
+  pe:rule
+    {
+        {
+            :c a :Cat .
+        } => {
+            :c a :Animal .
+        } .
+    };
+  pe:uses { :c a :Cat . }.
 
-  { :c a :Cat . }
-    pe:fact "quoted-head-unquote-select.n3".
-}.
-
-{ :test :is true . } pe:why {
-  { :test :is true . }
-    pe:rule 2;
-    pe:uses { :c a :Animal . }.
-
-  { :c a :Animal . }
-    pe:rule
-      {
-          {
-              :c a :Cat .
-          } => {
-              :c a :Animal .
-          } .
-      };
-    pe:uses { :c a :Cat . }.
-
-  { :c a :Cat . }
-    pe:fact "quoted-head-unquote-select.n3".
-}.
+{ :test :is true . }
+  pe:rule 2;
+  pe:uses { :c a :Animal . }.

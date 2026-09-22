@@ -7,90 +7,58 @@
 :carol :knownBy :alice .
 :carol :scoredFor 8 .
 
-{ :bob :knownBy :alice . } pe:why {
-  { :bob :knownBy :alice . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "friend"; pe:value :bob ],
-      [ pe:var "person"; pe:value :alice ],
-      [ pe:var "score"; pe:value 8 ];
-    pe:uses
-      { :alice :knows :bob . },
-      { :alice :score 8 . },
-      { 8 math:notLessThan 5 . }.
+{ :bob :knownBy :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "friend"; pe:value :bob ],
+    [ pe:var "person"; pe:value :alice ],
+    [ pe:var "score"; pe:value 8 ];
+  pe:uses
+    { :alice :knows :bob . },
+    { :alice :score 8 . },
+    { 8 math:notLessThan 5 . }.
 
-  { :alice :knows :bob . }
-    pe:fact "turtle-shortcuts.n3".
+{ :alice :knows :bob . }
+  pe:fact "turtle-shortcuts.n3".
 
-  { :alice :score 8 . }
-    pe:fact "turtle-shortcuts.n3".
+{ :alice :score 8 . }
+  pe:fact "turtle-shortcuts.n3".
 
-  { 8 math:notLessThan 5 . }
-    pe:builtin math:notLessThan.
-}.
+{ 8 math:notLessThan 5 . }
+  pe:builtin math:notLessThan.
 
-{ :bob :scoredFor 8 . } pe:why {
-  { :bob :scoredFor 8 . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "friend"; pe:value :bob ],
-      [ pe:var "person"; pe:value :alice ],
-      [ pe:var "score"; pe:value 8 ];
-    pe:uses
-      { :alice :knows :bob . },
-      { :alice :score 8 . },
-      { 8 math:notLessThan 5 . }.
+{ :bob :scoredFor 8 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "friend"; pe:value :bob ],
+    [ pe:var "person"; pe:value :alice ],
+    [ pe:var "score"; pe:value 8 ];
+  pe:uses
+    { :alice :knows :bob . },
+    { :alice :score 8 . },
+    { 8 math:notLessThan 5 . }.
 
-  { :alice :knows :bob . }
-    pe:fact "turtle-shortcuts.n3".
+{ :carol :knownBy :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "friend"; pe:value :carol ],
+    [ pe:var "person"; pe:value :alice ],
+    [ pe:var "score"; pe:value 8 ];
+  pe:uses
+    { :alice :knows :carol . },
+    { :alice :score 8 . },
+    { 8 math:notLessThan 5 . }.
 
-  { :alice :score 8 . }
-    pe:fact "turtle-shortcuts.n3".
+{ :alice :knows :carol . }
+  pe:fact "turtle-shortcuts.n3".
 
-  { 8 math:notLessThan 5 . }
-    pe:builtin math:notLessThan.
-}.
-
-{ :carol :knownBy :alice . } pe:why {
-  { :carol :knownBy :alice . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "friend"; pe:value :carol ],
-      [ pe:var "person"; pe:value :alice ],
-      [ pe:var "score"; pe:value 8 ];
-    pe:uses
-      { :alice :knows :carol . },
-      { :alice :score 8 . },
-      { 8 math:notLessThan 5 . }.
-
-  { :alice :knows :carol . }
-    pe:fact "turtle-shortcuts.n3".
-
-  { :alice :score 8 . }
-    pe:fact "turtle-shortcuts.n3".
-
-  { 8 math:notLessThan 5 . }
-    pe:builtin math:notLessThan.
-}.
-
-{ :carol :scoredFor 8 . } pe:why {
-  { :carol :scoredFor 8 . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "friend"; pe:value :carol ],
-      [ pe:var "person"; pe:value :alice ],
-      [ pe:var "score"; pe:value 8 ];
-    pe:uses
-      { :alice :knows :carol . },
-      { :alice :score 8 . },
-      { 8 math:notLessThan 5 . }.
-
-  { :alice :knows :carol . }
-    pe:fact "turtle-shortcuts.n3".
-
-  { :alice :score 8 . }
-    pe:fact "turtle-shortcuts.n3".
-
-  { 8 math:notLessThan 5 . }
-    pe:builtin math:notLessThan.
-}.
+{ :carol :scoredFor 8 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "friend"; pe:value :carol ],
+    [ pe:var "person"; pe:value :alice ],
+    [ pe:var "score"; pe:value 8 ];
+  pe:uses
+    { :alice :knows :carol . },
+    { :alice :score 8 . },
+    { 8 math:notLessThan 5 . }.

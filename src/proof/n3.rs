@@ -2,7 +2,7 @@
 //! §8.2).
 //!
 //! A proof is an N3 document, so it is read with the ordinary N3 parser and
-//! its `pe:why` graphs are lifted into the abstract model. Checking a
+//! its top-level steps are lifted into the abstract model. Checking a
 //! `pe:rule` step re-performs exactly one rule application against the
 //! *source* rule: instantiate its premises and conclusion under the step's
 //! bindings, and require them to be what the step recorded.
@@ -51,6 +51,12 @@ type Verdict = std::result::Result<Checked, String>;
 
 fn pe(name: &str) -> Term {
     Term::Iri(format!("{}{}", PE, name))
+}
+
+/// True iff `predicate` is one of the step vocabulary's own terms, which
+/// describe the proof rather than state a claim.
+fn is_proof_vocabulary(predicate: &Term) -> bool {
+    matches!(predicate, Term::Iri(iri) if iri.starts_with(PE))
 }
 
 /// The single triple a `{ ... }` proof term wraps.
@@ -114,18 +120,15 @@ impl N3Proof {
         let general: Vec<Triple> = document.facts.iter().filter(|fact| !fact.is_ground()).cloned().collect();
 
         let parsed = crate::n3::parser::parse_n3(proof, None)?;
-        let mut steps = Vec::new();
-        let mut claims = Vec::new();
-        for triple in &parsed.facts {
-            if triple.p != pe("why") {
-                continue;
-            }
-            if let Some(claim) = formula_triple(&triple.s) {
-                claims.push(claim.clone());
-            }
-            let Term::Formula(body) = &triple.o else { continue };
-            steps.extend(read_steps(body));
-        }
+        // A step is a formula subject carrying the `pe:` vocabulary; what
+        // the document claims is written plainly alongside.
+        let steps = read_steps(&parsed.facts);
+        let claims: Vec<Triple> = parsed
+            .facts
+            .iter()
+            .filter(|triple| !matches!(triple.s, Term::Formula(_)) && !is_proof_vocabulary(&triple.p))
+            .cloned()
+            .collect();
 
         let mut index = BTreeMap::new();
         for (position, step) in steps.iter().enumerate() {
@@ -319,7 +322,7 @@ fn describe(triple: &Triple) -> String {
     crate::n3::printing::triples_to_n3(&BTreeMap::new(), std::slice::from_ref(triple)).trim().to_string()
 }
 
-/// Lift the triples of one `pe:why` graph into steps, grouping by the
+/// Lift a proof document's triples into steps, grouping by the
 /// formula subject each step is about.
 fn read_steps(body: &[Triple]) -> Vec<Step> {
     // `[ pe:var "A"; pe:value :Human ]` parses into its own blank node plus

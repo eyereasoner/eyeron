@@ -6,53 +6,47 @@
 :query :member :a .
 :query :member :b .
 
-{ :query :appendResult (:a :b) . } pe:why {
-  { :query :appendResult (:a :b) . }
-    pe:rule 3;
-    pe:binding [ pe:var "result"; pe:value (:a :b) ];
-    pe:uses { ((:a) (:b)) :append (:a :b) . }.
+{ :query :appendResult (:a :b) . }
+  pe:rule 3;
+  pe:binding [ pe:var "result"; pe:value (:a :b) ];
+  pe:uses { ((:a) (:b)) :append (:a :b) . }.
 
-  { ((:a) (:b)) :append (:a :b) . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :a ],
-      [ pe:var "xrest"; pe:value () ],
-      [ pe:var "xs"; pe:value (:a) ],
-      [ pe:var "ys"; pe:value (:b) ],
-      [ pe:var "zs"; pe:value (:a :b) ],
-      [ pe:var "zsrest"; pe:value (:b) ];
-    pe:uses
-      { (:a) list:firstRest (:a ()) . },
-      { (() (:b)) :append (:b) . },
-      { (:a :b) list:firstRest (:a (:b)) . }.
+{ ((:a) (:b)) :append (:a :b) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "xrest"; pe:value () ],
+    [ pe:var "xs"; pe:value (:a) ],
+    [ pe:var "ys"; pe:value (:b) ],
+    [ pe:var "zs"; pe:value (:a :b) ],
+    [ pe:var "zsrest"; pe:value (:b) ];
+  pe:uses
+    { (:a) list:firstRest (:a ()) . },
+    { (() (:b)) :append (:b) . },
+    { (:a :b) list:firstRest (:a (:b)) . }.
 
-  { (:a) list:firstRest (:a ()) . }
-    pe:builtin list:firstRest.
+{ (:a) list:firstRest (:a ()) . }
+  pe:builtin list:firstRest.
 
-  { (() (:b)) :append (:b) . }
-    pe:rule 2;
-    pe:binding [ pe:var "ys"; pe:value (:b) ].
+{ (() (:b)) :append (:b) . }
+  pe:rule 2;
+  pe:binding [ pe:var "ys"; pe:value (:b) ].
 
-  { (:a :b) list:firstRest (:a (:b)) . }
-    pe:builtin list:firstRest.
-}.
+{ (:a :b) list:firstRest (:a (:b)) . }
+  pe:builtin list:firstRest.
 
-{ :query :member :a . } pe:why {
-  { :query :member :a . }
-    pe:rule 4;
-    pe:binding [ pe:var "x"; pe:value :a ];
-    pe:uses { (:a :b :a) list:member :a . }.
+{ :query :member :a . }
+  pe:rule 4;
+  pe:binding [ pe:var "x"; pe:value :a ];
+  pe:uses { (:a :b :a) list:member :a . }.
 
-  { (:a :b :a) list:member :a . }
-    pe:builtin list:member.
-}.
+{ (:a :b :a) list:member :a . }
+  pe:builtin list:member.
 
-{ :query :member :b . } pe:why {
-  { :query :member :b . }
-    pe:rule 4;
-    pe:binding [ pe:var "x"; pe:value :b ];
-    pe:uses { (:a :b :a) list:member :b . }.
+{ :query :member :b . }
+  pe:rule 4;
+  pe:binding [ pe:var "x"; pe:value :b ];
+  pe:uses { (:a :b :a) list:member :b . }.
 
-  { (:a :b :a) list:member :b . }
-    pe:builtin list:member.
-}.
+{ (:a :b :a) list:member :b . }
+  pe:builtin list:member.

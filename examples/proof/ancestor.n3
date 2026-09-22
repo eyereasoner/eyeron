@@ -8,126 +8,62 @@
 :bob :ancestor :dana .
 :alice :ancestor :dana .
 
-{ :alice :ancestor :bob . } pe:why {
-  { :alice :ancestor :bob . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :alice ],
-      [ pe:var "y"; pe:value :bob ];
-    pe:uses { :alice :parent :bob . }.
+{ :alice :ancestor :bob . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :alice ],
+    [ pe:var "y"; pe:value :bob ];
+  pe:uses { :alice :parent :bob . }.
 
-  { :alice :parent :bob . }
-    pe:fact "ancestor.n3".
-}.
+{ :alice :parent :bob . }
+  pe:fact "ancestor.n3".
 
-{ :bob :ancestor :carol . } pe:why {
-  { :bob :ancestor :carol . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :bob ],
-      [ pe:var "y"; pe:value :carol ];
-    pe:uses { :bob :parent :carol . }.
+{ :bob :ancestor :carol . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :bob ],
+    [ pe:var "y"; pe:value :carol ];
+  pe:uses { :bob :parent :carol . }.
 
-  { :bob :parent :carol . }
-    pe:fact "ancestor.n3".
-}.
+{ :bob :parent :carol . }
+  pe:fact "ancestor.n3".
 
-{ :carol :ancestor :dana . } pe:why {
-  { :carol :ancestor :dana . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :carol ],
-      [ pe:var "y"; pe:value :dana ];
-    pe:uses { :carol :parent :dana . }.
+{ :carol :ancestor :dana . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :carol ],
+    [ pe:var "y"; pe:value :dana ];
+  pe:uses { :carol :parent :dana . }.
 
-  { :carol :parent :dana . }
-    pe:fact "ancestor.n3".
-}.
+{ :carol :parent :dana . }
+  pe:fact "ancestor.n3".
 
-{ :alice :ancestor :carol . } pe:why {
-  { :alice :ancestor :carol . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :alice ],
-      [ pe:var "y"; pe:value :bob ],
-      [ pe:var "z"; pe:value :carol ];
-    pe:uses
-      { :alice :parent :bob . },
-      { :bob :ancestor :carol . }.
+{ :alice :ancestor :carol . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :alice ],
+    [ pe:var "y"; pe:value :bob ],
+    [ pe:var "z"; pe:value :carol ];
+  pe:uses
+    { :alice :parent :bob . },
+    { :bob :ancestor :carol . }.
 
-  { :alice :parent :bob . }
-    pe:fact "ancestor.n3".
+{ :bob :ancestor :dana . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :bob ],
+    [ pe:var "y"; pe:value :carol ],
+    [ pe:var "z"; pe:value :dana ];
+  pe:uses
+    { :bob :parent :carol . },
+    { :carol :ancestor :dana . }.
 
-  { :bob :ancestor :carol . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :bob ],
-      [ pe:var "y"; pe:value :carol ];
-    pe:uses { :bob :parent :carol . }.
-
-  { :bob :parent :carol . }
-    pe:fact "ancestor.n3".
-}.
-
-{ :bob :ancestor :dana . } pe:why {
-  { :bob :ancestor :dana . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :bob ],
-      [ pe:var "y"; pe:value :carol ],
-      [ pe:var "z"; pe:value :dana ];
-    pe:uses
-      { :bob :parent :carol . },
-      { :carol :ancestor :dana . }.
-
-  { :bob :parent :carol . }
-    pe:fact "ancestor.n3".
-
-  { :carol :ancestor :dana . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :carol ],
-      [ pe:var "y"; pe:value :dana ];
-    pe:uses { :carol :parent :dana . }.
-
-  { :carol :parent :dana . }
-    pe:fact "ancestor.n3".
-}.
-
-{ :alice :ancestor :dana . } pe:why {
-  { :alice :ancestor :dana . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :alice ],
-      [ pe:var "y"; pe:value :bob ],
-      [ pe:var "z"; pe:value :dana ];
-    pe:uses
-      { :alice :parent :bob . },
-      { :bob :ancestor :dana . }.
-
-  { :alice :parent :bob . }
-    pe:fact "ancestor.n3".
-
-  { :bob :ancestor :dana . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "x"; pe:value :bob ],
-      [ pe:var "y"; pe:value :carol ],
-      [ pe:var "z"; pe:value :dana ];
-    pe:uses
-      { :bob :parent :carol . },
-      { :carol :ancestor :dana . }.
-
-  { :bob :parent :carol . }
-    pe:fact "ancestor.n3".
-
-  { :carol :ancestor :dana . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "x"; pe:value :carol ],
-      [ pe:var "y"; pe:value :dana ];
-    pe:uses { :carol :parent :dana . }.
-
-  { :carol :parent :dana . }
-    pe:fact "ancestor.n3".
-}.
+{ :alice :ancestor :dana . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :alice ],
+    [ pe:var "y"; pe:value :bob ],
+    [ pe:var "z"; pe:value :dana ];
+  pe:uses
+    { :alice :parent :bob . },
+    { :bob :ancestor :dana . }.

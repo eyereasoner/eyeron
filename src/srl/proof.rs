@@ -1,8 +1,8 @@
 //! SRL-native `--proof` rendering.
 //!
-//! `n3::proof::proof_to_n3` represents a proof step as an N3 quoted-formula
-//! subject (`{ s p o } pe:why { ...steps... }`), which is idiomatic N3 but
-//! not valid `.srl`: SRL's grammar has no bare `{ ... }` graph-literal term,
+//! `n3::proof::proof_to_n3` writes a proof step as a top-level triple whose
+//! subject is the quoted conclusion (`{ s p o } pe:rule 1; ...`), which is
+//! idiomatic N3 but not valid `.srl`: SRL has no bare `{ ... }` graph term,
 //! only the single-triple RDF-star triple term `<<(s p o)>>` (see
 //! `parser.rs`'s own doc comment on why it reuses `Term::Formula(vec![t])`
 //! for that, not for general quoted graphs). So instead each step here is a
@@ -10,21 +10,19 @@
 //! <<(s p o)>>` — the same idiom `examples/proof-audit.srl` demonstrates
 //! by hand, with `pe:uses` linking straight to the blank nodes of the steps
 //! it depended on rather than repeating their triples. Every step lives in
-//! one flat `DATA { ... }` block (SRL has no bare top-level triples), which
-//! also naturally deduplicates a fact reached from more than one place —
-//! unlike `proof_to_n3`'s one-`pe:why`-tree-per-derived-fact structure,
-//! where a shared premise is repeated under every root that uses it. The
-//! result is an ordinary `.srl` document: `PREFIX` headers and one `DATA
+//! one flat `DATA { ... }` block, since SRL has no bare top-level triples.
+//! The result is an ordinary `.srl` document: `PREFIX` headers and one `DATA
 //! { ... }` block, loadable by eyeron like any other rule set's data.
 //!
-//! The analysis phase (walking each derived fact's proof tree into a flat
-//! list of `ProofEntry`s) is shared with `n3::proof` verbatim, via items it
-//! exposes as `pub(crate)`; only the rendering below is SRL-specific.
+//! The analysis phase (one walk across every claim, into a flat list of
+//! `ProofEntry`s with each conclusion explained once) is shared with
+//! `n3::proof` verbatim, via items it exposes as `pub(crate)`; only the
+//! rendering below is SRL-specific.
 
 use crate::ast::*;
 use super::printing::{term_to_srl, triple_term, triple_to_srl};
 use crate::n3::proof::{
-    collect_prefixes_triple, collect_proof_entries, justification, quoted_string, render_predicate_objects, rule_reference, unique_proofs, vars_in_rule,
+    collect_all_proof_entries, collect_prefixes_triple, justification, quoted_string, render_predicate_objects, rule_reference, unique_proofs, vars_in_rule,
     ProofEntry,
 };
 use crate::n3::reasoner::{DerivedFact, ReasonerResult};
@@ -45,19 +43,17 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
     }
     let explicit_facts = result.explicit.iter().cloned().collect::<BTreeSet<_>>();
 
-    let mut root_entries = Vec::<(DerivedFact, Vec<ProofEntry>)>::new();
-    for proof in selected {
-        let entries = collect_proof_entries(&proof, &derived_by_fact, &explicit_facts, &result.explicit_sources, &result.closure, &result.rules);
-        root_entries.push((proof, entries));
-    }
+    // One walk across every root, so a premise shared by several
+    // derivations is explained once rather than once per root.
+    let entries = collect_all_proof_entries(&selected, &derived_by_fact, &explicit_facts, &result.explicit_sources, &result.closure, &result.rules);
 
     // One stable `_:stepN` id per distinct fact, in first-encounter order
     // across every root; a fact reached from several roots (or as both a
     // root and someone else's premise) collapses onto the same id.
     let mut fact_to_step = BTreeMap::<Triple, String>::new();
     let mut steps = Vec::<(String, ProofEntry)>::new();
-    for (_, entries) in &root_entries {
-        for entry in entries {
+    {
+        for entry in entries.iter() {
             // A fact that is simply given in `DATA` or the base graph gets
             // no step of its own: there is nothing to explain about it, and
             // `pe:uses` names it by its own triple term instead. Only a
@@ -79,7 +75,7 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
     let mut proof_prefixes = prefixes.clone();
     proof_prefixes.entry("pe".to_string()).or_insert_with(|| PE_NS.to_string());
     proof_prefixes.entry("rdf".to_string()).or_insert_with(|| RDF_NS.to_string());
-    let used = used_prefixes(&proof_prefixes, &root_entries);
+    let used = used_prefixes(&proof_prefixes, &selected, &entries);
 
     let mut header = Vec::<String>::new();
     for prefix in &used {
@@ -96,7 +92,7 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
 
     let mut body = Vec::<String>::new();
     let mut output_seen = BTreeSet::<Triple>::new();
-    for (root, _) in &root_entries {
+    for root in &selected {
         if output_seen.insert(root.fact.clone()) {
             body.push(format!("  {}", triple_to_srl(&root.fact, &proof_prefixes)));
         }
@@ -206,24 +202,24 @@ fn render_binding_items(proof: &DerivedFact, prefixes: &BTreeMap<String, String>
         .collect()
 }
 
-fn used_prefixes(prefixes: &BTreeMap<String, String>, root_entries: &[(DerivedFact, Vec<ProofEntry>)]) -> BTreeSet<String> {
+fn used_prefixes(prefixes: &BTreeMap<String, String>, roots: &[DerivedFact], entries: &[ProofEntry]) -> BTreeSet<String> {
     let mut used = BTreeSet::new();
     used.insert("pe".to_string());
     used.insert("rdf".to_string());
-    for (root, entries) in root_entries {
+    for root in roots {
         collect_prefixes_triple(&root.fact, prefixes, &mut used);
-        for entry in entries {
-            match entry {
-                ProofEntry::Rule(df) => {
-                    collect_prefixes_triple(&df.fact, prefixes, &mut used);
-                    for prem in &df.premises {
-                        collect_prefixes_triple(prem, prefixes, &mut used);
-                    }
+    }
+    for entry in entries {
+        match entry {
+            ProofEntry::Rule(df) => {
+                collect_prefixes_triple(&df.fact, prefixes, &mut used);
+                for prem in &df.premises {
+                    collect_prefixes_triple(prem, prefixes, &mut used);
                 }
-                ProofEntry::Fact { fact, .. } => collect_prefixes_triple(fact, prefixes, &mut used),
-                ProofEntry::Builtin { fact, .. } => collect_prefixes_triple(fact, prefixes, &mut used),
-                ProofEntry::Unproven { fact, .. } => collect_prefixes_triple(fact, prefixes, &mut used),
             }
+            ProofEntry::Fact { fact, .. } => collect_prefixes_triple(fact, prefixes, &mut used),
+            ProofEntry::Builtin { fact, .. } => collect_prefixes_triple(fact, prefixes, &mut used),
+            ProofEntry::Unproven { fact, .. } => collect_prefixes_triple(fact, prefixes, &mut used),
         }
     }
     used

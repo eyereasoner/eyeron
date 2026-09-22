@@ -6,34 +6,30 @@
 :n1 :negative true .
 :msg :languageDirection "ltr" .
 
-{ :n1 :negative true . } pe:why {
-  { :n1 :negative true . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "v"; pe:value -3.5 ],
-      [ pe:var "x"; pe:value :n1 ];
-    pe:uses
-      { :n1 :value -3.5 . },
-      { -3.5 math:lessThan 0 . }.
+{ :n1 :negative true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "v"; pe:value -3.5 ],
+    [ pe:var "x"; pe:value :n1 ];
+  pe:uses
+    { :n1 :value -3.5 . },
+    { -3.5 math:lessThan 0 . }.
 
-  { :n1 :value -3.5 . }
-    pe:fact "filter-function-and-langdir.n3".
+{ :n1 :value -3.5 . }
+  pe:fact "filter-function-and-langdir.n3".
 
-  { -3.5 math:lessThan 0 . }
-    pe:builtin math:lessThan.
-}.
+{ -3.5 math:lessThan 0 . }
+  pe:builtin math:lessThan.
 
-{ :msg :languageDirection "ltr" . } pe:why {
-  { :msg :languageDirection "ltr" . }
-    pe:rule 2;
-    pe:binding [ pe:var "text"; pe:value "bonjour"@fr--ltr ];
-    pe:uses
-      { :msg :text "bonjour"@fr--ltr . },
-      { "bonjour"@fr--ltr log:equalTo "bonjour"@fr--ltr . }.
+{ :msg :languageDirection "ltr" . }
+  pe:rule 2;
+  pe:binding [ pe:var "text"; pe:value "bonjour"@fr--ltr ];
+  pe:uses
+    { :msg :text "bonjour"@fr--ltr . },
+    { "bonjour"@fr--ltr log:equalTo "bonjour"@fr--ltr . }.
 
-  { :msg :text "bonjour"@fr--ltr . }
-    pe:fact "filter-function-and-langdir.n3".
+{ :msg :text "bonjour"@fr--ltr . }
+  pe:fact "filter-function-and-langdir.n3".
 
-  { "bonjour"@fr--ltr log:equalTo "bonjour"@fr--ltr . }
-    pe:builtin log:equalTo.
-}.
+{ "bonjour"@fr--ltr log:equalTo "bonjour"@fr--ltr . }
+  pe:builtin log:equalTo.

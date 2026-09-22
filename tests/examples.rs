@@ -22,14 +22,11 @@ const PARSE_ONLY_EXAMPLES: &[&str] = &["alma-rdf-messages", "collection"];
 
 /// Top-level `.n3` examples that get neither an `examples/proof/` golden
 /// nor a documented reason from `PARSE_ONLY_EXAMPLES`, and why not.
-/// `n3::proof::proof_to_n3` walks each derived fact's dependency tree
-/// independently per fact — no sharing of already-explained ancestors
-/// across different top-level facts, unlike `srl::proof::proof_to_srl`'s
-/// blank-node-id-deduplicated `DATA` block — so a rule set whose derived
-/// facts recurse deeply enough (every pair of a transitive closure, every
-/// step of a long taxonomy chain) produces a proof many orders of
-/// magnitude bigger than its plain output; not a useful artifact to check
-/// into git regardless of the underlying cause.
+/// A proof is now linear in the size of the derivation it explains — one
+/// walk across every claim, each step written once — so the only examples
+/// left out for size are the two largest `deep-taxonomy-*` stress sizes,
+/// whose goldens would be megabytes of repetition saying nothing
+/// `deep-taxonomy-1000` does not already say.
 const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
     ("check-unsafe", "deliberately derives nothing: its head variable is unsafe/unbound by design"),
     ("monoid-identity-uniqueness", "its printed result comes from a log:query goal, not a forward-derived fact --proof tracks"),
@@ -37,14 +34,8 @@ const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
         "proof-audit",
         "its companion input (examples/input/proof-audit.trig) is itself an N3 proof document with quoted formulas, which the CLI's second positional file argument parses in RDF-only mode and rejects",
     ),
-    ("deep-taxonomy-100", "quadratic per-fact proof cost; only deep-taxonomy-10 stays small enough to check in"),
-    ("deep-taxonomy-1000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays small enough to check in"),
-    ("deep-taxonomy-10000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays small enough to check in"),
-    ("deep-taxonomy-100000", "quadratic per-fact proof cost; only deep-taxonomy-10 stays small enough to check in"),
-    ("dining-philosophers", "quadratic per-fact proof cost: over 1,000,000 lines"),
-    ("transitive-closure", "quadratic per-fact proof cost: over 5,000,000 lines"),
-    ("rdf-message-cold-chain-recall", "quadratic per-fact proof cost: over 100,000 lines"),
-    ("rdf-message-ldes-incremental", "quadratic per-fact proof cost: over 90,000 lines"),
+    ("deep-taxonomy-10000", "its proof is correct and linear, but megabytes of it; deep-taxonomy-1000 covers the same shape"),
+    ("deep-taxonomy-100000", "its proof is correct and linear, but megabytes of it; deep-taxonomy-1000 covers the same shape"),
 ];
 
 fn main() {

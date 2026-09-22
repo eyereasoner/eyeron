@@ -5,105 +5,103 @@
 
 3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) .
 
-{ 3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . } pe:why {
-  { 3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }
-    pe:rule 3;
-    pe:binding [ pe:var "M"; pe:value ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) ];
-    pe:uses { (3 :left :right :center) :moves ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }.
+{ 3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }
+  pe:rule 3;
+  pe:binding [ pe:var "M"; pe:value ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) ];
+  pe:uses { (3 :left :right :center) :moves ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }.
 
-  { (3 :left :right :center) :moves ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "M"; pe:value ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) ],
-      [ pe:var "M1"; pe:value ((:left :right) (:left :center) (:right :center)) ],
-      [ pe:var "M2"; pe:value ((:center :left) (:center :right) (:left :right)) ],
-      [ pe:var "N"; pe:value 3 ],
-      [ pe:var "N1"; pe:value 2 ],
-      [ pe:var "X"; pe:value :left ],
-      [ pe:var "Y"; pe:value :right ],
-      [ pe:var "Z"; pe:value :center ];
-    pe:uses
-      { 3 math:greaterThan 1 . },
-      { (3 1) math:difference 2 . },
-      { (2 :left :center :right) :moves ((:left :right) (:left :center) (:right :center)) . },
-      { (2 :center :right :left) :moves ((:center :left) (:center :right) (:left :right)) . },
-      { (((:left :right) (:left :center) (:right :center)) ((:left :right)) ((:center :left) (:center :right) (:left :right))) list:append ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }.
+{ (3 :left :right :center) :moves ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) ],
+    [ pe:var "M1"; pe:value ((:left :right) (:left :center) (:right :center)) ],
+    [ pe:var "M2"; pe:value ((:center :left) (:center :right) (:left :right)) ],
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "N1"; pe:value 2 ],
+    [ pe:var "X"; pe:value :left ],
+    [ pe:var "Y"; pe:value :right ],
+    [ pe:var "Z"; pe:value :center ];
+  pe:uses
+    { 3 math:greaterThan 1 . },
+    { (3 1) math:difference 2 . },
+    { (2 :left :center :right) :moves ((:left :right) (:left :center) (:right :center)) . },
+    { (2 :center :right :left) :moves ((:center :left) (:center :right) (:left :right)) . },
+    { (((:left :right) (:left :center) (:right :center)) ((:left :right)) ((:center :left) (:center :right) (:left :right))) list:append ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }.
 
-  { 3 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
+{ 3 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
 
-  { (3 1) math:difference 2 . }
-    pe:builtin math:difference.
+{ (3 1) math:difference 2 . }
+  pe:builtin math:difference.
 
-  { (2 :left :center :right) :moves ((:left :right) (:left :center) (:right :center)) . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "M"; pe:value ((:left :right) (:left :center) (:right :center)) ],
-      [ pe:var "M1"; pe:value ((:left :right)) ],
-      [ pe:var "M2"; pe:value ((:right :center)) ],
-      [ pe:var "N"; pe:value 2 ],
-      [ pe:var "N1"; pe:value 1 ],
-      [ pe:var "X"; pe:value :left ],
-      [ pe:var "Y"; pe:value :center ],
-      [ pe:var "Z"; pe:value :right ];
-    pe:uses
-      { 2 math:greaterThan 1 . },
-      { (2 1) math:difference 1 . },
-      { (1 :left :right :center) :moves ((:left :right)) . },
-      { (1 :right :center :left) :moves ((:right :center)) . },
-      { (((:left :right)) ((:left :center)) ((:right :center))) list:append ((:left :right) (:left :center) (:right :center)) . }.
+{ (2 :left :center :right) :moves ((:left :right) (:left :center) (:right :center)) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value ((:left :right) (:left :center) (:right :center)) ],
+    [ pe:var "M1"; pe:value ((:left :right)) ],
+    [ pe:var "M2"; pe:value ((:right :center)) ],
+    [ pe:var "N"; pe:value 2 ],
+    [ pe:var "N1"; pe:value 1 ],
+    [ pe:var "X"; pe:value :left ],
+    [ pe:var "Y"; pe:value :center ],
+    [ pe:var "Z"; pe:value :right ];
+  pe:uses
+    { 2 math:greaterThan 1 . },
+    { (2 1) math:difference 1 . },
+    { (1 :left :right :center) :moves ((:left :right)) . },
+    { (1 :right :center :left) :moves ((:right :center)) . },
+    { (((:left :right)) ((:left :center)) ((:right :center))) list:append ((:left :right) (:left :center) (:right :center)) . }.
 
-  { 2 math:greaterThan 1 . }
-    pe:builtin math:greaterThan.
+{ 2 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
 
-  { (2 1) math:difference 1 . }
-    pe:builtin math:difference.
+{ (2 1) math:difference 1 . }
+  pe:builtin math:difference.
 
-  { (1 :left :right :center) :moves ((:left :right)) . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "X"; pe:value :left ],
-      [ pe:var "Y"; pe:value :right ],
-      [ pe:var "Z"; pe:value :center ].
+{ (1 :left :right :center) :moves ((:left :right)) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value :left ],
+    [ pe:var "Y"; pe:value :right ],
+    [ pe:var "Z"; pe:value :center ].
 
-  { (1 :right :center :left) :moves ((:right :center)) . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "X"; pe:value :right ],
-      [ pe:var "Y"; pe:value :center ],
-      [ pe:var "Z"; pe:value :left ].
+{ (1 :right :center :left) :moves ((:right :center)) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value :right ],
+    [ pe:var "Y"; pe:value :center ],
+    [ pe:var "Z"; pe:value :left ].
 
-  { (((:left :right)) ((:left :center)) ((:right :center))) list:append ((:left :right) (:left :center) (:right :center)) . }
-    pe:builtin list:append.
+{ (((:left :right)) ((:left :center)) ((:right :center))) list:append ((:left :right) (:left :center) (:right :center)) . }
+  pe:builtin list:append.
 
-  { (2 :center :right :left) :moves ((:center :left) (:center :right) (:left :right)) . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "M"; pe:value ((:center :left) (:center :right) (:left :right)) ],
-      [ pe:var "M1"; pe:value ((:center :left)) ],
-      [ pe:var "M2"; pe:value ((:left :right)) ],
-      [ pe:var "N"; pe:value 2 ],
-      [ pe:var "N1"; pe:value 1 ],
-      [ pe:var "X"; pe:value :center ],
-      [ pe:var "Y"; pe:value :right ],
-      [ pe:var "Z"; pe:value :left ];
-    pe:uses
-      { 2 math:greaterThan 1 . },
-      { (2 1) math:difference 1 . },
-      { (1 :center :left :right) :moves ((:center :left)) . },
-      { (1 :left :right :center) :moves ((:left :right)) . },
-      { (((:center :left)) ((:center :right)) ((:left :right))) list:append ((:center :left) (:center :right) (:left :right)) . }.
+{ (2 :center :right :left) :moves ((:center :left) (:center :right) (:left :right)) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value ((:center :left) (:center :right) (:left :right)) ],
+    [ pe:var "M1"; pe:value ((:center :left)) ],
+    [ pe:var "M2"; pe:value ((:left :right)) ],
+    [ pe:var "N"; pe:value 2 ],
+    [ pe:var "N1"; pe:value 1 ],
+    [ pe:var "X"; pe:value :center ],
+    [ pe:var "Y"; pe:value :right ],
+    [ pe:var "Z"; pe:value :left ];
+  pe:uses
+    { 2 math:greaterThan 1 . },
+    { (2 1) math:difference 1 . },
+    { (1 :center :left :right) :moves ((:center :left)) . },
+    { (1 :left :right :center) :moves ((:left :right)) . },
+    { (((:center :left)) ((:center :right)) ((:left :right))) list:append ((:center :left) (:center :right) (:left :right)) . }.
 
-  { (1 :center :left :right) :moves ((:center :left)) . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "X"; pe:value :center ],
-      [ pe:var "Y"; pe:value :left ],
-      [ pe:var "Z"; pe:value :right ].
+{ (1 :center :left :right) :moves ((:center :left)) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value :center ],
+    [ pe:var "Y"; pe:value :left ],
+    [ pe:var "Z"; pe:value :right ].
 
-  { (((:center :left)) ((:center :right)) ((:left :right))) list:append ((:center :left) (:center :right) (:left :right)) . }
-    pe:builtin list:append.
+{ (((:center :left)) ((:center :right)) ((:left :right))) list:append ((:center :left) (:center :right) (:left :right)) . }
+  pe:builtin list:append.
 
-  { (((:left :right) (:left :center) (:right :center)) ((:left :right)) ((:center :left) (:center :right) (:left :right))) list:append ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }
-    pe:builtin list:append.
-}.
+{ (((:left :right) (:left :center) (:right :center)) ((:left :right)) ((:center :left) (:center :right) (:left :right))) list:append ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }
+  pe:builtin list:append.

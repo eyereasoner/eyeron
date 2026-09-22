@@ -4,31 +4,27 @@
 :event1 :year 2026 .
 :test :quoted :subject .
 
-{ :event1 :year 2026 . } pe:why {
-  { :event1 :year 2026 . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "day"; pe:value 15 ],
-      [ pe:var "event"; pe:value :event1 ],
-      [ pe:var "hour"; pe:value 10 ],
-      [ pe:var "minute"; pe:value 20 ],
-      [ pe:var "month"; pe:value 5 ],
-      [ pe:var "second"; pe:value 30 ],
-      [ pe:var "year"; pe:value 2026 ];
-    pe:uses { :event1 :when (2026 5 15 10 20 30) . }.
+{ :event1 :year 2026 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "day"; pe:value 15 ],
+    [ pe:var "event"; pe:value :event1 ],
+    [ pe:var "hour"; pe:value 10 ],
+    [ pe:var "minute"; pe:value 20 ],
+    [ pe:var "month"; pe:value 5 ],
+    [ pe:var "second"; pe:value 30 ],
+    [ pe:var "year"; pe:value 2026 ];
+  pe:uses { :event1 :when (2026 5 15 10 20 30) . }.
 
-  { :event1 :when (2026 5 15 10 20 30) . }
-    pe:fact "spec-builtins.n3".
-}.
+{ :event1 :when (2026 5 15 10 20 30) . }
+  pe:fact "spec-builtins.n3".
 
-{ :test :quoted :subject . } pe:why {
-  { :test :quoted :subject . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "subject"; pe:value :subject ],
-      [ pe:var "t"; pe:value :triple1 ];
-    pe:uses { :triple1 :value (:subject :predicate :object) . }.
+{ :test :quoted :subject . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "subject"; pe:value :subject ],
+    [ pe:var "t"; pe:value :triple1 ];
+  pe:uses { :triple1 :value (:subject :predicate :object) . }.
 
-  { :triple1 :value (:subject :predicate :object) . }
-    pe:fact "spec-builtins.n3".
-}.
+{ :triple1 :value (:subject :predicate :object) . }
+  pe:fact "spec-builtins.n3".

@@ -9,48 +9,40 @@ ex:alice foaf:name "Alice Example" .
 ex:alice foaf:givenName "Alice" .
 ex:alice foaf:familyName "Example" .
 
-{ ex:alice a foaf:Person . } pe:why {
-  { ex:alice a foaf:Person . }
-    pe:rule 1;
-    pe:binding [ pe:var "p"; pe:value ex:alice ];
-    pe:uses { ex:alice a schema:Person . }.
+{ ex:alice a foaf:Person . }
+  pe:rule 1;
+  pe:binding [ pe:var "p"; pe:value ex:alice ];
+  pe:uses { ex:alice a schema:Person . }.
 
-  { ex:alice a schema:Person . }
-    pe:fact "schema-foaf-mapping.n3".
-}.
+{ ex:alice a schema:Person . }
+  pe:fact "schema-foaf-mapping.n3".
 
-{ ex:alice foaf:name "Alice Example" . } pe:why {
-  { ex:alice foaf:name "Alice Example" . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "name"; pe:value "Alice Example" ],
-      [ pe:var "p"; pe:value ex:alice ];
-    pe:uses { ex:alice schema:name "Alice Example" . }.
+{ ex:alice foaf:name "Alice Example" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "name"; pe:value "Alice Example" ],
+    [ pe:var "p"; pe:value ex:alice ];
+  pe:uses { ex:alice schema:name "Alice Example" . }.
 
-  { ex:alice schema:name "Alice Example" . }
-    pe:fact "schema-foaf-mapping.n3".
-}.
+{ ex:alice schema:name "Alice Example" . }
+  pe:fact "schema-foaf-mapping.n3".
 
-{ ex:alice foaf:givenName "Alice" . } pe:why {
-  { ex:alice foaf:givenName "Alice" . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "given"; pe:value "Alice" ],
-      [ pe:var "p"; pe:value ex:alice ];
-    pe:uses { ex:alice schema:givenName "Alice" . }.
+{ ex:alice foaf:givenName "Alice" . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "given"; pe:value "Alice" ],
+    [ pe:var "p"; pe:value ex:alice ];
+  pe:uses { ex:alice schema:givenName "Alice" . }.
 
-  { ex:alice schema:givenName "Alice" . }
-    pe:fact "schema-foaf-mapping.n3".
-}.
+{ ex:alice schema:givenName "Alice" . }
+  pe:fact "schema-foaf-mapping.n3".
 
-{ ex:alice foaf:familyName "Example" . } pe:why {
-  { ex:alice foaf:familyName "Example" . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "family"; pe:value "Example" ],
-      [ pe:var "p"; pe:value ex:alice ];
-    pe:uses { ex:alice schema:familyName "Example" . }.
+{ ex:alice foaf:familyName "Example" . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "family"; pe:value "Example" ],
+    [ pe:var "p"; pe:value ex:alice ];
+  pe:uses { ex:alice schema:familyName "Example" . }.
 
-  { ex:alice schema:familyName "Example" . }
-    pe:fact "schema-foaf-mapping.n3".
-}.
+{ ex:alice schema:familyName "Example" . }
+  pe:fact "schema-foaf-mapping.n3".

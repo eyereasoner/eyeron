@@ -5,33 +5,31 @@
 
 :x3 a :UnclassifiedSize .
 
-{ :x3 a :UnclassifiedSize . } pe:why {
-  { :x3 a :UnclassifiedSize . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "SCOPE"; pe:value {
-          <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-      } ],
-      [ pe:var "x"; pe:value :x3 ];
-    pe:uses
-      { :x3 a :Place . },
-      {
-          {
-              <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-          } log:notIncludes {
-              :x3 :population ?p .
-          } .
-      }.
-
-  { :x3 a :Place . }
-    pe:fact "spec-2-4-negation.n3".
-
-  {
-    {
+{ :x3 a :UnclassifiedSize . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
         <http://example.org/a> <http://example.org/b> <http://example.org/c> .
-    } log:notIncludes {
-        :x3 :population ?p .
-    } .
+    } ],
+    [ pe:var "x"; pe:value :x3 ];
+  pe:uses
+    { :x3 a :Place . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :x3 :population ?p .
+        } .
+    }.
+
+{ :x3 a :Place . }
+  pe:fact "spec-2-4-negation.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :x3 :population ?p .
+  } .
 }
-    pe:builtin log:notIncludes.
-}.
+  pe:builtin log:notIncludes.

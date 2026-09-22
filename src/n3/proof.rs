@@ -9,29 +9,25 @@ const PE_NS: &str = "https://eyereasoner.github.io/pe#";
 pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult) -> String {
     if result.proofs.is_empty() { return String::new(); }
 
-    let selected = unique_proofs(&result.proofs);
+    let roots = unique_proofs(&result.proofs);
     let mut derived_by_fact = BTreeMap::<Triple, Vec<DerivedFact>>::new();
     for proof in &result.proofs {
         derived_by_fact.entry(proof.fact.clone()).or_default().push(proof.clone());
     }
     let explicit_facts = result.explicit.iter().cloned().collect::<BTreeSet<_>>();
 
-    let mut root_entries = Vec::<(DerivedFact, Vec<ProofEntry>)>::new();
-    for proof in selected {
-        let entries = collect_proof_entries(
-            &proof,
-            &derived_by_fact,
-            &explicit_facts,
-            &result.explicit_sources,
-            &result.closure,
-            &result.rules,
-        );
-        root_entries.push((proof, entries));
-    }
+    let entries = collect_all_proof_entries(
+        &roots,
+        &derived_by_fact,
+        &explicit_facts,
+        &result.explicit_sources,
+        &result.closure,
+        &result.rules,
+    );
 
     let mut proof_prefixes = prefixes.clone();
     proof_prefixes.entry("pe".to_string()).or_insert_with(|| PE_NS.to_string());
-    let used = used_prefixes_for_proof(&proof_prefixes, &root_entries);
+    let used = used_prefixes_for_proof(&proof_prefixes, &roots, &entries);
 
     let mut parts = Vec::<String>::new();
     for prefix in &used {
@@ -45,17 +41,20 @@ pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult)
     }
     if !parts.is_empty() { parts.push(String::new()); }
 
+    // What was derived, then one step per conclusion. A step names what it
+    // used by that premise's own triple, so the steps need no nesting and
+    // no wrapper: this is the shape `srl::proof` and `prolog::output`
+    // already write.
     let mut output_seen = BTreeSet::<Triple>::new();
-    for (proof, _) in &root_entries {
-        if output_seen.insert(proof.fact.clone()) {
-            parts.push(triple_to_n3(&proof_prefixes, &proof.fact));
+    for root in &roots {
+        if output_seen.insert(root.fact.clone()) {
+            parts.push(triple_to_n3(&proof_prefixes, &root.fact));
         }
     }
-    parts.push(String::new());
 
-    for (idx, (proof, entries)) in root_entries.iter().enumerate() {
-        if idx > 0 { parts.push(String::new()); }
-        parts.push(render_proof_block(proof, entries, &result.rules, &proof_prefixes));
+    for entry in &entries {
+        parts.push(String::new());
+        parts.push(outdent(&render_entry(entry, &result.rules, &proof_prefixes)));
     }
 
     parts.join("\n").trim_end().to_string() + "\n"
@@ -80,6 +79,38 @@ pub(crate) enum ProofEntry {
     Unproven { fact: Triple, reason: String },
 }
 
+/// Every step needed to explain all of `roots`, each conclusion explained
+/// once.
+///
+/// Explaining each root independently repeats every shared premise under
+/// every root that uses it, so a chain of N derived facts costs N² to walk
+/// and to write. One collector across all roots makes both linear, and
+/// loses nothing: a step names what it used by those premises' own
+/// triples, so a reader finds them wherever they are.
+pub(crate) fn collect_all_proof_entries(
+    roots: &[DerivedFact],
+    derived_by_fact: &BTreeMap<Triple, Vec<DerivedFact>>,
+    explicit_facts: &BTreeSet<Triple>,
+    explicit_sources: &BTreeMap<Triple, SourceRef>,
+    base_facts: &[Triple],
+    rules: &[Rule],
+) -> Vec<ProofEntry> {
+    let mut collector = ProofCollector {
+        derived_by_fact,
+        explicit_facts,
+        explicit_sources,
+        base_facts,
+        rules,
+        seen: HashSet::new(),
+        entries: Vec::new(),
+    };
+    for root in roots {
+        collector.visit_derived_fact(root);
+    }
+    collector.entries
+}
+
+#[allow(dead_code)]
 pub(crate) fn collect_proof_entries(
     root: &DerivedFact,
     derived_by_fact: &BTreeMap<Triple, Vec<DerivedFact>>,
@@ -246,19 +277,11 @@ pub(crate) fn justification(kind: &str, object: String) -> (String, Vec<String>)
     (format!("pe:{}", kind), vec![object])
 }
 
-fn render_proof_block(root: &DerivedFact, entries: &[ProofEntry], rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
-    let root_graph = graph_for_triple(&root.fact, prefixes);
-    let mut out = String::new();
-    out.push_str(&root_graph);
-    out.push_str(" pe:why {");
-    if !entries.is_empty() { out.push('\n'); }
-    for (idx, entry) in entries.iter().enumerate() {
-        if idx > 0 { out.push('\n'); }
-        out.push_str(&render_entry(entry, rules, prefixes));
-        out.push('\n');
-    }
-    out.push_str("}.");
-    out
+/// Steps share their line-building helpers with `srl::proof`, which nests
+/// them inside a `DATA { ... }` block and so indents by two spaces. An N3
+/// step stands at the margin, so the indent comes back off here.
+fn outdent(block: &str) -> String {
+    block.lines().map(|line| line.strip_prefix("  ").unwrap_or(line)).collect::<Vec<_>>().join("\n")
 }
 
 fn render_entry(entry: &ProofEntry, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
@@ -446,24 +469,26 @@ fn is_builtin_premise(triple: &Triple) -> bool {
         || iri.starts_with("http://www.w3.org/2000/10/swap/crypto#")
 }
 
-fn used_prefixes_for_proof(prefixes: &BTreeMap<String, String>, roots: &[(DerivedFact, Vec<ProofEntry>)]) -> BTreeSet<String> {
+fn used_prefixes_for_proof(prefixes: &BTreeMap<String, String>, roots: &[DerivedFact], entries: &[ProofEntry]) -> BTreeSet<String> {
     let mut used = BTreeSet::new();
     used.insert("pe".to_string());
-    for (root, entries) in roots {
+    for root in roots {
         collect_prefixes_triple(&root.fact, prefixes, &mut used);
-        for entry in entries {
-            match entry {
-                ProofEntry::Rule(df) => {
-                    collect_prefixes_triple(&df.fact, prefixes, &mut used);
-                    for prem in &df.premises { collect_prefixes_triple(prem, prefixes, &mut used); }
+    }
+    for entry in entries {
+        match entry {
+            ProofEntry::Rule(df) => {
+                collect_prefixes_triple(&df.fact, prefixes, &mut used);
+                for prem in &df.premises {
+                    collect_prefixes_triple(prem, prefixes, &mut used);
                 }
-                ProofEntry::Fact { fact, .. } => collect_prefixes_triple(fact, prefixes, &mut used),
-                ProofEntry::Builtin { fact, builtin } => {
-                    collect_prefixes_triple(fact, prefixes, &mut used);
-                    collect_prefixes_term(builtin, prefixes, &mut used);
-                }
-                ProofEntry::Unproven { fact, .. } => collect_prefixes_triple(fact, prefixes, &mut used),
             }
+            ProofEntry::Fact { fact, .. } => collect_prefixes_triple(fact, prefixes, &mut used),
+            ProofEntry::Builtin { fact, builtin } => {
+                collect_prefixes_triple(fact, prefixes, &mut used);
+                collect_prefixes_term(builtin, prefixes, &mut used);
+            }
+            ProofEntry::Unproven { fact, .. } => collect_prefixes_triple(fact, prefixes, &mut used),
         }
     }
     used

@@ -26,1479 +26,241 @@
 :r3 :availableForFutureIteration :yes .
 :r3 :status :approvedBaseline .
 
-{ :r2 :considers :carbonFrame . } pe:why {
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r3 :considers :ribbedHousing . } pe:why {
-  { :r3 :considers :ribbedHousing . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :improveCooling ],
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :designGoal :improveCooling . },
-      { :improveCooling :suggests :ribbedHousing . }.
-
-  { :r3 :designGoal :improveCooling . }
-    pe:fact "engineering-becoming.n3".
-
-  { :improveCooling :suggests :ribbedHousing . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :inheritsRequirement :stiffnessReq . } pe:why {
-  { :r2 :inheritsRequirement :stiffnessReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :stiffnessReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :stiffnessReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :inheritsRequirement :assemblyReq . } pe:why {
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r1 :availableForFutureIteration :yes . } pe:why {
-  { :r1 :availableForFutureIteration :yes . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "opt"; pe:value :aluminumFrame ],
-      [ pe:var "rev"; pe:value :r1 ];
-    pe:uses { :r1 :realizes :aluminumFrame . }.
-
-  { :r1 :realizes :aluminumFrame . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r1 :status :approvedBaseline . } pe:why {
-  { :r1 :status :approvedBaseline . }
-    pe:rule 7;
-    pe:binding [ pe:var "rev"; pe:value :r1 ];
-    pe:uses { :r1 :achieves :approvedBaseline . }.
-
-  { :r1 :achieves :approvedBaseline . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :preserves :stiffnessReq . } pe:why {
-  { :r2 :preserves :stiffnessReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :stiffnessReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :stiffnessReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :stiffnessReq . }.
-
-  { :r2 :inheritsRequirement :stiffnessReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :stiffnessReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :stiffnessReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :integrates :carbonFrame . } pe:why {
-  { :r2 :integrates :carbonFrame . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :stiffnessReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :stiffnessReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :stiffnessReq . }.
-
-  { :r2 :inheritsRequirement :stiffnessReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :stiffnessReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :stiffnessReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :preserves :assemblyReq . } pe:why {
-  { :r2 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :assemblyReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :assemblyReq . }.
-
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :satisfies :stiffnessReq . } pe:why {
-  { :r2 :satisfies :stiffnessReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :stiffnessReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :stiffnessReq . }.
-
-  { :r2 :preserves :stiffnessReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :stiffnessReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :stiffnessReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :stiffnessReq . }.
-
-  { :r2 :inheritsRequirement :stiffnessReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :stiffnessReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :stiffnessReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :realizes :carbonFrame . } pe:why {
-  { :r2 :realizes :carbonFrame . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :integrates :carbonFrame . }.
-
-  { :r2 :integrates :carbonFrame . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :stiffnessReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :stiffnessReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :stiffnessReq . }.
-
-  { :r2 :inheritsRequirement :stiffnessReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :stiffnessReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :stiffnessReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :satisfies :assemblyReq . } pe:why {
-  { :r2 :satisfies :assemblyReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :assemblyReq . }.
-
-  { :r2 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :assemblyReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :assemblyReq . }.
-
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r3 :inheritsRequirement :stiffnessReq . } pe:why {
-  { :r3 :inheritsRequirement :stiffnessReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r2 ],
-      [ pe:var "later"; pe:value :r3 ],
-      [ pe:var "req"; pe:value :stiffnessReq ];
-    pe:uses
-      { :r3 :derivesFrom :r2 . },
-      { :r2 :satisfies :stiffnessReq . }.
-
-  { :r3 :derivesFrom :r2 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :satisfies :stiffnessReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :stiffnessReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :stiffnessReq . }.
-
-  { :r2 :preserves :stiffnessReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :stiffnessReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :stiffnessReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :stiffnessReq . }.
-
-  { :r2 :inheritsRequirement :stiffnessReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :stiffnessReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :stiffnessReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :achieves :approvedBaseline . } pe:why {
-  { :r2 :achieves :approvedBaseline . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :realizes :carbonFrame . }.
-
-  { :r2 :realizes :carbonFrame . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :integrates :carbonFrame . }.
-
-  { :r2 :integrates :carbonFrame . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :stiffnessReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :stiffnessReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :stiffnessReq . }.
-
-  { :r2 :inheritsRequirement :stiffnessReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :stiffnessReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :stiffnessReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :availableForFutureIteration :yes . } pe:why {
-  { :r2 :availableForFutureIteration :yes . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :realizes :carbonFrame . }.
-
-  { :r2 :realizes :carbonFrame . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :integrates :carbonFrame . }.
-
-  { :r2 :integrates :carbonFrame . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :stiffnessReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :stiffnessReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :stiffnessReq . }.
-
-  { :r2 :inheritsRequirement :stiffnessReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :stiffnessReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :stiffnessReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r3 :inheritsRequirement :assemblyReq . } pe:why {
-  { :r3 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r2 ],
-      [ pe:var "later"; pe:value :r3 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r3 :derivesFrom :r2 . },
-      { :r2 :satisfies :assemblyReq . }.
-
-  { :r3 :derivesFrom :r2 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :satisfies :assemblyReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :assemblyReq . }.
-
-  { :r2 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :assemblyReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :assemblyReq . }.
-
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r2 :status :approvedBaseline . } pe:why {
-  { :r2 :status :approvedBaseline . }
-    pe:rule 7;
-    pe:binding [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :achieves :approvedBaseline . }.
-
-  { :r2 :achieves :approvedBaseline . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :realizes :carbonFrame . }.
-
-  { :r2 :realizes :carbonFrame . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :integrates :carbonFrame . }.
-
-  { :r2 :integrates :carbonFrame . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :stiffnessReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :stiffnessReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :stiffnessReq . }.
-
-  { :r2 :inheritsRequirement :stiffnessReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :stiffnessReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :stiffnessReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :stiffnessReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r3 :preserves :assemblyReq . } pe:why {
-  { :r3 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :inheritsRequirement :assemblyReq . },
-      { :r3 :considers :ribbedHousing . },
-      { :ribbedHousing :compatibleWith :assemblyReq . }.
-
-  { :r3 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r2 ],
-      [ pe:var "later"; pe:value :r3 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r3 :derivesFrom :r2 . },
-      { :r2 :satisfies :assemblyReq . }.
-
-  { :r3 :derivesFrom :r2 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :satisfies :assemblyReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :assemblyReq . }.
-
-  { :r2 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :assemblyReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :assemblyReq . }.
-
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r3 :considers :ribbedHousing . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :improveCooling ],
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :designGoal :improveCooling . },
-      { :improveCooling :suggests :ribbedHousing . }.
-
-  { :r3 :designGoal :improveCooling . }
-    pe:fact "engineering-becoming.n3".
-
-  { :improveCooling :suggests :ribbedHousing . }
-    pe:fact "engineering-becoming.n3".
-
-  { :ribbedHousing :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r3 :integrates :ribbedHousing . } pe:why {
-  { :r3 :integrates :ribbedHousing . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :inheritsRequirement :assemblyReq . },
-      { :r3 :considers :ribbedHousing . },
-      { :ribbedHousing :compatibleWith :assemblyReq . }.
-
-  { :r3 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r2 ],
-      [ pe:var "later"; pe:value :r3 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r3 :derivesFrom :r2 . },
-      { :r2 :satisfies :assemblyReq . }.
-
-  { :r3 :derivesFrom :r2 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :satisfies :assemblyReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :assemblyReq . }.
-
-  { :r2 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :assemblyReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :assemblyReq . }.
-
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r3 :considers :ribbedHousing . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :improveCooling ],
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :designGoal :improveCooling . },
-      { :improveCooling :suggests :ribbedHousing . }.
-
-  { :r3 :designGoal :improveCooling . }
-    pe:fact "engineering-becoming.n3".
-
-  { :improveCooling :suggests :ribbedHousing . }
-    pe:fact "engineering-becoming.n3".
-
-  { :ribbedHousing :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r3 :satisfies :assemblyReq . } pe:why {
-  { :r3 :satisfies :assemblyReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses { :r3 :preserves :assemblyReq . }.
-
-  { :r3 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :inheritsRequirement :assemblyReq . },
-      { :r3 :considers :ribbedHousing . },
-      { :ribbedHousing :compatibleWith :assemblyReq . }.
-
-  { :r3 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r2 ],
-      [ pe:var "later"; pe:value :r3 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r3 :derivesFrom :r2 . },
-      { :r2 :satisfies :assemblyReq . }.
-
-  { :r3 :derivesFrom :r2 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :satisfies :assemblyReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :assemblyReq . }.
-
-  { :r2 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :assemblyReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :assemblyReq . }.
-
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r3 :considers :ribbedHousing . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :improveCooling ],
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :designGoal :improveCooling . },
-      { :improveCooling :suggests :ribbedHousing . }.
-
-  { :r3 :designGoal :improveCooling . }
-    pe:fact "engineering-becoming.n3".
-
-  { :improveCooling :suggests :ribbedHousing . }
-    pe:fact "engineering-becoming.n3".
-
-  { :ribbedHousing :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r3 :realizes :ribbedHousing . } pe:why {
-  { :r3 :realizes :ribbedHousing . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses { :r3 :integrates :ribbedHousing . }.
-
-  { :r3 :integrates :ribbedHousing . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :inheritsRequirement :assemblyReq . },
-      { :r3 :considers :ribbedHousing . },
-      { :ribbedHousing :compatibleWith :assemblyReq . }.
-
-  { :r3 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r2 ],
-      [ pe:var "later"; pe:value :r3 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r3 :derivesFrom :r2 . },
-      { :r2 :satisfies :assemblyReq . }.
-
-  { :r3 :derivesFrom :r2 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :satisfies :assemblyReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :assemblyReq . }.
-
-  { :r2 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :assemblyReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :assemblyReq . }.
-
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r3 :considers :ribbedHousing . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :improveCooling ],
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :designGoal :improveCooling . },
-      { :improveCooling :suggests :ribbedHousing . }.
-
-  { :r3 :designGoal :improveCooling . }
-    pe:fact "engineering-becoming.n3".
-
-  { :improveCooling :suggests :ribbedHousing . }
-    pe:fact "engineering-becoming.n3".
-
-  { :ribbedHousing :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r3 :achieves :approvedBaseline . } pe:why {
-  { :r3 :achieves :approvedBaseline . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses { :r3 :realizes :ribbedHousing . }.
-
-  { :r3 :realizes :ribbedHousing . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses { :r3 :integrates :ribbedHousing . }.
-
-  { :r3 :integrates :ribbedHousing . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :inheritsRequirement :assemblyReq . },
-      { :r3 :considers :ribbedHousing . },
-      { :ribbedHousing :compatibleWith :assemblyReq . }.
-
-  { :r3 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r2 ],
-      [ pe:var "later"; pe:value :r3 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r3 :derivesFrom :r2 . },
-      { :r2 :satisfies :assemblyReq . }.
-
-  { :r3 :derivesFrom :r2 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :satisfies :assemblyReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :assemblyReq . }.
-
-  { :r2 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :assemblyReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :assemblyReq . }.
-
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r3 :considers :ribbedHousing . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :improveCooling ],
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :designGoal :improveCooling . },
-      { :improveCooling :suggests :ribbedHousing . }.
-
-  { :r3 :designGoal :improveCooling . }
-    pe:fact "engineering-becoming.n3".
-
-  { :improveCooling :suggests :ribbedHousing . }
-    pe:fact "engineering-becoming.n3".
-
-  { :ribbedHousing :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r3 :availableForFutureIteration :yes . } pe:why {
-  { :r3 :availableForFutureIteration :yes . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses { :r3 :realizes :ribbedHousing . }.
-
-  { :r3 :realizes :ribbedHousing . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses { :r3 :integrates :ribbedHousing . }.
-
-  { :r3 :integrates :ribbedHousing . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :inheritsRequirement :assemblyReq . },
-      { :r3 :considers :ribbedHousing . },
-      { :ribbedHousing :compatibleWith :assemblyReq . }.
-
-  { :r3 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r2 ],
-      [ pe:var "later"; pe:value :r3 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r3 :derivesFrom :r2 . },
-      { :r2 :satisfies :assemblyReq . }.
-
-  { :r3 :derivesFrom :r2 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :satisfies :assemblyReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :assemblyReq . }.
-
-  { :r2 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :assemblyReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :assemblyReq . }.
-
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r3 :considers :ribbedHousing . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :improveCooling ],
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :designGoal :improveCooling . },
-      { :improveCooling :suggests :ribbedHousing . }.
-
-  { :r3 :designGoal :improveCooling . }
-    pe:fact "engineering-becoming.n3".
-
-  { :improveCooling :suggests :ribbedHousing . }
-    pe:fact "engineering-becoming.n3".
-
-  { :ribbedHousing :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
-
-{ :r3 :status :approvedBaseline . } pe:why {
-  { :r3 :status :approvedBaseline . }
-    pe:rule 7;
-    pe:binding [ pe:var "rev"; pe:value :r3 ];
-    pe:uses { :r3 :achieves :approvedBaseline . }.
-
-  { :r3 :achieves :approvedBaseline . }
-    pe:rule 6;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses { :r3 :realizes :ribbedHousing . }.
-
-  { :r3 :realizes :ribbedHousing . }
-    pe:rule 5;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses { :r3 :integrates :ribbedHousing . }.
-
-  { :r3 :integrates :ribbedHousing . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :inheritsRequirement :assemblyReq . },
-      { :r3 :considers :ribbedHousing . },
-      { :ribbedHousing :compatibleWith :assemblyReq . }.
-
-  { :r3 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r2 ],
-      [ pe:var "later"; pe:value :r3 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r3 :derivesFrom :r2 . },
-      { :r2 :satisfies :assemblyReq . }.
-
-  { :r3 :derivesFrom :r2 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :satisfies :assemblyReq . }
-    pe:rule 4;
-    pe:binding
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses { :r2 :preserves :assemblyReq . }.
-
-  { :r2 :preserves :assemblyReq . }
-    pe:rule 3;
-    pe:binding
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "req"; pe:value :assemblyReq ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :inheritsRequirement :assemblyReq . },
-      { :r2 :considers :carbonFrame . },
-      { :carbonFrame :compatibleWith :assemblyReq . }.
-
-  { :r2 :inheritsRequirement :assemblyReq . }
-    pe:rule 1;
-    pe:binding
-      [ pe:var "earlier"; pe:value :r1 ],
-      [ pe:var "later"; pe:value :r2 ],
-      [ pe:var "req"; pe:value :assemblyReq ];
-    pe:uses
-      { :r2 :derivesFrom :r1 . },
-      { :r1 :satisfies :assemblyReq . }.
-
-  { :r2 :derivesFrom :r1 . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r1 :satisfies :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r2 :considers :carbonFrame . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :reduceWeight ],
-      [ pe:var "opt"; pe:value :carbonFrame ],
-      [ pe:var "rev"; pe:value :r2 ];
-    pe:uses
-      { :r2 :designGoal :reduceWeight . },
-      { :reduceWeight :suggests :carbonFrame . }.
-
-  { :r2 :designGoal :reduceWeight . }
-    pe:fact "engineering-becoming.n3".
-
-  { :reduceWeight :suggests :carbonFrame . }
-    pe:fact "engineering-becoming.n3".
-
-  { :carbonFrame :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-
-  { :r3 :considers :ribbedHousing . }
-    pe:rule 2;
-    pe:binding
-      [ pe:var "goal"; pe:value :improveCooling ],
-      [ pe:var "opt"; pe:value :ribbedHousing ],
-      [ pe:var "rev"; pe:value :r3 ];
-    pe:uses
-      { :r3 :designGoal :improveCooling . },
-      { :improveCooling :suggests :ribbedHousing . }.
-
-  { :r3 :designGoal :improveCooling . }
-    pe:fact "engineering-becoming.n3".
-
-  { :improveCooling :suggests :ribbedHousing . }
-    pe:fact "engineering-becoming.n3".
-
-  { :ribbedHousing :compatibleWith :assemblyReq . }
-    pe:fact "engineering-becoming.n3".
-}.
+{ :r2 :considers :carbonFrame . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "goal"; pe:value :reduceWeight ],
+    [ pe:var "opt"; pe:value :carbonFrame ],
+    [ pe:var "rev"; pe:value :r2 ];
+  pe:uses
+    { :r2 :designGoal :reduceWeight . },
+    { :reduceWeight :suggests :carbonFrame . }.
+
+{ :r2 :designGoal :reduceWeight . }
+  pe:fact "engineering-becoming.n3".
+
+{ :reduceWeight :suggests :carbonFrame . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r3 :considers :ribbedHousing . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "goal"; pe:value :improveCooling ],
+    [ pe:var "opt"; pe:value :ribbedHousing ],
+    [ pe:var "rev"; pe:value :r3 ];
+  pe:uses
+    { :r3 :designGoal :improveCooling . },
+    { :improveCooling :suggests :ribbedHousing . }.
+
+{ :r3 :designGoal :improveCooling . }
+  pe:fact "engineering-becoming.n3".
+
+{ :improveCooling :suggests :ribbedHousing . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r2 :inheritsRequirement :stiffnessReq . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "earlier"; pe:value :r1 ],
+    [ pe:var "later"; pe:value :r2 ],
+    [ pe:var "req"; pe:value :stiffnessReq ];
+  pe:uses
+    { :r2 :derivesFrom :r1 . },
+    { :r1 :satisfies :stiffnessReq . }.
+
+{ :r2 :derivesFrom :r1 . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r1 :satisfies :stiffnessReq . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r2 :inheritsRequirement :assemblyReq . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "earlier"; pe:value :r1 ],
+    [ pe:var "later"; pe:value :r2 ],
+    [ pe:var "req"; pe:value :assemblyReq ];
+  pe:uses
+    { :r2 :derivesFrom :r1 . },
+    { :r1 :satisfies :assemblyReq . }.
+
+{ :r1 :satisfies :assemblyReq . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r1 :availableForFutureIteration :yes . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "opt"; pe:value :aluminumFrame ],
+    [ pe:var "rev"; pe:value :r1 ];
+  pe:uses { :r1 :realizes :aluminumFrame . }.
+
+{ :r1 :realizes :aluminumFrame . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r1 :status :approvedBaseline . }
+  pe:rule 7;
+  pe:binding [ pe:var "rev"; pe:value :r1 ];
+  pe:uses { :r1 :achieves :approvedBaseline . }.
+
+{ :r1 :achieves :approvedBaseline . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r2 :preserves :stiffnessReq . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "opt"; pe:value :carbonFrame ],
+    [ pe:var "req"; pe:value :stiffnessReq ],
+    [ pe:var "rev"; pe:value :r2 ];
+  pe:uses
+    { :r2 :inheritsRequirement :stiffnessReq . },
+    { :r2 :considers :carbonFrame . },
+    { :carbonFrame :compatibleWith :stiffnessReq . }.
+
+{ :carbonFrame :compatibleWith :stiffnessReq . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r2 :integrates :carbonFrame . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "opt"; pe:value :carbonFrame ],
+    [ pe:var "req"; pe:value :stiffnessReq ],
+    [ pe:var "rev"; pe:value :r2 ];
+  pe:uses
+    { :r2 :inheritsRequirement :stiffnessReq . },
+    { :r2 :considers :carbonFrame . },
+    { :carbonFrame :compatibleWith :stiffnessReq . }.
+
+{ :r2 :preserves :assemblyReq . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "opt"; pe:value :carbonFrame ],
+    [ pe:var "req"; pe:value :assemblyReq ],
+    [ pe:var "rev"; pe:value :r2 ];
+  pe:uses
+    { :r2 :inheritsRequirement :assemblyReq . },
+    { :r2 :considers :carbonFrame . },
+    { :carbonFrame :compatibleWith :assemblyReq . }.
+
+{ :carbonFrame :compatibleWith :assemblyReq . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r2 :satisfies :stiffnessReq . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "req"; pe:value :stiffnessReq ],
+    [ pe:var "rev"; pe:value :r2 ];
+  pe:uses { :r2 :preserves :stiffnessReq . }.
+
+{ :r2 :realizes :carbonFrame . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "opt"; pe:value :carbonFrame ],
+    [ pe:var "rev"; pe:value :r2 ];
+  pe:uses { :r2 :integrates :carbonFrame . }.
+
+{ :r2 :satisfies :assemblyReq . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "req"; pe:value :assemblyReq ],
+    [ pe:var "rev"; pe:value :r2 ];
+  pe:uses { :r2 :preserves :assemblyReq . }.
+
+{ :r3 :inheritsRequirement :stiffnessReq . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "earlier"; pe:value :r2 ],
+    [ pe:var "later"; pe:value :r3 ],
+    [ pe:var "req"; pe:value :stiffnessReq ];
+  pe:uses
+    { :r3 :derivesFrom :r2 . },
+    { :r2 :satisfies :stiffnessReq . }.
+
+{ :r3 :derivesFrom :r2 . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r2 :achieves :approvedBaseline . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "opt"; pe:value :carbonFrame ],
+    [ pe:var "rev"; pe:value :r2 ];
+  pe:uses { :r2 :realizes :carbonFrame . }.
+
+{ :r2 :availableForFutureIteration :yes . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "opt"; pe:value :carbonFrame ],
+    [ pe:var "rev"; pe:value :r2 ];
+  pe:uses { :r2 :realizes :carbonFrame . }.
+
+{ :r3 :inheritsRequirement :assemblyReq . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "earlier"; pe:value :r2 ],
+    [ pe:var "later"; pe:value :r3 ],
+    [ pe:var "req"; pe:value :assemblyReq ];
+  pe:uses
+    { :r3 :derivesFrom :r2 . },
+    { :r2 :satisfies :assemblyReq . }.
+
+{ :r2 :status :approvedBaseline . }
+  pe:rule 7;
+  pe:binding [ pe:var "rev"; pe:value :r2 ];
+  pe:uses { :r2 :achieves :approvedBaseline . }.
+
+{ :r3 :preserves :assemblyReq . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "opt"; pe:value :ribbedHousing ],
+    [ pe:var "req"; pe:value :assemblyReq ],
+    [ pe:var "rev"; pe:value :r3 ];
+  pe:uses
+    { :r3 :inheritsRequirement :assemblyReq . },
+    { :r3 :considers :ribbedHousing . },
+    { :ribbedHousing :compatibleWith :assemblyReq . }.
+
+{ :ribbedHousing :compatibleWith :assemblyReq . }
+  pe:fact "engineering-becoming.n3".
+
+{ :r3 :integrates :ribbedHousing . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "opt"; pe:value :ribbedHousing ],
+    [ pe:var "req"; pe:value :assemblyReq ],
+    [ pe:var "rev"; pe:value :r3 ];
+  pe:uses
+    { :r3 :inheritsRequirement :assemblyReq . },
+    { :r3 :considers :ribbedHousing . },
+    { :ribbedHousing :compatibleWith :assemblyReq . }.
+
+{ :r3 :satisfies :assemblyReq . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "req"; pe:value :assemblyReq ],
+    [ pe:var "rev"; pe:value :r3 ];
+  pe:uses { :r3 :preserves :assemblyReq . }.
+
+{ :r3 :realizes :ribbedHousing . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "opt"; pe:value :ribbedHousing ],
+    [ pe:var "rev"; pe:value :r3 ];
+  pe:uses { :r3 :integrates :ribbedHousing . }.
+
+{ :r3 :achieves :approvedBaseline . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "opt"; pe:value :ribbedHousing ],
+    [ pe:var "rev"; pe:value :r3 ];
+  pe:uses { :r3 :realizes :ribbedHousing . }.
+
+{ :r3 :availableForFutureIteration :yes . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "opt"; pe:value :ribbedHousing ],
+    [ pe:var "rev"; pe:value :r3 ];
+  pe:uses { :r3 :realizes :ribbedHousing . }.
+
+{ :r3 :status :approvedBaseline . }
+  pe:rule 7;
+  pe:binding [ pe:var "rev"; pe:value :r3 ];
+  pe:uses { :r3 :achieves :approvedBaseline . }.
