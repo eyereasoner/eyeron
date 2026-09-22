@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, ancestor(_0, _1), ['X' = _0, 'Y' = _1]).
 result(1, complete, 4).
 answer(1, ['X' = alice, 'Y' = bob]).

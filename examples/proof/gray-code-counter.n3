@@ -6,12 +6,12 @@
 
 { ((1 1 1 1 1 1 1 1 1) (0 0 0)) :isgcc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . } pe:why {
   { ((1 1 1 1 1 1 1 1 1) (0 0 0)) :isgcc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 61 ];
+    pe:rule 8;
     pe:binding [ pe:var "Q"; pe:value ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) ];
     pe:uses { ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }.
 
   { ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 53 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "Cc"; pe:value (1 1 1 1 1 1 1 1 1) ],
@@ -27,13 +27,13 @@
       { ((1 1 1 1 1 1 1 1) (0 0 1)) :testgcc ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }.
 
   { (1 1 1 1 1 1 1 1 1) list:firstRest (1 (1 1 1 1 1 1 1 1)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) list:firstRest ((0 0 1) ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (1 (0 0 0)) :gcc (0 0 1) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 43 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "D1"; pe:value 0 ],
@@ -53,7 +53,7 @@
       { (1 1 0) :dff 1 . }.
 
   { (0 0 0) :netb (0 0) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 33 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "A"; pe:value 0 ],
       [ pe:var "B"; pe:value 0 ],
@@ -75,22 +75,22 @@
       { (0 0) :or 0 . }.
 
   { (0 0) :and 0 . }
-    pe:by [ pe:fact "gray-code-counter.n3"; pe:line 9 ].
+    pe:fact "gray-code-counter.n3".
 
   { 0 :inv 1 . }
-    pe:by [ pe:fact "gray-code-counter.n3"; pe:line 19 ].
+    pe:fact "gray-code-counter.n3".
 
   { (0 1) :and 0 . }
-    pe:by [ pe:fact "gray-code-counter.n3"; pe:line 10 ].
+    pe:fact "gray-code-counter.n3".
 
   { (1 0) :and 0 . }
-    pe:by [ pe:fact "gray-code-counter.n3"; pe:line 11 ].
+    pe:fact "gray-code-counter.n3".
 
   { (0 0) :or 0 . }
-    pe:by [ pe:fact "gray-code-counter.n3"; pe:line 14 ].
+    pe:fact "gray-code-counter.n3".
 
   { (0 0) :neta 1 . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 25 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "A"; pe:value 0 ],
       [ pe:var "B"; pe:value 0 ],
@@ -107,25 +107,25 @@
       { (0 1) :or 1 . }.
 
   { (1 1) :and 1 . }
-    pe:by [ pe:fact "gray-code-counter.n3"; pe:line 12 ].
+    pe:fact "gray-code-counter.n3".
 
   { (0 1) :or 1 . }
-    pe:by [ pe:fact "gray-code-counter.n3"; pe:line 15 ].
+    pe:fact "gray-code-counter.n3".
 
   { (0 1 0) :dff 0 . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 23 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "D"; pe:value 0 ],
       [ pe:var "Q"; pe:value 0 ].
 
   { (1 1 0) :dff 1 . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 23 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "D"; pe:value 1 ],
       [ pe:var "Q"; pe:value 0 ].
 
   { ((1 1 1 1 1 1 1 1) (0 0 1)) :testgcc ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 53 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "Cc"; pe:value (1 1 1 1 1 1 1 1) ],
@@ -141,13 +141,13 @@
       { ((1 1 1 1 1 1 1) (0 1 1)) :testgcc ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }.
 
   { (1 1 1 1 1 1 1 1) list:firstRest (1 (1 1 1 1 1 1 1)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) list:firstRest ((0 1 1) ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (1 (0 0 1)) :gcc (0 1 1) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 43 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "D1"; pe:value 0 ],
@@ -167,7 +167,7 @@
       { (1 1 1) :dff 1 . }.
 
   { (0 0 1) :netb (0 1) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 33 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "A"; pe:value 0 ],
       [ pe:var "B"; pe:value 0 ],
@@ -189,16 +189,16 @@
       { (0 1) :or 1 . }.
 
   { 1 :inv 0 . }
-    pe:by [ pe:fact "gray-code-counter.n3"; pe:line 20 ].
+    pe:fact "gray-code-counter.n3".
 
   { (1 1 1) :dff 1 . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 23 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "D"; pe:value 1 ],
       [ pe:var "Q"; pe:value 1 ].
 
   { ((1 1 1 1 1 1 1) (0 1 1)) :testgcc ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 53 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "Cc"; pe:value (1 1 1 1 1 1 1) ],
@@ -214,13 +214,13 @@
       { ((1 1 1 1 1 1) (0 1 0)) :testgcc ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }.
 
   { (1 1 1 1 1 1 1) list:firstRest (1 (1 1 1 1 1 1)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) list:firstRest ((0 1 0) ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (1 (0 1 1)) :gcc (0 1 0) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 43 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "D1"; pe:value 0 ],
@@ -240,7 +240,7 @@
       { (0 1 1) :dff 0 . }.
 
   { (0 1 1) :netb (0 1) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 33 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "A"; pe:value 0 ],
       [ pe:var "B"; pe:value 1 ],
@@ -262,7 +262,7 @@
       { (0 1) :or 1 . }.
 
   { (0 1) :neta 0 . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 25 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "A"; pe:value 0 ],
       [ pe:var "B"; pe:value 1 ],
@@ -279,13 +279,13 @@
       { (0 0) :or 0 . }.
 
   { (0 1 1) :dff 0 . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 23 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "D"; pe:value 0 ],
       [ pe:var "Q"; pe:value 1 ].
 
   { ((1 1 1 1 1 1) (0 1 0)) :testgcc ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 53 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "Cc"; pe:value (1 1 1 1 1 1) ],
@@ -301,13 +301,13 @@
       { ((1 1 1 1 1) (1 1 0)) :testgcc ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }.
 
   { (1 1 1 1 1 1) list:firstRest (1 (1 1 1 1 1)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) list:firstRest ((1 1 0) ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (1 (0 1 0)) :gcc (1 1 0) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 43 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "D1"; pe:value 1 ],
@@ -327,7 +327,7 @@
       { (0 1 0) :dff 0 . }.
 
   { (0 1 0) :netb (1 1) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 33 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "A"; pe:value 0 ],
       [ pe:var "B"; pe:value 1 ],
@@ -349,10 +349,10 @@
       { (1 0) :or 1 . }.
 
   { (1 0) :or 1 . }
-    pe:by [ pe:fact "gray-code-counter.n3"; pe:line 16 ].
+    pe:fact "gray-code-counter.n3".
 
   { ((1 1 1 1 1) (1 1 0)) :testgcc ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 53 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "Cc"; pe:value (1 1 1 1 1) ],
@@ -368,13 +368,13 @@
       { ((1 1 1 1) (1 1 1)) :testgcc ((1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }.
 
   { (1 1 1 1 1) list:firstRest (1 (1 1 1 1)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) list:firstRest ((1 1 1) ((1 0 1) (1 0 0) (0 0 0) (0 0 1))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (1 (1 1 0)) :gcc (1 1 1) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 43 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "D1"; pe:value 1 ],
@@ -394,7 +394,7 @@
       { (1 1 0) :dff 1 . }.
 
   { (1 1 0) :netb (1 1) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 33 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "A"; pe:value 1 ],
       [ pe:var "B"; pe:value 1 ],
@@ -416,7 +416,7 @@
       { (1 0) :or 1 . }.
 
   { (1 1) :neta 1 . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 25 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "A"; pe:value 1 ],
       [ pe:var "B"; pe:value 1 ],
@@ -433,7 +433,7 @@
       { (1 0) :or 1 . }.
 
   { ((1 1 1 1) (1 1 1)) :testgcc ((1 0 1) (1 0 0) (0 0 0) (0 0 1)) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 53 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "Cc"; pe:value (1 1 1 1) ],
@@ -449,13 +449,13 @@
       { ((1 1 1) (1 0 1)) :testgcc ((1 0 0) (0 0 0) (0 0 1)) . }.
 
   { (1 1 1 1) list:firstRest (1 (1 1 1)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { ((1 0 1) (1 0 0) (0 0 0) (0 0 1)) list:firstRest ((1 0 1) ((1 0 0) (0 0 0) (0 0 1))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (1 (1 1 1)) :gcc (1 0 1) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 43 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "D1"; pe:value 1 ],
@@ -475,7 +475,7 @@
       { (1 1 1) :dff 1 . }.
 
   { (1 1 1) :netb (1 0) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 33 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "A"; pe:value 1 ],
       [ pe:var "B"; pe:value 1 ],
@@ -497,7 +497,7 @@
       { (0 0) :or 0 . }.
 
   { ((1 1 1) (1 0 1)) :testgcc ((1 0 0) (0 0 0) (0 0 1)) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 53 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "Cc"; pe:value (1 1 1) ],
@@ -513,13 +513,13 @@
       { ((1 1) (1 0 0)) :testgcc ((0 0 0) (0 0 1)) . }.
 
   { (1 1 1) list:firstRest (1 (1 1)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { ((1 0 0) (0 0 0) (0 0 1)) list:firstRest ((1 0 0) ((0 0 0) (0 0 1))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (1 (1 0 1)) :gcc (1 0 0) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 43 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "D1"; pe:value 1 ],
@@ -539,7 +539,7 @@
       { (0 1 1) :dff 0 . }.
 
   { (1 0 1) :netb (1 0) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 33 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "A"; pe:value 1 ],
       [ pe:var "B"; pe:value 0 ],
@@ -561,7 +561,7 @@
       { (0 0) :or 0 . }.
 
   { (1 0) :neta 0 . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 25 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "A"; pe:value 1 ],
       [ pe:var "B"; pe:value 0 ],
@@ -578,7 +578,7 @@
       { (0 0) :or 0 . }.
 
   { ((1 1) (1 0 0)) :testgcc ((0 0 0) (0 0 1)) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 53 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "Cc"; pe:value (1 1) ],
@@ -594,13 +594,13 @@
       { ((1) (0 0 0)) :testgcc ((0 0 1)) . }.
 
   { (1 1) list:firstRest (1 (1)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { ((0 0 0) (0 0 1)) list:firstRest ((0 0 0) ((0 0 1))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (1 (1 0 0)) :gcc (0 0 0) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 43 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "D1"; pe:value 0 ],
@@ -620,7 +620,7 @@
       { (0 1 0) :dff 0 . }.
 
   { (1 0 0) :netb (0 0) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 33 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "A"; pe:value 1 ],
       [ pe:var "B"; pe:value 0 ],
@@ -642,7 +642,7 @@
       { (0 0) :or 0 . }.
 
   { ((1) (0 0 0)) :testgcc ((0 0 1)) . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 53 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "C"; pe:value 1 ],
       [ pe:var "Cc"; pe:value (1) ],
@@ -658,12 +658,12 @@
       { (() (0 0 1)) :testgcc () . }.
 
   { (1) list:firstRest (1 ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { ((0 0 1)) list:firstRest ((0 0 1) ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (() (0 0 1)) :testgcc () . }
-    pe:by [ pe:rule "gray-code-counter.n3"; pe:line 51 ];
+    pe:rule 6;
     pe:binding [ pe:var "S"; pe:value (0 0 1) ].
 }.

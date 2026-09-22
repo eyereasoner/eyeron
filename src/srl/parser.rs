@@ -26,8 +26,8 @@ pub fn parse_sparql_rl(input: &str, base_iri: Option<&str>) -> Result<SparqlRlPr
     parse_sparql_rl_with_source(input, base_iri, None)
 }
 
-/// As `parse_sparql_rl`, but also stamps each rule's `source` (used only
-/// for `--proof` output's `pe:rule "label"; pe:line N`) with `source_label`
+/// As `parse_sparql_rl`, but also stamps each rule's `source` (used to
+/// identify a rule in `--proof` output) with `source_label`
 /// and the rule's own line number. A plain `parse_sparql_rl` call (no
 /// label) leaves every rule's `source` as `None`, matching
 /// `n3::parser::parse_n3`'s own "labels are opt-in" convention.
@@ -249,12 +249,10 @@ impl Parser {
     }
 
     /// As `parse_triples_block` for a `DATA {...}` block, but also returns
-    /// each raw triple's own top-level statement's starting offset (used
-    /// for `--proof`'s per-fact `pe:by [pe:fact "label"; pe:line N]`). A
+    /// each raw triple's own top-level statement's starting offset, which
+    /// identifies where a `--proof` step's `pe:fact` came from. A
     /// `;`/`,`-grouped statement's several triples all share their
-    /// statement's own start line -- a reasonable approximation, matching
-    /// how "one fact, one line" already breaks down for genuinely
-    /// multi-line facts elsewhere in this proof format.
+    /// statement's own start line.
     fn parse_data_triples_block(&mut self) -> Result<Vec<(RawTriple, usize)>> {
         let mut triples = Vec::new();
         while !self.match_kind(&TokenKind::RBrace) {

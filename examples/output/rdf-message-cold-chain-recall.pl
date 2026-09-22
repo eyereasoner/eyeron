@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, already_committed(_0), ['M' = _0]).
 result(1, complete, 3).
 answer(1, ['M' = obs040]).
@@ -23,9 +23,12 @@ answer(3, ['M' = obs048]).
 query(4, raw_conflict(_0), ['Batch' = _0]).
 result(4, complete, 1).
 answer(4, ['Batch' = batchA]).
-query(5, preferred_repair(_0, _1, _2, _3), ['M' = _0, 'Temp' = _1, 'Priority' = _2, 'Source' = _3]).
+query(5,
+      preferred_repair(_0, _1, _2, _3),
+      ['M' = _0, 'Temp' = _1, 'Priority' = _2, 'Source' = _3]).
 result(5, complete, 1).
-answer(5, ['M' = obs047, 'Temp' = 118, 'Priority' = 5, 'Source' = "calibrated-cold-chain-logger"]).
+answer(5,
+       ['M' = obs047, 'Temp' = 118, 'Priority' = 5, 'Source' = "calibrated-cold-chain-logger"]).
 query(6, quarantine_decision(_0), ['Text' = _0]).
 result(6, complete, 1).
 answer(6, ['Text' = "quarantine batchA, notify QA, and hold shipment"]).

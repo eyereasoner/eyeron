@@ -45,7 +45,7 @@
 
 { :o1 :ingresses :red . } pe:why {
   { :o1 :ingresses :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 134 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o1 ];
@@ -54,15 +54,15 @@
       { :red a :PurePotential . }.
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :red a :PurePotential . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 25 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o1 :ingresses :warm . } pe:why {
   { :o1 :ingresses :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 134 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o1 ];
@@ -71,15 +71,15 @@
       { :warm a :PurePotential . }.
 
   { :o1 :realizes :warm . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :warm a :PurePotential . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 26 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :mayRealize :bright . } pe:why {
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -89,15 +89,15 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :mayRealize :dark . } pe:why {
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -107,15 +107,15 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :inherits :red . } pe:why {
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -125,15 +125,15 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :inherits :warm . } pe:why {
   { :o2 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :warm ],
@@ -143,59 +143,59 @@
       { :o1 :realizes :warm . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :warm . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o1 :status :objectivelyAvailable . } pe:why {
   { :o1 :status :objectivelyAvailable . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 148 ];
+    pe:rule 7;
     pe:binding [ pe:var "o"; pe:value :o1 ];
     pe:uses { :o1 :achieves :satisfaction . }.
 
   { :o1 :achieves :satisfaction . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o1 :availableForFuturePrehension :yes . } pe:why {
   { :o1 :availableForFuturePrehension :yes . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 148 ];
+    pe:rule 7;
     pe:binding [ pe:var "o"; pe:value :o1 ];
     pe:uses { :o1 :achieves :satisfaction . }.
 
   { :o1 :achieves :satisfaction . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :becomesFrom :o1 . } pe:why {
   { :o2 :becomesFrom :o1 . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 64 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "later"; pe:value :o2 ];
     pe:uses { :o2 :prehends :o1 . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :becomesFrom :o2 . } pe:why {
   { :o3 :becomesFrom :o2 . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 64 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "later"; pe:value :o3 ];
     pe:uses { :o3 :prehends :o2 . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :integrates :red . } pe:why {
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -205,7 +205,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -215,13 +215,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -231,15 +231,15 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :integrates :bright . } pe:why {
   { :o2 :integrates :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -249,7 +249,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -259,13 +259,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -275,15 +275,15 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :achieves :satisfaction . } pe:why {
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -293,7 +293,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -303,13 +303,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -319,15 +319,15 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :integrates :warm . } pe:why {
   { :o2 :integrates :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -337,7 +337,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :warm ],
@@ -347,13 +347,13 @@
       { :o1 :realizes :warm . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :warm . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -363,15 +363,15 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :realizes :red . } pe:why {
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -380,7 +380,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -390,7 +390,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -400,13 +400,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -416,13 +416,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -434,7 +434,7 @@
 
 { :o2 :realizes :bright . } pe:why {
   { :o2 :realizes :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ];
@@ -443,7 +443,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -453,7 +453,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -463,13 +463,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -479,13 +479,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -497,7 +497,7 @@
 
 { :o2 :realizes :warm . } pe:why {
   { :o2 :realizes :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o2 ];
@@ -506,7 +506,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -516,7 +516,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :warm ],
@@ -526,13 +526,13 @@
       { :o1 :realizes :warm . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :warm . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -542,13 +542,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -558,7 +558,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -568,17 +568,17 @@
       { :o1 :realizes :red . }.
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :status :objectivelyAvailable . } pe:why {
   { :o2 :status :objectivelyAvailable . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 148 ];
+    pe:rule 7;
     pe:binding [ pe:var "o"; pe:value :o2 ];
     pe:uses { :o2 :achieves :satisfaction . }.
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -588,7 +588,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -598,13 +598,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -614,20 +614,20 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :availableForFuturePrehension :yes . } pe:why {
   { :o2 :availableForFuturePrehension :yes . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 148 ];
+    pe:rule 7;
     pe:binding [ pe:var "o"; pe:value :o2 ];
     pe:uses { :o2 :achieves :satisfaction . }.
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -637,7 +637,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -647,13 +647,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -663,15 +663,15 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :inherits :red . } pe:why {
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -681,10 +681,10 @@
       { :o2 :realizes :red . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -693,7 +693,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -703,7 +703,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -713,13 +713,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -729,13 +729,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -747,7 +747,7 @@
 
 { :o2 :ingresses :red . } pe:why {
   { :o2 :ingresses :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 134 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -756,7 +756,7 @@
       { :red a :PurePotential . }.
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -765,7 +765,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -775,7 +775,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -785,13 +785,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -801,13 +801,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -817,12 +817,12 @@
       { :o2 :mayRealize :bright . }.
 
   { :red a :PurePotential . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 25 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :inherits :bright . } pe:why {
   { :o3 :inherits :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :bright ],
@@ -832,10 +832,10 @@
       { :o2 :realizes :bright . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ];
@@ -844,7 +844,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -854,7 +854,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -864,13 +864,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -880,13 +880,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -898,7 +898,7 @@
 
 { :o2 :ingresses :bright . } pe:why {
   { :o2 :ingresses :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 134 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ];
@@ -907,7 +907,7 @@
       { :bright a :PurePotential . }.
 
   { :o2 :realizes :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ];
@@ -916,7 +916,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -926,7 +926,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -936,13 +936,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -952,13 +952,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -968,12 +968,12 @@
       { :o2 :mayRealize :bright . }.
 
   { :bright a :PurePotential . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 27 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :inherits :warm . } pe:why {
   { :o3 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :warm ],
@@ -983,10 +983,10 @@
       { :o2 :realizes :warm . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o2 ];
@@ -995,7 +995,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1005,7 +1005,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :warm ],
@@ -1015,13 +1015,13 @@
       { :o1 :realizes :warm . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :warm . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -1031,13 +1031,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1047,7 +1047,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -1057,12 +1057,12 @@
       { :o1 :realizes :red . }.
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o2 :ingresses :warm . } pe:why {
   { :o2 :ingresses :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 134 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o2 ];
@@ -1071,7 +1071,7 @@
       { :warm a :PurePotential . }.
 
   { :o2 :realizes :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o2 ];
@@ -1080,7 +1080,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1090,7 +1090,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :warm ],
@@ -1100,13 +1100,13 @@
       { :o1 :realizes :warm . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :warm . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -1116,13 +1116,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1132,7 +1132,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -1142,15 +1142,15 @@
       { :o1 :realizes :red . }.
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :warm a :PurePotential . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 26 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :integrates :red . } pe:why {
   { :o3 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -1160,7 +1160,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -1170,10 +1170,10 @@
       { :o2 :realizes :red . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -1182,7 +1182,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1192,7 +1192,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -1202,13 +1202,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -1218,13 +1218,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1234,7 +1234,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -1244,15 +1244,15 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :integrates :dark . } pe:why {
   { :o3 :integrates :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -1262,7 +1262,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -1272,10 +1272,10 @@
       { :o2 :realizes :red . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -1284,7 +1284,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1294,7 +1294,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -1304,13 +1304,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -1320,13 +1320,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1336,7 +1336,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -1346,15 +1346,15 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :achieves :satisfaction . } pe:why {
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -1364,7 +1364,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -1374,10 +1374,10 @@
       { :o2 :realizes :red . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -1386,7 +1386,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1396,7 +1396,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -1406,13 +1406,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -1422,13 +1422,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1438,7 +1438,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -1448,15 +1448,15 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :integrates :bright . } pe:why {
   { :o3 :integrates :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -1466,7 +1466,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :bright ],
@@ -1476,10 +1476,10 @@
       { :o2 :realizes :bright . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ];
@@ -1488,7 +1488,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1498,7 +1498,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -1508,13 +1508,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -1524,13 +1524,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1540,7 +1540,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -1550,15 +1550,15 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :integrates :warm . } pe:why {
   { :o3 :integrates :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -1568,7 +1568,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :warm ],
@@ -1578,10 +1578,10 @@
       { :o2 :realizes :warm . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o2 ];
@@ -1590,7 +1590,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1600,7 +1600,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :warm ],
@@ -1610,13 +1610,13 @@
       { :o1 :realizes :warm . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :warm . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -1626,13 +1626,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1642,7 +1642,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -1652,10 +1652,10 @@
       { :o1 :realizes :red . }.
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -1665,15 +1665,15 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :realizes :red . } pe:why {
   { :o3 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o3 ];
@@ -1682,7 +1682,7 @@
       { :o3 :achieves :satisfaction . }.
 
   { :o3 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -1692,7 +1692,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -1702,10 +1702,10 @@
       { :o2 :realizes :red . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -1714,7 +1714,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1724,7 +1724,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -1734,13 +1734,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -1750,13 +1750,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1766,7 +1766,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -1776,13 +1776,13 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -1794,7 +1794,7 @@
 
 { :o3 :realizes :dark . } pe:why {
   { :o3 :realizes :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ];
@@ -1803,7 +1803,7 @@
       { :o3 :achieves :satisfaction . }.
 
   { :o3 :integrates :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -1813,7 +1813,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -1823,10 +1823,10 @@
       { :o2 :realizes :red . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -1835,7 +1835,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1845,7 +1845,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -1855,13 +1855,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -1871,13 +1871,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1887,7 +1887,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -1897,13 +1897,13 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -1915,7 +1915,7 @@
 
 { :o3 :realizes :bright . } pe:why {
   { :o3 :realizes :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o3 ];
@@ -1924,7 +1924,7 @@
       { :o3 :achieves :satisfaction . }.
 
   { :o3 :integrates :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -1934,7 +1934,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :bright ],
@@ -1944,10 +1944,10 @@
       { :o2 :realizes :bright . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ];
@@ -1956,7 +1956,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -1966,7 +1966,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -1976,13 +1976,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -1992,13 +1992,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2008,7 +2008,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -2018,13 +2018,13 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2034,7 +2034,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -2044,7 +2044,7 @@
       { :o2 :realizes :red . }.
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -2053,7 +2053,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2065,7 +2065,7 @@
 
 { :o3 :realizes :warm . } pe:why {
   { :o3 :realizes :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o3 ];
@@ -2074,7 +2074,7 @@
       { :o3 :achieves :satisfaction . }.
 
   { :o3 :integrates :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2084,7 +2084,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :warm ],
@@ -2094,10 +2094,10 @@
       { :o2 :realizes :warm . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o2 ];
@@ -2106,7 +2106,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2116,7 +2116,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :warm ],
@@ -2126,13 +2126,13 @@
       { :o1 :realizes :warm . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :warm . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -2142,13 +2142,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2158,7 +2158,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -2168,10 +2168,10 @@
       { :o1 :realizes :red . }.
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -2181,13 +2181,13 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2197,7 +2197,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -2207,7 +2207,7 @@
       { :o2 :realizes :red . }.
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -2216,7 +2216,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2228,12 +2228,12 @@
 
 { :o3 :status :objectivelyAvailable . } pe:why {
   { :o3 :status :objectivelyAvailable . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 148 ];
+    pe:rule 7;
     pe:binding [ pe:var "o"; pe:value :o3 ];
     pe:uses { :o3 :achieves :satisfaction . }.
 
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2243,7 +2243,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -2253,10 +2253,10 @@
       { :o2 :realizes :red . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -2265,7 +2265,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2275,7 +2275,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -2285,13 +2285,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -2301,13 +2301,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2317,7 +2317,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -2327,20 +2327,20 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :availableForFuturePrehension :yes . } pe:why {
   { :o3 :availableForFuturePrehension :yes . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 148 ];
+    pe:rule 7;
     pe:binding [ pe:var "o"; pe:value :o3 ];
     pe:uses { :o3 :achieves :satisfaction . }.
 
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2350,7 +2350,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -2360,10 +2360,10 @@
       { :o2 :realizes :red . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -2372,7 +2372,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2382,7 +2382,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -2392,13 +2392,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -2408,13 +2408,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2424,7 +2424,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -2434,15 +2434,15 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :ingresses :red . } pe:why {
   { :o3 :ingresses :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 134 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o3 ];
@@ -2451,7 +2451,7 @@
       { :red a :PurePotential . }.
 
   { :o3 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o3 ];
@@ -2460,7 +2460,7 @@
       { :o3 :achieves :satisfaction . }.
 
   { :o3 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2470,7 +2470,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -2480,10 +2480,10 @@
       { :o2 :realizes :red . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -2492,7 +2492,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2502,7 +2502,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -2512,13 +2512,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -2528,13 +2528,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2544,7 +2544,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -2554,13 +2554,13 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2570,12 +2570,12 @@
       { :o3 :mayRealize :dark . }.
 
   { :red a :PurePotential . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 25 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :ingresses :dark . } pe:why {
   { :o3 :ingresses :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 134 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "form"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ];
@@ -2584,7 +2584,7 @@
       { :dark a :PurePotential . }.
 
   { :o3 :realizes :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ];
@@ -2593,7 +2593,7 @@
       { :o3 :achieves :satisfaction . }.
 
   { :o3 :integrates :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2603,7 +2603,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -2613,10 +2613,10 @@
       { :o2 :realizes :red . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -2625,7 +2625,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2635,7 +2635,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -2645,13 +2645,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -2661,13 +2661,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2677,7 +2677,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -2687,13 +2687,13 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2703,12 +2703,12 @@
       { :o3 :mayRealize :dark . }.
 
   { :dark a :PurePotential . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 28 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :ingresses :bright . } pe:why {
   { :o3 :ingresses :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 134 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o3 ];
@@ -2717,7 +2717,7 @@
       { :bright a :PurePotential . }.
 
   { :o3 :realizes :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o3 ];
@@ -2726,7 +2726,7 @@
       { :o3 :achieves :satisfaction . }.
 
   { :o3 :integrates :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2736,7 +2736,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :bright ],
@@ -2746,10 +2746,10 @@
       { :o2 :realizes :bright . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ];
@@ -2758,7 +2758,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2768,7 +2768,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -2778,13 +2778,13 @@
       { :o1 :realizes :red . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -2794,13 +2794,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2810,7 +2810,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -2820,13 +2820,13 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2836,7 +2836,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -2846,7 +2846,7 @@
       { :o2 :realizes :red . }.
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -2855,7 +2855,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2865,12 +2865,12 @@
       { :o2 :mayRealize :bright . }.
 
   { :bright a :PurePotential . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 27 ].
+    pe:fact "whitehead-becoming.n3".
 }.
 
 { :o3 :ingresses :warm . } pe:why {
   { :o3 :ingresses :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 134 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o3 ];
@@ -2879,7 +2879,7 @@
       { :warm a :PurePotential . }.
 
   { :o3 :realizes :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o3 ];
@@ -2888,7 +2888,7 @@
       { :o3 :achieves :satisfaction . }.
 
   { :o3 :integrates :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -2898,7 +2898,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :warm ],
@@ -2908,10 +2908,10 @@
       { :o2 :realizes :warm . }.
 
   { :o3 :prehends :o2 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :realizes :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :warm ],
       [ pe:var "o"; pe:value :o2 ];
@@ -2920,7 +2920,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2930,7 +2930,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :warm . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :warm ],
@@ -2940,13 +2940,13 @@
       { :o1 :realizes :warm . }.
 
   { :o2 :prehends :o1 . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o1 :realizes :warm . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :mayRealize :bright . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :intensity ],
       [ pe:var "form"; pe:value :bright ],
@@ -2956,13 +2956,13 @@
       { :intensity :lures :bright . }.
 
   { :o2 :subjectiveAim :intensity . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 49 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :intensity :lures :bright . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 37 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o2 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -2972,7 +2972,7 @@
       { :o2 :mayRealize :bright . }.
 
   { :o2 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o1 ],
       [ pe:var "form"; pe:value :red ],
@@ -2982,10 +2982,10 @@
       { :o1 :realizes :red . }.
 
   { :o1 :realizes :red . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 44 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :mayRealize :dark . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 91 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "aim"; pe:value :contrast ],
       [ pe:var "form"; pe:value :dark ],
@@ -2995,13 +2995,13 @@
       { :contrast :lures :dark . }.
 
   { :o3 :subjectiveAim :contrast . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 54 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :contrast :lures :dark . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 38 ].
+    pe:fact "whitehead-becoming.n3".
 
   { :o3 :achieves :satisfaction . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :dark ],
       [ pe:var "o"; pe:value :o3 ],
@@ -3011,7 +3011,7 @@
       { :o3 :mayRealize :dark . }.
 
   { :o3 :inherits :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 77 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "earlier"; pe:value :o2 ],
       [ pe:var "form"; pe:value :red ],
@@ -3021,7 +3021,7 @@
       { :o2 :realizes :red . }.
 
   { :o2 :realizes :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 120 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "form"; pe:value :red ],
       [ pe:var "o"; pe:value :o2 ];
@@ -3030,7 +3030,7 @@
       { :o2 :achieves :satisfaction . }.
 
   { :o2 :integrates :red . }
-    pe:by [ pe:rule "whitehead-becoming.n3"; pe:line 105 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "novelForm"; pe:value :bright ],
       [ pe:var "o"; pe:value :o2 ],
@@ -3040,5 +3040,5 @@
       { :o2 :mayRealize :bright . }.
 
   { :warm a :PurePotential . }
-    pe:by [ pe:fact "whitehead-becoming.n3"; pe:line 26 ].
+    pe:fact "whitehead-becoming.n3".
 }.

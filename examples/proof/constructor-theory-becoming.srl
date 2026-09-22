@@ -22,7 +22,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(:perfectRestoreTask :status :impossibleTask)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "principle"; pe:value :noMiraclePrinciple ],
       [ pe:var "task"; pe:value :perfectRestoreTask ];
@@ -30,7 +30,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(:writeTask :status :possibleTask)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "constructor"; pe:value :writer ],
       [ pe:var "task"; pe:value :writeTask ];
@@ -38,7 +38,7 @@ DATA {
 
   _:step3
     rdf:reifies <<(:writer :retainsCapacityFor :writeTask)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "constructor"; pe:value :writer ],
       [ pe:var "task"; pe:value :writeTask ];
@@ -46,7 +46,7 @@ DATA {
 
   _:step4
     rdf:reifies <<(:stabilizeTask :status :possibleTask)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "constructor"; pe:value :stabilizer ],
       [ pe:var "task"; pe:value :stabilizeTask ];
@@ -54,7 +54,7 @@ DATA {
 
   _:step5
     rdf:reifies <<(:stabilizer :retainsCapacityFor :stabilizeTask)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "constructor"; pe:value :stabilizer ],
       [ pe:var "task"; pe:value :stabilizeTask ];
@@ -62,7 +62,7 @@ DATA {
 
   _:step6
     rdf:reifies <<(:v1 :availableForFurtherTask :yes)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "attr"; pe:value :blankMemory ],
       [ pe:var "next"; pe:value :v1 ];
@@ -70,7 +70,7 @@ DATA {
 
   _:step7
     rdf:reifies <<(:damaged1 :availableForFurtherTask :yes)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "attr"; pe:value :damagedMemory ],
       [ pe:var "next"; pe:value :damaged1 ];
@@ -78,7 +78,7 @@ DATA {
 
   _:step8
     rdf:reifies <<(:v2 :canUndergo :writeTask)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "in"; pe:value :blankMemory ],
       [ pe:var "next"; pe:value :v2 ],
@@ -93,7 +93,7 @@ DATA {
 
   _:step9
     rdf:reifies <<(:v2 :becomesFrom :v1)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "in"; pe:value :blankMemory ],
       [ pe:var "next"; pe:value :v2 ],
@@ -108,7 +108,7 @@ DATA {
 
   _:step10
     rdf:reifies <<(:vBad :status :blockedTransition)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "next"; pe:value :vBad ],
       [ pe:var "task"; pe:value :perfectRestoreTask ];
@@ -118,7 +118,7 @@ DATA {
 
   _:step11
     rdf:reifies <<(:v2 :hasAttribute :encodedMemory)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "next"; pe:value :v2 ],
       [ pe:var "out"; pe:value :encodedMemory ],
@@ -129,7 +129,7 @@ DATA {
 
   _:step12
     rdf:reifies <<(:v3 :canUndergo :stabilizeTask)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "in"; pe:value :encodedMemory ],
       [ pe:var "next"; pe:value :v3 ],
@@ -144,7 +144,7 @@ DATA {
 
   _:step13
     rdf:reifies <<(:v3 :becomesFrom :v2)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "in"; pe:value :encodedMemory ],
       [ pe:var "next"; pe:value :v3 ],
@@ -159,7 +159,7 @@ DATA {
 
   _:step14
     rdf:reifies <<(:v2 :availableForFurtherTask :yes)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "attr"; pe:value :encodedMemory ],
       [ pe:var "next"; pe:value :v2 ];
@@ -167,7 +167,7 @@ DATA {
 
   _:step15
     rdf:reifies <<(:v3 :hasAttribute :stabilizedMemory)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "next"; pe:value :v3 ],
       [ pe:var "out"; pe:value :stabilizedMemory ],
@@ -178,7 +178,7 @@ DATA {
 
   _:step16
     rdf:reifies <<(:v3 :availableForFurtherTask :yes)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "attr"; pe:value :stabilizedMemory ],
       [ pe:var "next"; pe:value :v3 ];

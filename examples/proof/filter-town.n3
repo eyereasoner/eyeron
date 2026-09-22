@@ -7,7 +7,7 @@
 
 { :town2 a :largeTown . } pe:why {
   { :town2 a :largeTown . }
-    pe:by [ pe:rule "filter-town.n3"; pe:line 11 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "p"; pe:value 2000 ],
       [ pe:var "x"; pe:value :town2 ];
@@ -16,8 +16,8 @@
       { 2000 math:greaterThan 1500 . }.
 
   { :town2 :population 2000 . }
-    pe:by [ pe:fact "filter-town.n3"; pe:line 9 ].
+    pe:fact "filter-town.n3".
 
   { 2000 math:greaterThan 1500 . }
-    pe:by [ pe:builtin math:greaterThan ].
+    pe:builtin math:greaterThan.
 }.

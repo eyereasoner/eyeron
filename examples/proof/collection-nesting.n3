@@ -7,7 +7,7 @@
 
 { :test :first 1 . } pe:why {
   { :test :first 1 . }
-    pe:by [ pe:rule "collection-nesting.n3"; pe:line 11 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "first"; pe:value 1 ],
       [ pe:var "second"; pe:value (:node :q) ],
@@ -15,12 +15,12 @@
     pe:uses { :root :nested (1 (:node :q) (2)) . }.
 
   { :root :nested (1 (:node :q) (2)) . }
-    pe:by [ pe:fact "collection-nesting.n3"; pe:line 9 ].
+    pe:fact "collection-nesting.n3".
 }.
 
 { :test :secondProperty :q . } pe:why {
   { :test :secondProperty :q . }
-    pe:by [ pe:rule "collection-nesting.n3"; pe:line 12 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "first"; pe:value 1 ],
       [ pe:var "third"; pe:value (2) ],
@@ -28,12 +28,12 @@
     pe:uses { :root :nested (1 (:node :q) (2)) . }.
 
   { :root :nested (1 (:node :q) (2)) . }
-    pe:by [ pe:fact "collection-nesting.n3"; pe:line 9 ].
+    pe:fact "collection-nesting.n3".
 }.
 
 { :test :thirdFirst 2 . } pe:why {
   { :test :thirdFirst 2 . }
-    pe:by [ pe:rule "collection-nesting.n3"; pe:line 13 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "first"; pe:value 1 ],
       [ pe:var "second"; pe:value (:node :q) ],
@@ -41,5 +41,5 @@
     pe:uses { :root :nested (1 (:node :q) (2)) . }.
 
   { :root :nested (1 (:node :q) (2)) . }
-    pe:by [ pe:fact "collection-nesting.n3"; pe:line 9 ].
+    pe:fact "collection-nesting.n3".
 }.

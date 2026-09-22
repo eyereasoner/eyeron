@@ -24,7 +24,8 @@
 use crate::ast::*;
 use super::printing::{term_to_srl, triple_term, triple_to_srl};
 use crate::n3::proof::{
-    collect_prefixes_triple, collect_proof_entries, quoted_string, render_predicate_objects, unique_proofs, vars_in_rule, ProofEntry,
+    collect_prefixes_triple, collect_proof_entries, justification, quoted_string, render_predicate_objects, rule_reference, unique_proofs, vars_in_rule,
+    ProofEntry,
 };
 use crate::n3::reasoner::{DerivedFact, ReasonerResult};
 use std::collections::{BTreeMap, BTreeSet};
@@ -106,7 +107,7 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
         if idx > 0 {
             body.push(String::new());
         }
-        body.push(render_step(id, entry, &fact_to_step, &proof_prefixes));
+        body.push(render_step(id, entry, &fact_to_step, &result.rules, &proof_prefixes));
     }
 
     let mut parts = header;
@@ -129,25 +130,25 @@ fn entry_fact(entry: &ProofEntry) -> &Triple {
     }
 }
 
-fn render_step(id: &str, entry: &ProofEntry, fact_to_step: &BTreeMap<Triple, String>, prefixes: &BTreeMap<String, String>) -> String {
+fn render_step(id: &str, entry: &ProofEntry, fact_to_step: &BTreeMap<Triple, String>, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
     match entry {
-        ProofEntry::Rule(proof) => render_rule_step(id, proof, fact_to_step, prefixes),
+        ProofEntry::Rule(proof) => render_rule_step(id, proof, fact_to_step, rules, prefixes),
         // Collection above never makes a step for a given fact.
         ProofEntry::Fact { fact, .. } => render_step_groups(id, &[("rdf:reifies".to_string(), vec![triple_term(fact, prefixes)])]),
         ProofEntry::Builtin { fact, builtin } => render_step_groups(
             id,
-            &[("rdf:reifies".to_string(), vec![triple_term(fact, prefixes)]), ("pe:builtin".to_string(), vec![term_to_srl(builtin, prefixes, false)])],
+            &[("rdf:reifies".to_string(), vec![triple_term(fact, prefixes)]), justification("builtin", term_to_srl(builtin, prefixes, false))],
         ),
         ProofEntry::Unproven { fact, reason } => render_step_groups(
             id,
-            &[("rdf:reifies".to_string(), vec![triple_term(fact, prefixes)]), ("pe:unproven".to_string(), vec![quoted_string(reason)])],
+            &[("rdf:reifies".to_string(), vec![triple_term(fact, prefixes)]), justification("unproven", quoted_string(reason))],
         ),
     }
 }
 
-fn render_rule_step(id: &str, proof: &DerivedFact, fact_to_step: &BTreeMap<Triple, String>, prefixes: &BTreeMap<String, String>) -> String {
+fn render_rule_step(id: &str, proof: &DerivedFact, fact_to_step: &BTreeMap<Triple, String>, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
     let mut groups = vec![("rdf:reifies".to_string(), vec![triple_term(&proof.fact, prefixes)])];
-    push_source_groups(&mut groups, "rule", proof.rule.source.as_ref());
+    groups.push(justification("rule", rule_reference(&proof.rule, rules)));
 
     let bindings = render_binding_items(proof, prefixes);
     if !bindings.is_empty() {
@@ -164,16 +165,6 @@ fn render_rule_step(id: &str, proof: &DerivedFact, fact_to_step: &BTreeMap<Tripl
     }
 
     render_step_groups(id, &groups)
-}
-
-fn push_source_groups(groups: &mut Vec<(String, Vec<String>)>, kind: &str, source: Option<&SourceRef>) {
-    let label = source.map(|s| s.label.clone()).unwrap_or_else(|| "<unknown>".to_string());
-    groups.push((format!("pe:{kind}"), vec![quoted_string(&label)]));
-    if let Some(source) = source {
-        if source.line > 0 {
-            groups.push(("pe:line".to_string(), vec![source.line.to_string()]));
-        }
-    }
 }
 
 fn render_step_groups(id: &str, groups: &[(String, Vec<String>)]) -> String {

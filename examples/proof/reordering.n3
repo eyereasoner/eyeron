@@ -6,7 +6,7 @@
 
 { :test :is true . } pe:why {
   { :test :is true . }
-    pe:by [ pe:rule "reordering.n3"; pe:line 13 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "N1"; pe:value 1 ],
       [ pe:var "N2"; pe:value 1 ],
@@ -20,11 +20,11 @@
       { :Bob :has (:Table 1) . }.
 
   { :Book log:notEqualTo :Table . }
-    pe:by [ pe:builtin log:notEqualTo ].
+    pe:builtin log:notEqualTo.
 
   { :Alice :has (:Book 1) . }
-    pe:by [ pe:fact "reordering.n3"; pe:line 10 ].
+    pe:fact "reordering.n3".
 
   { :Bob :has (:Table 1) . }
-    pe:by [ pe:fact "reordering.n3"; pe:line 11 ].
+    pe:fact "reordering.n3".
 }.

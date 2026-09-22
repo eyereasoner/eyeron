@@ -6,11 +6,11 @@
 
 { :test :is true . } pe:why {
   { :test :is true . }
-    pe:by [ pe:rule "similar.n3"; pe:line 12 ];
+    pe:rule 1;
     pe:uses { :Alice :similar :Bob . }.
 
   { :Alice :similar :Bob . }
-    pe:by [ pe:rule "similar.n3"; pe:line 20 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "A"; pe:value :Alice ],
       [ pe:var "B"; pe:value :Bob ],
@@ -21,8 +21,8 @@
       { :Bob a :Human . }.
 
   { :Alice a :Human . }
-    pe:by [ pe:fact "similar.n3"; pe:line 9 ].
+    pe:fact "similar.n3".
 
   { :Bob a :Human . }
-    pe:by [ pe:fact "similar.n3"; pe:line 10 ].
+    pe:fact "similar.n3".
 }.

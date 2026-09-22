@@ -7,29 +7,29 @@
 
 { :a :reaches :b . } pe:why {
   { :a :reaches :b . }
-    pe:by [ pe:rule "backward-recursion.n3"; pe:line 17 ];
+    pe:rule 3;
     pe:binding [ pe:var "who"; pe:value :b ];
     pe:uses { :a :ancestor :b . }.
 
   { :a :ancestor :b . }
-    pe:by [ pe:rule "backward-recursion.n3"; pe:line 14 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ];
     pe:uses { :a :parent :b . }.
 
   { :a :parent :b . }
-    pe:by [ pe:fact "backward-recursion.n3"; pe:line 10 ].
+    pe:fact "backward-recursion.n3".
 }.
 
 { :a :reaches :c . } pe:why {
   { :a :reaches :c . }
-    pe:by [ pe:rule "backward-recursion.n3"; pe:line 17 ];
+    pe:rule 3;
     pe:binding [ pe:var "who"; pe:value :c ];
     pe:uses { :a :ancestor :c . }.
 
   { :a :ancestor :c . }
-    pe:by [ pe:rule "backward-recursion.n3"; pe:line 15 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -39,27 +39,27 @@
       { :b :ancestor :c . }.
 
   { :a :parent :b . }
-    pe:by [ pe:fact "backward-recursion.n3"; pe:line 10 ].
+    pe:fact "backward-recursion.n3".
 
   { :b :ancestor :c . }
-    pe:by [ pe:rule "backward-recursion.n3"; pe:line 14 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :parent :c . }.
 
   { :b :parent :c . }
-    pe:by [ pe:fact "backward-recursion.n3"; pe:line 11 ].
+    pe:fact "backward-recursion.n3".
 }.
 
 { :a :reaches :d . } pe:why {
   { :a :reaches :d . }
-    pe:by [ pe:rule "backward-recursion.n3"; pe:line 17 ];
+    pe:rule 3;
     pe:binding [ pe:var "who"; pe:value :d ];
     pe:uses { :a :ancestor :d . }.
 
   { :a :ancestor :d . }
-    pe:by [ pe:rule "backward-recursion.n3"; pe:line 15 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -69,10 +69,10 @@
       { :b :ancestor :d . }.
 
   { :a :parent :b . }
-    pe:by [ pe:fact "backward-recursion.n3"; pe:line 10 ].
+    pe:fact "backward-recursion.n3".
 
   { :b :ancestor :d . }
-    pe:by [ pe:rule "backward-recursion.n3"; pe:line 15 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ],
@@ -82,15 +82,15 @@
       { :c :ancestor :d . }.
 
   { :b :parent :c . }
-    pe:by [ pe:fact "backward-recursion.n3"; pe:line 11 ].
+    pe:fact "backward-recursion.n3".
 
   { :c :ancestor :d . }
-    pe:by [ pe:rule "backward-recursion.n3"; pe:line 14 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :d ];
     pe:uses { :c :parent :d . }.
 
   { :c :parent :d . }
-    pe:by [ pe:fact "backward-recursion.n3"; pe:line 12 ].
+    pe:fact "backward-recursion.n3".
 }.

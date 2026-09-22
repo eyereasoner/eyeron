@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, becomes_from(_0, _1), ['Later' = _0, 'Earlier' = _1]).
 result(1, complete, 2).
 answer(1, ['Later' = o2, 'Earlier' = o1]).

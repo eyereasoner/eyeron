@@ -46,7 +46,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(:requirements :finish 2)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "d"; pe:value 2 ],
       [ pe:var "f"; pe:value 2 ];
@@ -54,7 +54,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(:architecture :finish 5)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "d"; pe:value 3 ],
       [ pe:var "f"; pe:value 5 ],
@@ -65,7 +65,7 @@ DATA {
 
   _:step3
     rdf:reifies <<(:architecture :criticalPredecessor :requirements)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "d"; pe:value 3 ],
       [ pe:var "f"; pe:value 5 ],
@@ -76,7 +76,7 @@ DATA {
 
   _:step4
     rdf:reifies <<(:api_design :finish 4)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "d"; pe:value 2 ],
       [ pe:var "f"; pe:value 4 ],
@@ -87,7 +87,7 @@ DATA {
 
   _:step5
     rdf:reifies <<(:api_design :criticalPredecessor :requirements)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "d"; pe:value 2 ],
       [ pe:var "f"; pe:value 4 ],
@@ -98,7 +98,7 @@ DATA {
 
   _:step6
     rdf:reifies <<(:database :finish 9)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "d"; pe:value 4 ],
       [ pe:var "f"; pe:value 9 ],
@@ -109,7 +109,7 @@ DATA {
 
   _:step7
     rdf:reifies <<(:database :criticalPredecessor :architecture)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "d"; pe:value 4 ],
       [ pe:var "f"; pe:value 9 ],
@@ -120,7 +120,7 @@ DATA {
 
   _:step8
     rdf:reifies <<(:auth :finish 8)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "d"; pe:value 3 ],
       [ pe:var "f"; pe:value 8 ],
@@ -131,7 +131,7 @@ DATA {
 
   _:step9
     rdf:reifies <<(:auth :criticalPredecessor :architecture)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "d"; pe:value 3 ],
       [ pe:var "f"; pe:value 8 ],
@@ -142,7 +142,7 @@ DATA {
 
   _:step10
     rdf:reifies <<(:frontend :finish 9)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "d"; pe:value 5 ],
       [ pe:var "f"; pe:value 9 ],
@@ -153,7 +153,7 @@ DATA {
 
   _:step11
     rdf:reifies <<(:frontend :criticalPredecessor :api_design)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "d"; pe:value 5 ],
       [ pe:var "f"; pe:value 9 ],
@@ -164,7 +164,7 @@ DATA {
 
   _:step12
     rdf:reifies <<(:backend :finish 15)>>;
-    pe:rule "rule#8";
+    pe:rule 8;
     pe:binding
       [ pe:var "d"; pe:value 6 ],
       [ pe:var "f"; pe:value 15 ],
@@ -177,7 +177,7 @@ DATA {
 
   _:step13
     rdf:reifies <<(:backend :criticalPredecessor :database)>>;
-    pe:rule "rule#8";
+    pe:rule 8;
     pe:binding
       [ pe:var "d"; pe:value 6 ],
       [ pe:var "f"; pe:value 15 ],
@@ -190,7 +190,7 @@ DATA {
 
   _:step14
     rdf:reifies <<(:integration :finish 19)>>;
-    pe:rule "rule#11";
+    pe:rule 11;
     pe:binding
       [ pe:var "d"; pe:value 4 ],
       [ pe:var "f"; pe:value 19 ],
@@ -205,7 +205,7 @@ DATA {
 
   _:step15
     rdf:reifies <<(:integration :criticalPredecessor :backend)>>;
-    pe:rule "rule#11";
+    pe:rule 11;
     pe:binding
       [ pe:var "d"; pe:value 4 ],
       [ pe:var "f"; pe:value 19 ],
@@ -220,7 +220,7 @@ DATA {
 
   _:step16
     rdf:reifies <<(:security_review :finish 22)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "d"; pe:value 3 ],
       [ pe:var "f"; pe:value 22 ],
@@ -231,7 +231,7 @@ DATA {
 
   _:step17
     rdf:reifies <<(:security_review :criticalPredecessor :integration)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "d"; pe:value 3 ],
       [ pe:var "f"; pe:value 22 ],
@@ -242,7 +242,7 @@ DATA {
 
   _:step18
     rdf:reifies <<(:load_test :finish 21)>>;
-    pe:rule "rule#10";
+    pe:rule 10;
     pe:binding
       [ pe:var "d"; pe:value 2 ],
       [ pe:var "f"; pe:value 21 ],
@@ -253,7 +253,7 @@ DATA {
 
   _:step19
     rdf:reifies <<(:load_test :criticalPredecessor :integration)>>;
-    pe:rule "rule#10";
+    pe:rule 10;
     pe:binding
       [ pe:var "d"; pe:value 2 ],
       [ pe:var "f"; pe:value 21 ],
@@ -264,7 +264,7 @@ DATA {
 
   _:step20
     rdf:reifies <<(:launch :finish 23)>>;
-    pe:rule "rule#14";
+    pe:rule 14;
     pe:binding
       [ pe:var "d"; pe:value 1 ],
       [ pe:var "f"; pe:value 23 ],
@@ -277,7 +277,7 @@ DATA {
 
   _:step21
     rdf:reifies <<(:launch :criticalPredecessor :security_review)>>;
-    pe:rule "rule#14";
+    pe:rule 14;
     pe:binding
       [ pe:var "d"; pe:value 1 ],
       [ pe:var "f"; pe:value 23 ],
@@ -290,19 +290,19 @@ DATA {
 
   _:step22
     rdf:reifies <<(:test :projectFinish 23)>>;
-    pe:rule "rule#17";
+    pe:rule 17;
     pe:binding [ pe:var "f"; pe:value 23 ];
     pe:uses _:step20.
 
   _:step23
     rdf:reifies <<(:launch :critical true)>>;
-    pe:rule "rule#18";
+    pe:rule 18;
     pe:binding [ pe:var "_"; pe:value 23 ];
     pe:uses _:step20.
 
   _:step24
     rdf:reifies <<(:security_review :critical true)>>;
-    pe:rule "rule#19";
+    pe:rule 19;
     pe:binding
       [ pe:var "predecessor"; pe:value :security_review ],
       [ pe:var "task"; pe:value :launch ];
@@ -312,7 +312,7 @@ DATA {
 
   _:step25
     rdf:reifies <<(:integration :critical true)>>;
-    pe:rule "rule#19";
+    pe:rule 19;
     pe:binding
       [ pe:var "predecessor"; pe:value :integration ],
       [ pe:var "task"; pe:value :security_review ];
@@ -322,7 +322,7 @@ DATA {
 
   _:step26
     rdf:reifies <<(:backend :critical true)>>;
-    pe:rule "rule#19";
+    pe:rule 19;
     pe:binding
       [ pe:var "predecessor"; pe:value :backend ],
       [ pe:var "task"; pe:value :integration ];
@@ -332,7 +332,7 @@ DATA {
 
   _:step27
     rdf:reifies <<(:database :critical true)>>;
-    pe:rule "rule#19";
+    pe:rule 19;
     pe:binding
       [ pe:var "predecessor"; pe:value :database ],
       [ pe:var "task"; pe:value :backend ];
@@ -342,7 +342,7 @@ DATA {
 
   _:step28
     rdf:reifies <<(:architecture :critical true)>>;
-    pe:rule "rule#19";
+    pe:rule 19;
     pe:binding
       [ pe:var "predecessor"; pe:value :architecture ],
       [ pe:var "task"; pe:value :database ];
@@ -352,7 +352,7 @@ DATA {
 
   _:step29
     rdf:reifies <<(:requirements :critical true)>>;
-    pe:rule "rule#19";
+    pe:rule 19;
     pe:binding
       [ pe:var "predecessor"; pe:value :requirements ],
       [ pe:var "task"; pe:value :architecture ];
@@ -362,7 +362,7 @@ DATA {
 
   _:step30
     rdf:reifies <<(:requirements :start 0)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 2 ],
       [ pe:var "finish"; pe:value 2 ],
@@ -374,7 +374,7 @@ DATA {
 
   _:step31
     rdf:reifies <<(:architecture :start 2)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 3 ],
       [ pe:var "finish"; pe:value 5 ],
@@ -386,7 +386,7 @@ DATA {
 
   _:step32
     rdf:reifies <<(:api_design :start 2)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 2 ],
       [ pe:var "finish"; pe:value 4 ],
@@ -398,7 +398,7 @@ DATA {
 
   _:step33
     rdf:reifies <<(:database :start 5)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 4 ],
       [ pe:var "finish"; pe:value 9 ],
@@ -410,7 +410,7 @@ DATA {
 
   _:step34
     rdf:reifies <<(:backend :start 9)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 6 ],
       [ pe:var "finish"; pe:value 15 ],
@@ -422,7 +422,7 @@ DATA {
 
   _:step35
     rdf:reifies <<(:frontend :start 4)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 5 ],
       [ pe:var "finish"; pe:value 9 ],
@@ -434,7 +434,7 @@ DATA {
 
   _:step36
     rdf:reifies <<(:auth :start 5)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 3 ],
       [ pe:var "finish"; pe:value 8 ],
@@ -446,7 +446,7 @@ DATA {
 
   _:step37
     rdf:reifies <<(:integration :start 15)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 4 ],
       [ pe:var "finish"; pe:value 19 ],
@@ -458,7 +458,7 @@ DATA {
 
   _:step38
     rdf:reifies <<(:security_review :start 19)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 3 ],
       [ pe:var "finish"; pe:value 22 ],
@@ -470,7 +470,7 @@ DATA {
 
   _:step39
     rdf:reifies <<(:load_test :start 19)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 2 ],
       [ pe:var "finish"; pe:value 21 ],
@@ -482,7 +482,7 @@ DATA {
 
   _:step40
     rdf:reifies <<(:launch :start 22)>>;
-    pe:rule "rule#16";
+    pe:rule 16;
     pe:binding
       [ pe:var "d"; pe:value 1 ],
       [ pe:var "finish"; pe:value 23 ],

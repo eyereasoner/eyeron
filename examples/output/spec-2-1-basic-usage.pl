@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, child(_0, _1), ['Child' = _0, 'Parent' = _1]).
 result(1, complete, 3).
 answer(1, ['Child' = x, 'Parent' = a]).

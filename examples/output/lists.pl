@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, append(_0, _1, [a, b]), ['Left' = _0, 'Right' = _1]).
 result(1, complete, 3).
 answer(1, ['Left' = [], 'Right' = [a, b]]).

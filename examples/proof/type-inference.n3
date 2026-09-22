@@ -6,12 +6,12 @@
 
 { :query :type :int . } pe:why {
   { :query :type :int . }
-    pe:by [ pe:rule "type-inference.n3"; pe:line 43 ];
+    pe:rule 7;
     pe:binding [ pe:var "t"; pe:value :int ];
     pe:uses { (() (:app (:lam :x (:var :x)) (:intLit 42))) :typeOf :int . }.
 
   { (() (:app (:lam :x (:var :x)) (:intLit 42))) :typeOf :int . }
-    pe:by [ pe:rule "type-inference.n3"; pe:line 38 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "arg"; pe:value (:intLit 42) ],
       [ pe:var "env"; pe:value () ],
@@ -23,7 +23,7 @@
       { (() (:intLit 42)) :typeOf :int . }.
 
   { (() (:lam :x (:var :x))) :typeOf (:fun :int :int) . }
-    pe:by [ pe:rule "type-inference.n3"; pe:line 33 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "arg"; pe:value :int ],
       [ pe:var "body"; pe:value (:var :x) ],
@@ -36,10 +36,10 @@
       { (((:x :int)) (:var :x)) :typeOf :int . }.
 
   { ((:x :int)) list:firstRest ((:x :int) ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((:x :int)) (:var :x)) :typeOf :int . }
-    pe:by [ pe:rule "type-inference.n3"; pe:line 31 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "env"; pe:value ((:x :int)) ],
       [ pe:var "name"; pe:value :x ],
@@ -47,7 +47,7 @@
     pe:uses { (:x ((:x :int))) :lookup :int . }.
 
   { (:x ((:x :int))) :lookup :int . }
-    pe:by [ pe:rule "type-inference.n3"; pe:line 19 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "_"; pe:value () ],
       [ pe:var "env"; pe:value ((:x :int)) ],
@@ -56,7 +56,7 @@
     pe:uses { ((:x :int)) list:firstRest ((:x :int) ()) . }.
 
   { (() (:intLit 42)) :typeOf :int . }
-    pe:by [ pe:rule "type-inference.n3"; pe:line 30 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "env"; pe:value () ],
       [ pe:var "n"; pe:value 42 ].

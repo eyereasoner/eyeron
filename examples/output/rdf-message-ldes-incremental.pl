@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, already_committed(_0), ['M' = _0]).
 result(1, complete, 2).
 answer(1, ['M' = obs033]).
@@ -22,7 +22,9 @@ answer(3, ['M' = obs040]).
 query(4, raw_conflict(_0), ['Door' = _0]).
 result(4, complete, 1).
 answer(4, ['Door' = doorA]).
-query(5, preferred_repair(_0, _1, _2, _3), ['M' = _0, 'State' = _1, 'Priority' = _2, 'Source' = _3]).
+query(5,
+      preferred_repair(_0, _1, _2, _3),
+      ['M' = _0, 'State' = _1, 'Priority' = _2, 'Source' = _3]).
 result(5, complete, 1).
 answer(5, ['M' = obs040, 'State' = closed, 'Priority' = 5, 'Source' = "safety-controller"]).
 query(6, materialized_action(_0), ['Text' = _0]).

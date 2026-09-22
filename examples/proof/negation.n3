@@ -7,7 +7,7 @@
 
 { :alice a :Eligible . } pe:why {
   { :alice a :Eligible . }
-    pe:by [ pe:rule "negation.n3"; pe:line 11 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "SCOPE"; pe:value {
           <http://example.org/a> <http://example.org/b> <http://example.org/c> .
@@ -24,7 +24,7 @@
       }.
 
   { :alice a :Person . }
-    pe:by [ pe:fact "negation.n3"; pe:line 7 ].
+    pe:fact "negation.n3".
 
   {
     {
@@ -33,5 +33,5 @@
         :alice a :Blocked .
     } .
 }
-    pe:by [ pe:builtin log:notIncludes ].
+    pe:builtin log:notIncludes.
 }.

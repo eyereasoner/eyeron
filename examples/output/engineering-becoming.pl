@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, inherits_requirement(_0, _1), ['L' = _0, 'R' = _1]).
 result(1, complete, 4).
 answer(1, ['L' = r2, 'R' = stiffnessReq]).

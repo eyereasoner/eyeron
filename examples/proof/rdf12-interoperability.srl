@@ -14,7 +14,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(:alice :displayName "Bonjour"@fr)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "label"; pe:value "Bonjour"@fr ],
       [ pe:var "person"; pe:value :alice ];
@@ -22,7 +22,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(:test :namedPerson :alice)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "person"; pe:value :alice ],
       [ pe:var "text"; pe:value "Alice"^^xsd:string ];
@@ -30,7 +30,7 @@ DATA {
 
   _:step3
     rdf:reifies <<(:test :namedText "Alice"^^xsd:string)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "person"; pe:value :alice ],
       [ pe:var "text"; pe:value "Alice"^^xsd:string ];
@@ -38,13 +38,13 @@ DATA {
 
   _:step4
     rdf:reifies <<(:test :title "HTML و CSS"@ar--rtl)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding [ pe:var "title"; pe:value "HTML و CSS"@ar--rtl ];
     pe:uses <<(:document :title "HTML و CSS"@ar--rtl)>>.
 
   _:step5
     rdf:reifies <<(:test :knowsSource :chat)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "claim"; pe:value :claim ],
       [ pe:var "o"; pe:value :bob ],
@@ -56,7 +56,7 @@ DATA {
 
   _:step6
     rdf:reifies <<(:test :knowsSubject :alice)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "claim"; pe:value :claim ],
       [ pe:var "o"; pe:value :bob ],
@@ -68,7 +68,7 @@ DATA {
 
   _:step7
     rdf:reifies <<(:test :knowsObject :bob)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "claim"; pe:value :claim ],
       [ pe:var "o"; pe:value :bob ],

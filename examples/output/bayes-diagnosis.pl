@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, score(_0, _1), ['Disease' = _0, 'Score' = _1]).
 result(1, complete, 4).
 answer(1, ['Disease' = 'COVID19', 'Score' = 0.0015470000000000002]).

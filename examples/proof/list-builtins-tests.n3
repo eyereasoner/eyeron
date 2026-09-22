@@ -17,100 +17,100 @@
 
 { :ok_list_append_1 a :Pass . } pe:why {
   { :ok_list_append_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 11 ];
+    pe:rule 1;
     pe:uses { ((1 2) (3 4)) list:append (1 2 3 4) . }.
 
   { ((1 2) (3 4)) list:append (1 2 3 4) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 }.
 
 { :ok_list_first_1 a :Pass . } pe:why {
   { :ok_list_first_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 19 ];
+    pe:rule 2;
     pe:uses { (1 2 3 4) list:first 1 . }.
 
   { (1 2 3 4) list:first 1 . }
-    pe:by [ pe:builtin list:first ].
+    pe:builtin list:first.
 }.
 
 { :ok_list_in_1 a :Pass . } pe:why {
   { :ok_list_in_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 27 ];
+    pe:rule 3;
     pe:uses { "cat" list:in ("dog" "penguin" "cat") . }.
 
   { "cat" list:in ("dog" "penguin" "cat") . }
-    pe:by [ pe:builtin list:in ].
+    pe:builtin list:in.
 }.
 
 { :ok_list_iterate_1 a :Pass . } pe:why {
   { :ok_list_iterate_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 35 ];
+    pe:rule 4;
     pe:binding [ pe:var "index"; pe:value 2 ];
     pe:uses { ("dog" "penguin" "cat") list:iterate (2 "cat") . }.
 
   { ("dog" "penguin" "cat") list:iterate (2 "cat") . }
-    pe:by [ pe:builtin list:iterate ].
+    pe:builtin list:iterate.
 }.
 
 { :ok_list_last_1 a :Pass . } pe:why {
   { :ok_list_last_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 43 ];
+    pe:rule 5;
     pe:uses { (1 2 3 4) list:last 4 . }.
 
   { (1 2 3 4) list:last 4 . }
-    pe:by [ pe:builtin list:last ].
+    pe:builtin list:last.
 }.
 
 { :ok_list_length_1 a :Pass . } pe:why {
   { :ok_list_length_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 51 ];
+    pe:rule 6;
     pe:uses { (1 2 3 4) list:length 4 . }.
 
   { (1 2 3 4) list:length 4 . }
-    pe:by [ pe:builtin list:length ].
+    pe:builtin list:length.
 }.
 
 { :ok_list_member_1 a :Pass . } pe:why {
   { :ok_list_member_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 59 ];
+    pe:rule 7;
     pe:uses { ("dog" "penguin" "cat") list:member "cat" . }.
 
   { ("dog" "penguin" "cat") list:member "cat" . }
-    pe:by [ pe:builtin list:member ].
+    pe:builtin list:member.
 }.
 
 { :ok_list_memberAt_1 a :Pass . } pe:why {
   { :ok_list_memberAt_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 67 ];
+    pe:rule 8;
     pe:uses { (("dog" "penguin" "cat") 2) list:memberAt "cat" . }.
 
   { (("dog" "penguin" "cat") 2) list:memberAt "cat" . }
-    pe:by [ pe:builtin list:memberAt ].
+    pe:builtin list:memberAt.
 }.
 
 { :ok_list_remove_1 a :Pass . } pe:why {
   { :ok_list_remove_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 75 ];
+    pe:rule 9;
     pe:uses { (("dog" "penguin" "cat" "penguin") "penguin") list:remove ("dog" "cat") . }.
 
   { (("dog" "penguin" "cat" "penguin") "penguin") list:remove ("dog" "cat") . }
-    pe:by [ pe:builtin list:remove ].
+    pe:builtin list:remove.
 }.
 
 { :ok_list_rest_1 a :Pass . } pe:why {
   { :ok_list_rest_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 83 ];
+    pe:rule 10;
     pe:uses { (1 2 3 4) list:rest (2 3 4) . }.
 
   { (1 2 3 4) list:rest (2 3 4) . }
-    pe:by [ pe:builtin list:rest ].
+    pe:builtin list:rest.
 }.
 
 { :ok_list_firstRest_1 a :Pass . } pe:why {
   { :ok_list_firstRest_1 a :Pass . }
-    pe:by [ pe:rule "list-builtins-tests.n3"; pe:line 91 ];
+    pe:rule 11;
     pe:uses { (1 2 3 4) list:firstRest (1 (2 3 4)) . }.
 
   { (1 2 3 4) list:firstRest (1 (2 3 4)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 }.

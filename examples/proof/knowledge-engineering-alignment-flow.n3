@@ -29,7 +29,7 @@
 
 { :msg1 a sosa:Observation . } pe:why {
   { :msg1 a sosa:Observation . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 33 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "class"; pe:value :LocalObservation ],
       [ pe:var "super"; pe:value sosa:Observation ],
@@ -39,15 +39,15 @@
       { :LocalObservation rdfs:subClassOf sosa:Observation . }.
 
   { :msg1 a :LocalObservation . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :LocalObservation rdfs:subClassOf sosa:Observation . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 14 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :probe7 a sosa:Sensor . } pe:why {
   { :probe7 a sosa:Sensor . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 33 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "class"; pe:value :TemperatureProbe ],
       [ pe:var "super"; pe:value sosa:Sensor ],
@@ -57,15 +57,15 @@
       { :TemperatureProbe rdfs:subClassOf sosa:Sensor . }.
 
   { :probe7 a :TemperatureProbe . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 30 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :TemperatureProbe rdfs:subClassOf sosa:Sensor . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 15 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :msg1 sosa:madeBySensor :probe7 . } pe:why {
   { :msg1 sosa:madeBySensor :probe7 . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 37 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value :probe7 ],
       [ pe:var "property"; pe:value :observedBy ],
@@ -76,39 +76,39 @@
       { :observedBy rdfs:subPropertyOf sosa:madeBySensor . }.
 
   { :msg1 :observedBy :probe7 . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :observedBy rdfs:subPropertyOf sosa:madeBySensor . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 16 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :observedBy fpv:runtimeRule fpv:copyToTarget . } pe:why {
   { :observedBy fpv:runtimeRule fpv:copyToTarget . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 51 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedBy ],
       [ pe:var "targetPredicate"; pe:value sosa:madeBySensor ];
     pe:uses { :observedBy rdfs:subPropertyOf sosa:madeBySensor . }.
 
   { :observedBy rdfs:subPropertyOf sosa:madeBySensor . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 16 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :observedBy fpv:targetPredicate sosa:madeBySensor . } pe:why {
   { :observedBy fpv:targetPredicate sosa:madeBySensor . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 51 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedBy ],
       [ pe:var "targetPredicate"; pe:value sosa:madeBySensor ];
     pe:uses { :observedBy rdfs:subPropertyOf sosa:madeBySensor . }.
 
   { :observedBy rdfs:subPropertyOf sosa:madeBySensor . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 16 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :msg1 sosa:resultTime "2026-06-17T12:34:56Z"^^xsd:dateTime . } pe:why {
   { :msg1 sosa:resultTime "2026-06-17T12:34:56Z"^^xsd:dateTime . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 37 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value "2026-06-17T12:34:56Z"^^xsd:dateTime ],
       [ pe:var "property"; pe:value :observedAt ],
@@ -119,39 +119,39 @@
       { :observedAt rdfs:subPropertyOf sosa:resultTime . }.
 
   { :msg1 :observedAt "2026-06-17T12:34:56Z"^^xsd:dateTime . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :observedAt rdfs:subPropertyOf sosa:resultTime . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 17 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :observedAt fpv:runtimeRule fpv:copyToTarget . } pe:why {
   { :observedAt fpv:runtimeRule fpv:copyToTarget . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 51 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedAt ],
       [ pe:var "targetPredicate"; pe:value sosa:resultTime ];
     pe:uses { :observedAt rdfs:subPropertyOf sosa:resultTime . }.
 
   { :observedAt rdfs:subPropertyOf sosa:resultTime . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 17 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :observedAt fpv:targetPredicate sosa:resultTime . } pe:why {
   { :observedAt fpv:targetPredicate sosa:resultTime . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 51 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedAt ],
       [ pe:var "targetPredicate"; pe:value sosa:resultTime ];
     pe:uses { :observedAt rdfs:subPropertyOf sosa:resultTime . }.
 
   { :observedAt rdfs:subPropertyOf sosa:resultTime . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 17 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :msg1 sosa:hasSimpleResult 18.6 . } pe:why {
   { :msg1 sosa:hasSimpleResult 18.6 . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 37 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value 18.6 ],
       [ pe:var "property"; pe:value :temperatureCelsius ],
@@ -162,39 +162,39 @@
       { :temperatureCelsius rdfs:subPropertyOf sosa:hasSimpleResult . }.
 
   { :msg1 :temperatureCelsius 18.6 . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :temperatureCelsius rdfs:subPropertyOf sosa:hasSimpleResult . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 18 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :temperatureCelsius fpv:runtimeRule fpv:copyToTarget . } pe:why {
   { :temperatureCelsius fpv:runtimeRule fpv:copyToTarget . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 51 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :temperatureCelsius ],
       [ pe:var "targetPredicate"; pe:value sosa:hasSimpleResult ];
     pe:uses { :temperatureCelsius rdfs:subPropertyOf sosa:hasSimpleResult . }.
 
   { :temperatureCelsius rdfs:subPropertyOf sosa:hasSimpleResult . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 18 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :temperatureCelsius fpv:targetPredicate sosa:hasSimpleResult . } pe:why {
   { :temperatureCelsius fpv:targetPredicate sosa:hasSimpleResult . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 51 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :temperatureCelsius ],
       [ pe:var "targetPredicate"; pe:value sosa:hasSimpleResult ];
     pe:uses { :temperatureCelsius rdfs:subPropertyOf sosa:hasSimpleResult . }.
 
   { :temperatureCelsius rdfs:subPropertyOf sosa:hasSimpleResult . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 18 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :msg1 sosa:hasFeatureOfInterest :platformB . } pe:why {
   { :msg1 sosa:hasFeatureOfInterest :platformB . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 41 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "o"; pe:value :platformB ],
       [ pe:var "p"; pe:value :observedFeature ],
@@ -205,39 +205,39 @@
       { :msg1 :observedFeature :platformB . }.
 
   { :observedFeature owl:equivalentProperty sosa:hasFeatureOfInterest . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 19 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :msg1 :observedFeature :platformB . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :observedFeature fpv:runtimeRule fpv:copyToTarget . } pe:why {
   { :observedFeature fpv:runtimeRule fpv:copyToTarget . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 55 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedFeature ],
       [ pe:var "targetPredicate"; pe:value sosa:hasFeatureOfInterest ];
     pe:uses { :observedFeature owl:equivalentProperty sosa:hasFeatureOfInterest . }.
 
   { :observedFeature owl:equivalentProperty sosa:hasFeatureOfInterest . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 19 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :observedFeature fpv:targetPredicate sosa:hasFeatureOfInterest . } pe:why {
   { :observedFeature fpv:targetPredicate sosa:hasFeatureOfInterest . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 55 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedFeature ],
       [ pe:var "targetPredicate"; pe:value sosa:hasFeatureOfInterest ];
     pe:uses { :observedFeature owl:equivalentProperty sosa:hasFeatureOfInterest . }.
 
   { :observedFeature owl:equivalentProperty sosa:hasFeatureOfInterest . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 19 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :msg1 fpv:hasFlowStep :ingestStep . } pe:why {
   { :msg1 fpv:hasFlowStep :ingestStep . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 37 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value :ingestStep ],
       [ pe:var "property"; pe:value :inFlow ],
@@ -248,39 +248,39 @@
       { :inFlow rdfs:subPropertyOf fpv:hasFlowStep . }.
 
   { :msg1 :inFlow :ingestStep . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :inFlow rdfs:subPropertyOf fpv:hasFlowStep . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 20 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :inFlow fpv:runtimeRule fpv:copyToTarget . } pe:why {
   { :inFlow fpv:runtimeRule fpv:copyToTarget . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 51 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :inFlow ],
       [ pe:var "targetPredicate"; pe:value fpv:hasFlowStep ];
     pe:uses { :inFlow rdfs:subPropertyOf fpv:hasFlowStep . }.
 
   { :inFlow rdfs:subPropertyOf fpv:hasFlowStep . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 20 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :inFlow fpv:targetPredicate fpv:hasFlowStep . } pe:why {
   { :inFlow fpv:targetPredicate fpv:hasFlowStep . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 51 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :inFlow ],
       [ pe:var "targetPredicate"; pe:value fpv:hasFlowStep ];
     pe:uses { :inFlow rdfs:subPropertyOf fpv:hasFlowStep . }.
 
   { :inFlow rdfs:subPropertyOf fpv:hasFlowStep . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 20 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :ingestStep fpv:emits :msg1 . } pe:why {
   { :ingestStep fpv:emits :msg1 . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 60 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "message"; pe:value :msg1 ],
       [ pe:var "sensor"; pe:value :probe7 ],
@@ -291,7 +291,7 @@
       { :msg1 sosa:madeBySensor :probe7 . }.
 
   { :msg1 a sosa:Observation . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 33 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "class"; pe:value :LocalObservation ],
       [ pe:var "super"; pe:value sosa:Observation ],
@@ -301,13 +301,13 @@
       { :LocalObservation rdfs:subClassOf sosa:Observation . }.
 
   { :msg1 a :LocalObservation . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :LocalObservation rdfs:subClassOf sosa:Observation . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 14 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :msg1 fpv:hasFlowStep :ingestStep . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 37 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value :ingestStep ],
       [ pe:var "property"; pe:value :inFlow ],
@@ -318,13 +318,13 @@
       { :inFlow rdfs:subPropertyOf fpv:hasFlowStep . }.
 
   { :msg1 :inFlow :ingestStep . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :inFlow rdfs:subPropertyOf fpv:hasFlowStep . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 20 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :msg1 sosa:madeBySensor :probe7 . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 37 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value :probe7 ],
       [ pe:var "property"; pe:value :observedBy ],
@@ -335,15 +335,15 @@
       { :observedBy rdfs:subPropertyOf sosa:madeBySensor . }.
 
   { :msg1 :observedBy :probe7 . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :observedBy rdfs:subPropertyOf sosa:madeBySensor . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 16 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.
 
 { :ingestStep fpv:trustedBy :probe7 . } pe:why {
   { :ingestStep fpv:trustedBy :probe7 . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 60 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "message"; pe:value :msg1 ],
       [ pe:var "sensor"; pe:value :probe7 ],
@@ -354,7 +354,7 @@
       { :msg1 sosa:madeBySensor :probe7 . }.
 
   { :msg1 a sosa:Observation . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 33 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "class"; pe:value :LocalObservation ],
       [ pe:var "super"; pe:value sosa:Observation ],
@@ -364,13 +364,13 @@
       { :LocalObservation rdfs:subClassOf sosa:Observation . }.
 
   { :msg1 a :LocalObservation . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :LocalObservation rdfs:subClassOf sosa:Observation . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 14 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :msg1 fpv:hasFlowStep :ingestStep . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 37 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value :ingestStep ],
       [ pe:var "property"; pe:value :inFlow ],
@@ -381,13 +381,13 @@
       { :inFlow rdfs:subPropertyOf fpv:hasFlowStep . }.
 
   { :msg1 :inFlow :ingestStep . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :inFlow rdfs:subPropertyOf fpv:hasFlowStep . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 20 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :msg1 sosa:madeBySensor :probe7 . }
-    pe:by [ pe:rule "knowledge-engineering-alignment-flow.n3"; pe:line 37 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value :probe7 ],
       [ pe:var "property"; pe:value :observedBy ],
@@ -398,8 +398,8 @@
       { :observedBy rdfs:subPropertyOf sosa:madeBySensor . }.
 
   { :msg1 :observedBy :probe7 . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 23 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 
   { :observedBy rdfs:subPropertyOf sosa:madeBySensor . }
-    pe:by [ pe:fact "knowledge-engineering-alignment-flow.n3"; pe:line 16 ].
+    pe:fact "knowledge-engineering-alignment-flow.n3".
 }.

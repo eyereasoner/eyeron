@@ -11,7 +11,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(:patch1 :resultTriple <<(:alice a :Person)>>)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "o"; pe:value :Person ],
       [ pe:var "s"; pe:value :alice ],
@@ -20,7 +20,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(:patch1 :resultTriple <<(:bob a :Person)>>)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "o"; pe:value :Person ],
       [ pe:var "s"; pe:value :bob ],
@@ -29,16 +29,16 @@ DATA {
 
   _:step3
     rdf:reifies <<(:patch1 :resultTriple <<(:alice :age 31)>>)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding [ pe:var "t"; pe:value <<(:alice :age 31)>> ].
 
   _:step4
     rdf:reifies <<(:patch1 :resultTriple <<(:alice :status :ActiveStatus)>>)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding [ pe:var "t"; pe:value <<(:alice :status :ActiveStatus)>> ].
 
   _:step5
     rdf:reifies <<(:patch1 :resultTriple <<(:alice :verified true)>>)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding [ pe:var "t"; pe:value <<(:alice :verified true)>> ].
 }

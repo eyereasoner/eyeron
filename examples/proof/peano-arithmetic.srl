@@ -17,17 +17,17 @@ DATA {
 
   _:step1
     rdf:reifies <<(:two :peanoValue :n1)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:uses <<(:n1 :succ :n0)>>.
 
   _:step2
     rdf:reifies <<(:fac0 :peanoValue :n1)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:uses <<(:n1 :succ :n0)>>.
 
   _:step3
     rdf:reifies <<(:addStep1 :peanoValue :n2)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value :n1 ],
       [ pe:var "m"; pe:value :n2 ];
@@ -37,12 +37,12 @@ DATA {
 
   _:step4
     rdf:reifies <<(:fac1 :peanoValue :n1)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:uses _:step2.
 
   _:step5
     rdf:reifies <<(:three :peanoValue :n3)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "m"; pe:value :n2 ],
       [ pe:var "r"; pe:value :n3 ];
@@ -52,12 +52,12 @@ DATA {
 
   _:step6
     rdf:reifies <<(:fac2 :peanoValue :n2)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:uses _:step4.
 
   _:step7
     rdf:reifies <<(:facStep1 :peanoValue :n4)>>;
-    pe:rule "rule#7";
+    pe:rule 7;
     pe:binding [ pe:var "m"; pe:value :n4 ];
     pe:uses
       _:step6,
@@ -65,7 +65,7 @@ DATA {
 
   _:step8
     rdf:reifies <<(:facStep2 :peanoValue :n5)>>;
-    pe:rule "rule#8";
+    pe:rule 8;
     pe:binding
       [ pe:var "m"; pe:value :n5 ],
       [ pe:var "p"; pe:value :n4 ];
@@ -75,7 +75,7 @@ DATA {
 
   _:step9
     rdf:reifies <<(:fac3 :peanoValue :n6)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "m"; pe:value :n6 ],
       [ pe:var "p"; pe:value :n5 ];
@@ -85,7 +85,7 @@ DATA {
 
   _:step10
     rdf:reifies <<(:test :three :n3)>>;
-    pe:rule "rule#10";
+    pe:rule 10;
     pe:binding
       [ pe:var "result"; pe:value :n6 ],
       [ pe:var "three"; pe:value :n3 ];
@@ -95,7 +95,7 @@ DATA {
 
   _:step11
     rdf:reifies <<(:test :result :n6)>>;
-    pe:rule "rule#10";
+    pe:rule 10;
     pe:binding
       [ pe:var "result"; pe:value :n6 ],
       [ pe:var "three"; pe:value :n3 ];

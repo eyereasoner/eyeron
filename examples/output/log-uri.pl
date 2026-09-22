@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, uri_str(iri("https://www.w3.org"), _0), ['S' = _0]).
 result(1, complete, 1).
 answer(1, ['S' = "https://www.w3.org"]).

@@ -30,7 +30,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(:msg1 a sosa:Observation)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "class"; pe:value :LocalObservation ],
       [ pe:var "super"; pe:value sosa:Observation ],
@@ -41,7 +41,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(:probe7 a sosa:Sensor)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "class"; pe:value :TemperatureProbe ],
       [ pe:var "super"; pe:value sosa:Sensor ],
@@ -52,7 +52,7 @@ DATA {
 
   _:step3
     rdf:reifies <<(:msg1 sosa:madeBySensor :probe7)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value :probe7 ],
       [ pe:var "property"; pe:value :observedBy ],
@@ -64,7 +64,7 @@ DATA {
 
   _:step4
     rdf:reifies <<(:msg1 sosa:resultTime "2026-06-17T12:34:56Z"^^xsd:dateTime)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value "2026-06-17T12:34:56Z"^^xsd:dateTime ],
       [ pe:var "property"; pe:value :observedAt ],
@@ -76,7 +76,7 @@ DATA {
 
   _:step5
     rdf:reifies <<(:msg1 sosa:hasSimpleResult 18.6)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value 18.6 ],
       [ pe:var "property"; pe:value :temperatureCelsius ],
@@ -88,7 +88,7 @@ DATA {
 
   _:step6
     rdf:reifies <<(:msg1 fpv:hasFlowStep :ingestStep)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "object"; pe:value :ingestStep ],
       [ pe:var "property"; pe:value :inFlow ],
@@ -100,7 +100,7 @@ DATA {
 
   _:step7
     rdf:reifies <<(:msg1 sosa:hasFeatureOfInterest :platformB)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "o"; pe:value :platformB ],
       [ pe:var "p"; pe:value :observedFeature ],
@@ -112,7 +112,7 @@ DATA {
 
   _:step8
     rdf:reifies <<(:observedBy fpv:runtimeRule fpv:copyToTarget)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedBy ],
       [ pe:var "targetPredicate"; pe:value sosa:madeBySensor ];
@@ -120,7 +120,7 @@ DATA {
 
   _:step9
     rdf:reifies <<(:observedBy fpv:targetPredicate sosa:madeBySensor)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedBy ],
       [ pe:var "targetPredicate"; pe:value sosa:madeBySensor ];
@@ -128,7 +128,7 @@ DATA {
 
   _:step10
     rdf:reifies <<(:observedAt fpv:runtimeRule fpv:copyToTarget)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedAt ],
       [ pe:var "targetPredicate"; pe:value sosa:resultTime ];
@@ -136,7 +136,7 @@ DATA {
 
   _:step11
     rdf:reifies <<(:observedAt fpv:targetPredicate sosa:resultTime)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedAt ],
       [ pe:var "targetPredicate"; pe:value sosa:resultTime ];
@@ -144,7 +144,7 @@ DATA {
 
   _:step12
     rdf:reifies <<(:temperatureCelsius fpv:runtimeRule fpv:copyToTarget)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :temperatureCelsius ],
       [ pe:var "targetPredicate"; pe:value sosa:hasSimpleResult ];
@@ -152,7 +152,7 @@ DATA {
 
   _:step13
     rdf:reifies <<(:temperatureCelsius fpv:targetPredicate sosa:hasSimpleResult)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :temperatureCelsius ],
       [ pe:var "targetPredicate"; pe:value sosa:hasSimpleResult ];
@@ -160,7 +160,7 @@ DATA {
 
   _:step14
     rdf:reifies <<(:inFlow fpv:runtimeRule fpv:copyToTarget)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :inFlow ],
       [ pe:var "targetPredicate"; pe:value fpv:hasFlowStep ];
@@ -168,7 +168,7 @@ DATA {
 
   _:step15
     rdf:reifies <<(:inFlow fpv:targetPredicate fpv:hasFlowStep)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :inFlow ],
       [ pe:var "targetPredicate"; pe:value fpv:hasFlowStep ];
@@ -176,7 +176,7 @@ DATA {
 
   _:step16
     rdf:reifies <<(:observedFeature fpv:runtimeRule fpv:copyToTarget)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedFeature ],
       [ pe:var "targetPredicate"; pe:value sosa:hasFeatureOfInterest ];
@@ -184,7 +184,7 @@ DATA {
 
   _:step17
     rdf:reifies <<(:observedFeature fpv:targetPredicate sosa:hasFeatureOfInterest)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "sourcePredicate"; pe:value :observedFeature ],
       [ pe:var "targetPredicate"; pe:value sosa:hasFeatureOfInterest ];
@@ -192,7 +192,7 @@ DATA {
 
   _:step18
     rdf:reifies <<(:ingestStep fpv:emits :msg1)>>;
-    pe:rule "rule#7";
+    pe:rule 7;
     pe:binding
       [ pe:var "message"; pe:value :msg1 ],
       [ pe:var "sensor"; pe:value :probe7 ],
@@ -204,7 +204,7 @@ DATA {
 
   _:step19
     rdf:reifies <<(:ingestStep fpv:trustedBy :probe7)>>;
-    pe:rule "rule#7";
+    pe:rule 7;
     pe:binding
       [ pe:var "message"; pe:value :msg1 ],
       [ pe:var "sensor"; pe:value :probe7 ],

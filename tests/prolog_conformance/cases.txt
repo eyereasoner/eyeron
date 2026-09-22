@@ -24,7 +24,7 @@
 fact(1). % trailing comment
 ?- fact(X).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, fact(_0), ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 1]).
@@ -39,7 +39,7 @@ answer(1, ['X' = 1]).
 fact(1).
 ?- fact(/* inline */ X).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, fact(_0), ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 1]).
@@ -61,7 +61,7 @@ fact(1).
 [program]
 ?- 1+1=:=2.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, 1 + 1 =:= 2, []).
 result(1, complete, 1).
 answer(1, []).
@@ -82,7 +82,7 @@ answer(1, []).
 value(1.25).
 ?- value(X).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, value(_0), ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 1.25]).
@@ -102,7 +102,7 @@ answer(1, ['X' = 1.25]).
 [program]
 ?- X is 1.5e3.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 is 1500.0, ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 1500.0]).
@@ -123,7 +123,7 @@ answer(1, ['X' = 1500.0]).
 name('it''s').
 ?- name(X).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, name(_0), ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 'it\'s']).
@@ -135,7 +135,7 @@ answer(1, ['X' = 'it\'s']).
 [program]
 ?- X = "tab\there", Y = "\x41\", Z = "\101\".
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 = "tab\there", _1 = "A", _2 = "A"), ['X' = _0, 'Y' = _1, 'Z' = _2]).
 result(1, complete, 1).
 answer(1, ['X' = "tab\there", 'Y' = "A", 'Z' = "A"]).
@@ -156,7 +156,7 @@ answer(1, ['X' = "tab\there", 'Y' = "A", 'Z' = "A"]).
 fact(ok).
 ?- fact(_result).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, fact(_0), ['_result' = _0]).
 result(1, complete, 1).
 answer(1, ['_result' = ok]).
@@ -169,7 +169,7 @@ answer(1, ['_result' = ok]).
 pair(1, 2).
 ?- pair(_, _).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, pair(_0, _1), []).
 result(1, complete, 1).
 answer(1, []).
@@ -181,7 +181,7 @@ answer(1, []).
 [program]
 ?- X is 1 + 2 * 3.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 is 1 + 2 * 3, ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 7]).
@@ -193,7 +193,7 @@ answer(1, ['X' = 7]).
 [program]
 ?- X is 1 - 2 - 3.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 is 1 - 2 - 3, ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = -4]).
@@ -209,7 +209,7 @@ b.
 c.
 ?- clause(p, Body).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, clause(p, _0), ['Body' = _0]).
 result(1, complete, 1).
 answer(1, ['Body' = (a, b, c)]).
@@ -223,7 +223,7 @@ p(a, b).
 q((a, b)).
 ?- p(X, Y), q(Z).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (p(_0, _1), q(_2)), ['X' = _0, 'Y' = _1, 'Z' = _2]).
 result(1, complete, 1).
 answer(1, ['X' = a, 'Y' = b, 'Z' = (a, b)]).
@@ -243,7 +243,7 @@ answer(1, ['X' = a, 'Y' = b, 'Z' = (a, b)]).
 [program]
 ?- X = -1, Y = - 1, X \== Y.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 = -1, _1 = - 1, _0 \== _1), ['X' = _0, 'Y' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = -1, 'Y' = - 1]).
@@ -255,7 +255,7 @@ answer(1, ['X' = -1, 'Y' = - 1]).
 [program]
 ?- X = (+).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 = +, ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = +]).
@@ -278,7 +278,7 @@ p(1).
 parent(alice, bob).
 ?- parent(X, Y).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, parent(_0, _1), ['X' = _0, 'Y' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = alice, 'Y' = bob]).
@@ -293,7 +293,7 @@ parent(bob, carol).
 grandparent(X, Z) :- parent(X, Y), parent(Y, Z).
 ?- grandparent(X, Z).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, grandparent(_0, _1), ['X' = _0, 'Z' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = alice, 'Z' = carol]).
@@ -307,7 +307,7 @@ colour(red).
 colour(green).
 ?- colour(C).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, colour(_0), ['C' = _0]).
 result(1, complete, 2).
 answer(1, ['C' = red]).
@@ -351,7 +351,7 @@ q(2).
 both(X, Y) :- p(X), q(Y).
 ?- both(A, B).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, both(_0, _1), ['A' = _0, 'B' = _1]).
 result(1, complete, 1).
 answer(1, ['A' = 1, 'B' = 2]).
@@ -364,7 +364,7 @@ answer(1, ['A' = 1, 'B' = 2]).
 p :- true.
 ?- clause(p, Body).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, clause(p, _0), ['Body' = _0]).
 result(1, complete, 1).
 answer(1, ['Body' = true]).
@@ -378,7 +378,7 @@ ready.
 goal(ready).
 ?- goal(G), call(G).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (goal(_0), call(_0)), ['G' = _0]).
 result(1, complete, 1).
 answer(1, ['G' = ready]).
@@ -399,7 +399,7 @@ p(red()).
 [program]
 ?- X = [1, 1.0, "1", '1'], sort(X, Sorted).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 = [1, 1.0, "1", '1'], sort(_0, _1)), ['X' = _0, 'Sorted' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = [1, 1.0, "1", '1'], 'Sorted' = [1.0, 1, '1', "1"]]).
@@ -411,7 +411,7 @@ answer(1, ['X' = [1, 1.0, "1", '1'], 'Sorted' = [1.0, 1, '1', "1"]]).
 [program]
 ?- 1 = 1.0.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, 1 = 1.0, []).
 result(1, complete, 0).
 
@@ -422,7 +422,7 @@ result(1, complete, 0).
 [program]
 ?- X = f(X).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 = f(_0), ['X' = _0]).
 result(1, complete, 0).
 
@@ -433,7 +433,7 @@ result(1, complete, 0).
 [program]
 ?- sort([f(x), "s", a, 2, 1.5], Sorted).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, sort([f(x), "s", a, 2, 1.5], _0), ['Sorted' = _0]).
 result(1, complete, 1).
 answer(1, ['Sorted' = [1.5, 2, a, "s", f(x)]]).
@@ -445,7 +445,7 @@ answer(1, ['Sorted' = [1.5, 2, a, "s", f(x)]]).
 [program]
 ?- sort([1, 1.0], Sorted).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, sort([1, 1.0], _0), ['Sorted' = _0]).
 result(1, complete, 1).
 answer(1, ['Sorted' = [1.0, 1]]).
@@ -457,7 +457,7 @@ answer(1, ['Sorted' = [1.0, 1]]).
 [program]
 ?- sort([b(1), a(1, 2), a(1)], Sorted).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, sort([b(1), a(1, 2), a(1)], _0), ['Sorted' = _0]).
 result(1, complete, 1).
 answer(1, ['Sorted' = [a(1), b(1), a(1, 2)]]).
@@ -469,7 +469,7 @@ answer(1, ['Sorted' = [a(1), b(1), a(1, 2)]]).
 [program]
 ?- X == Y.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 == _1, ['X' = _0, 'Y' = _1]).
 result(1, complete, 0).
 
@@ -480,7 +480,7 @@ result(1, complete, 0).
 [program]
 ?- X \== Y.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 \== _1, ['X' = _0, 'Y' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = _0, 'Y' = _1]).
@@ -492,7 +492,7 @@ answer(1, ['X' = _0, 'Y' = _1]).
 [program]
 ?- X = [a, b], X = [Head|Tail].
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 = [a, b], _0 = [_1|_2]), ['X' = _0, 'Head' = _1, 'Tail' = _2]).
 result(1, complete, 1).
 answer(1, ['X' = [a, b], 'Head' = a, 'Tail' = [b]]).
@@ -504,7 +504,7 @@ answer(1, ['X' = [a, b], 'Head' = a, 'Tail' = [b]]).
 [program]
 ?- X = [a|T].
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 = [a|_1], ['X' = _0, 'T' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = [a|_0], 'T' = _0]).
@@ -520,7 +520,7 @@ ancestor(X, Y) :- parent(X, Y).
 ancestor(X, Z) :- ancestor(X, Y), parent(Y, Z).
 ?- ancestor(a, Who).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, ancestor(a, _0), ['Who' = _0]).
 result(1, complete, 2).
 answer(1, ['Who' = b]).
@@ -537,7 +537,7 @@ ancestor(X, Z) :- parent(X, Y), ancestor(Y, Z).
 ancestor(X, Y) :- parent(X, Y).
 ?- ancestor(a, Who).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, ancestor(a, _0), ['Who' = _0]).
 result(1, complete, 2).
 answer(1, ['Who' = b]).
@@ -552,7 +552,7 @@ p(1).
 p(1).
 ?- p(X).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, p(_0), ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 1]).
@@ -567,7 +567,7 @@ even(N) :- odd(M), N is M + 1, N =< 4.
 odd(N) :- even(M), N is M + 1, N =< 4.
 ?- even(N).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, even(_0), ['N' = _0]).
 result(1, complete, 3).
 answer(1, ['N' = 0]).
@@ -602,7 +602,7 @@ married(alice).
 single(X) :- person(X), \+ married(X).
 ?- single(X).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, single(_0), ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = bob]).
@@ -615,7 +615,7 @@ answer(1, ['X' = bob]).
 p(1).
 ?- \+ p(1).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, \+p(1), []).
 result(1, complete, 0).
 
@@ -635,7 +635,7 @@ p(1).
 [program]
 ?- X is 12345678901234567890 * 98765432109876543210.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 is 12345678901234567890 * 98765432109876543210, ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 1219326311370217952237463801111263526900]).
@@ -647,7 +647,7 @@ answer(1, ['X' = 1219326311370217952237463801111263526900]).
 [program]
 ?- X is 7 // 2, Y is -7 // 2.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 is 7 // 2, _1 is -7 // 2), ['X' = _0, 'Y' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = 3, 'Y' = -3]).
@@ -659,7 +659,7 @@ answer(1, ['X' = 3, 'Y' = -3]).
 [program]
 ?- X is -7 mod 3, Y is 7 mod -3.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 is -7 mod 3, _1 is 7 mod -3), ['X' = _0, 'Y' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = 2, 'Y' = -2]).
@@ -671,7 +671,7 @@ answer(1, ['X' = 2, 'Y' = -2]).
 [program]
 ?- X is -7 rem 3, Y is 7 rem -3.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 is -7 rem 3, _1 is 7 rem -3), ['X' = _0, 'Y' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = -1, 'Y' = 1]).
@@ -683,7 +683,7 @@ answer(1, ['X' = -1, 'Y' = 1]).
 [program]
 ?- X is 4 / 2.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 is 4 / 2, ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 2]).
@@ -695,7 +695,7 @@ answer(1, ['X' = 2]).
 [program]
 ?- X is 1 / 2.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 is 1 / 2, ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 0.5]).
@@ -715,8 +715,10 @@ answer(1, ['X' = 0.5]).
 [program]
 ?- X is round(2.5), Y is round(-2.5), Z is round(2.4).
 [output]
-% Prolog result format 3
-query(1, (_0 is round(2.5), _1 is round(-2.5), _2 is round(2.4)), ['X' = _0, 'Y' = _1, 'Z' = _2]).
+% Prolog result format 4
+query(1,
+      (_0 is round(2.5), _1 is round(-2.5), _2 is round(2.4)),
+      ['X' = _0, 'Y' = _1, 'Z' = _2]).
 result(1, complete, 1).
 answer(1, ['X' = 3, 'Y' = -2, 'Z' = 2]).
 
@@ -727,8 +729,10 @@ answer(1, ['X' = 3, 'Y' = -2, 'Z' = 2]).
 [program]
 ?- X is floor(-2.5), Y is ceiling(-2.5), Z is truncate(-2.5).
 [output]
-% Prolog result format 3
-query(1, (_0 is floor(-2.5), _1 is ceiling(-2.5), _2 is truncate(-2.5)), ['X' = _0, 'Y' = _1, 'Z' = _2]).
+% Prolog result format 4
+query(1,
+      (_0 is floor(-2.5), _1 is ceiling(-2.5), _2 is truncate(-2.5)),
+      ['X' = _0, 'Y' = _1, 'Z' = _2]).
 result(1, complete, 1).
 answer(1, ['X' = -3, 'Y' = -2, 'Z' = -2]).
 
@@ -739,7 +743,7 @@ answer(1, ['X' = -3, 'Y' = -2, 'Z' = -2]).
 [program]
 ?- X is 2 ** 3, Y is 2 ^ 10.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 is 2 ** 3, _1 is 2 ^ 10), ['X' = _0, 'Y' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = 8.0, 'Y' = 1024]).
@@ -751,7 +755,7 @@ answer(1, ['X' = 8.0, 'Y' = 1024]).
 [program]
 ?- 1 =:= 1.0.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, 1 =:= 1.0, []).
 result(1, complete, 1).
 answer(1, []).
@@ -763,7 +767,7 @@ answer(1, []).
 [program]
 ?- 1 + 1 < 2 * 2.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, 1 + 1 < 2 * 2, []).
 result(1, complete, 1).
 answer(1, []).
@@ -791,7 +795,7 @@ answer(1, []).
 [program]
 ?- X is min(1, 2.0), Y is max(1, 2.0).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 is min(1, 2.0), _1 is max(1, 2.0)), ['X' = _0, 'Y' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = 1, 'Y' = 2.0]).
@@ -803,7 +807,7 @@ answer(1, ['X' = 1, 'Y' = 2.0]).
 [program]
 ?- X is abs(-3), Y is abs(-3.5), Z is sign(-3).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 is abs(-3), _1 is abs(-3.5), _2 is sign(-3)), ['X' = _0, 'Y' = _1, 'Z' = _2]).
 result(1, complete, 1).
 answer(1, ['X' = 3, 'Y' = 3.5, 'Z' = -1]).
@@ -815,7 +819,7 @@ answer(1, ['X' = 3, 'Y' = 3.5, 'Z' = -1]).
 [program]
 ?- X is sqrt(4).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, _0 is sqrt(4), ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 2.0]).
@@ -827,7 +831,7 @@ answer(1, ['X' = 2.0]).
 [program]
 ?- 3 is 1 + 2.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, 3 is 1 + 2, []).
 result(1, complete, 1).
 answer(1, []).
@@ -842,7 +846,7 @@ q :- fail.
 ?- p.
 ?- q.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, p, []).
 result(1, complete, 1).
 answer(1, []).
@@ -859,7 +863,7 @@ p(2).
 wanted(p(X), X).
 ?- wanted(G, V), call(G).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (wanted(_0, _1), call(_0)), ['G' = _0, 'V' = _1]).
 result(1, complete, 2).
 answer(1, ['G' = p(1), 'V' = 1]).
@@ -874,7 +878,7 @@ p(1).
 q(1).
 ?- call((p(X), q(X))).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, call((p(_0), q(_0))), ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 1]).
@@ -896,7 +900,7 @@ p(a).
 p(b).
 ?- findall(X, p(X), L).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, findall(_0, p(_0), _1), ['L' = _1]).
 result(1, complete, 1).
 answer(1, ['L' = [a, b]]).
@@ -909,7 +913,7 @@ answer(1, ['L' = [a, b]]).
 p(a).
 ?- findall(X, p(z), L), X = unbound.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (findall(_0, p(z), _1), _0 = unbound), ['L' = _1, 'X' = _0]).
 result(1, complete, 1).
 answer(1, ['L' = [], 'X' = unbound]).
@@ -923,7 +927,7 @@ p(a).
 p(a).
 ?- findall(X, p(X), L).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, findall(_0, p(_0), _1), ['L' = _1]).
 result(1, complete, 1).
 answer(1, ['L' = [a]]).
@@ -938,7 +942,7 @@ p(b).
 r(L) :- findall(X, p(X), L).
 ?- r(L).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, r(_0), ['L' = _0]).
 result(1, complete, 1).
 answer(1, ['L' = [a, b]]).
@@ -951,7 +955,7 @@ answer(1, ['L' = [a, b]]).
 p(1).
 ?- clause(p(X), Body).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, clause(p(_0), _1), ['X' = _0, 'Body' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = 1, 'Body' = true]).
@@ -966,7 +970,7 @@ q(1).
 r(1).
 ?- clause(p(Y), Body).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, clause(p(_0), _1), ['Y' = _0, 'Body' = _1]).
 result(1, complete, 1).
 answer(1, ['Y' = _0, 'Body' = (q(_0), r(_0))]).
@@ -980,7 +984,7 @@ p(X) :- q(X).
 q(1).
 ?- clause(p(a), Body).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, clause(p(a), _0), ['Body' = _0]).
 result(1, complete, 1).
 answer(1, ['Body' = q(a)]).
@@ -999,7 +1003,7 @@ solve((A, B)) :- solve(A), solve(B).
 solve(H) :- clause(H, B), solve(B).
 ?- solve(ancestor(a, Who)).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, solve(ancestor(a, _0)), ['Who' = _0]).
 result(1, complete, 2).
 answer(1, ['Who' = b]).
@@ -1012,7 +1016,7 @@ answer(1, ['Who' = c]).
 [program]
 ?- between(1, 3, N).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, between(1, 3, _0), ['N' = _0]).
 result(1, complete, 3).
 answer(1, ['N' = 1]).
@@ -1026,7 +1030,7 @@ answer(1, ['N' = 3]).
 [program]
 ?- between(3, 1, N).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, between(3, 1, _0), ['N' = _0]).
 result(1, complete, 0).
 
@@ -1037,7 +1041,7 @@ result(1, complete, 0).
 [program]
 ?- length([a, b, c], N).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, length([a, b, c], _0), ['N' = _0]).
 result(1, complete, 1).
 answer(1, ['N' = 3]).
@@ -1057,7 +1061,7 @@ answer(1, ['N' = 3]).
 [program]
 ?- sort([c, a, b, a], L).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, sort([c, a, b, a], _0), ['L' = _0]).
 result(1, complete, 1).
 answer(1, ['L' = [a, b, c]]).
@@ -1069,8 +1073,10 @@ answer(1, ['L' = [a, b, c]]).
 [program]
 ?- sum_list([1, 2, 3], S), max_list([1, 2, 3], H), min_list([1, 2, 3], L).
 [output]
-% Prolog result format 3
-query(1, (sum_list([1, 2, 3], _0), max_list([1, 2, 3], _1), min_list([1, 2, 3], _2)), ['S' = _0, 'H' = _1, 'L' = _2]).
+% Prolog result format 4
+query(1,
+      (sum_list([1, 2, 3], _0), max_list([1, 2, 3], _1), min_list([1, 2, 3], _2)),
+      ['S' = _0, 'H' = _1, 'L' = _2]).
 result(1, complete, 1).
 answer(1, ['S' = 6, 'H' = 3, 'L' = 1]).
 
@@ -1081,7 +1087,7 @@ answer(1, ['S' = 6, 'H' = 3, 'L' = 1]).
 [program]
 ?- sum_list([], S).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, sum_list([], _0), ['S' = _0]).
 result(1, complete, 1).
 answer(1, ['S' = 0]).
@@ -1101,7 +1107,7 @@ answer(1, ['S' = 0]).
 [program]
 ?- atomics_to_string([a, " is ", 3], S).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, atomics_to_string([a, " is ", 3], _0), ['S' = _0]).
 result(1, complete, 1).
 answer(1, ['S' = "a is 3"]).
@@ -1122,10 +1128,12 @@ answer(1, ['S' = "a is 3"]).
 puzzle([[5,3,0,0,7,0,0,0,0],[6,0,0,1,9,5,0,0,0],[0,9,8,0,0,0,0,6,0],[8,0,0,0,6,0,0,0,3],[4,0,0,8,0,3,0,0,1],[7,0,0,0,2,0,0,0,6],[0,6,0,0,0,0,2,8,0],[0,0,0,4,1,9,0,0,5],[0,0,0,0,8,0,0,7,9]]).
 ?- puzzle(P), sudoku(P, [FirstRow|_]).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (puzzle(_0), sudoku(_0, [_1|_2])), ['P' = _0, 'FirstRow' = _1]).
 result(1, complete, 1).
-answer(1, ['P' = [[5, 3, 0, 0, 7, 0, 0, 0, 0], [6, 0, 0, 1, 9, 5, 0, 0, 0], [0, 9, 8, 0, 0, 0, 0, 6, 0], [8, 0, 0, 0, 6, 0, 0, 0, 3], [4, 0, 0, 8, 0, 3, 0, 0, 1], [7, 0, 0, 0, 2, 0, 0, 0, 6], [0, 6, 0, 0, 0, 0, 2, 8, 0], [0, 0, 0, 4, 1, 9, 0, 0, 5], [0, 0, 0, 0, 8, 0, 0, 7, 9]], 'FirstRow' = [5, 3, 4, 6, 7, 8, 9, 1, 2]]).
+answer(1,
+       ['P' = [[5, 3, 0, 0, 7, 0, 0, 0, 0], [6, 0, 0, 1, 9, 5, 0, 0, 0], [0, 9, 8, 0, 0, 0, 0, 6, 0], [8, 0, 0, 0, 6, 0, 0, 0, 3], [4, 0, 0, 8, 0, 3, 0, 0, 1], [7, 0, 0, 0, 2, 0, 0, 0, 6], [0, 6, 0, 0, 0, 0, 2, 8, 0], [0, 0, 0, 4, 1, 9, 0, 0, 5], [0, 0, 0, 0, 8, 0, 0, 7, 9]],
+        'FirstRow' = [5, 3, 4, 6, 7, 8, 9, 1, 2]]).
 
 
 [case] builtins/a-builtin-may-not-be-redefined
@@ -1151,7 +1159,7 @@ length(a, b).
 [program]
 ?- f(a) \= f(b), X \= Y.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (f(a) \= f(b), _0 \= _1), ['X' = _0, 'Y' = _1]).
 result(1, complete, 0).
 
@@ -1162,7 +1170,7 @@ result(1, complete, 0).
 [program]
 ?- a @< b, f(x) @> b, a @=< a, b @>= a.
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (a @< b, f(x) @> b, a @=< a, b @>= a), []).
 result(1, complete, 1).
 answer(1, []).
@@ -1204,7 +1212,7 @@ married(a).
 single(X) :- person(X), \+ married(X).
 ?- single(X).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, single(_0), ['X' = _0]).
 result(1, complete, 0).
 
@@ -1217,7 +1225,7 @@ p(1).
 wrapper(G) :- call(G).
 ?- wrapper(p(X)).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, wrapper(p(_0)), ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 1]).
@@ -1230,7 +1238,7 @@ answer(1, ['X' = 1]).
 p(1).
 ?- p(2).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, p(2), []).
 result(1, complete, 0).
 
@@ -1259,7 +1267,7 @@ p(1)
 p(alice, 30).
 ?- p(Name, Age).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, p(_0, _1), ['Name' = _0, 'Age' = _1]).
 result(1, complete, 1).
 answer(1, ['Name' = alice, 'Age' = 30]).
@@ -1272,7 +1280,7 @@ answer(1, ['Name' = alice, 'Age' = 30]).
 p(1).
 ?- p(1).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, p(1), []).
 result(1, complete, 1).
 answer(1, []).
@@ -1285,7 +1293,7 @@ answer(1, []).
 p(1).
 ?- p(2).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, p(2), []).
 result(1, complete, 0).
 
@@ -1297,7 +1305,7 @@ result(1, complete, 0).
 p(X, X).
 ?- p(A, B).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, p(_0, _1), ['A' = _0, 'B' = _1]).
 result(1, complete, 1).
 answer(1, ['A' = _0, 'B' = _0]).
@@ -1312,7 +1320,7 @@ q(2).
 ?- p(X).
 ?- q(Y).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, p(_0), ['X' = _0]).
 result(1, complete, 1).
 answer(1, ['X' = 1]).
@@ -1327,8 +1335,10 @@ answer(2, ['Y' = 2]).
 [program]
 ?- X = 1, Y = 1.5, Z = "s", A = a, C = f(a).
 [output]
-% Prolog result format 3
-query(1, (_0 = 1, _1 = 1.5, _2 = "s", _3 = a, _4 = f(a)), ['X' = _0, 'Y' = _1, 'Z' = _2, 'A' = _3, 'C' = _4]).
+% Prolog result format 4
+query(1,
+      (_0 = 1, _1 = 1.5, _2 = "s", _3 = a, _4 = f(a)),
+      ['X' = _0, 'Y' = _1, 'Z' = _2, 'A' = _3, 'C' = _4]).
 result(1, complete, 1).
 answer(1, ['X' = 1, 'Y' = 1.5, 'Z' = "s", 'A' = a, 'C' = f(a)]).
 
@@ -1428,7 +1438,7 @@ p(1).
 [program]
 ?- X = "ab", sort([X, ab], Sorted).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, (_0 = "ab", sort([_0, ab], _1)), ['X' = _0, 'Sorted' = _1]).
 result(1, complete, 1).
 answer(1, ['X' = "ab", 'Sorted' = [ab, "ab"]]).
@@ -1444,7 +1454,7 @@ parent(a, b).
 parent(b, c).
 ?- ancestor(a, W).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, ancestor(a, _0), ['W' = _0]).
 result(1, complete, 2).
 answer(1, ['W' = b]).
@@ -1461,7 +1471,7 @@ reaches(X, Y) :- edge(X, Y).
 reaches(X, Z) :- reaches(X, Y), edge(Y, Z).
 ?- reaches(a, W).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, reaches(a, _0), ['W' = _0]).
 result(1, complete, 2).
 answer(1, ['W' = b]).
@@ -1480,7 +1490,7 @@ path(X, Y) :- edge(X, Y).
 path(X, Z) :- edge(X, Y), path(Y, Z).
 ?- path(a, d).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, path(a, d), []).
 result(1, complete, 1).
 answer(1, []).
@@ -1498,7 +1508,7 @@ path(X, Y) :- edge(X, Y).
 path(X, Z) :- edge(X, Y), path(Y, Z).
 ?- findall(d, path(a, d), L).
 [output]
-% Prolog result format 3
+% Prolog result format 4
 query(1, findall(d, path(a, d), _0), ['L' = _0]).
 result(1, complete, 1).
 answer(1, ['L' = [d]]).

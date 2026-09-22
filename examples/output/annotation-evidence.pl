@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, has_statement, []).
 result(1, complete, 1).
 answer(1, []).

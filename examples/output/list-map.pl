@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, test1(_0), ['R' = _0]).
 result(1, complete, 1).
 answer(1, ['R' = true]).

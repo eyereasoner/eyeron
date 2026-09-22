@@ -7,7 +7,7 @@
 
 { :msg :sameLanguageAs true . } pe:why {
   { :msg :sameLanguageAs true . }
-    pe:by [ pe:rule "now-and-language-builtins.n3"; pe:line 17 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "msg"; pe:value :msg ],
       [ pe:var "text"; pe:value "bonjour"@fr ];
@@ -16,15 +16,15 @@
       { "bonjour"@fr log:equalTo "bonjour"@fr . }.
 
   { :msg :text "bonjour"@fr . }
-    pe:by [ pe:fact "now-and-language-builtins.n3"; pe:line 14 ].
+    pe:fact "now-and-language-builtins.n3".
 
   { "bonjour"@fr log:equalTo "bonjour"@fr . }
-    pe:by [ pe:builtin log:equalTo ].
+    pe:builtin log:equalTo.
 }.
 
 { :clock :eventYear 2026 . } pe:why {
   { :clock :eventYear 2026 . }
-    pe:by [ pe:rule "now-and-language-builtins.n3"; pe:line 18 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "day"; pe:value 15 ],
       [ pe:var "event"; pe:value :clock ],
@@ -36,5 +36,5 @@
     pe:uses { :clock :event (2026 5 15 10 20 30) . }.
 
   { :clock :event (2026 5 15 10 20 30) . }
-    pe:by [ pe:fact "now-and-language-builtins.n3"; pe:line 15 ].
+    pe:fact "now-and-language-builtins.n3".
 }.

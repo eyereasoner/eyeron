@@ -9,7 +9,7 @@
 
 { :test :bestCost 5 . } pe:why {
   { :test :bestCost 5 . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 59 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "best"; pe:value 5 ],
       [ pe:var "bestPath"; pe:value (:a :b :c :d) ],
@@ -31,16 +31,16 @@
         (:a :d) :shortest (?path ?cost) .
     } (5 7 9)) log:collectAllIn ?SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (5 7 9) list:sort (5 7 9) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (5 7 9) list:firstRest (5 (7 9)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:a :d) :shortest ((:a :b :c :d) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 30 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "Cost"; pe:value 5 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -52,7 +52,7 @@
       { (:d :c :b :a) list:reverse (:a :b :c :d) . }.
 
   { (((0 :a)) :d ()) :shortest2 ((:d :c :b :a) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 41 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 0 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -89,13 +89,13 @@
       { (((2 :b :a) (5 :c :a)) :d (:a)) :shortest2 ((:d :c :b :a) 5) . }.
 
   { ((0 :a)) list:firstRest ((0 :a) ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (0 :a) list:firstRest (0 (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:a) list:firstRest (:a ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_1_2_680e1ac220b6c25a__L4 {
@@ -107,16 +107,16 @@
         (0 ?__backward_1_2_680e1ac220b6c25a__Weight) math:sum ?__backward_1_2_680e1ac220b6c25a__NewCost .
     } ((2 :b :a) (5 :c :a))) log:collectAllIn ?__backward_1_2_680e1ac220b6c25a__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (() ((2 :b :a) (5 :c :a))) list:append ((2 :b :a) (5 :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((2 :b :a) (5 :c :a)) list:sort ((2 :b :a) (5 :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((2 :b :a) (5 :c :a)) :d (:a)) :shortest2 ((:d :c :b :a) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 41 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 2 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -153,13 +153,13 @@
       { (((3 :c :b :a) (5 :c :a) (9 :d :b :a)) :d (:b :a)) :shortest2 ((:d :c :b :a) 5) . }.
 
   { ((2 :b :a) (5 :c :a)) list:firstRest ((2 :b :a) ((5 :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (2 :b :a) list:firstRest (2 (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:b :a) list:firstRest (:b (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_2_2_8a9ea185f1fbece4__L4 {
@@ -171,16 +171,16 @@
         (2 ?__backward_2_2_8a9ea185f1fbece4__Weight) math:sum ?__backward_2_2_8a9ea185f1fbece4__NewCost .
     } ((3 :c :b :a) (9 :d :b :a))) log:collectAllIn ?__backward_2_2_8a9ea185f1fbece4__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((5 :c :a)) ((3 :c :b :a) (9 :d :b :a))) list:append ((5 :c :a) (3 :c :b :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((5 :c :a) (3 :c :b :a) (9 :d :b :a)) list:sort ((3 :c :b :a) (5 :c :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((3 :c :b :a) (5 :c :a) (9 :d :b :a)) :d (:b :a)) :shortest2 ((:d :c :b :a) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 41 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 3 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -217,13 +217,13 @@
       { (((5 :c :a) (5 :d :c :b :a) (9 :d :b :a)) :d (:c :b :a)) :shortest2 ((:d :c :b :a) 5) . }.
 
   { ((3 :c :b :a) (5 :c :a) (9 :d :b :a)) list:firstRest ((3 :c :b :a) ((5 :c :a) (9 :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (3 :c :b :a) list:firstRest (3 (:c :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:c :b :a) list:firstRest (:c (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_3_2_4f430369f91cabc2__L4 {
@@ -235,16 +235,16 @@
         (3 ?__backward_3_2_4f430369f91cabc2__Weight) math:sum ?__backward_3_2_4f430369f91cabc2__NewCost .
     } ((5 :d :c :b :a))) log:collectAllIn ?__backward_3_2_4f430369f91cabc2__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((5 :c :a) (9 :d :b :a)) ((5 :d :c :b :a))) list:append ((5 :c :a) (9 :d :b :a) (5 :d :c :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((5 :c :a) (9 :d :b :a) (5 :d :c :b :a)) list:sort ((5 :c :a) (5 :d :c :b :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((5 :c :a) (5 :d :c :b :a) (9 :d :b :a)) :d (:c :b :a)) :shortest2 ((:d :c :b :a) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 41 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 5 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -281,13 +281,13 @@
       { (((5 :d :c :b :a) (7 :d :c :a) (9 :d :b :a)) :d (:c :c :b :a)) :shortest2 ((:d :c :b :a) 5) . }.
 
   { ((5 :c :a) (5 :d :c :b :a) (9 :d :b :a)) list:firstRest ((5 :c :a) ((5 :d :c :b :a) (9 :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (5 :c :a) list:firstRest (5 (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:c :a) list:firstRest (:c (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_4_2_5eabfb7ac14cf28a__L4 {
@@ -299,19 +299,19 @@
         (5 ?__backward_4_2_5eabfb7ac14cf28a__Weight) math:sum ?__backward_4_2_5eabfb7ac14cf28a__NewCost .
     } ((7 :d :c :a))) log:collectAllIn ?__backward_4_2_5eabfb7ac14cf28a__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((5 :d :c :b :a) (9 :d :b :a)) ((7 :d :c :a))) list:append ((5 :d :c :b :a) (9 :d :b :a) (7 :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((5 :d :c :b :a) (9 :d :b :a) (7 :d :c :a)) list:sort ((5 :d :c :b :a) (7 :d :c :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:c :c :b :a) list:firstRest (:c (:c :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((5 :d :c :b :a) (7 :d :c :a) (9 :d :b :a)) :d (:c :c :b :a)) :shortest2 ((:d :c :b :a) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 35 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "Cost"; pe:value 5 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -327,21 +327,21 @@
       { (:d :c :b :a) list:firstRest (:d (:c :b :a)) . }.
 
   { ((5 :d :c :b :a) (7 :d :c :a) (9 :d :b :a)) list:firstRest ((5 :d :c :b :a) ((7 :d :c :a) (9 :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (5 :d :c :b :a) list:firstRest (5 (:d :c :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :c :b :a) list:firstRest (:d (:c :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :c :b :a) list:reverse (:a :b :c :d) . }
-    pe:by [ pe:builtin list:reverse ].
+    pe:builtin list:reverse.
 }.
 
 { :test :bestPath (:a :b :c :d) . } pe:why {
   { :test :bestPath (:a :b :c :d) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 59 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "best"; pe:value 5 ],
       [ pe:var "bestPath"; pe:value (:a :b :c :d) ],
@@ -363,16 +363,16 @@
         (:a :d) :shortest (?path ?cost) .
     } (5 7 9)) log:collectAllIn ?SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (5 7 9) list:sort (5 7 9) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (5 7 9) list:firstRest (5 (7 9)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:a :d) :shortest ((:a :b :c :d) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 30 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "Cost"; pe:value 5 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -384,7 +384,7 @@
       { (:d :c :b :a) list:reverse (:a :b :c :d) . }.
 
   { (((0 :a)) :d ()) :shortest2 ((:d :c :b :a) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 41 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 0 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -421,13 +421,13 @@
       { (((2 :b :a) (5 :c :a)) :d (:a)) :shortest2 ((:d :c :b :a) 5) . }.
 
   { ((0 :a)) list:firstRest ((0 :a) ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (0 :a) list:firstRest (0 (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:a) list:firstRest (:a ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_1_2_680e1ac220b6c25a__L4 {
@@ -439,16 +439,16 @@
         (0 ?__backward_1_2_680e1ac220b6c25a__Weight) math:sum ?__backward_1_2_680e1ac220b6c25a__NewCost .
     } ((2 :b :a) (5 :c :a))) log:collectAllIn ?__backward_1_2_680e1ac220b6c25a__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (() ((2 :b :a) (5 :c :a))) list:append ((2 :b :a) (5 :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((2 :b :a) (5 :c :a)) list:sort ((2 :b :a) (5 :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((2 :b :a) (5 :c :a)) :d (:a)) :shortest2 ((:d :c :b :a) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 41 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 2 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -485,13 +485,13 @@
       { (((3 :c :b :a) (5 :c :a) (9 :d :b :a)) :d (:b :a)) :shortest2 ((:d :c :b :a) 5) . }.
 
   { ((2 :b :a) (5 :c :a)) list:firstRest ((2 :b :a) ((5 :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (2 :b :a) list:firstRest (2 (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:b :a) list:firstRest (:b (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_2_2_8a9ea185f1fbece4__L4 {
@@ -503,16 +503,16 @@
         (2 ?__backward_2_2_8a9ea185f1fbece4__Weight) math:sum ?__backward_2_2_8a9ea185f1fbece4__NewCost .
     } ((3 :c :b :a) (9 :d :b :a))) log:collectAllIn ?__backward_2_2_8a9ea185f1fbece4__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((5 :c :a)) ((3 :c :b :a) (9 :d :b :a))) list:append ((5 :c :a) (3 :c :b :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((5 :c :a) (3 :c :b :a) (9 :d :b :a)) list:sort ((3 :c :b :a) (5 :c :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((3 :c :b :a) (5 :c :a) (9 :d :b :a)) :d (:b :a)) :shortest2 ((:d :c :b :a) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 41 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 3 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -549,13 +549,13 @@
       { (((5 :c :a) (5 :d :c :b :a) (9 :d :b :a)) :d (:c :b :a)) :shortest2 ((:d :c :b :a) 5) . }.
 
   { ((3 :c :b :a) (5 :c :a) (9 :d :b :a)) list:firstRest ((3 :c :b :a) ((5 :c :a) (9 :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (3 :c :b :a) list:firstRest (3 (:c :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:c :b :a) list:firstRest (:c (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_3_2_4f430369f91cabc2__L4 {
@@ -567,16 +567,16 @@
         (3 ?__backward_3_2_4f430369f91cabc2__Weight) math:sum ?__backward_3_2_4f430369f91cabc2__NewCost .
     } ((5 :d :c :b :a))) log:collectAllIn ?__backward_3_2_4f430369f91cabc2__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((5 :c :a) (9 :d :b :a)) ((5 :d :c :b :a))) list:append ((5 :c :a) (9 :d :b :a) (5 :d :c :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((5 :c :a) (9 :d :b :a) (5 :d :c :b :a)) list:sort ((5 :c :a) (5 :d :c :b :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((5 :c :a) (5 :d :c :b :a) (9 :d :b :a)) :d (:c :b :a)) :shortest2 ((:d :c :b :a) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 41 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 5 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -613,13 +613,13 @@
       { (((5 :d :c :b :a) (7 :d :c :a) (9 :d :b :a)) :d (:c :c :b :a)) :shortest2 ((:d :c :b :a) 5) . }.
 
   { ((5 :c :a) (5 :d :c :b :a) (9 :d :b :a)) list:firstRest ((5 :c :a) ((5 :d :c :b :a) (9 :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (5 :c :a) list:firstRest (5 (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:c :a) list:firstRest (:c (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_4_2_5eabfb7ac14cf28a__L4 {
@@ -631,19 +631,19 @@
         (5 ?__backward_4_2_5eabfb7ac14cf28a__Weight) math:sum ?__backward_4_2_5eabfb7ac14cf28a__NewCost .
     } ((7 :d :c :a))) log:collectAllIn ?__backward_4_2_5eabfb7ac14cf28a__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((5 :d :c :b :a) (9 :d :b :a)) ((7 :d :c :a))) list:append ((5 :d :c :b :a) (9 :d :b :a) (7 :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((5 :d :c :b :a) (9 :d :b :a) (7 :d :c :a)) list:sort ((5 :d :c :b :a) (7 :d :c :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:c :c :b :a) list:firstRest (:c (:c :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((5 :d :c :b :a) (7 :d :c :a) (9 :d :b :a)) :d (:c :c :b :a)) :shortest2 ((:d :c :b :a) 5) . }
-    pe:by [ pe:rule "shortest-path.n3"; pe:line 35 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "Cost"; pe:value 5 ],
       [ pe:var "Goal"; pe:value :d ],
@@ -659,14 +659,14 @@
       { (:d :c :b :a) list:firstRest (:d (:c :b :a)) . }.
 
   { ((5 :d :c :b :a) (7 :d :c :a) (9 :d :b :a)) list:firstRest ((5 :d :c :b :a) ((7 :d :c :a) (9 :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (5 :d :c :b :a) list:firstRest (5 (:d :c :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :c :b :a) list:firstRest (:d (:c :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :c :b :a) list:reverse (:a :b :c :d) . }
-    pe:by [ pe:builtin list:reverse ].
+    pe:builtin list:reverse.
 }.

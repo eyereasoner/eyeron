@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, must_have(_0, _1), ['Person' = _0, 'License' = _1]).
 result(1, complete, 1).
 answer(1, ['Person' = alice, 'License' = dogLicense]).

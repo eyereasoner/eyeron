@@ -6,7 +6,7 @@
 
 { :event1 :year 2026 . } pe:why {
   { :event1 :year 2026 . }
-    pe:by [ pe:rule "spec-builtins.n3"; pe:line 12 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "day"; pe:value 15 ],
       [ pe:var "event"; pe:value :event1 ],
@@ -18,17 +18,17 @@
     pe:uses { :event1 :when (2026 5 15 10 20 30) . }.
 
   { :event1 :when (2026 5 15 10 20 30) . }
-    pe:by [ pe:fact "spec-builtins.n3"; pe:line 9 ].
+    pe:fact "spec-builtins.n3".
 }.
 
 { :test :quoted :subject . } pe:why {
   { :test :quoted :subject . }
-    pe:by [ pe:rule "spec-builtins.n3"; pe:line 13 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "subject"; pe:value :subject ],
       [ pe:var "t"; pe:value :triple1 ];
     pe:uses { :triple1 :value (:subject :predicate :object) . }.
 
   { :triple1 :value (:subject :predicate :object) . }
-    pe:by [ pe:fact "spec-builtins.n3"; pe:line 10 ].
+    pe:fact "spec-builtins.n3".
 }.

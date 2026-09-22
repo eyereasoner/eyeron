@@ -8,17 +8,17 @@
 
 { :carol a :Blocked . } pe:why {
   { :carol a :Blocked . }
-    pe:by [ pe:rule "policy.n3"; pe:line 16 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :carol ];
     pe:uses { :carol a :Flagged . }.
 
   { :carol a :Flagged . }
-    pe:by [ pe:fact "policy.n3"; pe:line 14 ].
+    pe:fact "policy.n3".
 }.
 
 { :bob a :Eligible . } pe:why {
   { :bob a :Eligible . }
-    pe:by [ pe:rule "policy.n3"; pe:line 18 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "SCOPE"; pe:value {
           <http://example.org/a> <http://example.org/b> <http://example.org/c> .
@@ -35,7 +35,7 @@
       }.
 
   { :bob a :Person . }
-    pe:by [ pe:fact "policy.n3"; pe:line 11 ].
+    pe:fact "policy.n3".
 
   {
     {
@@ -44,5 +44,5 @@
         :bob a :Blocked .
     } .
 }
-    pe:by [ pe:builtin log:notIncludes ].
+    pe:builtin log:notIncludes.
 }.

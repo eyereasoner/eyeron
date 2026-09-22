@@ -8,24 +8,24 @@
 
 { :sample a :UnicodeDecoded . } pe:why {
   { :sample a :UnicodeDecoded . }
-    pe:by [ pe:rule "unicode-and-signed-numbers.n3"; pe:line 10 ];
+    pe:rule 1;
     pe:uses { :sample :text "ABC" . }.
 
   { :sample :text "ABC" . }
-    pe:by [ pe:fact "unicode-and-signed-numbers.n3"; pe:line 7 ].
+    pe:fact "unicode-and-signed-numbers.n3".
 }.
 
 { :thermo a :BelowZero . } pe:why {
   { :thermo a :BelowZero . }
-    pe:by [ pe:rule "unicode-and-signed-numbers.n3"; pe:line 11 ];
+    pe:rule 2;
     pe:binding [ pe:var "d"; pe:value -12 ];
     pe:uses
       { :thermo :delta -12 . },
       { -12 math:lessThan 0 . }.
 
   { :thermo :delta -12 . }
-    pe:by [ pe:fact "unicode-and-signed-numbers.n3"; pe:line 8 ].
+    pe:fact "unicode-and-signed-numbers.n3".
 
   { -12 math:lessThan 0 . }
-    pe:by [ pe:builtin math:lessThan ].
+    pe:builtin math:lessThan.
 }.

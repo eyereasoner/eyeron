@@ -199,11 +199,24 @@ ANSWER = re.compile(r"^answer\((\d+), (\[.*\])\)\.$")
 PROJECTION = re.compile(r"^query\((\d+), .*, (\[.*\])\)\.$")
 
 
+def reflow(lines):
+    """Join a document's wrapped facts back into one line each. The writer
+    breaks a wide fact one argument per line, continuing with leading
+    spaces."""
+    out = []
+    for line in lines:
+        if out and line.startswith(" "):
+            out[-1] = out[-1] + " " + line.strip()
+        else:
+            out.append(line)
+    return out
+
+
 def expected_answers(case):
     """eyeron's recorded answers, per query id, as Prolog list text."""
     answers = {}
     projections = {}
-    for line in case["output"]:
+    for line in reflow(case["output"]):
         match = ANSWER.match(line.strip())
         if match:
             index = len(answers.setdefault(int(match.group(1)), []))

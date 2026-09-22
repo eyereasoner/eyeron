@@ -28,7 +28,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(:stepMortal :dependsOn :stepHuman)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "dep"; pe:value :stepHuman ],
       [ pe:var "step"; pe:value :stepMortal ];
@@ -36,7 +36,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(:stepMortal :dependsOn :stepSubClass)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "dep"; pe:value :stepSubClass ],
       [ pe:var "step"; pe:value :stepMortal ];
@@ -44,7 +44,7 @@ DATA {
 
   _:step3
     rdf:reifies <<(:stepHuman :sourceFact true)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "src"; pe:value "socrates.srl" ],
       [ pe:var "step"; pe:value :stepHuman ];
@@ -52,7 +52,7 @@ DATA {
 
   _:step4
     rdf:reifies <<(:stepSubClass :sourceFact true)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "src"; pe:value "socrates.srl" ],
       [ pe:var "step"; pe:value :stepSubClass ];
@@ -60,27 +60,27 @@ DATA {
 
   _:step5
     rdf:reifies <<(:test :root :stepMortal)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "root"; pe:value :stepMortal ],
-      [ pe:var "ruleName"; pe:value "socrates.srl" ];
-    pe:uses <<(:stepMortal pe:rule "socrates.srl")>>.
+      [ pe:var "ruleName"; pe:value 1 ];
+    pe:uses <<(:stepMortal pe:rule 1)>>.
 
   _:step6
     rdf:reifies <<(:stepHuman :supportedBy :stepHuman)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding [ pe:var "step"; pe:value :stepHuman ];
     pe:uses _:step3.
 
   _:step7
     rdf:reifies <<(:stepSubClass :supportedBy :stepSubClass)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding [ pe:var "step"; pe:value :stepSubClass ];
     pe:uses _:step4.
 
   _:step8
     rdf:reifies <<(:stepMortal :supportedBy :stepHuman)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "anc"; pe:value :stepHuman ],
       [ pe:var "step"; pe:value :stepMortal ];
@@ -90,7 +90,7 @@ DATA {
 
   _:step9
     rdf:reifies <<(:stepMortal :supportedBy :stepSubClass)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "anc"; pe:value :stepSubClass ],
       [ pe:var "step"; pe:value :stepMortal ];
@@ -100,7 +100,7 @@ DATA {
 
   _:step10
     rdf:reifies <<(:test :queryDependency :stepHuman)>>;
-    pe:rule "rule#7";
+    pe:rule 7;
     pe:binding
       [ pe:var "anc"; pe:value :stepHuman ],
       [ pe:var "root"; pe:value :stepMortal ];
@@ -110,7 +110,7 @@ DATA {
 
   _:step11
     rdf:reifies <<(:test :queryDependency :stepSubClass)>>;
-    pe:rule "rule#7";
+    pe:rule 7;
     pe:binding
       [ pe:var "anc"; pe:value :stepSubClass ],
       [ pe:var "root"; pe:value :stepMortal ];
@@ -120,7 +120,7 @@ DATA {
 
   _:step12
     rdf:reifies <<(:test :support :stepHuman)>>;
-    pe:rule "rule#8";
+    pe:rule 8;
     pe:binding
       [ pe:var "fact"; pe:value :stepHuman ],
       [ pe:var "root"; pe:value :stepMortal ];
@@ -130,7 +130,7 @@ DATA {
 
   _:step13
     rdf:reifies <<(:test :support :stepSubClass)>>;
-    pe:rule "rule#8";
+    pe:rule 8;
     pe:binding
       [ pe:var "fact"; pe:value :stepSubClass ],
       [ pe:var "root"; pe:value :stepMortal ];
@@ -140,7 +140,7 @@ DATA {
 
   _:step14
     rdf:reifies <<(_:b4_517b3be80e8ffd1b a :AnswerApplied)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bindingNode"; pe:value _:b1 ],
       [ pe:var "name"; pe:value "A" ],
@@ -154,7 +154,7 @@ DATA {
 
   _:step15
     rdf:reifies <<(_:b4_517b3be80e8ffd1b :var "A")>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bindingNode"; pe:value _:b1 ],
       [ pe:var "name"; pe:value "A" ],
@@ -168,7 +168,7 @@ DATA {
 
   _:step16
     rdf:reifies <<(_:b4_517b3be80e8ffd1b :value :Human)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bindingNode"; pe:value _:b1 ],
       [ pe:var "name"; pe:value "A" ],
@@ -182,7 +182,7 @@ DATA {
 
   _:step17
     rdf:reifies <<(_:b4_b74b502731877675 a :AnswerApplied)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bindingNode"; pe:value _:b2 ],
       [ pe:var "name"; pe:value "B" ],
@@ -196,7 +196,7 @@ DATA {
 
   _:step18
     rdf:reifies <<(_:b4_b74b502731877675 :var "B")>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bindingNode"; pe:value _:b2 ],
       [ pe:var "name"; pe:value "B" ],
@@ -210,7 +210,7 @@ DATA {
 
   _:step19
     rdf:reifies <<(_:b4_b74b502731877675 :value :Mortal)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bindingNode"; pe:value _:b2 ],
       [ pe:var "name"; pe:value "B" ],
@@ -224,7 +224,7 @@ DATA {
 
   _:step20
     rdf:reifies <<(_:b4_67f64218deb828d6 a :AnswerApplied)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bindingNode"; pe:value _:b3 ],
       [ pe:var "name"; pe:value "S" ],
@@ -238,7 +238,7 @@ DATA {
 
   _:step21
     rdf:reifies <<(_:b4_67f64218deb828d6 :var "S")>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bindingNode"; pe:value _:b3 ],
       [ pe:var "name"; pe:value "S" ],
@@ -252,7 +252,7 @@ DATA {
 
   _:step22
     rdf:reifies <<(_:b4_67f64218deb828d6 :value :Socrates)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bindingNode"; pe:value _:b3 ],
       [ pe:var "name"; pe:value "S" ],

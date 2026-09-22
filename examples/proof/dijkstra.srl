@@ -20,7 +20,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(:abc a :Path)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "left"; pe:value 2 ],
       [ pe:var "path"; pe:value :abc ],
@@ -33,7 +33,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(:abc :cost 3)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "left"; pe:value 2 ],
       [ pe:var "path"; pe:value :abc ],
@@ -46,7 +46,7 @@ DATA {
 
   _:step3
     rdf:reifies <<(:abd a :Path)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "left"; pe:value 2 ],
       [ pe:var "path"; pe:value :abd ],
@@ -59,7 +59,7 @@ DATA {
 
   _:step4
     rdf:reifies <<(:abd :cost 9)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "left"; pe:value 2 ],
       [ pe:var "path"; pe:value :abd ],
@@ -72,7 +72,7 @@ DATA {
 
   _:step5
     rdf:reifies <<(:acd a :Path)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "left"; pe:value 5 ],
       [ pe:var "path"; pe:value :acd ],
@@ -85,7 +85,7 @@ DATA {
 
   _:step6
     rdf:reifies <<(:acd :cost 7)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "left"; pe:value 5 ],
       [ pe:var "path"; pe:value :acd ],
@@ -98,7 +98,7 @@ DATA {
 
   _:step7
     rdf:reifies <<(:abcd a :Path)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "left"; pe:value 2 ],
       [ pe:var "path"; pe:value :abcd ],
@@ -111,7 +111,7 @@ DATA {
 
   _:step8
     rdf:reifies <<(:abcd :cost 5)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "left"; pe:value 2 ],
       [ pe:var "path"; pe:value :abcd ],
@@ -124,7 +124,7 @@ DATA {
 
   _:step9
     rdf:reifies <<(:ac :dominated true)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "better"; pe:value :abc ],
       [ pe:var "betterCost"; pe:value 3 ],
@@ -144,7 +144,7 @@ DATA {
 
   _:step10
     rdf:reifies <<(:abd :dominated true)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "better"; pe:value :acd ],
       [ pe:var "betterCost"; pe:value 7 ],
@@ -164,7 +164,7 @@ DATA {
 
   _:step11
     rdf:reifies <<(:acd :dominated true)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "better"; pe:value :abcd ],
       [ pe:var "betterCost"; pe:value 5 ],
@@ -184,19 +184,19 @@ DATA {
 
   _:step12
     rdf:reifies <<(:ab :best true)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding [ pe:var "path"; pe:value :ab ];
     pe:uses <<(:ab a :Path)>>.
 
   _:step13
     rdf:reifies <<(:abc :best true)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding [ pe:var "path"; pe:value :abc ];
     pe:uses _:step1.
 
   _:step14
     rdf:reifies <<(:abcd :best true)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding [ pe:var "path"; pe:value :abcd ];
     pe:uses _:step7.
 }

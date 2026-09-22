@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, is_policy(_0), ['P' = _0]).
 result(1, complete, 1).
 answer(1, ['P' = alphaPolicy]).

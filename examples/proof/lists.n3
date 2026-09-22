@@ -8,12 +8,12 @@
 
 { :query :appendResult (:a :b) . } pe:why {
   { :query :appendResult (:a :b) . }
-    pe:by [ pe:rule "lists.n3"; pe:line 26 ];
+    pe:rule 3;
     pe:binding [ pe:var "result"; pe:value (:a :b) ];
     pe:uses { ((:a) (:b)) :append (:a :b) . }.
 
   { ((:a) (:b)) :append (:a :b) . }
-    pe:by [ pe:rule "lists.n3"; pe:line 18 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "xrest"; pe:value () ],
@@ -27,32 +27,32 @@
       { (:a :b) list:firstRest (:a (:b)) . }.
 
   { (:a) list:firstRest (:a ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (() (:b)) :append (:b) . }
-    pe:by [ pe:rule "lists.n3"; pe:line 24 ];
+    pe:rule 2;
     pe:binding [ pe:var "ys"; pe:value (:b) ].
 
   { (:a :b) list:firstRest (:a (:b)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 }.
 
 { :query :member :a . } pe:why {
   { :query :member :a . }
-    pe:by [ pe:rule "lists.n3"; pe:line 27 ];
+    pe:rule 4;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { (:a :b :a) list:member :a . }.
 
   { (:a :b :a) list:member :a . }
-    pe:by [ pe:builtin list:member ].
+    pe:builtin list:member.
 }.
 
 { :query :member :b . } pe:why {
   { :query :member :b . }
-    pe:by [ pe:rule "lists.n3"; pe:line 27 ];
+    pe:rule 4;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { (:a :b :a) list:member :b . }.
 
   { (:a :b :a) list:member :b . }
-    pe:by [ pe:builtin list:member ].
+    pe:builtin list:member.
 }.

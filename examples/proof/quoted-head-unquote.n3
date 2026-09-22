@@ -25,7 +25,7 @@
         ?X a :Animal .
     } .
 }
-    pe:by [ pe:rule "quoted-head-unquote.n3"; pe:line 13 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "C"; pe:value {
           {
@@ -54,29 +54,29 @@
         } .
     } .
 }
-    pe:by [ pe:fact "quoted-head-unquote.n3"; pe:line 9 ].
+    pe:fact "quoted-head-unquote.n3".
 }.
 
 { :c a :Animal . } pe:why {
   { :c a :Animal . }
-    pe:by [ pe:rule "<unknown>" ];
+    pe:rule 3;
     pe:binding [ pe:var "X"; pe:value :c ];
     pe:uses { :c a :Cat . }.
 
   { :c a :Cat . }
-    pe:by [ pe:fact "quoted-head-unquote.n3"; pe:line 18 ].
+    pe:fact "quoted-head-unquote.n3".
 }.
 
 { :test :is true . } pe:why {
   { :test :is true . }
-    pe:by [ pe:rule "quoted-head-unquote.n3"; pe:line 20 ];
+    pe:rule 2;
     pe:uses { :c a :Animal . }.
 
   { :c a :Animal . }
-    pe:by [ pe:rule "<unknown>" ];
+    pe:rule 3;
     pe:binding [ pe:var "X"; pe:value :c ];
     pe:uses { :c a :Cat . }.
 
   { :c a :Cat . }
-    pe:by [ pe:fact "quoted-head-unquote.n3"; pe:line 18 ].
+    pe:fact "quoted-head-unquote.n3".
 }.

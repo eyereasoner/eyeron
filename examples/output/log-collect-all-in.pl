@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, result1(_0), ['All' = _0]).
 result(1, complete, 1).
 answer(1, ['All' = ["Dewey", "Huey", "Louie"]]).

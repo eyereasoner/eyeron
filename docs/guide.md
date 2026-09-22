@@ -43,14 +43,24 @@ printf '@prefix : <http://example.org/> . :Socrates a :Man . { ?x a :Man . } => 
 
 ## Proofs
 
-All three formats support `--proof`. N3 and SPARQL-RL retain rule applications, instantiated premises, and bindings when proof collection is enabled; Prolog has its own proof format. An N3 proof is an N3 document, a SPARQL-RL proof is an `.srl` rule set whose `DATA` block reifies one step per derived fact, and a Prolog proof is a Prolog result document — so each can be read back by the engine that produced it.
+All three formats support `--proof`, and all three write **the same proof**: a list of steps, one per justified conclusion, each naming why it holds, the bindings that justification used, and the conclusions it used. Only the syntax differs, because each proof is a document in the language that produced it — an N3 proof is N3, a SPARQL-RL proof is an `.srl` rule set, a Prolog proof is a Prolog result document — so each can be read back by the engine that wrote it.
+
+| One step | N3 | SPARQL 1.2 RL | Prolog |
+| --- | --- | --- | --- |
+| its conclusion | `{ s p o }` as the subject | `_:stepN rdf:reifies <<(s p o)>>` | `step(Conclusion, …)` |
+| why it holds | `pe:rule N` / `pe:fact "file"` / `pe:builtin` / `pe:unproven` | the same predicates | `rule(N)` / `fact(N)` / `builtin` / `absent` / `collected` |
+| the bindings used | `pe:binding [ pe:var "X"; pe:value V ]` | the same | `['X' = V, …]` |
+| what it used | `pe:uses { s p o }` | `pe:uses _:stepK` | a list of those steps' own conclusions |
+
+A step names what it used by that premise's own conclusion (or, in SPARQL-RL, by the node reifying it) rather than by an id to be joined back, so a proof reads top-down from the claim without a lookup table. A rule is cited by its number in the document, the same number in all three. `examples/proof-audit.n3`, `.srl` and `.pl` each query their own engine's proof document for dependency chains, supporting source facts, and the bindings a rule application used — three readings of one shape.
 
 ```bash
+cargo run --release -- --proof examples/socrates.n3
 cargo run --release -- --proof examples/socrates.srl
 cargo run --release -- --proof examples/socrates.pl
 ```
 
-A trace explains how an answer followed from the input; it does not establish that the input facts are true. Coverage has limits: SPARQL-RL records the positive premises that fed a rule, not a separate reification of every `FILTER`, `NOT`, or `SET`. Proof collection costs memory and, for a derivation with many interdependent facts, time — enable it when you want the explanation.
+A trace explains how an answer followed from the input; it does not establish that the input facts are true. Coverage has limits: SPARQL-RL records the positive premises that fed a rule, not a separate reification of every `FILTER`, `NOT`, or `SET`, and a Prolog step for a built-in, a `\+` or a `findall/3` is a trusted record rather than a checked one. Proof collection costs memory and, for a derivation with many interdependent facts, time — enable it when you want the explanation.
 
 ## Rust library
 

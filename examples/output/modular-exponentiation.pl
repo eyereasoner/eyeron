@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, small_check(_0, _1), ['Naive' = _0, 'Fast' = _1]).
 result(1, complete, 1).
 answer(1, ['Naive' = 38, 'Fast' = 38]).

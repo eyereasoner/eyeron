@@ -7,7 +7,7 @@
 
 { :bob a :Orphan . } pe:why {
   { :bob a :Orphan . }
-    pe:by [ pe:rule "negation-orphan.n3"; pe:line 11 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "SCOPE"; pe:value {
           <http://example.org/a> <http://example.org/b> <http://example.org/c> .
@@ -24,7 +24,7 @@
       }.
 
   { :bob a :Person . }
-    pe:by [ pe:fact "negation-orphan.n3"; pe:line 8 ].
+    pe:fact "negation-orphan.n3".
 
   {
     {
@@ -33,5 +33,5 @@
         :bob :childOf ?y .
     } .
 }
-    pe:by [ pe:builtin log:notIncludes ].
+    pe:builtin log:notIncludes.
 }.

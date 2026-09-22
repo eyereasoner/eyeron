@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, phase_pi(_0, _1), ['Re' = _0, 'Im' = _1]).
 result(1, complete, 1).
 answer(1, ['Re' = -1, 'Im' = 0]).

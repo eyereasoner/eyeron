@@ -1,8 +1,16 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, ranked_report(_0, _1, _2), ['Agreement' = _0, 'Profile' = _1, 'Risks' = _2]).
 result(1, complete, 1).
-answer(1, ['Agreement' = "Example Agreement", 'Profile' = "Example consumer profile", 'Risks' = [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]]).
-why(1, ['Agreement' = "Example Agreement", 'Profile' = "Example consumer profile", 'Risks' = [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]], 216).
+answer(1,
+       ['Agreement' = "Example Agreement",
+        'Profile' = "Example consumer profile",
+        'Risks' = [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]]).
+why(1,
+    ['Agreement' = "Example Agreement",
+     'Profile' = "Example consumer profile",
+     'Risks' = [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]],
+    [ranked_report("Example Agreement", "Example consumer profile", [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))])]).
+
 clause(1, profile(consumer_example, "Example consumer profile"), true).
 clause(2, has_need(consumer_example, need_data_cannot_be_removed), true).
 clause(3, has_need(consumer_example, need_change_only_with_prior_notice), true).
@@ -14,471 +22,672 @@ clause(8, need(need_no_sharing_without_consent, 12), true).
 clause(9, need(need_data_portability, 10), true).
 clause(10, minimum_notice_days(need_change_only_with_prior_notice, 14), true).
 clause(11, agreement(agreement1, "Example Agreement", policy1), true).
-clause(12, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1), true).
-clause(13, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2), true).
+clause(12,
+       permission(policy1, perm_delete_account, remove_account, user_account, clause_c1),
+       true).
+clause(13,
+       permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2),
+       true).
 clause(14, permission(policy1, perm_share_data, share_data, user_data, clause_c3), true).
 clause(15, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4), true).
 clause(16, duty(perm_change_terms, inform), true).
 clause(17, constraint(perm_change_terms, notice_days, gteq, 3), true).
-clause(18, clause(clause_c1, "C1", "Provider may remove the user account and associated data at its discretion."), true).
-clause(19, clause(clause_c2, "C2", "Provider may change terms by informing users at least 3 days in advance."), true).
-clause(20, clause(clause_c3, "C3", "Provider may share user data with partners for business purposes."), true).
+clause(18,
+       clause(clause_c1, "C1", "Provider may remove the user account and associated data at its discretion."),
+       true).
+clause(19,
+       clause(clause_c2, "C2", "Provider may change terms by informing users at least 3 days in advance."),
+       true).
+clause(20,
+       clause(clause_c3, "C3", "Provider may share user data with partners for business purposes."),
+       true).
 clause(21, clause(clause_c4, "C4", "Users are not permitted to export their data."), true).
-clause(26, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, var('Clause'), need_data_cannot_be_removed, var('Raw'), "Account removal is permitted without a notice constraint or duty to inform."), (agreement(agreement1, var('Title'), policy1), has_need(consumer_example, need_data_cannot_be_removed), need(need_data_cannot_be_removed, var('Weight')), permission(policy1, perm_delete_account, remove_account, user_account, var('Clause')), \+has_notice_constraint(perm_delete_account), \+has_inform_duty(perm_delete_account), var('Raw') is 90 + var('Weight'))).
-clause(27, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, var('Clause'), need_change_only_with_prior_notice, var('Raw'), "Terms may change with less notice than the consumer requires."), (has_need(consumer_example, need_change_only_with_prior_notice), need(need_change_only_with_prior_notice, var('Weight')), minimum_notice_days(need_change_only_with_prior_notice, var('Required')), permission(policy1, perm_change_terms, change_terms, agreement_text, var('Clause')), duty(perm_change_terms, inform), constraint(perm_change_terms, notice_days, gteq, var('Days')), var('Days') < var('Required'), var('Raw') is 70 + var('Weight'))).
-clause(28, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, var('Clause'), need_no_sharing_without_consent, var('Raw'), "User data sharing is permitted without an explicit consent constraint."), (has_need(consumer_example, need_no_sharing_without_consent), need(need_no_sharing_without_consent, var('Weight')), permission(policy1, perm_share_data, share_data, user_data, var('Clause')), \+has_explicit_consent(perm_share_data), var('Raw') is 85 + var('Weight'))).
-clause(29, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, var('Clause'), need_data_portability, var('Raw'), "Portability is restricted because exporting user data is prohibited."), (has_need(consumer_example, need_data_portability), need(need_data_portability, var('Weight')), prohibition(policy1, prohibit_export_data, export_data, user_data, var('Clause')), var('Raw') is 60 + var('Weight'))).
-clause(30, score(var('Risk'), 100), (detected_risk(var('Risk'), var('Source'), var('Source_type'), var('Kind'), var('Rule'), var('Clause'), var('Need'), var('Raw'), var('Why')), var('Raw') > 100)).
-clause(31, score(var('Risk'), var('Raw')), (detected_risk(var('Risk'), var('Source'), var('Source_type'), var('Kind'), var('Rule'), var('Clause'), var('Need'), var('Raw'), var('Why')), var('Raw') =< 100)).
-clause(32, risk_level(var('Risk'), high_risk, high_severity), (score(var('Risk'), var('Score')), var('Score') > 79)).
-clause(33, risk_level(var('Risk'), moderate_risk, moderate_severity), (score(var('Risk'), var('Score')), var('Score') >= 50, var('Score') < 80)).
-clause(49, mitigation(risk_delete_without_safeguards, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), detected_risk(risk_delete_without_safeguards, var('S'), var('St'), var('K'), var('R'), var('C'), var('N'), var('Raw'), var('W'))).
-clause(50, mitigation(risk_delete_without_safeguards, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal."), detected_risk(risk_delete_without_safeguards, var('S'), var('St'), var('K'), var('R'), var('C'), var('N'), var('Raw'), var('W'))).
-clause(51, mitigation(risk_notice_too_short, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement."), detected_risk(risk_notice_too_short, var('S'), var('St'), var('K'), var('R'), var('C'), var('N'), var('Raw'), var('W'))).
-clause(52, mitigation(risk_share_without_consent, mitigate_share_consent, "Add an explicit consent constraint before data sharing."), detected_risk(risk_share_without_consent, var('S'), var('St'), var('K'), var('R'), var('C'), var('N'), var('Raw'), var('W'))).
-clause(53, mitigation(risk_no_portability, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability."), detected_risk(risk_no_portability, var('S'), var('St'), var('K'), var('R'), var('C'), var('N'), var('Raw'), var('W'))).
-clause(54, risk_explanation(risk_delete_without_safeguards, var('Text')), (detected_risk(risk_delete_without_safeguards, var('S'), var('St'), var('K'), var('R'), var('Clause'), var('N'), var('Raw'), var('W')), clause(var('Clause'), var('Clause_id'), var('Clause_text')), atomics_to_string(["Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause ", var('Clause_id'), ": ", var('Clause_text')], var('Text')))).
-clause(55, risk_explanation(risk_notice_too_short, var('Text')), (detected_risk(risk_notice_too_short, var('S'), var('St'), var('K'), var('R'), var('Clause'), var('N'), var('Raw'), var('W')), constraint(perm_change_terms, notice_days, gteq, var('Days')), minimum_notice_days(need_change_only_with_prior_notice, var('Required')), clause(var('Clause'), var('Clause_id'), var('Clause_text')), atomics_to_string(["Risk: terms may change with notice (", var('Days'), " days) below consumer requirement (", var('Required'), " days). Clause ", var('Clause_id'), ": ", var('Clause_text')], var('Text')))).
-clause(56, risk_explanation(risk_share_without_consent, var('Text')), (detected_risk(risk_share_without_consent, var('S'), var('St'), var('K'), var('R'), var('Clause'), var('N'), var('Raw'), var('W')), clause(var('Clause'), var('Clause_id'), var('Clause_text')), atomics_to_string(["Risk: user data sharing is permitted without an explicit consent constraint. Clause ", var('Clause_id'), ": ", var('Clause_text')], var('Text')))).
-clause(57, risk_explanation(risk_no_portability, var('Text')), (detected_risk(risk_no_portability, var('S'), var('St'), var('K'), var('R'), var('Clause'), var('N'), var('Raw'), var('W')), clause(var('Clause'), var('Clause_id'), var('Clause_text')), atomics_to_string(["Risk: portability is restricted because exporting user data is prohibited. Clause ", var('Clause_id'), ": ", var('Clause_text')], var('Text')))).
-clause(58, risk_labels(high_risk, high_severity, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity")), true).
-clause(59, risk_labels(moderate_risk, moderate_severity, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity")), true).
+clause(26,
+       detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, var('Clause'), need_data_cannot_be_removed, var('Raw'), "Account removal is permitted without a notice constraint or duty to inform."),
+       (agreement(agreement1, var('Title'), policy1),
+        has_need(consumer_example, need_data_cannot_be_removed),
+        need(need_data_cannot_be_removed, var('Weight')),
+        permission(policy1, perm_delete_account, remove_account, user_account, var('Clause')),
+        \+has_notice_constraint(perm_delete_account),
+        \+has_inform_duty(perm_delete_account),
+        var('Raw') is 90 + var('Weight'))).
+clause(27,
+       detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, var('Clause'), need_change_only_with_prior_notice, var('Raw'), "Terms may change with less notice than the consumer requires."),
+       (has_need(consumer_example, need_change_only_with_prior_notice),
+        need(need_change_only_with_prior_notice, var('Weight')),
+        minimum_notice_days(need_change_only_with_prior_notice, var('Required')),
+        permission(policy1, perm_change_terms, change_terms, agreement_text, var('Clause')),
+        duty(perm_change_terms, inform),
+        constraint(perm_change_terms, notice_days, gteq, var('Days')),
+        var('Days') < var('Required'),
+        var('Raw') is 70 + var('Weight'))).
+clause(28,
+       detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, var('Clause'), need_no_sharing_without_consent, var('Raw'), "User data sharing is permitted without an explicit consent constraint."),
+       (has_need(consumer_example, need_no_sharing_without_consent),
+        need(need_no_sharing_without_consent, var('Weight')),
+        permission(policy1, perm_share_data, share_data, user_data, var('Clause')),
+        \+has_explicit_consent(perm_share_data),
+        var('Raw') is 85 + var('Weight'))).
+clause(29,
+       detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, var('Clause'), need_data_portability, var('Raw'), "Portability is restricted because exporting user data is prohibited."),
+       (has_need(consumer_example, need_data_portability),
+        need(need_data_portability, var('Weight')),
+        prohibition(policy1, prohibit_export_data, export_data, user_data, var('Clause')),
+        var('Raw') is 60 + var('Weight'))).
+clause(30,
+       score(var('Risk'), 100),
+       (detected_risk(var('Risk'), var('Source'), var('Source_type'), var('Kind'), var('Rule'), var('Clause'), var('Need'), var('Raw'), var('Why')),
+        var('Raw') > 100)).
+clause(31,
+       score(var('Risk'), var('Raw')),
+       (detected_risk(var('Risk'), var('Source'), var('Source_type'), var('Kind'), var('Rule'), var('Clause'), var('Need'), var('Raw'), var('Why')),
+        var('Raw') =< 100)).
+clause(32,
+       risk_level(var('Risk'), high_risk, high_severity),
+       (score(var('Risk'), var('Score')), var('Score') > 79)).
+clause(33,
+       risk_level(var('Risk'), moderate_risk, moderate_severity),
+       (score(var('Risk'), var('Score')), var('Score') >= 50, var('Score') < 80)).
+clause(49,
+       mitigation(risk_delete_without_safeguards, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."),
+       detected_risk(risk_delete_without_safeguards, var('S'), var('St'), var('K'), var('R'), var('C'), var('N'), var('Raw'), var('W'))).
+clause(50,
+       mitigation(risk_delete_without_safeguards, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal."),
+       detected_risk(risk_delete_without_safeguards, var('S'), var('St'), var('K'), var('R'), var('C'), var('N'), var('Raw'), var('W'))).
+clause(51,
+       mitigation(risk_notice_too_short, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement."),
+       detected_risk(risk_notice_too_short, var('S'), var('St'), var('K'), var('R'), var('C'), var('N'), var('Raw'), var('W'))).
+clause(52,
+       mitigation(risk_share_without_consent, mitigate_share_consent, "Add an explicit consent constraint before data sharing."),
+       detected_risk(risk_share_without_consent, var('S'), var('St'), var('K'), var('R'), var('C'), var('N'), var('Raw'), var('W'))).
+clause(53,
+       mitigation(risk_no_portability, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability."),
+       detected_risk(risk_no_portability, var('S'), var('St'), var('K'), var('R'), var('C'), var('N'), var('Raw'), var('W'))).
+clause(54,
+       risk_explanation(risk_delete_without_safeguards, var('Text')),
+       (detected_risk(risk_delete_without_safeguards, var('S'), var('St'), var('K'), var('R'), var('Clause'), var('N'), var('Raw'), var('W')),
+        clause(var('Clause'), var('Clause_id'), var('Clause_text')),
+        atomics_to_string(["Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause ", var('Clause_id'), ": ", var('Clause_text')], var('Text')))).
+clause(55,
+       risk_explanation(risk_notice_too_short, var('Text')),
+       (detected_risk(risk_notice_too_short, var('S'), var('St'), var('K'), var('R'), var('Clause'), var('N'), var('Raw'), var('W')),
+        constraint(perm_change_terms, notice_days, gteq, var('Days')),
+        minimum_notice_days(need_change_only_with_prior_notice, var('Required')),
+        clause(var('Clause'), var('Clause_id'), var('Clause_text')),
+        atomics_to_string(["Risk: terms may change with notice (", var('Days'), " days) below consumer requirement (", var('Required'), " days). Clause ", var('Clause_id'), ": ", var('Clause_text')], var('Text')))).
+clause(56,
+       risk_explanation(risk_share_without_consent, var('Text')),
+       (detected_risk(risk_share_without_consent, var('S'), var('St'), var('K'), var('R'), var('Clause'), var('N'), var('Raw'), var('W')),
+        clause(var('Clause'), var('Clause_id'), var('Clause_text')),
+        atomics_to_string(["Risk: user data sharing is permitted without an explicit consent constraint. Clause ", var('Clause_id'), ": ", var('Clause_text')], var('Text')))).
+clause(57,
+       risk_explanation(risk_no_portability, var('Text')),
+       (detected_risk(risk_no_portability, var('S'), var('St'), var('K'), var('R'), var('Clause'), var('N'), var('Raw'), var('W')),
+        clause(var('Clause'), var('Clause_id'), var('Clause_text')),
+        atomics_to_string(["Risk: portability is restricted because exporting user data is prohibited. Clause ", var('Clause_id'), ": ", var('Clause_text')], var('Text')))).
+clause(58,
+       risk_labels(high_risk, high_severity, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity")),
+       true).
+clause(59,
+       risk_labels(moderate_risk, moderate_severity, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity")),
+       true).
 clause(61, mitigation_order(mitigate_delete_notice, 1), true).
 clause(62, mitigation_order(mitigate_delete_inform, 2), true).
 clause(63, mitigation_order(mitigate_share_consent, 1), true).
 clause(64, mitigation_order(mitigate_notice_too_short, 1), true).
 clause(65, mitigation_order(mitigate_portability, 1), true).
-clause(66, rank_position(var('Risk'), var('Rank')), (score(var('Risk'), var('Score')), findall(var('Other'), (score(var('Other'), var('Other_score')), var('Other_score') > var('Score')), var('Bag1')), sort(var('Bag1'), var('Higher')), length(var('Higher'), var('Higher_count')), var('Rank') is var('Higher_count') + 1)).
-clause(67, ranked_report(var('Agreement_title'), var('Profile_title'), var('Ranked')), (agreement(agreement1, var('Agreement_title'), policy1), profile(consumer_example, var('Profile_title')), findall(ranked(var('Rank'), clause(var('Clause_id'), var('Clause_text')), risk(var('Risk'), var('Score'), var('Level_iri'), var('Severity_iri'), var('Explanation')), mitigations(var('Mitigations'))), (detected_risk(var('Risk'), var('Source'), var('Source_type'), var('Kind'), var('Rule'), var('Clause'), var('Need'), var('Raw'), var('Why')), score(var('Risk'), var('Score')), rank_position(var('Risk'), var('Rank')), risk_level(var('Risk'), var('Level'), var('Severity')), risk_labels(var('Level'), var('Severity'), var('Level_iri'), var('Severity_iri')), risk_explanation(var('Risk'), var('Explanation')), clause(var('Clause'), var('Clause_id'), var('Clause_text')), findall(mitigation(var('Order'), var('Measure'), var('Description')), (mitigation(var('Risk'), var('Measure'), var('Description')), mitigation_order(var('Measure'), var('Order'))), var('Bag1')), sort(var('Bag1'), var('Mitigations'))), var('Bag2')), sort(var('Bag2'), var('Rows')), sort(var('Rows'), var('Ranked')))).
-substitution(1, []).
-proof(1, agreement(agreement1, "Example Agreement", policy1), rule(11), []).
-substitution(2, []).
-proof(2, profile(consumer_example, "Example consumer profile"), rule(1), []).
-substitution(3, []).
-proof(3, agreement(agreement1, "Example Agreement", policy1), rule(11), []).
-substitution(4, []).
-proof(4, has_need(consumer_example, need_change_only_with_prior_notice), rule(3), []).
-substitution(5, []).
-proof(5, has_need(consumer_example, need_no_sharing_without_consent), rule(4), []).
-substitution(6, []).
-proof(6, has_need(consumer_example, need_data_portability), rule(5), []).
-substitution(7, []).
-proof(7, has_need(consumer_example, need_data_cannot_be_removed), rule(2), []).
-substitution(8, []).
-proof(8, need(need_change_only_with_prior_notice, 15), rule(7), []).
-substitution(9, []).
-proof(9, need(need_no_sharing_without_consent, 12), rule(8), []).
-substitution(10, []).
-proof(10, need(need_data_portability, 10), rule(9), []).
-substitution(11, []).
-proof(11, need(need_data_cannot_be_removed, 20), rule(6), []).
-substitution(12, []).
-proof(12, minimum_notice_days(need_change_only_with_prior_notice, 14), rule(10), []).
-substitution(13, []).
-proof(13, permission(policy1, perm_share_data, share_data, user_data, clause_c3), rule(14), []).
-substitution(14, []).
-proof(14, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4), rule(15), []).
-substitution(15, ['Clause' = clause_c3, 'Raw' = 97, 'Weight' = 12]).
-proof(15, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."), rule(28), [uses(5, has_need(consumer_example, need_no_sharing_without_consent)), uses(9, need(need_no_sharing_without_consent, 12)), uses(13, permission(policy1, perm_share_data, share_data, user_data, clause_c3)), absent(has_explicit_consent(perm_share_data), complete), builtin(97 is 85 + 12)]).
-substitution(16, ['Clause' = clause_c4, 'Raw' = 70, 'Weight' = 10]).
-proof(16, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."), rule(29), [uses(6, has_need(consumer_example, need_data_portability)), uses(10, need(need_data_portability, 10)), uses(14, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4)), builtin(70 is 60 + 10)]).
-substitution(17, []).
-proof(17, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1), rule(12), []).
-substitution(18, []).
-proof(18, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2), rule(13), []).
-substitution(19, ['Clause' = clause_c1, 'Raw' = 110, 'Title' = "Example Agreement", 'Weight' = 20]).
-proof(19, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."), rule(26), [uses(3, agreement(agreement1, "Example Agreement", policy1)), uses(7, has_need(consumer_example, need_data_cannot_be_removed)), uses(11, need(need_data_cannot_be_removed, 20)), uses(17, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1)), absent(has_notice_constraint(perm_delete_account), complete), absent(has_inform_duty(perm_delete_account), complete), builtin(110 is 90 + 20)]).
-substitution(20, []).
-proof(20, duty(perm_change_terms, inform), rule(16), []).
-substitution(21, ['Clause' = clause_c3, 'Raw' = 97, 'Weight' = 12]).
-proof(21, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."), rule(28), [uses(5, has_need(consumer_example, need_no_sharing_without_consent)), uses(9, need(need_no_sharing_without_consent, 12)), uses(13, permission(policy1, perm_share_data, share_data, user_data, clause_c3)), absent(has_explicit_consent(perm_share_data), complete), builtin(97 is 85 + 12)]).
-substitution(22, ['Clause' = clause_c4, 'Raw' = 70, 'Weight' = 10]).
-proof(22, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."), rule(29), [uses(6, has_need(consumer_example, need_data_portability)), uses(10, need(need_data_portability, 10)), uses(14, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4)), builtin(70 is 60 + 10)]).
-substitution(23, ['Risk' = risk_share_without_consent, 'Raw' = 97, 'Source' = source_share_without_consent, 'Source_type' = policy_risk, 'Kind' = unwanted_disclosure_data, 'Rule' = perm_share_data, 'Clause' = clause_c3, 'Need' = need_no_sharing_without_consent, 'Why' = "User data sharing is permitted without an explicit consent constraint."]).
-proof(23, score(risk_share_without_consent, 97), rule(31), [uses(21, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint.")), builtin(97 =< 100)]).
-substitution(24, ['Risk' = risk_no_portability, 'Raw' = 70, 'Source' = source_no_portability, 'Source_type' = policy_risk, 'Kind' = customer_confidence_loss, 'Rule' = prohibit_export_data, 'Clause' = clause_c4, 'Need' = need_data_portability, 'Why' = "Portability is restricted because exporting user data is prohibited."]).
-proof(24, score(risk_no_portability, 70), rule(31), [uses(22, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited.")), builtin(70 =< 100)]).
-substitution(25, ['Clause' = clause_c1, 'Raw' = 110, 'Title' = "Example Agreement", 'Weight' = 20]).
-proof(25, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."), rule(26), [uses(3, agreement(agreement1, "Example Agreement", policy1)), uses(7, has_need(consumer_example, need_data_cannot_be_removed)), uses(11, need(need_data_cannot_be_removed, 20)), uses(17, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1)), absent(has_notice_constraint(perm_delete_account), complete), absent(has_inform_duty(perm_delete_account), complete), builtin(110 is 90 + 20)]).
-substitution(26, []).
-proof(26, constraint(perm_change_terms, notice_days, gteq, 3), rule(17), []).
-substitution(27, ['Risk' = risk_delete_without_safeguards, 'Source' = source_delete_without_safeguards, 'Source_type' = legal_compliance_risk, 'Kind' = unwanted_data_deletion, 'Rule' = perm_delete_account, 'Clause' = clause_c1, 'Need' = need_data_cannot_be_removed, 'Raw' = 110, 'Why' = "Account removal is permitted without a notice constraint or duty to inform."]).
-proof(27, score(risk_delete_without_safeguards, 100), rule(30), [uses(25, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform.")), builtin(110 > 100)]).
-substitution(28, ['Clause' = clause_c2, 'Raw' = 85, 'Weight' = 15, 'Required' = 14, 'Days' = 3]).
-proof(28, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."), rule(27), [uses(4, has_need(consumer_example, need_change_only_with_prior_notice)), uses(8, need(need_change_only_with_prior_notice, 15)), uses(12, minimum_notice_days(need_change_only_with_prior_notice, 14)), uses(18, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2)), uses(20, duty(perm_change_terms, inform)), uses(26, constraint(perm_change_terms, notice_days, gteq, 3)), builtin(3 < 14), builtin(85 is 70 + 15)]).
-substitution(29, []).
-proof(29, agreement(agreement1, "Example Agreement", policy1), rule(11), []).
-substitution(30, []).
-proof(30, has_need(consumer_example, need_change_only_with_prior_notice), rule(3), []).
-substitution(31, []).
-proof(31, has_need(consumer_example, need_no_sharing_without_consent), rule(4), []).
-substitution(32, []).
-proof(32, has_need(consumer_example, need_data_portability), rule(5), []).
-substitution(33, []).
-proof(33, has_need(consumer_example, need_data_cannot_be_removed), rule(2), []).
-substitution(34, []).
-proof(34, need(need_change_only_with_prior_notice, 15), rule(7), []).
-substitution(35, []).
-proof(35, need(need_no_sharing_without_consent, 12), rule(8), []).
-substitution(36, []).
-proof(36, need(need_data_portability, 10), rule(9), []).
-substitution(37, []).
-proof(37, need(need_data_cannot_be_removed, 20), rule(6), []).
-substitution(38, []).
-proof(38, minimum_notice_days(need_change_only_with_prior_notice, 14), rule(10), []).
-substitution(39, []).
-proof(39, permission(policy1, perm_share_data, share_data, user_data, clause_c3), rule(14), []).
-substitution(40, []).
-proof(40, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4), rule(15), []).
-substitution(41, ['Clause' = clause_c3, 'Raw' = 97, 'Weight' = 12]).
-proof(41, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."), rule(28), [uses(31, has_need(consumer_example, need_no_sharing_without_consent)), uses(35, need(need_no_sharing_without_consent, 12)), uses(39, permission(policy1, perm_share_data, share_data, user_data, clause_c3)), absent(has_explicit_consent(perm_share_data), complete), builtin(97 is 85 + 12)]).
-substitution(42, ['Clause' = clause_c4, 'Raw' = 70, 'Weight' = 10]).
-proof(42, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."), rule(29), [uses(32, has_need(consumer_example, need_data_portability)), uses(36, need(need_data_portability, 10)), uses(40, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4)), builtin(70 is 60 + 10)]).
-substitution(43, []).
-proof(43, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1), rule(12), []).
-substitution(44, []).
-proof(44, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2), rule(13), []).
-substitution(45, ['Risk' = risk_share_without_consent, 'Raw' = 97, 'Source' = source_share_without_consent, 'Source_type' = policy_risk, 'Kind' = unwanted_disclosure_data, 'Rule' = perm_share_data, 'Clause' = clause_c3, 'Need' = need_no_sharing_without_consent, 'Why' = "User data sharing is permitted without an explicit consent constraint."]).
-proof(45, score(risk_share_without_consent, 97), rule(31), [uses(41, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint.")), builtin(97 =< 100)]).
-substitution(46, ['Risk' = risk_no_portability, 'Raw' = 70, 'Source' = source_no_portability, 'Source_type' = policy_risk, 'Kind' = customer_confidence_loss, 'Rule' = prohibit_export_data, 'Clause' = clause_c4, 'Need' = need_data_portability, 'Why' = "Portability is restricted because exporting user data is prohibited."]).
-proof(46, score(risk_no_portability, 70), rule(31), [uses(42, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited.")), builtin(70 =< 100)]).
-substitution(47, ['Clause' = clause_c1, 'Raw' = 110, 'Title' = "Example Agreement", 'Weight' = 20]).
-proof(47, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."), rule(26), [uses(29, agreement(agreement1, "Example Agreement", policy1)), uses(33, has_need(consumer_example, need_data_cannot_be_removed)), uses(37, need(need_data_cannot_be_removed, 20)), uses(43, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1)), absent(has_notice_constraint(perm_delete_account), complete), absent(has_inform_duty(perm_delete_account), complete), builtin(110 is 90 + 20)]).
-substitution(48, ['Risk' = risk_delete_without_safeguards, 'Source' = source_delete_without_safeguards, 'Source_type' = legal_compliance_risk, 'Kind' = unwanted_data_deletion, 'Rule' = perm_delete_account, 'Clause' = clause_c1, 'Need' = need_data_cannot_be_removed, 'Raw' = 110, 'Why' = "Account removal is permitted without a notice constraint or duty to inform."]).
-proof(48, score(risk_delete_without_safeguards, 100), rule(30), [uses(47, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform.")), builtin(110 > 100)]).
-substitution(49, []).
-proof(49, duty(perm_change_terms, inform), rule(16), []).
-substitution(50, ['Other' = risk_delete_without_safeguards]).
-proof(50, solution([risk_delete_without_safeguards]), query, [uses(48, score(risk_delete_without_safeguards, 100)), builtin(100 > 97)]).
-substitution(51, []).
-proof(51, constraint(perm_change_terms, notice_days, gteq, 3), rule(17), []).
-substitution(52, ['Clause' = clause_c2, 'Raw' = 85, 'Weight' = 15, 'Required' = 14, 'Days' = 3]).
-proof(52, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."), rule(27), [uses(30, has_need(consumer_example, need_change_only_with_prior_notice)), uses(34, need(need_change_only_with_prior_notice, 15)), uses(38, minimum_notice_days(need_change_only_with_prior_notice, 14)), uses(44, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2)), uses(49, duty(perm_change_terms, inform)), uses(51, constraint(perm_change_terms, notice_days, gteq, 3)), builtin(3 < 14), builtin(85 is 70 + 15)]).
-substitution(53, ['Risk' = risk_notice_too_short, 'Raw' = 85, 'Source' = source_notice_too_short, 'Source_type' = policy_risk, 'Kind' = customer_confidence_loss, 'Rule' = perm_change_terms, 'Clause' = clause_c2, 'Need' = need_change_only_with_prior_notice, 'Why' = "Terms may change with less notice than the consumer requires."]).
-proof(53, score(risk_notice_too_short, 85), rule(31), [uses(52, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires.")), builtin(85 =< 100)]).
-substitution(54, ['Risk' = risk_share_without_consent, 'Rank' = 2, 'Score' = 97, 'Other' = _0, 'Other_score' = _1, 'Bag1' = [risk_delete_without_safeguards], 'Higher' = [risk_delete_without_safeguards], 'Higher_count' = 1]).
-proof(54, rank_position(risk_share_without_consent, 2), rule(66), [uses(23, score(risk_share_without_consent, 97)), collected([risk_delete_without_safeguards], _0, (score(_0, _1), _1 > 97), [50], complete), builtin(sort([risk_delete_without_safeguards], [risk_delete_without_safeguards])), builtin(length([risk_delete_without_safeguards], 1)), builtin(2 is 1 + 1)]).
-substitution(55, []).
-proof(55, agreement(agreement1, "Example Agreement", policy1), rule(11), []).
-substitution(56, []).
-proof(56, has_need(consumer_example, need_change_only_with_prior_notice), rule(3), []).
-substitution(57, []).
-proof(57, has_need(consumer_example, need_no_sharing_without_consent), rule(4), []).
-substitution(58, []).
-proof(58, has_need(consumer_example, need_data_portability), rule(5), []).
-substitution(59, []).
-proof(59, has_need(consumer_example, need_data_cannot_be_removed), rule(2), []).
-substitution(60, []).
-proof(60, need(need_change_only_with_prior_notice, 15), rule(7), []).
-substitution(61, []).
-proof(61, need(need_no_sharing_without_consent, 12), rule(8), []).
-substitution(62, []).
-proof(62, need(need_data_portability, 10), rule(9), []).
-substitution(63, []).
-proof(63, need(need_data_cannot_be_removed, 20), rule(6), []).
-substitution(64, []).
-proof(64, minimum_notice_days(need_change_only_with_prior_notice, 14), rule(10), []).
-substitution(65, []).
-proof(65, permission(policy1, perm_share_data, share_data, user_data, clause_c3), rule(14), []).
-substitution(66, []).
-proof(66, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4), rule(15), []).
-substitution(67, ['Clause' = clause_c3, 'Raw' = 97, 'Weight' = 12]).
-proof(67, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."), rule(28), [uses(57, has_need(consumer_example, need_no_sharing_without_consent)), uses(61, need(need_no_sharing_without_consent, 12)), uses(65, permission(policy1, perm_share_data, share_data, user_data, clause_c3)), absent(has_explicit_consent(perm_share_data), complete), builtin(97 is 85 + 12)]).
-substitution(68, ['Clause' = clause_c4, 'Raw' = 70, 'Weight' = 10]).
-proof(68, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."), rule(29), [uses(58, has_need(consumer_example, need_data_portability)), uses(62, need(need_data_portability, 10)), uses(66, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4)), builtin(70 is 60 + 10)]).
-substitution(69, []).
-proof(69, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1), rule(12), []).
-substitution(70, []).
-proof(70, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2), rule(13), []).
-substitution(71, ['Risk' = risk_share_without_consent, 'Raw' = 97, 'Source' = source_share_without_consent, 'Source_type' = policy_risk, 'Kind' = unwanted_disclosure_data, 'Rule' = perm_share_data, 'Clause' = clause_c3, 'Need' = need_no_sharing_without_consent, 'Why' = "User data sharing is permitted without an explicit consent constraint."]).
-proof(71, score(risk_share_without_consent, 97), rule(31), [uses(67, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint.")), builtin(97 =< 100)]).
-substitution(72, ['Risk' = risk_no_portability, 'Raw' = 70, 'Source' = source_no_portability, 'Source_type' = policy_risk, 'Kind' = customer_confidence_loss, 'Rule' = prohibit_export_data, 'Clause' = clause_c4, 'Need' = need_data_portability, 'Why' = "Portability is restricted because exporting user data is prohibited."]).
-proof(72, score(risk_no_portability, 70), rule(31), [uses(68, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited.")), builtin(70 =< 100)]).
-substitution(73, ['Clause' = clause_c1, 'Raw' = 110, 'Title' = "Example Agreement", 'Weight' = 20]).
-proof(73, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."), rule(26), [uses(55, agreement(agreement1, "Example Agreement", policy1)), uses(59, has_need(consumer_example, need_data_cannot_be_removed)), uses(63, need(need_data_cannot_be_removed, 20)), uses(69, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1)), absent(has_notice_constraint(perm_delete_account), complete), absent(has_inform_duty(perm_delete_account), complete), builtin(110 is 90 + 20)]).
-substitution(74, ['Other' = risk_share_without_consent]).
-proof(74, solution([risk_share_without_consent]), query, [uses(71, score(risk_share_without_consent, 97)), builtin(97 > 70)]).
-substitution(75, ['Risk' = risk_delete_without_safeguards, 'Source' = source_delete_without_safeguards, 'Source_type' = legal_compliance_risk, 'Kind' = unwanted_data_deletion, 'Rule' = perm_delete_account, 'Clause' = clause_c1, 'Need' = need_data_cannot_be_removed, 'Raw' = 110, 'Why' = "Account removal is permitted without a notice constraint or duty to inform."]).
-proof(75, score(risk_delete_without_safeguards, 100), rule(30), [uses(73, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform.")), builtin(110 > 100)]).
-substitution(76, []).
-proof(76, duty(perm_change_terms, inform), rule(16), []).
-substitution(77, ['Other' = risk_delete_without_safeguards]).
-proof(77, solution([risk_delete_without_safeguards]), query, [uses(75, score(risk_delete_without_safeguards, 100)), builtin(100 > 70)]).
-substitution(78, []).
-proof(78, constraint(perm_change_terms, notice_days, gteq, 3), rule(17), []).
-substitution(79, ['Clause' = clause_c2, 'Raw' = 85, 'Weight' = 15, 'Required' = 14, 'Days' = 3]).
-proof(79, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."), rule(27), [uses(56, has_need(consumer_example, need_change_only_with_prior_notice)), uses(60, need(need_change_only_with_prior_notice, 15)), uses(64, minimum_notice_days(need_change_only_with_prior_notice, 14)), uses(70, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2)), uses(76, duty(perm_change_terms, inform)), uses(78, constraint(perm_change_terms, notice_days, gteq, 3)), builtin(3 < 14), builtin(85 is 70 + 15)]).
-substitution(80, ['Risk' = risk_notice_too_short, 'Raw' = 85, 'Source' = source_notice_too_short, 'Source_type' = policy_risk, 'Kind' = customer_confidence_loss, 'Rule' = perm_change_terms, 'Clause' = clause_c2, 'Need' = need_change_only_with_prior_notice, 'Why' = "Terms may change with less notice than the consumer requires."]).
-proof(80, score(risk_notice_too_short, 85), rule(31), [uses(79, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires.")), builtin(85 =< 100)]).
-substitution(81, ['Other' = risk_notice_too_short]).
-proof(81, solution([risk_notice_too_short]), query, [uses(80, score(risk_notice_too_short, 85)), builtin(85 > 70)]).
-substitution(82, ['Risk' = risk_no_portability, 'Rank' = 4, 'Score' = 70, 'Other' = _0, 'Other_score' = _1, 'Bag1' = [risk_share_without_consent, risk_delete_without_safeguards, risk_notice_too_short], 'Higher' = [risk_delete_without_safeguards, risk_notice_too_short, risk_share_without_consent], 'Higher_count' = 3]).
-proof(82, rank_position(risk_no_portability, 4), rule(66), [uses(24, score(risk_no_portability, 70)), collected([risk_share_without_consent, risk_delete_without_safeguards, risk_notice_too_short], _0, (score(_0, _1), _1 > 70), [74, 77, 81], complete), builtin(sort([risk_share_without_consent, risk_delete_without_safeguards, risk_notice_too_short], [risk_delete_without_safeguards, risk_notice_too_short, risk_share_without_consent])), builtin(length([risk_delete_without_safeguards, risk_notice_too_short, risk_share_without_consent], 3)), builtin(4 is 3 + 1)]).
-substitution(83, ['Risk' = risk_share_without_consent, 'Score' = 97]).
-proof(83, risk_level(risk_share_without_consent, high_risk, high_severity), rule(32), [uses(23, score(risk_share_without_consent, 97)), builtin(97 > 79)]).
-substitution(84, ['Risk' = risk_no_portability, 'Score' = 70]).
-proof(84, risk_level(risk_no_portability, moderate_risk, moderate_severity), rule(33), [uses(24, score(risk_no_portability, 70)), builtin(70 >= 50), builtin(70 < 80)]).
-substitution(85, []).
-proof(85, agreement(agreement1, "Example Agreement", policy1), rule(11), []).
-substitution(86, []).
-proof(86, has_need(consumer_example, need_change_only_with_prior_notice), rule(3), []).
-substitution(87, []).
-proof(87, has_need(consumer_example, need_no_sharing_without_consent), rule(4), []).
-substitution(88, []).
-proof(88, has_need(consumer_example, need_data_portability), rule(5), []).
-substitution(89, []).
-proof(89, has_need(consumer_example, need_data_cannot_be_removed), rule(2), []).
-substitution(90, []).
-proof(90, need(need_change_only_with_prior_notice, 15), rule(7), []).
-substitution(91, []).
-proof(91, need(need_no_sharing_without_consent, 12), rule(8), []).
-substitution(92, []).
-proof(92, need(need_data_portability, 10), rule(9), []).
-substitution(93, []).
-proof(93, need(need_data_cannot_be_removed, 20), rule(6), []).
-substitution(94, []).
-proof(94, minimum_notice_days(need_change_only_with_prior_notice, 14), rule(10), []).
-substitution(95, []).
-proof(95, permission(policy1, perm_share_data, share_data, user_data, clause_c3), rule(14), []).
-substitution(96, []).
-proof(96, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4), rule(15), []).
-substitution(97, ['Clause' = clause_c3, 'Raw' = 97, 'Weight' = 12]).
-proof(97, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."), rule(28), [uses(87, has_need(consumer_example, need_no_sharing_without_consent)), uses(91, need(need_no_sharing_without_consent, 12)), uses(95, permission(policy1, perm_share_data, share_data, user_data, clause_c3)), absent(has_explicit_consent(perm_share_data), complete), builtin(97 is 85 + 12)]).
-substitution(98, ['Clause' = clause_c4, 'Raw' = 70, 'Weight' = 10]).
-proof(98, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."), rule(29), [uses(88, has_need(consumer_example, need_data_portability)), uses(92, need(need_data_portability, 10)), uses(96, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4)), builtin(70 is 60 + 10)]).
-substitution(99, []).
-proof(99, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1), rule(12), []).
-substitution(100, []).
-proof(100, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2), rule(13), []).
-substitution(101, ['Risk' = risk_share_without_consent, 'Raw' = 97, 'Source' = source_share_without_consent, 'Source_type' = policy_risk, 'Kind' = unwanted_disclosure_data, 'Rule' = perm_share_data, 'Clause' = clause_c3, 'Need' = need_no_sharing_without_consent, 'Why' = "User data sharing is permitted without an explicit consent constraint."]).
-proof(101, score(risk_share_without_consent, 97), rule(31), [uses(97, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint.")), builtin(97 =< 100)]).
-substitution(102, ['Risk' = risk_no_portability, 'Raw' = 70, 'Source' = source_no_portability, 'Source_type' = policy_risk, 'Kind' = customer_confidence_loss, 'Rule' = prohibit_export_data, 'Clause' = clause_c4, 'Need' = need_data_portability, 'Why' = "Portability is restricted because exporting user data is prohibited."]).
-proof(102, score(risk_no_portability, 70), rule(31), [uses(98, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited.")), builtin(70 =< 100)]).
-substitution(103, ['Clause' = clause_c1, 'Raw' = 110, 'Title' = "Example Agreement", 'Weight' = 20]).
-proof(103, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."), rule(26), [uses(85, agreement(agreement1, "Example Agreement", policy1)), uses(89, has_need(consumer_example, need_data_cannot_be_removed)), uses(93, need(need_data_cannot_be_removed, 20)), uses(99, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1)), absent(has_notice_constraint(perm_delete_account), complete), absent(has_inform_duty(perm_delete_account), complete), builtin(110 is 90 + 20)]).
-substitution(104, ['Risk' = risk_delete_without_safeguards, 'Source' = source_delete_without_safeguards, 'Source_type' = legal_compliance_risk, 'Kind' = unwanted_data_deletion, 'Rule' = perm_delete_account, 'Clause' = clause_c1, 'Need' = need_data_cannot_be_removed, 'Raw' = 110, 'Why' = "Account removal is permitted without a notice constraint or duty to inform."]).
-proof(104, score(risk_delete_without_safeguards, 100), rule(30), [uses(103, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform.")), builtin(110 > 100)]).
-substitution(105, []).
-proof(105, duty(perm_change_terms, inform), rule(16), []).
-substitution(106, []).
-proof(106, constraint(perm_change_terms, notice_days, gteq, 3), rule(17), []).
-substitution(107, ['Clause' = clause_c2, 'Raw' = 85, 'Weight' = 15, 'Required' = 14, 'Days' = 3]).
-proof(107, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."), rule(27), [uses(86, has_need(consumer_example, need_change_only_with_prior_notice)), uses(90, need(need_change_only_with_prior_notice, 15)), uses(94, minimum_notice_days(need_change_only_with_prior_notice, 14)), uses(100, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2)), uses(105, duty(perm_change_terms, inform)), uses(106, constraint(perm_change_terms, notice_days, gteq, 3)), builtin(3 < 14), builtin(85 is 70 + 15)]).
-substitution(108, ['Risk' = risk_notice_too_short, 'Raw' = 85, 'Source' = source_notice_too_short, 'Source_type' = policy_risk, 'Kind' = customer_confidence_loss, 'Rule' = perm_change_terms, 'Clause' = clause_c2, 'Need' = need_change_only_with_prior_notice, 'Why' = "Terms may change with less notice than the consumer requires."]).
-proof(108, score(risk_notice_too_short, 85), rule(31), [uses(107, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires.")), builtin(85 =< 100)]).
-substitution(109, ['Risk' = risk_delete_without_safeguards, 'Rank' = 1, 'Score' = 100, 'Other' = _0, 'Other_score' = _1, 'Bag1' = [], 'Higher' = [], 'Higher_count' = 0]).
-proof(109, rank_position(risk_delete_without_safeguards, 1), rule(66), [uses(27, score(risk_delete_without_safeguards, 100)), collected([], _0, (score(_0, _1), _1 > 100), [], complete), builtin(sort([], [])), builtin(length([], 0)), builtin(1 is 0 + 1)]).
-substitution(110, ['Clause' = clause_c2, 'Raw' = 85, 'Weight' = 15, 'Required' = 14, 'Days' = 3]).
-proof(110, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."), rule(27), [uses(4, has_need(consumer_example, need_change_only_with_prior_notice)), uses(8, need(need_change_only_with_prior_notice, 15)), uses(12, minimum_notice_days(need_change_only_with_prior_notice, 14)), uses(18, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2)), uses(20, duty(perm_change_terms, inform)), uses(26, constraint(perm_change_terms, notice_days, gteq, 3)), builtin(3 < 14), builtin(85 is 70 + 15)]).
-substitution(111, []).
-proof(111, risk_labels(high_risk, high_severity, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity")), rule(58), []).
-substitution(112, []).
-proof(112, risk_labels(moderate_risk, moderate_severity, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity")), rule(59), []).
-substitution(113, ['Risk' = risk_delete_without_safeguards, 'Score' = 100]).
-proof(113, risk_level(risk_delete_without_safeguards, high_risk, high_severity), rule(32), [uses(27, score(risk_delete_without_safeguards, 100)), builtin(100 > 79)]).
-substitution(114, ['Risk' = risk_notice_too_short, 'Raw' = 85, 'Source' = source_notice_too_short, 'Source_type' = policy_risk, 'Kind' = customer_confidence_loss, 'Rule' = perm_change_terms, 'Clause' = clause_c2, 'Need' = need_change_only_with_prior_notice, 'Why' = "Terms may change with less notice than the consumer requires."]).
-proof(114, score(risk_notice_too_short, 85), rule(31), [uses(110, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires.")), builtin(85 =< 100)]).
-substitution(115, []).
-proof(115, agreement(agreement1, "Example Agreement", policy1), rule(11), []).
-substitution(116, []).
-proof(116, has_need(consumer_example, need_change_only_with_prior_notice), rule(3), []).
-substitution(117, []).
-proof(117, has_need(consumer_example, need_no_sharing_without_consent), rule(4), []).
-substitution(118, []).
-proof(118, has_need(consumer_example, need_data_portability), rule(5), []).
-substitution(119, []).
-proof(119, has_need(consumer_example, need_data_cannot_be_removed), rule(2), []).
-substitution(120, []).
-proof(120, need(need_change_only_with_prior_notice, 15), rule(7), []).
-substitution(121, []).
-proof(121, need(need_no_sharing_without_consent, 12), rule(8), []).
-substitution(122, []).
-proof(122, need(need_data_portability, 10), rule(9), []).
-substitution(123, []).
-proof(123, need(need_data_cannot_be_removed, 20), rule(6), []).
-substitution(124, []).
-proof(124, minimum_notice_days(need_change_only_with_prior_notice, 14), rule(10), []).
-substitution(125, []).
-proof(125, permission(policy1, perm_share_data, share_data, user_data, clause_c3), rule(14), []).
-substitution(126, []).
-proof(126, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4), rule(15), []).
-substitution(127, ['Clause' = clause_c3, 'Raw' = 97, 'Weight' = 12]).
-proof(127, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."), rule(28), [uses(117, has_need(consumer_example, need_no_sharing_without_consent)), uses(121, need(need_no_sharing_without_consent, 12)), uses(125, permission(policy1, perm_share_data, share_data, user_data, clause_c3)), absent(has_explicit_consent(perm_share_data), complete), builtin(97 is 85 + 12)]).
-substitution(128, ['Clause' = clause_c4, 'Raw' = 70, 'Weight' = 10]).
-proof(128, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."), rule(29), [uses(118, has_need(consumer_example, need_data_portability)), uses(122, need(need_data_portability, 10)), uses(126, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4)), builtin(70 is 60 + 10)]).
-substitution(129, []).
-proof(129, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1), rule(12), []).
-substitution(130, []).
-proof(130, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2), rule(13), []).
-substitution(131, ['Risk' = risk_share_without_consent, 'Raw' = 97, 'Source' = source_share_without_consent, 'Source_type' = policy_risk, 'Kind' = unwanted_disclosure_data, 'Rule' = perm_share_data, 'Clause' = clause_c3, 'Need' = need_no_sharing_without_consent, 'Why' = "User data sharing is permitted without an explicit consent constraint."]).
-proof(131, score(risk_share_without_consent, 97), rule(31), [uses(127, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint.")), builtin(97 =< 100)]).
-substitution(132, ['Risk' = risk_no_portability, 'Raw' = 70, 'Source' = source_no_portability, 'Source_type' = policy_risk, 'Kind' = customer_confidence_loss, 'Rule' = prohibit_export_data, 'Clause' = clause_c4, 'Need' = need_data_portability, 'Why' = "Portability is restricted because exporting user data is prohibited."]).
-proof(132, score(risk_no_portability, 70), rule(31), [uses(128, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited.")), builtin(70 =< 100)]).
-substitution(133, ['Clause' = clause_c1, 'Raw' = 110, 'Title' = "Example Agreement", 'Weight' = 20]).
-proof(133, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."), rule(26), [uses(115, agreement(agreement1, "Example Agreement", policy1)), uses(119, has_need(consumer_example, need_data_cannot_be_removed)), uses(123, need(need_data_cannot_be_removed, 20)), uses(129, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1)), absent(has_notice_constraint(perm_delete_account), complete), absent(has_inform_duty(perm_delete_account), complete), builtin(110 is 90 + 20)]).
-substitution(134, ['Other' = risk_share_without_consent]).
-proof(134, solution([risk_share_without_consent]), query, [uses(131, score(risk_share_without_consent, 97)), builtin(97 > 85)]).
-substitution(135, ['Risk' = risk_delete_without_safeguards, 'Source' = source_delete_without_safeguards, 'Source_type' = legal_compliance_risk, 'Kind' = unwanted_data_deletion, 'Rule' = perm_delete_account, 'Clause' = clause_c1, 'Need' = need_data_cannot_be_removed, 'Raw' = 110, 'Why' = "Account removal is permitted without a notice constraint or duty to inform."]).
-proof(135, score(risk_delete_without_safeguards, 100), rule(30), [uses(133, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform.")), builtin(110 > 100)]).
-substitution(136, []).
-proof(136, duty(perm_change_terms, inform), rule(16), []).
-substitution(137, ['Other' = risk_delete_without_safeguards]).
-proof(137, solution([risk_delete_without_safeguards]), query, [uses(135, score(risk_delete_without_safeguards, 100)), builtin(100 > 85)]).
-substitution(138, []).
-proof(138, constraint(perm_change_terms, notice_days, gteq, 3), rule(17), []).
-substitution(139, ['Clause' = clause_c2, 'Raw' = 85, 'Weight' = 15, 'Required' = 14, 'Days' = 3]).
-proof(139, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."), rule(27), [uses(116, has_need(consumer_example, need_change_only_with_prior_notice)), uses(120, need(need_change_only_with_prior_notice, 15)), uses(124, minimum_notice_days(need_change_only_with_prior_notice, 14)), uses(130, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2)), uses(136, duty(perm_change_terms, inform)), uses(138, constraint(perm_change_terms, notice_days, gteq, 3)), builtin(3 < 14), builtin(85 is 70 + 15)]).
-substitution(140, ['Risk' = risk_notice_too_short, 'Raw' = 85, 'Source' = source_notice_too_short, 'Source_type' = policy_risk, 'Kind' = customer_confidence_loss, 'Rule' = perm_change_terms, 'Clause' = clause_c2, 'Need' = need_change_only_with_prior_notice, 'Why' = "Terms may change with less notice than the consumer requires."]).
-proof(140, score(risk_notice_too_short, 85), rule(31), [uses(139, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires.")), builtin(85 =< 100)]).
-substitution(141, ['Risk' = risk_notice_too_short, 'Rank' = 3, 'Score' = 85, 'Other' = _0, 'Other_score' = _1, 'Bag1' = [risk_share_without_consent, risk_delete_without_safeguards], 'Higher' = [risk_delete_without_safeguards, risk_share_without_consent], 'Higher_count' = 2]).
-proof(141, rank_position(risk_notice_too_short, 3), rule(66), [uses(114, score(risk_notice_too_short, 85)), collected([risk_share_without_consent, risk_delete_without_safeguards], _0, (score(_0, _1), _1 > 85), [134, 137], complete), builtin(sort([risk_share_without_consent, risk_delete_without_safeguards], [risk_delete_without_safeguards, risk_share_without_consent])), builtin(length([risk_delete_without_safeguards, risk_share_without_consent], 2)), builtin(3 is 2 + 1)]).
-substitution(142, []).
-proof(142, clause(clause_c3, "C3", "Provider may share user data with partners for business purposes."), rule(20), []).
-substitution(143, []).
-proof(143, clause(clause_c4, "C4", "Users are not permitted to export their data."), rule(21), []).
-substitution(144, []).
-proof(144, clause(clause_c1, "C1", "Provider may remove the user account and associated data at its discretion."), rule(18), []).
-substitution(145, ['Text' = "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes.", 'S' = source_share_without_consent, 'St' = policy_risk, 'K' = unwanted_disclosure_data, 'R' = perm_share_data, 'Clause' = clause_c3, 'N' = need_no_sharing_without_consent, 'Raw' = 97, 'W' = "User data sharing is permitted without an explicit consent constraint.", 'Clause_id' = "C3", 'Clause_text' = "Provider may share user data with partners for business purposes."]).
-proof(145, risk_explanation(risk_share_without_consent, "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), rule(56), [uses(21, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint.")), uses(142, clause(clause_c3, "C3", "Provider may share user data with partners for business purposes.")), builtin(atomics_to_string(["Risk: user data sharing is permitted without an explicit consent constraint. Clause ", "C3", ": ", "Provider may share user data with partners for business purposes."], "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."))]).
-substitution(146, ['Text' = "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data.", 'S' = source_no_portability, 'St' = policy_risk, 'K' = customer_confidence_loss, 'R' = prohibit_export_data, 'Clause' = clause_c4, 'N' = need_data_portability, 'Raw' = 70, 'W' = "Portability is restricted because exporting user data is prohibited.", 'Clause_id' = "C4", 'Clause_text' = "Users are not permitted to export their data."]).
-proof(146, risk_explanation(risk_no_portability, "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), rule(57), [uses(22, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited.")), uses(143, clause(clause_c4, "C4", "Users are not permitted to export their data.")), builtin(atomics_to_string(["Risk: portability is restricted because exporting user data is prohibited. Clause ", "C4", ": ", "Users are not permitted to export their data."], "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."))]).
-substitution(147, ['Text' = "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion.", 'S' = source_delete_without_safeguards, 'St' = legal_compliance_risk, 'K' = unwanted_data_deletion, 'R' = perm_delete_account, 'Clause' = clause_c1, 'N' = need_data_cannot_be_removed, 'Raw' = 110, 'W' = "Account removal is permitted without a notice constraint or duty to inform.", 'Clause_id' = "C1", 'Clause_text' = "Provider may remove the user account and associated data at its discretion."]).
-proof(147, risk_explanation(risk_delete_without_safeguards, "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), rule(54), [uses(25, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform.")), uses(144, clause(clause_c1, "C1", "Provider may remove the user account and associated data at its discretion.")), builtin(atomics_to_string(["Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause ", "C1", ": ", "Provider may remove the user account and associated data at its discretion."], "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."))]).
-substitution(148, ['Risk' = risk_notice_too_short, 'Score' = 85]).
-proof(148, risk_level(risk_notice_too_short, high_risk, high_severity), rule(32), [uses(114, score(risk_notice_too_short, 85)), builtin(85 > 79)]).
-substitution(149, []).
-proof(149, has_need(consumer_example, need_no_sharing_without_consent), rule(4), []).
-substitution(150, []).
-proof(150, need(need_no_sharing_without_consent, 12), rule(8), []).
-substitution(151, []).
-proof(151, permission(policy1, perm_share_data, share_data, user_data, clause_c3), rule(14), []).
-substitution(152, ['Clause' = clause_c3, 'Raw' = 97, 'Weight' = 12]).
-proof(152, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."), rule(28), [uses(149, has_need(consumer_example, need_no_sharing_without_consent)), uses(150, need(need_no_sharing_without_consent, 12)), uses(151, permission(policy1, perm_share_data, share_data, user_data, clause_c3)), absent(has_explicit_consent(perm_share_data), complete), builtin(97 is 85 + 12)]).
-substitution(153, ['S' = source_share_without_consent, 'St' = policy_risk, 'K' = unwanted_disclosure_data, 'R' = perm_share_data, 'C' = clause_c3, 'N' = need_no_sharing_without_consent, 'Raw' = 97, 'W' = "User data sharing is permitted without an explicit consent constraint."]).
-proof(153, mitigation(risk_share_without_consent, mitigate_share_consent, "Add an explicit consent constraint before data sharing."), rule(52), [uses(152, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."))]).
-substitution(154, []).
-proof(154, mitigation_order(mitigate_share_consent, 1), rule(63), []).
-substitution(155, ['Order' = 1, 'Measure' = mitigate_share_consent, 'Description' = "Add an explicit consent constraint before data sharing."]).
-proof(155, solution([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")]), query, [uses(153, mitigation(risk_share_without_consent, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")), uses(154, mitigation_order(mitigate_share_consent, 1))]).
-substitution(156, ['Rank' = 2, 'Clause_id' = "C3", 'Clause_text' = "Provider may share user data with partners for business purposes.", 'Risk' = risk_share_without_consent, 'Score' = 97, 'Level_iri' = iri("https://w3id.org/dpv/risk#HighRisk"), 'Severity_iri' = iri("https://w3id.org/dpv/risk#HighSeverity"), 'Explanation' = "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes.", 'Mitigations' = [mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")]]).
-proof(156, solution([ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")]))]), query, [uses(15, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint.")), uses(23, score(risk_share_without_consent, 97)), uses(54, rank_position(risk_share_without_consent, 2)), uses(83, risk_level(risk_share_without_consent, high_risk, high_severity)), uses(111, risk_labels(high_risk, high_severity, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"))), uses(145, risk_explanation(risk_share_without_consent, "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes.")), uses(142, clause(clause_c3, "C3", "Provider may share user data with partners for business purposes.")), collected([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")], mitigation(_0, _1, _2), (mitigation(risk_share_without_consent, _1, _2), mitigation_order(_1, _0)), [155], complete), builtin(sort([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")], [mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")]))]).
-substitution(157, []).
-proof(157, has_need(consumer_example, need_data_portability), rule(5), []).
-substitution(158, []).
-proof(158, need(need_data_portability, 10), rule(9), []).
-substitution(159, []).
-proof(159, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4), rule(15), []).
-substitution(160, ['Clause' = clause_c4, 'Raw' = 70, 'Weight' = 10]).
-proof(160, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."), rule(29), [uses(157, has_need(consumer_example, need_data_portability)), uses(158, need(need_data_portability, 10)), uses(159, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4)), builtin(70 is 60 + 10)]).
-substitution(161, ['S' = source_no_portability, 'St' = policy_risk, 'K' = customer_confidence_loss, 'R' = prohibit_export_data, 'C' = clause_c4, 'N' = need_data_portability, 'Raw' = 70, 'W' = "Portability is restricted because exporting user data is prohibited."]).
-proof(161, mitigation(risk_no_portability, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability."), rule(53), [uses(160, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."))]).
-substitution(162, []).
-proof(162, mitigation_order(mitigate_portability, 1), rule(65), []).
-substitution(163, ['Order' = 1, 'Measure' = mitigate_portability, 'Description' = "Add a permission allowing data export (or remove the prohibition) to support portability."]).
-proof(163, solution([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]), query, [uses(161, mitigation(risk_no_portability, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")), uses(162, mitigation_order(mitigate_portability, 1))]).
-substitution(164, ['Rank' = 4, 'Clause_id' = "C4", 'Clause_text' = "Users are not permitted to export their data.", 'Risk' = risk_no_portability, 'Score' = 70, 'Level_iri' = iri("https://w3id.org/dpv/risk#ModerateRisk"), 'Severity_iri' = iri("https://w3id.org/dpv/risk#ModerateSeverity"), 'Explanation' = "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data.", 'Mitigations' = [mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]]).
-proof(164, solution([ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]), query, [uses(16, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited.")), uses(24, score(risk_no_portability, 70)), uses(82, rank_position(risk_no_portability, 4)), uses(84, risk_level(risk_no_portability, moderate_risk, moderate_severity)), uses(112, risk_labels(moderate_risk, moderate_severity, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"))), uses(146, risk_explanation(risk_no_portability, "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data.")), uses(143, clause(clause_c4, "C4", "Users are not permitted to export their data.")), collected([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")], mitigation(_0, _1, _2), (mitigation(risk_no_portability, _1, _2), mitigation_order(_1, _0)), [163], complete), builtin(sort([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")], [mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]).
-substitution(165, []).
-proof(165, agreement(agreement1, "Example Agreement", policy1), rule(11), []).
-substitution(166, []).
-proof(166, has_need(consumer_example, need_data_cannot_be_removed), rule(2), []).
-substitution(167, []).
-proof(167, need(need_data_cannot_be_removed, 20), rule(6), []).
-substitution(168, []).
-proof(168, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1), rule(12), []).
-substitution(169, ['Clause' = clause_c1, 'Raw' = 110, 'Title' = "Example Agreement", 'Weight' = 20]).
-proof(169, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."), rule(26), [uses(165, agreement(agreement1, "Example Agreement", policy1)), uses(166, has_need(consumer_example, need_data_cannot_be_removed)), uses(167, need(need_data_cannot_be_removed, 20)), uses(168, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1)), absent(has_notice_constraint(perm_delete_account), complete), absent(has_inform_duty(perm_delete_account), complete), builtin(110 is 90 + 20)]).
-substitution(170, ['S' = source_delete_without_safeguards, 'St' = legal_compliance_risk, 'K' = unwanted_data_deletion, 'R' = perm_delete_account, 'C' = clause_c1, 'N' = need_data_cannot_be_removed, 'Raw' = 110, 'W' = "Account removal is permitted without a notice constraint or duty to inform."]).
-proof(170, mitigation(risk_delete_without_safeguards, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), rule(49), [uses(169, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."))]).
-substitution(171, ['S' = source_delete_without_safeguards, 'St' = legal_compliance_risk, 'K' = unwanted_data_deletion, 'R' = perm_delete_account, 'C' = clause_c1, 'N' = need_data_cannot_be_removed, 'Raw' = 110, 'W' = "Account removal is permitted without a notice constraint or duty to inform."]).
-proof(171, mitigation(risk_delete_without_safeguards, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal."), rule(50), [uses(169, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."))]).
-substitution(172, []).
-proof(172, mitigation_order(mitigate_delete_notice, 1), rule(61), []).
-substitution(173, []).
-proof(173, mitigation_order(mitigate_delete_inform, 2), rule(62), []).
-substitution(174, ['Order' = 1, 'Measure' = mitigate_delete_notice, 'Description' = "Add a notice constraint (minimum noticeDays) before account removal."]).
-proof(174, solution([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal.")]), query, [uses(170, mitigation(risk_delete_without_safeguards, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal.")), uses(172, mitigation_order(mitigate_delete_notice, 1))]).
-substitution(175, ['Order' = 2, 'Measure' = mitigate_delete_inform, 'Description' = "Add a duty to inform the consumer prior to account removal."]).
-proof(175, solution([mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")]), query, [uses(171, mitigation(risk_delete_without_safeguards, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")), uses(173, mitigation_order(mitigate_delete_inform, 2))]).
-substitution(176, ['Rank' = 1, 'Clause_id' = "C1", 'Clause_text' = "Provider may remove the user account and associated data at its discretion.", 'Risk' = risk_delete_without_safeguards, 'Score' = 100, 'Level_iri' = iri("https://w3id.org/dpv/risk#HighRisk"), 'Severity_iri' = iri("https://w3id.org/dpv/risk#HighSeverity"), 'Explanation' = "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion.", 'Mitigations' = [mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")]]).
-proof(176, solution([ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")]))]), query, [uses(19, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform.")), uses(27, score(risk_delete_without_safeguards, 100)), uses(109, rank_position(risk_delete_without_safeguards, 1)), uses(113, risk_level(risk_delete_without_safeguards, high_risk, high_severity)), uses(111, risk_labels(high_risk, high_severity, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"))), uses(147, risk_explanation(risk_delete_without_safeguards, "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion.")), uses(144, clause(clause_c1, "C1", "Provider may remove the user account and associated data at its discretion.")), collected([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")], mitigation(_0, _1, _2), (mitigation(risk_delete_without_safeguards, _1, _2), mitigation_order(_1, _0)), [174, 175], complete), builtin(sort([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")], [mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")]))]).
-substitution(177, []).
-proof(177, clause(clause_c2, "C2", "Provider may change terms by informing users at least 3 days in advance."), rule(19), []).
-substitution(178, ['Text' = "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance.", 'S' = source_notice_too_short, 'St' = policy_risk, 'K' = customer_confidence_loss, 'R' = perm_change_terms, 'Clause' = clause_c2, 'N' = need_change_only_with_prior_notice, 'Raw' = 85, 'W' = "Terms may change with less notice than the consumer requires.", 'Days' = 3, 'Required' = 14, 'Clause_id' = "C2", 'Clause_text' = "Provider may change terms by informing users at least 3 days in advance."]).
-proof(178, risk_explanation(risk_notice_too_short, "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), rule(55), [uses(110, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires.")), uses(26, constraint(perm_change_terms, notice_days, gteq, 3)), uses(12, minimum_notice_days(need_change_only_with_prior_notice, 14)), uses(177, clause(clause_c2, "C2", "Provider may change terms by informing users at least 3 days in advance.")), builtin(atomics_to_string(["Risk: terms may change with notice (", 3, " days) below consumer requirement (", 14, " days). Clause ", "C2", ": ", "Provider may change terms by informing users at least 3 days in advance."], "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."))]).
-substitution(179, []).
-proof(179, has_need(consumer_example, need_no_sharing_without_consent), rule(4), []).
-substitution(180, []).
-proof(180, need(need_no_sharing_without_consent, 12), rule(8), []).
-substitution(181, []).
-proof(181, permission(policy1, perm_share_data, share_data, user_data, clause_c3), rule(14), []).
-substitution(182, ['Clause' = clause_c3, 'Raw' = 97, 'Weight' = 12]).
-proof(182, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."), rule(28), [uses(179, has_need(consumer_example, need_no_sharing_without_consent)), uses(180, need(need_no_sharing_without_consent, 12)), uses(181, permission(policy1, perm_share_data, share_data, user_data, clause_c3)), absent(has_explicit_consent(perm_share_data), complete), builtin(97 is 85 + 12)]).
-substitution(183, ['S' = source_share_without_consent, 'St' = policy_risk, 'K' = unwanted_disclosure_data, 'R' = perm_share_data, 'C' = clause_c3, 'N' = need_no_sharing_without_consent, 'Raw' = 97, 'W' = "User data sharing is permitted without an explicit consent constraint."]).
-proof(183, mitigation(risk_share_without_consent, mitigate_share_consent, "Add an explicit consent constraint before data sharing."), rule(52), [uses(182, detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."))]).
-substitution(184, []).
-proof(184, mitigation_order(mitigate_share_consent, 1), rule(63), []).
-substitution(185, ['Order' = 1, 'Measure' = mitigate_share_consent, 'Description' = "Add an explicit consent constraint before data sharing."]).
-proof(185, solution([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")]), query, [uses(183, mitigation(risk_share_without_consent, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")), uses(184, mitigation_order(mitigate_share_consent, 1))]).
-substitution(186, []).
-proof(186, has_need(consumer_example, need_data_portability), rule(5), []).
-substitution(187, []).
-proof(187, need(need_data_portability, 10), rule(9), []).
-substitution(188, []).
-proof(188, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4), rule(15), []).
-substitution(189, ['Clause' = clause_c4, 'Raw' = 70, 'Weight' = 10]).
-proof(189, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."), rule(29), [uses(186, has_need(consumer_example, need_data_portability)), uses(187, need(need_data_portability, 10)), uses(188, prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4)), builtin(70 is 60 + 10)]).
-substitution(190, ['S' = source_no_portability, 'St' = policy_risk, 'K' = customer_confidence_loss, 'R' = prohibit_export_data, 'C' = clause_c4, 'N' = need_data_portability, 'Raw' = 70, 'W' = "Portability is restricted because exporting user data is prohibited."]).
-proof(190, mitigation(risk_no_portability, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability."), rule(53), [uses(189, detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."))]).
-substitution(191, []).
-proof(191, mitigation_order(mitigate_portability, 1), rule(65), []).
-substitution(192, ['Order' = 1, 'Measure' = mitigate_portability, 'Description' = "Add a permission allowing data export (or remove the prohibition) to support portability."]).
-proof(192, solution([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]), query, [uses(190, mitigation(risk_no_portability, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")), uses(191, mitigation_order(mitigate_portability, 1))]).
-substitution(193, []).
-proof(193, agreement(agreement1, "Example Agreement", policy1), rule(11), []).
-substitution(194, []).
-proof(194, has_need(consumer_example, need_data_cannot_be_removed), rule(2), []).
-substitution(195, []).
-proof(195, need(need_data_cannot_be_removed, 20), rule(6), []).
-substitution(196, []).
-proof(196, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1), rule(12), []).
-substitution(197, ['Clause' = clause_c1, 'Raw' = 110, 'Title' = "Example Agreement", 'Weight' = 20]).
-proof(197, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."), rule(26), [uses(193, agreement(agreement1, "Example Agreement", policy1)), uses(194, has_need(consumer_example, need_data_cannot_be_removed)), uses(195, need(need_data_cannot_be_removed, 20)), uses(196, permission(policy1, perm_delete_account, remove_account, user_account, clause_c1)), absent(has_notice_constraint(perm_delete_account), complete), absent(has_inform_duty(perm_delete_account), complete), builtin(110 is 90 + 20)]).
-substitution(198, ['S' = source_delete_without_safeguards, 'St' = legal_compliance_risk, 'K' = unwanted_data_deletion, 'R' = perm_delete_account, 'C' = clause_c1, 'N' = need_data_cannot_be_removed, 'Raw' = 110, 'W' = "Account removal is permitted without a notice constraint or duty to inform."]).
-proof(198, mitigation(risk_delete_without_safeguards, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), rule(49), [uses(197, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."))]).
-substitution(199, ['S' = source_delete_without_safeguards, 'St' = legal_compliance_risk, 'K' = unwanted_data_deletion, 'R' = perm_delete_account, 'C' = clause_c1, 'N' = need_data_cannot_be_removed, 'Raw' = 110, 'W' = "Account removal is permitted without a notice constraint or duty to inform."]).
-proof(199, mitigation(risk_delete_without_safeguards, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal."), rule(50), [uses(197, detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."))]).
-substitution(200, []).
-proof(200, mitigation_order(mitigate_delete_notice, 1), rule(61), []).
-substitution(201, []).
-proof(201, mitigation_order(mitigate_delete_inform, 2), rule(62), []).
-substitution(202, ['Order' = 1, 'Measure' = mitigate_delete_notice, 'Description' = "Add a notice constraint (minimum noticeDays) before account removal."]).
-proof(202, solution([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal.")]), query, [uses(198, mitigation(risk_delete_without_safeguards, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal.")), uses(200, mitigation_order(mitigate_delete_notice, 1))]).
-substitution(203, ['Order' = 2, 'Measure' = mitigate_delete_inform, 'Description' = "Add a duty to inform the consumer prior to account removal."]).
-proof(203, solution([mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")]), query, [uses(199, mitigation(risk_delete_without_safeguards, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")), uses(201, mitigation_order(mitigate_delete_inform, 2))]).
-substitution(204, []).
-proof(204, has_need(consumer_example, need_change_only_with_prior_notice), rule(3), []).
-substitution(205, []).
-proof(205, need(need_change_only_with_prior_notice, 15), rule(7), []).
-substitution(206, []).
-proof(206, minimum_notice_days(need_change_only_with_prior_notice, 14), rule(10), []).
-substitution(207, []).
-proof(207, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2), rule(13), []).
-substitution(208, []).
-proof(208, duty(perm_change_terms, inform), rule(16), []).
-substitution(209, []).
-proof(209, constraint(perm_change_terms, notice_days, gteq, 3), rule(17), []).
-substitution(210, ['Clause' = clause_c2, 'Raw' = 85, 'Weight' = 15, 'Required' = 14, 'Days' = 3]).
-proof(210, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."), rule(27), [uses(204, has_need(consumer_example, need_change_only_with_prior_notice)), uses(205, need(need_change_only_with_prior_notice, 15)), uses(206, minimum_notice_days(need_change_only_with_prior_notice, 14)), uses(207, permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2)), uses(208, duty(perm_change_terms, inform)), uses(209, constraint(perm_change_terms, notice_days, gteq, 3)), builtin(3 < 14), builtin(85 is 70 + 15)]).
-substitution(211, ['S' = source_notice_too_short, 'St' = policy_risk, 'K' = customer_confidence_loss, 'R' = perm_change_terms, 'C' = clause_c2, 'N' = need_change_only_with_prior_notice, 'Raw' = 85, 'W' = "Terms may change with less notice than the consumer requires."]).
-proof(211, mitigation(risk_notice_too_short, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement."), rule(51), [uses(210, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."))]).
-substitution(212, []).
-proof(212, mitigation_order(mitigate_notice_too_short, 1), rule(64), []).
-substitution(213, ['Order' = 1, 'Measure' = mitigate_notice_too_short, 'Description' = "Increase minimum noticeDays in the inform duty to meet the consumer requirement."]).
-proof(213, solution([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]), query, [uses(211, mitigation(risk_notice_too_short, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")), uses(212, mitigation_order(mitigate_notice_too_short, 1))]).
-substitution(214, ['Rank' = 3, 'Clause_id' = "C2", 'Clause_text' = "Provider may change terms by informing users at least 3 days in advance.", 'Risk' = risk_notice_too_short, 'Score' = 85, 'Level_iri' = iri("https://w3id.org/dpv/risk#HighRisk"), 'Severity_iri' = iri("https://w3id.org/dpv/risk#HighSeverity"), 'Explanation' = "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance.", 'Mitigations' = [mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]]).
-proof(214, solution([ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]))]), query, [uses(28, detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires.")), uses(114, score(risk_notice_too_short, 85)), uses(141, rank_position(risk_notice_too_short, 3)), uses(148, risk_level(risk_notice_too_short, high_risk, high_severity)), uses(111, risk_labels(high_risk, high_severity, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"))), uses(178, risk_explanation(risk_notice_too_short, "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance.")), uses(177, clause(clause_c2, "C2", "Provider may change terms by informing users at least 3 days in advance.")), collected([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")], mitigation(_0, _1, _2), (mitigation(risk_notice_too_short, _1, _2), mitigation_order(_1, _0)), [213], complete), builtin(sort([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")], [mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]))]).
-substitution(215, ['Agreement_title' = "Example Agreement", 'Profile_title' = "Example consumer profile", 'Ranked' = [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))], 'Rank' = _0, 'Clause_id' = _1, 'Clause_text' = _2, 'Risk' = _3, 'Score' = _4, 'Level_iri' = _5, 'Severity_iri' = _6, 'Explanation' = _7, 'Mitigations' = _8, 'Source' = _9, 'Source_type' = _10, 'Kind' = _11, 'Rule' = _12, 'Clause' = _13, 'Need' = _14, 'Raw' = _15, 'Why' = _16, 'Level' = _17, 'Severity' = _18, 'Order' = _19, 'Measure' = _20, 'Description' = _21, 'Bag1' = _22, 'Bag2' = [ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")])), ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]))], 'Rows' = [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]]).
-proof(215, ranked_report("Example Agreement", "Example consumer profile", [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]), rule(67), [uses(1, agreement(agreement1, "Example Agreement", policy1)), uses(2, profile(consumer_example, "Example consumer profile")), collected([ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")])), ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]))], ranked(_0, clause(_1, _2), risk(_3, _4, _5, _6, _7), mitigations(_8)), (detected_risk(_3, _9, _10, _11, _12, _13, _14, _15, _16), score(_3, _4), rank_position(_3, _0), risk_level(_3, _17, _18), risk_labels(_17, _18, _5, _6), risk_explanation(_3, _7), clause(_13, _1, _2), findall(mitigation(_19, _20, _21), (mitigation(_3, _20, _21), mitigation_order(_20, _19)), _22), sort(_22, _8)), [156, 164, 176, 214], complete), builtin(sort([ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")])), ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]))], [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))])), builtin(sort([ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))], [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]))]).
-substitution(216, ['Agreement' = "Example Agreement", 'Profile' = "Example consumer profile", 'Risks' = [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]]).
-proof(216, solution(["Example Agreement", "Example consumer profile", [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]]), query, [uses(215, ranked_report("Example Agreement", "Example consumer profile", [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]))]).
+clause(66,
+       rank_position(var('Risk'), var('Rank')),
+       (score(var('Risk'), var('Score')),
+        findall(var('Other'), (score(var('Other'), var('Other_score')), var('Other_score') > var('Score')), var('Bag1')),
+        sort(var('Bag1'), var('Higher')),
+        length(var('Higher'), var('Higher_count')),
+        var('Rank') is var('Higher_count') + 1)).
+clause(67,
+       ranked_report(var('Agreement_title'), var('Profile_title'), var('Ranked')),
+       (agreement(agreement1, var('Agreement_title'), policy1),
+        profile(consumer_example, var('Profile_title')),
+        findall(ranked(var('Rank'), clause(var('Clause_id'), var('Clause_text')), risk(var('Risk'), var('Score'), var('Level_iri'), var('Severity_iri'), var('Explanation')), mitigations(var('Mitigations'))), (detected_risk(var('Risk'), var('Source'), var('Source_type'), var('Kind'), var('Rule'), var('Clause'), var('Need'), var('Raw'), var('Why')), score(var('Risk'), var('Score')), rank_position(var('Risk'), var('Rank')), risk_level(var('Risk'), var('Level'), var('Severity')), risk_labels(var('Level'), var('Severity'), var('Level_iri'), var('Severity_iri')), risk_explanation(var('Risk'), var('Explanation')), clause(var('Clause'), var('Clause_id'), var('Clause_text')), findall(mitigation(var('Order'), var('Measure'), var('Description')), (mitigation(var('Risk'), var('Measure'), var('Description')), mitigation_order(var('Measure'), var('Order'))), var('Bag1')), sort(var('Bag1'), var('Mitigations'))), var('Bag2')),
+        sort(var('Bag2'), var('Rows')),
+        sort(var('Rows'), var('Ranked')))).
+
+step(ranked_report("Example Agreement", "Example consumer profile", [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]),
+     rule(67),
+     ['Agreement_title' = "Example Agreement",
+      'Profile_title' = "Example consumer profile",
+      'Ranked' = [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))],
+      'Rank' = _0,
+      'Clause_id' = _1,
+      'Clause_text' = _2,
+      'Risk' = _3,
+      'Score' = _4,
+      'Level_iri' = _5,
+      'Severity_iri' = _6,
+      'Explanation' = _7,
+      'Mitigations' = _8,
+      'Source' = _9,
+      'Source_type' = _10,
+      'Kind' = _11,
+      'Rule' = _12,
+      'Clause' = _13,
+      'Need' = _14,
+      'Raw' = _15,
+      'Why' = _16,
+      'Level' = _17,
+      'Severity' = _18,
+      'Order' = _19,
+      'Measure' = _20,
+      'Description' = _21,
+      'Bag1' = _22,
+      'Bag2' = [ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")])), ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]))],
+      'Rows' = [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]],
+     [agreement(agreement1, "Example Agreement", policy1),
+      profile(consumer_example, "Example consumer profile"),
+      findall(ranked(_23, clause(_24, _25), risk(_26, _27, _28, _29, _30), mitigations(_31)), (detected_risk(_26, _32, _33, _34, _35, _36, _37, _38, _39), score(_26, _27), rank_position(_26, _23), risk_level(_26, _40, _41), risk_labels(_40, _41, _28, _29), risk_explanation(_26, _30), clause(_36, _24, _25), findall(mitigation(_42, _43, _44), (mitigation(_26, _43, _44), mitigation_order(_43, _42)), _45), sort(_45, _31)), [ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")])), ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]))]),
+      sort([ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")])), ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]))], [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]),
+      sort([ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))], [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))])]).
+step(agreement(agreement1, "Example Agreement", policy1), fact(11), [], []).
+step(profile(consumer_example, "Example consumer profile"), fact(1), [], []).
+step(findall(ranked(_0, clause(_1, _2), risk(_3, _4, _5, _6, _7), mitigations(_8)), (detected_risk(_3, _9, _10, _11, _12, _13, _14, _15, _16), score(_3, _4), rank_position(_3, _0), risk_level(_3, _17, _18), risk_labels(_17, _18, _5, _6), risk_explanation(_3, _7), clause(_13, _1, _2), findall(mitigation(_19, _20, _21), (mitigation(_3, _20, _21), mitigation_order(_20, _19)), _22), sort(_22, _8)), [ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")])), ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]))]),
+     collected,
+     [],
+     [detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."),
+      score(risk_share_without_consent, 97),
+      rank_position(risk_share_without_consent, 2),
+      risk_level(risk_share_without_consent, high_risk, high_severity),
+      risk_labels(high_risk, high_severity, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity")),
+      risk_explanation(risk_share_without_consent, "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."),
+      clause(clause_c3, "C3", "Provider may share user data with partners for business purposes."),
+      findall(mitigation(_23, _24, _25), (mitigation(risk_share_without_consent, _24, _25), mitigation_order(_24, _23)), [mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")]),
+      sort([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")], [mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")]),
+      detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."),
+      score(risk_no_portability, 70),
+      rank_position(risk_no_portability, 4),
+      risk_level(risk_no_portability, moderate_risk, moderate_severity),
+      risk_labels(moderate_risk, moderate_severity, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity")),
+      risk_explanation(risk_no_portability, "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."),
+      clause(clause_c4, "C4", "Users are not permitted to export their data."),
+      findall(mitigation(_26, _27, _28), (mitigation(risk_no_portability, _27, _28), mitigation_order(_27, _26)), [mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]),
+      sort([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")], [mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]),
+      detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."),
+      score(risk_delete_without_safeguards, 100),
+      rank_position(risk_delete_without_safeguards, 1),
+      risk_level(risk_delete_without_safeguards, high_risk, high_severity),
+      risk_labels(high_risk, high_severity, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity")),
+      risk_explanation(risk_delete_without_safeguards, "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."),
+      clause(clause_c1, "C1", "Provider may remove the user account and associated data at its discretion."),
+      findall(mitigation(_29, _30, _31), (mitigation(risk_delete_without_safeguards, _30, _31), mitigation_order(_30, _29)), [mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")]),
+      sort([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")], [mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")]),
+      detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."),
+      score(risk_notice_too_short, 85),
+      rank_position(risk_notice_too_short, 3),
+      risk_level(risk_notice_too_short, high_risk, high_severity),
+      risk_labels(high_risk, high_severity, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity")),
+      risk_explanation(risk_notice_too_short, "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."),
+      clause(clause_c2, "C2", "Provider may change terms by informing users at least 3 days in advance."),
+      findall(mitigation(_32, _33, _34), (mitigation(risk_notice_too_short, _33, _34), mitigation_order(_33, _32)), [mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]),
+      sort([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")], [mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])]).
+step(detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."),
+     rule(28),
+     ['Clause' = clause_c3, 'Raw' = 97, 'Weight' = 12],
+     [has_need(consumer_example, need_no_sharing_without_consent),
+      need(need_no_sharing_without_consent, 12),
+      permission(policy1, perm_share_data, share_data, user_data, clause_c3),
+      \+has_explicit_consent(perm_share_data),
+      97 is 85 + 12]).
+step(has_need(consumer_example, need_no_sharing_without_consent), fact(4), [], []).
+step(need(need_no_sharing_without_consent, 12), fact(8), [], []).
+step(permission(policy1, perm_share_data, share_data, user_data, clause_c3), fact(14), [], []).
+step(\+has_explicit_consent(perm_share_data), absent, [], []).
+step(97 is 85 + 12, builtin, [], []).
+step(score(risk_share_without_consent, 97),
+     rule(31),
+     ['Risk' = risk_share_without_consent,
+      'Raw' = 97,
+      'Source' = source_share_without_consent,
+      'Source_type' = policy_risk,
+      'Kind' = unwanted_disclosure_data,
+      'Rule' = perm_share_data,
+      'Clause' = clause_c3,
+      'Need' = need_no_sharing_without_consent,
+      'Why' = "User data sharing is permitted without an explicit consent constraint."],
+     [detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."),
+      97 =< 100]).
+step(97 =< 100, builtin, [], []).
+step(rank_position(risk_share_without_consent, 2),
+     rule(66),
+     ['Risk' = risk_share_without_consent,
+      'Rank' = 2,
+      'Score' = 97,
+      'Other' = _0,
+      'Other_score' = _1,
+      'Bag1' = [risk_delete_without_safeguards],
+      'Higher' = [risk_delete_without_safeguards],
+      'Higher_count' = 1],
+     [score(risk_share_without_consent, 97),
+      findall(_2, (score(_2, _3), _3 > 97), [risk_delete_without_safeguards]),
+      sort([risk_delete_without_safeguards], [risk_delete_without_safeguards]),
+      length([risk_delete_without_safeguards], 1),
+      2 is 1 + 1]).
+step(findall(_0, (score(_0, _1), _1 > 97), [risk_delete_without_safeguards]),
+     collected,
+     [],
+     [score(risk_delete_without_safeguards, 100), 100 > 97]).
+step(score(risk_delete_without_safeguards, 100),
+     rule(30),
+     ['Risk' = risk_delete_without_safeguards,
+      'Source' = source_delete_without_safeguards,
+      'Source_type' = legal_compliance_risk,
+      'Kind' = unwanted_data_deletion,
+      'Rule' = perm_delete_account,
+      'Clause' = clause_c1,
+      'Need' = need_data_cannot_be_removed,
+      'Raw' = 110,
+      'Why' = "Account removal is permitted without a notice constraint or duty to inform."],
+     [detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."),
+      110 > 100]).
+step(detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."),
+     rule(26),
+     ['Clause' = clause_c1, 'Raw' = 110, 'Title' = "Example Agreement", 'Weight' = 20],
+     [agreement(agreement1, "Example Agreement", policy1),
+      has_need(consumer_example, need_data_cannot_be_removed),
+      need(need_data_cannot_be_removed, 20),
+      permission(policy1, perm_delete_account, remove_account, user_account, clause_c1),
+      \+has_notice_constraint(perm_delete_account),
+      \+has_inform_duty(perm_delete_account),
+      110 is 90 + 20]).
+step(has_need(consumer_example, need_data_cannot_be_removed), fact(2), [], []).
+step(need(need_data_cannot_be_removed, 20), fact(6), [], []).
+step(permission(policy1, perm_delete_account, remove_account, user_account, clause_c1),
+     fact(12),
+     [],
+     []).
+step(\+has_notice_constraint(perm_delete_account), absent, [], []).
+step(\+has_inform_duty(perm_delete_account), absent, [], []).
+step(110 is 90 + 20, builtin, [], []).
+step(110 > 100, builtin, [], []).
+step(100 > 97, builtin, [], []).
+step(sort([risk_delete_without_safeguards], [risk_delete_without_safeguards]), builtin, [], []).
+step(length([risk_delete_without_safeguards], 1), builtin, [], []).
+step(2 is 1 + 1, builtin, [], []).
+step(risk_level(risk_share_without_consent, high_risk, high_severity),
+     rule(32),
+     ['Risk' = risk_share_without_consent, 'Score' = 97],
+     [score(risk_share_without_consent, 97), 97 > 79]).
+step(97 > 79, builtin, [], []).
+step(risk_labels(high_risk, high_severity, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity")),
+     fact(58),
+     [],
+     []).
+step(risk_explanation(risk_share_without_consent, "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."),
+     rule(56),
+     ['Text' = "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes.",
+      'S' = source_share_without_consent,
+      'St' = policy_risk,
+      'K' = unwanted_disclosure_data,
+      'R' = perm_share_data,
+      'Clause' = clause_c3,
+      'N' = need_no_sharing_without_consent,
+      'Raw' = 97,
+      'W' = "User data sharing is permitted without an explicit consent constraint.",
+      'Clause_id' = "C3",
+      'Clause_text' = "Provider may share user data with partners for business purposes."],
+     [detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint."),
+      clause(clause_c3, "C3", "Provider may share user data with partners for business purposes."),
+      atomics_to_string(["Risk: user data sharing is permitted without an explicit consent constraint. Clause ", "C3", ": ", "Provider may share user data with partners for business purposes."], "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes.")]).
+step(clause(clause_c3, "C3", "Provider may share user data with partners for business purposes."),
+     fact(20),
+     [],
+     []).
+step(atomics_to_string(["Risk: user data sharing is permitted without an explicit consent constraint. Clause ", "C3", ": ", "Provider may share user data with partners for business purposes."], "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."),
+     builtin,
+     [],
+     []).
+step(findall(mitigation(_0, _1, _2), (mitigation(risk_share_without_consent, _1, _2), mitigation_order(_1, _0)), [mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")]),
+     collected,
+     [],
+     [mitigation(risk_share_without_consent, mitigate_share_consent, "Add an explicit consent constraint before data sharing."),
+      mitigation_order(mitigate_share_consent, 1)]).
+step(mitigation(risk_share_without_consent, mitigate_share_consent, "Add an explicit consent constraint before data sharing."),
+     rule(52),
+     ['S' = source_share_without_consent,
+      'St' = policy_risk,
+      'K' = unwanted_disclosure_data,
+      'R' = perm_share_data,
+      'C' = clause_c3,
+      'N' = need_no_sharing_without_consent,
+      'Raw' = 97,
+      'W' = "User data sharing is permitted without an explicit consent constraint."],
+     [detected_risk(risk_share_without_consent, source_share_without_consent, policy_risk, unwanted_disclosure_data, perm_share_data, clause_c3, need_no_sharing_without_consent, 97, "User data sharing is permitted without an explicit consent constraint.")]).
+step(mitigation_order(mitigate_share_consent, 1), fact(63), [], []).
+step(sort([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")], [mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")]),
+     builtin,
+     [],
+     []).
+step(detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."),
+     rule(29),
+     ['Clause' = clause_c4, 'Raw' = 70, 'Weight' = 10],
+     [has_need(consumer_example, need_data_portability),
+      need(need_data_portability, 10),
+      prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4),
+      70 is 60 + 10]).
+step(has_need(consumer_example, need_data_portability), fact(5), [], []).
+step(need(need_data_portability, 10), fact(9), [], []).
+step(prohibition(policy1, prohibit_export_data, export_data, user_data, clause_c4),
+     fact(15),
+     [],
+     []).
+step(70 is 60 + 10, builtin, [], []).
+step(score(risk_no_portability, 70),
+     rule(31),
+     ['Risk' = risk_no_portability,
+      'Raw' = 70,
+      'Source' = source_no_portability,
+      'Source_type' = policy_risk,
+      'Kind' = customer_confidence_loss,
+      'Rule' = prohibit_export_data,
+      'Clause' = clause_c4,
+      'Need' = need_data_portability,
+      'Why' = "Portability is restricted because exporting user data is prohibited."],
+     [detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."),
+      70 =< 100]).
+step(70 =< 100, builtin, [], []).
+step(rank_position(risk_no_portability, 4),
+     rule(66),
+     ['Risk' = risk_no_portability,
+      'Rank' = 4,
+      'Score' = 70,
+      'Other' = _0,
+      'Other_score' = _1,
+      'Bag1' = [risk_share_without_consent, risk_delete_without_safeguards, risk_notice_too_short],
+      'Higher' = [risk_delete_without_safeguards, risk_notice_too_short, risk_share_without_consent],
+      'Higher_count' = 3],
+     [score(risk_no_portability, 70),
+      findall(_2, (score(_2, _3), _3 > 70), [risk_share_without_consent, risk_delete_without_safeguards, risk_notice_too_short]),
+      sort([risk_share_without_consent, risk_delete_without_safeguards, risk_notice_too_short], [risk_delete_without_safeguards, risk_notice_too_short, risk_share_without_consent]),
+      length([risk_delete_without_safeguards, risk_notice_too_short, risk_share_without_consent], 3),
+      4 is 3 + 1]).
+step(findall(_0, (score(_0, _1), _1 > 70), [risk_share_without_consent, risk_delete_without_safeguards, risk_notice_too_short]),
+     collected,
+     [],
+     [score(risk_share_without_consent, 97),
+      97 > 70,
+      score(risk_delete_without_safeguards, 100),
+      100 > 70,
+      score(risk_notice_too_short, 85),
+      85 > 70]).
+step(97 > 70, builtin, [], []).
+step(100 > 70, builtin, [], []).
+step(score(risk_notice_too_short, 85),
+     rule(31),
+     ['Risk' = risk_notice_too_short,
+      'Raw' = 85,
+      'Source' = source_notice_too_short,
+      'Source_type' = policy_risk,
+      'Kind' = customer_confidence_loss,
+      'Rule' = perm_change_terms,
+      'Clause' = clause_c2,
+      'Need' = need_change_only_with_prior_notice,
+      'Why' = "Terms may change with less notice than the consumer requires."],
+     [detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."),
+      85 =< 100]).
+step(detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."),
+     rule(27),
+     ['Clause' = clause_c2, 'Raw' = 85, 'Weight' = 15, 'Required' = 14, 'Days' = 3],
+     [has_need(consumer_example, need_change_only_with_prior_notice),
+      need(need_change_only_with_prior_notice, 15),
+      minimum_notice_days(need_change_only_with_prior_notice, 14),
+      permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2),
+      duty(perm_change_terms, inform),
+      constraint(perm_change_terms, notice_days, gteq, 3),
+      3 < 14,
+      85 is 70 + 15]).
+step(has_need(consumer_example, need_change_only_with_prior_notice), fact(3), [], []).
+step(need(need_change_only_with_prior_notice, 15), fact(7), [], []).
+step(minimum_notice_days(need_change_only_with_prior_notice, 14), fact(10), [], []).
+step(permission(policy1, perm_change_terms, change_terms, agreement_text, clause_c2),
+     fact(13),
+     [],
+     []).
+step(duty(perm_change_terms, inform), fact(16), [], []).
+step(constraint(perm_change_terms, notice_days, gteq, 3), fact(17), [], []).
+step(3 < 14, builtin, [], []).
+step(85 is 70 + 15, builtin, [], []).
+step(85 =< 100, builtin, [], []).
+step(85 > 70, builtin, [], []).
+step(sort([risk_share_without_consent, risk_delete_without_safeguards, risk_notice_too_short], [risk_delete_without_safeguards, risk_notice_too_short, risk_share_without_consent]),
+     builtin,
+     [],
+     []).
+step(length([risk_delete_without_safeguards, risk_notice_too_short, risk_share_without_consent], 3),
+     builtin,
+     [],
+     []).
+step(4 is 3 + 1, builtin, [], []).
+step(risk_level(risk_no_portability, moderate_risk, moderate_severity),
+     rule(33),
+     ['Risk' = risk_no_portability, 'Score' = 70],
+     [score(risk_no_portability, 70), 70 >= 50, 70 < 80]).
+step(70 >= 50, builtin, [], []).
+step(70 < 80, builtin, [], []).
+step(risk_labels(moderate_risk, moderate_severity, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity")),
+     fact(59),
+     [],
+     []).
+step(risk_explanation(risk_no_portability, "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."),
+     rule(57),
+     ['Text' = "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data.",
+      'S' = source_no_portability,
+      'St' = policy_risk,
+      'K' = customer_confidence_loss,
+      'R' = prohibit_export_data,
+      'Clause' = clause_c4,
+      'N' = need_data_portability,
+      'Raw' = 70,
+      'W' = "Portability is restricted because exporting user data is prohibited.",
+      'Clause_id' = "C4",
+      'Clause_text' = "Users are not permitted to export their data."],
+     [detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited."),
+      clause(clause_c4, "C4", "Users are not permitted to export their data."),
+      atomics_to_string(["Risk: portability is restricted because exporting user data is prohibited. Clause ", "C4", ": ", "Users are not permitted to export their data."], "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data.")]).
+step(clause(clause_c4, "C4", "Users are not permitted to export their data."), fact(21), [], []).
+step(atomics_to_string(["Risk: portability is restricted because exporting user data is prohibited. Clause ", "C4", ": ", "Users are not permitted to export their data."], "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."),
+     builtin,
+     [],
+     []).
+step(findall(mitigation(_0, _1, _2), (mitigation(risk_no_portability, _1, _2), mitigation_order(_1, _0)), [mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]),
+     collected,
+     [],
+     [mitigation(risk_no_portability, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability."),
+      mitigation_order(mitigate_portability, 1)]).
+step(mitigation(risk_no_portability, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability."),
+     rule(53),
+     ['S' = source_no_portability,
+      'St' = policy_risk,
+      'K' = customer_confidence_loss,
+      'R' = prohibit_export_data,
+      'C' = clause_c4,
+      'N' = need_data_portability,
+      'Raw' = 70,
+      'W' = "Portability is restricted because exporting user data is prohibited."],
+     [detected_risk(risk_no_portability, source_no_portability, policy_risk, customer_confidence_loss, prohibit_export_data, clause_c4, need_data_portability, 70, "Portability is restricted because exporting user data is prohibited.")]).
+step(mitigation_order(mitigate_portability, 1), fact(65), [], []).
+step(sort([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")], [mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]),
+     builtin,
+     [],
+     []).
+step(rank_position(risk_delete_without_safeguards, 1),
+     rule(66),
+     ['Risk' = risk_delete_without_safeguards,
+      'Rank' = 1,
+      'Score' = 100,
+      'Other' = _0,
+      'Other_score' = _1,
+      'Bag1' = [],
+      'Higher' = [],
+      'Higher_count' = 0],
+     [score(risk_delete_without_safeguards, 100),
+      findall(_2, (score(_2, _3), _3 > 100), []),
+      sort([], []),
+      length([], 0),
+      1 is 0 + 1]).
+step(findall(_0, (score(_0, _1), _1 > 100), []), collected, [], []).
+step(sort([], []), builtin, [], []).
+step(length([], 0), builtin, [], []).
+step(1 is 0 + 1, builtin, [], []).
+step(risk_level(risk_delete_without_safeguards, high_risk, high_severity),
+     rule(32),
+     ['Risk' = risk_delete_without_safeguards, 'Score' = 100],
+     [score(risk_delete_without_safeguards, 100), 100 > 79]).
+step(100 > 79, builtin, [], []).
+step(risk_explanation(risk_delete_without_safeguards, "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."),
+     rule(54),
+     ['Text' = "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion.",
+      'S' = source_delete_without_safeguards,
+      'St' = legal_compliance_risk,
+      'K' = unwanted_data_deletion,
+      'R' = perm_delete_account,
+      'Clause' = clause_c1,
+      'N' = need_data_cannot_be_removed,
+      'Raw' = 110,
+      'W' = "Account removal is permitted without a notice constraint or duty to inform.",
+      'Clause_id' = "C1",
+      'Clause_text' = "Provider may remove the user account and associated data at its discretion."],
+     [detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform."),
+      clause(clause_c1, "C1", "Provider may remove the user account and associated data at its discretion."),
+      atomics_to_string(["Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause ", "C1", ": ", "Provider may remove the user account and associated data at its discretion."], "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion.")]).
+step(clause(clause_c1, "C1", "Provider may remove the user account and associated data at its discretion."),
+     fact(18),
+     [],
+     []).
+step(atomics_to_string(["Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause ", "C1", ": ", "Provider may remove the user account and associated data at its discretion."], "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."),
+     builtin,
+     [],
+     []).
+step(findall(mitigation(_0, _1, _2), (mitigation(risk_delete_without_safeguards, _1, _2), mitigation_order(_1, _0)), [mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")]),
+     collected,
+     [],
+     [mitigation(risk_delete_without_safeguards, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."),
+      mitigation_order(mitigate_delete_notice, 1),
+      mitigation(risk_delete_without_safeguards, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal."),
+      mitigation_order(mitigate_delete_inform, 2)]).
+step(mitigation(risk_delete_without_safeguards, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."),
+     rule(49),
+     ['S' = source_delete_without_safeguards,
+      'St' = legal_compliance_risk,
+      'K' = unwanted_data_deletion,
+      'R' = perm_delete_account,
+      'C' = clause_c1,
+      'N' = need_data_cannot_be_removed,
+      'Raw' = 110,
+      'W' = "Account removal is permitted without a notice constraint or duty to inform."],
+     [detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform.")]).
+step(mitigation_order(mitigate_delete_notice, 1), fact(61), [], []).
+step(mitigation(risk_delete_without_safeguards, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal."),
+     rule(50),
+     ['S' = source_delete_without_safeguards,
+      'St' = legal_compliance_risk,
+      'K' = unwanted_data_deletion,
+      'R' = perm_delete_account,
+      'C' = clause_c1,
+      'N' = need_data_cannot_be_removed,
+      'Raw' = 110,
+      'W' = "Account removal is permitted without a notice constraint or duty to inform."],
+     [detected_risk(risk_delete_without_safeguards, source_delete_without_safeguards, legal_compliance_risk, unwanted_data_deletion, perm_delete_account, clause_c1, need_data_cannot_be_removed, 110, "Account removal is permitted without a notice constraint or duty to inform.")]).
+step(mitigation_order(mitigate_delete_inform, 2), fact(62), [], []).
+step(sort([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")], [mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")]),
+     builtin,
+     [],
+     []).
+step(rank_position(risk_notice_too_short, 3),
+     rule(66),
+     ['Risk' = risk_notice_too_short,
+      'Rank' = 3,
+      'Score' = 85,
+      'Other' = _0,
+      'Other_score' = _1,
+      'Bag1' = [risk_share_without_consent, risk_delete_without_safeguards],
+      'Higher' = [risk_delete_without_safeguards, risk_share_without_consent],
+      'Higher_count' = 2],
+     [score(risk_notice_too_short, 85),
+      findall(_2, (score(_2, _3), _3 > 85), [risk_share_without_consent, risk_delete_without_safeguards]),
+      sort([risk_share_without_consent, risk_delete_without_safeguards], [risk_delete_without_safeguards, risk_share_without_consent]),
+      length([risk_delete_without_safeguards, risk_share_without_consent], 2),
+      3 is 2 + 1]).
+step(findall(_0, (score(_0, _1), _1 > 85), [risk_share_without_consent, risk_delete_without_safeguards]),
+     collected,
+     [],
+     [score(risk_share_without_consent, 97),
+      97 > 85,
+      score(risk_delete_without_safeguards, 100),
+      100 > 85]).
+step(97 > 85, builtin, [], []).
+step(100 > 85, builtin, [], []).
+step(sort([risk_share_without_consent, risk_delete_without_safeguards], [risk_delete_without_safeguards, risk_share_without_consent]),
+     builtin,
+     [],
+     []).
+step(length([risk_delete_without_safeguards, risk_share_without_consent], 2), builtin, [], []).
+step(3 is 2 + 1, builtin, [], []).
+step(risk_level(risk_notice_too_short, high_risk, high_severity),
+     rule(32),
+     ['Risk' = risk_notice_too_short, 'Score' = 85],
+     [score(risk_notice_too_short, 85), 85 > 79]).
+step(85 > 79, builtin, [], []).
+step(risk_explanation(risk_notice_too_short, "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."),
+     rule(55),
+     ['Text' = "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance.",
+      'S' = source_notice_too_short,
+      'St' = policy_risk,
+      'K' = customer_confidence_loss,
+      'R' = perm_change_terms,
+      'Clause' = clause_c2,
+      'N' = need_change_only_with_prior_notice,
+      'Raw' = 85,
+      'W' = "Terms may change with less notice than the consumer requires.",
+      'Days' = 3,
+      'Required' = 14,
+      'Clause_id' = "C2",
+      'Clause_text' = "Provider may change terms by informing users at least 3 days in advance."],
+     [detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires."),
+      constraint(perm_change_terms, notice_days, gteq, 3),
+      minimum_notice_days(need_change_only_with_prior_notice, 14),
+      clause(clause_c2, "C2", "Provider may change terms by informing users at least 3 days in advance."),
+      atomics_to_string(["Risk: terms may change with notice (", 3, " days) below consumer requirement (", 14, " days). Clause ", "C2", ": ", "Provider may change terms by informing users at least 3 days in advance."], "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance.")]).
+step(clause(clause_c2, "C2", "Provider may change terms by informing users at least 3 days in advance."),
+     fact(19),
+     [],
+     []).
+step(atomics_to_string(["Risk: terms may change with notice (", 3, " days) below consumer requirement (", 14, " days). Clause ", "C2", ": ", "Provider may change terms by informing users at least 3 days in advance."], "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."),
+     builtin,
+     [],
+     []).
+step(findall(mitigation(_0, _1, _2), (mitigation(risk_notice_too_short, _1, _2), mitigation_order(_1, _0)), [mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]),
+     collected,
+     [],
+     [mitigation(risk_notice_too_short, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement."),
+      mitigation_order(mitigate_notice_too_short, 1)]).
+step(mitigation(risk_notice_too_short, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement."),
+     rule(51),
+     ['S' = source_notice_too_short,
+      'St' = policy_risk,
+      'K' = customer_confidence_loss,
+      'R' = perm_change_terms,
+      'C' = clause_c2,
+      'N' = need_change_only_with_prior_notice,
+      'Raw' = 85,
+      'W' = "Terms may change with less notice than the consumer requires."],
+     [detected_risk(risk_notice_too_short, source_notice_too_short, policy_risk, customer_confidence_loss, perm_change_terms, clause_c2, need_change_only_with_prior_notice, 85, "Terms may change with less notice than the consumer requires.")]).
+step(mitigation_order(mitigate_notice_too_short, 1), fact(64), [], []).
+step(sort([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")], [mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]),
+     builtin,
+     [],
+     []).
+step(sort([ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")])), ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")]))], [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]),
+     builtin,
+     [],
+     []).
+step(sort([ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))], [ranked(1, clause("C1", "Provider may remove the user account and associated data at its discretion."), risk(risk_delete_without_safeguards, 100, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account and associated data at its discretion."), mitigations([mitigation(1, mitigate_delete_notice, "Add a notice constraint (minimum noticeDays) before account removal."), mitigation(2, mitigate_delete_inform, "Add a duty to inform the consumer prior to account removal.")])), ranked(2, clause("C3", "Provider may share user data with partners for business purposes."), risk(risk_share_without_consent, 97, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes."), mitigations([mitigation(1, mitigate_share_consent, "Add an explicit consent constraint before data sharing.")])), ranked(3, clause("C2", "Provider may change terms by informing users at least 3 days in advance."), risk(risk_notice_too_short, 85, iri("https://w3id.org/dpv/risk#HighRisk"), iri("https://w3id.org/dpv/risk#HighSeverity"), "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance."), mitigations([mitigation(1, mitigate_notice_too_short, "Increase minimum noticeDays in the inform duty to meet the consumer requirement.")])), ranked(4, clause("C4", "Users are not permitted to export their data."), risk(risk_no_portability, 70, iri("https://w3id.org/dpv/risk#ModerateRisk"), iri("https://w3id.org/dpv/risk#ModerateSeverity"), "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data."), mitigations([mitigation(1, mitigate_portability, "Add a permission allowing data export (or remove the prohibition) to support portability.")]))]),
+     builtin,
+     [],
+     []).

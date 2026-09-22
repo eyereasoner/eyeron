@@ -55,7 +55,7 @@ pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult)
 
     for (idx, (proof, entries)) in root_entries.iter().enumerate() {
         if idx > 0 { parts.push(String::new()); }
-        parts.push(render_proof_block(proof, entries, &proof_prefixes));
+        parts.push(render_proof_block(proof, entries, &result.rules, &proof_prefixes));
     }
 
     parts.join("\n").trim_end().to_string() + "\n"
@@ -193,7 +193,34 @@ impl ProofCollector<'_> {
     }
 }
 
-fn render_proof_block(root: &DerivedFact, entries: &[ProofEntry], prefixes: &BTreeMap<String, String>) -> String {
+/// The 1-based position of `rule` in the document's rule list — the number
+/// a proof step cites. `proof_to_n3` and `proof_to_srl` both cite a rule
+/// this way, and `prolog::output` cites a clause by its own number, so a
+/// step reads the same in all three formats.
+///
+/// A rule's source location is tried first and structural equality only as
+/// a fallback, because the rule a `DerivedFact` carries is not always
+/// `==` to the one in the document: backward chaining and rule generation
+/// both rewrite a rule's premises or conclusion while leaving its source
+/// alone. A rule with no source at all (one the reasoner generated at run
+/// time) has no number to cite.
+pub(crate) fn rule_number(rule: &Rule, rules: &[Rule]) -> Option<usize> {
+    if let Some(source) = &rule.source {
+        if let Some(index) = rules.iter().position(|candidate| candidate.source.as_ref() == Some(source)) {
+            return Some(index + 1);
+        }
+    }
+    rules.iter().position(|candidate| candidate == rule).map(|index| index + 1)
+}
+
+/// The one predicate that says why a step holds, and its object. Every
+/// step carries exactly one, which is what lets a reader of any of the
+/// three proof formats find the justification in the same place.
+pub(crate) fn justification(kind: &str, object: String) -> (String, Vec<String>) {
+    (format!("pe:{}", kind), vec![object])
+}
+
+fn render_proof_block(root: &DerivedFact, entries: &[ProofEntry], rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
     let root_graph = graph_for_triple(&root.fact, prefixes);
     let mut out = String::new();
     out.push_str(&root_graph);
@@ -201,36 +228,32 @@ fn render_proof_block(root: &DerivedFact, entries: &[ProofEntry], prefixes: &BTr
     if !entries.is_empty() { out.push('\n'); }
     for (idx, entry) in entries.iter().enumerate() {
         if idx > 0 { out.push('\n'); }
-        out.push_str(&render_entry(entry, prefixes));
+        out.push_str(&render_entry(entry, rules, prefixes));
         out.push('\n');
     }
     out.push_str("}.");
     out
 }
 
-fn render_entry(entry: &ProofEntry, prefixes: &BTreeMap<String, String>) -> String {
+fn render_entry(entry: &ProofEntry, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
     match entry {
-        ProofEntry::Rule(proof) => render_rule_entry(proof, prefixes),
+        ProofEntry::Rule(proof) => render_rule_entry(proof, rules, prefixes),
         ProofEntry::Fact { fact, source } => {
-            format!("  {}\n    pe:by {}.", graph_for_triple(fact, prefixes), by_blank_node("fact", source.as_ref()))
+            format!("  {}\n    pe:fact {}.", graph_for_triple(fact, prefixes), quoted_string(&fact_label(source.as_ref())))
         }
         ProofEntry::Builtin { fact, builtin } => {
-            format!("  {}\n    pe:by [ pe:builtin {} ].", graph_for_triple(fact, prefixes), term_to_n3_object(builtin, prefixes))
+            format!("  {}\n    pe:builtin {}.", graph_for_triple(fact, prefixes), term_to_n3_object(builtin, prefixes))
         }
         ProofEntry::Unproven { fact, reason } => {
-            format!(
-                "  {}\n    pe:by [ pe:unproven {} ].",
-                graph_for_triple(fact, prefixes),
-                quoted_string(reason),
-            )
+            format!("  {}\n    pe:unproven {}.", graph_for_triple(fact, prefixes), quoted_string(reason))
         }
     }
 }
 
-fn render_rule_entry(proof: &DerivedFact, prefixes: &BTreeMap<String, String>) -> String {
+fn render_rule_entry(proof: &DerivedFact, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
     let subject = graph_for_triple(&proof.fact, prefixes);
     let mut groups = Vec::<(String, Vec<String>)>::new();
-    groups.push(("pe:by".to_string(), vec![by_blank_node("rule", proof.rule.source.as_ref())]));
+    groups.push(justification("rule", rule_reference(&proof.rule, rules)));
 
     let bindings = render_binding_items(proof, prefixes);
     if !bindings.is_empty() {
@@ -307,11 +330,19 @@ fn graph_for_triple(triple: &Triple, prefixes: &BTreeMap<String, String>) -> Str
     out
 }
 
-fn by_blank_node(kind: &str, source: Option<&SourceRef>) -> String {
-    let Some(source) = source else { return format!("[ pe:{} {} ]", kind, quoted_string("<unknown>")); };
-    let mut props = vec![format!("pe:{} {}", kind, quoted_string(&source_label_for_proof(&source.label)))];
-    if source.line > 0 { props.push(format!("pe:line {}", source.line)); }
-    format!("[ {} ]", props.join("; "))
+/// How a step cites the rule it applied: the rule's number in the
+/// document, or the quoted string `"<unknown>"` for a rule that is not one
+/// of the document's own (which no ordinary run produces).
+pub(crate) fn rule_reference(rule: &Rule, rules: &[Rule]) -> String {
+    match rule_number(rule, rules) {
+        Some(number) => number.to_string(),
+        None => quoted_string("<unknown>"),
+    }
+}
+
+/// How a step cites a fact it was simply given: the document it came from.
+pub(crate) fn fact_label(source: Option<&SourceRef>) -> String {
+    source.map(|source| source_label_for_proof(&source.label)).unwrap_or_else(|| "<unknown>".to_string())
 }
 
 pub(crate) fn source_label_for_proof(label: &str) -> String {

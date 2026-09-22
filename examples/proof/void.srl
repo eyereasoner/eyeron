@@ -15,7 +15,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(ex:jamesWeatherall foaf:made ex:book2016)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "book"; pe:value ex:book2016 ],
       [ pe:var "person"; pe:value ex:jamesWeatherall ];
@@ -23,7 +23,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(ex:isaacNewton schema:subjectOf ex:book2016)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "book"; pe:value ex:book2016 ],
       [ pe:var "person"; pe:value ex:isaacNewton ];
@@ -33,7 +33,7 @@ DATA {
 
   _:step3
     rdf:reifies <<(ex:albertEinstein schema:subjectOf ex:book2016)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "book"; pe:value ex:book2016 ],
       [ pe:var "person"; pe:value ex:albertEinstein ];
@@ -43,19 +43,19 @@ DATA {
 
   _:step4
     rdf:reifies <<(ex:book2016 dct:subject ex:quantumTheory)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding [ pe:var "book"; pe:value ex:book2016 ];
     pe:uses <<(ex:book2016 schema:about ex:quantumFieldTheory)>>.
 
   _:step5
     rdf:reifies <<(ex:book2016 schema:about ex:darkEnergy)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding [ pe:var "book"; pe:value ex:book2016 ];
     pe:uses <<(ex:book2016 schema:about ex:cosmologicalConstant)>>.
 
   _:step6
     rdf:reifies <<(ex:book2016 ex:recommendedFor ex:curiousPhysicsReaderEn)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding [ pe:var "book"; pe:value ex:book2016 ];
     pe:uses
       _:step4,

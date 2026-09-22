@@ -524,6 +524,76 @@ fn write_compound(term: &Term, name: &str, args: &[Term], max: u16, vars: &mut B
     format!("{}({})", format_atom(name), args_text.join(", "))
 }
 
+/// Write `term` as one fact of a result document, broken across lines when
+/// the single-line form would be wider than `width`: one argument per
+/// line, and inside an argument that is still too long, one list element or
+/// one body goal per line.
+///
+/// This is what keeps a long proof step readable, and it is the same
+/// structural break the N3 and SRL proof writers make — there a step's
+/// `pe:binding` and `pe:uses` objects each get their own line. One shared
+/// variable map spans the whole fact, so a variable written twice in it is
+/// written the same way both times and the fact reads back with its
+/// sharing intact.
+pub fn format_fact(term: &Term, width: usize) -> String {
+    let mut vars = BTreeMap::new();
+    let flat = write_term(term, 1200, &mut vars);
+    if flat.chars().count() <= width {
+        return flat;
+    }
+    let Term::Struct(name, args) = term else { return flat };
+    if args.is_empty() || is_nil(term) || as_cons(term).is_some() {
+        return flat;
+    }
+    let head = format_atom(name);
+    let indent = " ".repeat(head.chars().count() + 1);
+    let parts: Vec<String> = args.iter().map(|arg| write_wrapped(arg, &indent, width, &mut vars)).collect();
+    format!("{}({})", head, parts.join(&format!(",\n{}", indent)))
+}
+
+/// One argument of a broken fact: kept on its line when it fits, otherwise
+/// opened out one element (of a list) or one goal (of a conjunction) per
+/// line. Anything else stays flat however long it is, because breaking it
+/// further would not follow the term's own structure.
+fn write_wrapped(term: &Term, indent: &str, width: usize, vars: &mut BTreeMap<u64, String>) -> String {
+    let flat = write_term(term, 999, vars);
+    if indent.chars().count() + flat.chars().count() <= width {
+        return flat;
+    }
+    let inner = format!("{} ", indent);
+    let separator = format!(",\n{}", inner);
+    if as_cons(term).is_some() {
+        let mut items = Vec::new();
+        let mut tail = term.clone();
+        while let Some((head, rest)) = as_cons(&tail) {
+            items.push(write_term(head, 999, vars));
+            tail = rest.clone();
+        }
+        return if is_nil(&tail) {
+            format!("[{}]", items.join(&separator))
+        } else {
+            format!("[{}|{}]", items.join(&separator), write_term(&tail, 999, vars))
+        };
+    }
+    if matches!(term, Term::Struct(name, args) if name == "," && args.len() == 2) {
+        let goals: Vec<String> = conjuncts(term).iter().map(|goal| write_term(goal, 999, vars)).collect();
+        return format!("({})", goals.join(&separator));
+    }
+    flat
+}
+
+/// The goals of a `','/2` chain, left to right.
+fn conjuncts(term: &Term) -> Vec<Term> {
+    match term {
+        Term::Struct(name, args) if name == "," && args.len() == 2 => {
+            let mut out = conjuncts(&args[0]);
+            out.extend(conjuncts(&args[1]));
+            out
+        }
+        other => vec![other.clone()],
+    }
+}
+
 /// Named variables referenced by `term` (the anonymous variable `_` is
 /// excluded), in first-encountered (structural, left-to-right) order.
 ///
@@ -633,6 +703,24 @@ mod tests {
         assert_eq!(format_arg(&body), "(a, b)");
         assert_eq!(format(&struct_("\\+", vec![atom("a")])), "\\+a");
         assert_eq!(format(&struct_("-", vec![int(1)])), "- 1");
+    }
+
+    #[test]
+    fn a_wide_fact_breaks_one_argument_per_line() {
+        let long = list((0..8).map(|i| atom(format!("element_number_{}", i))).collect());
+        let fact = struct_("step", vec![atom("conclusion"), struct_("rule", vec![int(3)]), nil(), long]);
+        let text = format_fact(&fact, 60);
+        assert!(text.starts_with("step(conclusion,\n     rule(3),\n     [],\n     [element_number_0,\n      element_number_1,"), "{}", text);
+        assert_eq!(format_fact(&struct_("step", vec![atom("a")]), 60), "step(a)");
+    }
+
+    #[test]
+    fn a_broken_fact_keeps_one_name_per_variable() {
+        let mut counter = VarCounter::new();
+        let x = counter.fresh("X");
+        let wide = struct_("f", vec![x.clone(), atom("a_rather_long_atom_name_here"), atom("another_long_atom_name"), x]);
+        let text = format_fact(&wide, 40);
+        assert_eq!(text.matches("_0").count(), 2, "{}", text);
     }
 
     #[test]

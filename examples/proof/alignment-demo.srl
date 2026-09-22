@@ -42,7 +42,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(tel:Car skos:broader ref:Car)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "a"; pe:value tel:Car ],
       [ pe:var "b"; pe:value ref:Car ];
@@ -50,7 +50,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(tel:HeavyVehicle skos:broader ref:Car)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "a"; pe:value tel:HeavyVehicle ],
       [ pe:var "b"; pe:value ref:Car ];
@@ -58,7 +58,7 @@ DATA {
 
   _:step3
     rdf:reifies <<(anpr:VehicleWithPlate skos:broader ref:Car)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "b"; pe:value ref:Car ];
@@ -66,7 +66,7 @@ DATA {
 
   _:step4
     rdf:reifies <<(anpr:VehicleWithPlate skos:narrower anpr:PassengerCar)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "n"; pe:value anpr:PassengerCar ];
@@ -74,7 +74,7 @@ DATA {
 
   _:step5
     rdf:reifies <<(anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "n"; pe:value anpr:PassengerCar ];
@@ -82,37 +82,37 @@ DATA {
 
   _:step6
     rdf:reifies <<(ref:Car ex:narrowerOrEqualOf ref:Car)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding [ pe:var "c"; pe:value ref:Car ];
     pe:uses <<(ref:Car a skos:Concept)>>.
 
   _:step7
     rdf:reifies <<(tel:Car ex:narrowerOrEqualOf tel:Car)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding [ pe:var "c"; pe:value tel:Car ];
     pe:uses <<(tel:Car a skos:Concept)>>.
 
   _:step8
     rdf:reifies <<(tel:HeavyVehicle ex:narrowerOrEqualOf tel:HeavyVehicle)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding [ pe:var "c"; pe:value tel:HeavyVehicle ];
     pe:uses <<(tel:HeavyVehicle a skos:Concept)>>.
 
   _:step9
     rdf:reifies <<(anpr:VehicleWithPlate ex:narrowerOrEqualOf anpr:VehicleWithPlate)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding [ pe:var "c"; pe:value anpr:VehicleWithPlate ];
     pe:uses <<(anpr:VehicleWithPlate a skos:Concept)>>.
 
   _:step10
     rdf:reifies <<(anpr:PassengerCar ex:narrowerOrEqualOf anpr:PassengerCar)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding [ pe:var "c"; pe:value anpr:PassengerCar ];
     pe:uses <<(anpr:PassengerCar a skos:Concept)>>.
 
   _:step11
     rdf:reifies <<(ref:Car skos:narrower tel:Car)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "n"; pe:value tel:Car ];
@@ -120,7 +120,7 @@ DATA {
 
   _:step12
     rdf:reifies <<(ref:Car skos:narrower tel:HeavyVehicle)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "n"; pe:value tel:HeavyVehicle ];
@@ -128,7 +128,7 @@ DATA {
 
   _:step13
     rdf:reifies <<(ref:Car skos:narrower anpr:VehicleWithPlate)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
@@ -136,7 +136,7 @@ DATA {
 
   _:step14
     rdf:reifies <<(tel:Car skos:broaderTransitive ref:Car)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "n"; pe:value tel:Car ];
@@ -144,7 +144,7 @@ DATA {
 
   _:step15
     rdf:reifies <<(tel:HeavyVehicle skos:broaderTransitive ref:Car)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "n"; pe:value tel:HeavyVehicle ];
@@ -152,7 +152,7 @@ DATA {
 
   _:step16
     rdf:reifies <<(anpr:VehicleWithPlate skos:broaderTransitive ref:Car)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
@@ -160,7 +160,7 @@ DATA {
 
   _:step17
     rdf:reifies <<(anpr:VehicleWithPlate skos:narrowerTransitive anpr:PassengerCar)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "c"; pe:value anpr:PassengerCar ],
       [ pe:var "n"; pe:value anpr:VehicleWithPlate ];
@@ -168,7 +168,7 @@ DATA {
 
   _:step18
     rdf:reifies <<(anpr:PassengerCar ex:narrowerOrEqualOf anpr:VehicleWithPlate)>>;
-    pe:rule "rule#10";
+    pe:rule 10;
     pe:binding
       [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "c"; pe:value anpr:PassengerCar ];
@@ -176,13 +176,13 @@ DATA {
 
   _:step19
     rdf:reifies <<(ref:Car ex:rollsUpTo ref:Car)>>;
-    pe:rule "rule#11";
+    pe:rule 11;
     pe:binding [ pe:var "x"; pe:value ref:Car ];
     pe:uses _:step6.
 
   _:step20
     rdf:reifies <<(ref:Car skos:narrowerTransitive tel:Car)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "c"; pe:value tel:Car ],
       [ pe:var "n"; pe:value ref:Car ];
@@ -190,7 +190,7 @@ DATA {
 
   _:step21
     rdf:reifies <<(ref:Car skos:narrowerTransitive tel:HeavyVehicle)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "c"; pe:value tel:HeavyVehicle ],
       [ pe:var "n"; pe:value ref:Car ];
@@ -198,7 +198,7 @@ DATA {
 
   _:step22
     rdf:reifies <<(ref:Car skos:narrowerTransitive anpr:VehicleWithPlate)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "c"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "n"; pe:value ref:Car ];
@@ -206,7 +206,7 @@ DATA {
 
   _:step23
     rdf:reifies <<(anpr:PassengerCar skos:broaderTransitive ref:Car)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "a"; pe:value anpr:PassengerCar ],
       [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
@@ -217,7 +217,7 @@ DATA {
 
   _:step24
     rdf:reifies <<(tel:Car ex:narrowerOrEqualOf ref:Car)>>;
-    pe:rule "rule#10";
+    pe:rule 10;
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "c"; pe:value tel:Car ];
@@ -225,7 +225,7 @@ DATA {
 
   _:step25
     rdf:reifies <<(tel:HeavyVehicle ex:narrowerOrEqualOf ref:Car)>>;
-    pe:rule "rule#10";
+    pe:rule 10;
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "c"; pe:value tel:HeavyVehicle ];
@@ -233,7 +233,7 @@ DATA {
 
   _:step26
     rdf:reifies <<(anpr:VehicleWithPlate ex:narrowerOrEqualOf ref:Car)>>;
-    pe:rule "rule#10";
+    pe:rule 10;
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "c"; pe:value anpr:VehicleWithPlate ];
@@ -241,7 +241,7 @@ DATA {
 
   _:step27
     rdf:reifies <<(ref:Car skos:narrowerTransitive anpr:PassengerCar)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "a"; pe:value ref:Car ],
       [ pe:var "b"; pe:value anpr:VehicleWithPlate ],
@@ -252,7 +252,7 @@ DATA {
 
   _:step28
     rdf:reifies <<(anpr:PassengerCar ex:narrowerOrEqualOf ref:Car)>>;
-    pe:rule "rule#10";
+    pe:rule 10;
     pe:binding
       [ pe:var "b"; pe:value ref:Car ],
       [ pe:var "c"; pe:value anpr:PassengerCar ];
@@ -260,25 +260,25 @@ DATA {
 
   _:step29
     rdf:reifies <<(tel:Car ex:rollsUpTo ref:Car)>>;
-    pe:rule "rule#11";
+    pe:rule 11;
     pe:binding [ pe:var "x"; pe:value tel:Car ];
     pe:uses _:step24.
 
   _:step30
     rdf:reifies <<(tel:HeavyVehicle ex:rollsUpTo ref:Car)>>;
-    pe:rule "rule#11";
+    pe:rule 11;
     pe:binding [ pe:var "x"; pe:value tel:HeavyVehicle ];
     pe:uses _:step25.
 
   _:step31
     rdf:reifies <<(anpr:VehicleWithPlate ex:rollsUpTo ref:Car)>>;
-    pe:rule "rule#11";
+    pe:rule 11;
     pe:binding [ pe:var "x"; pe:value anpr:VehicleWithPlate ];
     pe:uses _:step26.
 
   _:step32
     rdf:reifies <<(anpr:PassengerCar ex:rollsUpTo ref:Car)>>;
-    pe:rule "rule#11";
+    pe:rule 11;
     pe:binding [ pe:var "x"; pe:value anpr:PassengerCar ];
     pe:uses _:step28.
 }

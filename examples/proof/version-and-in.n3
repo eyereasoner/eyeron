@@ -8,27 +8,27 @@
 
 { :alice :priority true . } pe:why {
   { :alice :priority true . }
-    pe:by [ pe:rule "version-and-in.n3"; pe:line 14 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :alice ];
     pe:uses { :alice :level "gold" . }.
 
   { :alice :level "gold" . }
-    pe:by [ pe:fact "version-and-in.n3"; pe:line 10 ].
+    pe:fact "version-and-in.n3".
 }.
 
 { :carol :priority true . } pe:why {
   { :carol :priority true . }
-    pe:by [ pe:rule "version-and-in.n3"; pe:line 15 ];
+    pe:rule 2;
     pe:binding [ pe:var "x"; pe:value :carol ];
     pe:uses { :carol :level "platinum" . }.
 
   { :carol :level "platinum" . }
-    pe:by [ pe:fact "version-and-in.n3"; pe:line 12 ].
+    pe:fact "version-and-in.n3".
 }.
 
 { :bob :ordinary true . } pe:why {
   { :bob :ordinary true . }
-    pe:by [ pe:rule "version-and-in.n3"; pe:line 16 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "SCOPE"; pe:value {
           <http://example.org/a> <http://example.org/b> <http://example.org/c> .
@@ -46,7 +46,7 @@
       }.
 
   { :bob :level "bronze" . }
-    pe:by [ pe:fact "version-and-in.n3"; pe:line 11 ].
+    pe:fact "version-and-in.n3".
 
   {
     {
@@ -55,5 +55,5 @@
         :bob :priority true .
     } .
 }
-    pe:by [ pe:builtin log:notIncludes ].
+    pe:builtin log:notIncludes.
 }.

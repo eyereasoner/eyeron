@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, inherits_marker(_0, _1), ['L' = _0, 'M' = _1]).
 result(1, complete, 5).
 answer(1, ['L' = s2, 'M' = sox2]).

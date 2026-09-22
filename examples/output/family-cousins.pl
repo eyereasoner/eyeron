@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, cousin(_0, _1), ['Person' = _0, 'Cousin' = _1]).
 result(1, complete, 12).
 answer(1, ['Person' = dave, 'Cousin' = frank]).

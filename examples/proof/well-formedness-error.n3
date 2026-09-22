@@ -7,15 +7,15 @@
 
 { :alice a :Bad . } pe:why {
   { :alice a :Bad . }
-    pe:by [ pe:rule "well-formedness-error.n3"; pe:line 16 ];
+    pe:rule 1;
     pe:binding [ pe:var "score"; pe:value 10 ];
     pe:uses
       { 10 math:greaterThan 5 . },
       { :alice :score 10 . }.
 
   { 10 math:greaterThan 5 . }
-    pe:by [ pe:builtin math:greaterThan ].
+    pe:builtin math:greaterThan.
 
   { :alice :score 10 . }
-    pe:by [ pe:fact "well-formedness-error.n3"; pe:line 14 ].
+    pe:fact "well-formedness-error.n3".
 }.

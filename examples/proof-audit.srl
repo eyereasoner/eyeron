@@ -1,13 +1,13 @@
 # Companion to proof-audit.n3/.pl. `--proof` on a .srl file (see
 # examples/proof/socrates.srl) now generates exactly this shape:
-# `_:stepN rdf:reifies <<( s p o )>> ; pe:rule/pe:fact "file"; pe:line N ;
+# `_:stepN rdf:reifies <<( s p o )>> ; pe:rule N (or pe:fact "file") ;
 # pe:uses ...` reified DATA facts, one flat, separately-addressable
 # reifier per proof step rather than N3's nested quoted-formula steps
 # (which need log:includes to search inside). This example predates that
 # and builds the same small proof shape -- socrates.n3's own two-premise
 # derivation -- by hand instead of by replaying a generated proof
 # document, to keep its own golden output stable; matches reifiers.srl's
-# own `rdf:reifies <<( ... )>>` precedent. The queries mirror the eye
+# own `rdf:reifies <<( ... )>>` precedent. The queries mirror the Prolog
 # source's own `depends_on`/`support`/`answer_applied`.
 
 PREFIX : <http://example.org/proof-audit#>
@@ -20,13 +20,13 @@ DATA {
   :Socrates a :Mortal .
 
   :stepMortal rdf:reifies <<( :Socrates a :Mortal )>> ;
-    pe:rule "socrates.srl" ; pe:line 14 ;
+    pe:rule 1 ;
     pe:uses :stepHuman, :stepSubClass ;
     pe:binding [ pe:var "A" ; pe:value :Human ], [ pe:var "B" ; pe:value :Mortal ], [ pe:var "S" ; pe:value :Socrates ] .
   :stepHuman rdf:reifies <<( :Socrates a :Human )>> ;
-    pe:fact "socrates.srl" ; pe:line 10 .
+    pe:fact "socrates.srl" .
   :stepSubClass rdf:reifies <<( :Human rdfs:subClassOf :Mortal )>> ;
-    pe:fact "socrates.srl" ; pe:line 11 .
+    pe:fact "socrates.srl" .
 }
 
 RULE { ?step :dependsOn ?dep }

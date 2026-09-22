@@ -6,34 +6,34 @@
 
 { :result :is :Post . } pe:why {
   { :result :is :Post . }
-    pe:by [ pe:rule "pillar.n3"; pe:line 15 ];
+    pe:rule 3;
     pe:binding [ pe:var "What"; pe:value :Post ];
     pe:uses { :Pillar :to :Post . }.
 
   { :Pillar :to :Post . }
-    pe:by [ pe:rule "pillar.n3"; pe:line 11 ];
+    pe:rule 1;
     pe:binding [ pe:var "What"; pe:value :Post ];
     pe:uses { :Post :to :Pillar . }.
 
   { :Post :to :Pillar . }
-    pe:by [ pe:fact "pillar.n3"; pe:line 9 ].
+    pe:fact "pillar.n3".
 }.
 
 { :test :is true . } pe:why {
   { :test :is true . }
-    pe:by [ pe:rule "pillar.n3"; pe:line 17 ];
+    pe:rule 4;
     pe:uses { :result :is :Post . }.
 
   { :result :is :Post . }
-    pe:by [ pe:rule "pillar.n3"; pe:line 15 ];
+    pe:rule 3;
     pe:binding [ pe:var "What"; pe:value :Post ];
     pe:uses { :Pillar :to :Post . }.
 
   { :Pillar :to :Post . }
-    pe:by [ pe:rule "pillar.n3"; pe:line 11 ];
+    pe:rule 1;
     pe:binding [ pe:var "What"; pe:value :Post ];
     pe:uses { :Post :to :Pillar . }.
 
   { :Post :to :Pillar . }
-    pe:by [ pe:fact "pillar.n3"; pe:line 9 ].
+    pe:fact "pillar.n3".
 }.

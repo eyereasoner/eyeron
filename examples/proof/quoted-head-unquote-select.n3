@@ -25,7 +25,7 @@
         :c a :Animal .
     } .
 }
-    pe:by [ pe:rule "quoted-head-unquote-select.n3"; pe:line 24 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "Class"; pe:value :Cat ],
       [ pe:var "F"; pe:value {
@@ -51,10 +51,10 @@
       }.
 
   { :c a :Cat . }
-    pe:by [ pe:fact "quoted-head-unquote-select.n3"; pe:line 32 ].
+    pe:fact "quoted-head-unquote-select.n3".
 
   { :Cat :activates :ruleCat . }
-    pe:by [ pe:fact "quoted-head-unquote-select.n3"; pe:line 20 ].
+    pe:fact "quoted-head-unquote-select.n3".
 
   {
     :ruleCat :formula {
@@ -65,27 +65,27 @@
         } .
     } .
 }
-    pe:by [ pe:unproven "no explicit fact, verified builtin, or backward proof was found" ].
+    pe:unproven "no explicit fact, verified builtin, or backward proof was found".
 }.
 
 { :c a :Animal . } pe:why {
   { :c a :Animal . }
-    pe:by [ pe:rule "<unknown>" ];
+    pe:rule 3;
     pe:uses { :c a :Cat . }.
 
   { :c a :Cat . }
-    pe:by [ pe:fact "quoted-head-unquote-select.n3"; pe:line 32 ].
+    pe:fact "quoted-head-unquote-select.n3".
 }.
 
 { :test :is true . } pe:why {
   { :test :is true . }
-    pe:by [ pe:rule "quoted-head-unquote-select.n3"; pe:line 35 ];
+    pe:rule 2;
     pe:uses { :c a :Animal . }.
 
   { :c a :Animal . }
-    pe:by [ pe:rule "<unknown>" ];
+    pe:rule 3;
     pe:uses { :c a :Cat . }.
 
   { :c a :Cat . }
-    pe:by [ pe:fact "quoted-head-unquote-select.n3"; pe:line 32 ].
+    pe:fact "quoted-head-unquote-select.n3".
 }.

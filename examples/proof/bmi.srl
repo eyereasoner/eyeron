@@ -20,7 +20,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(:Case :weightKg 72.0)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "heightCm"; pe:value 178.0 ],
       [ pe:var "heightM"; pe:value 1.78 ],
@@ -32,7 +32,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(:Case :heightM 1.78)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "heightCm"; pe:value 178.0 ],
       [ pe:var "heightM"; pe:value 1.78 ],
@@ -44,7 +44,7 @@ DATA {
 
   _:step3
     rdf:reifies <<(:Case :heightSquared 3.1684)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "bmi"; pe:value 22.724403484408533 ],
       [ pe:var "bmiRounded"; pe:value 22.72 ],
@@ -61,7 +61,7 @@ DATA {
 
   _:step4
     rdf:reifies <<(:Case :bmi 22.724403484408533)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "bmi"; pe:value 22.724403484408533 ],
       [ pe:var "bmiRounded"; pe:value 22.72 ],
@@ -78,7 +78,7 @@ DATA {
 
   _:step5
     rdf:reifies <<(:Case :bmiRounded 22.72)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "bmi"; pe:value 22.724403484408533 ],
       [ pe:var "bmiRounded"; pe:value 22.72 ],
@@ -95,7 +95,7 @@ DATA {
 
   _:step6
     rdf:reifies <<(:Case :healthyMinKg 58.6154)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "bmi"; pe:value 22.724403484408533 ],
       [ pe:var "bmiRounded"; pe:value 22.72 ],
@@ -112,7 +112,7 @@ DATA {
 
   _:step7
     rdf:reifies <<(:Case :healthyMaxKg 78.89316)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "bmi"; pe:value 22.724403484408533 ],
       [ pe:var "bmiRounded"; pe:value 22.72 ],
@@ -129,7 +129,7 @@ DATA {
 
   _:step8
     rdf:reifies <<(:Case :healthyMinKgRounded 58.6)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "bmi"; pe:value 22.724403484408533 ],
       [ pe:var "bmiRounded"; pe:value 22.72 ],
@@ -146,7 +146,7 @@ DATA {
 
   _:step9
     rdf:reifies <<(:Case :healthyMaxKgRounded 78.9)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "bmi"; pe:value 22.724403484408533 ],
       [ pe:var "bmiRounded"; pe:value 22.72 ],
@@ -163,13 +163,13 @@ DATA {
 
   _:step10
     rdf:reifies <<(:Decision :category "Normal")>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding [ pe:var "bmi"; pe:value 22.724403484408533 ];
     pe:uses _:step4.
 
   _:step11
     rdf:reifies <<(:Answer :bmi 22.72)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bmiRounded"; pe:value 22.72 ],
       [ pe:var "category"; pe:value "Normal" ],
@@ -183,7 +183,7 @@ DATA {
 
   _:step12
     rdf:reifies <<(:Answer :category "Normal")>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bmiRounded"; pe:value 22.72 ],
       [ pe:var "category"; pe:value "Normal" ],
@@ -197,7 +197,7 @@ DATA {
 
   _:step13
     rdf:reifies <<(:Answer :healthyMinKg 58.6)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bmiRounded"; pe:value 22.72 ],
       [ pe:var "category"; pe:value "Normal" ],
@@ -211,7 +211,7 @@ DATA {
 
   _:step14
     rdf:reifies <<(:Answer :healthyMaxKg 78.9)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding
       [ pe:var "bmiRounded"; pe:value 22.72 ],
       [ pe:var "category"; pe:value "Normal" ],

@@ -8,7 +8,7 @@
 
 { :alice :adult true . } pe:why {
   { :alice :adult true . }
-    pe:by [ pe:rule "base-and-literals.n3"; pe:line 16 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "age"; pe:value 22 ],
       [ pe:var "lang"; pe:value "en" ],
@@ -28,23 +28,23 @@
       { 22 math:notLessThan 18 . }.
 
   { :alice :name "Alice Smith"@en . }
-    pe:by [ pe:fact "base-and-literals.n3"; pe:line 13 ].
+    pe:fact "base-and-literals.n3".
 
   { :alice :age 22 . }
-    pe:by [ pe:fact "base-and-literals.n3"; pe:line 13 ].
+    pe:fact "base-and-literals.n3".
 
   { ("Alice Smith" "en") log:langlit "Alice Smith"@en . }
-    pe:by [ pe:builtin log:langlit ].
+    pe:builtin log:langlit.
 
   { ("Alice Smith" "en") list:firstRest ("Alice Smith" ("en")) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { ("en") list:firstRest ("en" ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { "en" log:equalTo "en" . }
-    pe:by [ pe:builtin log:equalTo ].
+    pe:builtin log:equalTo.
 
   { 22 math:notLessThan 18 . }
-    pe:by [ pe:builtin math:notLessThan ].
+    pe:builtin math:notLessThan.
 }.

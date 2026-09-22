@@ -23,7 +23,7 @@
 
 { (:b :a) :edge 4 . } pe:why {
   { (:b :a) :edge 4 . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 22 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :a ],
       [ pe:var "B"; pe:value :b ],
@@ -31,12 +31,12 @@
     pe:uses { (:a :b) :edge 4 . }.
 
   { (:a :b) :edge 4 . }
-    pe:by [ pe:fact "dijkstra.n3"; pe:line 12 ].
+    pe:fact "dijkstra.n3".
 }.
 
 { (:c :a) :edge 2 . } pe:why {
   { (:c :a) :edge 2 . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 22 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :a ],
       [ pe:var "B"; pe:value :c ],
@@ -44,12 +44,12 @@
     pe:uses { (:a :c) :edge 2 . }.
 
   { (:a :c) :edge 2 . }
-    pe:by [ pe:fact "dijkstra.n3"; pe:line 13 ].
+    pe:fact "dijkstra.n3".
 }.
 
 { (:c :b) :edge 1 . } pe:why {
   { (:c :b) :edge 1 . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 22 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :b ],
       [ pe:var "B"; pe:value :c ],
@@ -57,12 +57,12 @@
     pe:uses { (:b :c) :edge 1 . }.
 
   { (:b :c) :edge 1 . }
-    pe:by [ pe:fact "dijkstra.n3"; pe:line 14 ].
+    pe:fact "dijkstra.n3".
 }.
 
 { (:d :b) :edge 5 . } pe:why {
   { (:d :b) :edge 5 . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 22 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :b ],
       [ pe:var "B"; pe:value :d ],
@@ -70,12 +70,12 @@
     pe:uses { (:b :d) :edge 5 . }.
 
   { (:b :d) :edge 5 . }
-    pe:by [ pe:fact "dijkstra.n3"; pe:line 15 ].
+    pe:fact "dijkstra.n3".
 }.
 
 { (:d :c) :edge 8 . } pe:why {
   { (:d :c) :edge 8 . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 22 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :c ],
       [ pe:var "B"; pe:value :d ],
@@ -83,12 +83,12 @@
     pe:uses { (:c :d) :edge 8 . }.
 
   { (:c :d) :edge 8 . }
-    pe:by [ pe:fact "dijkstra.n3"; pe:line 16 ].
+    pe:fact "dijkstra.n3".
 }.
 
 { (:e :c) :edge 10 . } pe:why {
   { (:e :c) :edge 10 . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 22 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :c ],
       [ pe:var "B"; pe:value :e ],
@@ -96,12 +96,12 @@
     pe:uses { (:c :e) :edge 10 . }.
 
   { (:c :e) :edge 10 . }
-    pe:by [ pe:fact "dijkstra.n3"; pe:line 17 ].
+    pe:fact "dijkstra.n3".
 }.
 
 { (:e :d) :edge 2 . } pe:why {
   { (:e :d) :edge 2 . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 22 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :d ],
       [ pe:var "B"; pe:value :e ],
@@ -109,12 +109,12 @@
     pe:uses { (:d :e) :edge 2 . }.
 
   { (:d :e) :edge 2 . }
-    pe:by [ pe:fact "dijkstra.n3"; pe:line 18 ].
+    pe:fact "dijkstra.n3".
 }.
 
 { (:f :d) :edge 6 . } pe:why {
   { (:f :d) :edge 6 . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 22 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :d ],
       [ pe:var "B"; pe:value :f ],
@@ -122,12 +122,12 @@
     pe:uses { (:d :f) :edge 6 . }.
 
   { (:d :f) :edge 6 . }
-    pe:by [ pe:fact "dijkstra.n3"; pe:line 19 ].
+    pe:fact "dijkstra.n3".
 }.
 
 { (:f :e) :edge 3 . } pe:why {
   { (:f :e) :edge 3 . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 22 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :e ],
       [ pe:var "B"; pe:value :f ],
@@ -135,43 +135,43 @@
     pe:uses { (:e :f) :edge 3 . }.
 
   { (:e :f) :edge 3 . }
-    pe:by [ pe:fact "dijkstra.n3"; pe:line 20 ].
+    pe:fact "dijkstra.n3".
 }.
 
 { (:a :f) :path ((:a :c :b :d :e :f) 13) . } pe:why {
   { (:a :f) :path ((:a :c :b :d :e :f) 13) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 59 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "Cost"; pe:value 13 ],
       [ pe:var "Path"; pe:value (:a :c :b :d :e :f) ];
     pe:uses { (:a :f) :dijkstra ((:a :c :b :d :e :f) 13) . }.
 
   { (:a :f) :dijkstra ((:a :c :b :d :e :f) 13) . }
-    pe:by [ pe:unproven "no explicit fact, verified builtin, or backward proof was found" ].
+    pe:unproven "no explicit fact, verified builtin, or backward proof was found".
 }.
 
 { (:a :f) :path ((:a :c :b :d :f) 14) . } pe:why {
   { (:a :f) :path ((:a :c :b :d :f) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 59 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "Cost"; pe:value 14 ],
       [ pe:var "Path"; pe:value (:a :c :b :d :f) ];
     pe:uses { (:a :f) :dijkstra ((:a :c :b :d :f) 14) . }.
 
   { (:a :f) :dijkstra ((:a :c :b :d :f) 14) . }
-    pe:by [ pe:unproven "no explicit fact, verified builtin, or backward proof was found" ].
+    pe:unproven "no explicit fact, verified builtin, or backward proof was found".
 }.
 
 { (:a :f) :path ((:a :b :d :e :f) 14) . } pe:why {
   { (:a :f) :path ((:a :b :d :e :f) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 59 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "Cost"; pe:value 14 ],
       [ pe:var "Path"; pe:value (:a :b :d :e :f) ];
     pe:uses { (:a :f) :dijkstra ((:a :b :d :e :f) 14) . }.
 
   { (:a :f) :dijkstra ((:a :b :d :e :f) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 29 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "Cost"; pe:value 14 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -183,7 +183,7 @@
       { (:f :e :d :b :a) list:reverse (:a :b :d :e :f) . }.
 
   { (((0 :a)) :f ()) :dijkstra2 ((:f :e :d :b :a) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 0 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -220,13 +220,13 @@
       { (((2 :c :a) (4 :b :a)) :f (:a)) :dijkstra2 ((:f :e :d :b :a) 14) . }.
 
   { ((0 :a)) list:firstRest ((0 :a) ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (0 :a) list:firstRest (0 (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:a) list:firstRest (:a ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_1_3_a3de4b243b0a13f__L4 {
@@ -238,16 +238,16 @@
         (0 ?__backward_1_3_a3de4b243b0a13f__Weight) math:sum ?__backward_1_3_a3de4b243b0a13f__NewCost .
     } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_a3de4b243b0a13f__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (() ((4 :b :a) (2 :c :a))) list:append ((4 :b :a) (2 :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((4 :b :a) (2 :c :a)) list:sort ((2 :c :a) (4 :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((2 :c :a) (4 :b :a)) :f (:a)) :dijkstra2 ((:f :e :d :b :a) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 2 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -284,13 +284,13 @@
       { (((4 :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }.
 
   { ((2 :c :a) (4 :b :a)) list:firstRest ((2 :c :a) ((4 :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (2 :c :a) list:firstRest (2 (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:c :a) list:firstRest (:c (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_2_3_5222b1d38306c99a__L4 {
@@ -302,16 +302,16 @@
         (2 ?__backward_2_3_5222b1d38306c99a__Weight) math:sum ?__backward_2_3_5222b1d38306c99a__NewCost .
     } ((10 :d :c :a) (12 :e :c :a))) log:collectAllIn ?__backward_2_3_5222b1d38306c99a__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((4 :b :a)) ((10 :d :c :a) (12 :e :c :a))) list:append ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) list:sort ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((4 :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 4 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -348,13 +348,13 @@
       { (((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }.
 
   { ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) list:firstRest ((4 :b :a) ((10 :d :c :a) (12 :e :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (4 :b :a) list:firstRest (4 (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:b :a) list:firstRest (:b (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_3_3_a346744de4b51f9e__L4 {
@@ -366,19 +366,19 @@
         (4 ?__backward_3_3_a346744de4b51f9e__Weight) math:sum ?__backward_3_3_a346744de4b51f9e__NewCost .
     } ((9 :d :b :a))) log:collectAllIn ?__backward_3_3_a346744de4b51f9e__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((10 :d :c :a) (12 :e :c :a)) ((9 :d :b :a))) list:append ((10 :d :c :a) (12 :e :c :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((10 :d :c :a) (12 :e :c :a) (9 :d :b :a)) list:sort ((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:b :c :a) list:firstRest (:b (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 9 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -415,13 +415,13 @@
       { (((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) :f (:d :b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }.
 
   { ((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) list:firstRest ((9 :d :b :a) ((10 :d :c :a) (12 :e :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (9 :d :b :a) list:firstRest (9 (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :b :a) list:firstRest (:d (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_4_3_3391dc779e0d64bc__L4 {
@@ -433,19 +433,19 @@
         (9 ?__backward_4_3_3391dc779e0d64bc__Weight) math:sum ?__backward_4_3_3391dc779e0d64bc__NewCost .
     } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_4_3_3391dc779e0d64bc__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((10 :d :c :a) (12 :e :c :a)) ((11 :e :d :b :a) (15 :f :d :b :a))) list:append ((10 :d :c :a) (12 :e :c :a) (11 :e :d :b :a) (15 :f :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((10 :d :c :a) (12 :e :c :a) (11 :e :d :b :a) (15 :f :d :b :a)) list:sort ((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:d :b :c :a) list:firstRest (:d (:b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) :f (:d :b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 10 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -482,13 +482,13 @@
       { (((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:d :d :b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }.
 
   { ((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) list:firstRest ((10 :d :c :a) ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (10 :d :c :a) list:firstRest (10 (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :c :a) list:firstRest (:d (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_5_3_e0576f1e8588207b__L4 {
@@ -500,19 +500,19 @@
         (10 ?__backward_5_3_e0576f1e8588207b__Weight) math:sum ?__backward_5_3_e0576f1e8588207b__NewCost .
     } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_5_3_e0576f1e8588207b__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) ((12 :e :d :c :a) (16 :f :d :c :a))) list:append ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a) (12 :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a) (12 :e :d :c :a) (16 :f :d :c :a)) list:sort ((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:d :d :b :c :a) list:firstRest (:d (:d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:d :d :b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 11 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -549,13 +549,13 @@
       { (((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }.
 
   { ((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) list:firstRest ((11 :e :d :b :a) ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (11 :e :d :b :a) list:firstRest (11 (:e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :d :b :a) list:firstRest (:e (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_6_3_d2fdc7039e6a1381__L4 {
@@ -567,19 +567,19 @@
         (11 ?__backward_6_3_d2fdc7039e6a1381__Weight) math:sum ?__backward_6_3_d2fdc7039e6a1381__NewCost .
     } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_6_3_d2fdc7039e6a1381__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) ((14 :f :e :d :b :a))) list:append ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a) (14 :f :e :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a) (14 :f :e :d :b :a)) list:sort ((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :d :d :b :c :a) list:firstRest (:e (:d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 12 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -616,13 +616,13 @@
       { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) :f (:e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }.
 
   { ((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) list:firstRest ((12 :e :c :a) ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (12 :e :c :a) list:firstRest (12 (:e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :c :a) list:firstRest (:e (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_7_3_d4c726d779e904de__L4 {
@@ -634,19 +634,19 @@
         (12 ?__backward_7_3_d4c726d779e904de__Weight) math:sum ?__backward_7_3_d4c726d779e904de__NewCost .
     } ((15 :f :e :c :a))) log:collectAllIn ?__backward_7_3_d4c726d779e904de__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) ((15 :f :e :c :a))) list:append ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a) (15 :f :e :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a) (15 :f :e :c :a)) list:sort ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :e :d :d :b :c :a) list:firstRest (:e (:e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) :f (:e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 12 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -683,13 +683,13 @@
       { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }.
 
   { ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) list:firstRest ((12 :e :d :c :a) ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (12 :e :d :c :a) list:firstRest (12 (:e :d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :d :c :a) list:firstRest (:e (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_8_3_aafc50cc34f35a77__L4 {
@@ -701,19 +701,19 @@
         (12 ?__backward_8_3_aafc50cc34f35a77__Weight) math:sum ?__backward_8_3_aafc50cc34f35a77__NewCost .
     } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_8_3_aafc50cc34f35a77__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) ((15 :f :e :d :c :a))) list:append ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a) (15 :f :e :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a) (15 :f :e :d :c :a)) list:sort ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :e :e :d :d :b :c :a) list:firstRest (:e (:e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :b :a) 14) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 34 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 14 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -729,28 +729,28 @@
       { (:f :e :d :b :a) list:firstRest (:f (:e :d :b :a)) . }.
 
   { ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((14 :f :e :d :b :a) ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (14 :f :e :d :b :a) list:firstRest (14 (:f :e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :d :b :a) list:firstRest (:f (:e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :d :b :a) list:reverse (:a :b :d :e :f) . }
-    pe:by [ pe:builtin list:reverse ].
+    pe:builtin list:reverse.
 }.
 
 { (:a :f) :path ((:a :b :d :f) 15) . } pe:why {
   { (:a :f) :path ((:a :b :d :f) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 59 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Path"; pe:value (:a :b :d :f) ];
     pe:uses { (:a :f) :dijkstra ((:a :b :d :f) 15) . }.
 
   { (:a :f) :dijkstra ((:a :b :d :f) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 29 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -762,7 +762,7 @@
       { (:f :d :b :a) list:reverse (:a :b :d :f) . }.
 
   { (((0 :a)) :f ()) :dijkstra2 ((:f :d :b :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 0 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -799,13 +799,13 @@
       { (((2 :c :a) (4 :b :a)) :f (:a)) :dijkstra2 ((:f :d :b :a) 15) . }.
 
   { ((0 :a)) list:firstRest ((0 :a) ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (0 :a) list:firstRest (0 (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:a) list:firstRest (:a ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_1_3_c8f2dd3a1bf068c9__L4 {
@@ -817,16 +817,16 @@
         (0 ?__backward_1_3_c8f2dd3a1bf068c9__Weight) math:sum ?__backward_1_3_c8f2dd3a1bf068c9__NewCost .
     } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_c8f2dd3a1bf068c9__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (() ((4 :b :a) (2 :c :a))) list:append ((4 :b :a) (2 :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((4 :b :a) (2 :c :a)) list:sort ((2 :c :a) (4 :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((2 :c :a) (4 :b :a)) :f (:a)) :dijkstra2 ((:f :d :b :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 2 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -863,13 +863,13 @@
       { (((4 :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:c :a)) :dijkstra2 ((:f :d :b :a) 15) . }.
 
   { ((2 :c :a) (4 :b :a)) list:firstRest ((2 :c :a) ((4 :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (2 :c :a) list:firstRest (2 (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:c :a) list:firstRest (:c (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_2_3_2947205d9f699e4a__L4 {
@@ -881,16 +881,16 @@
         (2 ?__backward_2_3_2947205d9f699e4a__Weight) math:sum ?__backward_2_3_2947205d9f699e4a__NewCost .
     } ((10 :d :c :a) (12 :e :c :a))) log:collectAllIn ?__backward_2_3_2947205d9f699e4a__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((4 :b :a)) ((10 :d :c :a) (12 :e :c :a))) list:append ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) list:sort ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((4 :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:c :a)) :dijkstra2 ((:f :d :b :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 4 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -927,13 +927,13 @@
       { (((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }.
 
   { ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) list:firstRest ((4 :b :a) ((10 :d :c :a) (12 :e :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (4 :b :a) list:firstRest (4 (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:b :a) list:firstRest (:b (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_3_3_4e45d1e2171926c6__L4 {
@@ -945,19 +945,19 @@
         (4 ?__backward_3_3_4e45d1e2171926c6__Weight) math:sum ?__backward_3_3_4e45d1e2171926c6__NewCost .
     } ((9 :d :b :a))) log:collectAllIn ?__backward_3_3_4e45d1e2171926c6__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((10 :d :c :a) (12 :e :c :a)) ((9 :d :b :a))) list:append ((10 :d :c :a) (12 :e :c :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((10 :d :c :a) (12 :e :c :a) (9 :d :b :a)) list:sort ((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:b :c :a) list:firstRest (:b (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 9 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -994,13 +994,13 @@
       { (((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) :f (:d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }.
 
   { ((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) list:firstRest ((9 :d :b :a) ((10 :d :c :a) (12 :e :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (9 :d :b :a) list:firstRest (9 (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :b :a) list:firstRest (:d (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_4_3_bc05d7a3b0de201c__L4 {
@@ -1012,19 +1012,19 @@
         (9 ?__backward_4_3_bc05d7a3b0de201c__Weight) math:sum ?__backward_4_3_bc05d7a3b0de201c__NewCost .
     } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_4_3_bc05d7a3b0de201c__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((10 :d :c :a) (12 :e :c :a)) ((11 :e :d :b :a) (15 :f :d :b :a))) list:append ((10 :d :c :a) (12 :e :c :a) (11 :e :d :b :a) (15 :f :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((10 :d :c :a) (12 :e :c :a) (11 :e :d :b :a) (15 :f :d :b :a)) list:sort ((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:d :b :c :a) list:firstRest (:d (:b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) :f (:d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 10 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1061,13 +1061,13 @@
       { (((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:d :d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }.
 
   { ((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) list:firstRest ((10 :d :c :a) ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (10 :d :c :a) list:firstRest (10 (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :c :a) list:firstRest (:d (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_5_3_77d6d3fdaca3e3d__L4 {
@@ -1079,19 +1079,19 @@
         (10 ?__backward_5_3_77d6d3fdaca3e3d__Weight) math:sum ?__backward_5_3_77d6d3fdaca3e3d__NewCost .
     } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_5_3_77d6d3fdaca3e3d__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) ((12 :e :d :c :a) (16 :f :d :c :a))) list:append ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a) (12 :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a) (12 :e :d :c :a) (16 :f :d :c :a)) list:sort ((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:d :d :b :c :a) list:firstRest (:d (:d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:d :d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 11 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1128,13 +1128,13 @@
       { (((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:e :d :d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }.
 
   { ((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) list:firstRest ((11 :e :d :b :a) ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (11 :e :d :b :a) list:firstRest (11 (:e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :d :b :a) list:firstRest (:e (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_6_3_15d83705460d65c3__L4 {
@@ -1146,19 +1146,19 @@
         (11 ?__backward_6_3_15d83705460d65c3__Weight) math:sum ?__backward_6_3_15d83705460d65c3__NewCost .
     } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_6_3_15d83705460d65c3__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) ((14 :f :e :d :b :a))) list:append ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a) (14 :f :e :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a) (14 :f :e :d :b :a)) list:sort ((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :d :d :b :c :a) list:firstRest (:e (:d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:e :d :d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 12 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1195,13 +1195,13 @@
       { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) :f (:e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }.
 
   { ((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) list:firstRest ((12 :e :c :a) ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (12 :e :c :a) list:firstRest (12 (:e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :c :a) list:firstRest (:e (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_7_3_6856216ccd6e7686__L4 {
@@ -1213,19 +1213,19 @@
         (12 ?__backward_7_3_6856216ccd6e7686__Weight) math:sum ?__backward_7_3_6856216ccd6e7686__NewCost .
     } ((15 :f :e :c :a))) log:collectAllIn ?__backward_7_3_6856216ccd6e7686__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) ((15 :f :e :c :a))) list:append ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a) (15 :f :e :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a) (15 :f :e :c :a)) list:sort ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :e :d :d :b :c :a) list:firstRest (:e (:e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) :f (:e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 12 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1262,13 +1262,13 @@
       { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }.
 
   { ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) list:firstRest ((12 :e :d :c :a) ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (12 :e :d :c :a) list:firstRest (12 (:e :d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :d :c :a) list:firstRest (:e (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_8_3_31e03d0c53afa491__L4 {
@@ -1280,19 +1280,19 @@
         (12 ?__backward_8_3_31e03d0c53afa491__Weight) math:sum ?__backward_8_3_31e03d0c53afa491__NewCost .
     } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_8_3_31e03d0c53afa491__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) ((15 :f :e :d :c :a))) list:append ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a) (15 :f :e :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a) (15 :f :e :d :c :a)) list:sort ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :e :e :d :d :b :c :a) list:firstRest (:e (:e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 14 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1329,13 +1329,13 @@
       { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }.
 
   { ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((14 :f :e :d :b :a) ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (14 :f :e :d :b :a) list:firstRest (14 (:f :e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :d :b :a) list:firstRest (:f (:e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_9_3_60587c13e7d36af4__L4 {
@@ -1347,19 +1347,19 @@
         (14 ?__backward_9_3_60587c13e7d36af4__Weight) math:sum ?__backward_9_3_60587c13e7d36af4__NewCost .
     } ()) log:collectAllIn ?__backward_9_3_60587c13e7d36af4__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) ()) list:append ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:sort ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:f :e :e :e :d :d :b :c :a) list:firstRest (:f (:e :e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :b :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 34 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1375,28 +1375,28 @@
       { (:f :d :b :a) list:firstRest (:f (:d :b :a)) . }.
 
   { ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((15 :f :d :b :a) ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (15 :f :d :b :a) list:firstRest (15 (:f :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :d :b :a) list:firstRest (:f (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :d :b :a) list:reverse (:a :b :d :f) . }
-    pe:by [ pe:builtin list:reverse ].
+    pe:builtin list:reverse.
 }.
 
 { (:a :f) :path ((:a :c :e :f) 15) . } pe:why {
   { (:a :f) :path ((:a :c :e :f) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 59 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Path"; pe:value (:a :c :e :f) ];
     pe:uses { (:a :f) :dijkstra ((:a :c :e :f) 15) . }.
 
   { (:a :f) :dijkstra ((:a :c :e :f) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 29 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1408,7 +1408,7 @@
       { (:f :e :c :a) list:reverse (:a :c :e :f) . }.
 
   { (((0 :a)) :f ()) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 0 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1445,13 +1445,13 @@
       { (((2 :c :a) (4 :b :a)) :f (:a)) :dijkstra2 ((:f :e :c :a) 15) . }.
 
   { ((0 :a)) list:firstRest ((0 :a) ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (0 :a) list:firstRest (0 (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:a) list:firstRest (:a ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_1_3_77ea491e71f15d97__L4 {
@@ -1463,16 +1463,16 @@
         (0 ?__backward_1_3_77ea491e71f15d97__Weight) math:sum ?__backward_1_3_77ea491e71f15d97__NewCost .
     } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_77ea491e71f15d97__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (() ((4 :b :a) (2 :c :a))) list:append ((4 :b :a) (2 :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((4 :b :a) (2 :c :a)) list:sort ((2 :c :a) (4 :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((2 :c :a) (4 :b :a)) :f (:a)) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 2 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1509,13 +1509,13 @@
       { (((4 :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:c :a)) :dijkstra2 ((:f :e :c :a) 15) . }.
 
   { ((2 :c :a) (4 :b :a)) list:firstRest ((2 :c :a) ((4 :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (2 :c :a) list:firstRest (2 (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:c :a) list:firstRest (:c (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_2_3_28a1abd779105f2c__L4 {
@@ -1527,16 +1527,16 @@
         (2 ?__backward_2_3_28a1abd779105f2c__Weight) math:sum ?__backward_2_3_28a1abd779105f2c__NewCost .
     } ((10 :d :c :a) (12 :e :c :a))) log:collectAllIn ?__backward_2_3_28a1abd779105f2c__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((4 :b :a)) ((10 :d :c :a) (12 :e :c :a))) list:append ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) list:sort ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((4 :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:c :a)) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 4 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1573,13 +1573,13 @@
       { (((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }.
 
   { ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) list:firstRest ((4 :b :a) ((10 :d :c :a) (12 :e :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (4 :b :a) list:firstRest (4 (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:b :a) list:firstRest (:b (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_3_3_4d6eb3555348ca28__L4 {
@@ -1591,19 +1591,19 @@
         (4 ?__backward_3_3_4d6eb3555348ca28__Weight) math:sum ?__backward_3_3_4d6eb3555348ca28__NewCost .
     } ((9 :d :b :a))) log:collectAllIn ?__backward_3_3_4d6eb3555348ca28__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((10 :d :c :a) (12 :e :c :a)) ((9 :d :b :a))) list:append ((10 :d :c :a) (12 :e :c :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((10 :d :c :a) (12 :e :c :a) (9 :d :b :a)) list:sort ((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:b :c :a) list:firstRest (:b (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 9 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1640,13 +1640,13 @@
       { (((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) :f (:d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }.
 
   { ((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) list:firstRest ((9 :d :b :a) ((10 :d :c :a) (12 :e :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (9 :d :b :a) list:firstRest (9 (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :b :a) list:firstRest (:d (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_4_3_674384cfed5e648e__L4 {
@@ -1658,19 +1658,19 @@
         (9 ?__backward_4_3_674384cfed5e648e__Weight) math:sum ?__backward_4_3_674384cfed5e648e__NewCost .
     } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_4_3_674384cfed5e648e__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((10 :d :c :a) (12 :e :c :a)) ((11 :e :d :b :a) (15 :f :d :b :a))) list:append ((10 :d :c :a) (12 :e :c :a) (11 :e :d :b :a) (15 :f :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((10 :d :c :a) (12 :e :c :a) (11 :e :d :b :a) (15 :f :d :b :a)) list:sort ((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:d :b :c :a) list:firstRest (:d (:b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) :f (:d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 10 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1707,13 +1707,13 @@
       { (((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }.
 
   { ((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) list:firstRest ((10 :d :c :a) ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (10 :d :c :a) list:firstRest (10 (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :c :a) list:firstRest (:d (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_5_3_826734f63ab0667b__L4 {
@@ -1725,19 +1725,19 @@
         (10 ?__backward_5_3_826734f63ab0667b__Weight) math:sum ?__backward_5_3_826734f63ab0667b__NewCost .
     } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_5_3_826734f63ab0667b__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) ((12 :e :d :c :a) (16 :f :d :c :a))) list:append ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a) (12 :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a) (12 :e :d :c :a) (16 :f :d :c :a)) list:sort ((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:d :d :b :c :a) list:firstRest (:d (:d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 11 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1774,13 +1774,13 @@
       { (((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:e :d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }.
 
   { ((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) list:firstRest ((11 :e :d :b :a) ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (11 :e :d :b :a) list:firstRest (11 (:e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :d :b :a) list:firstRest (:e (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_6_3_ee71b41027a3b771__L4 {
@@ -1792,19 +1792,19 @@
         (11 ?__backward_6_3_ee71b41027a3b771__Weight) math:sum ?__backward_6_3_ee71b41027a3b771__NewCost .
     } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_6_3_ee71b41027a3b771__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) ((14 :f :e :d :b :a))) list:append ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a) (14 :f :e :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a) (14 :f :e :d :b :a)) list:sort ((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :d :d :b :c :a) list:firstRest (:e (:d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:e :d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 12 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1841,13 +1841,13 @@
       { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) :f (:e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }.
 
   { ((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) list:firstRest ((12 :e :c :a) ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (12 :e :c :a) list:firstRest (12 (:e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :c :a) list:firstRest (:e (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_7_3_8db97d5ac5ab66e8__L4 {
@@ -1859,19 +1859,19 @@
         (12 ?__backward_7_3_8db97d5ac5ab66e8__Weight) math:sum ?__backward_7_3_8db97d5ac5ab66e8__NewCost .
     } ((15 :f :e :c :a))) log:collectAllIn ?__backward_7_3_8db97d5ac5ab66e8__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) ((15 :f :e :c :a))) list:append ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a) (15 :f :e :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a) (15 :f :e :c :a)) list:sort ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :e :d :d :b :c :a) list:firstRest (:e (:e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) :f (:e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 12 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1908,13 +1908,13 @@
       { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }.
 
   { ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) list:firstRest ((12 :e :d :c :a) ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (12 :e :d :c :a) list:firstRest (12 (:e :d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :d :c :a) list:firstRest (:e (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_8_3_c47da25c3373211f__L4 {
@@ -1926,19 +1926,19 @@
         (12 ?__backward_8_3_c47da25c3373211f__Weight) math:sum ?__backward_8_3_c47da25c3373211f__NewCost .
     } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_8_3_c47da25c3373211f__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) ((15 :f :e :d :c :a))) list:append ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a) (15 :f :e :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a) (15 :f :e :d :c :a)) list:sort ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :e :e :d :d :b :c :a) list:firstRest (:e (:e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 14 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -1975,13 +1975,13 @@
       { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }.
 
   { ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((14 :f :e :d :b :a) ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (14 :f :e :d :b :a) list:firstRest (14 (:f :e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :d :b :a) list:firstRest (:f (:e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_9_3_558d589cefba54a6__L4 {
@@ -1993,19 +1993,19 @@
         (14 ?__backward_9_3_558d589cefba54a6__Weight) math:sum ?__backward_9_3_558d589cefba54a6__NewCost .
     } ()) log:collectAllIn ?__backward_9_3_558d589cefba54a6__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) ()) list:append ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:sort ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:f :e :e :e :d :d :b :c :a) list:firstRest (:f (:e :e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2042,13 +2042,13 @@
       { (((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }.
 
   { ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((15 :f :d :b :a) ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (15 :f :d :b :a) list:firstRest (15 (:f :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :d :b :a) list:firstRest (:f (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_10_3_ad9e8fc2dee03342__L4 {
@@ -2060,19 +2060,19 @@
         (15 ?__backward_10_3_ad9e8fc2dee03342__Weight) math:sum ?__backward_10_3_ad9e8fc2dee03342__NewCost .
     } ()) log:collectAllIn ?__backward_10_3_ad9e8fc2dee03342__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) ()) list:append ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:sort ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:f :f :e :e :e :d :d :b :c :a) list:firstRest (:f (:f :e :e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 34 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2088,28 +2088,28 @@
       { (:f :e :c :a) list:firstRest (:f (:e :c :a)) . }.
 
   { ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((15 :f :e :c :a) ((15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (15 :f :e :c :a) list:firstRest (15 (:f :e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :c :a) list:firstRest (:f (:e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :c :a) list:reverse (:a :c :e :f) . }
-    pe:by [ pe:builtin list:reverse ].
+    pe:builtin list:reverse.
 }.
 
 { (:a :f) :path ((:a :c :d :e :f) 15) . } pe:why {
   { (:a :f) :path ((:a :c :d :e :f) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 59 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Path"; pe:value (:a :c :d :e :f) ];
     pe:uses { (:a :f) :dijkstra ((:a :c :d :e :f) 15) . }.
 
   { (:a :f) :dijkstra ((:a :c :d :e :f) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 29 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2121,7 +2121,7 @@
       { (:f :e :d :c :a) list:reverse (:a :c :d :e :f) . }.
 
   { (((0 :a)) :f ()) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 0 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2158,13 +2158,13 @@
       { (((2 :c :a) (4 :b :a)) :f (:a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((0 :a)) list:firstRest ((0 :a) ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (0 :a) list:firstRest (0 (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:a) list:firstRest (:a ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_1_3_3afc7f013ea44df9__L4 {
@@ -2176,16 +2176,16 @@
         (0 ?__backward_1_3_3afc7f013ea44df9__Weight) math:sum ?__backward_1_3_3afc7f013ea44df9__NewCost .
     } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_3afc7f013ea44df9__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (() ((4 :b :a) (2 :c :a))) list:append ((4 :b :a) (2 :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((4 :b :a) (2 :c :a)) list:sort ((2 :c :a) (4 :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((2 :c :a) (4 :b :a)) :f (:a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 2 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2222,13 +2222,13 @@
       { (((4 :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((2 :c :a) (4 :b :a)) list:firstRest ((2 :c :a) ((4 :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (2 :c :a) list:firstRest (2 (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:c :a) list:firstRest (:c (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_2_3_a77a8d3332507d88__L4 {
@@ -2240,16 +2240,16 @@
         (2 ?__backward_2_3_a77a8d3332507d88__Weight) math:sum ?__backward_2_3_a77a8d3332507d88__NewCost .
     } ((10 :d :c :a) (12 :e :c :a))) log:collectAllIn ?__backward_2_3_a77a8d3332507d88__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((4 :b :a)) ((10 :d :c :a) (12 :e :c :a))) list:append ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) list:sort ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((4 :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 4 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2286,13 +2286,13 @@
       { (((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) list:firstRest ((4 :b :a) ((10 :d :c :a) (12 :e :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (4 :b :a) list:firstRest (4 (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:b :a) list:firstRest (:b (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_3_3_2035d5e50bcf32ec__L4 {
@@ -2304,19 +2304,19 @@
         (4 ?__backward_3_3_2035d5e50bcf32ec__Weight) math:sum ?__backward_3_3_2035d5e50bcf32ec__NewCost .
     } ((9 :d :b :a))) log:collectAllIn ?__backward_3_3_2035d5e50bcf32ec__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((10 :d :c :a) (12 :e :c :a)) ((9 :d :b :a))) list:append ((10 :d :c :a) (12 :e :c :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((10 :d :c :a) (12 :e :c :a) (9 :d :b :a)) list:sort ((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:b :c :a) list:firstRest (:b (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 9 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2353,13 +2353,13 @@
       { (((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) :f (:d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) list:firstRest ((9 :d :b :a) ((10 :d :c :a) (12 :e :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (9 :d :b :a) list:firstRest (9 (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :b :a) list:firstRest (:d (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_4_3_26e0b352e3afcc02__L4 {
@@ -2371,19 +2371,19 @@
         (9 ?__backward_4_3_26e0b352e3afcc02__Weight) math:sum ?__backward_4_3_26e0b352e3afcc02__NewCost .
     } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_4_3_26e0b352e3afcc02__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((10 :d :c :a) (12 :e :c :a)) ((11 :e :d :b :a) (15 :f :d :b :a))) list:append ((10 :d :c :a) (12 :e :c :a) (11 :e :d :b :a) (15 :f :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((10 :d :c :a) (12 :e :c :a) (11 :e :d :b :a) (15 :f :d :b :a)) list:sort ((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:d :b :c :a) list:firstRest (:d (:b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) :f (:d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 10 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2420,13 +2420,13 @@
       { (((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) list:firstRest ((10 :d :c :a) ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (10 :d :c :a) list:firstRest (10 (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :c :a) list:firstRest (:d (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_5_3_952a6f8fcbaab455__L4 {
@@ -2438,19 +2438,19 @@
         (10 ?__backward_5_3_952a6f8fcbaab455__Weight) math:sum ?__backward_5_3_952a6f8fcbaab455__NewCost .
     } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_5_3_952a6f8fcbaab455__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) ((12 :e :d :c :a) (16 :f :d :c :a))) list:append ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a) (12 :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a) (12 :e :d :c :a) (16 :f :d :c :a)) list:sort ((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:d :d :b :c :a) list:firstRest (:d (:d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 11 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2487,13 +2487,13 @@
       { (((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) list:firstRest ((11 :e :d :b :a) ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (11 :e :d :b :a) list:firstRest (11 (:e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :d :b :a) list:firstRest (:e (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_6_3_eacf396a22a20043__L4 {
@@ -2505,19 +2505,19 @@
         (11 ?__backward_6_3_eacf396a22a20043__Weight) math:sum ?__backward_6_3_eacf396a22a20043__NewCost .
     } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_6_3_eacf396a22a20043__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) ((14 :f :e :d :b :a))) list:append ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a) (14 :f :e :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a) (14 :f :e :d :b :a)) list:sort ((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :d :d :b :c :a) list:firstRest (:e (:d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 12 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2554,13 +2554,13 @@
       { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) :f (:e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) list:firstRest ((12 :e :c :a) ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (12 :e :c :a) list:firstRest (12 (:e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :c :a) list:firstRest (:e (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_7_3_27b60159b43af72c__L4 {
@@ -2572,19 +2572,19 @@
         (12 ?__backward_7_3_27b60159b43af72c__Weight) math:sum ?__backward_7_3_27b60159b43af72c__NewCost .
     } ((15 :f :e :c :a))) log:collectAllIn ?__backward_7_3_27b60159b43af72c__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) ((15 :f :e :c :a))) list:append ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a) (15 :f :e :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a) (15 :f :e :c :a)) list:sort ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :e :d :d :b :c :a) list:firstRest (:e (:e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) :f (:e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 12 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2621,13 +2621,13 @@
       { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) list:firstRest ((12 :e :d :c :a) ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (12 :e :d :c :a) list:firstRest (12 (:e :d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :d :c :a) list:firstRest (:e (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_8_3_788c7b7c70e73671__L4 {
@@ -2639,19 +2639,19 @@
         (12 ?__backward_8_3_788c7b7c70e73671__Weight) math:sum ?__backward_8_3_788c7b7c70e73671__NewCost .
     } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_8_3_788c7b7c70e73671__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) ((15 :f :e :d :c :a))) list:append ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a) (15 :f :e :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a) (15 :f :e :d :c :a)) list:sort ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :e :e :d :d :b :c :a) list:firstRest (:e (:e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 14 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2688,13 +2688,13 @@
       { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((14 :f :e :d :b :a) ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (14 :f :e :d :b :a) list:firstRest (14 (:f :e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :d :b :a) list:firstRest (:f (:e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_9_3_b4d261e48effc68a__L4 {
@@ -2706,19 +2706,19 @@
         (14 ?__backward_9_3_b4d261e48effc68a__Weight) math:sum ?__backward_9_3_b4d261e48effc68a__NewCost .
     } ()) log:collectAllIn ?__backward_9_3_b4d261e48effc68a__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) ()) list:append ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:sort ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:f :e :e :e :d :d :b :c :a) list:firstRest (:f (:e :e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2755,13 +2755,13 @@
       { (((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((15 :f :d :b :a) ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (15 :f :d :b :a) list:firstRest (15 (:f :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :d :b :a) list:firstRest (:f (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_10_3_a021fa0d034e6eee__L4 {
@@ -2773,19 +2773,19 @@
         (15 ?__backward_10_3_a021fa0d034e6eee__Weight) math:sum ?__backward_10_3_a021fa0d034e6eee__NewCost .
     } ()) log:collectAllIn ?__backward_10_3_a021fa0d034e6eee__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) ()) list:append ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:sort ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:f :f :e :e :e :d :d :b :c :a) list:firstRest (:f (:f :e :e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2822,13 +2822,13 @@
       { (((15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }.
 
   { ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((15 :f :e :c :a) ((15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (15 :f :e :c :a) list:firstRest (15 (:f :e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :c :a) list:firstRest (:f (:e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_11_3_f2f82950c724a485__L4 {
@@ -2840,19 +2840,19 @@
         (15 ?__backward_11_3_f2f82950c724a485__Weight) math:sum ?__backward_11_3_f2f82950c724a485__NewCost .
     } ()) log:collectAllIn ?__backward_11_3_f2f82950c724a485__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((15 :f :e :d :c :a) (16 :f :d :c :a)) ()) list:append ((15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((15 :f :e :d :c :a) (16 :f :d :c :a)) list:sort ((15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:f :f :f :e :e :e :d :d :b :c :a) list:firstRest (:f (:f :f :e :e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :e :d :c :a) 15) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 34 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2868,28 +2868,28 @@
       { (:f :e :d :c :a) list:firstRest (:f (:e :d :c :a)) . }.
 
   { ((15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((15 :f :e :d :c :a) ((16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (15 :f :e :d :c :a) list:firstRest (15 (:f :e :d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :d :c :a) list:firstRest (:f (:e :d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :d :c :a) list:reverse (:a :c :d :e :f) . }
-    pe:by [ pe:builtin list:reverse ].
+    pe:builtin list:reverse.
 }.
 
 { (:a :f) :path ((:a :c :d :f) 16) . } pe:why {
   { (:a :f) :path ((:a :c :d :f) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 59 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "Cost"; pe:value 16 ],
       [ pe:var "Path"; pe:value (:a :c :d :f) ];
     pe:uses { (:a :f) :dijkstra ((:a :c :d :f) 16) . }.
 
   { (:a :f) :dijkstra ((:a :c :d :f) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 29 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "Cost"; pe:value 16 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2901,7 +2901,7 @@
       { (:f :d :c :a) list:reverse (:a :c :d :f) . }.
 
   { (((0 :a)) :f ()) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 0 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -2938,13 +2938,13 @@
       { (((2 :c :a) (4 :b :a)) :f (:a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((0 :a)) list:firstRest ((0 :a) ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (0 :a) list:firstRest (0 (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:a) list:firstRest (:a ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_1_3_52a3be002c25fe1d__L4 {
@@ -2956,16 +2956,16 @@
         (0 ?__backward_1_3_52a3be002c25fe1d__Weight) math:sum ?__backward_1_3_52a3be002c25fe1d__NewCost .
     } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_52a3be002c25fe1d__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (() ((4 :b :a) (2 :c :a))) list:append ((4 :b :a) (2 :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((4 :b :a) (2 :c :a)) list:sort ((2 :c :a) (4 :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((2 :c :a) (4 :b :a)) :f (:a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 2 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3002,13 +3002,13 @@
       { (((4 :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((2 :c :a) (4 :b :a)) list:firstRest ((2 :c :a) ((4 :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (2 :c :a) list:firstRest (2 (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:c :a) list:firstRest (:c (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_2_3_548f46c081b6f96a__L4 {
@@ -3020,16 +3020,16 @@
         (2 ?__backward_2_3_548f46c081b6f96a__Weight) math:sum ?__backward_2_3_548f46c081b6f96a__NewCost .
     } ((10 :d :c :a) (12 :e :c :a))) log:collectAllIn ?__backward_2_3_548f46c081b6f96a__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((4 :b :a)) ((10 :d :c :a) (12 :e :c :a))) list:append ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) list:sort ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (((4 :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 4 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3066,13 +3066,13 @@
       { (((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((4 :b :a) (10 :d :c :a) (12 :e :c :a)) list:firstRest ((4 :b :a) ((10 :d :c :a) (12 :e :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (4 :b :a) list:firstRest (4 (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:b :a) list:firstRest (:b (:a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_3_3_560c5f638c301bc6__L4 {
@@ -3084,19 +3084,19 @@
         (4 ?__backward_3_3_560c5f638c301bc6__Weight) math:sum ?__backward_3_3_560c5f638c301bc6__NewCost .
     } ((9 :d :b :a))) log:collectAllIn ?__backward_3_3_560c5f638c301bc6__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((10 :d :c :a) (12 :e :c :a)) ((9 :d :b :a))) list:append ((10 :d :c :a) (12 :e :c :a) (9 :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((10 :d :c :a) (12 :e :c :a) (9 :d :b :a)) list:sort ((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:b :c :a) list:firstRest (:b (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) :f (:b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 9 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3133,13 +3133,13 @@
       { (((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) :f (:d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((9 :d :b :a) (10 :d :c :a) (12 :e :c :a)) list:firstRest ((9 :d :b :a) ((10 :d :c :a) (12 :e :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (9 :d :b :a) list:firstRest (9 (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :b :a) list:firstRest (:d (:b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_4_3_937efc76be983e18__L4 {
@@ -3151,19 +3151,19 @@
         (9 ?__backward_4_3_937efc76be983e18__Weight) math:sum ?__backward_4_3_937efc76be983e18__NewCost .
     } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_4_3_937efc76be983e18__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((10 :d :c :a) (12 :e :c :a)) ((11 :e :d :b :a) (15 :f :d :b :a))) list:append ((10 :d :c :a) (12 :e :c :a) (11 :e :d :b :a) (15 :f :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((10 :d :c :a) (12 :e :c :a) (11 :e :d :b :a) (15 :f :d :b :a)) list:sort ((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:d :b :c :a) list:firstRest (:d (:b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) :f (:d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 10 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3200,13 +3200,13 @@
       { (((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((10 :d :c :a) (11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) list:firstRest ((10 :d :c :a) ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (10 :d :c :a) list:firstRest (10 (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:d :c :a) list:firstRest (:d (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_5_3_e222a7644da08c41__L4 {
@@ -3218,19 +3218,19 @@
         (10 ?__backward_5_3_e222a7644da08c41__Weight) math:sum ?__backward_5_3_e222a7644da08c41__NewCost .
     } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_5_3_e222a7644da08c41__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a)) ((12 :e :d :c :a) (16 :f :d :c :a))) list:append ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a) (12 :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((11 :e :d :b :a) (12 :e :c :a) (15 :f :d :b :a) (12 :e :d :c :a) (16 :f :d :c :a)) list:sort ((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:d :d :b :c :a) list:firstRest (:d (:d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 11 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3267,13 +3267,13 @@
       { (((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((11 :e :d :b :a) (12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) list:firstRest ((11 :e :d :b :a) ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (11 :e :d :b :a) list:firstRest (11 (:e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :d :b :a) list:firstRest (:e (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_6_3_ab1fa9ee93457063__L4 {
@@ -3285,19 +3285,19 @@
         (11 ?__backward_6_3_ab1fa9ee93457063__Weight) math:sum ?__backward_6_3_ab1fa9ee93457063__NewCost .
     } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_6_3_ab1fa9ee93457063__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a)) ((14 :f :e :d :b :a))) list:append ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a) (14 :f :e :d :b :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((12 :e :c :a) (12 :e :d :c :a) (15 :f :d :b :a) (16 :f :d :c :a) (14 :f :e :d :b :a)) list:sort ((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :d :d :b :c :a) list:firstRest (:e (:d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) :f (:e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 12 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3334,13 +3334,13 @@
       { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) :f (:e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((12 :e :c :a) (12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) list:firstRest ((12 :e :c :a) ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (12 :e :c :a) list:firstRest (12 (:e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :c :a) list:firstRest (:e (:c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_7_3_4ee83ce308c96586__L4 {
@@ -3352,19 +3352,19 @@
         (12 ?__backward_7_3_4ee83ce308c96586__Weight) math:sum ?__backward_7_3_4ee83ce308c96586__NewCost .
     } ((15 :f :e :c :a))) log:collectAllIn ?__backward_7_3_4ee83ce308c96586__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a)) ((15 :f :e :c :a))) list:append ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a) (15 :f :e :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (16 :f :d :c :a) (15 :f :e :c :a)) list:sort ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :e :d :d :b :c :a) list:firstRest (:e (:e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) :f (:e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 12 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3401,13 +3401,13 @@
       { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((12 :e :d :c :a) (14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) list:firstRest ((12 :e :d :c :a) ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (12 :e :d :c :a) list:firstRest (12 (:e :d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:e :d :c :a) list:firstRest (:e (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_8_3_4fd995b0cae5d2c5__L4 {
@@ -3419,19 +3419,19 @@
         (12 ?__backward_8_3_4fd995b0cae5d2c5__Weight) math:sum ?__backward_8_3_4fd995b0cae5d2c5__NewCost .
     } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_8_3_4fd995b0cae5d2c5__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a)) ((15 :f :e :d :c :a))) list:append ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a) (15 :f :e :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (16 :f :d :c :a) (15 :f :e :d :c :a)) list:sort ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:e :e :e :d :d :b :c :a) list:firstRest (:e (:e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 14 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3468,13 +3468,13 @@
       { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((14 :f :e :d :b :a) (15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((14 :f :e :d :b :a) ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (14 :f :e :d :b :a) list:firstRest (14 (:f :e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :d :b :a) list:firstRest (:f (:e :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_9_3_555edc6e8c01c4b0__L4 {
@@ -3486,19 +3486,19 @@
         (14 ?__backward_9_3_555edc6e8c01c4b0__Weight) math:sum ?__backward_9_3_555edc6e8c01c4b0__NewCost .
     } ()) log:collectAllIn ?__backward_9_3_555edc6e8c01c4b0__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) ()) list:append ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:sort ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:f :e :e :e :d :d :b :c :a) list:firstRest (:f (:e :e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3535,13 +3535,13 @@
       { (((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((15 :f :d :b :a) (15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((15 :f :d :b :a) ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (15 :f :d :b :a) list:firstRest (15 (:f :d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :d :b :a) list:firstRest (:f (:d :b :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_10_3_bf667a463349c52c__L4 {
@@ -3553,19 +3553,19 @@
         (15 ?__backward_10_3_bf667a463349c52c__Weight) math:sum ?__backward_10_3_bf667a463349c52c__NewCost .
     } ()) log:collectAllIn ?__backward_10_3_bf667a463349c52c__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) ()) list:append ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:sort ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:f :f :e :e :e :d :d :b :c :a) list:firstRest (:f (:f :e :e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3602,13 +3602,13 @@
       { (((15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((15 :f :e :c :a) (15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((15 :f :e :c :a) ((15 :f :e :d :c :a) (16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (15 :f :e :c :a) list:firstRest (15 (:f :e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :c :a) list:firstRest (:f (:e :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_11_3_41809d59ca6d8ff1__L4 {
@@ -3620,19 +3620,19 @@
         (15 ?__backward_11_3_41809d59ca6d8ff1__Weight) math:sum ?__backward_11_3_41809d59ca6d8ff1__NewCost .
     } ()) log:collectAllIn ?__backward_11_3_41809d59ca6d8ff1__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((15 :f :e :d :c :a) (16 :f :d :c :a)) ()) list:append ((15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((15 :f :e :d :c :a) (16 :f :d :c :a)) list:sort ((15 :f :e :d :c :a) (16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:f :f :f :e :e :e :d :d :b :c :a) list:firstRest (:f (:f :f :e :e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((15 :f :e :d :c :a) (16 :f :d :c :a)) :f (:f :f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 40 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "Cost"; pe:value 15 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3669,13 +3669,13 @@
       { (((16 :f :d :c :a)) :f (:f :f :f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }.
 
   { ((15 :f :e :d :c :a) (16 :f :d :c :a)) list:firstRest ((15 :f :e :d :c :a) ((16 :f :d :c :a))) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (15 :f :e :d :c :a) list:firstRest (15 (:f :e :d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :e :d :c :a) list:firstRest (:f (:e :d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   {
     (?__backward_12_3_4cdc0c118249fb08__L4 {
@@ -3687,19 +3687,19 @@
         (15 ?__backward_12_3_4cdc0c118249fb08__Weight) math:sum ?__backward_12_3_4cdc0c118249fb08__NewCost .
     } ()) log:collectAllIn ?__backward_12_3_4cdc0c118249fb08__SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (((16 :f :d :c :a)) ()) list:append ((16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { ((16 :f :d :c :a)) list:sort ((16 :f :d :c :a)) . }
-    pe:by [ pe:builtin list:sort ].
+    pe:builtin list:sort.
 
   { (:f :f :f :f :e :e :e :d :d :b :c :a) list:firstRest (:f (:f :f :f :e :e :e :d :d :b :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (((16 :f :d :c :a)) :f (:f :f :f :f :e :e :e :d :d :b :c :a)) :dijkstra2 ((:f :d :c :a) 16) . }
-    pe:by [ pe:rule "dijkstra.n3"; pe:line 34 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "Cost"; pe:value 16 ],
       [ pe:var "Goal"; pe:value :f ],
@@ -3715,14 +3715,14 @@
       { (:f :d :c :a) list:firstRest (:f (:d :c :a)) . }.
 
   { ((16 :f :d :c :a)) list:firstRest ((16 :f :d :c :a) ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (16 :f :d :c :a) list:firstRest (16 (:f :d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :d :c :a) list:firstRest (:f (:d :c :a)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:f :d :c :a) list:reverse (:a :c :d :f) . }
-    pe:by [ pe:builtin list:reverse ].
+    pe:builtin list:reverse.
 }.

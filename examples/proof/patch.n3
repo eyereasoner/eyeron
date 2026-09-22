@@ -29,7 +29,7 @@
         :alice :verified true .
     } .
 }
-    pe:by [ pe:rule "patch.n3"; pe:line 31 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "Del"; pe:value {
           :alice :age 30 .
@@ -148,7 +148,7 @@
         :bob a :Person .
     } .
 }
-    pe:by [ pe:fact "patch.n3"; pe:line 12 ].
+    pe:fact "patch.n3".
 
   {
     :patch1 :delete {
@@ -157,7 +157,7 @@
         :alice :email "alice@example.org" .
     } .
 }
-    pe:by [ pe:fact "patch.n3"; pe:line 12 ].
+    pe:fact "patch.n3".
 
   {
     :patch1 :insert {
@@ -166,7 +166,7 @@
         :alice :verified true .
     } .
 }
-    pe:by [ pe:fact "patch.n3"; pe:line 12 ].
+    pe:fact "patch.n3".
 
   {
     ({
@@ -192,7 +192,7 @@
         :bob a :Person .
     } .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   {
     ({
@@ -204,7 +204,7 @@
         :bob a :Person .
     } .
 }
-    pe:by [ pe:builtin log:conjunction ].
+    pe:builtin log:conjunction.
 
   {
     ({
@@ -222,5 +222,5 @@
         :alice :verified true .
     } .
 }
-    pe:by [ pe:builtin log:conjunction ].
+    pe:builtin log:conjunction.
 }.

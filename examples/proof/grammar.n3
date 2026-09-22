@@ -6,12 +6,12 @@
 
 { :query :parsed (:command :open :door) . } pe:why {
   { :query :parsed (:command :open :door) . }
-    pe:by [ pe:rule "grammar.n3"; pe:line 25 ];
+    pe:rule 6;
     pe:binding [ pe:var "ast"; pe:value (:command :open :door) ];
     pe:uses { ((:open :door) ()) :sentence (:command :open :door) . }.
 
   { ((:open :door) ()) :sentence (:command :open :door) . }
-    pe:by [ pe:rule "grammar.n3"; pe:line 20 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "input"; pe:value (:open :door) ],
       [ pe:var "middle"; pe:value (:door) ],
@@ -23,22 +23,22 @@
       { (:door) :nounMatch (:door ()) . }.
 
   { (:open :door) :verbMatch (:open (:door)) . }
-    pe:by [ pe:rule "grammar.n3"; pe:line 15 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "input"; pe:value (:open :door) ],
       [ pe:var "rest"; pe:value (:door) ];
     pe:uses { (:open :door) list:firstRest (:open (:door)) . }.
 
   { (:open :door) list:firstRest (:open (:door)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 
   { (:door) :nounMatch (:door ()) . }
-    pe:by [ pe:rule "grammar.n3"; pe:line 17 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "input"; pe:value (:door) ],
       [ pe:var "rest"; pe:value () ];
     pe:uses { (:door) list:firstRest (:door ()) . }.
 
   { (:door) list:firstRest (:door ()) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 }.

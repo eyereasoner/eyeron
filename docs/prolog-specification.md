@@ -319,7 +319,7 @@ they are not thrown as terms a program can catch (§14).
 ## 12. Result documents and proofs
 
 A completed evaluation serializes as a Prolog program. It opens with the
-comment `% Prolog result format 3`, and every other line is an ordinary
+comment `% Prolog result format 4`, and every other line is an ordinary
 fact that another eyeron run can load and query. Loading a result document
 asserts records; it does not re-run the recorded questions or recreate the
 source program.
@@ -334,46 +334,58 @@ The answer vocabulary is:
   error.
 - `answer(Id, Bindings)` records one solution as a list of
   `'Name' = Value` pairs. A successful ground query uses `answer(Id, [])`.
-- `why(QueryId, Bindings, ProofId)` links an answer to its proof, and is
-  present only when proofs are requested.
+- `why(QueryId, Bindings, Goals)` links an answer to the goals it proved,
+  and is present only when proofs are requested.
 
 Query ids start at one and are local to the document. Integers, floats,
 strings, atoms and compound terms keep their kinds. A residual variable
 remains a live variable in the output fact; variable identity is preserved
 within one fact and independent between facts.
 
-With proofs requested, the document additionally contains:
+With proofs requested, `why(QueryId, Bindings, Goals)` links each answer to
+the goals it proved, and the document additionally contains:
 
 - `clause(Number, HeadTemplate, BodyTemplate)` once per used source clause;
-- `substitution(ProofId, Bindings)` for every proof step; and
-- `proof(Id, Conclusion, Source, Premises)` for every recorded derivation.
+  and
+- `step(Conclusion, By, Bindings, Uses)` once per justified conclusion.
 
-`Source` is `rule(ClauseNumber)` for a clause step and `query` for a
-query-projection step, whose conclusion is `solution(Values)`. Clause
-numbers identify the corresponding `clause/3` record and are independent of
-whitespace and physical position. Positive proof references MUST point to
-earlier proof records, so the recorded derivation graph is acyclic even
-when the program is recursive.
+A step MUST appear at most once per conclusion, and only conclusions the
+answers rest on are recorded. `Uses` names what the step used by those
+premises' own conclusions, so a proof is read from a claim downward without
+joining ids; this is the shape the N3 and SPARQL 1.2 RL proof documents
+also use, where the same three parts are `pe:rule`, `pe:binding` and
+`pe:uses`.
+
+`By` says why the conclusion holds, and is exactly one of:
+
+- `rule(Number)` — the engine applied that clause, whose `clause/3` record
+  gives it. Clause numbers are independent of whitespace and physical
+  position.
+- `fact(Number)` — that clause was simply given.
+- `builtin` — a built-in goal succeeded; the instantiated goal is the
+  conclusion, so a calculation reads
+  `step(3 is 1 + 2, builtin, [], [])`.
+- `absent` — a `\+` goal whose argument completed with no answer; the
+  conclusion is the `\+` goal itself.
+- `collected` — a `findall/3` that completed; the conclusion is the
+  instantiated `findall/3` goal and `Uses` names what it collected.
+
+`Bindings` is the substitution the clause was used under, as `'Name' =
+Value` pairs, and is empty for every `By` but `rule(Number)`.
 
 A clause template's variables are reified as `var('Name')` and
 `anonymous(N)` so their identity survives being split across separate
 facts, where ordinary variables would each read back as a fresh one.
-`anonymous(N)` terms MUST NOT occur as substitution keys.
-
-The premise vocabulary is four terms, because a goal is already a term and
-explains itself:
-
-- `uses(ProofId, Goal)` for a derived answer of a user predicate;
-- `builtin(Goal)` for a built-in goal that succeeded, instantiated — so a
-  calculation reads `builtin(3 is 1 + 2)` and a comparison `builtin(1 < 2)`;
-- `absent(Goal, complete)` for a `\+` whose argument completed with no
-  answer; and
-- `collected(Values, Template, Goal, ProofIds, complete)` for a completed
-  `findall/3`.
+`anonymous(N)` terms MUST NOT occur as binding keys.
 
 Built-ins, absence and collection completion are trusted records. The
 format is an inspectable explanation graph, not an independently verified
 proof certificate.
+
+A fact wider than the writer's line budget is broken across lines, one
+argument per line and, inside an argument still too long, one list element
+or one body goal per line. This is a layout choice, not a syntactic one: a
+broken fact reads back as the same term, with the same variable sharing.
 
 `--check` output instead consists of `checked(rules(N), queries(M))` and
 one `stratum(Name/Arity, Level)` fact per predicate. JSON is an explicitly

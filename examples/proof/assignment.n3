@@ -6,7 +6,7 @@
 
 { :alice :grade (:pass 7) . } pe:why {
   { :alice :grade (:pass 7) . }
-    pe:by [ pe:rule "assignment.n3"; pe:line 12 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "score"; pe:value 7 ],
       [ pe:var "x"; pe:value :alice ];
@@ -15,8 +15,8 @@
       { 7 math:notLessThan 5 . }.
 
   { :alice :score 7 . }
-    pe:by [ pe:fact "assignment.n3"; pe:line 9 ].
+    pe:fact "assignment.n3".
 
   { 7 math:notLessThan 5 . }
-    pe:by [ pe:builtin math:notLessThan ].
+    pe:builtin math:notLessThan.
 }.

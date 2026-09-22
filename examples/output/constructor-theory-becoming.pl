@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, status(_0, _1), ['X' = _0, 'S' = _1]).
 result(1, complete, 4).
 answer(1, ['X' = perfectRestoreTask, 'S' = impossibleTask]).

@@ -8,8 +8,7 @@
 :Human rdfs:subClassOf :Mortal .
 :Socrates a :Mortal .
 :stepMortal rdf:reifies <<(:Socrates a :Mortal)>> .
-:stepMortal pe:rule "socrates.srl" .
-:stepMortal pe:line 14 .
+:stepMortal pe:rule 1 .
 :stepMortal pe:uses :stepHuman .
 :stepMortal pe:uses :stepSubClass .
 _:b1 pe:var "A" .
@@ -23,10 +22,8 @@ _:b3 pe:value :Socrates .
 :stepMortal pe:binding _:b3 .
 :stepHuman rdf:reifies <<(:Socrates a :Human)>> .
 :stepHuman pe:fact "socrates.srl" .
-:stepHuman pe:line 10 .
 :stepSubClass rdf:reifies <<(:Human rdfs:subClassOf :Mortal)>> .
 :stepSubClass pe:fact "socrates.srl" .
-:stepSubClass pe:line 11 .
 :stepMortal :dependsOn :stepHuman .
 :stepMortal :dependsOn :stepSubClass .
 :stepHuman :sourceFact true .

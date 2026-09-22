@@ -37,7 +37,7 @@
 
 { :c2 :considers :leadCompensator . } pe:why {
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -47,15 +47,15 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :targets :overshootReq . } pe:why {
   { :c2 :targets :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -65,15 +65,15 @@
       { :reduceOvershoot :introducesRequirement :overshootReq . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :introducesRequirement :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :considers :integralAction . } pe:why {
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -83,15 +83,15 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :targets :disturbanceRejectionReq . } pe:why {
   { :c3 :targets :disturbanceRejectionReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -101,15 +101,15 @@
       { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :satisfies :overshootReq . } pe:why {
   { :c2 :satisfies :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -120,7 +120,7 @@
       { :leadCompensator :enables :overshootReq . }.
 
   { :c2 :targets :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -130,13 +130,13 @@
       { :reduceOvershoot :introducesRequirement :overshootReq . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :introducesRequirement :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -146,15 +146,15 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :enables :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :integrates :leadCompensator . } pe:why {
   { :c2 :integrates :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -165,7 +165,7 @@
       { :leadCompensator :enables :overshootReq . }.
 
   { :c2 :targets :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -175,13 +175,13 @@
       { :reduceOvershoot :introducesRequirement :overshootReq . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :introducesRequirement :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -191,15 +191,15 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :enables :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :satisfies :disturbanceRejectionReq . } pe:why {
   { :c3 :satisfies :disturbanceRejectionReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :disturbanceRejectionReq ],
@@ -210,7 +210,7 @@
       { :integralAction :enables :disturbanceRejectionReq . }.
 
   { :c3 :targets :disturbanceRejectionReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -220,13 +220,13 @@
       { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -236,15 +236,15 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :enables :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :integrates :integralAction . } pe:why {
   { :c3 :integrates :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :disturbanceRejectionReq ],
@@ -255,7 +255,7 @@
       { :integralAction :enables :disturbanceRejectionReq . }.
 
   { :c3 :targets :disturbanceRejectionReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -265,13 +265,13 @@
       { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -281,15 +281,15 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :enables :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :inheritsRequirement :stabilityReq . } pe:why {
   { :c2 :inheritsRequirement :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -299,15 +299,15 @@
       { :c1 :satisfies :stabilityReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :inheritsRequirement :trackingReq . } pe:why {
   { :c2 :inheritsRequirement :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -317,37 +317,37 @@
       { :c1 :satisfies :trackingReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c1 :availableForFutureTuning :yes . } pe:why {
   { :c1 :availableForFutureTuning :yes . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 183 ];
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c1 ],
       [ pe:var "strategy"; pe:value :baselinePID ];
     pe:uses { :c1 :realizes :baselinePID . }.
 
   { :c1 :realizes :baselinePID . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c1 :status :approvedController . } pe:why {
   { :c1 :status :approvedController . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 197 ];
+    pe:rule 9;
     pe:binding [ pe:var "ctrl"; pe:value :c1 ];
     pe:uses { :c1 :achieves :approvedController . }.
 
   { :c1 :achieves :approvedController . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :inheritsRequirement :overshootReq . } pe:why {
   { :c3 :inheritsRequirement :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -357,10 +357,10 @@
       { :c2 :satisfies :overshootReq . }.
 
   { :c3 :derivesFrom :c2 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :satisfies :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -371,7 +371,7 @@
       { :leadCompensator :enables :overshootReq . }.
 
   { :c2 :targets :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -381,13 +381,13 @@
       { :reduceOvershoot :introducesRequirement :overshootReq . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :introducesRequirement :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -397,15 +397,15 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :enables :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :preserves :stabilityReq . } pe:why {
   { :c2 :preserves :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ],
@@ -416,7 +416,7 @@
       { :leadCompensator :compatibleWith :stabilityReq . }.
 
   { :c2 :inheritsRequirement :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -426,13 +426,13 @@
       { :c1 :satisfies :stabilityReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -442,18 +442,18 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :compatibleWith :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :preserves :trackingReq . } pe:why {
   { :c2 :preserves :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ],
@@ -464,7 +464,7 @@
       { :leadCompensator :compatibleWith :trackingReq . }.
 
   { :c2 :inheritsRequirement :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -474,13 +474,13 @@
       { :c1 :satisfies :trackingReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -490,18 +490,18 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :compatibleWith :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :preserves :overshootReq . } pe:why {
   { :c3 :preserves :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -512,7 +512,7 @@
       { :integralAction :compatibleWith :overshootReq . }.
 
   { :c3 :inheritsRequirement :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -522,10 +522,10 @@
       { :c2 :satisfies :overshootReq . }.
 
   { :c3 :derivesFrom :c2 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :satisfies :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -536,7 +536,7 @@
       { :leadCompensator :enables :overshootReq . }.
 
   { :c2 :targets :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -546,13 +546,13 @@
       { :reduceOvershoot :introducesRequirement :overshootReq . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :introducesRequirement :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -562,13 +562,13 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :enables :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -578,25 +578,25 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :compatibleWith :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :realizes :leadCompensator . } pe:why {
   { :c2 :realizes :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 170 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
     pe:uses { :c2 :integrates :leadCompensator . }.
 
   { :c2 :integrates :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -607,7 +607,7 @@
       { :leadCompensator :enables :overshootReq . }.
 
   { :c2 :targets :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -617,13 +617,13 @@
       { :reduceOvershoot :introducesRequirement :overshootReq . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :introducesRequirement :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -633,22 +633,22 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :enables :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :realizes :integralAction . } pe:why {
   { :c3 :realizes :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 170 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses { :c3 :integrates :integralAction . }.
 
   { :c3 :integrates :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :disturbanceRejectionReq ],
@@ -659,7 +659,7 @@
       { :integralAction :enables :disturbanceRejectionReq . }.
 
   { :c3 :targets :disturbanceRejectionReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -669,13 +669,13 @@
       { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -685,22 +685,22 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :enables :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :satisfies :stabilityReq . } pe:why {
   { :c2 :satisfies :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ];
     pe:uses { :c2 :preserves :stabilityReq . }.
 
   { :c2 :preserves :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ],
@@ -711,7 +711,7 @@
       { :leadCompensator :compatibleWith :stabilityReq . }.
 
   { :c2 :inheritsRequirement :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -721,13 +721,13 @@
       { :c1 :satisfies :stabilityReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -737,25 +737,25 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :compatibleWith :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :satisfies :trackingReq . } pe:why {
   { :c2 :satisfies :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ];
     pe:uses { :c2 :preserves :trackingReq . }.
 
   { :c2 :preserves :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ],
@@ -766,7 +766,7 @@
       { :leadCompensator :compatibleWith :trackingReq . }.
 
   { :c2 :inheritsRequirement :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -776,13 +776,13 @@
       { :c1 :satisfies :trackingReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -792,25 +792,25 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :compatibleWith :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :satisfies :overshootReq . } pe:why {
   { :c3 :satisfies :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :overshootReq ];
     pe:uses { :c3 :preserves :overshootReq . }.
 
   { :c3 :preserves :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -821,7 +821,7 @@
       { :integralAction :compatibleWith :overshootReq . }.
 
   { :c3 :inheritsRequirement :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -831,10 +831,10 @@
       { :c2 :satisfies :overshootReq . }.
 
   { :c3 :derivesFrom :c2 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :satisfies :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -845,7 +845,7 @@
       { :leadCompensator :enables :overshootReq . }.
 
   { :c2 :targets :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -855,13 +855,13 @@
       { :reduceOvershoot :introducesRequirement :overshootReq . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :introducesRequirement :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -871,13 +871,13 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :enables :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -887,32 +887,32 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :compatibleWith :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :achieves :approvedController . } pe:why {
   { :c2 :achieves :approvedController . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 183 ];
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
     pe:uses { :c2 :realizes :leadCompensator . }.
 
   { :c2 :realizes :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 170 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
     pe:uses { :c2 :integrates :leadCompensator . }.
 
   { :c2 :integrates :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -923,7 +923,7 @@
       { :leadCompensator :enables :overshootReq . }.
 
   { :c2 :targets :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -933,13 +933,13 @@
       { :reduceOvershoot :introducesRequirement :overshootReq . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :introducesRequirement :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -949,29 +949,29 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :enables :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :availableForFutureTuning :yes . } pe:why {
   { :c2 :availableForFutureTuning :yes . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 183 ];
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
     pe:uses { :c2 :realizes :leadCompensator . }.
 
   { :c2 :realizes :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 170 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
     pe:uses { :c2 :integrates :leadCompensator . }.
 
   { :c2 :integrates :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -982,7 +982,7 @@
       { :leadCompensator :enables :overshootReq . }.
 
   { :c2 :targets :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -992,13 +992,13 @@
       { :reduceOvershoot :introducesRequirement :overshootReq . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :introducesRequirement :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -1008,29 +1008,29 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :enables :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :achieves :approvedController . } pe:why {
   { :c3 :achieves :approvedController . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 183 ];
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses { :c3 :realizes :integralAction . }.
 
   { :c3 :realizes :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 170 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses { :c3 :integrates :integralAction . }.
 
   { :c3 :integrates :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :disturbanceRejectionReq ],
@@ -1041,7 +1041,7 @@
       { :integralAction :enables :disturbanceRejectionReq . }.
 
   { :c3 :targets :disturbanceRejectionReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -1051,13 +1051,13 @@
       { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -1067,29 +1067,29 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :enables :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :availableForFutureTuning :yes . } pe:why {
   { :c3 :availableForFutureTuning :yes . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 183 ];
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses { :c3 :realizes :integralAction . }.
 
   { :c3 :realizes :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 170 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses { :c3 :integrates :integralAction . }.
 
   { :c3 :integrates :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :disturbanceRejectionReq ],
@@ -1100,7 +1100,7 @@
       { :integralAction :enables :disturbanceRejectionReq . }.
 
   { :c3 :targets :disturbanceRejectionReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -1110,13 +1110,13 @@
       { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -1126,15 +1126,15 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :enables :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :inheritsRequirement :stabilityReq . } pe:why {
   { :c3 :inheritsRequirement :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -1144,17 +1144,17 @@
       { :c2 :satisfies :stabilityReq . }.
 
   { :c3 :derivesFrom :c2 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :satisfies :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ];
     pe:uses { :c2 :preserves :stabilityReq . }.
 
   { :c2 :preserves :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ],
@@ -1165,7 +1165,7 @@
       { :leadCompensator :compatibleWith :stabilityReq . }.
 
   { :c2 :inheritsRequirement :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -1175,13 +1175,13 @@
       { :c1 :satisfies :stabilityReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -1191,18 +1191,18 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :compatibleWith :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :inheritsRequirement :trackingReq . } pe:why {
   { :c3 :inheritsRequirement :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -1212,17 +1212,17 @@
       { :c2 :satisfies :trackingReq . }.
 
   { :c3 :derivesFrom :c2 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :satisfies :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ];
     pe:uses { :c2 :preserves :trackingReq . }.
 
   { :c2 :preserves :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ],
@@ -1233,7 +1233,7 @@
       { :leadCompensator :compatibleWith :trackingReq . }.
 
   { :c2 :inheritsRequirement :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -1243,13 +1243,13 @@
       { :c1 :satisfies :trackingReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -1259,37 +1259,37 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :compatibleWith :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c2 :status :approvedController . } pe:why {
   { :c2 :status :approvedController . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 197 ];
+    pe:rule 9;
     pe:binding [ pe:var "ctrl"; pe:value :c2 ];
     pe:uses { :c2 :achieves :approvedController . }.
 
   { :c2 :achieves :approvedController . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 183 ];
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
     pe:uses { :c2 :realizes :leadCompensator . }.
 
   { :c2 :realizes :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 170 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
     pe:uses { :c2 :integrates :leadCompensator . }.
 
   { :c2 :integrates :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -1300,7 +1300,7 @@
       { :leadCompensator :enables :overshootReq . }.
 
   { :c2 :targets :overshootReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -1310,13 +1310,13 @@
       { :reduceOvershoot :introducesRequirement :overshootReq . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :introducesRequirement :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -1326,34 +1326,34 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :enables :overshootReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :status :approvedController . } pe:why {
   { :c3 :status :approvedController . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 197 ];
+    pe:rule 9;
     pe:binding [ pe:var "ctrl"; pe:value :c3 ];
     pe:uses { :c3 :achieves :approvedController . }.
 
   { :c3 :achieves :approvedController . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 183 ];
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses { :c3 :realizes :integralAction . }.
 
   { :c3 :realizes :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 170 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "strategy"; pe:value :integralAction ];
     pe:uses { :c3 :integrates :integralAction . }.
 
   { :c3 :integrates :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 141 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :disturbanceRejectionReq ],
@@ -1364,7 +1364,7 @@
       { :integralAction :enables :disturbanceRejectionReq . }.
 
   { :c3 :targets :disturbanceRejectionReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 111 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -1374,13 +1374,13 @@
       { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :introducesRequirement :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -1390,15 +1390,15 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :enables :disturbanceRejectionReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :preserves :stabilityReq . } pe:why {
   { :c3 :preserves :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :stabilityReq ],
@@ -1409,7 +1409,7 @@
       { :integralAction :compatibleWith :stabilityReq . }.
 
   { :c3 :inheritsRequirement :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -1419,17 +1419,17 @@
       { :c2 :satisfies :stabilityReq . }.
 
   { :c3 :derivesFrom :c2 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :satisfies :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ];
     pe:uses { :c2 :preserves :stabilityReq . }.
 
   { :c2 :preserves :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ],
@@ -1440,7 +1440,7 @@
       { :leadCompensator :compatibleWith :stabilityReq . }.
 
   { :c2 :inheritsRequirement :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -1450,13 +1450,13 @@
       { :c1 :satisfies :stabilityReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -1466,16 +1466,16 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :compatibleWith :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -1485,18 +1485,18 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :compatibleWith :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :preserves :trackingReq . } pe:why {
   { :c3 :preserves :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :trackingReq ],
@@ -1507,7 +1507,7 @@
       { :integralAction :compatibleWith :trackingReq . }.
 
   { :c3 :inheritsRequirement :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -1517,17 +1517,17 @@
       { :c2 :satisfies :trackingReq . }.
 
   { :c3 :derivesFrom :c2 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :satisfies :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ];
     pe:uses { :c2 :preserves :trackingReq . }.
 
   { :c2 :preserves :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ],
@@ -1538,7 +1538,7 @@
       { :leadCompensator :compatibleWith :trackingReq . }.
 
   { :c2 :inheritsRequirement :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -1548,13 +1548,13 @@
       { :c1 :satisfies :trackingReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -1564,16 +1564,16 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :compatibleWith :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -1583,25 +1583,25 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :compatibleWith :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :satisfies :stabilityReq . } pe:why {
   { :c3 :satisfies :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :stabilityReq ];
     pe:uses { :c3 :preserves :stabilityReq . }.
 
   { :c3 :preserves :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :stabilityReq ],
@@ -1612,7 +1612,7 @@
       { :integralAction :compatibleWith :stabilityReq . }.
 
   { :c3 :inheritsRequirement :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -1622,17 +1622,17 @@
       { :c2 :satisfies :stabilityReq . }.
 
   { :c3 :derivesFrom :c2 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :satisfies :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ];
     pe:uses { :c2 :preserves :stabilityReq . }.
 
   { :c2 :preserves :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ],
@@ -1643,7 +1643,7 @@
       { :leadCompensator :compatibleWith :stabilityReq . }.
 
   { :c2 :inheritsRequirement :stabilityReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -1653,13 +1653,13 @@
       { :c1 :satisfies :stabilityReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -1669,16 +1669,16 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :compatibleWith :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -1688,25 +1688,25 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :compatibleWith :stabilityReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.
 
 { :c3 :satisfies :trackingReq . } pe:why {
   { :c3 :satisfies :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :trackingReq ];
     pe:uses { :c3 :preserves :trackingReq . }.
 
   { :c3 :preserves :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :trackingReq ],
@@ -1717,7 +1717,7 @@
       { :integralAction :compatibleWith :trackingReq . }.
 
   { :c3 :inheritsRequirement :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -1727,17 +1727,17 @@
       { :c2 :satisfies :trackingReq . }.
 
   { :c3 :derivesFrom :c2 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :satisfies :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 157 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ];
     pe:uses { :c2 :preserves :trackingReq . }.
 
   { :c2 :preserves :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 125 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ],
@@ -1748,7 +1748,7 @@
       { :leadCompensator :compatibleWith :trackingReq . }.
 
   { :c2 :inheritsRequirement :trackingReq . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 83 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -1758,13 +1758,13 @@
       { :c1 :satisfies :trackingReq . }.
 
   { :c2 :derivesFrom :c1 . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c1 :satisfies :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 62 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c2 :considers :leadCompensator . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -1774,16 +1774,16 @@
       { :reduceOvershoot :suggests :leadCompensator . }.
 
   { :c2 :designGoal :reduceOvershoot . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 68 ].
+    pe:fact "control-system-becoming.n3".
 
   { :reduceOvershoot :suggests :leadCompensator . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 38 ].
+    pe:fact "control-system-becoming.n3".
 
   { :leadCompensator :compatibleWith :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 52 ].
+    pe:fact "control-system-becoming.n3".
 
   { :c3 :considers :integralAction . }
-    pe:by [ pe:rule "control-system-becoming.n3"; pe:line 97 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -1793,11 +1793,11 @@
       { :rejectDisturbance :suggests :integralAction . }.
 
   { :c3 :designGoal :rejectDisturbance . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 73 ].
+    pe:fact "control-system-becoming.n3".
 
   { :rejectDisturbance :suggests :integralAction . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 41 ].
+    pe:fact "control-system-becoming.n3".
 
   { :integralAction :compatibleWith :trackingReq . }
-    pe:by [ pe:fact "control-system-becoming.n3"; pe:line 55 ].
+    pe:fact "control-system-becoming.n3".
 }.

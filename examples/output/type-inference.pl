@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, type([], app(lam(x, var(x)), int_lit(42)), _0), ['Type' = _0]).
 result(1, complete, 1).
 answer(1, ['Type' = int]).

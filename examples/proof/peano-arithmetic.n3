@@ -6,7 +6,7 @@
 
 { :test :three (:s (:s (:s :zero))) . } pe:why {
   { :test :three (:s (:s (:s :zero))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 26 ];
+    pe:rule 8;
     pe:binding
       [ pe:var "result"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ],
       [ pe:var "three"; pe:value (:s (:s (:s :zero))) ],
@@ -17,7 +17,7 @@
       { (:s (:s (:s :zero))) :factorialValue (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s :zero) (:s :zero)) :peanoMultiply (:s :zero) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value :zero ],
@@ -28,15 +28,15 @@
       { ((:s :zero) :zero) :peanoAdd (:s :zero) . }.
 
   { ((:s :zero) :zero) :peanoMultiply :zero . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 18 ];
+    pe:rule 3;
     pe:binding [ pe:var "a"; pe:value (:s :zero) ].
 
   { ((:s :zero) :zero) :peanoAdd (:s :zero) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 15 ];
+    pe:rule 1;
     pe:binding [ pe:var "a"; pe:value (:s :zero) ].
 
   { ((:s :zero) (:s (:s :zero))) :peanoAdd (:s (:s (:s :zero))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value (:s :zero) ],
@@ -44,7 +44,7 @@
     pe:uses { ((:s :zero) (:s :zero)) :peanoAdd (:s (:s :zero)) . }.
 
   { ((:s :zero) (:s :zero)) :peanoAdd (:s (:s :zero)) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value :zero ],
@@ -52,14 +52,14 @@
     pe:uses { ((:s :zero) :zero) :peanoAdd (:s :zero) . }.
 
   { (:s (:s (:s :zero))) :factorialValue (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 24 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ];
     pe:uses { ((:s (:s (:s :zero))) (:s :zero)) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s (:s (:s :zero))) (:s :zero)) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 22 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s :zero)) ],
       [ pe:var "b"; pe:value (:s :zero) ],
@@ -70,7 +70,7 @@
       { ((:s (:s :zero)) (:s (:s (:s :zero)))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s :zero) (:s (:s (:s :zero)))) :peanoMultiply (:s (:s (:s :zero))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value (:s (:s :zero)) ],
@@ -81,7 +81,7 @@
       { ((:s :zero) (:s (:s :zero))) :peanoAdd (:s (:s (:s :zero))) . }.
 
   { ((:s :zero) (:s (:s :zero))) :peanoMultiply (:s (:s :zero)) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value (:s :zero) ],
@@ -92,7 +92,7 @@
       { ((:s :zero) (:s :zero)) :peanoAdd (:s (:s :zero)) . }.
 
   { ((:s (:s :zero)) (:s (:s (:s :zero)))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 22 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value (:s (:s (:s :zero))) ],
@@ -103,7 +103,7 @@
       { ((:s :zero) (:s (:s (:s (:s (:s (:s :zero))))))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s (:s (:s :zero))) (:s (:s :zero))) :peanoMultiply (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value (:s :zero) ],
@@ -114,7 +114,7 @@
       { ((:s (:s (:s :zero))) (:s (:s (:s :zero)))) :peanoAdd (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s (:s (:s :zero))) (:s :zero)) :peanoMultiply (:s (:s (:s :zero))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value :zero ],
@@ -125,15 +125,15 @@
       { ((:s (:s (:s :zero))) :zero) :peanoAdd (:s (:s (:s :zero))) . }.
 
   { ((:s (:s (:s :zero))) :zero) :peanoMultiply :zero . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 18 ];
+    pe:rule 3;
     pe:binding [ pe:var "a"; pe:value (:s (:s (:s :zero))) ].
 
   { ((:s (:s (:s :zero))) :zero) :peanoAdd (:s (:s (:s :zero))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 15 ];
+    pe:rule 1;
     pe:binding [ pe:var "a"; pe:value (:s (:s (:s :zero))) ].
 
   { ((:s (:s (:s :zero))) (:s (:s (:s :zero)))) :peanoAdd (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value (:s (:s :zero)) ],
@@ -141,7 +141,7 @@
     pe:uses { ((:s (:s (:s :zero))) (:s (:s :zero))) :peanoAdd (:s (:s (:s (:s (:s :zero))))) . }.
 
   { ((:s (:s (:s :zero))) (:s (:s :zero))) :peanoAdd (:s (:s (:s (:s (:s :zero))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value (:s :zero) ],
@@ -149,7 +149,7 @@
     pe:uses { ((:s (:s (:s :zero))) (:s :zero)) :peanoAdd (:s (:s (:s (:s :zero)))) . }.
 
   { ((:s (:s (:s :zero))) (:s :zero)) :peanoAdd (:s (:s (:s (:s :zero)))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value :zero ],
@@ -157,7 +157,7 @@
     pe:uses { ((:s (:s (:s :zero))) :zero) :peanoAdd (:s (:s (:s :zero))) . }.
 
   { ((:s :zero) (:s (:s (:s (:s (:s (:s :zero))))))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 22 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "a"; pe:value :zero ],
       [ pe:var "b"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ],
@@ -168,7 +168,7 @@
       { (:zero (:s (:s (:s (:s (:s (:s :zero))))))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s (:s (:s (:s (:s (:s :zero)))))) (:s :zero)) :peanoMultiply (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ],
       [ pe:var "b"; pe:value :zero ],
@@ -179,21 +179,21 @@
       { ((:s (:s (:s (:s (:s (:s :zero)))))) :zero) :peanoAdd (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s (:s (:s (:s (:s (:s :zero)))))) :zero) :peanoMultiply :zero . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 18 ];
+    pe:rule 3;
     pe:binding [ pe:var "a"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ].
 
   { ((:s (:s (:s (:s (:s (:s :zero)))))) :zero) :peanoAdd (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 15 ];
+    pe:rule 1;
     pe:binding [ pe:var "a"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ].
 
   { (:zero (:s (:s (:s (:s (:s (:s :zero))))))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 21 ];
+    pe:rule 5;
     pe:binding [ pe:var "a"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ].
 }.
 
 { :test :result (:s (:s (:s (:s (:s (:s :zero)))))) . } pe:why {
   { :test :result (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 26 ];
+    pe:rule 8;
     pe:binding
       [ pe:var "result"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ],
       [ pe:var "three"; pe:value (:s (:s (:s :zero))) ],
@@ -204,7 +204,7 @@
       { (:s (:s (:s :zero))) :factorialValue (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s :zero) (:s :zero)) :peanoMultiply (:s :zero) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value :zero ],
@@ -215,15 +215,15 @@
       { ((:s :zero) :zero) :peanoAdd (:s :zero) . }.
 
   { ((:s :zero) :zero) :peanoMultiply :zero . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 18 ];
+    pe:rule 3;
     pe:binding [ pe:var "a"; pe:value (:s :zero) ].
 
   { ((:s :zero) :zero) :peanoAdd (:s :zero) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 15 ];
+    pe:rule 1;
     pe:binding [ pe:var "a"; pe:value (:s :zero) ].
 
   { ((:s :zero) (:s (:s :zero))) :peanoAdd (:s (:s (:s :zero))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value (:s :zero) ],
@@ -231,7 +231,7 @@
     pe:uses { ((:s :zero) (:s :zero)) :peanoAdd (:s (:s :zero)) . }.
 
   { ((:s :zero) (:s :zero)) :peanoAdd (:s (:s :zero)) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value :zero ],
@@ -239,14 +239,14 @@
     pe:uses { ((:s :zero) :zero) :peanoAdd (:s :zero) . }.
 
   { (:s (:s (:s :zero))) :factorialValue (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 24 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ];
     pe:uses { ((:s (:s (:s :zero))) (:s :zero)) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s (:s (:s :zero))) (:s :zero)) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 22 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s :zero)) ],
       [ pe:var "b"; pe:value (:s :zero) ],
@@ -257,7 +257,7 @@
       { ((:s (:s :zero)) (:s (:s (:s :zero)))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s :zero) (:s (:s (:s :zero)))) :peanoMultiply (:s (:s (:s :zero))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value (:s (:s :zero)) ],
@@ -268,7 +268,7 @@
       { ((:s :zero) (:s (:s :zero))) :peanoAdd (:s (:s (:s :zero))) . }.
 
   { ((:s :zero) (:s (:s :zero))) :peanoMultiply (:s (:s :zero)) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value (:s :zero) ],
@@ -279,7 +279,7 @@
       { ((:s :zero) (:s :zero)) :peanoAdd (:s (:s :zero)) . }.
 
   { ((:s (:s :zero)) (:s (:s (:s :zero)))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 22 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "a"; pe:value (:s :zero) ],
       [ pe:var "b"; pe:value (:s (:s (:s :zero))) ],
@@ -290,7 +290,7 @@
       { ((:s :zero) (:s (:s (:s (:s (:s (:s :zero))))))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s (:s (:s :zero))) (:s (:s :zero))) :peanoMultiply (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value (:s :zero) ],
@@ -301,7 +301,7 @@
       { ((:s (:s (:s :zero))) (:s (:s (:s :zero)))) :peanoAdd (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s (:s (:s :zero))) (:s :zero)) :peanoMultiply (:s (:s (:s :zero))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value :zero ],
@@ -312,15 +312,15 @@
       { ((:s (:s (:s :zero))) :zero) :peanoAdd (:s (:s (:s :zero))) . }.
 
   { ((:s (:s (:s :zero))) :zero) :peanoMultiply :zero . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 18 ];
+    pe:rule 3;
     pe:binding [ pe:var "a"; pe:value (:s (:s (:s :zero))) ].
 
   { ((:s (:s (:s :zero))) :zero) :peanoAdd (:s (:s (:s :zero))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 15 ];
+    pe:rule 1;
     pe:binding [ pe:var "a"; pe:value (:s (:s (:s :zero))) ].
 
   { ((:s (:s (:s :zero))) (:s (:s (:s :zero)))) :peanoAdd (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value (:s (:s :zero)) ],
@@ -328,7 +328,7 @@
     pe:uses { ((:s (:s (:s :zero))) (:s (:s :zero))) :peanoAdd (:s (:s (:s (:s (:s :zero))))) . }.
 
   { ((:s (:s (:s :zero))) (:s (:s :zero))) :peanoAdd (:s (:s (:s (:s (:s :zero))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value (:s :zero) ],
@@ -336,7 +336,7 @@
     pe:uses { ((:s (:s (:s :zero))) (:s :zero)) :peanoAdd (:s (:s (:s (:s :zero)))) . }.
 
   { ((:s (:s (:s :zero))) (:s :zero)) :peanoAdd (:s (:s (:s (:s :zero)))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s :zero))) ],
       [ pe:var "b"; pe:value :zero ],
@@ -344,7 +344,7 @@
     pe:uses { ((:s (:s (:s :zero))) :zero) :peanoAdd (:s (:s (:s :zero))) . }.
 
   { ((:s :zero) (:s (:s (:s (:s (:s (:s :zero))))))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 22 ];
+    pe:rule 6;
     pe:binding
       [ pe:var "a"; pe:value :zero ],
       [ pe:var "b"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ],
@@ -355,7 +355,7 @@
       { (:zero (:s (:s (:s (:s (:s (:s :zero))))))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s (:s (:s (:s (:s (:s :zero)))))) (:s :zero)) :peanoMultiply (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 19 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "a"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ],
       [ pe:var "b"; pe:value :zero ],
@@ -366,14 +366,14 @@
       { ((:s (:s (:s (:s (:s (:s :zero)))))) :zero) :peanoAdd (:s (:s (:s (:s (:s (:s :zero)))))) . }.
 
   { ((:s (:s (:s (:s (:s (:s :zero)))))) :zero) :peanoMultiply :zero . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 18 ];
+    pe:rule 3;
     pe:binding [ pe:var "a"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ].
 
   { ((:s (:s (:s (:s (:s (:s :zero)))))) :zero) :peanoAdd (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 15 ];
+    pe:rule 1;
     pe:binding [ pe:var "a"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ].
 
   { (:zero (:s (:s (:s (:s (:s (:s :zero))))))) :fac (:s (:s (:s (:s (:s (:s :zero)))))) . }
-    pe:by [ pe:rule "peano-arithmetic.n3"; pe:line 21 ];
+    pe:rule 5;
     pe:binding [ pe:var "a"; pe:value (:s (:s (:s (:s (:s (:s :zero)))))) ].
 }.

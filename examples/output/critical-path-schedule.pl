@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, project_finish(_0), ['Finish' = _0]).
 result(1, complete, 1).
 answer(1, ['Finish' = 23]).

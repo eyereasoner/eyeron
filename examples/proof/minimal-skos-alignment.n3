@@ -9,19 +9,19 @@ anpr:PassengerCar ex:treatedAs ref:Car .
 
 { anpr:VehicleWithPlate ex:treatedAs ref:Car . } pe:why {
   { anpr:VehicleWithPlate ex:treatedAs ref:Car . }
-    pe:by [ pe:rule "minimal-skos-alignment.n3"; pe:line 33 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "b"; pe:value ref:Car ];
     pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
 
   { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:by [ pe:fact "minimal-skos-alignment.n3"; pe:line 25 ].
+    pe:fact "minimal-skos-alignment.n3".
 }.
 
 { anpr:PassengerCar ex:treatedAs ref:Car . } pe:why {
   { anpr:PassengerCar ex:treatedAs ref:Car . }
-    pe:by [ pe:rule "minimal-skos-alignment.n3"; pe:line 37 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value anpr:PassengerCar ],
       [ pe:var "y"; pe:value anpr:VehicleWithPlate ],
@@ -31,15 +31,15 @@ anpr:PassengerCar ex:treatedAs ref:Car .
       { anpr:VehicleWithPlate ex:treatedAs ref:Car . }.
 
   { anpr:PassengerCar skos:broader anpr:VehicleWithPlate . }
-    pe:by [ pe:fact "minimal-skos-alignment.n3"; pe:line 28 ].
+    pe:fact "minimal-skos-alignment.n3".
 
   { anpr:VehicleWithPlate ex:treatedAs ref:Car . }
-    pe:by [ pe:rule "minimal-skos-alignment.n3"; pe:line 33 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "a"; pe:value anpr:VehicleWithPlate ],
       [ pe:var "b"; pe:value ref:Car ];
     pe:uses { anpr:VehicleWithPlate skos:broadMatch ref:Car . }.
 
   { anpr:VehicleWithPlate skos:broadMatch ref:Car . }
-    pe:by [ pe:fact "minimal-skos-alignment.n3"; pe:line 25 ].
+    pe:fact "minimal-skos-alignment.n3".
 }.

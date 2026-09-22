@@ -7,7 +7,7 @@
 
 { :alice :knowsNamed "Bob" . } pe:why {
   { :alice :knowsNamed "Bob" . }
-    pe:by [ pe:rule "collections-and-blank-nodes.n3"; pe:line 15 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "name"; pe:value "Bob" ],
       [ pe:var "node"; pe:value _:b1 ],
@@ -17,15 +17,15 @@
       { _:b1 :name "Bob" . }.
 
   { :alice :knows _:b1 . }
-    pe:by [ pe:fact "collections-and-blank-nodes.n3"; pe:line 12 ].
+    pe:fact "collections-and-blank-nodes.n3".
 
   { _:b1 :name "Bob" . }
-    pe:by [ pe:fact "collections-and-blank-nodes.n3"; pe:line 12 ].
+    pe:fact "collections-and-blank-nodes.n3".
 }.
 
 { :team :firstMember :alice . } pe:why {
   { :team :firstMember :alice . }
-    pe:by [ pe:rule "collections-and-blank-nodes.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "first"; pe:value :alice ],
       [ pe:var "members"; pe:value (:alice :bob :carol) ],
@@ -35,8 +35,8 @@
       { (:alice :bob :carol) list:firstRest (:alice (:bob :carol)) . }.
 
   { :team :members (:alice :bob :carol) . }
-    pe:by [ pe:fact "collections-and-blank-nodes.n3"; pe:line 13 ].
+    pe:fact "collections-and-blank-nodes.n3".
 
   { (:alice :bob :carol) list:firstRest (:alice (:bob :carol)) . }
-    pe:by [ pe:builtin list:firstRest ].
+    pe:builtin list:firstRest.
 }.

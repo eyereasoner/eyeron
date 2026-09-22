@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, statement_source(_0, _1), ['Speaker' = _0, 'Source' = _1]).
 result(1, complete, 2).
 answer(1, ['Speaker' = alice, 'Source' = chat]).

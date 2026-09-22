@@ -56,85 +56,85 @@
 
 { :a :sim :a . } pe:why {
   { :a :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { :a :inX true . }.
 
   { :a :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 159 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :b :sim :b . } pe:why {
   { :b :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { :b :inX true . }.
 
   { :b :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 160 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :c :sim :c . } pe:why {
   { :c :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :c ];
     pe:uses { :c :inX true . }.
 
   { :c :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 161 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :a :sim :b . } pe:why {
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :b :inClassOf :a . } pe:why {
   { :b :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:b :a) :sameClass true . } pe:why {
   { (:b :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :c :sim :b . } pe:why {
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :a :sim :c . } pe:why {
   { :a :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -144,186 +144,186 @@
       { :b :sim :c . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :b :inClassOf :c . } pe:why {
   { :b :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:b :c) :sameClass true . } pe:why {
   { (:b :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :a :inClassOf :a . } pe:why {
   { :a :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :a :sim :a . }.
 
   { :a :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { :a :inX true . }.
 
   { :a :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 159 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:a :a) :sameClass true . } pe:why {
   { (:a :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :a :sim :a . }.
 
   { :a :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { :a :inX true . }.
 
   { :a :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 159 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :b :inClassOf :b . } pe:why {
   { :b :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :b :sim :b . }.
 
   { :b :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { :b :inX true . }.
 
   { :b :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 160 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:b :b) :sameClass true . } pe:why {
   { (:b :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :b ];
     pe:uses { :b :sim :b . }.
 
   { :b :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { :b :inX true . }.
 
   { :b :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 160 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :c :inClassOf :c . } pe:why {
   { :c :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :c :sim :c . }.
 
   { :c :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :c ];
     pe:uses { :c :inX true . }.
 
   { :c :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 161 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:c :c) :sameClass true . } pe:why {
   { (:c :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :c :sim :c . }.
 
   { :c :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :c ];
     pe:uses { :c :inX true . }.
 
   { :c :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 161 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :a :inClassOf :b . } pe:why {
   { :a :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :a :sim :b . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:a :b) :sameClass true . } pe:why {
   { (:a :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ];
     pe:uses { :a :sim :b . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:a :a :b) :sharedMemberShowsSameClass true . } pe:why {
   { (:a :a :b) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :a ],
@@ -334,34 +334,34 @@
       { (:a :a) :sameClass true . }.
 
   { :b :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:a :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :a :sim :a . }.
 
   { :a :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { :a :inX true . }.
 
   { :a :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 159 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:a :b :b) :sharedMemberShowsSameClass true . } pe:why {
   { (:a :b :b) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -372,39 +372,39 @@
       { (:a :b) :sameClass true . }.
 
   { :b :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :b :sim :b . }.
 
   { :b :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { :b :inX true . }.
 
   { :b :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 160 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:a :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ];
     pe:uses { :a :sim :b . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
@@ -413,7 +413,7 @@
 
 { (:b :a :b) :sharedMemberShowsSameClass true . } pe:why {
   { (:b :a :b) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ],
@@ -424,32 +424,32 @@
       { (:b :a) :sameClass true . }.
 
   { :b :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :b :sim :b . }.
 
   { :b :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { :b :inX true . }.
 
   { :b :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 160 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:b :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
@@ -458,7 +458,7 @@
 
 { (:b :a :a) :sharedMemberShowsSameClass true . } pe:why {
   { (:b :a :a) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ],
@@ -469,39 +469,39 @@
       { (:b :a) :sameClass true . }.
 
   { :a :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :a :sim :b . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :a :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :a :sim :a . }.
 
   { :a :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { :a :inX true . }.
 
   { :a :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 159 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:b :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
@@ -510,7 +510,7 @@
 
 { :c :sim :a . } pe:why {
   { :c :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -520,67 +520,67 @@
       { :b :sim :a . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :c :inClassOf :b . } pe:why {
   { :c :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :c :sim :b . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:c :b) :sameClass true . } pe:why {
   { (:c :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ];
     pe:uses { :c :sim :b . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { :a :inClassOf :c . } pe:why {
   { :a :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :a :sim :c . }.
 
   { :a :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -590,29 +590,29 @@
       { :b :sim :c . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:a :c) :sameClass true . } pe:why {
   { (:a :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :a :sim :c . }.
 
   { :a :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -622,22 +622,22 @@
       { :b :sim :c . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:c :c :b) :sharedMemberShowsSameClass true . } pe:why {
   { (:c :c :b) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :c ],
@@ -648,34 +648,34 @@
       { (:c :c) :sameClass true . }.
 
   { :b :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:c :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :c :sim :c . }.
 
   { :c :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :c ];
     pe:uses { :c :inX true . }.
 
   { :c :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 161 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:c :b :b) :sharedMemberShowsSameClass true . } pe:why {
   { (:c :b :b) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -686,39 +686,39 @@
       { (:c :b) :sameClass true . }.
 
   { :b :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :b :sim :b . }.
 
   { :b :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { :b :inX true . }.
 
   { :b :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 160 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:c :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ];
     pe:uses { :c :sim :b . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
@@ -727,7 +727,7 @@
 
 { (:a :c :b) :sharedMemberShowsSameClass true . } pe:why {
   { (:a :c :b) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :c ],
@@ -738,34 +738,34 @@
       { (:a :c) :sameClass true . }.
 
   { :b :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:a :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :a :sim :c . }.
 
   { :a :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -775,7 +775,7 @@
       { :b :sim :c . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
@@ -784,7 +784,7 @@
 
 { (:b :c :b) :sharedMemberShowsSameClass true . } pe:why {
   { (:b :c :b) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ],
@@ -795,32 +795,32 @@
       { (:b :c) :sameClass true . }.
 
   { :b :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :b :sim :b . }.
 
   { :b :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { :b :inX true . }.
 
   { :b :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 160 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:b :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
@@ -829,7 +829,7 @@
 
 { (:b :c :a) :sharedMemberShowsSameClass true . } pe:why {
   { (:b :c :a) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ],
@@ -840,31 +840,31 @@
       { (:b :c) :sameClass true . }.
 
   { :a :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :a :sim :b . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :a :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :a :sim :c . }.
 
   { :a :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -874,10 +874,10 @@
       { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:b :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
@@ -886,7 +886,7 @@
 
 { (:b :c :c) :sharedMemberShowsSameClass true . } pe:why {
   { (:b :c :c) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ],
@@ -897,39 +897,39 @@
       { (:b :c) :sameClass true . }.
 
   { :c :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :c :sim :b . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :c :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :c :sim :c . }.
 
   { :c :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :c ];
     pe:uses { :c :inX true . }.
 
   { :c :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 161 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:b :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
@@ -938,7 +938,7 @@
 
 { (:a :a :a) :sharedMemberShowsSameClass true . } pe:why {
   { (:a :a :a) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :a ],
@@ -949,22 +949,22 @@
       { (:a :a) :sameClass true . }.
 
   { :a :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :a :sim :a . }.
 
   { :a :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { :a :inX true . }.
 
   { :a :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 159 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:a :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :a ];
@@ -973,7 +973,7 @@
 
 { (:a :b :a) :sharedMemberShowsSameClass true . } pe:why {
   { (:a :b :a) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -984,39 +984,39 @@
       { (:a :b) :sameClass true . }.
 
   { :a :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :a :sim :a . }.
 
   { :a :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { :a :inX true . }.
 
   { :a :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 159 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :a :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :a :sim :b . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:a :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ];
@@ -1025,7 +1025,7 @@
 
 { (:a :c :a) :sharedMemberShowsSameClass true . } pe:why {
   { (:a :c :a) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :c ],
@@ -1036,29 +1036,29 @@
       { (:a :c) :sameClass true . }.
 
   { :a :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :a :sim :a . }.
 
   { :a :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { :a :inX true . }.
 
   { :a :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 159 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :a :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :a :sim :c . }.
 
   { :a :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -1068,20 +1068,20 @@
       { :b :sim :c . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:a :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :c ];
@@ -1090,7 +1090,7 @@
 
 { (:b :b :b) :sharedMemberShowsSameClass true . } pe:why {
   { (:b :b :b) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :b ],
@@ -1101,22 +1101,22 @@
       { (:b :b) :sameClass true . }.
 
   { :b :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :b :sim :b . }.
 
   { :b :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { :b :inX true . }.
 
   { :b :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 160 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:b :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :b ];
@@ -1125,7 +1125,7 @@
 
 { (:b :b :a) :sharedMemberShowsSameClass true . } pe:why {
   { (:b :b :a) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :b ],
@@ -1136,41 +1136,41 @@
       { (:b :b) :sameClass true . }.
 
   { :a :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :a :sim :b . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:b :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :b ];
     pe:uses { :b :sim :b . }.
 
   { :b :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { :b :inX true . }.
 
   { :b :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 160 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:b :b :c) :sharedMemberShowsSameClass true . } pe:why {
   { (:b :b :c) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :b ],
@@ -1181,41 +1181,41 @@
       { (:b :b) :sameClass true . }.
 
   { :c :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :c :sim :b . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:b :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :b ];
     pe:uses { :b :sim :b . }.
 
   { :b :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :b ];
     pe:uses { :b :inX true . }.
 
   { :b :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 160 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:c :c :c) :sharedMemberShowsSameClass true . } pe:why {
   { (:c :c :c) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :c ],
@@ -1226,22 +1226,22 @@
       { (:c :c) :sameClass true . }.
 
   { :c :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :c :sim :c . }.
 
   { :c :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :c ];
     pe:uses { :c :inX true . }.
 
   { :c :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 161 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:c :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :c ];
@@ -1250,7 +1250,7 @@
 
 { (:c :b :c) :sharedMemberShowsSameClass true . } pe:why {
   { (:c :b :c) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1261,39 +1261,39 @@
       { (:c :b) :sameClass true . }.
 
   { :c :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :c :sim :c . }.
 
   { :c :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :c ];
     pe:uses { :c :inX true . }.
 
   { :c :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 161 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :c :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :c :sim :b . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:c :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ];
@@ -1302,7 +1302,7 @@
 
 { (:c :c :a) :sharedMemberShowsSameClass true . } pe:why {
   { (:c :c :a) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :c ],
@@ -1313,14 +1313,14 @@
       { (:c :c) :sameClass true . }.
 
   { :a :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :a :sim :c . }.
 
   { :a :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -1330,37 +1330,37 @@
       { :b :sim :c . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:c :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :c :sim :c . }.
 
   { :c :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :c ];
     pe:uses { :c :inX true . }.
 
   { :c :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 161 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:c :b :a) :sharedMemberShowsSameClass true . } pe:why {
   { (:c :b :a) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1371,14 +1371,14 @@
       { (:c :b) :sameClass true . }.
 
   { :a :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :a :sim :c . }.
 
   { :a :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -1388,34 +1388,34 @@
       { :b :sim :c . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :a :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :a :sim :b . }.
 
   { (:c :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ];
     pe:uses { :c :sim :b . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
@@ -1424,14 +1424,14 @@
 
 { :c :inClassOf :a . } pe:why {
   { :c :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :c :sim :a . }.
 
   { :c :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1441,29 +1441,29 @@
       { :b :sim :a . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:c :a) :sameClass true . } pe:why {
   { (:c :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :c :sim :a . }.
 
   { :c :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1473,22 +1473,22 @@
       { :b :sim :a . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:b :a :c) :sharedMemberShowsSameClass true . } pe:why {
   { (:b :a :c) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ],
@@ -1499,31 +1499,31 @@
       { (:b :a) :sameClass true . }.
 
   { :c :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :c :sim :b . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :c :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :c :sim :a . }.
 
   { :c :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1533,10 +1533,10 @@
       { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:b :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
@@ -1545,7 +1545,7 @@
 
 { (:a :b :c) :sharedMemberShowsSameClass true . } pe:why {
   { (:a :b :c) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -1556,14 +1556,14 @@
       { (:a :b) :sameClass true . }.
 
   { :c :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :c :sim :a . }.
 
   { :c :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1573,34 +1573,34 @@
       { :b :sim :a . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :c :inClassOf :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :b ];
     pe:uses { :c :sim :b . }.
 
   { (:a :b) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ];
     pe:uses { :a :sim :b . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
@@ -1609,7 +1609,7 @@
 
 { (:c :a :a) :sharedMemberShowsSameClass true . } pe:why {
   { (:c :a :a) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :a ],
@@ -1620,14 +1620,14 @@
       { (:c :a) :sameClass true . }.
 
   { :a :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :a :sim :c . }.
 
   { :a :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -1637,42 +1637,42 @@
       { :b :sim :c . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :a :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :a ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :a :sim :a . }.
 
   { :a :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { :a :inX true . }.
 
   { :a :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 159 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:c :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :c :sim :a . }.
 
   { :c :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1682,7 +1682,7 @@
       { :b :sim :a . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
@@ -1691,7 +1691,7 @@
 
 { (:a :c :c) :sharedMemberShowsSameClass true . } pe:why {
   { (:a :c :c) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :c ],
@@ -1702,14 +1702,14 @@
       { (:a :c) :sameClass true . }.
 
   { :c :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :c :sim :a . }.
 
   { :c :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1719,42 +1719,42 @@
       { :b :sim :a . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :c :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :c :sim :c . }.
 
   { :c :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :c ];
     pe:uses { :c :inX true . }.
 
   { :c :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 161 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:a :c) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :a :sim :c . }.
 
   { :a :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :b ],
@@ -1764,7 +1764,7 @@
       { :b :sim :c . }.
 
   { :a :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :a ];
@@ -1773,7 +1773,7 @@
 
 { (:a :a :c) :sharedMemberShowsSameClass true . } pe:why {
   { (:a :a :c) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :a ],
@@ -1784,14 +1784,14 @@
       { (:a :a) :sameClass true . }.
 
   { :c :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :c :sim :a . }.
 
   { :c :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1801,37 +1801,37 @@
       { :b :sim :a . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:a :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :a ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :a :sim :a . }.
 
   { :a :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :a ];
     pe:uses { :a :inX true . }.
 
   { :a :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 159 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 }.
 
 { (:c :a :c) :sharedMemberShowsSameClass true . } pe:why {
   { (:c :a :c) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :a ],
@@ -1842,29 +1842,29 @@
       { (:c :a) :sameClass true . }.
 
   { :c :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :c :sim :c . }.
 
   { :c :sim :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 57 ];
+    pe:rule 1;
     pe:binding [ pe:var "x"; pe:value :c ];
     pe:uses { :c :inX true . }.
 
   { :c :inX true . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 161 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :c :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :c ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :c :sim :a . }.
 
   { :c :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1874,20 +1874,20 @@
       { :b :sim :a . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:c :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :a ];
@@ -1896,7 +1896,7 @@
 
 { (:c :a :b) :sharedMemberShowsSameClass true . } pe:why {
   { (:c :a :b) :sharedMemberShowsSameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 137 ];
+    pe:rule 7;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :a ],
@@ -1907,34 +1907,34 @@
       { (:c :a) :sameClass true . }.
 
   { :b :inClassOf :c . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :c ];
     pe:uses { :b :sim :c . }.
 
   { :b :sim :c . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 164 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { :b :inClassOf :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 94 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "u"; pe:value :b ],
       [ pe:var "x"; pe:value :a ];
     pe:uses { :b :sim :a . }.
 
   { :b :sim :a . }
-    pe:by [ pe:fact "equivalence-classes-overlap-implies-same-class.n3"; pe:line 163 ].
+    pe:fact "equivalence-classes-overlap-implies-same-class.n3".
 
   { (:c :a) :sameClass true . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 104 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :a ];
     pe:uses { :c :sim :a . }.
 
   { :c :sim :a . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 79 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "x"; pe:value :c ],
       [ pe:var "y"; pe:value :b ],
@@ -1944,7 +1944,7 @@
       { :b :sim :a . }.
 
   { :c :sim :b . }
-    pe:by [ pe:rule "equivalence-classes-overlap-implies-same-class.n3"; pe:line 68 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
       [ pe:var "y"; pe:value :c ];

@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, route(_0, _1), ['M' = _0, 'Sink' = _1]).
 result(1, complete, 5).
 answer(1, ['M' = 3, 'Sink' = heartbeat_sink]).

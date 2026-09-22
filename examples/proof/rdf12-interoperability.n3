@@ -12,53 +12,53 @@
 
 { :test :namedPerson :alice . } pe:why {
   { :test :namedPerson :alice . }
-    pe:by [ pe:rule "rdf12-interoperability.n3"; pe:line 26 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "person"; pe:value :alice ],
       [ pe:var "text"; pe:value "Alice"^^xsd:string ];
     pe:uses { :alice :name "Alice"^^xsd:string . }.
 
   { :alice :name "Alice"^^xsd:string . }
-    pe:by [ pe:fact "rdf12-interoperability.n3"; pe:line 17 ].
+    pe:fact "rdf12-interoperability.n3".
 }.
 
 { :test :namedText "Alice"^^xsd:string . } pe:why {
   { :test :namedText "Alice"^^xsd:string . }
-    pe:by [ pe:rule "rdf12-interoperability.n3"; pe:line 26 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "person"; pe:value :alice ],
       [ pe:var "text"; pe:value "Alice"^^xsd:string ];
     pe:uses { :alice :name "Alice"^^xsd:string . }.
 
   { :alice :name "Alice"^^xsd:string . }
-    pe:by [ pe:fact "rdf12-interoperability.n3"; pe:line 17 ].
+    pe:fact "rdf12-interoperability.n3".
 }.
 
 { :alice :displayName "Bonjour"@fr . } pe:why {
   { :alice :displayName "Bonjour"@fr . }
-    pe:by [ pe:rule "rdf12-interoperability.n3"; pe:line 24 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "label"; pe:value "Bonjour"@fr ],
       [ pe:var "person"; pe:value :alice ];
     pe:uses { :alice :label "Bonjour"@fr . }.
 
   { :alice :label "Bonjour"@fr . }
-    pe:by [ pe:fact "rdf12-interoperability.n3"; pe:line 18 ].
+    pe:fact "rdf12-interoperability.n3".
 }.
 
 { :test :title "HTML و CSS"@ar--rtl . } pe:why {
   { :test :title "HTML و CSS"@ar--rtl . }
-    pe:by [ pe:rule "rdf12-interoperability.n3"; pe:line 27 ];
+    pe:rule 3;
     pe:binding [ pe:var "title"; pe:value "HTML و CSS"@ar--rtl ];
     pe:uses { :document :title "HTML و CSS"@ar--rtl . }.
 
   { :document :title "HTML و CSS"@ar--rtl . }
-    pe:by [ pe:fact "rdf12-interoperability.n3"; pe:line 20 ].
+    pe:fact "rdf12-interoperability.n3".
 }.
 
 { :test :knowsSource :chat . } pe:why {
   { :test :knowsSource :chat . }
-    pe:by [ pe:rule "rdf12-interoperability.n3"; pe:line 28 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "claim"; pe:value _:b1 ],
       [ pe:var "o"; pe:value :bob ],
@@ -77,15 +77,15 @@
         :alice :knows :bob .
     } .
 }
-    pe:by [ pe:fact "rdf12-interoperability.n3"; pe:line 22 ].
+    pe:fact "rdf12-interoperability.n3".
 
   { _:b1 :source :chat . }
-    pe:by [ pe:fact "rdf12-interoperability.n3"; pe:line 22 ].
+    pe:fact "rdf12-interoperability.n3".
 }.
 
 { :test :knowsSubject :alice . } pe:why {
   { :test :knowsSubject :alice . }
-    pe:by [ pe:rule "rdf12-interoperability.n3"; pe:line 28 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "claim"; pe:value _:b1 ],
       [ pe:var "o"; pe:value :bob ],
@@ -104,15 +104,15 @@
         :alice :knows :bob .
     } .
 }
-    pe:by [ pe:fact "rdf12-interoperability.n3"; pe:line 22 ].
+    pe:fact "rdf12-interoperability.n3".
 
   { _:b1 :source :chat . }
-    pe:by [ pe:fact "rdf12-interoperability.n3"; pe:line 22 ].
+    pe:fact "rdf12-interoperability.n3".
 }.
 
 { :test :knowsObject :bob . } pe:why {
   { :test :knowsObject :bob . }
-    pe:by [ pe:rule "rdf12-interoperability.n3"; pe:line 28 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "claim"; pe:value _:b1 ],
       [ pe:var "o"; pe:value :bob ],
@@ -131,8 +131,8 @@
         :alice :knows :bob .
     } .
 }
-    pe:by [ pe:fact "rdf12-interoperability.n3"; pe:line 22 ].
+    pe:fact "rdf12-interoperability.n3".
 
   { _:b1 :source :chat . }
-    pe:by [ pe:fact "rdf12-interoperability.n3"; pe:line 22 ].
+    pe:fact "rdf12-interoperability.n3".
 }.

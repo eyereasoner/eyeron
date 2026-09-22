@@ -1,4 +1,4 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, sentence(_0, [open, door], []), ['Ast' = _0]).
 result(1, complete, 1).
 answer(1, ['Ast' = command(open, door)]).

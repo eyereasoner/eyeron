@@ -39,7 +39,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(:c2 :inheritsRequirement :stabilityReq)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -50,7 +50,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(:c2 :inheritsRequirement :trackingReq)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c1 ],
       [ pe:var "later"; pe:value :c2 ],
@@ -61,7 +61,7 @@ DATA {
 
   _:step3
     rdf:reifies <<(:c2 :considers :leadCompensator)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -72,7 +72,7 @@ DATA {
 
   _:step4
     rdf:reifies <<(:c3 :considers :integralAction)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -83,7 +83,7 @@ DATA {
 
   _:step5
     rdf:reifies <<(:c2 :targets :overshootReq)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "goal"; pe:value :reduceOvershoot ],
@@ -94,7 +94,7 @@ DATA {
 
   _:step6
     rdf:reifies <<(:c3 :targets :disturbanceRejectionReq)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "goal"; pe:value :rejectDisturbance ],
@@ -105,7 +105,7 @@ DATA {
 
   _:step7
     rdf:reifies <<(:c1 :availableForFutureTuning :yes)>>;
-    pe:rule "rule#8";
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c1 ],
       [ pe:var "strategy"; pe:value :baselinePID ];
@@ -113,13 +113,13 @@ DATA {
 
   _:step8
     rdf:reifies <<(:c1 :status :approvedController)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding [ pe:var "ctrl"; pe:value :c1 ];
     pe:uses <<(:c1 :achieves :approvedController)>>.
 
   _:step9
     rdf:reifies <<(:c2 :preserves :stabilityReq)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ],
@@ -131,7 +131,7 @@ DATA {
 
   _:step10
     rdf:reifies <<(:c2 :integrates :leadCompensator)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ],
@@ -143,7 +143,7 @@ DATA {
 
   _:step11
     rdf:reifies <<(:c2 :preserves :trackingReq)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ],
@@ -155,7 +155,7 @@ DATA {
 
   _:step12
     rdf:reifies <<(:c2 :satisfies :overshootReq)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -167,7 +167,7 @@ DATA {
 
   _:step13
     rdf:reifies <<(:c3 :satisfies :disturbanceRejectionReq)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :disturbanceRejectionReq ],
@@ -179,7 +179,7 @@ DATA {
 
   _:step14
     rdf:reifies <<(:c3 :integrates :integralAction)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :disturbanceRejectionReq ],
@@ -191,7 +191,7 @@ DATA {
 
   _:step15
     rdf:reifies <<(:c3 :inheritsRequirement :overshootReq)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -202,7 +202,7 @@ DATA {
 
   _:step16
     rdf:reifies <<(:c2 :satisfies :stabilityReq)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :stabilityReq ];
@@ -210,7 +210,7 @@ DATA {
 
   _:step17
     rdf:reifies <<(:c2 :satisfies :trackingReq)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "req"; pe:value :trackingReq ];
@@ -218,7 +218,7 @@ DATA {
 
   _:step18
     rdf:reifies <<(:c2 :realizes :leadCompensator)>>;
-    pe:rule "rule#7";
+    pe:rule 7;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
@@ -226,7 +226,7 @@ DATA {
 
   _:step19
     rdf:reifies <<(:c3 :realizes :integralAction)>>;
-    pe:rule "rule#7";
+    pe:rule 7;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "strategy"; pe:value :integralAction ];
@@ -234,7 +234,7 @@ DATA {
 
   _:step20
     rdf:reifies <<(:c3 :inheritsRequirement :stabilityReq)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -245,7 +245,7 @@ DATA {
 
   _:step21
     rdf:reifies <<(:c3 :inheritsRequirement :trackingReq)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "earlier"; pe:value :c2 ],
       [ pe:var "later"; pe:value :c3 ],
@@ -256,7 +256,7 @@ DATA {
 
   _:step22
     rdf:reifies <<(:c3 :preserves :overshootReq)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :overshootReq ],
@@ -268,7 +268,7 @@ DATA {
 
   _:step23
     rdf:reifies <<(:c2 :achieves :approvedController)>>;
-    pe:rule "rule#8";
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
@@ -276,7 +276,7 @@ DATA {
 
   _:step24
     rdf:reifies <<(:c2 :availableForFutureTuning :yes)>>;
-    pe:rule "rule#8";
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c2 ],
       [ pe:var "strategy"; pe:value :leadCompensator ];
@@ -284,7 +284,7 @@ DATA {
 
   _:step25
     rdf:reifies <<(:c3 :achieves :approvedController)>>;
-    pe:rule "rule#8";
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "strategy"; pe:value :integralAction ];
@@ -292,7 +292,7 @@ DATA {
 
   _:step26
     rdf:reifies <<(:c3 :availableForFutureTuning :yes)>>;
-    pe:rule "rule#8";
+    pe:rule 8;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "strategy"; pe:value :integralAction ];
@@ -300,7 +300,7 @@ DATA {
 
   _:step27
     rdf:reifies <<(:c3 :preserves :stabilityReq)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :stabilityReq ],
@@ -312,7 +312,7 @@ DATA {
 
   _:step28
     rdf:reifies <<(:c3 :preserves :trackingReq)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :trackingReq ],
@@ -324,7 +324,7 @@ DATA {
 
   _:step29
     rdf:reifies <<(:c3 :satisfies :overshootReq)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :overshootReq ];
@@ -332,19 +332,19 @@ DATA {
 
   _:step30
     rdf:reifies <<(:c2 :status :approvedController)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding [ pe:var "ctrl"; pe:value :c2 ];
     pe:uses _:step23.
 
   _:step31
     rdf:reifies <<(:c3 :status :approvedController)>>;
-    pe:rule "rule#9";
+    pe:rule 9;
     pe:binding [ pe:var "ctrl"; pe:value :c3 ];
     pe:uses _:step25.
 
   _:step32
     rdf:reifies <<(:c3 :satisfies :stabilityReq)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :stabilityReq ];
@@ -352,7 +352,7 @@ DATA {
 
   _:step33
     rdf:reifies <<(:c3 :satisfies :trackingReq)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "ctrl"; pe:value :c3 ],
       [ pe:var "req"; pe:value :trackingReq ];

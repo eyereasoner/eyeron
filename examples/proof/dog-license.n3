@@ -10,7 +10,7 @@
 
 { :alice :dogCount 5 . } pe:why {
   { :alice :dogCount 5 . }
-    pe:by [ pe:rule "dog-license.n3"; pe:line 14 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "anyDog"; pe:value :dog1 ],
       [ pe:var "count"; pe:value 5 ],
@@ -26,22 +26,22 @@
       { (:dog1 :dog2 :dog3 :dog4 :dog5) list:length 5 . }.
 
   { :alice :hasDog :dog1 . }
-    pe:by [ pe:fact "dog-license.n3"; pe:line 11 ].
+    pe:fact "dog-license.n3".
 
   {
     (?dog {
         :alice :hasDog ?dog .
     } (:dog1 :dog2 :dog3 :dog4 :dog5)) log:collectAllIn ?SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (:dog1 :dog2 :dog3 :dog4 :dog5) list:length 5 . }
-    pe:by [ pe:builtin list:length ].
+    pe:builtin list:length.
 }.
 
 { :bob :dogCount 2 . } pe:why {
   { :bob :dogCount 2 . }
-    pe:by [ pe:rule "dog-license.n3"; pe:line 14 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "anyDog"; pe:value :dog6 ],
       [ pe:var "count"; pe:value 2 ],
@@ -57,22 +57,22 @@
       { (:dog6 :dog7) list:length 2 . }.
 
   { :bob :hasDog :dog6 . }
-    pe:by [ pe:fact "dog-license.n3"; pe:line 12 ].
+    pe:fact "dog-license.n3".
 
   {
     (?dog {
         :bob :hasDog ?dog .
     } (:dog6 :dog7)) log:collectAllIn ?SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (:dog6 :dog7) list:length 2 . }
-    pe:by [ pe:builtin list:length ].
+    pe:builtin list:length.
 }.
 
 { :alice :mustHave :dogLicense . } pe:why {
   { :alice :mustHave :dogLicense . }
-    pe:by [ pe:rule "dog-license.n3"; pe:line 20 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "count"; pe:value 5 ],
       [ pe:var "person"; pe:value :alice ];
@@ -81,7 +81,7 @@
       { 5 math:greaterThan 4 . }.
 
   { :alice :dogCount 5 . }
-    pe:by [ pe:rule "dog-license.n3"; pe:line 14 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "anyDog"; pe:value :dog1 ],
       [ pe:var "count"; pe:value 5 ],
@@ -97,18 +97,18 @@
       { (:dog1 :dog2 :dog3 :dog4 :dog5) list:length 5 . }.
 
   { :alice :hasDog :dog1 . }
-    pe:by [ pe:fact "dog-license.n3"; pe:line 11 ].
+    pe:fact "dog-license.n3".
 
   {
     (?dog {
         :alice :hasDog ?dog .
     } (:dog1 :dog2 :dog3 :dog4 :dog5)) log:collectAllIn ?SCOPE .
 }
-    pe:by [ pe:builtin log:collectAllIn ].
+    pe:builtin log:collectAllIn.
 
   { (:dog1 :dog2 :dog3 :dog4 :dog5) list:length 5 . }
-    pe:by [ pe:builtin list:length ].
+    pe:builtin list:length.
 
   { 5 math:greaterThan 4 . }
-    pe:by [ pe:builtin math:greaterThan ].
+    pe:builtin math:greaterThan.
 }.

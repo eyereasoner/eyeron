@@ -1,5 +1,7 @@
-% Prolog result format 3
-query(1, meal(_0, _1, _2, _3, _4, _5), ['M' = _0, 'P' = _1, 'N' = _2, 'S' = _3, 'Lf' = _4, 'Rf' = _5]).
+% Prolog result format 4
+query(1,
+      meal(_0, _1, _2, _3, _4, _5),
+      ['M' = _0, 'P' = _1, 'N' = _2, 'S' = _3, 'Lf' = _4, 'Rf' = _5]).
 result(1, complete, 15).
 answer(1, ['M' = mp1_1, 'P' = p1, 'N' = 1, 'S' = s1, 'Lf' = f51, 'Rf' = f12]).
 answer(1, ['M' = mp3_1, 'P' = p3, 'N' = 1, 'S' = s1, 'Lf' = f23, 'Rf' = f34]).

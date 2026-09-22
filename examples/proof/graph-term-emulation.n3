@@ -12,7 +12,7 @@
 
 { :g1 a :SocialGraphTerm . } pe:why {
   { :g1 a :SocialGraphTerm . }
-    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 15 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "formula"; pe:value {
           :alice :knows :bob .
@@ -43,7 +43,7 @@
         :bob :knows :carol .
     } .
 }
-    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 11 ].
+    pe:fact "graph-term-emulation.n3".
 
   {
     {
@@ -53,12 +53,12 @@
         :alice :knows :bob .
     } .
 }
-    pe:by [ pe:builtin log:includes ].
+    pe:builtin log:includes.
 }.
 
 { :g1 :mentions :alice . } pe:why {
   { :g1 :mentions :alice . }
-    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "formula"; pe:value {
           :alice :knows :bob .
@@ -90,7 +90,7 @@
         :bob :knows :carol .
     } .
 }
-    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 11 ].
+    pe:fact "graph-term-emulation.n3".
 
   {
     {
@@ -100,12 +100,12 @@
         :alice :knows :bob .
     } .
 }
-    pe:by [ pe:builtin log:includes ].
+    pe:builtin log:includes.
 }.
 
 { :g1 :mentions :bob . } pe:why {
   { :g1 :mentions :bob . }
-    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "formula"; pe:value {
           :alice :knows :bob .
@@ -137,7 +137,7 @@
         :bob :knows :carol .
     } .
 }
-    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 11 ].
+    pe:fact "graph-term-emulation.n3".
 
   {
     {
@@ -147,12 +147,12 @@
         :bob :knows :carol .
     } .
 }
-    pe:by [ pe:builtin log:includes ].
+    pe:builtin log:includes.
 }.
 
 { :g2 :mentions :alice . } pe:why {
   { :g2 :mentions :alice . }
-    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 16 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "formula"; pe:value {
           :alice :likes :tea .
@@ -180,7 +180,7 @@
         :alice :likes :tea .
     } .
 }
-    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 12 ].
+    pe:fact "graph-term-emulation.n3".
 
   {
     {
@@ -189,12 +189,12 @@
         :alice :likes :tea .
     } .
 }
-    pe:by [ pe:builtin log:includes ].
+    pe:builtin log:includes.
 }.
 
 { :g1 :mentions :carol . } pe:why {
   { :g1 :mentions :carol . }
-    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 17 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "formula"; pe:value {
           :alice :knows :bob .
@@ -226,7 +226,7 @@
         :bob :knows :carol .
     } .
 }
-    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 11 ].
+    pe:fact "graph-term-emulation.n3".
 
   {
     {
@@ -236,12 +236,12 @@
         :bob :knows :carol .
     } .
 }
-    pe:by [ pe:builtin log:includes ].
+    pe:builtin log:includes.
 }.
 
 { :g2 :mentions :tea . } pe:why {
   { :g2 :mentions :tea . }
-    pe:by [ pe:rule "graph-term-emulation.n3"; pe:line 17 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "formula"; pe:value {
           :alice :likes :tea .
@@ -269,7 +269,7 @@
         :alice :likes :tea .
     } .
 }
-    pe:by [ pe:fact "graph-term-emulation.n3"; pe:line 12 ].
+    pe:fact "graph-term-emulation.n3".
 
   {
     {
@@ -278,5 +278,5 @@
         :alice :likes :tea .
     } .
 }
-    pe:by [ pe:builtin log:includes ].
+    pe:builtin log:includes.
 }.

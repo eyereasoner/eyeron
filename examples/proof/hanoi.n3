@@ -7,12 +7,12 @@
 
 { 3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . } pe:why {
   { 3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }
-    pe:by [ pe:rule "hanoi.n3"; pe:line 21 ];
+    pe:rule 3;
     pe:binding [ pe:var "M"; pe:value ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) ];
     pe:uses { (3 :left :right :center) :moves ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }.
 
   { (3 :left :right :center) :moves ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }
-    pe:by [ pe:rule "hanoi.n3"; pe:line 11 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "M"; pe:value ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) ],
       [ pe:var "M1"; pe:value ((:left :right) (:left :center) (:right :center)) ],
@@ -30,13 +30,13 @@
       { (((:left :right) (:left :center) (:right :center)) ((:left :right)) ((:center :left) (:center :right) (:left :right))) list:append ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }.
 
   { 3 math:greaterThan 1 . }
-    pe:by [ pe:builtin math:greaterThan ].
+    pe:builtin math:greaterThan.
 
   { (3 1) math:difference 2 . }
-    pe:by [ pe:builtin math:difference ].
+    pe:builtin math:difference.
 
   { (2 :left :center :right) :moves ((:left :right) (:left :center) (:right :center)) . }
-    pe:by [ pe:rule "hanoi.n3"; pe:line 11 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "M"; pe:value ((:left :right) (:left :center) (:right :center)) ],
       [ pe:var "M1"; pe:value ((:left :right)) ],
@@ -54,30 +54,30 @@
       { (((:left :right)) ((:left :center)) ((:right :center))) list:append ((:left :right) (:left :center) (:right :center)) . }.
 
   { 2 math:greaterThan 1 . }
-    pe:by [ pe:builtin math:greaterThan ].
+    pe:builtin math:greaterThan.
 
   { (2 1) math:difference 1 . }
-    pe:by [ pe:builtin math:difference ].
+    pe:builtin math:difference.
 
   { (1 :left :right :center) :moves ((:left :right)) . }
-    pe:by [ pe:rule "hanoi.n3"; pe:line 19 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "X"; pe:value :left ],
       [ pe:var "Y"; pe:value :right ],
       [ pe:var "Z"; pe:value :center ].
 
   { (1 :right :center :left) :moves ((:right :center)) . }
-    pe:by [ pe:rule "hanoi.n3"; pe:line 19 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "X"; pe:value :right ],
       [ pe:var "Y"; pe:value :center ],
       [ pe:var "Z"; pe:value :left ].
 
   { (((:left :right)) ((:left :center)) ((:right :center))) list:append ((:left :right) (:left :center) (:right :center)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { (2 :center :right :left) :moves ((:center :left) (:center :right) (:left :right)) . }
-    pe:by [ pe:rule "hanoi.n3"; pe:line 11 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "M"; pe:value ((:center :left) (:center :right) (:left :right)) ],
       [ pe:var "M1"; pe:value ((:center :left)) ],
@@ -95,15 +95,15 @@
       { (((:center :left)) ((:center :right)) ((:left :right))) list:append ((:center :left) (:center :right) (:left :right)) . }.
 
   { (1 :center :left :right) :moves ((:center :left)) . }
-    pe:by [ pe:rule "hanoi.n3"; pe:line 19 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "X"; pe:value :center ],
       [ pe:var "Y"; pe:value :left ],
       [ pe:var "Z"; pe:value :right ].
 
   { (((:center :left)) ((:center :right)) ((:left :right))) list:append ((:center :left) (:center :right) (:left :right)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 
   { (((:left :right) (:left :center) (:right :center)) ((:left :right)) ((:center :left) (:center :right) (:left :right))) list:append ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)) . }
-    pe:by [ pe:builtin list:append ].
+    pe:builtin list:append.
 }.

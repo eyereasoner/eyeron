@@ -6,7 +6,7 @@
 
 { :Root :result 12 . } pe:why {
   { :Root :result 12 . }
-    pe:by [ pe:rule "expression-eval.n3"; pe:line 65 ];
+    pe:rule 5;
     pe:binding
       [ pe:var "E"; pe:value :eAdd ],
       [ pe:var "V"; pe:value 12 ];
@@ -15,10 +15,10 @@
       { :eAdd :value 12 . }.
 
   { :Root :expr :eAdd . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 24 ].
+    pe:fact "expression-eval.n3".
 
   { :eAdd :value 12 . }
-    pe:by [ pe:rule "expression-eval.n3"; pe:line 33 ];
+    pe:rule 2;
     pe:binding
       [ pe:var "E"; pe:value :eAdd ],
       [ pe:var "L"; pe:value :eMul ],
@@ -35,16 +35,16 @@
       { (6 6) math:sum 12 . }.
 
   { :eAdd :op :add . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 22 ].
+    pe:fact "expression-eval.n3".
 
   { :eAdd :left :eMul . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 22 ].
+    pe:fact "expression-eval.n3".
 
   { :eAdd :right :eSub . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 22 ].
+    pe:fact "expression-eval.n3".
 
   { :eMul :value 6 . }
-    pe:by [ pe:rule "expression-eval.n3"; pe:line 53 ];
+    pe:rule 4;
     pe:binding
       [ pe:var "E"; pe:value :eMul ],
       [ pe:var "L"; pe:value :n2 ],
@@ -61,39 +61,39 @@
       { (2 3) math:product 6 . }.
 
   { :eMul :op :mul . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 20 ].
+    pe:fact "expression-eval.n3".
 
   { :eMul :left :n2 . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 20 ].
+    pe:fact "expression-eval.n3".
 
   { :eMul :right :n3 . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 20 ].
+    pe:fact "expression-eval.n3".
 
   { :n2 :value 2 . }
-    pe:by [ pe:rule "expression-eval.n3"; pe:line 30 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "N"; pe:value :n2 ],
       [ pe:var "V"; pe:value 2 ];
     pe:uses { :n2 :n 2 . }.
 
   { :n2 :n 2 . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 15 ].
+    pe:fact "expression-eval.n3".
 
   { :n3 :value 3 . }
-    pe:by [ pe:rule "expression-eval.n3"; pe:line 30 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "N"; pe:value :n3 ],
       [ pe:var "V"; pe:value 3 ];
     pe:uses { :n3 :n 3 . }.
 
   { :n3 :n 3 . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 16 ].
+    pe:fact "expression-eval.n3".
 
   { (2 3) math:product 6 . }
-    pe:by [ pe:builtin math:product ].
+    pe:builtin math:product.
 
   { :eSub :value 6 . }
-    pe:by [ pe:rule "expression-eval.n3"; pe:line 43 ];
+    pe:rule 3;
     pe:binding
       [ pe:var "E"; pe:value :eSub ],
       [ pe:var "L"; pe:value :n10 ],
@@ -110,37 +110,37 @@
       { (10 4) math:difference 6 . }.
 
   { :eSub :op :sub . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 21 ].
+    pe:fact "expression-eval.n3".
 
   { :eSub :left :n10 . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 21 ].
+    pe:fact "expression-eval.n3".
 
   { :eSub :right :n4 . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 21 ].
+    pe:fact "expression-eval.n3".
 
   { :n10 :value 10 . }
-    pe:by [ pe:rule "expression-eval.n3"; pe:line 30 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "N"; pe:value :n10 ],
       [ pe:var "V"; pe:value 10 ];
     pe:uses { :n10 :n 10 . }.
 
   { :n10 :n 10 . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 17 ].
+    pe:fact "expression-eval.n3".
 
   { :n4 :value 4 . }
-    pe:by [ pe:rule "expression-eval.n3"; pe:line 30 ];
+    pe:rule 1;
     pe:binding
       [ pe:var "N"; pe:value :n4 ],
       [ pe:var "V"; pe:value 4 ];
     pe:uses { :n4 :n 4 . }.
 
   { :n4 :n 4 . }
-    pe:by [ pe:fact "expression-eval.n3"; pe:line 18 ].
+    pe:fact "expression-eval.n3".
 
   { (10 4) math:difference 6 . }
-    pe:by [ pe:builtin math:difference ].
+    pe:builtin math:difference.
 
   { (6 6) math:sum 12 . }
-    pe:by [ pe:builtin math:sum ].
+    pe:builtin math:sum.
 }.

@@ -93,9 +93,9 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     // rather than growing its own parallel proof representation. This does
     // not (and structurally cannot) reify a FILTER/NOT/SET clause as a
     // premise triple -- proof_var_source_names is left empty and the trace
-    // shows only the positive patterns that fed the rule -- but `pe:by`
-    // still points back to the rule's own source line, so the full body
-    // (FILTER included) is always one click away in the source file.
+    // shows only the positive patterns that fed the rule -- but `pe:rule`
+    // still names the rule by its number in the rule set, so the full body
+    // (FILTER included) is always one lookup away in the source file.
     let proof_rules: Vec<Rule> = if options.proof { program.rules.iter().enumerate().map(|(index, rule)| build_proof_rule(rule, index)).collect() } else { Vec::new() };
     let mut proofs: Vec<DerivedFact> = Vec::new();
 
@@ -332,11 +332,10 @@ fn fire_rule(rule: &SparqlRlRule, proof_rule: Option<&Rule>, ctx: &BodyCtx, seen
 
 /// An N3-shaped `Rule` standing in for one `SparqlRlRule`, for
 /// `DerivedFact`/`proof_to_n3` purposes (see the comment in `reason`).
-/// A rule is labelled for `--proof` by its own `RULE <iri>` name, or by
-/// its position when it has none — never by its source line, which would
-/// make a proof document change when the rule set is merely reindented.
-/// `line: 0` keeps `srl::proof` from emitting a `pe:line` at all. eyeleng
-/// labels its own proof steps the same way.
+/// A rule carries a source label — its own `RULE <iri>` name, or its
+/// position when it has none — so `n3::proof::rule_number` can find it
+/// again and cite it by number. The label is never the source line, which
+/// would change when the rule set is merely reindented.
 fn build_proof_rule(rule: &SparqlRlRule, index: usize) -> Rule {
     let label = rule.name.clone().unwrap_or_else(|| format!("rule#{}", index + 1));
     Rule {

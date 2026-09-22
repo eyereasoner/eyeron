@@ -1,19 +1,19 @@
-% Prolog result format 3
+% Prolog result format 4
 query(1, test, []).
 result(1, complete, 1).
 answer(1, []).
-why(1, [], 5).
+why(1, [], [test]).
+
 clause(1, animal(koko), true).
 clause(2, cat(generated_cat), animal(koko)).
 clause(3, british_short_hair(generated_bsh), animal(koko)).
 clause(4, test, (cat(var('X')), british_short_hair(var('Y')), var('X') \== var('Y'))).
-substitution(1, []).
-proof(1, animal(koko), rule(1), []).
-substitution(2, []).
-proof(2, cat(generated_cat), rule(2), [uses(1, animal(koko))]).
-substitution(3, []).
-proof(3, british_short_hair(generated_bsh), rule(3), [uses(1, animal(koko))]).
-substitution(4, ['X' = generated_cat, 'Y' = generated_bsh]).
-proof(4, test, rule(4), [uses(2, cat(generated_cat)), uses(3, british_short_hair(generated_bsh)), builtin(generated_cat \== generated_bsh)]).
-substitution(5, []).
-proof(5, solution([]), query, [uses(4, test)]).
+
+step(test,
+     rule(4),
+     ['X' = generated_cat, 'Y' = generated_bsh],
+     [cat(generated_cat), british_short_hair(generated_bsh), generated_cat \== generated_bsh]).
+step(cat(generated_cat), rule(2), [], [animal(koko)]).
+step(animal(koko), fact(1), [], []).
+step(british_short_hair(generated_bsh), rule(3), [], [animal(koko)]).
+step(generated_cat \== generated_bsh, builtin, [], []).

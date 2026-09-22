@@ -9,7 +9,7 @@ DATA {
 
   _:step1
     rdf:reifies <<(:Alice :similar :Bob)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :Alice ],
       [ pe:var "B"; pe:value :Bob ],
@@ -21,7 +21,7 @@ DATA {
 
   _:step2
     rdf:reifies <<(:Bob :similar :Alice)>>;
-    pe:rule "rule#1";
+    pe:rule 1;
     pe:binding
       [ pe:var "A"; pe:value :Bob ],
       [ pe:var "B"; pe:value :Alice ],
@@ -33,6 +33,6 @@ DATA {
 
   _:step3
     rdf:reifies <<(:test :is true)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:uses _:step1.
 }

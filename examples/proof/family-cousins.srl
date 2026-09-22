@@ -31,58 +31,58 @@ DATA {
 
   _:step1
     rdf:reifies <<(:Adam :generation 0)>>;
-    pe:rule "rule#1".
+    pe:rule 1.
 
   _:step2
     rdf:reifies <<(:Bob :generation 1)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding [ pe:var "child"; pe:value :Bob ];
     pe:uses <<(:Adam :parentOf :Bob)>>.
 
   _:step3
     rdf:reifies <<(:Carol :generation 1)>>;
-    pe:rule "rule#2";
+    pe:rule 2;
     pe:binding [ pe:var "child"; pe:value :Carol ];
     pe:uses <<(:Adam :parentOf :Carol)>>.
 
   _:step4
     rdf:reifies <<(:Dave :generation 2)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding [ pe:var "grandchild"; pe:value :Dave ].
 
   _:step5
     rdf:reifies <<(:Eve :generation 2)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding [ pe:var "grandchild"; pe:value :Eve ].
 
   _:step6
     rdf:reifies <<(:Frank :generation 2)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding [ pe:var "grandchild"; pe:value :Frank ].
 
   _:step7
     rdf:reifies <<(:Grace :generation 2)>>;
-    pe:rule "rule#3";
+    pe:rule 3;
     pe:binding [ pe:var "grandchild"; pe:value :Grace ].
 
   _:step8
     rdf:reifies <<(:Heidi :generation 3)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding [ pe:var "greatGrandchild"; pe:value :Heidi ].
 
   _:step9
     rdf:reifies <<(:Ivan :generation 3)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding [ pe:var "greatGrandchild"; pe:value :Ivan ].
 
   _:step10
     rdf:reifies <<(:Judy :generation 3)>>;
-    pe:rule "rule#4";
+    pe:rule 4;
     pe:binding [ pe:var "greatGrandchild"; pe:value :Judy ].
 
   _:step11
     rdf:reifies <<(:Heidi :branch :b)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "branch"; pe:value :b ],
       [ pe:var "child"; pe:value :Heidi ],
@@ -93,7 +93,7 @@ DATA {
 
   _:step12
     rdf:reifies <<(:Ivan :branch :b)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "branch"; pe:value :b ],
       [ pe:var "child"; pe:value :Ivan ],
@@ -104,7 +104,7 @@ DATA {
 
   _:step13
     rdf:reifies <<(:Judy :branch :c)>>;
-    pe:rule "rule#5";
+    pe:rule 5;
     pe:binding
       [ pe:var "branch"; pe:value :c ],
       [ pe:var "child"; pe:value :Judy ],
@@ -115,7 +115,7 @@ DATA {
 
   _:step14
     rdf:reifies <<(:Dave :cousin :Frank)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :b ],
       [ pe:var "branchY"; pe:value :c ],
@@ -131,7 +131,7 @@ DATA {
 
   _:step15
     rdf:reifies <<(:Dave :cousin :Grace)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :b ],
       [ pe:var "branchY"; pe:value :c ],
@@ -147,7 +147,7 @@ DATA {
 
   _:step16
     rdf:reifies <<(:Eve :cousin :Frank)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :b ],
       [ pe:var "branchY"; pe:value :c ],
@@ -163,7 +163,7 @@ DATA {
 
   _:step17
     rdf:reifies <<(:Eve :cousin :Grace)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :b ],
       [ pe:var "branchY"; pe:value :c ],
@@ -179,7 +179,7 @@ DATA {
 
   _:step18
     rdf:reifies <<(:Frank :cousin :Dave)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :c ],
       [ pe:var "branchY"; pe:value :b ],
@@ -195,7 +195,7 @@ DATA {
 
   _:step19
     rdf:reifies <<(:Frank :cousin :Eve)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :c ],
       [ pe:var "branchY"; pe:value :b ],
@@ -211,7 +211,7 @@ DATA {
 
   _:step20
     rdf:reifies <<(:Grace :cousin :Dave)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :c ],
       [ pe:var "branchY"; pe:value :b ],
@@ -227,7 +227,7 @@ DATA {
 
   _:step21
     rdf:reifies <<(:Grace :cousin :Eve)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :c ],
       [ pe:var "branchY"; pe:value :b ],
@@ -243,7 +243,7 @@ DATA {
 
   _:step22
     rdf:reifies <<(:Heidi :cousin :Judy)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :b ],
       [ pe:var "branchY"; pe:value :c ],
@@ -259,7 +259,7 @@ DATA {
 
   _:step23
     rdf:reifies <<(:Ivan :cousin :Judy)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :b ],
       [ pe:var "branchY"; pe:value :c ],
@@ -275,7 +275,7 @@ DATA {
 
   _:step24
     rdf:reifies <<(:Judy :cousin :Heidi)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :c ],
       [ pe:var "branchY"; pe:value :b ],
@@ -291,7 +291,7 @@ DATA {
 
   _:step25
     rdf:reifies <<(:Judy :cousin :Ivan)>>;
-    pe:rule "rule#6";
+    pe:rule 6;
     pe:binding
       [ pe:var "branchX"; pe:value :c ],
       [ pe:var "branchY"; pe:value :b ],

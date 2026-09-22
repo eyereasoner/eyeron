@@ -247,10 +247,10 @@ unbound or non-callable goal is a runtime error, not a silent failure.
 
 ## Answers and proofs
 
-Default output is itself a Prolog program — "Prolog result format 3":
+Default output is itself a Prolog program — "Prolog result format 4":
 
 ```prolog
-% Prolog result format 3
+% Prolog result format 4
 query(1, ancestor(alice, _0), ['Who' = _0]).
 result(1, complete, 2).
 answer(1, ['Who' = bob]).
@@ -263,28 +263,50 @@ queried; loading it records the question as data rather than running it
 again. `result(..., complete, 0)` means a completed query had no answers,
 and a successful ground query has `answer(Id, [])`.
 
-With `--proof`, additional facts describe the derivation:
+With `--proof`, `why/3` links each answer to the goals it proved, and the
+document gains one `step/4` fact per justified conclusion:
 
 ```prolog
-clause(3, instance_of(var('Individual'), var('Superclass')),
+why(1, [], [instance_of(socrates, mortal)]).
+
+clause(1, instance_of(socrates, human), true).
+clause(2, subclass_of(human, mortal), true).
+clause(3,
+       instance_of(var('Individual'), var('Superclass')),
        (instance_of(var('Individual'), var('Class')),
         subclass_of(var('Class'), var('Superclass')))).
-substitution(4, ['Individual' = socrates, 'Superclass' = mortal, 'Class' = human]).
-proof(4, instance_of(socrates, mortal), rule(3),
-      [uses(1, instance_of(socrates, human)),
-       uses(2, subclass_of(human, mortal))]).
+
+step(instance_of(socrates, mortal),
+     rule(3),
+     ['Individual' = socrates, 'Superclass' = mortal, 'Class' = human],
+     [instance_of(socrates, human), subclass_of(human, mortal)]).
+step(instance_of(socrates, human), fact(1), [], []).
+step(subclass_of(human, mortal), fact(2), [], []).
 ```
 
-`clause/3` reifies the source template, `substitution/2` records its
-instantiation, `proof/4` records a conclusion and its premises, and `why/3`
-links an answer to its proof. Premises are four terms — `uses/2`,
-`builtin/1`, `absent/2` and `collected/5` — because a goal already explains
-itself: a calculation reads `builtin(3 is 1 + 2)`. These records are
-inspectable by ordinary Prolog rules. Clause numbers and proof links are
-stable when comments, whitespace or line wrapping change. Built-ins,
-absence and collection completion remain trusted steps, so the document is
-an explanation rather than a fully checked certificate. The complete
-vocabulary is normative in §12 of the specification.
+A step is a conclusion, the single term saying why it holds, the bindings
+that justification used, and the conclusions it used. `By` is `rule(N)` or
+`fact(N)` citing a `clause/3` record, or `builtin`, `absent` or `collected`
+for a built-in goal, a completed `\+` or a completed `findall/3` — in which
+case the conclusion is that goal itself, so `step(3 is 1 + 2, builtin, [],
+[])` explains a calculation without a vocabulary of its own.
+
+That is deliberately the same shape the N3 and SPARQL 1.2 RL proofs use,
+where the three parts are `pe:rule`, `pe:binding` and `pe:uses`; [the
+guide's proof section](guide.md#proofs) puts the three side by side.
+Naming a premise by its own conclusion, rather than by an id to be joined
+back, is what lets a proof be read downward from the claim. Only
+conclusions the answers rest on are recorded, and each appears once.
+
+Clause numbers and the conclusions steps are keyed by are stable when
+comments, whitespace or line wrapping change. Built-ins, absence and
+collection completion are trusted steps, so the document is an explanation
+rather than a fully checked certificate. The complete vocabulary is
+normative in §12 of the specification.
+
+A fact wider than the writer's line budget is broken across lines, one
+argument per line — the same structural break the N3 and SRL proof writers
+make. It reads back as the same term.
 
 `--check` emits `checked/2` and `stratum/2` facts without evaluating
 queries. `--json` selects a tagged JSON representation instead of Prolog
