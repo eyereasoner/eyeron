@@ -7,6 +7,7 @@ pub mod ast;
 pub mod error;
 pub mod n3;
 pub mod prolog;
+pub mod proof;
 pub mod srl;
 pub mod sudoku;
 

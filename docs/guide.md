@@ -60,6 +60,13 @@ cargo run --release -- --proof examples/socrates.srl
 cargo run --release -- --proof examples/socrates.pl
 ```
 
+A proof can be **checked**: `--check-proof FILE` reads a proof document and re-performs every inference it records against the program, resolves every premise, tests the derivation graph for cycles, and reports which steps it could only trust. [`proof-checking.md`](proof-checking.md) specifies what that means, once, for all three syntaxes, and `tests/proof_checking.rs` runs it over every packaged proof.
+
+```bash
+cargo run --release -- --proof examples/socrates.pl > socrates.why.pl
+cargo run --release -- --check-proof socrates.why.pl examples/socrates.pl
+```
+
 A trace explains how an answer followed from the input; it does not establish that the input facts are true. Coverage has limits: SPARQL-RL records the positive premises that fed a rule, not a separate reification of every `FILTER`, `NOT`, or `SET`, and a Prolog step for a built-in, a `\+` or a `findall/3` is a trusted record rather than a checked one. Proof collection costs memory and, for a derivation with many interdependent facts, time — enable it when you want the explanation.
 
 ## Rust library
@@ -208,6 +215,7 @@ The Prolog front end (`src/prolog/`) does not use this model — see [`prolog.md
 | `examples/` | Example inputs, with `examples/output/` and `examples/proof/` holding expected results and proofs |
 | `tests/` | Unit, CLI, regression, example, Prolog conformance, and W3C conformance tests |
 | `tools/` | Playground build helper |
+| `src/proof/` | Proof checker: the four validity conditions once, plus one reader per syntax ([`proof-checking.md`](proof-checking.md)) |
 | `scripts/` | `test-all`, `sync-test-suites`, and `prolog-conformance` |
 | `reports/` | Generated, checked-in EARL reports |
 

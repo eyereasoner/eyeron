@@ -132,11 +132,40 @@ struct Walk<'a> {
     steps: Vec<Step>,
     clauses: BTreeMap<usize, Term>,
     seen: std::collections::BTreeSet<String>,
+    /// For each conclusion, the earliest derivation of it anywhere in the
+    /// run. See `canonical`.
+    earliest: BTreeMap<String, usize>,
 }
 
 impl<'a> Walk<'a> {
     fn new(proofs: &'a [ProofEntry]) -> Self {
-        Self { proofs, steps: Vec::new(), clauses: BTreeMap::new(), seen: std::collections::BTreeSet::new() }
+        // A conclusion can be an answer of more than one table — `leq(X, b)`
+        // and `leq(a, Y)` are different calls that can both answer
+        // `leq(a, b)` — and each table records its own first derivation. A
+        // consumer cites whichever table it read, so following citations
+        // blindly can produce a derivation of a conclusion that uses that
+        // same conclusion, by way of the other table.
+        //
+        // Proof ids are allocated when an answer is recorded, and a
+        // derivation can only use answers that already existed, so every
+        // premise's id is smaller than the id of the entry citing it.
+        // Taking the *smallest*-id derivation of each conclusion therefore
+        // makes every edge point from a larger id to a smaller one, which
+        // is acyclic by construction.
+        let mut earliest: BTreeMap<String, usize> = BTreeMap::new();
+        for entry in proofs {
+            if matches!(entry.rule, RuleTag::Rule(_)) {
+                earliest.entry(term_key(&entry.conclusion_term)).or_insert(entry.id);
+            }
+        }
+        Self { proofs, steps: Vec::new(), clauses: BTreeMap::new(), seen: std::collections::BTreeSet::new(), earliest }
+    }
+
+    /// The derivation this walk uses for whatever `id` concludes.
+    fn canonical(&self, id: usize) -> usize {
+        self.entry(id)
+            .map(|entry| self.earliest.get(&term_key(&entry.conclusion_term)).copied().unwrap_or(id))
+            .unwrap_or(id)
     }
 
     /// Proof ids are 1-based and allocated in recording order, so they
@@ -198,7 +227,7 @@ impl<'a> Walk<'a> {
     }
 
     fn expand_derived(&mut self, id: usize, stack: &mut Vec<Task>) {
-        let Some(entry) = self.entry(id) else { return };
+        let Some(entry) = self.entry(self.canonical(id)) else { return };
         let RuleTag::Rule(clause_id) = entry.rule else { return };
         // A clause with no body was simply given, which is what `pe:fact`
         // says in the other two formats.

@@ -33,6 +33,9 @@ struct CliOptions {
     data_files: Vec<String>,
     query: Option<String>,
     query_file: Option<String>,
+    /// `--check-proof FILE`: check that proof document against the program
+    /// given as the positional arguments (`docs/proof-checking.md`).
+    check_proof: Option<String>,
     query_mode: QueryMode,
     /// `.pl` only: parse and validate without evaluating.
     check: bool,
@@ -86,6 +89,10 @@ fn run() -> Result<()> {
         return run_stream_messages(&opt);
     }
     let sources = read_sources(&opt.files)?;
+
+    if let Some(path) = &opt.check_proof {
+        return run_check_proof(path, &sources);
+    }
 
     if sources.iter().any(|(label, text)| is_prolog_source(label, text)) {
         return run_prolog(&opt, &sources);
@@ -515,6 +522,36 @@ fn run_prolog(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
     Ok(())
 }
 
+/// `--check-proof`: read the proof document and check it against the
+/// program, reporting the verdict the specification's §9 requires.
+fn run_check_proof(path: &str, sources: &[(String, String)]) -> Result<()> {
+    let proof = read_text_source(path)?;
+    let source: String = sources.iter().map(|(_, text)| text.as_str()).collect::<Vec<_>>().join("\n");
+    let label = sources.first().map(|(label, _)| label.clone()).unwrap_or_else(|| "<input>".to_string());
+
+    let extension = Path::new(path.split(['?', '#']).next().unwrap_or(path)).extension().and_then(|e| e.to_str()).unwrap_or("");
+    let report = match extension {
+        "pl" => eyeron::proof::prolog::check_proof(&source, &proof)?,
+        "srl" => eyeron::proof::srl::check_proof(&source, &proof)?,
+        _ => eyeron::proof::n3::check_proof(&source, &proof, &label)?,
+    };
+
+    println!("{}", report.verdict());
+    for (kind, count) in &report.counts {
+        println!("  {} {}", count, kind);
+    }
+    for obligation in &report.obligations {
+        println!("  trusted ({}): {}", obligation.kind, obligation.conclusion);
+    }
+    for failure in &report.failures {
+        println!("  [{}] {} -- {}", failure.condition, failure.conclusion, failure.detail);
+    }
+    if !report.valid() {
+        return Err(EyeronError::new(format!("{} is not a valid proof for the given program", path)));
+    }
+    Ok(())
+}
+
 fn print_sparql_rl_solutions(prefixes: &BTreeMap<String, String>, solutions: &[eyeron::n3::reasoner::Bindings]) {
     if solutions.is_empty() {
         println!("(no solutions)");
@@ -637,6 +674,14 @@ fn parse_args(args: Vec<String>) -> Result<CliOptions> {
                     return Err(EyeronError::new(format!("{} requires a value", flag)));
                 }
                 opt.query = Some(args[i].clone());
+            }
+            "--check-proof" => {
+                let flag = args[i].clone();
+                i += 1;
+                if i >= args.len() {
+                    return Err(EyeronError::new(format!("{} requires a value", flag)));
+                }
+                opt.check_proof = Some(args[i].clone());
             }
             "--query-file" => {
                 let flag = args[i].clone();
@@ -855,6 +900,7 @@ fn print_help() {
     println!("      --data FILE               RDF base graph for a SPARQL 1.2 RL run (repeatable; .srl input only)");
     println!("      --query TEXT              Raw SPARQL-RL body pattern to query instead of printing derived facts (.srl only)");
     println!("      --query-file FILE         Same as --query, read from a file");
+    println!("      --check-proof FILE        Check that proof document against the program");
     println!("      --query-mode MODE         forward (default) or backward query evaluation");
     println!("  -v, --version                 Print version");
     println!("  -h, --help                    Show this help");

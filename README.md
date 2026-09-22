@@ -30,6 +30,7 @@ cargo build --release
 
 - [`docs/n3.md`](docs/n3.md), [`docs/sparql-rl.md`](docs/sparql-rl.md), [`docs/prolog.md`](docs/prolog.md) ([accepted subset](docs/prolog-specification.md)) — per-format syntax, semantics, CLI flags, internals, and known limitations.
 - [`docs/guide.md`](docs/guide.md) — choosing a language, building and running, proofs, the Rust library and browser APIs, testing, and the architecture.
+- [`docs/proof-checking.md`](docs/proof-checking.md) — what makes a proof document valid for a program, and what `--check-proof` verifies.
 
 ## License
 
