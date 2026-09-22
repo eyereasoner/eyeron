@@ -2,8 +2,8 @@
 //! search), used by both `n3::reasoner`'s `sudoku#solve` builtin and
 //! `srl::expr`'s `sudoku(...)` custom function. The puzzle and solution are
 //! both 81-character strings (`.` or `0` for a blank cell, `1`-`9` for a
-//! given), ported from eyelang's own `sudoku/2` builtin
-//! (`eye::builtins::sudoku_state`/`sudoku_solutions`, which instead takes a
+//! given), sharing its shape with the Prolog front end's `sudoku/2`
+//! (`prolog::builtins::sudoku_state`/`sudoku_solutions`, which instead takes a
 //! 9x9 nested list and can enumerate every solution rather than just the
 //! first).
 

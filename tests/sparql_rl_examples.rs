@@ -282,7 +282,7 @@ fn check_proof_golden(name: &str) -> Result<(), String> {
 /// Every non-error, non-`NO_PROOF_EXAMPLES` `.srl` example's `--proof`
 /// output, byte for byte against `examples/proof/<name>.srl` — the SRL
 /// counterpart to `tests/eye.rs`'s own strict plain-and-proof golden
-/// matching (SRL's forward reasoner, like Eyelang's, is fully
+/// matching (SRL's forward reasoner, like the Prolog front end's, is fully
 /// deterministic outside the already-excluded `EXCLUDED_FOR_NONDETERMINISM`/
 /// `EXCLUDED_FOR_MESSAGE_LOG_ENCODING` examples, so an exact match is
 /// appropriate here — unlike N3's proof goldens, most of which are only

@@ -1,5 +1,5 @@
 use eyeron::error::{EyeronError, Result};
-use eyeron::eye;
+use eyeron::prolog;
 use eyeron::n3::printing::{document_debug, rdf_result_to_string, result_to_string};
 use eyeron::n3::proof::proof_to_n3;
 use eyeron::n3::reasoner::{reason, ReasonerOptions};
@@ -34,14 +34,14 @@ struct CliOptions {
     query: Option<String>,
     query_file: Option<String>,
     query_mode: QueryMode,
-    /// `.eye` only: parse and validate without evaluating.
+    /// `.pl` only: parse and validate without evaluating.
     check: bool,
-    /// `.eye` only: print `--json` instead of Eyelang result-format-2 text.
+    /// `.pl` only: print `--json` instead of Prolog result-format-3 text.
     json: bool,
-    /// `.eye` only: `--rdf-input FILE` (repeatable), imported as `rdf/4` facts.
+    /// `.pl` only: `--rdf-input FILE` (repeatable), imported as `rdf/4` facts.
     rdf_input: Vec<String>,
-    /// `.eye` only: print the `rdf/4` relation's answers as N-Quads instead
-    /// of evaluating the file's own `ask` statements.
+    /// `.pl` only: print the `rdf/4` predicate's answers as N-Quads instead
+    /// of evaluating the file's own `?-` directives.
     rdf_output: bool,
     max_steps: Option<u64>,
     max_tables: Option<u64>,
@@ -62,9 +62,8 @@ enum QueryMode {
 fn main() {
     if let Err(err) = run() {
         eprintln!("eyeron: {}", err);
-        // Mirrors eyelang's own CLI (`bin/eyelang.js`): a `LimitError` (an
-        // `.eye` evaluation that hit `--max-steps`/`--max-tables`/
-        // `--max-answers`) exits 2; every other error exits 1.
+        // A `.pl` evaluation that hit `--max-steps`/`--max-tables`/
+        // `--max-answers` exits 2; every other error exits 1.
         let exit_code = if err.message.starts_with("Evaluation incomplete:") { 2 } else { 1 };
         std::process::exit(exit_code);
     }
@@ -88,8 +87,8 @@ fn run() -> Result<()> {
     }
     let sources = read_sources(&opt.files)?;
 
-    if sources.iter().any(|(label, text)| is_eyelang_source(label, text)) {
-        return run_eye(&opt, &sources);
+    if sources.iter().any(|(label, text)| is_prolog_source(label, text)) {
+        return run_prolog(&opt, &sources);
     }
 
     if sources.iter().any(|(label, text)| is_sparql_rl_source(label, text)) {
@@ -435,12 +434,13 @@ fn sparql_rl_query_text(opt: &CliOptions) -> Result<Option<String>> {
     }
 }
 
-/// Whether `(label, text)` looks like an Eyelang program: either the
-/// filename ends in `.eye`, or (for stdin/URLs, and as a fallback for
-/// files) the content itself looks like one (see `eyeron::eye::is_eyelang`).
-fn is_eyelang_source(label: &str, text: &str) -> bool {
-    let has_eye_extension = label.split(['?', '#']).next().and_then(|path| Path::new(path).extension()).is_some_and(|ext| ext.eq_ignore_ascii_case("eye"));
-    has_eye_extension || eye::is_eyelang(text)
+/// Whether `(label, text)` looks like a Prolog program: either the
+/// filename ends in `.pl`, or (for stdin/URLs, and as a fallback for
+/// files) the content itself looks like one (see
+/// `eyeron::prolog::is_prolog`).
+fn is_prolog_source(label: &str, text: &str) -> bool {
+    let has_pl_extension = label.split(['?', '#']).next().and_then(|path| Path::new(path).extension()).is_some_and(|ext| ext.eq_ignore_ascii_case("pl"));
+    has_pl_extension || prolog::is_prolog(text)
 }
 
 fn read_text_source(source: &str) -> Result<String> {
@@ -456,43 +456,43 @@ fn read_text_source(source: &str) -> Result<String> {
     }
 }
 
-fn run_eye(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
+fn run_prolog(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
     if opt.rdf_output && (opt.json || opt.proof || opt.check || opt.query.is_some() || opt.query_file.is_some()) {
         return Err(EyeronError::new("--rdf-output cannot be combined with --check, --json, --proof, or --query"));
     }
     for (label, text) in sources {
-        if !is_eyelang_source(label, text) {
-            return Err(EyeronError::new(format!("{} does not look like an Eyelang program; mixing .eye and N3/SPARQL-RL input in one run is not supported", label)));
+        if !is_prolog_source(label, text) {
+            return Err(EyeronError::new(format!("{} does not look like a Prolog program; mixing .pl and N3/SPARQL-RL input in one run is not supported", label)));
         }
     }
 
     let mut imported = String::new();
     for (index, file) in opt.rdf_input.iter().enumerate() {
         let text = read_text_source(file)?;
-        let facts = eye::rdf::parse_nquads(&text, &format!("d{}_", index)).map_err(|err| EyeronError::new(err.with_source_location(&text, file)))?;
-        imported.push_str(&eye::rdf::facts_to_eyelang(&facts));
+        let facts = prolog::rdf::parse_nquads(&text, &format!("d{}_", index)).map_err(|err| EyeronError::new(err.with_source_location(&text, file)))?;
+        imported.push_str(&prolog::rdf::facts_to_prolog(&facts));
     }
 
     let body: String = sources.iter().map(|(_, text)| text.as_str()).collect::<Vec<_>>().join("\n");
     let mut source = format!("{}{}", imported, body);
     if let Some(query_text) = sparql_rl_query_text(opt)? {
-        source.push_str(&format!("\nask {}.\n", query_text.trim().trim_end_matches('.')));
+        source.push_str(&format!("\n?- {}.\n", query_text.trim().trim_end_matches('.')));
     }
     if opt.rdf_output {
-        source.push_str("\nask rdf(?subject, ?predicate, ?object, ?graph).\n");
+        source.push_str("\n?- rdf(Subject, Predicate, Object, Graph).\n");
     }
 
     if opt.check {
-        let result = eye::check(&source)?;
+        let result = prolog::check(&source)?;
         if opt.json {
-            print!("{}", eye::output::check_result_json(&result));
+            print!("{}", prolog::output::check_result_json(&result));
         } else {
-            print!("{}", eye::output::format_check(&result));
+            print!("{}", prolog::output::format_check(&result));
         }
         return Ok(());
     }
 
-    let mut limits = eye::Limits::default();
+    let mut limits = prolog::Limits::default();
     if let Some(v) = opt.max_steps {
         limits.max_steps = v;
     }
@@ -503,14 +503,14 @@ fn run_eye(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
         limits.max_answers = v;
     }
 
-    let result = eye::run(&source, limits)?;
+    let result = prolog::run(&source, limits)?;
     if opt.rdf_output {
         let last = result.queries.last().ok_or_else(|| EyeronError::new("--rdf-output produced no query result"))?;
-        print!("{}", eye::rdf::answers_to_nquads(last)?);
+        print!("{}", prolog::rdf::answers_to_nquads(last)?);
     } else if opt.json {
-        print!("{}", eye::output::run_result_json(&result));
+        print!("{}", prolog::output::run_result_json(&result));
     } else {
-        print!("{}", eye::output::format_result(&result, opt.proof));
+        print!("{}", prolog::output::format_result(&result, opt.proof));
     }
     Ok(())
 }

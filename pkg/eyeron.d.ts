@@ -26,12 +26,12 @@ export class EyeronSession {
 export function reason(input: string): string;
 
 /**
- * Run an Eyelang (`.eye` syntax) program and return its "Eyelang result
- * format 2" output — or a JSON rendering when `json` is set. `query`,
- * when non-blank, is appended as an extra `ask` statement before running
+ * Run a Prolog (`.pl`) program and return its "Prolog result format 3"
+ * output — or a JSON rendering when `json` is set. `query`, when
+ * non-blank, is appended as an extra `?-` directive before running
  * (matching the `--query` CLI flag).
  */
-export function reasonEye(input: string, proof: boolean, json: boolean, query: string): string;
+export function reasonProlog(input: string, proof: boolean, json: boolean, query: string): string;
 
 /**
  * Run a SPARQL 1.2 RL rule set (`.srl` syntax) and return its inference
@@ -87,7 +87,7 @@ export interface InitOutput {
     readonly eyeronsession_reason: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly eyeronsession_reasonReport: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly reason: (a: number, b: number, c: number) => void;
-    readonly reasonEye: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
+    readonly reasonProlog: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly reasonSrl: (a: number, b: number, c: number, d: number, e: number) => void;
     readonly reasonSrlWithImports: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => void;
     readonly reasonWithData: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;

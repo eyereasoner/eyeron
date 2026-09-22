@@ -151,9 +151,9 @@ export function reason(input) {
 }
 
 /**
- * Run an Eyelang (`.eye` syntax) program and return its "Eyelang result
- * format 2" output — or a JSON rendering when `json` is set. `query`,
- * when non-blank, is appended as an extra `ask` statement before running
+ * Run a Prolog (`.pl`) program and return its "Prolog result format 3"
+ * output — or a JSON rendering when `json` is set. `query`, when
+ * non-blank, is appended as an extra `?-` directive before running
  * (matching the `--query` CLI flag).
  * @param {string} input
  * @param {boolean} proof
@@ -161,7 +161,7 @@ export function reason(input) {
  * @param {string} query
  * @returns {string}
  */
-export function reasonEye(input, proof, json, query) {
+export function reasonProlog(input, proof, json, query) {
     let deferred4_0;
     let deferred4_1;
     try {
@@ -170,7 +170,7 @@ export function reasonEye(input, proof, json, query) {
         const len0 = WASM_VECTOR_LEN;
         const ptr1 = passStringToWasm0(query, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len1 = WASM_VECTOR_LEN;
-        wasm.reasonEye(retptr, ptr0, len0, proof, json, ptr1, len1);
+        wasm.reasonProlog(retptr, ptr0, len0, proof, json, ptr1, len1);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
         var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
         var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);

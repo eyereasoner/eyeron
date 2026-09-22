@@ -33,7 +33,7 @@ fn playground_html_is_packaged_for_browser_wasm() {
     assert!(html.contains("./pkg/eyeron.js"), "playground should load the wasm-pack web bundle");
     assert!(html.contains("reasonWithData"), "playground should expose separate data + N3 program reasoning");
     assert!(html.contains("reasonSrl"), "playground should expose SPARQL 1.2 RL reasoning");
-    assert!(html.contains("reasonEye"), "playground should expose Eyelang reasoning");
+    assert!(html.contains("reasonProlog"), "playground should expose Prolog reasoning");
 
     let examples_dir = root.join("examples");
     assert_eq!(
@@ -47,8 +47,8 @@ fn playground_html_is_packaged_for_browser_wasm() {
         "playground bundledExamplesSrl must list every top-level SPARQL-RL example"
     );
     assert_eq!(
-        examples_with_extension(&examples_dir, "eye"),
-        bundled_array(&html, "const bundledExamplesEye = ["),
-        "playground bundledExamplesEye must list every top-level Eyelang example"
+        examples_with_extension(&examples_dir, "pl"),
+        bundled_array(&html, "const bundledExamplesProlog = ["),
+        "playground bundledExamplesProlog must list every top-level Prolog example"
     );
 }
