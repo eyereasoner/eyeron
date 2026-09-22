@@ -12,19 +12,24 @@ DATA {
     pe:rule 1;
     pe:binding
       [ pe:var "x"; pe:value :a ],
-      [ pe:var "z"; pe:value :c ].
+      [ pe:var "z"; pe:value :c ];
+    pe:uses
+      <<(:a :parentOf :b)>>,
+      <<(:b :parentOf :c)>>.
 
   _:step2
     rdf:reifies <<(:b :hasParent :a)>>;
     pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :b ],
-      [ pe:var "y"; pe:value :a ].
+      [ pe:var "y"; pe:value :a ];
+    pe:uses <<(:a :parentOf :b)>>.
 
   _:step3
     rdf:reifies <<(:c :hasParent :b)>>;
     pe:rule 2;
     pe:binding
       [ pe:var "x"; pe:value :c ],
-      [ pe:var "y"; pe:value :b ].
+      [ pe:var "y"; pe:value :b ];
+    pe:uses <<(:b :parentOf :c)>>.
 }

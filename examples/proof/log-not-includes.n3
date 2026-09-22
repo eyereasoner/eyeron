@@ -43,7 +43,14 @@
 
 { :a :b :c . } pe:why {
   { :a :b :c . }
-    pe:rule 3;
+    pe:rule
+      {
+          {
+              :x :y 1 .
+          } => {
+              :a :b :c .
+          } .
+      };
     pe:uses { :x :y 1 . }.
 
   { :x :y 1 . }

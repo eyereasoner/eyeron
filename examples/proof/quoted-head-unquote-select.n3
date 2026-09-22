@@ -70,7 +70,14 @@
 
 { :c a :Animal . } pe:why {
   { :c a :Animal . }
-    pe:rule 3;
+    pe:rule
+      {
+          {
+              :c a :Cat .
+          } => {
+              :c a :Animal .
+          } .
+      };
     pe:uses { :c a :Cat . }.
 
   { :c a :Cat . }
@@ -83,7 +90,14 @@
     pe:uses { :c a :Animal . }.
 
   { :c a :Animal . }
-    pe:rule 3;
+    pe:rule
+      {
+          {
+              :c a :Cat .
+          } => {
+              :c a :Animal .
+          } .
+      };
     pe:uses { :c a :Cat . }.
 
   { :c a :Cat . }

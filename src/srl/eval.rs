@@ -176,6 +176,47 @@ fn solve_triple(pattern: &Triple, clauses: &[Clause], idx: usize, use_base: bool
 /// (`/`) and inverse (`^`) — no Kleene star/plus/alternation — so this
 /// expansion has no choice points of its own; all backtracking still
 /// happens at the leaf triple matches via `solve_triple`.
+/// Replace every property path in `rules` with the chain of ordinary
+/// triple patterns it stands for, once, before reasoning starts.
+///
+/// The solver used to expand a path on each visit, with variables from its
+/// own counter. That left the rule's *declared* patterns and the patterns
+/// actually matched with different join variables, so a proof step could
+/// not name what a path clause used: resolving the declared pattern against
+/// the solution's bindings left it non-ground, and a non-ground premise is
+/// dropped. Expanding once, here, gives the solver and the proof the same
+/// patterns and the same variables.
+///
+/// Join variables are named per rule and per position, so a rule set's
+/// proofs do not change when an unrelated rule is edited.
+pub(crate) fn expand_rule_paths(rules: &mut [super::ast::SparqlRlRule]) {
+    for (index, rule) in rules.iter_mut().enumerate() {
+        let mut counter = 0usize;
+        rule.body = expand_clause_paths(&rule.body, index, &mut counter);
+    }
+}
+
+fn expand_clause_paths(clauses: &[Clause], rule: usize, counter: &mut usize) -> Vec<Clause> {
+    let mut out = Vec::new();
+    for clause in clauses {
+        match clause {
+            Clause::Path { s, p, o } => {
+                let mut fresh = || {
+                    let name = format!("__path_{}_{}", rule, counter);
+                    *counter += 1;
+                    Term::var(name)
+                };
+                out.extend(expand_path(s, p, o, &mut fresh).into_iter().map(Clause::Triple));
+            }
+            Clause::Not { body, ground_data } => {
+                out.push(Clause::Not { body: expand_clause_paths(body, rule, counter), ground_data: *ground_data })
+            }
+            other => out.push(other.clone()),
+        }
+    }
+    out
+}
+
 pub(crate) fn expand_path(s: &Term, path: &PathExpr, o: &Term, fresh: &mut dyn FnMut() -> Term) -> Vec<Triple> {
     match path {
         PathExpr::Iri(iri) => vec![Triple::new(s.clone(), Term::iri(iri.clone()), o.clone())],

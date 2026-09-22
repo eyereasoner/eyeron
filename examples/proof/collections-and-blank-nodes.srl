@@ -20,5 +20,8 @@ DATA {
   _:step2
     rdf:reifies <<(:team :firstMember :alice)>>;
     pe:rule 2;
-    pe:binding [ pe:var "first"; pe:value :alice ].
+    pe:binding [ pe:var "first"; pe:value :alice ];
+    pe:uses
+      <<(:team :members _:b2)>>,
+      <<(_:b2 rdf:first :alice)>>.
 }

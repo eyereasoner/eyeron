@@ -42,7 +42,14 @@
     pe:uses { :bob :childOf :alice . }.
 
   { :bob :childOf :alice . }
-    pe:rule "<unknown>";
+    pe:rule
+      {
+          {
+              ?__backward_0_2_17565fa1c50f71ff__x :childOf ?__backward_0_2_17565fa1c50f71ff__y .
+          } <= {
+              ?__backward_0_2_17565fa1c50f71ff__y :parentOf ?__backward_0_2_17565fa1c50f71ff__x .
+          } .
+      };
     pe:binding
       [ pe:var "x"; pe:value :bob ],
       [ pe:var "y"; pe:value :alice ];

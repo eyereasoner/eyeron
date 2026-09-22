@@ -11,5 +11,9 @@ DATA {
     pe:binding [ pe:var "Y"; pe:value _:b1 ];
     pe:uses
       <<(:X :val _:b1)>>,
-      <<(_:b1 rdf:first 1)>>.
+      <<(_:b1 rdf:first 1)>>,
+      <<(_:b1 rdf:rest _:b2)>>,
+      <<(_:b2 rdf:first 2)>>,
+      <<(_:b1 rdf:rest _:b2)>>,
+      <<(_:b2 rdf:rest rdf:nil)>>.
 }

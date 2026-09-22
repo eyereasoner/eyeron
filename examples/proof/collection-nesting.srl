@@ -11,20 +11,38 @@ DATA {
   _:step1
     rdf:reifies <<(:test :first 1)>>;
     pe:rule 1;
-    pe:binding [ pe:var "first"; pe:value 1 ].
+    pe:binding [ pe:var "first"; pe:value 1 ];
+    pe:uses
+      <<(:root :nested _:b1)>>,
+      <<(_:b1 rdf:first 1)>>.
 
   _:step2
     rdf:reifies <<(:test :second _:b3)>>;
     pe:rule 2;
-    pe:binding [ pe:var "second"; pe:value _:b3 ].
+    pe:binding [ pe:var "second"; pe:value _:b3 ];
+    pe:uses
+      <<(:root :nested _:b1)>>,
+      <<(_:b1 rdf:rest _:b2)>>,
+      <<(_:b2 rdf:first _:b3)>>.
 
   _:step3
     rdf:reifies <<(:test :secondProperty :q)>>;
     pe:rule 3;
-    pe:binding [ pe:var "object"; pe:value :q ].
+    pe:binding [ pe:var "object"; pe:value :q ];
+    pe:uses
+      <<(:root :nested _:b1)>>,
+      <<(_:b1 rdf:rest _:b2)>>,
+      <<(_:b2 rdf:first _:b3)>>,
+      <<(_:b3 :p :q)>>.
 
   _:step4
     rdf:reifies <<(:test :thirdFirst 2)>>;
     pe:rule 4;
-    pe:binding [ pe:var "item"; pe:value 2 ].
+    pe:binding [ pe:var "item"; pe:value 2 ];
+    pe:uses
+      <<(:root :nested _:b1)>>,
+      <<(_:b1 rdf:rest _:b2)>>,
+      <<(_:b2 rdf:rest _:b4)>>,
+      <<(_:b4 rdf:first _:b5)>>,
+      <<(_:b5 rdf:first 2)>>.
 }

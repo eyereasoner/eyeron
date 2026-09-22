@@ -65,6 +65,9 @@ struct Step {
     conclusion: Triple,
     kind: Kind,
     rule: Option<usize>,
+    /// A rule the engine generated while reasoning, carried by the step
+    /// because no document contains it (§5.1).
+    carried: Option<(Vec<Triple>, Vec<Triple>, Triple)>,
     builtin: Option<Term>,
     bindings: Vec<(String, Term)>,
     uses: Vec<Triple>,
@@ -132,15 +135,50 @@ impl N3Proof {
         Resolution::Unresolved(describe(statement))
     }
 
+    /// Is the rule this step carries one the proof derives? Backward
+    /// search renames a rule's variables apart, so the carried statement is
+    /// a variant of the derived one rather than equal to it; a rule is the
+    /// same rule under consistent renaming, so this matches instead of
+    /// comparing.
+    fn derives_rule(&self, statement: &Triple) -> bool {
+        let candidates = self
+            .steps
+            .iter()
+            .map(|step| &step.conclusion)
+            .chain(self.given.iter())
+            .filter(|candidate| candidate.p == statement.p);
+        for candidate in candidates {
+            if match_triple(candidate, statement, &mut Bindings::new()) {
+                return true;
+            }
+        }
+        false
+    }
+
     /// §5.1: re-perform the one rule application this step records.
     fn check_rule(&self, step: &Step) -> Verdict {
-        let number = step.rule.ok_or_else(|| "cites no rule".to_string())?;
-        let rule = self.rules.get(number.wrapping_sub(1)).ok_or_else(|| format!("cites rule {}, which the source does not have", number))?;
+        // A generated rule is carried by the step; a written one is taken
+        // from the source, never from the document.
+        let (premise, conclusion, names, number) = match &step.carried {
+            Some((premise, conclusion, statement)) => {
+                // The carried rule has to be justified too, or a step could
+                // invent any rule it liked.
+                if !self.derives_rule(statement) {
+                    return Err("carries a generated rule that nothing in the proof derives".to_string());
+                }
+                (premise.clone(), conclusion.clone(), BTreeMap::new(), "the generated rule it carries".to_string())
+            }
+            None => {
+                let number = step.rule.ok_or_else(|| "cites no rule".to_string())?;
+                let rule = self.rules.get(number.wrapping_sub(1)).ok_or_else(|| format!("cites rule {}, which the source does not have", number))?;
+                (rule.premise.clone(), rule.conclusion.clone(), rule.proof_var_source_names.clone(), format!("rule {}", number))
+            }
+        };
 
         // The proof records a variable by its source name; the rule knows
         // it by its internal one.
         let mut source_names: BTreeMap<&str, &str> = BTreeMap::new();
-        for (internal, source) in &rule.proof_var_source_names {
+        for (internal, source) in &names {
             source_names.insert(source.as_str(), internal.as_str());
         }
         let mut bindings = Bindings::new();
@@ -149,8 +187,9 @@ impl N3Proof {
             bindings.insert(internal.to_string(), value.clone());
         }
 
+        let rule = RuleView { premise: &premise, conclusion: &conclusion };
         if rule.premise.len() != step.uses.len() {
-            return Err(format!("uses {} premise(s), but rule {} has {}", step.uses.len(), number, rule.premise.len()));
+            return Err(format!("uses {} premise(s), but {} has {}", step.uses.len(), number, rule.premise.len()));
         }
         // One environment across every premise and the conclusion, so a
         // variable the bindings did not mention is still forced to take one
@@ -158,11 +197,11 @@ impl N3Proof {
         // step may not instantiate itself to meet the rule halfway.
         for (position, (premise, used)) in rule.premise.iter().zip(step.uses.iter()).enumerate() {
             if !match_triple(premise, used, &mut bindings) {
-                return Err(format!("premise {} is {}, but rule {} requires {}", position + 1, describe(used), number, describe(premise)));
+                return Err(format!("premise {} is {}, but {} requires {}", position + 1, describe(used), number, describe(premise)));
             }
         }
         if !rule.conclusion.iter().any(|candidate| match_triple(candidate, &step.conclusion, &mut bindings.clone())) {
-            return Err(format!("does not follow from rule {}: it concludes none of what this step claims", number));
+            return Err(format!("does not follow from {}: it concludes none of what this step claims", number));
         }
         Ok(Checked::Verified)
     }
@@ -227,6 +266,12 @@ pub(crate) fn match_triple(pattern: &Triple, target: &Triple, bindings: &mut Bin
     match_term(&pattern.s, &target.s, bindings) && match_term(&pattern.p, &target.p, bindings) && match_term(&pattern.o, &target.o, bindings)
 }
 
+/// A rule's two halves, however the step got hold of them.
+struct RuleView<'a> {
+    premise: &'a [Triple],
+    conclusion: &'a [Triple],
+}
+
 fn describe(triple: &Triple) -> String {
     crate::n3::printing::triples_to_n3(&BTreeMap::new(), std::slice::from_ref(triple)).trim().to_string()
 }
@@ -265,6 +310,7 @@ fn read_steps(body: &[Triple]) -> Vec<Step> {
             conclusion: conclusion.clone(),
             kind: Kind::Unproven,
             rule: None,
+            carried: None,
             builtin: None,
             bindings: Vec::new(),
             uses: Vec::new(),
@@ -275,6 +321,7 @@ fn read_steps(body: &[Triple]) -> Vec<Step> {
                 p if *p == pe("rule") => {
                     step.kind = Kind::Rule;
                     step.rule = literal_number(&triple.o);
+                    step.carried = carried_rule(&triple.o);
                     classified = true;
                 }
                 p if *p == pe("fact") => {
@@ -308,6 +355,22 @@ fn read_steps(body: &[Triple]) -> Vec<Step> {
         }
     }
     steps
+}
+
+/// A `pe:rule { {premises} => {conclusion} }` object: the generated rule
+/// the step carries, plus the statement asserting it, which a checker holds
+/// the step to.
+fn carried_rule(term: &Term) -> Option<(Vec<Triple>, Vec<Triple>, Triple)> {
+    let statement = formula_triple(term)?;
+    // A forward rule reads `{premises} => {conclusion}`, a backward one
+    // `{conclusion} <= {premises}`.
+    let forward = statement.p == Term::Iri(crate::ast::LOG_IMPLIES.to_string());
+    let backward = statement.p == Term::Iri(crate::ast::LOG_IMPLIED_BY.to_string());
+    match (&statement.s, &statement.o) {
+        (Term::Formula(left), Term::Formula(right)) if forward => Some((left.clone(), right.clone(), statement.clone())),
+        (Term::Formula(left), Term::Formula(right)) if backward => Some((right.clone(), left.clone(), statement.clone())),
+        _ => None,
+    }
 }
 
 fn literal_number(term: &Term) -> Option<usize> {

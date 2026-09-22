@@ -59,7 +59,14 @@
 
 { :c a :Animal . } pe:why {
   { :c a :Animal . }
-    pe:rule 3;
+    pe:rule
+      {
+          {
+              ?X a :Cat .
+          } => {
+              ?X a :Animal .
+          } .
+      };
     pe:binding [ pe:var "X"; pe:value :c ];
     pe:uses { :c a :Cat . }.
 
@@ -73,7 +80,14 @@
     pe:uses { :c a :Animal . }.
 
   { :c a :Animal . }
-    pe:rule 3;
+    pe:rule
+      {
+          {
+              ?X a :Cat .
+          } => {
+              ?X a :Animal .
+          } .
+      };
     pe:binding [ pe:var "X"; pe:value :c ];
     pe:uses { :c a :Cat . }.
 

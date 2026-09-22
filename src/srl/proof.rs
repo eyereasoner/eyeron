@@ -148,7 +148,7 @@ fn render_step(id: &str, entry: &ProofEntry, fact_to_step: &BTreeMap<Triple, Str
 
 fn render_rule_step(id: &str, proof: &DerivedFact, fact_to_step: &BTreeMap<Triple, String>, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
     let mut groups = vec![("rdf:reifies".to_string(), vec![triple_term(&proof.fact, prefixes)])];
-    groups.push(justification("rule", rule_reference(&proof.rule, rules)));
+    groups.push(justification("rule", rule_reference(&proof.rule, rules, prefixes)));
 
     let bindings = render_binding_items(proof, prefixes);
     if !bindings.is_empty() {
@@ -184,7 +184,17 @@ fn render_step_groups(id: &str, groups: &[(String, Vec<String>)]) -> String {
 
 fn render_binding_items(proof: &DerivedFact, prefixes: &BTreeMap<String, String>) -> Vec<String> {
     let rule_vars = vars_in_rule(&proof.rule);
-    let mut names = proof.bindings.keys().filter(|name| rule_vars.contains(*name)).cloned().collect::<Vec<_>>();
+    // A property path's join variables are introduced by expanding the
+    // path, not written by anyone, so they are noise in a trace. Leaving
+    // them out loses nothing a checker needs: `pe:uses` names the matched
+    // triples outright, and matching them against the rule's patterns
+    // determines the join.
+    let mut names = proof
+        .bindings
+        .keys()
+        .filter(|name| rule_vars.contains(*name) && !name.starts_with("__path_"))
+        .cloned()
+        .collect::<Vec<_>>();
     names.sort();
     names
         .into_iter()

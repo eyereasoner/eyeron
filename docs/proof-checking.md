@@ -287,33 +287,26 @@ establishes.
 
 `tests/proof_checking.rs` checks every packaged proof document against the
 program it was produced from. Of the **373 documents** — 120 N3, 122
-SPARQL-RL, 131 Prolog — **349 are valid**, covering **131,520 steps**, of
-which **130,581 are verified** and **848 are trust obligations** (§6).
+SPARQL-RL, 131 Prolog — **366 are valid**, covering **131,520 steps**, of
+which **130,636 are verified** and **848 are trust obligations** (§6). All
+122 SPARQL-RL and all 131 Prolog documents check.
 
-The remaining 24 do not check, and each names a defect in proof
-*generation* rather than in the checker: the specification says what a
-valid proof must contain, and these do not contain it. They are listed in
-that test's `KNOWN_GAPS`, and fall into three classes.
+The remaining 7 are listed in that test's `KNOWN_GAPS`, and each names a
+defect in proof *generation* rather than in the checker: the specification
+says what a valid proof must contain, and these do not contain it.
 
-**A premise the writer could not justify (7 documents, N3).** The step
-records `pe:unproven`, which §7.1 makes invalid. The chain is admitted to
-be broken, usually where a built-in was re-evaluated against skolemized
-blank nodes that no longer matched.
+**A premise the writer could not justify (6 documents).** Explaining a
+premise the run derived by backward chaining re-runs that search at proof
+time, under its own budget. When the budget runs out the premise is
+recorded as `pe:unproven`, which §7.1 makes invalid — `fibonacci.n3`'s
+`fib(30)` is the clearest case. Recording each backward derivation when it
+is first found, instead of replaying it afterwards, is what fixing this
+looks like; it would also remove the quadratic cost of the present
+per-conclusion re-walk.
 
-**A rule the proof does not carry (7 documents, 6 N3 and 1 SPARQL-RL).**
-The step cites a rule the engine generated while reasoning, or that an
-`IMPORTS` directive brought in, so the number resolves against a rule list
-the source does not have. §5.1 requires the cited rule to come from the
-source; a proof that uses a rule the program does not contain has to carry
-that rule, and the derivation of it.
-
-**Fewer premises than the rule has patterns (10 documents, SPARQL-RL).**
-A rule body containing a property path or a blank-node property list
-expands into more patterns than the step reifies, so the recorded
-inference cannot be re-performed. In the extreme (`reordering.srl`) the
-step records no premises and no bindings at all, which asserts only that
-some rule fired.
-
-The Prolog front end has no gaps: all 131 documents check, 114,909 of its
-115,008 steps verified, the rest being `absent` and `collected`
-obligations.
+**A conclusion the rule does not state (1 document).**
+`quoted-head-unquote.n3`'s rule is `{ :a :b ?C. } => ?C.`, whose conclusion
+is a variable unquoted at run time. The rule alone does not say what it
+concludes, so §5.1's re-performance has nothing to compare against. The
+step does record the binding for `?C`, so a checker could be extended to
+take the conclusion from there.

@@ -34,7 +34,14 @@
 
 { :test :is true . } pe:why {
   { :test :is true . }
-    pe:rule 2;
+    pe:rule
+      {
+          {
+              ?y a :Dog .
+          } => {
+              :test :is true .
+          } .
+      };
     pe:binding [ pe:var "y"; pe:value :Charly ];
     pe:uses { :Charly a :Dog . }.
 

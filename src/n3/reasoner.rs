@@ -1977,6 +1977,23 @@ fn rule_may_prove_goal(rule: &Rule, goal: &Triple) -> bool {
 }
 
 
+/// Bind every blank node in `term` to itself, so a term that is already a
+/// concrete graph value is not re-read as a pattern variable.
+fn bind_concrete_blanks(term: &Term, out: &mut Bindings) {
+    match term {
+        Term::Blank(label) => {
+            out.insert(blank_binding_name(label), term.clone());
+        }
+        Term::List(items) => items.iter().for_each(|item| bind_concrete_blanks(item, out)),
+        Term::Formula(triples) => triples.iter().for_each(|t| {
+            bind_concrete_blanks(&t.s, out);
+            bind_concrete_blanks(&t.p, out);
+            bind_concrete_blanks(&t.o, out);
+        }),
+        _ => {}
+    }
+}
+
 pub fn find_backward_proof_for_goal(goal: &Triple, facts: &[Triple], rules: &[Rule], max_depth: usize) -> Option<ProofNode> {
     let mut fact_index = FactIndex::default();
     for (idx, fact) in facts.iter().enumerate() {
@@ -2013,9 +2030,19 @@ fn find_backward_proof_inner(
 
     if is_builtin_premise(goal) {
         let mut backward_stack = HashSet::new();
+        // This goal is an already-instantiated premise, so a blank node in
+        // it is a concrete graph node — not a rule body's local
+        // existential, which is how `resolve_pattern` reads bare blank
+        // syntax. Binding each blank to itself keeps it concrete, so
+        // re-checking `_:a log:notEqualTo _:b` sees two blank nodes rather
+        // than two wildcards.
+        let mut concrete = BTreeMap::new();
+        for term in [&goal.s, &goal.p, &goal.o] {
+            bind_concrete_blanks(term, &mut concrete);
+        }
         let verified = eval_builtin(
             goal,
-            &empty,
+            &concrete,
             facts,
             Some(fact_index),
             rules,

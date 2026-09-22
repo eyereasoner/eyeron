@@ -56,13 +56,23 @@ pub struct SrlProof {
 /// Read `proof` as a proof document for the rule set in `source`, and check
 /// it.
 pub fn check_proof(source: &str, proof: &str) -> Result<Report> {
-    let document = SrlProof::read(source, proof)?;
+    check_proof_program(&crate::srl::parse_sparql_rl(source, None)?, proof)
+}
+
+/// As `check_proof`, but for a rule set already parsed — an `IMPORTS`
+/// directive has to be resolved before the rules can be numbered.
+pub fn check_proof_program(source: &crate::srl::SparqlRlProgram, proof: &str) -> Result<Report> {
+    let document = SrlProof::read_program(source, proof)?;
     Ok(check(&document))
 }
 
 impl SrlProof {
-    pub fn read(source: &str, proof: &str) -> Result<Self> {
-        let program = crate::srl::parse_sparql_rl(source, None)?;
+    pub fn read_program(source: &crate::srl::SparqlRlProgram, proof: &str) -> Result<Self> {
+        let mut program = source.clone();
+        // The reasoner expands property paths before it proves anything, so
+        // a checker must read the rules the same way or the patterns it
+        // compares against are not the ones that matched.
+        crate::srl::eval::expand_rule_paths(&mut program.rules);
         let given: BTreeSet<Triple> = program.data.iter().cloned().collect();
         let parsed = crate::srl::parse_sparql_rl(proof, None)?;
 

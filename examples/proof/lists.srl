@@ -13,22 +13,39 @@ DATA {
     pe:rule 1;
     pe:binding
       [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ].
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      <<(:query1 :xs _:b1)>>,
+      <<(_:b1 rdf:first :a)>>,
+      <<(:query1 :ys _:b2)>>,
+      <<(_:b2 rdf:first :b)>>.
 
   _:step2
     rdf:reifies <<(:query1 :appendResultRight :b)>>;
     pe:rule 1;
     pe:binding
       [ pe:var "x"; pe:value :a ],
-      [ pe:var "y"; pe:value :b ].
+      [ pe:var "y"; pe:value :b ];
+    pe:uses
+      <<(:query1 :xs _:b1)>>,
+      <<(_:b1 rdf:first :a)>>,
+      <<(:query1 :ys _:b2)>>,
+      <<(_:b2 rdf:first :b)>>.
 
   _:step3
     rdf:reifies <<(:items :member :a)>>;
     pe:rule 2;
-    pe:binding [ pe:var "m"; pe:value :a ].
+    pe:binding [ pe:var "m"; pe:value :a ];
+    pe:uses
+      <<(:items :list _:b3)>>,
+      <<(_:b3 rdf:first :a)>>.
 
   _:step4
     rdf:reifies <<(:items :member :b)>>;
     pe:rule 3;
-    pe:binding [ pe:var "m"; pe:value :b ].
+    pe:binding [ pe:var "m"; pe:value :b ];
+    pe:uses
+      <<(:items :list _:b3)>>,
+      <<(_:b3 rdf:rest _:b4)>>,
+      <<(_:b4 rdf:first :b)>>.
 }

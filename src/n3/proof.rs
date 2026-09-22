@@ -167,7 +167,7 @@ impl ProofCollector<'_> {
             return;
         }
 
-        if let Some(node) = find_backward_proof_for_goal(premise, self.base_facts, self.rules, 64) {
+        if let Some(node) = find_backward_proof_for_goal(premise, self.base_facts, self.rules, 4096) {
             self.visit_proof_node(&node);
             return;
         }
@@ -253,7 +253,7 @@ fn render_entry(entry: &ProofEntry, rules: &[Rule], prefixes: &BTreeMap<String, 
 fn render_rule_entry(proof: &DerivedFact, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
     let subject = graph_for_triple(&proof.fact, prefixes);
     let mut groups = Vec::<(String, Vec<String>)>::new();
-    groups.push(justification("rule", rule_reference(&proof.rule, rules)));
+    groups.push(justification("rule", rule_reference(&proof.rule, rules, prefixes)));
 
     let bindings = render_binding_items(proof, prefixes);
     if !bindings.is_empty() {
@@ -330,14 +330,34 @@ fn graph_for_triple(triple: &Triple, prefixes: &BTreeMap<String, String>) -> Str
     out
 }
 
-/// How a step cites the rule it applied: the rule's number in the
-/// document, or the quoted string `"<unknown>"` for a rule that is not one
-/// of the document's own (which no ordinary run produces).
-pub(crate) fn rule_reference(rule: &Rule, rules: &[Rule]) -> String {
-    match rule_number(rule, rules) {
-        Some(number) => number.to_string(),
-        None => quoted_string("<unknown>"),
+/// How a step cites the rule it applied.
+///
+/// A rule written in the source is cited by its number there. A rule the
+/// engine *generated* while reasoning is in no document, so a number into
+/// a list the reader cannot reproduce would say nothing: the proof carries
+/// that rule itself instead. The generated rule is also a derived
+/// statement, so the proof contains a step deriving it, and a checker can
+/// hold the citation to that (`docs/proof-checking.md` §5.1).
+pub(crate) fn rule_reference(rule: &Rule, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
+    if rule.source.is_some() {
+        if let Some(number) = rule_number(rule, rules) {
+            return number.to_string();
+        }
     }
+    term_to_n3_object(&generated_rule_term(rule), prefixes)
+}
+
+/// A generated rule as the statement it is, in its own direction: a
+/// forward rule reads `{premises} => {conclusion}` and a backward one
+/// `{conclusion} <= {premises}`. Writing it the way the engine derived it
+/// is what lets a checker find the step that derived it.
+pub(crate) fn generated_rule_term(rule: &Rule) -> Term {
+    let statement = if rule.is_forward {
+        Triple::new(Term::Formula(rule.premise.clone()), Term::Iri(LOG_IMPLIES.to_string()), Term::Formula(rule.conclusion.clone()))
+    } else {
+        Triple::new(Term::Formula(rule.conclusion.clone()), Term::Iri(LOG_IMPLIED_BY.to_string()), Term::Formula(rule.premise.clone()))
+    };
+    Term::Formula(vec![statement])
 }
 
 /// How a step cites a fact it was simply given: the document it came from.

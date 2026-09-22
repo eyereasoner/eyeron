@@ -532,7 +532,11 @@ fn run_check_proof(path: &str, sources: &[(String, String)]) -> Result<()> {
     let extension = Path::new(path.split(['?', '#']).next().unwrap_or(path)).extension().and_then(|e| e.to_str()).unwrap_or("");
     let report = match extension {
         "pl" => eyeron::proof::prolog::check_proof(&source, &proof)?,
-        "srl" => eyeron::proof::srl::check_proof(&source, &proof)?,
+        "srl" => {
+            let mut program = srl::parse_sparql_rl(&source, None)?;
+            resolve_sparql_rl_imports(&mut program, false)?;
+            eyeron::proof::srl::check_proof_program(&program, &proof)?
+        }
         _ => eyeron::proof::n3::check_proof(&source, &proof, &label)?,
     };
 

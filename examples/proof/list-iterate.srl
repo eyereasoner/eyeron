@@ -25,7 +25,10 @@ DATA {
     pe:binding
       [ pe:var "item"; pe:value "Dewey" ],
       [ pe:var "list"; pe:value _:b1 ];
-    pe:uses <<(:Let :param _:b1)>>.
+    pe:uses
+      <<(:Let :param _:b1)>>,
+      <<(_:b1 rdf:rest _:b2)>>,
+      <<(_:b2 rdf:first "Dewey")>>.
 
   _:step3
     rdf:reifies <<(_:b1 :iterate2 "Louie")>>;
@@ -33,7 +36,11 @@ DATA {
     pe:binding
       [ pe:var "item"; pe:value "Louie" ],
       [ pe:var "list"; pe:value _:b1 ];
-    pe:uses <<(:Let :param _:b1)>>.
+    pe:uses
+      <<(:Let :param _:b1)>>,
+      <<(_:b1 rdf:rest _:b2)>>,
+      <<(_:b2 rdf:rest _:b3)>>,
+      <<(_:b3 rdf:first "Louie")>>.
 
   _:step4
     rdf:reifies <<("Dewey" :hasIndex 1)>>;

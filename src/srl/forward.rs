@@ -83,6 +83,14 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     for (index, rule) in program.rules.iter().enumerate() {
         super::wellformed::check_rule(rule, index)?;
     }
+    // Property paths become ordinary patterns before anything looks at a
+    // rule body, so the solver, the activation index and a proof step all
+    // see the same premises with the same join variables.
+    let program = &{
+        let mut expanded = program.clone();
+        super::eval::expand_rule_paths(&mut expanded.rules);
+        expanded
+    };
     let layers = stratify(&program.rules)?;
     let activation = RuleActivation::build(&program.rules);
 
@@ -90,12 +98,13 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     // the activation index above) double as an N3-shaped `Rule.premise` for
     // proof purposes: `crate::n3::proof::proof_to_n3` and `DerivedFact` are
     // format-agnostic over `Triple`/`Bindings`, so SRL reuses them as-is
-    // rather than growing its own parallel proof representation. This does
-    // not (and structurally cannot) reify a FILTER/NOT/SET clause as a
-    // premise triple -- proof_var_source_names is left empty and the trace
-    // shows only the positive patterns that fed the rule -- but `pe:rule`
-    // still names the rule by its number in the rule set, so the full body
-    // (FILTER included) is always one lookup away in the source file.
+    // rather than growing its own parallel proof representation. Paths have
+    // been expanded above, so these are the patterns the solver matches.
+    // This does not (and structurally cannot) reify a FILTER/NOT/SET clause
+    // as a premise triple -- proof_var_source_names is left empty and the
+    // trace shows only the positive patterns that fed the rule -- but
+    // `pe:rule` still names the rule by its number in the rule set, so the
+    // full body (FILTER included) is always one lookup away in the source.
     let proof_rules: Vec<Rule> = if options.proof { program.rules.iter().enumerate().map(|(index, rule)| build_proof_rule(rule, index)).collect() } else { Vec::new() };
     let mut proofs: Vec<DerivedFact> = Vec::new();
 

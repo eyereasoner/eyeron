@@ -48,37 +48,61 @@ DATA {
   _:step4
     rdf:reifies <<(:Dave :generation 2)>>;
     pe:rule 3;
-    pe:binding [ pe:var "grandchild"; pe:value :Dave ].
+    pe:binding [ pe:var "grandchild"; pe:value :Dave ];
+    pe:uses
+      <<(:Adam :parentOf :Bob)>>,
+      <<(:Bob :parentOf :Dave)>>.
 
   _:step5
     rdf:reifies <<(:Eve :generation 2)>>;
     pe:rule 3;
-    pe:binding [ pe:var "grandchild"; pe:value :Eve ].
+    pe:binding [ pe:var "grandchild"; pe:value :Eve ];
+    pe:uses
+      <<(:Adam :parentOf :Bob)>>,
+      <<(:Bob :parentOf :Eve)>>.
 
   _:step6
     rdf:reifies <<(:Frank :generation 2)>>;
     pe:rule 3;
-    pe:binding [ pe:var "grandchild"; pe:value :Frank ].
+    pe:binding [ pe:var "grandchild"; pe:value :Frank ];
+    pe:uses
+      <<(:Adam :parentOf :Carol)>>,
+      <<(:Carol :parentOf :Frank)>>.
 
   _:step7
     rdf:reifies <<(:Grace :generation 2)>>;
     pe:rule 3;
-    pe:binding [ pe:var "grandchild"; pe:value :Grace ].
+    pe:binding [ pe:var "grandchild"; pe:value :Grace ];
+    pe:uses
+      <<(:Adam :parentOf :Carol)>>,
+      <<(:Carol :parentOf :Grace)>>.
 
   _:step8
     rdf:reifies <<(:Heidi :generation 3)>>;
     pe:rule 4;
-    pe:binding [ pe:var "greatGrandchild"; pe:value :Heidi ].
+    pe:binding [ pe:var "greatGrandchild"; pe:value :Heidi ];
+    pe:uses
+      <<(:Adam :parentOf :Bob)>>,
+      <<(:Bob :parentOf :Dave)>>,
+      <<(:Dave :parentOf :Heidi)>>.
 
   _:step9
     rdf:reifies <<(:Ivan :generation 3)>>;
     pe:rule 4;
-    pe:binding [ pe:var "greatGrandchild"; pe:value :Ivan ].
+    pe:binding [ pe:var "greatGrandchild"; pe:value :Ivan ];
+    pe:uses
+      <<(:Adam :parentOf :Bob)>>,
+      <<(:Bob :parentOf :Eve)>>,
+      <<(:Eve :parentOf :Ivan)>>.
 
   _:step10
     rdf:reifies <<(:Judy :generation 3)>>;
     pe:rule 4;
-    pe:binding [ pe:var "greatGrandchild"; pe:value :Judy ].
+    pe:binding [ pe:var "greatGrandchild"; pe:value :Judy ];
+    pe:uses
+      <<(:Adam :parentOf :Carol)>>,
+      <<(:Carol :parentOf :Frank)>>,
+      <<(:Frank :parentOf :Judy)>>.
 
   _:step11
     rdf:reifies <<(:Heidi :branch :b)>>;

@@ -25,30 +25,21 @@ use std::path::{Path, PathBuf};
 /// contain it. Removing an entry from this list is what fixing one looks
 /// like.
 const KNOWN_GAPS: &[(&str, &str)] = &[
-    ("n3/critical-path-schedule", "records pe:unproven: the writer could not justify a premise (§7.1)"),
-    ("n3/dijkstra", "records pe:unproven: the writer could not justify a premise (§7.1)"),
-    ("n3/fibonacci", "records pe:unproven: the writer could not justify a premise (§7.1)"),
-    ("n3/quoted-head-unquote-select", "records pe:unproven: the writer could not justify a premise (§7.1)"),
-    ("n3/rdf-messages", "records pe:unproven: the writer could not justify a premise (§7.1)"),
-    ("n3/rule-matching", "records pe:unproven: the writer could not justify a premise (§7.1)"),
-    ("n3/wolf-goat-cabbage", "records pe:unproven: the writer could not justify a premise (§7.1)"),
-    ("n3/cat-koko", "cites a rule the engine generated while reasoning, which neither the source nor the proof carries (§5.1)"),
-    ("n3/derived-backward-rule", "cites a rule the engine generated while reasoning, which neither the source nor the proof carries (§5.1)"),
-    ("n3/derived-backward-rule-2", "cites a rule the engine generated while reasoning, which neither the source nor the proof carries (§5.1)"),
-    ("n3/derived-rule", "cites a rule the engine generated while reasoning, which neither the source nor the proof carries (§5.1)"),
-    ("n3/log-not-includes", "cites a rule the engine generated while reasoning, which neither the source nor the proof carries (§5.1)"),
-    ("n3/quoted-head-unquote", "cites a rule the engine generated while reasoning, which neither the source nor the proof carries (§5.1)"),
-    ("srl/import-main", "cites a rule an IMPORTS directive brought in, which the source numbers differently (§5.1)"),
-    ("srl/collection", "records fewer premises than the rule has patterns: a property path or a blank-node property list is not reified (§5.1)"),
-    ("srl/collection-nesting", "records fewer premises than the rule has patterns: a property path or a blank-node property list is not reified (§5.1)"),
-    ("srl/collections-and-blank-nodes", "records fewer premises than the rule has patterns: a property path or a blank-node property list is not reified (§5.1)"),
-    ("srl/family-cousins", "records fewer premises than the rule has patterns: a property path or a blank-node property list is not reified (§5.1)"),
-    ("srl/grammar", "records fewer premises than the rule has patterns: a property path or a blank-node property list is not reified (§5.1)"),
-    ("srl/list-iterate", "records fewer premises than the rule has patterns: a property path or a blank-node property list is not reified (§5.1)"),
-    ("srl/lists", "records fewer premises than the rule has patterns: a property path or a blank-node property list is not reified (§5.1)"),
-    ("srl/property-paths", "records fewer premises than the rule has patterns: a property path or a blank-node property list is not reified (§5.1)"),
-    ("srl/rdf-list", "records fewer premises than the rule has patterns: a property path or a blank-node property list is not reified (§5.1)"),
-    ("srl/reordering", "records fewer premises than the rule has patterns: a property path or a blank-node property list is not reified (§5.1)"),
+    // Â§7.1: the proof walk re-runs a backward search to explain a premise
+    // the original run already derived, and that re-search has its own
+    // budget. When it runs out the premise is recorded as `pe:unproven`,
+    // which makes the document invalid. Recording the derivation when it is
+    // first found, instead of replaying it, is what fixing this looks like.
+    ("n3/critical-path-schedule", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
+    ("n3/dijkstra", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
+    ("n3/fibonacci", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
+    ("n3/quoted-head-unquote-select", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
+    ("n3/rule-matching", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
+    ("n3/wolf-goat-cabbage", "a proof-time backward re-search runs out of budget, recording pe:unproven (§7.1)"),
+    // Â§5.1: `{ :a :b ?C. } => ?C.` takes its conclusion from a variable
+    // unquoted at run time, so the rule alone does not say what it
+    // concludes and the step cannot be re-performed from it.
+    ("n3/quoted-head-unquote", "the rule's conclusion is a variable unquoted at run time, so the rule alone does not say what it concludes (§5.1)"),
 ];
 
 fn manifest_dir() -> &'static Path {
@@ -87,7 +78,20 @@ fn check(extension: &str, name: &str) -> Result<Report, String> {
             };
             eyeron::proof::prolog::check_proof(&source, &proof).map_err(|e| e.message)
         }
-        "srl" => eyeron::proof::srl::check_proof(&source, &proof).map_err(|e| e.message),
+        "srl" => {
+            // `IMPORTS` brings in rules the checker has to number too, so
+            // resolve it the way the CLI does before checking.
+            let mut program = eyeron::srl::parse_sparql_rl(&source, None).map_err(|e| e.message)?;
+            let mut pending = std::mem::take(&mut program.imports);
+            while let Some(target) = pending.pop() {
+                let file = target.rsplit('/').next().unwrap_or(&target);
+                let text = fs::read_to_string(examples.join(file)).map_err(|e| e.to_string())?;
+                let parsed = eyeron::srl::parse_sparql_rl(&text, Some(&target)).map_err(|e| e.message)?;
+                pending.extend(parsed.imports.clone());
+                eyeron::srl::merge_programs(&mut program, parsed);
+            }
+            eyeron::proof::srl::check_proof_program(&program, &proof).map_err(|e| e.message)
+        }
         _ => {
             let mut document =
                 eyeron::parse_n3_with_source(&source, None, Some(&format!("{name}.n3"))).map_err(|e| e.message)?;
