@@ -105,7 +105,11 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
     // trace shows only the positive patterns that fed the rule -- but
     // `pe:rule` still names the rule by its number in the rule set, so the
     // full body (FILTER included) is always one lookup away in the source.
-    let proof_rules: Vec<Rule> = if options.proof { program.rules.iter().enumerate().map(|(index, rule)| build_proof_rule(rule, index)).collect() } else { Vec::new() };
+    // Shared with every fact each rule derives, across every firing: a run
+    // records one `DerivedFact` per derived fact, and a copy of the rule in
+    // each was the largest thing a proof held.
+    let proof_rules: Vec<std::sync::Arc<Rule>> =
+        if options.proof { program.rules.iter().enumerate().map(|(index, rule)| std::sync::Arc::new(build_proof_rule(rule, index))).collect() } else { Vec::new() };
     let mut proofs: Vec<DerivedFact> = Vec::new();
 
     // Normalize graph membership before both indexed lookups and broad scans.
@@ -223,7 +227,7 @@ pub fn reason(program: &SparqlRlProgram, base_graph: &[Triple], options: &Reason
         derived,
         closure: inference_facts,
         proofs,
-        rules: proof_rules,
+        rules: proof_rules.iter().map(|rule| Rule::clone(rule)).collect(),
     })
 }
 
@@ -301,7 +305,7 @@ impl RuleActivation {
 /// `reason`'s own doc comment ("alternative derivations of an already
 /// known answer need not be retained") and N3's forward fixpoint's own
 /// practice of keeping the first derivation found.
-fn fire_rule(rule: &SparqlRlRule, proof_rule: Option<&Rule>, ctx: &BodyCtx, seen: &mut HashSet<Triple>, new_facts: &mut Vec<Triple>, proofs: &mut Vec<DerivedFact>) -> bool {
+fn fire_rule(rule: &SparqlRlRule, proof_rule: Option<&std::sync::Arc<Rule>>, ctx: &BodyCtx, seen: &mut HashSet<Triple>, new_facts: &mut Vec<Triple>, proofs: &mut Vec<DerivedFact>) -> bool {
     let mut fired = false;
     let mut materialize = |bindings: &Bindings| {
         let mut blank_map = BTreeMap::new();
@@ -321,7 +325,7 @@ fn fire_rule(rule: &SparqlRlRule, proof_rule: Option<&Rule>, ctx: &BodyCtx, seen
                             .map(|p| resolve_premise_triple(p, bindings))
                             .filter(|premise| premise.is_ground())
                             .collect();
-                        proofs.push(DerivedFact { fact: t.clone(), rule: proof_rule.clone(), premises, bindings: bindings.iter().map(|(k, v)| (k.clone(), v.clone())).collect() });
+                        proofs.push(DerivedFact { fact: t.clone(), rule: std::sync::Arc::clone(proof_rule), premises, bindings: bindings.iter().map(|(k, v)| (k.clone(), v.clone())).collect() });
                     }
                     new_facts.push(t);
                 }

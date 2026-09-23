@@ -17,6 +17,8 @@ extern "C" {
     fn javascript_date_now() -> f64;
 }
 
+use std::sync::Arc;
+
 pub type Bindings = BTreeMap<String, Term>;
 
 #[cfg(test)]
@@ -542,7 +544,11 @@ impl ReasonerResult {
 #[derive(Debug, Clone)]
 pub struct DerivedFact {
     pub fact: Triple,
-    pub rule: Rule,
+    /// Shared with the rule list and with every other fact this rule
+    /// derived. A run records one `DerivedFact` per derived fact and a rule
+    /// usually derives several, so a copy of the rule in each was the
+    /// largest thing a proof held.
+    pub rule: Arc<Rule>,
     pub premises: Vec<Triple>,
     /// The bindings this derivation used, in name order. A run records one
     /// of these per derived fact, and a rule binds a handful of variables,
@@ -899,6 +905,10 @@ fn emit_conclusions(
     capture_proof: bool,
 ) -> bool {
     let mut rules_changed = false;
+    // One handle per firing, shared by every fact this firing derives. A
+    // rule with several conclusions derives several facts at once, and a
+    // copy of the rule in each was the largest thing a proof held.
+    let shared_rule = capture_proof.then(|| Arc::new(rule.clone()));
     let mut blank_map = BTreeMap::<String, Term>::new();
 
     for head in &rule.conclusion {
@@ -907,7 +917,7 @@ fn emit_conclusions(
         if is_unquote_instruction(&t) {
             if let Term::Formula(triples) = t.o {
                 for expanded in triples {
-                    let proof = if capture_proof { Some(derived_fact_record(expanded.clone(), rule, bindings)) } else { None };
+                    let proof = shared_rule.as_ref().map(|rule| derived_fact_record(expanded.clone(), rule, bindings));
                     if insert_materialized_triple(
                         expanded,
                         closure,
@@ -927,7 +937,7 @@ fn emit_conclusions(
             continue;
         }
 
-        let proof = if capture_proof { Some(derived_fact_record(t.clone(), rule, bindings)) } else { None };
+        let proof = shared_rule.as_ref().map(|rule| derived_fact_record(t.clone(), rule, bindings));
         if insert_materialized_triple(
             t,
             closure,
@@ -948,10 +958,10 @@ fn emit_conclusions(
 }
 
 
-fn derived_fact_record(fact: Triple, rule: &Rule, bindings: &Bindings) -> DerivedFact {
+fn derived_fact_record(fact: Triple, rule: &Arc<Rule>, bindings: &Bindings) -> DerivedFact {
     DerivedFact {
         fact,
-        rule: rule.clone(),
+        rule: Arc::clone(rule),
         premises: rule.premise.iter().map(|premise| resolve_pattern_triple(premise, bindings)).collect(),
         bindings: bindings
             .iter()
@@ -2166,7 +2176,7 @@ fn explain_backward_inner(
         if reusable {
             state.done.insert(key.clone());
         }
-        emit(BackwardStep::Rule(DerivedFact { fact, rule: renamed, premises: premises.clone(), bindings }));
+        emit(BackwardStep::Rule(DerivedFact { fact, rule: Arc::new(renamed), premises: premises.clone(), bindings }));
         for premise in &premises {
             if !explain_backward_inner(premise, facts, fact_index, given, rules, depth + 1, max_depth, state, emit) {
                 emit(BackwardStep::Unproven {
@@ -2318,7 +2328,7 @@ fn find_backward_proof_inner(
         let fact = resolve_pattern_triple(head, &subst);
         let premises = renamed.premise.iter().map(|prem| resolve_pattern_triple(prem, &subst)).collect::<Vec<_>>();
         let bindings = subst.iter().map(|(k, v)| (k.clone(), resolve(v, &subst))).collect();
-        let df = DerivedFact { fact, rule: renamed, premises: premises.clone(), bindings };
+        let df = DerivedFact { fact, rule: Arc::new(renamed), premises: premises.clone(), bindings };
         let children = premises
             .iter()
             .map(|prem| {

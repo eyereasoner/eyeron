@@ -47,27 +47,28 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
 
     // One stable `_:stepN` id per distinct fact, in first-encounter order
     // across every root; a fact reached from several roots (or as both a
-    // root and someone else's premise) collapses onto the same id.
-    let mut fact_to_step = BTreeMap::<Triple, String>::new();
-    let mut steps = Vec::<(String, ProofEntry)>::new();
-    {
-        for entry in entries.iter() {
-            // A fact that is simply given in `DATA` or the base graph gets
-            // no step of its own: there is nothing to explain about it, and
-            // `pe:uses` names it by its own triple term instead. Only a
-            // derived fact (or a builtin/unproven premise, which carries
-            // its own annotation) becomes a step.
-            if matches!(entry, ProofEntry::Fact { .. }) {
-                continue;
-            }
-            let fact = entry_fact(entry);
-            if fact_to_step.contains_key(fact) {
-                continue;
-            }
-            let id = format!("_:step{}", fact_to_step.len() + 1);
-            fact_to_step.insert(fact.clone(), id.clone());
-            steps.push((id, entry.clone()));
+    // root and someone else's premise) collapses onto the same id. The id
+    // is the number alone until it is written: a long chain has as many
+    // steps as rules, and a name held twice per step is two strings per
+    // rule of the program.
+    let mut fact_to_step = BTreeMap::<&Triple, usize>::new();
+    let mut steps = Vec::<(usize, &ProofEntry)>::new();
+    for entry in entries.iter() {
+        // A fact that is simply given in `DATA` or the base graph gets no
+        // step of its own: there is nothing to explain about it, and
+        // `pe:uses` names it by its own triple term instead. Only a
+        // derived fact (or a builtin/unproven premise, which carries its
+        // own annotation) becomes a step.
+        if matches!(entry, ProofEntry::Fact { .. }) {
+            continue;
         }
+        let fact = entry_fact(entry);
+        if fact_to_step.contains_key(fact) {
+            continue;
+        }
+        let id = fact_to_step.len() + 1;
+        fact_to_step.insert(fact, id);
+        steps.push((id, entry));
     }
 
     let mut proof_prefixes = prefixes.clone();
@@ -90,9 +91,9 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
 
     let numbering = RuleNumbering::new(&result.rules);
     let mut body = Vec::<String>::new();
-    let mut output_seen = BTreeSet::<Triple>::new();
+    let mut output_seen = BTreeSet::<&Triple>::new();
     for root in &selected {
-        if output_seen.insert(root.fact.clone()) {
+        if output_seen.insert(&root.fact) {
             body.push(format!("  {}", triple_to_srl(&root.fact, &proof_prefixes)));
         }
     }
@@ -102,7 +103,7 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
         if idx > 0 {
             body.push(String::new());
         }
-        body.push(render_step(id, entry, &fact_to_step, &numbering, &proof_prefixes));
+        body.push(render_step(*id, entry, &fact_to_step, &numbering, &proof_prefixes));
     }
 
     let mut parts = header;
@@ -125,7 +126,7 @@ fn entry_fact<'a>(entry: &'a ProofEntry<'a>) -> &'a Triple {
     }
 }
 
-fn render_step(id: &str, entry: &ProofEntry<'_>, fact_to_step: &BTreeMap<Triple, String>, numbering: &RuleNumbering, prefixes: &BTreeMap<String, String>) -> String {
+fn render_step(id: usize, entry: &ProofEntry<'_>, fact_to_step: &BTreeMap<&Triple, usize>, numbering: &RuleNumbering, prefixes: &BTreeMap<String, String>) -> String {
     match entry {
         ProofEntry::Rule(proof) => render_rule_step(id, proof, fact_to_step, numbering, prefixes),
         // Collection above never makes a step for a given fact.
@@ -141,7 +142,7 @@ fn render_step(id: &str, entry: &ProofEntry<'_>, fact_to_step: &BTreeMap<Triple,
     }
 }
 
-fn render_rule_step(id: &str, proof: &DerivedFact, fact_to_step: &BTreeMap<Triple, String>, numbering: &RuleNumbering, prefixes: &BTreeMap<String, String>) -> String {
+fn render_rule_step(id: usize, proof: &DerivedFact, fact_to_step: &BTreeMap<&Triple, usize>, numbering: &RuleNumbering, prefixes: &BTreeMap<String, String>) -> String {
     let mut groups = vec![("rdf:reifies".to_string(), vec![triple_term(&proof.fact, prefixes)])];
     groups.push(justification("rule", rule_reference(&proof.rule, numbering, prefixes)));
 
@@ -153,7 +154,7 @@ fn render_rule_step(id: &str, proof: &DerivedFact, fact_to_step: &BTreeMap<Tripl
     let uses: Vec<String> = proof
         .premises
         .iter()
-        .map(|premise| fact_to_step.get(premise).cloned().unwrap_or_else(|| triple_term(premise, prefixes)))
+        .map(|premise| fact_to_step.get(premise).map(|id| step_name(*id)).unwrap_or_else(|| triple_term(premise, prefixes)))
         .collect();
     if !uses.is_empty() {
         groups.push(("pe:uses".to_string(), uses));
@@ -162,10 +163,14 @@ fn render_rule_step(id: &str, proof: &DerivedFact, fact_to_step: &BTreeMap<Tripl
     render_step_groups(id, &groups)
 }
 
-fn render_step_groups(id: &str, groups: &[(String, Vec<String>)]) -> String {
+fn step_name(id: usize) -> String {
+    format!("_:step{}", id)
+}
+
+fn render_step_groups(id: usize, groups: &[(String, Vec<String>)]) -> String {
     let mut out = String::new();
     out.push_str("  ");
-    out.push_str(id);
+    out.push_str(&step_name(id));
     out.push('\n');
     for (idx, (predicate, objects)) in groups.iter().enumerate() {
         let is_last = idx + 1 == groups.len();

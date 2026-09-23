@@ -22,11 +22,10 @@ const PARSE_ONLY_EXAMPLES: &[&str] = &["alma-rdf-messages", "collection"];
 
 /// Top-level `.n3` examples that get neither an `examples/proof/` golden
 /// nor a documented reason from `PARSE_ONLY_EXAMPLES`, and why not.
-/// A proof is now linear in the size of the derivation it explains — one
-/// walk across every claim, each step written once — so the only examples
-/// left out for size are the two largest `deep-taxonomy-*` stress sizes,
-/// whose goldens would be megabytes of repetition saying nothing
-/// `deep-taxonomy-1000` does not already say.
+/// A proof is linear in the size of the derivation it explains — one walk
+/// across every claim, each step written once — so every example that
+/// derives anything now has a proof golden, `deep-taxonomy-100000`
+/// included. Only these three are left out, and none of them for size.
 const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
     ("check-unsafe", "deliberately derives nothing: its head variable is unsafe/unbound by design"),
     ("monoid-identity-uniqueness", "its printed result comes from a log:query goal, not a forward-derived fact --proof tracks"),
@@ -34,8 +33,6 @@ const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
         "proof-audit",
         "its companion input (examples/input/proof-audit.trig) is itself an N3 proof document with quoted formulas, which the CLI's second positional file argument parses in RDF-only mode and rejects",
     ),
-    ("deep-taxonomy-10000", "its proof is correct and linear, but megabytes of it; deep-taxonomy-1000 covers the same shape"),
-    ("deep-taxonomy-100000", "its proof is correct and linear, but megabytes of it; deep-taxonomy-1000 covers the same shape"),
 ];
 
 fn main() {

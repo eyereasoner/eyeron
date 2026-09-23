@@ -572,7 +572,7 @@ fn proof_output_marks_missing_support_as_unproven() {
     let rule = Rule::new(vec![missing.clone()], vec![derived.clone()], true);
     let proof = DerivedFact {
         fact: derived.clone(),
-        rule: rule.clone(),
+        rule: std::sync::Arc::new(rule.clone()),
         premises: vec![missing],
         bindings: Vec::new(),
     };
@@ -648,7 +648,7 @@ fn proof_output_recognizes_compatible_lookaround_builtin() {
     );
     let proof = DerivedFact {
         fact: derived.clone(),
-        rule: rule.clone(),
+        rule: std::sync::Arc::new(rule.clone()),
         premises: vec![compatible_builtin],
         bindings: Vec::new(),
     };
