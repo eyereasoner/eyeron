@@ -69,14 +69,69 @@ explains its whole closure; a backward run explains its answer.
 
 ## What a run reports
 
-- **N3** prints the facts it newly derived.
-- **SPARQL-RL** prints its inference graph: the rule set's own `DATA` facts
-  that the base graph does not already carry, plus everything derived.
-- **Prolog** prints a result document answering the program's `?-`
-  directives — `query/3`, `result/3`, `answer/2`.
+The three Socrates examples encode one inference — Socrates is human, humans
+are mortal — but each language prints a different part of it.
 
-`--proof` adds the derivation to each, in the same shape in all three:
-a conclusion, the single term saying why it holds, the bindings that
+**N3** prints the facts it newly derived, and not the input it was given:
+
+```
+$ eyeron examples/socrates.n3
+@prefix : <http://example.org/socrates#> .
+
+:Socrates a :Mortal .
+```
+
+**SPARQL 1.2 RL** prints its inference graph. A rule set works over two
+graphs: `--data FILE` supplies a **base graph**, which is read but never
+added to, while the rule set's own `DATA { ... }` block seeds the
+**inference graph**, which grows with every rule conclusion. An ordinary
+rule body matches the union of the two; `WHERE DATA { ... }` restricts
+matching to the base graph. What a run prints is the inference graph alone —
+the rule set's own `DATA` facts that the base graph does not already carry,
+plus everything derived. With no `--data`, that is the whole `DATA` block
+plus the conclusions:
+
+```
+$ eyeron examples/socrates.srl
+@prefix : <http://example.org/socrates#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:Socrates a :Human .              # the rule set's own DATA
+:Human rdfs:subClassOf :Mortal .  # the rule set's own DATA
+:Socrates a :Mortal .             # derived
+```
+
+**Prolog** prints a result document, which is itself an ordinary Prolog
+program:
+
+```
+$ eyeron examples/ancestor.pl
+% Prolog result format 4
+query(1, ancestor(alice, _0), ['Who' = _0]).
+result(1, complete, 3).
+answer(1, ['Who' = bob]).
+answer(1, ['Who' = carol]).
+answer(1, ['Who' = dana]).
+```
+
+- `query(Id, Goal, Variables)` — the question that was asked. `Id` numbers
+  the program's `?-` directives from 1, and the other facts refer back to
+  it. The goal's variables are renamed `_0`, `_1`, …, and `Variables` says
+  which source name stands for which, as `'Name' = Var` pairs; here `'Who'`
+  is `_0`, the second argument of the goal.
+- `result(Id, Status, Count)` — how the query finished and how many answers
+  it had. `complete` means the search finished; `result(1, complete, 0)` is
+  a query that completed with no answers.
+- `answer(Id, Bindings)` — one answer, as `'Name' = Value` pairs over those
+  same variables. A ground query that succeeds binds nothing, so it reports
+  `answer(Id, [])`.
+
+Because that document is a program, it can be saved, loaded and queried:
+reading it back records the question and its answers as data, rather than
+running the query again.
+
+`--proof` adds the derivation to each of the three, in the same shape: a
+conclusion, the single term saying why it holds, the bindings that
 justification used, and the conclusions it used. See
 [the guide's proof section](guide.md#proofs) for the three side by side, and
 [`proof-checking.md`](proof-checking.md) for what makes one valid.
