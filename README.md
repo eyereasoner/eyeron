@@ -7,7 +7,8 @@ Eyeron is a Rust reasoner for **Notation3 (N3)**, **SPARQL 1.2 RL**, and **Prolo
 > [!TIP]
 > [Try Eyeron in the browser](https://eyereasoner.github.io/eyeron/playground).
 
-Read the [Eyeron guide](docs/guide.md) for choosing a language, building, embedding, testing, and the code layout.
+Read [how Eyeron reasons](docs/reasoning.md) for what each language's evaluator actually does, and the
+[Eyeron guide](docs/guide.md) for choosing a language, building, embedding, testing, and the code layout.
 
 ## Three formats, one tool
 
@@ -29,6 +30,7 @@ cargo build --release
 ## Documentation
 
 - [`docs/n3.md`](docs/n3.md), [`docs/sparql-rl.md`](docs/sparql-rl.md), [`docs/prolog.md`](docs/prolog.md) ([accepted subset](docs/prolog-specification.md)) — per-format syntax, semantics, CLI flags, internals, and known limitations.
+- [`docs/reasoning.md`](docs/reasoning.md) — how each language's evaluator searches, and why the same program gives proofs of different sizes.
 - [`docs/guide.md`](docs/guide.md) — choosing a language, building and running, proofs, the Rust library and browser APIs, testing, and the architecture.
 - [`docs/proof-checking.md`](docs/proof-checking.md) — what makes a proof document valid for a program, and what `--check-proof` verifies.
 

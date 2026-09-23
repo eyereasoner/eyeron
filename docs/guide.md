@@ -21,6 +21,8 @@ cargo build --release
 
 The languages share entry points but not evaluators or semantics, so changing a file extension does not translate a program. Output conventions differ too: N3 emits newly derived facts, SPARQL-RL emits its inference graph (the rule set's own `DATA` facts the base graph does not already carry, plus everything derived), and Prolog answers the program's `?-` directives. The Rust and browser APIs also expose the completed fact sets.
 
+[`reasoning.md`](reasoning.md) describes what each evaluator does — a forward fixpoint for N3 and SPARQL-RL, tabled backward search for Prolog — and why that decides how much a proof contains.
+
 ## Building and running
 
 ```bash
