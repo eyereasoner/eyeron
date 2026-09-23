@@ -151,7 +151,7 @@ export function reason(input) {
 }
 
 /**
- * Run a Prolog (`.pl`) program and return its "Prolog result format 4"
+ * Run a Prolog (`.pl`) program and return its result document
  * output — or a JSON rendering when `json` is set. `query`, when
  * non-blank, is appended as an extra `?-` directive before running
  * (matching the `--query` CLI flag).
@@ -442,7 +442,7 @@ function __wbg_get_imports() {
         __wbg___wbindgen_throw_344f42d3211c4765: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
-        __wbg_now_8cf9bba127c8b08b: function() {
+        __wbg_now_7b2a3f36e330cc3c: function() {
             const ret = Date.now();
             return ret;
         },
