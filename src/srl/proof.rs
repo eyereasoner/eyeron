@@ -22,7 +22,8 @@
 use crate::ast::*;
 use super::printing::{term_to_srl, triple_term, triple_to_srl};
 use crate::n3::proof::{
-    collect_all_proof_entries, collect_prefixes_triple, justification, quoted_string, render_predicate_objects, rule_reference, unique_proofs, vars_in_rule,
+    collect_all_proof_entries, collect_prefixes_triple, index_by_conclusion, justification, quoted_string, render_predicate_objects, rule_reference, unique_proofs,
+    vars_in_rule, RuleNumbering,
     ProofEntry,
 };
 use crate::n3::reasoner::{DerivedFact, ReasonerResult};
@@ -37,10 +38,7 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
     }
 
     let selected = unique_proofs(&result.proofs);
-    let mut derived_by_fact = BTreeMap::<Triple, Vec<DerivedFact>>::new();
-    for proof in &result.proofs {
-        derived_by_fact.entry(proof.fact.clone()).or_default().push(proof.clone());
-    }
+    let derived_by_fact = index_by_conclusion(&result.proofs);
     let explicit_facts = result.explicit.iter().cloned().collect::<BTreeSet<_>>();
 
     // One walk across every root, so a premise shared by several
@@ -90,6 +88,7 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
         }
     }
 
+    let numbering = RuleNumbering::new(&result.rules);
     let mut body = Vec::<String>::new();
     let mut output_seen = BTreeSet::<Triple>::new();
     for root in &selected {
@@ -103,7 +102,7 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
         if idx > 0 {
             body.push(String::new());
         }
-        body.push(render_step(id, entry, &fact_to_step, &result.rules, &proof_prefixes));
+        body.push(render_step(id, entry, &fact_to_step, &numbering, &proof_prefixes));
     }
 
     let mut parts = header;
@@ -117,7 +116,7 @@ pub fn proof_to_srl(prefixes: &BTreeMap<String, String>, result: &ReasonerResult
     parts.join("\n").trim_end().to_string() + "\n"
 }
 
-fn entry_fact(entry: &ProofEntry) -> &Triple {
+fn entry_fact<'a>(entry: &'a ProofEntry<'a>) -> &'a Triple {
     match entry {
         ProofEntry::Rule(df) => &df.fact,
         ProofEntry::Fact { fact, .. } => fact,
@@ -126,9 +125,9 @@ fn entry_fact(entry: &ProofEntry) -> &Triple {
     }
 }
 
-fn render_step(id: &str, entry: &ProofEntry, fact_to_step: &BTreeMap<Triple, String>, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
+fn render_step(id: &str, entry: &ProofEntry<'_>, fact_to_step: &BTreeMap<Triple, String>, numbering: &RuleNumbering, prefixes: &BTreeMap<String, String>) -> String {
     match entry {
-        ProofEntry::Rule(proof) => render_rule_step(id, proof, fact_to_step, rules, prefixes),
+        ProofEntry::Rule(proof) => render_rule_step(id, proof, fact_to_step, numbering, prefixes),
         // Collection above never makes a step for a given fact.
         ProofEntry::Fact { fact, .. } => render_step_groups(id, &[("rdf:reifies".to_string(), vec![triple_term(fact, prefixes)])]),
         ProofEntry::Builtin { fact, builtin } => render_step_groups(
@@ -142,9 +141,9 @@ fn render_step(id: &str, entry: &ProofEntry, fact_to_step: &BTreeMap<Triple, Str
     }
 }
 
-fn render_rule_step(id: &str, proof: &DerivedFact, fact_to_step: &BTreeMap<Triple, String>, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
+fn render_rule_step(id: &str, proof: &DerivedFact, fact_to_step: &BTreeMap<Triple, String>, numbering: &RuleNumbering, prefixes: &BTreeMap<String, String>) -> String {
     let mut groups = vec![("rdf:reifies".to_string(), vec![triple_term(&proof.fact, prefixes)])];
-    groups.push(justification("rule", rule_reference(&proof.rule, rules, prefixes)));
+    groups.push(justification("rule", rule_reference(&proof.rule, numbering, prefixes)));
 
     let bindings = render_binding_items(proof, prefixes);
     if !bindings.is_empty() {
@@ -185,24 +184,20 @@ fn render_binding_items(proof: &DerivedFact, prefixes: &BTreeMap<String, String>
     // them out loses nothing a checker needs: `pe:uses` names the matched
     // triples outright, and matching them against the rule's patterns
     // determines the join.
-    let mut names = proof
+    let mut items = proof
         .bindings
-        .keys()
-        .filter(|name| rule_vars.contains(*name) && !name.starts_with("__path_"))
-        .cloned()
-        .collect::<Vec<_>>();
-    names.sort();
-    names
-        .into_iter()
-        .filter_map(|name| {
-            let value = proof.bindings.get(&name)?;
-            let display = proof.rule.proof_var_source_names.get(&name).unwrap_or(&name);
-            Some(format!("[ pe:var {}; pe:value {} ]", quoted_string(display), term_to_srl(value, prefixes, false)))
+        .iter()
+        .filter(|(name, _)| rule_vars.contains(name) && !name.starts_with("__path_"))
+        .map(|(name, value)| {
+            let display = proof.rule.proof_var_source_names.get(name).unwrap_or(name);
+            (display.clone(), format!("[ pe:var {}; pe:value {} ]", quoted_string(display), term_to_srl(value, prefixes, false)))
         })
-        .collect()
+        .collect::<Vec<_>>();
+    items.sort();
+    items.into_iter().map(|(_, item)| item).collect()
 }
 
-fn used_prefixes(prefixes: &BTreeMap<String, String>, roots: &[DerivedFact], entries: &[ProofEntry]) -> BTreeSet<String> {
+fn used_prefixes(prefixes: &BTreeMap<String, String>, roots: &[&DerivedFact], entries: &[ProofEntry]) -> BTreeSet<String> {
     let mut used = BTreeSet::new();
     used.insert("pe".to_string());
     used.insert("rdf".to_string());

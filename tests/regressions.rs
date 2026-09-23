@@ -574,7 +574,7 @@ fn proof_output_marks_missing_support_as_unproven() {
         fact: derived.clone(),
         rule: rule.clone(),
         premises: vec![missing],
-        bindings: BTreeMap::new(),
+        bindings: Vec::new(),
     };
     let result = ReasonerResult {
         status: CompletionStatus::Complete,
@@ -650,7 +650,7 @@ fn proof_output_recognizes_compatible_lookaround_builtin() {
         fact: derived.clone(),
         rule: rule.clone(),
         premises: vec![compatible_builtin],
-        bindings: BTreeMap::new(),
+        bindings: Vec::new(),
     };
     let result = ReasonerResult {
         status: CompletionStatus::Complete,

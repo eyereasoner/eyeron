@@ -544,7 +544,11 @@ pub struct DerivedFact {
     pub fact: Triple,
     pub rule: Rule,
     pub premises: Vec<Triple>,
-    pub bindings: Bindings,
+    /// The bindings this derivation used, in name order. A run records one
+    /// of these per derived fact, and a rule binds a handful of variables,
+    /// so a map's node -- sized for eleven entries whether it holds one or
+    /// eleven -- costs more than the bindings themselves.
+    pub bindings: Vec<(String, Term)>,
 }
 
 #[derive(Debug, Clone)]

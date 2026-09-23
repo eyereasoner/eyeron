@@ -10,10 +10,7 @@ pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult)
     if result.proofs.is_empty() { return String::new(); }
 
     let roots = unique_proofs(&result.proofs);
-    let mut derived_by_fact = BTreeMap::<Triple, Vec<DerivedFact>>::new();
-    for proof in &result.proofs {
-        derived_by_fact.entry(proof.fact.clone()).or_default().push(proof.clone());
-    }
+    let derived_by_fact = index_by_conclusion(&result.proofs);
     let explicit_facts = result.explicit.iter().cloned().collect::<BTreeSet<_>>();
 
     let entries = collect_all_proof_entries(
@@ -52,28 +49,44 @@ pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult)
         }
     }
 
+    let numbering = RuleNumbering::new(&result.rules);
     for entry in &entries {
         parts.push(String::new());
-        parts.push(outdent(&render_entry(entry, &result.rules, &proof_prefixes)));
+        parts.push(outdent(&render_entry(entry, &numbering, &proof_prefixes)));
     }
 
     parts.join("\n").trim_end().to_string() + "\n"
 }
 
-pub(crate) fn unique_proofs(proofs: &[DerivedFact]) -> Vec<DerivedFact> {
-    let mut seen = BTreeSet::<Triple>::new();
+/// The derivations to explain: one per distinct conclusion, the first
+/// recorded. These borrow from the run's own proof list rather than copying
+/// it -- a long chain records one derivation per link, and a copy of each is
+/// a copy of the whole run.
+pub(crate) fn unique_proofs(proofs: &[DerivedFact]) -> Vec<&DerivedFact> {
+    let mut seen = BTreeSet::<&Triple>::new();
     let mut out = Vec::new();
     for proof in proofs {
-        if seen.insert(proof.fact.clone()) {
-            out.push(proof.clone());
+        if seen.insert(&proof.fact) {
+            out.push(proof);
         }
     }
     out
 }
 
+/// Every recorded derivation, found by what it concludes.
+pub(crate) fn index_by_conclusion(proofs: &[DerivedFact]) -> BTreeMap<&Triple, Vec<&DerivedFact>> {
+    let mut index = BTreeMap::<&Triple, Vec<&DerivedFact>>::new();
+    for proof in proofs {
+        index.entry(&proof.fact).or_default().push(proof);
+    }
+    index
+}
+
+/// A rule step borrows the derivation the run already recorded; only a step
+/// an explanation had to construct (a backward proof) is owned.
 #[derive(Debug, Clone)]
-pub(crate) enum ProofEntry {
-    Rule(DerivedFact),
+pub(crate) enum ProofEntry<'a> {
+    Rule(std::borrow::Cow<'a, DerivedFact>),
     Fact { fact: Triple, source: Option<SourceRef> },
     Builtin { fact: Triple, builtin: Term },
     Unproven { fact: Triple, reason: String },
@@ -87,14 +100,14 @@ pub(crate) enum ProofEntry {
 /// and to write. One collector across all roots makes both linear, and
 /// loses nothing: a step names what it used by those premises' own
 /// triples, so a reader finds them wherever they are.
-pub(crate) fn collect_all_proof_entries(
-    roots: &[DerivedFact],
-    derived_by_fact: &BTreeMap<Triple, Vec<DerivedFact>>,
-    explicit_facts: &BTreeSet<Triple>,
-    explicit_sources: &BTreeMap<Triple, SourceRef>,
-    base_facts: &[Triple],
-    rules: &[Rule],
-) -> Vec<ProofEntry> {
+pub(crate) fn collect_all_proof_entries<'a>(
+    roots: &[&'a DerivedFact],
+    derived_by_fact: &BTreeMap<&'a Triple, Vec<&'a DerivedFact>>,
+    explicit_facts: &'a BTreeSet<Triple>,
+    explicit_sources: &'a BTreeMap<Triple, SourceRef>,
+    base_facts: &'a [Triple],
+    rules: &'a [Rule],
+) -> Vec<ProofEntry<'a>> {
     let mut collector = ProofCollector {
         derived_by_fact,
         explicit_facts,
@@ -110,43 +123,21 @@ pub(crate) fn collect_all_proof_entries(
     collector.entries
 }
 
-#[allow(dead_code)]
-pub(crate) fn collect_proof_entries(
-    root: &DerivedFact,
-    derived_by_fact: &BTreeMap<Triple, Vec<DerivedFact>>,
-    explicit_facts: &BTreeSet<Triple>,
-    explicit_sources: &BTreeMap<Triple, SourceRef>,
-    base_facts: &[Triple],
-    rules: &[Rule],
-) -> Vec<ProofEntry> {
-    let mut collector = ProofCollector {
-        derived_by_fact,
-        explicit_facts,
-        explicit_sources,
-        base_facts,
-        rules,
-        seen: HashSet::new(),
-        entries: Vec::new(),
-    };
-    collector.visit_derived_fact(root);
-    collector.entries
-}
-
-struct ProofCollector<'a> {
-    derived_by_fact: &'a BTreeMap<Triple, Vec<DerivedFact>>,
+struct ProofCollector<'a, 'b> {
+    derived_by_fact: &'b BTreeMap<&'a Triple, Vec<&'a DerivedFact>>,
     explicit_facts: &'a BTreeSet<Triple>,
     explicit_sources: &'a BTreeMap<Triple, SourceRef>,
     base_facts: &'a [Triple],
     rules: &'a [Rule],
     seen: HashSet<String>,
-    entries: Vec<ProofEntry>,
+    entries: Vec<ProofEntry<'a>>,
 }
 
-impl ProofCollector<'_> {
-    fn visit_derived_fact(&mut self, proof: &DerivedFact) {
+impl<'a> ProofCollector<'a, '_> {
+    fn visit_derived_fact(&mut self, proof: &'a DerivedFact) {
         let key = format!("rule:{}:{}", triple_key(&proof.fact), source_key(proof.rule.source.as_ref()));
         if !self.seen.insert(key) { return; }
-        self.entries.push(ProofEntry::Rule(proof.clone()));
+        self.entries.push(ProofEntry::Rule(std::borrow::Cow::Borrowed(proof)));
 
         for premise in &proof.premises {
             self.visit_premise(premise, Some(proof));
@@ -158,7 +149,7 @@ impl ProofCollector<'_> {
             BackwardStep::Rule(df) => {
                 let key = format!("rule:{}:{}", triple_key(&df.fact), source_key(df.rule.source.as_ref()));
                 if self.seen.insert(key) {
-                    self.entries.push(ProofEntry::Rule(df));
+                    self.entries.push(ProofEntry::Rule(std::borrow::Cow::Owned(df)));
                 }
             }
             BackwardStep::Fact { fact } => {
@@ -239,7 +230,7 @@ impl ProofCollector<'_> {
         });
     }
 
-    fn remember_entry(&mut self, entry: ProofEntry) {
+    fn remember_entry(&mut self, entry: ProofEntry<'a>) {
         let key = match &entry {
             ProofEntry::Rule(df) => format!("rule:{}:{}", triple_key(&df.fact), source_key(df.rule.source.as_ref())),
             ProofEntry::Fact { fact, source } => format!("fact:{}:{}", triple_key(fact), source_key(source.as_ref())),
@@ -261,13 +252,36 @@ impl ProofCollector<'_> {
 /// both rewrite a rule's premises or conclusion while leaving its source
 /// alone. A rule with no source at all (one the reasoner generated at run
 /// time) has no number to cite.
-pub(crate) fn rule_number(rule: &Rule, rules: &[Rule]) -> Option<usize> {
-    if let Some(source) = &rule.source {
-        if let Some(index) = rules.iter().position(|candidate| candidate.source.as_ref() == Some(source)) {
-            return Some(index + 1);
+pub(crate) struct RuleNumbering<'a> {
+    rules: &'a [Rule],
+    by_source: BTreeMap<(&'a str, usize), usize>,
+}
+
+impl<'a> RuleNumbering<'a> {
+    /// Built once per proof. Finding a rule's number by scanning the
+    /// document for each step costs the product of the two, which for a
+    /// long rule chain -- where every rule fires once, so there are as
+    /// many steps as rules -- is the square of the program.
+    pub(crate) fn new(rules: &'a [Rule]) -> Self {
+        let mut by_source = BTreeMap::new();
+        for (index, rule) in rules.iter().enumerate() {
+            if let Some(source) = &rule.source {
+                by_source.entry((source.label.as_str(), source.line)).or_insert(index + 1);
+            }
         }
+        Self { rules, by_source }
     }
-    rules.iter().position(|candidate| candidate == rule).map(|index| index + 1)
+
+    pub(crate) fn number(&self, rule: &Rule) -> Option<usize> {
+        if let Some(source) = &rule.source {
+            if let Some(number) = self.by_source.get(&(source.label.as_str(), source.line)) {
+                return Some(*number);
+            }
+        }
+        // A rule the engine generated has no source to look up, and there
+        // are few of them, so structural search is affordable here.
+        self.rules.iter().position(|candidate| candidate == rule).map(|index| index + 1)
+    }
 }
 
 /// The one predicate that says why a step holds, and its object. Every
@@ -284,9 +298,9 @@ fn outdent(block: &str) -> String {
     block.lines().map(|line| line.strip_prefix("  ").unwrap_or(line)).collect::<Vec<_>>().join("\n")
 }
 
-fn render_entry(entry: &ProofEntry, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
+fn render_entry(entry: &ProofEntry, numbering: &RuleNumbering, prefixes: &BTreeMap<String, String>) -> String {
     match entry {
-        ProofEntry::Rule(proof) => render_rule_entry(proof, rules, prefixes),
+        ProofEntry::Rule(proof) => render_rule_entry(proof, numbering, prefixes),
         ProofEntry::Fact { fact, source } => {
             format!("  {}\n    pe:fact {}.", graph_for_triple(fact, prefixes), quoted_string(&fact_label(source.as_ref())))
         }
@@ -299,10 +313,10 @@ fn render_entry(entry: &ProofEntry, rules: &[Rule], prefixes: &BTreeMap<String, 
     }
 }
 
-fn render_rule_entry(proof: &DerivedFact, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
+fn render_rule_entry(proof: &DerivedFact, numbering: &RuleNumbering, prefixes: &BTreeMap<String, String>) -> String {
     let subject = graph_for_triple(&proof.fact, prefixes);
     let mut groups = Vec::<(String, Vec<String>)>::new();
-    groups.push(justification("rule", rule_reference(&proof.rule, rules, prefixes)));
+    groups.push(justification("rule", rule_reference(&proof.rule, numbering, prefixes)));
 
     let bindings = render_binding_items(proof, prefixes);
     if !bindings.is_empty() {
@@ -330,21 +344,17 @@ fn render_rule_entry(proof: &DerivedFact, rules: &[Rule], prefixes: &BTreeMap<St
 
 fn render_binding_items(proof: &DerivedFact, prefixes: &BTreeMap<String, String>) -> Vec<String> {
     let rule_vars = vars_in_rule(&proof.rule);
-    let mut names = proof
+    let mut items = proof
         .bindings
-        .keys()
-        .filter(|name| rule_vars.contains(*name))
-        .cloned()
-        .collect::<Vec<_>>();
-    names.sort();
-    names
-        .into_iter()
-        .filter_map(|name| {
-            let value = proof.bindings.get(&name)?;
-            let display = proof.rule.proof_var_source_names.get(&name).unwrap_or(&name);
-            Some(format!("[ pe:var {}; pe:value {} ]", quoted_string(display), term_to_n3_object(value, prefixes)))
+        .iter()
+        .filter(|(name, _)| rule_vars.contains(name))
+        .map(|(name, value)| {
+            let display = proof.rule.proof_var_source_names.get(name).unwrap_or(name);
+            (display.clone(), format!("[ pe:var {}; pe:value {} ]", quoted_string(display), term_to_n3_object(value, prefixes)))
         })
-        .collect()
+        .collect::<Vec<_>>();
+    items.sort();
+    items.into_iter().map(|(_, item)| item).collect()
 }
 
 pub(crate) fn render_predicate_objects(predicate: &str, objects: &[String], is_last: bool) -> Vec<String> {
@@ -387,9 +397,9 @@ fn graph_for_triple(triple: &Triple, prefixes: &BTreeMap<String, String>) -> Str
 /// that rule itself instead. The generated rule is also a derived
 /// statement, so the proof contains a step deriving it, and a checker can
 /// hold the citation to that (`docs/proof-checking.md` §5.1).
-pub(crate) fn rule_reference(rule: &Rule, rules: &[Rule], prefixes: &BTreeMap<String, String>) -> String {
+pub(crate) fn rule_reference(rule: &Rule, numbering: &RuleNumbering, prefixes: &BTreeMap<String, String>) -> String {
     if rule.source.is_some() {
-        if let Some(number) = rule_number(rule, rules) {
+        if let Some(number) = numbering.number(rule) {
             return number.to_string();
         }
     }
@@ -469,7 +479,7 @@ fn is_builtin_premise(triple: &Triple) -> bool {
         || iri.starts_with("http://www.w3.org/2000/10/swap/crypto#")
 }
 
-fn used_prefixes_for_proof(prefixes: &BTreeMap<String, String>, roots: &[DerivedFact], entries: &[ProofEntry]) -> BTreeSet<String> {
+fn used_prefixes_for_proof(prefixes: &BTreeMap<String, String>, roots: &[&DerivedFact], entries: &[ProofEntry]) -> BTreeSet<String> {
     let mut used = BTreeSet::new();
     used.insert("pe".to_string());
     for root in roots {

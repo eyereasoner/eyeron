@@ -321,7 +321,7 @@ fn fire_rule(rule: &SparqlRlRule, proof_rule: Option<&Rule>, ctx: &BodyCtx, seen
                             .map(|p| resolve_premise_triple(p, bindings))
                             .filter(|premise| premise.is_ground())
                             .collect();
-                        proofs.push(DerivedFact { fact: t.clone(), rule: proof_rule.clone(), premises, bindings: bindings.clone() });
+                        proofs.push(DerivedFact { fact: t.clone(), rule: proof_rule.clone(), premises, bindings: bindings.iter().map(|(k, v)| (k.clone(), v.clone())).collect() });
                     }
                     new_facts.push(t);
                 }
