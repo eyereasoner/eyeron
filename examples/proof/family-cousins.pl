@@ -1,30 +1,15 @@
-% Prolog result format 4
-query(1, cousin(_0, _1), ['Person' = _0, 'Cousin' = _1]).
-result(1, complete, 12).
-answer(1, ['Person' = dave, 'Cousin' = frank]).
-why(1, ['Person' = dave, 'Cousin' = frank], [cousin(dave, frank)]).
-answer(1, ['Person' = dave, 'Cousin' = grace]).
-why(1, ['Person' = dave, 'Cousin' = grace], [cousin(dave, grace)]).
-answer(1, ['Person' = eve, 'Cousin' = frank]).
-why(1, ['Person' = eve, 'Cousin' = frank], [cousin(eve, frank)]).
-answer(1, ['Person' = eve, 'Cousin' = grace]).
-why(1, ['Person' = eve, 'Cousin' = grace], [cousin(eve, grace)]).
-answer(1, ['Person' = frank, 'Cousin' = dave]).
-why(1, ['Person' = frank, 'Cousin' = dave], [cousin(frank, dave)]).
-answer(1, ['Person' = frank, 'Cousin' = eve]).
-why(1, ['Person' = frank, 'Cousin' = eve], [cousin(frank, eve)]).
-answer(1, ['Person' = grace, 'Cousin' = dave]).
-why(1, ['Person' = grace, 'Cousin' = dave], [cousin(grace, dave)]).
-answer(1, ['Person' = grace, 'Cousin' = eve]).
-why(1, ['Person' = grace, 'Cousin' = eve], [cousin(grace, eve)]).
-answer(1, ['Person' = heidi, 'Cousin' = judy]).
-why(1, ['Person' = heidi, 'Cousin' = judy], [cousin(heidi, judy)]).
-answer(1, ['Person' = ivan, 'Cousin' = judy]).
-why(1, ['Person' = ivan, 'Cousin' = judy], [cousin(ivan, judy)]).
-answer(1, ['Person' = judy, 'Cousin' = heidi]).
-why(1, ['Person' = judy, 'Cousin' = heidi], [cousin(judy, heidi)]).
-answer(1, ['Person' = judy, 'Cousin' = ivan]).
-why(1, ['Person' = judy, 'Cousin' = ivan], [cousin(judy, ivan)]).
+cousin(dave, frank).
+cousin(dave, grace).
+cousin(eve, frank).
+cousin(eve, grace).
+cousin(frank, dave).
+cousin(frank, eve).
+cousin(grace, dave).
+cousin(grace, eve).
+cousin(heidi, judy).
+cousin(ivan, judy).
+cousin(judy, heidi).
+cousin(judy, ivan).
 
 clause(1, parent(adam, bob), true).
 clause(2, parent(adam, carol), true).

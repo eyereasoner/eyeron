@@ -1,36 +1,12 @@
-% Prolog result format 4
-query(1, score(_0, _1), ['Disease' = _0, 'Score' = _1]).
-result(1, complete, 4).
-answer(1, ['Disease' = 'COVID19', 'Score' = 0.0015470000000000002]).
-why(1,
-    ['Disease' = 'COVID19', 'Score' = 0.0015470000000000002],
-    [score('COVID19', 0.0015470000000000002)]).
-answer(1, ['Disease' = 'Influenza', 'Score' = 0.00004800000000000001]).
-why(1,
-    ['Disease' = 'Influenza', 'Score' = 0.00004800000000000001],
-    [score('Influenza', 0.00004800000000000001)]).
-answer(1, ['Disease' = 'AllergicRhinitis', 'Score' = 7.500000000000003e-7]).
-why(1,
-    ['Disease' = 'AllergicRhinitis', 'Score' = 7.500000000000003e-7],
-    [score('AllergicRhinitis', 7.500000000000003e-7)]).
-answer(1, ['Disease' = 'BacterialPneumonia', 'Score' = 0.00004787999999999999]).
-why(1,
-    ['Disease' = 'BacterialPneumonia', 'Score' = 0.00004787999999999999],
-    [score('BacterialPneumonia', 0.00004787999999999999)]).
-query(2, screened_in(_0), ['Disease' = _0]).
-result(2, complete, 1).
-answer(2, ['Disease' = 'COVID19']).
-why(2, ['Disease' = 'COVID19'], [screened_in('COVID19')]).
-query(3, rank(_0, _1), ['Disease' = _0, 'Rank' = _1]).
-result(3, complete, 4).
-answer(3, ['Disease' = 'COVID19', 'Rank' = "high"]).
-why(3, ['Disease' = 'COVID19', 'Rank' = "high"], [rank('COVID19', "high")]).
-answer(3, ['Disease' = 'Influenza', 'Rank' = "low"]).
-why(3, ['Disease' = 'Influenza', 'Rank' = "low"], [rank('Influenza', "low")]).
-answer(3, ['Disease' = 'AllergicRhinitis', 'Rank' = "low"]).
-why(3, ['Disease' = 'AllergicRhinitis', 'Rank' = "low"], [rank('AllergicRhinitis', "low")]).
-answer(3, ['Disease' = 'BacterialPneumonia', 'Rank' = "low"]).
-why(3, ['Disease' = 'BacterialPneumonia', 'Rank' = "low"], [rank('BacterialPneumonia', "low")]).
+score('COVID19', 0.0015470000000000002).
+score('Influenza', 0.00004800000000000001).
+score('AllergicRhinitis', 7.500000000000003e-7).
+score('BacterialPneumonia', 0.00004787999999999999).
+screened_in('COVID19').
+rank('COVID19', "high").
+rank('Influenza', "low").
+rank('AllergicRhinitis', "low").
+rank('BacterialPneumonia', "low").
 
 clause(1, model('COVID19', 0.05, 0.7, 0.65, 0.4, 0.85, 0.2), true).
 clause(2, model('Influenza', 0.03, 0.8, 0.5, 0.05, 0.8, 0.1), true).

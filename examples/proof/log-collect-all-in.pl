@@ -1,18 +1,6 @@
-% Prolog result format 4
-query(1, result1(_0), ['All' = _0]).
-result(1, complete, 1).
-answer(1, ['All' = ["Dewey", "Huey", "Louie"]]).
-why(1, ['All' = ["Dewey", "Huey", "Louie"]], [result1(["Dewey", "Huey", "Louie"])]).
-query(2, result2(_0), ['Nested' = _0]).
-result(2, complete, 1).
-answer(2, ['Nested' = [["Dewey"], ["Huey"], ["Louie"]]]).
-why(2,
-    ['Nested' = [["Dewey"], ["Huey"], ["Louie"]]],
-    [result2([["Dewey"], ["Huey"], ["Louie"]])]).
-query(3, result3(_0), ['Filtered' = _0]).
-result(3, complete, 1).
-answer(3, ['Filtered' = ["Dewey", "Huey"]]).
-why(3, ['Filtered' = ["Dewey", "Huey"]], [result3(["Dewey", "Huey"])]).
+result1(["Dewey", "Huey", "Louie"]).
+result2([["Dewey"], ["Huey"], ["Louie"]]).
+result3(["Dewey", "Huey"]).
 
 clause(1, param("Huey"), true).
 clause(2, param("Dewey"), true).

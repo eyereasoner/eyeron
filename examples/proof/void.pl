@@ -1,24 +1,8 @@
-% Prolog result format 4
-query(1, made(_0, _1), ['Person' = _0, 'Book' = _1]).
-result(1, complete, 1).
-answer(1, ['Person' = jamesWeatherall, 'Book' = book2016]).
-why(1, ['Person' = jamesWeatherall, 'Book' = book2016], [made(jamesWeatherall, book2016)]).
-query(2, subject_of(_0, _1), ['Person' = _0, 'Book' = _1]).
-result(2, complete, 2).
-answer(2, ['Person' = isaacNewton, 'Book' = book2016]).
-why(2, ['Person' = isaacNewton, 'Book' = book2016], [subject_of(isaacNewton, book2016)]).
-answer(2, ['Person' = albertEinstein, 'Book' = book2016]).
-why(2, ['Person' = albertEinstein, 'Book' = book2016], [subject_of(albertEinstein, book2016)]).
-query(3, subject(_0, _1), ['Book' = _0, 'Topic' = _1]).
-result(3, complete, 1).
-answer(3, ['Book' = book2016, 'Topic' = quantumTheory]).
-why(3, ['Book' = book2016, 'Topic' = quantumTheory], [subject(book2016, quantumTheory)]).
-query(4, recommended_for(_0, _1), ['Book' = _0, 'Reader' = _1]).
-result(4, complete, 1).
-answer(4, ['Book' = book2016, 'Reader' = curiousPhysicsReaderEn]).
-why(4,
-    ['Book' = book2016, 'Reader' = curiousPhysicsReaderEn],
-    [recommended_for(book2016, curiousPhysicsReaderEn)]).
+made(jamesWeatherall, book2016).
+subject_of(isaacNewton, book2016).
+subject_of(albertEinstein, book2016).
+subject(book2016, quantumTheory).
+recommended_for(book2016, curiousPhysicsReaderEn).
 
 clause(1, author(book2016, jamesWeatherall), true).
 clause(2, in_language(book2016, en), true).

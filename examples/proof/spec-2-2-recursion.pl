@@ -1,14 +1,7 @@
-% Prolog result format 4
-query(1, descended(_0, _1), ['Person' = _0, 'Ancestor' = _1]).
-result(1, complete, 4).
-answer(1, ['Person' = x, 'Ancestor' = a]).
-why(1, ['Person' = x, 'Ancestor' = a], [descended(x, a)]).
-answer(1, ['Person' = x, 'Ancestor' = b]).
-why(1, ['Person' = x, 'Ancestor' = b], [descended(x, b)]).
-answer(1, ['Person' = a, 'Ancestor' = c]).
-why(1, ['Person' = a, 'Ancestor' = c], [descended(a, c)]).
-answer(1, ['Person' = x, 'Ancestor' = c]).
-why(1, ['Person' = x, 'Ancestor' = c], [descended(x, c)]).
+descended(x, a).
+descended(x, b).
+descended(a, c).
+descended(x, c).
 
 clause(1, father(a, x), true).
 clause(2, mother(b, x), true).

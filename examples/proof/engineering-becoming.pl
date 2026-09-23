@@ -1,70 +1,28 @@
-% Prolog result format 4
-query(1, inherits_requirement(_0, _1), ['L' = _0, 'R' = _1]).
-result(1, complete, 4).
-answer(1, ['L' = r2, 'R' = stiffnessReq]).
-why(1, ['L' = r2, 'R' = stiffnessReq], [inherits_requirement(r2, stiffnessReq)]).
-answer(1, ['L' = r2, 'R' = assemblyReq]).
-why(1, ['L' = r2, 'R' = assemblyReq], [inherits_requirement(r2, assemblyReq)]).
-answer(1, ['L' = r3, 'R' = stiffnessReq]).
-why(1, ['L' = r3, 'R' = stiffnessReq], [inherits_requirement(r3, stiffnessReq)]).
-answer(1, ['L' = r3, 'R' = assemblyReq]).
-why(1, ['L' = r3, 'R' = assemblyReq], [inherits_requirement(r3, assemblyReq)]).
-query(2, considers(_0, _1), ['Rev' = _0, 'O' = _1]).
-result(2, complete, 2).
-answer(2, ['Rev' = r2, 'O' = carbonFrame]).
-why(2, ['Rev' = r2, 'O' = carbonFrame], [considers(r2, carbonFrame)]).
-answer(2, ['Rev' = r3, 'O' = ribbedHousing]).
-why(2, ['Rev' = r3, 'O' = ribbedHousing], [considers(r3, ribbedHousing)]).
-query(3, preserves(_0, _1), ['Rev' = _0, 'R' = _1]).
-result(3, complete, 3).
-answer(3, ['Rev' = r2, 'R' = stiffnessReq]).
-why(3, ['Rev' = r2, 'R' = stiffnessReq], [preserves(r2, stiffnessReq)]).
-answer(3, ['Rev' = r2, 'R' = assemblyReq]).
-why(3, ['Rev' = r2, 'R' = assemblyReq], [preserves(r2, assemblyReq)]).
-answer(3, ['Rev' = r3, 'R' = assemblyReq]).
-why(3, ['Rev' = r3, 'R' = assemblyReq], [preserves(r3, assemblyReq)]).
-query(4, integrates(_0, _1), ['Rev' = _0, 'O' = _1]).
-result(4, complete, 2).
-answer(4, ['Rev' = r2, 'O' = carbonFrame]).
-why(4, ['Rev' = r2, 'O' = carbonFrame], [integrates(r2, carbonFrame)]).
-answer(4, ['Rev' = r3, 'O' = ribbedHousing]).
-why(4, ['Rev' = r3, 'O' = ribbedHousing], [integrates(r3, ribbedHousing)]).
-query(5, satisfies(_0, _1), ['Rev' = _0, 'R' = _1]).
-result(5, complete, 5).
-answer(5, ['Rev' = r1, 'R' = stiffnessReq]).
-why(5, ['Rev' = r1, 'R' = stiffnessReq], [satisfies(r1, stiffnessReq)]).
-answer(5, ['Rev' = r1, 'R' = assemblyReq]).
-why(5, ['Rev' = r1, 'R' = assemblyReq], [satisfies(r1, assemblyReq)]).
-answer(5, ['Rev' = r2, 'R' = stiffnessReq]).
-why(5, ['Rev' = r2, 'R' = stiffnessReq], [satisfies(r2, stiffnessReq)]).
-answer(5, ['Rev' = r2, 'R' = assemblyReq]).
-why(5, ['Rev' = r2, 'R' = assemblyReq], [satisfies(r2, assemblyReq)]).
-answer(5, ['Rev' = r3, 'R' = assemblyReq]).
-why(5, ['Rev' = r3, 'R' = assemblyReq], [satisfies(r3, assemblyReq)]).
-query(6, realizes(_0, _1), ['Rev' = _0, 'O' = _1]).
-result(6, complete, 3).
-answer(6, ['Rev' = r1, 'O' = aluminumFrame]).
-why(6, ['Rev' = r1, 'O' = aluminumFrame], [realizes(r1, aluminumFrame)]).
-answer(6, ['Rev' = r2, 'O' = carbonFrame]).
-why(6, ['Rev' = r2, 'O' = carbonFrame], [realizes(r2, carbonFrame)]).
-answer(6, ['Rev' = r3, 'O' = ribbedHousing]).
-why(6, ['Rev' = r3, 'O' = ribbedHousing], [realizes(r3, ribbedHousing)]).
-query(7, status(_0, _1), ['Rev' = _0, 'S' = _1]).
-result(7, complete, 3).
-answer(7, ['Rev' = r1, 'S' = approvedBaseline]).
-why(7, ['Rev' = r1, 'S' = approvedBaseline], [status(r1, approvedBaseline)]).
-answer(7, ['Rev' = r2, 'S' = approvedBaseline]).
-why(7, ['Rev' = r2, 'S' = approvedBaseline], [status(r2, approvedBaseline)]).
-answer(7, ['Rev' = r3, 'S' = approvedBaseline]).
-why(7, ['Rev' = r3, 'S' = approvedBaseline], [status(r3, approvedBaseline)]).
-query(8, available_for_future_iteration(_0, _1), ['Rev' = _0, 'Y' = _1]).
-result(8, complete, 3).
-answer(8, ['Rev' = r1, 'Y' = yes]).
-why(8, ['Rev' = r1, 'Y' = yes], [available_for_future_iteration(r1, yes)]).
-answer(8, ['Rev' = r2, 'Y' = yes]).
-why(8, ['Rev' = r2, 'Y' = yes], [available_for_future_iteration(r2, yes)]).
-answer(8, ['Rev' = r3, 'Y' = yes]).
-why(8, ['Rev' = r3, 'Y' = yes], [available_for_future_iteration(r3, yes)]).
+inherits_requirement(r2, stiffnessReq).
+inherits_requirement(r2, assemblyReq).
+inherits_requirement(r3, stiffnessReq).
+inherits_requirement(r3, assemblyReq).
+considers(r2, carbonFrame).
+considers(r3, ribbedHousing).
+preserves(r2, stiffnessReq).
+preserves(r2, assemblyReq).
+preserves(r3, assemblyReq).
+integrates(r2, carbonFrame).
+integrates(r3, ribbedHousing).
+satisfies(r1, stiffnessReq).
+satisfies(r1, assemblyReq).
+satisfies(r2, stiffnessReq).
+satisfies(r2, assemblyReq).
+satisfies(r3, assemblyReq).
+realizes(r1, aluminumFrame).
+realizes(r2, carbonFrame).
+realizes(r3, ribbedHousing).
+status(r1, approvedBaseline).
+status(r2, approvedBaseline).
+status(r3, approvedBaseline).
+available_for_future_iteration(r1, yes).
+available_for_future_iteration(r2, yes).
+available_for_future_iteration(r3, yes).
 
 clause(1, suggests(reduceWeight, carbonFrame), true).
 clause(2, suggests(improveCooling, ribbedHousing), true).

@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, test_is(_0), ['R' = _0]).
-result(1, complete, 1).
-answer(1, ['R' = true]).
-why(1, ['R' = true], [test_is(true)]).
+test_is(true).
 
 clause(1, val(x, [1, 2]), true).
 clause(2, test_is(true), (val(x, [var('H')|var('T')]), var('H') = 1, var('T') = [2])).

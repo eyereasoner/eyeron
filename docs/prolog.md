@@ -247,27 +247,30 @@ unbound or non-callable goal is a runtime error, not a silent failure.
 
 ## Answers and proofs
 
-Default output is itself a Prolog program — "Prolog result format 4":
+Default output is itself a Prolog program: each goal of each query, with an
+answer's bindings applied.
 
 ```prolog
-% Prolog result format 4
-query(1, ancestor(alice, _0), ['Who' = _0]).
-result(1, complete, 2).
-answer(1, ['Who' = bob]).
-answer(1, ['Who' = carol]).
+ancestor(alice, bob).
+ancestor(alice, carol).
 ```
 
-Bindings are written as `'Name' = Value` pairs, the form the standard's
-`variable_names` read option uses. That output can be saved, loaded and
-queried; loading it records the question as data rather than running it
-again. `result(..., complete, 0)` means a completed query had no answers,
-and a successful ground query has `answer(Id, [])`.
+A query proves its goals, so an answer *is* those goals instantiated — the
+same thing N3 prints as a derived triple and SPARQL-RL as its inference
+graph. A goal whose variable no answer binds keeps that variable, since
+that is what was proved, and a claim reached by more than one answer is
+stated once. A query that completed with no answers writes nothing.
 
-With `--proof`, `why/3` links each answer to the goals it proved, and the
-document gains one `step/4` fact per justified conclusion:
+That output can be saved, loaded and queried, which records the answers as
+data rather than running the query again. One exception: a query *about* a
+built-in predicate — `?- clause(Head, Body).` — claims facts no program may
+assert, so that document reads as a proof but does not load as a program.
+
+With `--proof`, the document gains the `clause/3` records its derivations
+cite and one `step/4` fact per justified conclusion:
 
 ```prolog
-why(1, [], [instance_of(socrates, mortal)]).
+instance_of(socrates, mortal).
 
 clause(1, instance_of(socrates, human), true).
 clause(2, subclass_of(human, mortal), true).

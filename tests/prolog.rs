@@ -1,9 +1,9 @@
 //! Integration tests for the Prolog front end: every packaged
 //! `examples/*.pl` program is run and its output compared, byte for byte,
 //! against its goldens (`examples/output/*.pl`, `examples/proof/*.pl`).
-//! Unlike the SPARQL-RL/N3 RDF-triple goldens, the "Prolog result format
-//! 3" output is fully deterministic and order-independent, so exact string
-//! match is appropriate (no graph isomorphism needed).
+//! Unlike the SPARQL-RL/N3 RDF-triple goldens, this output is fully
+//! deterministic and order-independent, so exact string match is
+//! appropriate (no graph isomorphism needed).
 //!
 //! This uses a custom harness (`harness = false` in `Cargo.toml`, matching
 //! `tests/examples.rs`/`tests/sparql_rl_examples.rs`) so each example
@@ -165,11 +165,24 @@ fn every_example_matches_its_plain_and_proof_goldens() -> usize {
     checked
 }
 
+/// A proof states what it concluded as a plain fact, so a query *about a
+/// built-in predicate* produces a claim no program may assert:
+/// `meta-interpreter.pl` asks `?- clause(Head, Body).`, and `clause/2` is
+/// built in. Such a document is still a valid proof — `--check-proof`
+/// reads it, and `tests/proof_checking.rs` does — it simply cannot be
+/// loaded again as a program, for the same reason its own query subject
+/// cannot be redefined.
+const NOT_RELOADABLE: &[(&str, &str)] = &[("meta-interpreter.pl", "its claims are about the built-in clause/2")];
+
 fn every_proof_golden_reparses_as_a_valid_program() {
     let proof_dir = manifest_dir().join("examples/proof");
     for entry in fs::read_dir(&proof_dir).unwrap() {
         let path = entry.unwrap().path();
         if path.extension().and_then(|e| e.to_str()) != Some("pl") {
+            continue;
+        }
+        let name = path.file_name().and_then(|n| n.to_str()).unwrap_or_default();
+        if NOT_RELOADABLE.iter().any(|(excluded, _)| *excluded == name) {
             continue;
         }
         let text = read(&path);
@@ -240,8 +253,10 @@ fn cli_rejects_oversized_limits_and_reports_exit_code_two() {
 
 fn cli_query_flag_appends_a_directive() {
     let path = manifest_dir().join("examples/ancestor.pl");
-    let output = run_cli(&["--query", "ancestor(alice, bob)", path.to_str().unwrap()]);
+    // A goal the example's own `?-` directive does not already answer, so
+    // the appended one is what puts this claim in the output.
+    let output = run_cli(&["--query", "parent(bob, carol)", path.to_str().unwrap()]);
     assert!(output.status.success(), "stderr: {}", String::from_utf8_lossy(&output.stderr));
     let stdout = String::from_utf8_lossy(&output.stdout);
-    assert!(stdout.contains("result(2, complete, 1)"), "unexpected output: {stdout}");
+    assert!(stdout.contains("parent(bob, carol)."), "unexpected output: {stdout}");
 }

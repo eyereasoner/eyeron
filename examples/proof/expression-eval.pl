@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, result(_0), ['V' = _0]).
-result(1, complete, 1).
-answer(1, ['V' = 12]).
-why(1, ['V' = 12], [result(12)]).
+result(12).
 
 clause(1, n_(n2, 2), true).
 clause(2, n_(n3, 3), true).

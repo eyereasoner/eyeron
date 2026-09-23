@@ -1,12 +1,5 @@
-% Prolog result format 4
-query(1, same_language(msg), []).
-result(1, complete, 1).
-answer(1, []).
-why(1, [], [same_language(msg)]).
-query(2, event_year(clock, _0), ['Year' = _0]).
-result(2, complete, 1).
-answer(2, ['Year' = 2026]).
-why(2, ['Year' = 2026], [event_year(clock, 2026)]).
+same_language(msg).
+event_year(clock, 2026).
 
 clause(1, text(msg, literal("bonjour", fr)), true).
 clause(2, same_language(var('Message')), text(var('Message'), literal(var('Value'), fr))).

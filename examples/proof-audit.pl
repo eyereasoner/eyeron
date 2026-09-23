@@ -2,9 +2,9 @@
 % eyeron examples/proof/socrates.pl examples/proof-audit.pl
 % Tests and the example generator supply that document automatically.
 %
-% A proof document records one `step(Conclusion, By, Bindings, Uses)` fact
-% per justified conclusion, and `why(Query, Bindings, Goals)` linking an
-% answer to the goals it proved. Because a step names what it used by
+% A proof document states what it concluded and then why: its plain facts
+% are the claims, and one `step(Conclusion, By, Bindings, Uses)` fact
+% explains each justified conclusion. Because a step names what it used by
 % those uses' own conclusions, rather than by an id to be joined back, the
 % dependency relation is a direct read -- the same shape the N3 and SRL
 % companions walk through `pe:uses`.
@@ -31,25 +31,28 @@ supporting_fact(Conclusion, Fact) :-
     depends_on(Conclusion, Fact),
     source_fact(Fact).
 
-support(Query, Fact) :-
-    why(Query, _, Goals),
-    member(Goal, Goals),
-    supporting_fact(Goal, Fact).
+% The proof's root is the conclusion the engine derived, which is the one
+% step justified by a rule rather than given -- the same reading the N3
+% companion makes of `pe:rule`.
+root(Conclusion) :-
+    step(Conclusion, rule(_), _, _).
 
 applied(Conclusion, Name, Value) :-
     step(Conclusion, rule(_), Bindings, _),
     member(Name = Value, Bindings).
 
-query_dependency(Query, Ancestor) :-
-    why(Query, _, Goals),
-    member(Goal, Goals),
-    depends_on(Goal, Ancestor).
+query_dependency(Ancestor) :-
+    root(Root),
+    depends_on(Root, Ancestor).
 
-answer_applied(Query, Conclusion, Name, Value) :-
-    why(Query, _, Goals),
-    member(Conclusion, Goals),
+support(Fact) :-
+    root(Root),
+    supporting_fact(Root, Fact).
+
+answer_applied(Conclusion, Name, Value) :-
+    root(Conclusion),
     applied(Conclusion, Name, Value).
 
-?- query_dependency(1, Ancestor).
-?- support(1, Fact).
-?- answer_applied(1, Conclusion, Name, Value).
+?- query_dependency(Ancestor).
+?- support(Fact).
+?- answer_applied(Conclusion, Name, Value).

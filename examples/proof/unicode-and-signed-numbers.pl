@@ -1,12 +1,5 @@
-% Prolog result format 4
-query(1, unicode_decoded, []).
-result(1, complete, 1).
-answer(1, []).
-why(1, [], [unicode_decoded]).
-query(2, below_zero, []).
-result(2, complete, 1).
-answer(2, []).
-why(2, [], [below_zero]).
+unicode_decoded.
+below_zero.
 
 clause(1, text(sample, "ABC"), true).
 clause(2, delta(thermo, -12), true).

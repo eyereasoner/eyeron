@@ -1,21 +1,18 @@
-% Prolog result format 4
-query(1, result_query(_0, _1, _2), ['X' = _0, 'Y' = _1, 'Z' = _2]).
-result(1, complete, 18).
-answer(1, ['X' = a, 'Y' = b, 'Z' = b]).
-answer(1, ['X' = c, 'Y' = b, 'Z' = b]).
-answer(1, ['X' = a, 'Y' = b, 'Z' = a]).
-answer(1, ['X' = b, 'Y' = a, 'Z' = b]).
-answer(1, ['X' = b, 'Y' = c, 'Z' = b]).
-answer(1, ['X' = c, 'Y' = b, 'Z' = c]).
-answer(1, ['X' = b, 'Y' = a, 'Z' = a]).
-answer(1, ['X' = b, 'Y' = c, 'Z' = a]).
-answer(1, ['X' = b, 'Y' = c, 'Z' = c]).
-answer(1, ['X' = b, 'Y' = a, 'Z' = c]).
-answer(1, ['X' = c, 'Y' = b, 'Z' = a]).
-answer(1, ['X' = a, 'Y' = b, 'Z' = c]).
-answer(1, ['X' = a, 'Y' = c, 'Z' = b]).
-answer(1, ['X' = c, 'Y' = a, 'Z' = b]).
-answer(1, ['X' = a, 'Y' = c, 'Z' = a]).
-answer(1, ['X' = c, 'Y' = a, 'Z' = c]).
-answer(1, ['X' = c, 'Y' = a, 'Z' = a]).
-answer(1, ['X' = a, 'Y' = c, 'Z' = c]).
+result_query(a, b, b).
+result_query(c, b, b).
+result_query(a, b, a).
+result_query(b, a, b).
+result_query(b, c, b).
+result_query(c, b, c).
+result_query(b, a, a).
+result_query(b, c, a).
+result_query(b, c, c).
+result_query(b, a, c).
+result_query(c, b, a).
+result_query(a, b, c).
+result_query(a, c, b).
+result_query(c, a, b).
+result_query(a, c, a).
+result_query(c, a, c).
+result_query(c, a, a).
+result_query(a, c, c).

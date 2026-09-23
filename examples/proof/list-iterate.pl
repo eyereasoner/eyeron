@@ -1,22 +1,7 @@
-% Prolog result format 4
-query(1, test_iterate(_0, _1, _2), ['X' = _0, 'I' = _1, 'Y' = _2]).
-result(1, complete, 3).
-answer(1, ['X' = [huey, dewey, louie], 'I' = 0, 'Y' = huey]).
-why(1,
-    ['X' = [huey, dewey, louie], 'I' = 0, 'Y' = huey],
-    [test_iterate([huey, dewey, louie], 0, huey)]).
-answer(1, ['X' = [huey, dewey, louie], 'I' = 1, 'Y' = dewey]).
-why(1,
-    ['X' = [huey, dewey, louie], 'I' = 1, 'Y' = dewey],
-    [test_iterate([huey, dewey, louie], 1, dewey)]).
-answer(1, ['X' = [huey, dewey, louie], 'I' = 2, 'Y' = louie]).
-why(1,
-    ['X' = [huey, dewey, louie], 'I' = 2, 'Y' = louie],
-    [test_iterate([huey, dewey, louie], 2, louie)]).
-query(2, test_is(_0), ['R' = _0]).
-result(2, complete, 1).
-answer(2, ['R' = true]).
-why(2, ['R' = true], [test_is(true)]).
+test_iterate([huey, dewey, louie], 0, huey).
+test_iterate([huey, dewey, louie], 1, dewey).
+test_iterate([huey, dewey, louie], 2, louie).
+test_is(true).
 
 clause(1, param(letv, [huey, dewey, louie]), true).
 clause(2, iterate([var('X')|var('Xs')], 0, var('X')), true).

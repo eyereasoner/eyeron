@@ -1,8 +1,5 @@
-% Prolog result format 4
-query(1, rolls_up_to(_0, car), ['Concept' = _0]).
-result(1, complete, 5).
-answer(1, ['Concept' = car]).
-answer(1, ['Concept' = tel_car]).
-answer(1, ['Concept' = heavy_vehicle]).
-answer(1, ['Concept' = plate_vehicle]).
-answer(1, ['Concept' = passenger_car]).
+rolls_up_to(car, car).
+rolls_up_to(tel_car, car).
+rolls_up_to(heavy_vehicle, car).
+rolls_up_to(plate_vehicle, car).
+rolls_up_to(passenger_car, car).

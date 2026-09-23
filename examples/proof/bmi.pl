@@ -1,12 +1,4 @@
-% Prolog result format 4
-query(1,
-      report(_0, _1, _2, _3),
-      ['Bmi' = _0, 'Category' = _1, 'Healthy_min' = _2, 'Healthy_max' = _3]).
-result(1, complete, 1).
-answer(1, ['Bmi' = 22.72, 'Category' = normal, 'Healthy_min' = 58.6, 'Healthy_max' = 78.9]).
-why(1,
-    ['Bmi' = 22.72, 'Category' = normal, 'Healthy_min' = 58.6, 'Healthy_max' = 78.9],
-    [report(22.72, normal, 58.6, 78.9)]).
+report(22.72, normal, 58.6, 78.9).
 
 clause(1, input(metric, 72.0, 178.0), true).
 clause(2,

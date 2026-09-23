@@ -1,42 +1,21 @@
-% Prolog result format 4
-query(1, result_query(_0, _1, _2), ['X' = _0, 'Y' = _1, 'Z' = _2]).
-result(1, complete, 18).
-answer(1, ['X' = a, 'Y' = b, 'Z' = b]).
-why(1, ['X' = a, 'Y' = b, 'Z' = b], [result_query(a, b, b)]).
-answer(1, ['X' = c, 'Y' = b, 'Z' = b]).
-why(1, ['X' = c, 'Y' = b, 'Z' = b], [result_query(c, b, b)]).
-answer(1, ['X' = a, 'Y' = b, 'Z' = a]).
-why(1, ['X' = a, 'Y' = b, 'Z' = a], [result_query(a, b, a)]).
-answer(1, ['X' = b, 'Y' = a, 'Z' = b]).
-why(1, ['X' = b, 'Y' = a, 'Z' = b], [result_query(b, a, b)]).
-answer(1, ['X' = b, 'Y' = c, 'Z' = b]).
-why(1, ['X' = b, 'Y' = c, 'Z' = b], [result_query(b, c, b)]).
-answer(1, ['X' = c, 'Y' = b, 'Z' = c]).
-why(1, ['X' = c, 'Y' = b, 'Z' = c], [result_query(c, b, c)]).
-answer(1, ['X' = b, 'Y' = a, 'Z' = a]).
-why(1, ['X' = b, 'Y' = a, 'Z' = a], [result_query(b, a, a)]).
-answer(1, ['X' = b, 'Y' = c, 'Z' = a]).
-why(1, ['X' = b, 'Y' = c, 'Z' = a], [result_query(b, c, a)]).
-answer(1, ['X' = b, 'Y' = c, 'Z' = c]).
-why(1, ['X' = b, 'Y' = c, 'Z' = c], [result_query(b, c, c)]).
-answer(1, ['X' = b, 'Y' = a, 'Z' = c]).
-why(1, ['X' = b, 'Y' = a, 'Z' = c], [result_query(b, a, c)]).
-answer(1, ['X' = c, 'Y' = b, 'Z' = a]).
-why(1, ['X' = c, 'Y' = b, 'Z' = a], [result_query(c, b, a)]).
-answer(1, ['X' = a, 'Y' = b, 'Z' = c]).
-why(1, ['X' = a, 'Y' = b, 'Z' = c], [result_query(a, b, c)]).
-answer(1, ['X' = a, 'Y' = c, 'Z' = b]).
-why(1, ['X' = a, 'Y' = c, 'Z' = b], [result_query(a, c, b)]).
-answer(1, ['X' = c, 'Y' = a, 'Z' = b]).
-why(1, ['X' = c, 'Y' = a, 'Z' = b], [result_query(c, a, b)]).
-answer(1, ['X' = a, 'Y' = c, 'Z' = a]).
-why(1, ['X' = a, 'Y' = c, 'Z' = a], [result_query(a, c, a)]).
-answer(1, ['X' = c, 'Y' = a, 'Z' = c]).
-why(1, ['X' = c, 'Y' = a, 'Z' = c], [result_query(c, a, c)]).
-answer(1, ['X' = c, 'Y' = a, 'Z' = a]).
-why(1, ['X' = c, 'Y' = a, 'Z' = a], [result_query(c, a, a)]).
-answer(1, ['X' = a, 'Y' = c, 'Z' = c]).
-why(1, ['X' = a, 'Y' = c, 'Z' = c], [result_query(a, c, c)]).
+result_query(a, b, b).
+result_query(c, b, b).
+result_query(a, b, a).
+result_query(b, a, b).
+result_query(b, c, b).
+result_query(c, b, c).
+result_query(b, a, a).
+result_query(b, c, a).
+result_query(b, c, c).
+result_query(b, a, c).
+result_query(c, b, a).
+result_query(a, b, c).
+result_query(a, c, b).
+result_query(c, a, b).
+result_query(a, c, a).
+result_query(c, a, c).
+result_query(c, a, a).
+result_query(a, c, c).
 
 clause(1, in_x(a), true).
 clause(2, in_x(b), true).

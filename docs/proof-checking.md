@@ -224,7 +224,7 @@ containing one is invalid.
 
 | model | document |
 | --- | --- |
-| claims | the `Goals` of each `why(QueryId, Bindings, Goals)` fact |
+| claims | the document's plain facts (not `clause/3` or `step/4`) |
 | step | a `step(Conclusion, By, Bindings, Uses)` fact |
 | `bindings` | the `'Name' = Value` pairs of the third argument |
 | `uses` | the goal terms of the fourth argument |

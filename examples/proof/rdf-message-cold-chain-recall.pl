@@ -1,59 +1,21 @@
-% Prolog result format 4
-query(1, already_committed(_0), ['M' = _0]).
-result(1, complete, 3).
-answer(1, ['M' = obs040]).
-why(1, ['M' = obs040], [already_committed(obs040)]).
-answer(1, ['M' = obs041]).
-why(1, ['M' = obs041], [already_committed(obs041)]).
-answer(1, ['M' = obs042]).
-why(1, ['M' = obs042], [already_committed(obs042)]).
-query(2, newly_emitted(_0), ['M' = _0]).
-result(2, complete, 6).
-answer(2, ['M' = obs043]).
-why(2, ['M' = obs043], [newly_emitted(obs043)]).
-answer(2, ['M' = obs044]).
-why(2, ['M' = obs044], [newly_emitted(obs044)]).
-answer(2, ['M' = obs045]).
-why(2, ['M' = obs045], [newly_emitted(obs045)]).
-answer(2, ['M' = obs046]).
-why(2, ['M' = obs046], [newly_emitted(obs046)]).
-answer(2, ['M' = obs047]).
-why(2, ['M' = obs047], [newly_emitted(obs047)]).
-answer(2, ['M' = obs048]).
-why(2, ['M' = obs048], [newly_emitted(obs048)]).
-query(3, in_window(_0), ['M' = _0]).
-result(3, complete, 6).
-answer(3, ['M' = obs043]).
-why(3, ['M' = obs043], [in_window(obs043)]).
-answer(3, ['M' = obs044]).
-why(3, ['M' = obs044], [in_window(obs044)]).
-answer(3, ['M' = obs045]).
-why(3, ['M' = obs045], [in_window(obs045)]).
-answer(3, ['M' = obs046]).
-why(3, ['M' = obs046], [in_window(obs046)]).
-answer(3, ['M' = obs047]).
-why(3, ['M' = obs047], [in_window(obs047)]).
-answer(3, ['M' = obs048]).
-why(3, ['M' = obs048], [in_window(obs048)]).
-query(4, raw_conflict(_0), ['Batch' = _0]).
-result(4, complete, 1).
-answer(4, ['Batch' = batchA]).
-why(4, ['Batch' = batchA], [raw_conflict(batchA)]).
-query(5,
-      preferred_repair(_0, _1, _2, _3),
-      ['M' = _0, 'Temp' = _1, 'Priority' = _2, 'Source' = _3]).
-result(5, complete, 1).
-answer(5,
-       ['M' = obs047, 'Temp' = 118, 'Priority' = 5, 'Source' = "calibrated-cold-chain-logger"]).
-why(5,
-    ['M' = obs047, 'Temp' = 118, 'Priority' = 5, 'Source' = "calibrated-cold-chain-logger"],
-    [preferred_repair(obs047, 118, 5, "calibrated-cold-chain-logger")]).
-query(6, quarantine_decision(_0), ['Text' = _0]).
-result(6, complete, 1).
-answer(6, ['Text' = "quarantine batchA, notify QA, and hold shipment"]).
-why(6,
-    ['Text' = "quarantine batchA, notify QA, and hold shipment"],
-    [quarantine_decision("quarantine batchA, notify QA, and hold shipment")]).
+already_committed(obs040).
+already_committed(obs041).
+already_committed(obs042).
+newly_emitted(obs043).
+newly_emitted(obs044).
+newly_emitted(obs045).
+newly_emitted(obs046).
+newly_emitted(obs047).
+newly_emitted(obs048).
+in_window(obs043).
+in_window(obs044).
+in_window(obs045).
+in_window(obs046).
+in_window(obs047).
+in_window(obs048).
+raw_conflict(batchA).
+preferred_repair(obs047, 118, 5, "calibrated-cold-chain-logger").
+quarantine_decision("quarantine batchA, notify QA, and hold shipment").
 
 clause(1, member(obs040, 40, 42, 1, "dock-sensor", false), true).
 clause(2, member(obs041, 41, 43, 1, "warehouse-reader", false), true).

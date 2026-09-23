@@ -1,20 +1,9 @@
-% Prolog result format 4
-query(1, social(_0), ['Graph' = _0]).
-result(1, complete, 1).
-answer(1, ['Graph' = g1]).
-why(1, ['Graph' = g1], [social(g1)]).
-query(2, mentions(_0, _1), ['Graph' = _0, 'Resource' = _1]).
-result(2, complete, 5).
-answer(2, ['Graph' = g1, 'Resource' = alice]).
-why(2, ['Graph' = g1, 'Resource' = alice], [mentions(g1, alice)]).
-answer(2, ['Graph' = g2, 'Resource' = alice]).
-why(2, ['Graph' = g2, 'Resource' = alice], [mentions(g2, alice)]).
-answer(2, ['Graph' = g1, 'Resource' = bob]).
-why(2, ['Graph' = g1, 'Resource' = bob], [mentions(g1, bob)]).
-answer(2, ['Graph' = g2, 'Resource' = tea]).
-why(2, ['Graph' = g2, 'Resource' = tea], [mentions(g2, tea)]).
-answer(2, ['Graph' = g1, 'Resource' = carol]).
-why(2, ['Graph' = g1, 'Resource' = carol], [mentions(g1, carol)]).
+social(g1).
+mentions(g1, alice).
+mentions(g2, alice).
+mentions(g1, bob).
+mentions(g2, tea).
+mentions(g1, carol).
 
 clause(1, graph_term(g1, graph([triple(alice, knows, bob), triple(bob, knows, carol)])), true).
 clause(2, graph_term(g2, graph([triple(alice, likes, tea)])), true).

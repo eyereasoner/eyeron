@@ -1,14 +1,5 @@
-% Prolog result format 4
-query(1, mentions_sensor(_0, _1), ['Envelope' = _0, 'Sensor' = _1]).
-result(1, complete, 1).
-answer(1, ['Envelope' = envelope1, 'Sensor' = thermometer1]).
-why(1,
-    ['Envelope' = envelope1, 'Sensor' = thermometer1],
-    [mentions_sensor(envelope1, thermometer1)]).
-query(2, heartbeat(_0), ['Envelope' = _0]).
-result(2, complete, 1).
-answer(2, ['Envelope' = envelope2]).
-why(2, ['Envelope' = envelope2], [heartbeat(envelope2)]).
+mentions_sensor(envelope1, thermometer1).
+heartbeat(envelope2).
 
 clause(1, payload_graph(envelope1, payload1), true).
 clause(2, payload_triple(payload1, triple(reading1, sensor, thermometer1)), true).

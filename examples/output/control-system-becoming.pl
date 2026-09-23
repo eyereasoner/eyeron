@@ -1,53 +1,34 @@
-% Prolog result format 4
-query(1, inherits_requirement(_0, _1), ['L' = _0, 'R' = _1]).
-result(1, complete, 5).
-answer(1, ['L' = c2, 'R' = stabilityReq]).
-answer(1, ['L' = c2, 'R' = trackingReq]).
-answer(1, ['L' = c3, 'R' = overshootReq]).
-answer(1, ['L' = c3, 'R' = stabilityReq]).
-answer(1, ['L' = c3, 'R' = trackingReq]).
-query(2, considers(_0, _1), ['C' = _0, 'S' = _1]).
-result(2, complete, 2).
-answer(2, ['C' = c2, 'S' = leadCompensator]).
-answer(2, ['C' = c3, 'S' = integralAction]).
-query(3, targets(_0, _1), ['C' = _0, 'R' = _1]).
-result(3, complete, 2).
-answer(3, ['C' = c2, 'R' = overshootReq]).
-answer(3, ['C' = c3, 'R' = disturbanceRejectionReq]).
-query(4, preserves(_0, _1), ['C' = _0, 'R' = _1]).
-result(4, complete, 5).
-answer(4, ['C' = c2, 'R' = stabilityReq]).
-answer(4, ['C' = c2, 'R' = trackingReq]).
-answer(4, ['C' = c3, 'R' = overshootReq]).
-answer(4, ['C' = c3, 'R' = stabilityReq]).
-answer(4, ['C' = c3, 'R' = trackingReq]).
-query(5, integrates(_0, _1), ['C' = _0, 'S' = _1]).
-result(5, complete, 2).
-answer(5, ['C' = c2, 'S' = leadCompensator]).
-answer(5, ['C' = c3, 'S' = integralAction]).
-query(6, satisfies(_0, _1), ['C' = _0, 'R' = _1]).
-result(6, complete, 9).
-answer(6, ['C' = c1, 'R' = stabilityReq]).
-answer(6, ['C' = c1, 'R' = trackingReq]).
-answer(6, ['C' = c2, 'R' = overshootReq]).
-answer(6, ['C' = c3, 'R' = disturbanceRejectionReq]).
-answer(6, ['C' = c2, 'R' = stabilityReq]).
-answer(6, ['C' = c2, 'R' = trackingReq]).
-answer(6, ['C' = c3, 'R' = overshootReq]).
-answer(6, ['C' = c3, 'R' = stabilityReq]).
-answer(6, ['C' = c3, 'R' = trackingReq]).
-query(7, realizes(_0, _1), ['C' = _0, 'S' = _1]).
-result(7, complete, 3).
-answer(7, ['C' = c1, 'S' = baselinePID]).
-answer(7, ['C' = c2, 'S' = leadCompensator]).
-answer(7, ['C' = c3, 'S' = integralAction]).
-query(8, status(_0, _1), ['C' = _0, 'S' = _1]).
-result(8, complete, 3).
-answer(8, ['C' = c1, 'S' = approvedController]).
-answer(8, ['C' = c2, 'S' = approvedController]).
-answer(8, ['C' = c3, 'S' = approvedController]).
-query(9, available_for_future_tuning(_0, _1), ['C' = _0, 'Y' = _1]).
-result(9, complete, 3).
-answer(9, ['C' = c1, 'Y' = yes]).
-answer(9, ['C' = c2, 'Y' = yes]).
-answer(9, ['C' = c3, 'Y' = yes]).
+inherits_requirement(c2, stabilityReq).
+inherits_requirement(c2, trackingReq).
+inherits_requirement(c3, overshootReq).
+inherits_requirement(c3, stabilityReq).
+inherits_requirement(c3, trackingReq).
+considers(c2, leadCompensator).
+considers(c3, integralAction).
+targets(c2, overshootReq).
+targets(c3, disturbanceRejectionReq).
+preserves(c2, stabilityReq).
+preserves(c2, trackingReq).
+preserves(c3, overshootReq).
+preserves(c3, stabilityReq).
+preserves(c3, trackingReq).
+integrates(c2, leadCompensator).
+integrates(c3, integralAction).
+satisfies(c1, stabilityReq).
+satisfies(c1, trackingReq).
+satisfies(c2, overshootReq).
+satisfies(c3, disturbanceRejectionReq).
+satisfies(c2, stabilityReq).
+satisfies(c2, trackingReq).
+satisfies(c3, overshootReq).
+satisfies(c3, stabilityReq).
+satisfies(c3, trackingReq).
+realizes(c1, baselinePID).
+realizes(c2, leadCompensator).
+realizes(c3, integralAction).
+status(c1, approvedController).
+status(c2, approvedController).
+status(c3, approvedController).
+available_for_future_tuning(c1, yes).
+available_for_future_tuning(c2, yes).
+available_for_future_tuning(c3, yes).

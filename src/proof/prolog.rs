@@ -2,10 +2,11 @@
 //! §8.1).
 //!
 //! The document is read with the ordinary Prolog reader — a proof is a
-//! Prolog program, so nothing special is needed — and its `step/4` and
-//! `why/3` facts are lifted into the abstract model. Checking a `rule` or
-//! `fact` step re-performs exactly one resolution step against the *source*
-//! clause, which is what ties the proof to the program.
+//! Prolog program, so nothing special is needed — and its plain facts and
+//! `step/4` facts are lifted into the abstract model as claims and steps.
+//! Checking a `rule` or `fact` step re-performs exactly one resolution step
+//! against the *source* clause, which is what ties the proof to the
+//! program.
 
 use std::collections::BTreeMap;
 
@@ -94,17 +95,24 @@ impl PrologProof {
             given.entry(signature(&rule.head)).or_default().push(rule.head.clone());
         }
 
+        // A proof document states what it concluded and then why: the
+        // claims are its plain facts, and `clause/3` and `step/4` are the
+        // proof vocabulary that explains them. This is the same division
+        // the N3 and SPARQL-RL documents make.
         let mut steps = Vec::new();
         let mut claims = Vec::new();
         for fact in &document.rules {
             if !fact.body.is_empty() {
                 continue;
             }
-            let Term::Struct(name, args) = &fact.head else { continue };
+            let Term::Struct(name, args) = &fact.head else {
+                claims.push(fact.head.clone());
+                continue;
+            };
             match (name.as_str(), args.len()) {
                 ("step", 4) => steps.push(read_step(args)?),
-                ("why", 3) => claims.extend(list_items(&args[2], "a why/3 goal list")?),
-                _ => {}
+                ("clause", 3) => {}
+                _ => claims.push(fact.head.clone()),
             }
         }
 
@@ -328,7 +336,7 @@ mod tests {
     #[test]
     fn a_faithful_proof_checks() {
         let out = report(
-            "why(1, ['Who' = bob], [ancestor(alice, bob)]).\n\
+            "ancestor(alice, bob).\n\
              step(ancestor(alice, bob), rule(2), ['X' = alice, 'Y' = bob], [parent(alice, bob)]).\n\
              step(parent(alice, bob), fact(1), [], []).",
         );
@@ -340,7 +348,7 @@ mod tests {
     #[test]
     fn a_conclusion_the_clause_does_not_yield_is_rejected() {
         let out = report(
-            "why(1, [], [ancestor(alice, carol)]).\n\
+            "ancestor(alice, carol).\n\
              step(ancestor(alice, carol), rule(2), ['X' = alice, 'Y' = bob], [parent(alice, bob)]).\n\
              step(parent(alice, bob), fact(1), [], []).",
         );
@@ -351,7 +359,7 @@ mod tests {
     #[test]
     fn a_premise_that_is_not_the_clauses_own_is_rejected() {
         let out = report(
-            "why(1, [], [ancestor(alice, bob)]).\n\
+            "ancestor(alice, bob).\n\
              step(ancestor(alice, bob), rule(2), ['X' = alice, 'Y' = bob], [parent(alice, zoe)]).\n\
              step(parent(alice, zoe), fact(1), [], []).",
         );
@@ -363,7 +371,7 @@ mod tests {
         // The inference itself is sound, so only (C1) can object: nothing
         // in the document or the source establishes `parent(alice, zoe)`.
         let out = report(
-            "why(1, [], [ancestor(alice, zoe)]).\n\
+            "ancestor(alice, zoe).\n\
              step(ancestor(alice, zoe), rule(2), ['X' = alice, 'Y' = zoe], [parent(alice, zoe)]).",
         );
         assert!(out.failures.iter().any(|f| f.condition == "C1"), "{:?}", out.failures);
@@ -373,7 +381,7 @@ mod tests {
     #[test]
     fn a_premise_the_source_gives_needs_no_step_of_its_own() {
         let out = report(
-            "why(1, [], [ancestor(alice, bob)]).\n\
+            "ancestor(alice, bob).\n\
              step(ancestor(alice, bob), rule(2), ['X' = alice, 'Y' = bob], [parent(alice, bob)]).",
         );
         assert!(out.valid(), "{:?}", out.failures);
@@ -382,7 +390,7 @@ mod tests {
     #[test]
     fn a_step_that_uses_itself_fails_c2() {
         let out = report(
-            "why(1, [], [ancestor(alice, bob)]).\n\
+            "ancestor(alice, bob).\n\
              step(ancestor(alice, bob), rule(2), ['X' = alice, 'Y' = bob], [ancestor(alice, bob)]).",
         );
         assert!(out.failures.iter().any(|f| f.condition == "C2"), "{:?}", out.failures);
@@ -390,13 +398,13 @@ mod tests {
 
     #[test]
     fn an_unclaimed_conclusion_fails_c4() {
-        let out = report("why(1, [], [ancestor(alice, zoe)]).");
+        let out = report("ancestor(alice, zoe).");
         assert!(out.failures.iter().any(|f| f.condition == "C4"), "{:?}", out.failures);
     }
 
     #[test]
     fn a_missing_clause_is_rejected() {
-        let out = report("why(1, [], [ancestor(alice, bob)]).\nstep(ancestor(alice, bob), rule(99), [], []).");
+        let out = report("ancestor(alice, bob).\nstep(ancestor(alice, bob), rule(99), [], []).");
         assert!(!out.valid());
     }
 }

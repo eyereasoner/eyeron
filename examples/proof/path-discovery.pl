@@ -1,21 +1,15 @@
-% Prolog result format 4
-query(1, discovered_airroute(_0), ['Path' = _0]).
-result(1, complete, 3).
-answer(1,
-       ['Path' = ["Ostend-Bruges International Airport", "Liège Airport", "Heraklion International Nikos Kazantzakis Airport", "Václav Havel Airport Prague"]]).
-why(1,
-    ['Path' = ["Ostend-Bruges International Airport", "Liège Airport", "Heraklion International Nikos Kazantzakis Airport", "Václav Havel Airport Prague"]],
-    [discovered_airroute(["Ostend-Bruges International Airport", "Liège Airport", "Heraklion International Nikos Kazantzakis Airport", "Václav Havel Airport Prague"])]).
-answer(1,
-       ['Path' = ["Ostend-Bruges International Airport", "Liège Airport", "Diagoras Airport", "Václav Havel Airport Prague"]]).
-why(1,
-    ['Path' = ["Ostend-Bruges International Airport", "Liège Airport", "Diagoras Airport", "Václav Havel Airport Prague"]],
-    [discovered_airroute(["Ostend-Bruges International Airport", "Liège Airport", "Diagoras Airport", "Václav Havel Airport Prague"])]).
-answer(1,
-       ['Path' = ["Ostend-Bruges International Airport", "Liège Airport", "Palma De Mallorca Airport", "Václav Havel Airport Prague"]]).
-why(1,
-    ['Path' = ["Ostend-Bruges International Airport", "Liège Airport", "Palma De Mallorca Airport", "Václav Havel Airport Prague"]],
-    [discovered_airroute(["Ostend-Bruges International Airport", "Liège Airport", "Palma De Mallorca Airport", "Václav Havel Airport Prague"])]).
+discovered_airroute(["Ostend-Bruges International Airport",
+                     "Liège Airport",
+                     "Heraklion International Nikos Kazantzakis Airport",
+                     "Václav Havel Airport Prague"]).
+discovered_airroute(["Ostend-Bruges International Airport",
+                     "Liège Airport",
+                     "Diagoras Airport",
+                     "Václav Havel Airport Prague"]).
+discovered_airroute(["Ostend-Bruges International Airport",
+                     "Liège Airport",
+                     "Palma De Mallorca Airport",
+                     "Václav Havel Airport Prague"]).
 
 clause(3857, hasRoute("AIRPORT_1452", "AIRPORT_1587"), true).
 clause(4131, hasRoute("AIRPORT_1472", "AIRPORT_1587"), true).

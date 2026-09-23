@@ -1,10 +1,5 @@
-% Prolog result format 4
-query(1, result_query(_0, _1, _2), ['H' = _0, 'X' = _1, 'Y' = _2]).
-result(1, complete, 2).
-answer(1, ['H' = h, 'X' = a, 'Y' = b]).
-why(1, ['H' = h, 'X' = a, 'Y' = b], [result_query(h, a, b)]).
-answer(1, ['H' = h, 'X' = b, 'Y' = a]).
-why(1, ['H' = h, 'X' = b, 'Y' = a], [result_query(h, b, a)]).
+result_query(h, a, b).
+result_query(h, b, a).
 
 clause(5, in_z(r), true).
 clause(8, same_term(var('Z'), var('Z')), in_z(var('Z'))).

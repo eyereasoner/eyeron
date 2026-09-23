@@ -1,12 +1,6 @@
-% Prolog result format 4
-query(1, child(_0, _1), ['Child' = _0, 'Parent' = _1]).
-result(1, complete, 3).
-answer(1, ['Child' = x, 'Parent' = a]).
-why(1, ['Child' = x, 'Parent' = a], [child(x, a)]).
-answer(1, ['Child' = x, 'Parent' = b]).
-why(1, ['Child' = x, 'Parent' = b], [child(x, b)]).
-answer(1, ['Child' = a, 'Parent' = c]).
-why(1, ['Child' = a, 'Parent' = c], [child(a, c)]).
+child(x, a).
+child(x, b).
+child(a, c).
 
 clause(1, father(a, x), true).
 clause(2, mother(b, x), true).

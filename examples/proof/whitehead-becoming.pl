@@ -1,92 +1,40 @@
-% Prolog result format 4
-query(1, becomes_from(_0, _1), ['Later' = _0, 'Earlier' = _1]).
-result(1, complete, 2).
-answer(1, ['Later' = o2, 'Earlier' = o1]).
-why(1, ['Later' = o2, 'Earlier' = o1], [becomes_from(o2, o1)]).
-answer(1, ['Later' = o3, 'Earlier' = o2]).
-why(1, ['Later' = o3, 'Earlier' = o2], [becomes_from(o3, o2)]).
-query(2, inherits(_0, _1), ['O' = _0, 'Form' = _1]).
-result(2, complete, 5).
-answer(2, ['O' = o2, 'Form' = red]).
-why(2, ['O' = o2, 'Form' = red], [inherits(o2, red)]).
-answer(2, ['O' = o2, 'Form' = warm]).
-why(2, ['O' = o2, 'Form' = warm], [inherits(o2, warm)]).
-answer(2, ['O' = o3, 'Form' = red]).
-why(2, ['O' = o3, 'Form' = red], [inherits(o3, red)]).
-answer(2, ['O' = o3, 'Form' = warm]).
-why(2, ['O' = o3, 'Form' = warm], [inherits(o3, warm)]).
-answer(2, ['O' = o3, 'Form' = bright]).
-why(2, ['O' = o3, 'Form' = bright], [inherits(o3, bright)]).
-query(3, may_realize(_0, _1), ['O' = _0, 'Form' = _1]).
-result(3, complete, 2).
-answer(3, ['O' = o2, 'Form' = bright]).
-why(3, ['O' = o2, 'Form' = bright], [may_realize(o2, bright)]).
-answer(3, ['O' = o3, 'Form' = dark]).
-why(3, ['O' = o3, 'Form' = dark], [may_realize(o3, dark)]).
-query(4, integrates(_0, _1), ['O' = _0, 'Form' = _1]).
-result(4, complete, 7).
-answer(4, ['O' = o2, 'Form' = red]).
-why(4, ['O' = o2, 'Form' = red], [integrates(o2, red)]).
-answer(4, ['O' = o2, 'Form' = warm]).
-why(4, ['O' = o2, 'Form' = warm], [integrates(o2, warm)]).
-answer(4, ['O' = o2, 'Form' = bright]).
-why(4, ['O' = o2, 'Form' = bright], [integrates(o2, bright)]).
-answer(4, ['O' = o3, 'Form' = red]).
-why(4, ['O' = o3, 'Form' = red], [integrates(o3, red)]).
-answer(4, ['O' = o3, 'Form' = warm]).
-why(4, ['O' = o3, 'Form' = warm], [integrates(o3, warm)]).
-answer(4, ['O' = o3, 'Form' = bright]).
-why(4, ['O' = o3, 'Form' = bright], [integrates(o3, bright)]).
-answer(4, ['O' = o3, 'Form' = dark]).
-why(4, ['O' = o3, 'Form' = dark], [integrates(o3, dark)]).
-query(5, realizes(_0, _1), ['O' = _0, 'Form' = _1]).
-result(5, complete, 9).
-answer(5, ['O' = o1, 'Form' = red]).
-why(5, ['O' = o1, 'Form' = red], [realizes(o1, red)]).
-answer(5, ['O' = o1, 'Form' = warm]).
-why(5, ['O' = o1, 'Form' = warm], [realizes(o1, warm)]).
-answer(5, ['O' = o2, 'Form' = red]).
-why(5, ['O' = o2, 'Form' = red], [realizes(o2, red)]).
-answer(5, ['O' = o2, 'Form' = warm]).
-why(5, ['O' = o2, 'Form' = warm], [realizes(o2, warm)]).
-answer(5, ['O' = o2, 'Form' = bright]).
-why(5, ['O' = o2, 'Form' = bright], [realizes(o2, bright)]).
-answer(5, ['O' = o3, 'Form' = red]).
-why(5, ['O' = o3, 'Form' = red], [realizes(o3, red)]).
-answer(5, ['O' = o3, 'Form' = warm]).
-why(5, ['O' = o3, 'Form' = warm], [realizes(o3, warm)]).
-answer(5, ['O' = o3, 'Form' = bright]).
-why(5, ['O' = o3, 'Form' = bright], [realizes(o3, bright)]).
-answer(5, ['O' = o3, 'Form' = dark]).
-why(5, ['O' = o3, 'Form' = dark], [realizes(o3, dark)]).
-query(6, ingresses(_0, _1), ['O' = _0, 'Form' = _1]).
-result(6, complete, 9).
-answer(6, ['O' = o1, 'Form' = red]).
-why(6, ['O' = o1, 'Form' = red], [ingresses(o1, red)]).
-answer(6, ['O' = o1, 'Form' = warm]).
-why(6, ['O' = o1, 'Form' = warm], [ingresses(o1, warm)]).
-answer(6, ['O' = o2, 'Form' = red]).
-why(6, ['O' = o2, 'Form' = red], [ingresses(o2, red)]).
-answer(6, ['O' = o2, 'Form' = warm]).
-why(6, ['O' = o2, 'Form' = warm], [ingresses(o2, warm)]).
-answer(6, ['O' = o2, 'Form' = bright]).
-why(6, ['O' = o2, 'Form' = bright], [ingresses(o2, bright)]).
-answer(6, ['O' = o3, 'Form' = red]).
-why(6, ['O' = o3, 'Form' = red], [ingresses(o3, red)]).
-answer(6, ['O' = o3, 'Form' = warm]).
-why(6, ['O' = o3, 'Form' = warm], [ingresses(o3, warm)]).
-answer(6, ['O' = o3, 'Form' = bright]).
-why(6, ['O' = o3, 'Form' = bright], [ingresses(o3, bright)]).
-answer(6, ['O' = o3, 'Form' = dark]).
-why(6, ['O' = o3, 'Form' = dark], [ingresses(o3, dark)]).
-query(7, status(_0, _1), ['O' = _0, 'S' = _1]).
-result(7, complete, 3).
-answer(7, ['O' = o1, 'S' = objectivelyAvailable]).
-why(7, ['O' = o1, 'S' = objectivelyAvailable], [status(o1, objectivelyAvailable)]).
-answer(7, ['O' = o2, 'S' = objectivelyAvailable]).
-why(7, ['O' = o2, 'S' = objectivelyAvailable], [status(o2, objectivelyAvailable)]).
-answer(7, ['O' = o3, 'S' = objectivelyAvailable]).
-why(7, ['O' = o3, 'S' = objectivelyAvailable], [status(o3, objectivelyAvailable)]).
+becomes_from(o2, o1).
+becomes_from(o3, o2).
+inherits(o2, red).
+inherits(o2, warm).
+inherits(o3, red).
+inherits(o3, warm).
+inherits(o3, bright).
+may_realize(o2, bright).
+may_realize(o3, dark).
+integrates(o2, red).
+integrates(o2, warm).
+integrates(o2, bright).
+integrates(o3, red).
+integrates(o3, warm).
+integrates(o3, bright).
+integrates(o3, dark).
+realizes(o1, red).
+realizes(o1, warm).
+realizes(o2, red).
+realizes(o2, warm).
+realizes(o2, bright).
+realizes(o3, red).
+realizes(o3, warm).
+realizes(o3, bright).
+realizes(o3, dark).
+ingresses(o1, red).
+ingresses(o1, warm).
+ingresses(o2, red).
+ingresses(o2, warm).
+ingresses(o2, bright).
+ingresses(o3, red).
+ingresses(o3, warm).
+ingresses(o3, bright).
+ingresses(o3, dark).
+status(o1, objectivelyAvailable).
+status(o2, objectivelyAvailable).
+status(o3, objectivelyAvailable).
 
 clause(1, pure_potential(red), true).
 clause(2, pure_potential(warm), true).

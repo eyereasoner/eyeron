@@ -1,10 +1,5 @@
-% Prolog result format 4
-query(1, place(4, 4, [], _0), ['Rows' = _0]).
-result(1, complete, 2).
-answer(1, ['Rows' = [3, 1, 4, 2]]).
-why(1, ['Rows' = [3, 1, 4, 2]], [place(4, 4, [], [3, 1, 4, 2])]).
-answer(1, ['Rows' = [2, 4, 1, 3]]).
-why(1, ['Rows' = [2, 4, 1, 3]], [place(4, 4, [], [2, 4, 1, 3])]).
+place(4, 4, [], [3, 1, 4, 2]).
+place(4, 4, [], [2, 4, 1, 3]).
 
 clause(1, safe(anonymous(1), [], anonymous(2)), true).
 clause(2,

@@ -1,12 +1,6 @@
-% Prolog result format 4
-query(1, path(a, _0), ['Where' = _0]).
-result(1, complete, 3).
-answer(1, ['Where' = b]).
-why(1, ['Where' = b], [path(a, b)]).
-answer(1, ['Where' = c]).
-why(1, ['Where' = c], [path(a, c)]).
-answer(1, ['Where' = a]).
-why(1, ['Where' = a], [path(a, a)]).
+path(a, b).
+path(a, c).
+path(a, a).
 
 clause(1, edge(a, b), true).
 clause(2, edge(b, c), true).

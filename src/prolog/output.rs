@@ -1,9 +1,8 @@
 //! Result serialization (specification §12): an evaluated run is itself a
-//! small Prolog program of `query/3`, `result/3` and `answer/2` facts, and
-//! `--proof` adds a `why/3` fact per answer plus the `clause/3` and
-//! `step/4` facts that explain it. A result document can therefore be
-//! loaded and queried by another run — which is what
-//! `examples/proof-audit.pl` does.
+//! small Prolog program — the facts it claims, and with `--proof` the
+//! `clause/3` records its derivations cite plus the `step/4` facts that
+//! explain them. A result document can therefore be loaded and queried by
+//! another run, which is what `examples/proof-audit.pl` does.
 //!
 //! The `step/4` shape is the one `n3::proof` and `srl::proof` also emit:
 //! a conclusion, the single term saying why it holds, the bindings that
@@ -174,8 +173,8 @@ impl<'a> Walk<'a> {
         self.proofs.get(id.wrapping_sub(1))
     }
 
-    /// The goals a query-tagged proof proved: what an answer's `why/3`
-    /// points at, and what a completed `findall/3` collected.
+    /// The goals a query-tagged proof proved, which is what a completed
+    /// `findall/3` collected.
     fn goals(&self, id: usize) -> Vec<Term> {
         self.entry(id).map(|entry| entry.premises.iter().map(premise_conclusion).collect()).unwrap_or_default()
     }
@@ -258,47 +257,56 @@ fn push_premises(premises: &[Premise], stack: &mut Vec<Task>) {
     }
 }
 
-fn query_binding_term(variables: &[Term]) -> Term {
-    term::list(
-        variables
-            .iter()
-            .map(|v| {
-                let name = match v {
-                    Term::Var(_, name) => name.clone(),
-                    _ => unreachable!("a query projection is always a list of variables"),
-                };
-                binding(&name, v.clone())
-            })
-            .collect(),
-    )
-}
 
-fn answer_bindings_term(answer: &Answer) -> Term {
-    bindings_term(&answer.bindings)
-}
 
-/// Serialize a completed run as a Prolog program of `query`/`result`/
-/// `answer` facts, and with `proof` a `why/3` fact per answer plus the
-/// `clause/3` and `step/4` facts that explain it.
-pub fn format_result(result: &RunResult, proof: bool) -> String {
-    let mut lines = vec!["% Prolog result format 4".to_string()];
-    let emit = |lines: &mut Vec<String>, t: &Term| lines.push(format!("{}.", term::format_fact(t, WIDTH)));
-    let mut walk = Walk::new(&result.proofs);
-
-    for (index, query) in result.queries.iter().enumerate() {
-        let id = integer(index + 1);
-        emit(&mut lines, &node("query", vec![id.clone(), body_term(&query.body), query_binding_term(&query.variables)]));
-        emit(&mut lines, &node("result", vec![id.clone(), term::atom("complete"), integer(query.answers.len())]));
+/// What a run claims: each goal of each query, instantiated by an answer.
+///
+/// A query proves its goals, so an answer *is* those goals with its
+/// bindings applied — the same thing N3 prints as a derived triple and
+/// SPARQL-RL as its inference graph. A goal whose variable no answer binds
+/// keeps that variable, since that is what was proved. A claim reached by
+/// more than one answer is stated once.
+fn claims(result: &RunResult) -> Vec<Term> {
+    let mut seen = std::collections::BTreeSet::new();
+    let mut out = Vec::new();
+    for query in &result.queries {
         for answer in &query.answers {
-            let values = answer_bindings_term(answer);
-            emit(&mut lines, &node("answer", vec![id.clone(), values.clone()]));
-            if proof {
-                emit(&mut lines, &node("why", vec![id.clone(), values, term::list(walk.goals(answer.proof))]));
+            let bindings: BTreeMap<&str, &Term> = answer.bindings.iter().map(|(name, value)| (name.as_str(), value)).collect();
+            for goal in &query.body {
+                let claim = instantiate(goal, &bindings);
+                if seen.insert(term_key(&claim)) {
+                    out.push(claim);
+                }
             }
         }
     }
+    out
+}
+
+fn instantiate(term: &Term, bindings: &BTreeMap<&str, &Term>) -> Term {
+    match term {
+        Term::Var(_, name) => bindings.get(name.as_str()).map(|value| (*value).clone()).unwrap_or_else(|| term.clone()),
+        Term::Struct(name, args) => term::struct_(name.clone(), args.iter().map(|arg| instantiate(arg, bindings)).collect()),
+        other => other.clone(),
+    }
+}
+
+/// Serialize a completed run as a Prolog program: the facts it claims, and
+/// with `proof` the `clause/3` records its derivations cite and one
+/// `step/4` fact per justified conclusion.
+///
+/// That is the shape `n3::proof` and `srl::proof` write too — what was
+/// concluded, then why — so one reading serves all three. A run that
+/// answered nothing writes nothing.
+pub fn format_result(result: &RunResult, proof: bool) -> String {
+    let emit = |lines: &mut Vec<String>, t: &Term| lines.push(format!("{}.", term::format_fact(t, WIDTH)));
+    let mut lines = Vec::new();
+    for claim in claims(result) {
+        emit(&mut lines, &claim);
+    }
 
     if proof {
+        let mut walk = Walk::new(&result.proofs);
         walk.run(result.queries.iter().flat_map(|query| query.answers.iter().map(|answer| answer.proof)).collect());
         for block in [walk.clauses.values().cloned().collect::<Vec<_>>(), walk.steps.iter().map(step_term).collect()] {
             if block.is_empty() {
@@ -311,6 +319,9 @@ pub fn format_result(result: &RunResult, proof: bool) -> String {
         }
     }
 
+    if lines.is_empty() {
+        return String::new();
+    }
     format!("{}\n", lines.join("\n"))
 }
 

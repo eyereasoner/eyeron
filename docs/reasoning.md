@@ -101,34 +101,28 @@ $ eyeron examples/socrates.srl
 :Socrates a :Mortal .             # derived
 ```
 
-**Prolog** prints a result document, which is itself an ordinary Prolog
-program:
+**Prolog** prints each goal its queries proved, with the answer's bindings
+applied:
 
 ```
-$ eyeron examples/ancestor.pl
-% Prolog result format 4
-query(1, ancestor(alice, _0), ['Who' = _0]).
-result(1, complete, 3).
-answer(1, ['Who' = bob]).
-answer(1, ['Who' = carol]).
-answer(1, ['Who' = dana]).
+$ eyeron examples/socrates.pl
+instance_of(socrates, mortal).
 ```
 
-- `query(Id, Goal, Variables)` — the question that was asked. `Id` numbers
-  the program's `?-` directives from 1, and the other facts refer back to
-  it. The goal's variables are renamed `_0`, `_1`, …, and `Variables` says
-  which source name stands for which, as `'Name' = Var` pairs; here `'Who'`
-  is `_0`, the second argument of the goal.
-- `result(Id, Status, Count)` — how the query finished and how many answers
-  it had. `complete` means the search finished; `result(1, complete, 0)` is
-  a query that completed with no answers.
-- `answer(Id, Bindings)` — one answer, as `'Name' = Value` pairs over those
-  same variables. A ground query that succeeds binds nothing, so it reports
-  `answer(Id, [])`.
+A query proves its goals, so an answer *is* those goals instantiated —
+`examples/socrates.pl` asks `?- instance_of(socrates, mortal).` and gets it
+back. A query with several answers claims each of them, so
+`?- ancestor(alice, Who).` over `examples/ancestor.pl` claims
+`ancestor(alice, bob).`, `ancestor(alice, carol).` and
+`ancestor(alice, dana).`. A goal whose variable no answer binds keeps that
+variable, because that is what was proved; a claim reached by more than one
+answer is stated once; and a query that completed with no answers writes
+nothing.
 
-Because that document is a program, it can be saved, loaded and queried:
-reading it back records the question and its answers as data, rather than
-running the query again.
+Each of the three outputs is a document in its own language, so the engine
+that wrote it can read it back — an N3 proof is N3, a SPARQL-RL one is an
+`.srl` rule set, and a Prolog one is a Prolog program whose facts are the
+answers.
 
 `--proof` adds the derivation to each of the three, in the same shape: a
 conclusion, the single term saying why it holds, the bindings that

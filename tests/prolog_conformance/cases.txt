@@ -1,7 +1,7 @@
 # Prolog conformance cases, one per normative statement of
 # docs/prolog-specification.md. `[intent]` records what the specification
-# requires; `[output]` is the expected result document (Prolog result
-# format 3) or, with `[error]`, a substring of the expected error message.
+# requires; `[output]` is the expected result document or, with `[error]`,
+# a substring of the expected error message.
 #
 # Because the language is ISO/IEC 13211-1 Prolog and not a local
 # invention, most of these cases can be held against an external
@@ -24,10 +24,7 @@
 fact(1). % trailing comment
 ?- fact(X).
 [output]
-% Prolog result format 4
-query(1, fact(_0), ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 1]).
+fact(1).
 
 
 [case] lexical/block-comment-is-layout
@@ -39,10 +36,7 @@ answer(1, ['X' = 1]).
 fact(1).
 ?- fact(/* inline */ X).
 [output]
-% Prolog result format 4
-query(1, fact(_0), ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 1]).
+fact(1).
 
 
 [case] lexical/unterminated-block-comment-is-a-syntax-error
@@ -61,10 +55,7 @@ fact(1).
 [program]
 ?- 1+1=:=2.
 [output]
-% Prolog result format 4
-query(1, 1 + 1 =:= 2, []).
-result(1, complete, 1).
-answer(1, []).
+1 + 1 =:= 2.
 
 
 [case] lexical/a-graphic-run-with-no-meaning-is-a-syntax-error
@@ -82,10 +73,7 @@ answer(1, []).
 value(1.25).
 ?- value(X).
 [output]
-% Prolog result format 4
-query(1, value(_0), ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 1.25]).
+value(1.25).
 
 
 [case] lexical/a-float-needs-a-fraction-before-its-exponent
@@ -102,10 +90,7 @@ answer(1, ['X' = 1.25]).
 [program]
 ?- X is 1.5e3.
 [output]
-% Prolog result format 4
-query(1, _0 is 1500.0, ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 1500.0]).
+1500.0 is 1500.0.
 
 
 [case] lexical/only-decimal-integer-notation-is-accepted
@@ -123,10 +108,7 @@ answer(1, ['X' = 1500.0]).
 name('it''s').
 ?- name(X).
 [output]
-% Prolog result format 4
-query(1, name(_0), ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 'it\'s']).
+name('it\'s').
 
 
 [case] lexical/string-escape-sequences
@@ -135,10 +117,8 @@ answer(1, ['X' = 'it\'s']).
 [program]
 ?- X = "tab\there", Y = "\x41\", Z = "\101\".
 [output]
-% Prolog result format 4
-query(1, (_0 = "tab\there", _1 = "A", _2 = "A"), ['X' = _0, 'Y' = _1, 'Z' = _2]).
-result(1, complete, 1).
-answer(1, ['X' = "tab\there", 'Y' = "A", 'Z' = "A"]).
+"tab\there" = "tab\there".
+"A" = "A".
 
 
 [case] lexical/unknown-escape-is-a-syntax-error
@@ -156,10 +136,7 @@ answer(1, ['X' = "tab\there", 'Y' = "A", 'Z' = "A"]).
 fact(ok).
 ?- fact(_result).
 [output]
-% Prolog result format 4
-query(1, fact(_0), ['_result' = _0]).
-result(1, complete, 1).
-answer(1, ['_result' = ok]).
+fact(ok).
 
 
 [case] lexical/anonymous-variables-are-unshared-and-unreported
@@ -169,10 +146,7 @@ answer(1, ['_result' = ok]).
 pair(1, 2).
 ?- pair(_, _).
 [output]
-% Prolog result format 4
-query(1, pair(_0, _1), []).
-result(1, complete, 1).
-answer(1, []).
+pair(_0, _1).
 
 
 [case] operators/multiplication-binds-tighter-than-addition
@@ -181,10 +155,7 @@ answer(1, []).
 [program]
 ?- X is 1 + 2 * 3.
 [output]
-% Prolog result format 4
-query(1, _0 is 1 + 2 * 3, ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 7]).
+7 is 1 + 2 * 3.
 
 
 [case] operators/yfx-associates-to-the-left
@@ -193,10 +164,7 @@ answer(1, ['X' = 7]).
 [program]
 ?- X is 1 - 2 - 3.
 [output]
-% Prolog result format 4
-query(1, _0 is 1 - 2 - 3, ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = -4]).
+-4 is 1 - 2 - 3.
 
 
 [case] operators/xfy-associates-to-the-right
@@ -209,10 +177,7 @@ b.
 c.
 ?- clause(p, Body).
 [output]
-% Prolog result format 4
-query(1, clause(p, _0), ['Body' = _0]).
-result(1, complete, 1).
-answer(1, ['Body' = (a, b, c)]).
+clause(p, (a, b, c)).
 
 
 [case] operators/an-argument-is-read-at-priority-999
@@ -223,10 +188,8 @@ p(a, b).
 q((a, b)).
 ?- p(X, Y), q(Z).
 [output]
-% Prolog result format 4
-query(1, (p(_0, _1), q(_2)), ['X' = _0, 'Y' = _1, 'Z' = _2]).
-result(1, complete, 1).
-answer(1, ['X' = a, 'Y' = b, 'Z' = (a, b)]).
+p(a, b).
+q((a, b)).
 
 
 [case] operators/functional-notation-admits-no-layout
@@ -243,10 +206,9 @@ answer(1, ['X' = a, 'Y' = b, 'Z' = (a, b)]).
 [program]
 ?- X = -1, Y = - 1, X \== Y.
 [output]
-% Prolog result format 4
-query(1, (_0 = -1, _1 = - 1, _0 \== _1), ['X' = _0, 'Y' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = -1, 'Y' = - 1]).
+-1 = -1.
+- 1 = - 1.
+-1 \== - 1.
 
 
 [case] operators/an-operator-atom-in-brackets-is-a-term
@@ -255,10 +217,7 @@ answer(1, ['X' = -1, 'Y' = - 1]).
 [program]
 ?- X = (+).
 [output]
-% Prolog result format 4
-query(1, _0 = +, ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = +]).
++ = +.
 
 
 [case] operators/the-table-is-fixed
@@ -278,10 +237,7 @@ p(1).
 parent(alice, bob).
 ?- parent(X, Y).
 [output]
-% Prolog result format 4
-query(1, parent(_0, _1), ['X' = _0, 'Y' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = alice, 'Y' = bob]).
+parent(alice, bob).
 
 
 [case] programs/a-rule-joins-its-body-left-to-right
@@ -293,10 +249,7 @@ parent(bob, carol).
 grandparent(X, Z) :- parent(X, Y), parent(Y, Z).
 ?- grandparent(X, Z).
 [output]
-% Prolog result format 4
-query(1, grandparent(_0, _1), ['X' = _0, 'Z' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = alice, 'Z' = carol]).
+grandparent(alice, carol).
 
 
 [case] programs/a-query-directive-reports-its-answers
@@ -307,11 +260,8 @@ colour(red).
 colour(green).
 ?- colour(C).
 [output]
-% Prolog result format 4
-query(1, colour(_0), ['C' = _0]).
-result(1, complete, 2).
-answer(1, ['C' = red]).
-answer(1, ['C' = green]).
+colour(red).
+colour(green).
 
 
 [case] programs/other-directives-are-rejected
@@ -351,10 +301,7 @@ q(2).
 both(X, Y) :- p(X), q(Y).
 ?- both(A, B).
 [output]
-% Prolog result format 4
-query(1, both(_0, _1), ['A' = _0, 'B' = _1]).
-result(1, complete, 1).
-answer(1, ['A' = 1, 'B' = 2]).
+both(1, 2).
 
 
 [case] programs/an-explicit-true-body-is-an-empty-body
@@ -364,10 +311,7 @@ answer(1, ['A' = 1, 'B' = 2]).
 p :- true.
 ?- clause(p, Body).
 [output]
-% Prolog result format 4
-query(1, clause(p, _0), ['Body' = _0]).
-result(1, complete, 1).
-answer(1, ['Body' = true]).
+clause(p, true).
 
 
 [case] terms/an-atom-is-a-compound-of-arity-zero
@@ -378,10 +322,8 @@ ready.
 goal(ready).
 ?- goal(G), call(G).
 [output]
-% Prolog result format 4
-query(1, (goal(_0), call(_0)), ['G' = _0]).
-result(1, complete, 1).
-answer(1, ['G' = ready]).
+goal(ready).
+call(ready).
 
 
 [case] terms/zero-argument-constructor-notation-is-a-syntax-error
@@ -399,10 +341,8 @@ p(red()).
 [program]
 ?- X = [1, 1.0, "1", '1'], sort(X, Sorted).
 [output]
-% Prolog result format 4
-query(1, (_0 = [1, 1.0, "1", '1'], sort(_0, _1)), ['X' = _0, 'Sorted' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = [1, 1.0, "1", '1'], 'Sorted' = [1.0, 1, '1', "1"]]).
+[1, 1.0, "1", '1'] = [1, 1.0, "1", '1'].
+sort([1, 1.0, "1", '1'], [1.0, 1, '1', "1"]).
 
 
 [case] terms/an-integer-does-not-unify-with-an-equal-float
@@ -411,9 +351,7 @@ answer(1, ['X' = [1, 1.0, "1", '1'], 'Sorted' = [1.0, 1, '1', "1"]]).
 [program]
 ?- 1 = 1.0.
 [output]
-% Prolog result format 4
-query(1, 1 = 1.0, []).
-result(1, complete, 0).
+
 
 
 [case] terms/unification-performs-the-occurs-check
@@ -422,9 +360,7 @@ result(1, complete, 0).
 [program]
 ?- X = f(X).
 [output]
-% Prolog result format 4
-query(1, _0 = f(_0), ['X' = _0]).
-result(1, complete, 0).
+
 
 
 [case] terms/standard-order-across-kinds
@@ -433,10 +369,7 @@ result(1, complete, 0).
 [program]
 ?- sort([f(x), "s", a, 2, 1.5], Sorted).
 [output]
-% Prolog result format 4
-query(1, sort([f(x), "s", a, 2, 1.5], _0), ['Sorted' = _0]).
-result(1, complete, 1).
-answer(1, ['Sorted' = [1.5, 2, a, "s", f(x)]]).
+sort([f(x), "s", a, 2, 1.5], [1.5, 2, a, "s", f(x)]).
 
 
 [case] terms/standard-order-puts-a-float-before-an-equal-integer
@@ -445,10 +378,7 @@ answer(1, ['Sorted' = [1.5, 2, a, "s", f(x)]]).
 [program]
 ?- sort([1, 1.0], Sorted).
 [output]
-% Prolog result format 4
-query(1, sort([1, 1.0], _0), ['Sorted' = _0]).
-result(1, complete, 1).
-answer(1, ['Sorted' = [1.0, 1]]).
+sort([1, 1.0], [1.0, 1]).
 
 
 [case] terms/standard-order-compares-compounds-by-arity-then-name
@@ -457,10 +387,7 @@ answer(1, ['Sorted' = [1.0, 1]]).
 [program]
 ?- sort([b(1), a(1, 2), a(1)], Sorted).
 [output]
-% Prolog result format 4
-query(1, sort([b(1), a(1, 2), a(1)], _0), ['Sorted' = _0]).
-result(1, complete, 1).
-answer(1, ['Sorted' = [a(1), b(1), a(1, 2)]]).
+sort([b(1), a(1, 2), a(1)], [a(1), b(1), a(1, 2)]).
 
 
 [case] terms/identity-comparison-does-not-unify
@@ -469,9 +396,7 @@ answer(1, ['Sorted' = [a(1), b(1), a(1, 2)]]).
 [program]
 ?- X == Y.
 [output]
-% Prolog result format 4
-query(1, _0 == _1, ['X' = _0, 'Y' = _1]).
-result(1, complete, 0).
+
 
 
 [case] terms/identity-comparison-accepts-unbound-terms
@@ -480,10 +405,7 @@ result(1, complete, 0).
 [program]
 ?- X \== Y.
 [output]
-% Prolog result format 4
-query(1, _0 \== _1, ['X' = _0, 'Y' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = _0, 'Y' = _1]).
+_0 \== _1.
 
 
 [case] terms/a-list-is-dot-pairs-ending-in-nil
@@ -492,10 +414,7 @@ answer(1, ['X' = _0, 'Y' = _1]).
 [program]
 ?- X = [a, b], X = [Head|Tail].
 [output]
-% Prolog result format 4
-query(1, (_0 = [a, b], _0 = [_1|_2]), ['X' = _0, 'Head' = _1, 'Tail' = _2]).
-result(1, complete, 1).
-answer(1, ['X' = [a, b], 'Head' = a, 'Tail' = [b]]).
+[a, b] = [a, b].
 
 
 [case] terms/a-list-may-have-an-open-tail
@@ -504,10 +423,7 @@ answer(1, ['X' = [a, b], 'Head' = a, 'Tail' = [b]]).
 [program]
 ?- X = [a|T].
 [output]
-% Prolog result format 4
-query(1, _0 = [a|_1], ['X' = _0, 'T' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = [a|_0], 'T' = _0]).
+[a|_0] = [a|_0].
 
 
 [case] evaluation/left-recursion-terminates
@@ -520,11 +436,8 @@ ancestor(X, Y) :- parent(X, Y).
 ancestor(X, Z) :- ancestor(X, Y), parent(Y, Z).
 ?- ancestor(a, Who).
 [output]
-% Prolog result format 4
-query(1, ancestor(a, _0), ['Who' = _0]).
-result(1, complete, 2).
-answer(1, ['Who' = b]).
-answer(1, ['Who' = c]).
+ancestor(a, b).
+ancestor(a, c).
 
 
 [case] evaluation/clause-order-is-not-logical-priority
@@ -537,11 +450,8 @@ ancestor(X, Z) :- parent(X, Y), ancestor(Y, Z).
 ancestor(X, Y) :- parent(X, Y).
 ?- ancestor(a, Who).
 [output]
-% Prolog result format 4
-query(1, ancestor(a, _0), ['Who' = _0]).
-result(1, complete, 2).
-answer(1, ['Who' = b]).
-answer(1, ['Who' = c]).
+ancestor(a, b).
+ancestor(a, c).
 
 
 [case] evaluation/answers-are-deduplicated
@@ -552,10 +462,7 @@ p(1).
 p(1).
 ?- p(X).
 [output]
-% Prolog result format 4
-query(1, p(_0), ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 1]).
+p(1).
 
 
 [case] evaluation/mutual-recursion-terminates
@@ -567,12 +474,9 @@ even(N) :- odd(M), N is M + 1, N =< 4.
 odd(N) :- even(M), N is M + 1, N =< 4.
 ?- even(N).
 [output]
-% Prolog result format 4
-query(1, even(_0), ['N' = _0]).
-result(1, complete, 3).
-answer(1, ['N' = 0]).
-answer(1, ['N' = 2]).
-answer(1, ['N' = 4]).
+even(0).
+even(2).
+even(4).
 
 
 [case] evaluation/goals-are-selected-left-to-right
@@ -602,10 +506,7 @@ married(alice).
 single(X) :- person(X), \+ married(X).
 ?- single(X).
 [output]
-% Prolog result format 4
-query(1, single(_0), ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = bob]).
+single(bob).
 
 
 [case] negation/presence-fails
@@ -615,9 +516,7 @@ answer(1, ['X' = bob]).
 p(1).
 ?- \+ p(1).
 [output]
-% Prolog result format 4
-query(1, \+p(1), []).
-result(1, complete, 0).
+
 
 
 [case] negation/a-non-ground-argument-is-an-error
@@ -635,10 +534,7 @@ p(1).
 [program]
 ?- X is 12345678901234567890 * 98765432109876543210.
 [output]
-% Prolog result format 4
-query(1, _0 is 12345678901234567890 * 98765432109876543210, ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 1219326311370217952237463801111263526900]).
+1219326311370217952237463801111263526900 is 12345678901234567890 * 98765432109876543210.
 
 
 [case] arithmetic/integer-division-truncates-toward-zero
@@ -647,10 +543,8 @@ answer(1, ['X' = 1219326311370217952237463801111263526900]).
 [program]
 ?- X is 7 // 2, Y is -7 // 2.
 [output]
-% Prolog result format 4
-query(1, (_0 is 7 // 2, _1 is -7 // 2), ['X' = _0, 'Y' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = 3, 'Y' = -3]).
+3 is 7 // 2.
+-3 is -7 // 2.
 
 
 [case] arithmetic/mod-takes-the-sign-of-the-divisor
@@ -659,10 +553,8 @@ answer(1, ['X' = 3, 'Y' = -3]).
 [program]
 ?- X is -7 mod 3, Y is 7 mod -3.
 [output]
-% Prolog result format 4
-query(1, (_0 is -7 mod 3, _1 is 7 mod -3), ['X' = _0, 'Y' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = 2, 'Y' = -2]).
+2 is -7 mod 3.
+-2 is 7 mod -3.
 
 
 [case] arithmetic/rem-takes-the-sign-of-the-dividend
@@ -671,10 +563,8 @@ answer(1, ['X' = 2, 'Y' = -2]).
 [program]
 ?- X is -7 rem 3, Y is 7 rem -3.
 [output]
-% Prolog result format 4
-query(1, (_0 is -7 rem 3, _1 is 7 rem -3), ['X' = _0, 'Y' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = -1, 'Y' = 1]).
+-1 is -7 rem 3.
+1 is 7 rem -3.
 
 
 [case] arithmetic/exact-integer-division-gives-an-integer
@@ -683,10 +573,7 @@ answer(1, ['X' = -1, 'Y' = 1]).
 [program]
 ?- X is 4 / 2.
 [output]
-% Prolog result format 4
-query(1, _0 is 4 / 2, ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 2]).
+2 is 4 / 2.
 
 
 [case] arithmetic/inexact-division-gives-a-float
@@ -695,10 +582,7 @@ answer(1, ['X' = 2]).
 [program]
 ?- X is 1 / 2.
 [output]
-% Prolog result format 4
-query(1, _0 is 1 / 2, ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 0.5]).
+0.5 is 1 / 2.
 
 
 [case] arithmetic/division-by-zero-is-an-error
@@ -715,12 +599,9 @@ answer(1, ['X' = 0.5]).
 [program]
 ?- X is round(2.5), Y is round(-2.5), Z is round(2.4).
 [output]
-% Prolog result format 4
-query(1,
-      (_0 is round(2.5), _1 is round(-2.5), _2 is round(2.4)),
-      ['X' = _0, 'Y' = _1, 'Z' = _2]).
-result(1, complete, 1).
-answer(1, ['X' = 3, 'Y' = -2, 'Z' = 2]).
+3 is round(2.5).
+-2 is round(-2.5).
+2 is round(2.4).
 
 
 [case] arithmetic/floor-ceiling-and-truncate-return-integers
@@ -729,12 +610,9 @@ answer(1, ['X' = 3, 'Y' = -2, 'Z' = 2]).
 [program]
 ?- X is floor(-2.5), Y is ceiling(-2.5), Z is truncate(-2.5).
 [output]
-% Prolog result format 4
-query(1,
-      (_0 is floor(-2.5), _1 is ceiling(-2.5), _2 is truncate(-2.5)),
-      ['X' = _0, 'Y' = _1, 'Z' = _2]).
-result(1, complete, 1).
-answer(1, ['X' = -3, 'Y' = -2, 'Z' = -2]).
+-3 is floor(-2.5).
+-2 is ceiling(-2.5).
+-2 is truncate(-2.5).
 
 
 [case] arithmetic/power-operators
@@ -743,10 +621,8 @@ answer(1, ['X' = -3, 'Y' = -2, 'Z' = -2]).
 [program]
 ?- X is 2 ** 3, Y is 2 ^ 10.
 [output]
-% Prolog result format 4
-query(1, (_0 is 2 ** 3, _1 is 2 ^ 10), ['X' = _0, 'Y' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = 8.0, 'Y' = 1024]).
+8.0 is 2 ** 3.
+1024 is 2 ^ 10.
 
 
 [case] arithmetic/arithmetic-equality-crosses-kinds
@@ -755,10 +631,7 @@ answer(1, ['X' = 8.0, 'Y' = 1024]).
 [program]
 ?- 1 =:= 1.0.
 [output]
-% Prolog result format 4
-query(1, 1 =:= 1.0, []).
-result(1, complete, 1).
-answer(1, []).
+1 =:= 1.0.
 
 
 [case] arithmetic/comparison-evaluates-both-sides
@@ -767,10 +640,7 @@ answer(1, []).
 [program]
 ?- 1 + 1 < 2 * 2.
 [output]
-% Prolog result format 4
-query(1, 1 + 1 < 2 * 2, []).
-result(1, complete, 1).
-answer(1, []).
+1 + 1 < 2 * 2.
 
 
 [case] arithmetic/an-unknown-functor-is-an-error
@@ -795,10 +665,8 @@ answer(1, []).
 [program]
 ?- X is min(1, 2.0), Y is max(1, 2.0).
 [output]
-% Prolog result format 4
-query(1, (_0 is min(1, 2.0), _1 is max(1, 2.0)), ['X' = _0, 'Y' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = 1, 'Y' = 2.0]).
+1 is min(1, 2.0).
+2.0 is max(1, 2.0).
 
 
 [case] arithmetic/abs-and-sign-follow-the-argument-kind
@@ -807,10 +675,9 @@ answer(1, ['X' = 1, 'Y' = 2.0]).
 [program]
 ?- X is abs(-3), Y is abs(-3.5), Z is sign(-3).
 [output]
-% Prolog result format 4
-query(1, (_0 is abs(-3), _1 is abs(-3.5), _2 is sign(-3)), ['X' = _0, 'Y' = _1, 'Z' = _2]).
-result(1, complete, 1).
-answer(1, ['X' = 3, 'Y' = 3.5, 'Z' = -1]).
+3 is abs(-3).
+3.5 is abs(-3.5).
+-1 is sign(-3).
 
 
 [case] arithmetic/sqrt-returns-a-float
@@ -819,10 +686,7 @@ answer(1, ['X' = 3, 'Y' = 3.5, 'Z' = -1]).
 [program]
 ?- X is sqrt(4).
 [output]
-% Prolog result format 4
-query(1, _0 is sqrt(4), ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 2.0]).
+2.0 is sqrt(4).
 
 
 [case] arithmetic/is-does-not-run-backwards
@@ -831,10 +695,7 @@ answer(1, ['X' = 2.0]).
 [program]
 ?- 3 is 1 + 2.
 [output]
-% Prolog result format 4
-query(1, 3 is 1 + 2, []).
-result(1, complete, 1).
-answer(1, []).
+3 is 1 + 2.
 
 
 [case] builtins/true-succeeds-once-and-fail-never-does
@@ -846,12 +707,7 @@ q :- fail.
 ?- p.
 ?- q.
 [output]
-% Prolog result format 4
-query(1, p, []).
-result(1, complete, 1).
-answer(1, []).
-query(2, q, []).
-result(2, complete, 0).
+p.
 
 
 [case] builtins/call-runs-an-assembled-goal
@@ -863,11 +719,10 @@ p(2).
 wanted(p(X), X).
 ?- wanted(G, V), call(G).
 [output]
-% Prolog result format 4
-query(1, (wanted(_0, _1), call(_0)), ['G' = _0, 'V' = _1]).
-result(1, complete, 2).
-answer(1, ['G' = p(1), 'V' = 1]).
-answer(1, ['G' = p(2), 'V' = 2]).
+wanted(p(1), 1).
+call(p(1)).
+wanted(p(2), 2).
+call(p(2)).
 
 
 [case] builtins/call-accepts-a-conjunction
@@ -878,10 +733,7 @@ p(1).
 q(1).
 ?- call((p(X), q(X))).
 [output]
-% Prolog result format 4
-query(1, call((p(_0), q(_0))), ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 1]).
+call((p(1), q(1))).
 
 
 [case] builtins/call-needs-a-bound-goal
@@ -900,10 +752,7 @@ p(a).
 p(b).
 ?- findall(X, p(X), L).
 [output]
-% Prolog result format 4
-query(1, findall(_0, p(_0), _1), ['L' = _1]).
-result(1, complete, 1).
-answer(1, ['L' = [a, b]]).
+findall(_0, p(_0), [a, b]).
 
 
 [case] builtins/findall-with-no-solutions-gives-the-empty-list
@@ -913,10 +762,8 @@ answer(1, ['L' = [a, b]]).
 p(a).
 ?- findall(X, p(z), L), X = unbound.
 [output]
-% Prolog result format 4
-query(1, (findall(_0, p(z), _1), _0 = unbound), ['L' = _1, 'X' = _0]).
-result(1, complete, 1).
-answer(1, ['L' = [], 'X' = unbound]).
+findall(unbound, p(z), []).
+unbound = unbound.
 
 
 [case] builtins/findall-collects-distinct-solutions
@@ -927,10 +774,7 @@ p(a).
 p(a).
 ?- findall(X, p(X), L).
 [output]
-% Prolog result format 4
-query(1, findall(_0, p(_0), _1), ['L' = _1]).
-result(1, complete, 1).
-answer(1, ['L' = [a]]).
+findall(_0, p(_0), [a]).
 
 
 [case] builtins/findall-does-not-bind-outside-itself
@@ -942,10 +786,7 @@ p(b).
 r(L) :- findall(X, p(X), L).
 ?- r(L).
 [output]
-% Prolog result format 4
-query(1, r(_0), ['L' = _0]).
-result(1, complete, 1).
-answer(1, ['L' = [a, b]]).
+r([a, b]).
 
 
 [case] builtins/clause-reports-a-fact-body-as-true
@@ -955,10 +796,7 @@ answer(1, ['L' = [a, b]]).
 p(1).
 ?- clause(p(X), Body).
 [output]
-% Prolog result format 4
-query(1, clause(p(_0), _1), ['X' = _0, 'Body' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = 1, 'Body' = true]).
+clause(p(1), true).
 
 
 [case] builtins/clause-reports-a-conjunction-as-a-comma-term
@@ -970,10 +808,7 @@ q(1).
 r(1).
 ?- clause(p(Y), Body).
 [output]
-% Prolog result format 4
-query(1, clause(p(_0), _1), ['Y' = _0, 'Body' = _1]).
-result(1, complete, 1).
-answer(1, ['Y' = _0, 'Body' = (q(_0), r(_0))]).
+clause(p(_0), (q(_0), r(_0))).
 
 
 [case] builtins/clause-standardizes-apart
@@ -984,10 +819,7 @@ p(X) :- q(X).
 q(1).
 ?- clause(p(a), Body).
 [output]
-% Prolog result format 4
-query(1, clause(p(a), _0), ['Body' = _0]).
-result(1, complete, 1).
-answer(1, ['Body' = q(a)]).
+clause(p(a), q(a)).
 
 
 [case] builtins/the-vanilla-meta-interpreter-is-three-clauses
@@ -1003,11 +835,8 @@ solve((A, B)) :- solve(A), solve(B).
 solve(H) :- clause(H, B), solve(B).
 ?- solve(ancestor(a, Who)).
 [output]
-% Prolog result format 4
-query(1, solve(ancestor(a, _0)), ['Who' = _0]).
-result(1, complete, 2).
-answer(1, ['Who' = b]).
-answer(1, ['Who' = c]).
+solve(ancestor(a, b)).
+solve(ancestor(a, c)).
 
 
 [case] builtins/between-enumerates-inclusively
@@ -1016,12 +845,9 @@ answer(1, ['Who' = c]).
 [program]
 ?- between(1, 3, N).
 [output]
-% Prolog result format 4
-query(1, between(1, 3, _0), ['N' = _0]).
-result(1, complete, 3).
-answer(1, ['N' = 1]).
-answer(1, ['N' = 2]).
-answer(1, ['N' = 3]).
+between(1, 3, 1).
+between(1, 3, 2).
+between(1, 3, 3).
 
 
 [case] builtins/between-with-reversed-bounds-has-no-answers
@@ -1030,9 +856,7 @@ answer(1, ['N' = 3]).
 [program]
 ?- between(3, 1, N).
 [output]
-% Prolog result format 4
-query(1, between(3, 1, _0), ['N' = _0]).
-result(1, complete, 0).
+
 
 
 [case] builtins/length-of-a-closed-list
@@ -1041,10 +865,7 @@ result(1, complete, 0).
 [program]
 ?- length([a, b, c], N).
 [output]
-% Prolog result format 4
-query(1, length([a, b, c], _0), ['N' = _0]).
-result(1, complete, 1).
-answer(1, ['N' = 3]).
+length([a, b, c], 3).
 
 
 [case] builtins/length-needs-a-closed-list
@@ -1061,10 +882,7 @@ answer(1, ['N' = 3]).
 [program]
 ?- sort([c, a, b, a], L).
 [output]
-% Prolog result format 4
-query(1, sort([c, a, b, a], _0), ['L' = _0]).
-result(1, complete, 1).
-answer(1, ['L' = [a, b, c]]).
+sort([c, a, b, a], [a, b, c]).
 
 
 [case] builtins/list-folds
@@ -1073,12 +891,9 @@ answer(1, ['L' = [a, b, c]]).
 [program]
 ?- sum_list([1, 2, 3], S), max_list([1, 2, 3], H), min_list([1, 2, 3], L).
 [output]
-% Prolog result format 4
-query(1,
-      (sum_list([1, 2, 3], _0), max_list([1, 2, 3], _1), min_list([1, 2, 3], _2)),
-      ['S' = _0, 'H' = _1, 'L' = _2]).
-result(1, complete, 1).
-answer(1, ['S' = 6, 'H' = 3, 'L' = 1]).
+sum_list([1, 2, 3], 6).
+max_list([1, 2, 3], 3).
+min_list([1, 2, 3], 1).
 
 
 [case] builtins/sum-of-the-empty-list-is-zero
@@ -1087,10 +902,7 @@ answer(1, ['S' = 6, 'H' = 3, 'L' = 1]).
 [program]
 ?- sum_list([], S).
 [output]
-% Prolog result format 4
-query(1, sum_list([], _0), ['S' = _0]).
-result(1, complete, 1).
-answer(1, ['S' = 0]).
+sum_list([], 0).
 
 
 [case] builtins/extrema-need-a-nonempty-list
@@ -1107,10 +919,7 @@ answer(1, ['S' = 0]).
 [program]
 ?- atomics_to_string([a, " is ", 3], S).
 [output]
-% Prolog result format 4
-query(1, atomics_to_string([a, " is ", 3], _0), ['S' = _0]).
-result(1, complete, 1).
-answer(1, ['S' = "a is 3"]).
+atomics_to_string([a, " is ", 3], "a is 3").
 
 
 [case] builtins/atomics-to-string-rejects-a-compound
@@ -1128,12 +937,25 @@ answer(1, ['S' = "a is 3"]).
 puzzle([[5,3,0,0,7,0,0,0,0],[6,0,0,1,9,5,0,0,0],[0,9,8,0,0,0,0,6,0],[8,0,0,0,6,0,0,0,3],[4,0,0,8,0,3,0,0,1],[7,0,0,0,2,0,0,0,6],[0,6,0,0,0,0,2,8,0],[0,0,0,4,1,9,0,0,5],[0,0,0,0,8,0,0,7,9]]).
 ?- puzzle(P), sudoku(P, [FirstRow|_]).
 [output]
-% Prolog result format 4
-query(1, (puzzle(_0), sudoku(_0, [_1|_2])), ['P' = _0, 'FirstRow' = _1]).
-result(1, complete, 1).
-answer(1,
-       ['P' = [[5, 3, 0, 0, 7, 0, 0, 0, 0], [6, 0, 0, 1, 9, 5, 0, 0, 0], [0, 9, 8, 0, 0, 0, 0, 6, 0], [8, 0, 0, 0, 6, 0, 0, 0, 3], [4, 0, 0, 8, 0, 3, 0, 0, 1], [7, 0, 0, 0, 2, 0, 0, 0, 6], [0, 6, 0, 0, 0, 0, 2, 8, 0], [0, 0, 0, 4, 1, 9, 0, 0, 5], [0, 0, 0, 0, 8, 0, 0, 7, 9]],
-        'FirstRow' = [5, 3, 4, 6, 7, 8, 9, 1, 2]]).
+puzzle([[5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9]]).
+sudoku([[5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9]],
+       [[5, 3, 4, 6, 7, 8, 9, 1, 2]|_0]).
 
 
 [case] builtins/a-builtin-may-not-be-redefined
@@ -1159,9 +981,7 @@ length(a, b).
 [program]
 ?- f(a) \= f(b), X \= Y.
 [output]
-% Prolog result format 4
-query(1, (f(a) \= f(b), _0 \= _1), ['X' = _0, 'Y' = _1]).
-result(1, complete, 0).
+
 
 
 [case] builtins/term-ordering-comparisons
@@ -1170,10 +990,10 @@ result(1, complete, 0).
 [program]
 ?- a @< b, f(x) @> b, a @=< a, b @>= a.
 [output]
-% Prolog result format 4
-query(1, (a @< b, f(x) @> b, a @=< a, b @>= a), []).
-result(1, complete, 1).
-answer(1, []).
+a @< b.
+f(x) @> b.
+a @=< a.
+b @>= a.
 
 
 [case] validation/an-undefined-predicate-is-rejected
@@ -1212,9 +1032,7 @@ married(a).
 single(X) :- person(X), \+ married(X).
 ?- single(X).
 [output]
-% Prolog result format 4
-query(1, single(_0), ['X' = _0]).
-result(1, complete, 0).
+
 
 
 [case] validation/a-call-argument-takes-no-part-in-the-strata
@@ -1225,10 +1043,7 @@ p(1).
 wrapper(G) :- call(G).
 ?- wrapper(p(X)).
 [output]
-% Prolog result format 4
-query(1, wrapper(p(_0)), ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 1]).
+wrapper(p(1)).
 
 
 [case] errors/failure-is-not-an-error
@@ -1238,9 +1053,7 @@ answer(1, ['X' = 1]).
 p(1).
 ?- p(2).
 [output]
-% Prolog result format 4
-query(1, p(2), []).
-result(1, complete, 0).
+
 
 
 [case] errors/an-error-is-not-failure
@@ -1267,10 +1080,7 @@ p(1)
 p(alice, 30).
 ?- p(Name, Age).
 [output]
-% Prolog result format 4
-query(1, p(_0, _1), ['Name' = _0, 'Age' = _1]).
-result(1, complete, 1).
-answer(1, ['Name' = alice, 'Age' = 30]).
+p(alice, 30).
 
 
 [case] documents/a-ground-query-answers-with-an-empty-binding-list
@@ -1280,10 +1090,7 @@ answer(1, ['Name' = alice, 'Age' = 30]).
 p(1).
 ?- p(1).
 [output]
-% Prolog result format 4
-query(1, p(1), []).
-result(1, complete, 1).
-answer(1, []).
+p(1).
 
 
 [case] documents/a-failed-query-reports-a-count-of-zero
@@ -1293,9 +1100,7 @@ answer(1, []).
 p(1).
 ?- p(2).
 [output]
-% Prolog result format 4
-query(1, p(2), []).
-result(1, complete, 0).
+
 
 
 [case] documents/a-residual-variable-stays-a-variable
@@ -1305,10 +1110,7 @@ result(1, complete, 0).
 p(X, X).
 ?- p(A, B).
 [output]
-% Prolog result format 4
-query(1, p(_0, _1), ['A' = _0, 'B' = _1]).
-result(1, complete, 1).
-answer(1, ['A' = _0, 'B' = _0]).
+p(_0, _0).
 
 
 [case] documents/queries-are-numbered-from-one
@@ -1320,13 +1122,8 @@ q(2).
 ?- p(X).
 ?- q(Y).
 [output]
-% Prolog result format 4
-query(1, p(_0), ['X' = _0]).
-result(1, complete, 1).
-answer(1, ['X' = 1]).
-query(2, q(_0), ['Y' = _0]).
-result(2, complete, 1).
-answer(2, ['Y' = 2]).
+p(1).
+q(2).
 
 
 [case] documents/answer-values-keep-their-kinds
@@ -1335,12 +1132,11 @@ answer(2, ['Y' = 2]).
 [program]
 ?- X = 1, Y = 1.5, Z = "s", A = a, C = f(a).
 [output]
-% Prolog result format 4
-query(1,
-      (_0 = 1, _1 = 1.5, _2 = "s", _3 = a, _4 = f(a)),
-      ['X' = _0, 'Y' = _1, 'Z' = _2, 'A' = _3, 'C' = _4]).
-result(1, complete, 1).
-answer(1, ['X' = 1, 'Y' = 1.5, 'Z' = "s", 'A' = a, 'C' = f(a)]).
+1 = 1.
+1.5 = 1.5.
+"s" = "s".
+a = a.
+f(a) = f(a).
 
 
 [case] excluded/the-cut-is-not-in-the-subset
@@ -1438,10 +1234,8 @@ p(1).
 [program]
 ?- X = "ab", sort([X, ab], Sorted).
 [output]
-% Prolog result format 4
-query(1, (_0 = "ab", sort([_0, ab], _1)), ['X' = _0, 'Sorted' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = "ab", 'Sorted' = [ab, "ab"]]).
+"ab" = "ab".
+sort(["ab", ab], [ab, "ab"]).
 
 
 [case] tabled/reordering-clauses-does-not-change-answers
@@ -1454,11 +1248,8 @@ parent(a, b).
 parent(b, c).
 ?- ancestor(a, W).
 [output]
-% Prolog result format 4
-query(1, ancestor(a, _0), ['W' = _0]).
-result(1, complete, 2).
-answer(1, ['W' = b]).
-answer(1, ['W' = c]).
+ancestor(a, b).
+ancestor(a, c).
 
 
 [case] tabled/a-cycle-terminates
@@ -1471,11 +1262,8 @@ reaches(X, Y) :- edge(X, Y).
 reaches(X, Z) :- reaches(X, Y), edge(Y, Z).
 ?- reaches(a, W).
 [output]
-% Prolog result format 4
-query(1, reaches(a, _0), ['W' = _0]).
-result(1, complete, 2).
-answer(1, ['W' = b]).
-answer(1, ['W' = a]).
+reaches(a, b).
+reaches(a, a).
 
 
 [case] tabled/two-derivations-give-one-answer
@@ -1490,10 +1278,7 @@ path(X, Y) :- edge(X, Y).
 path(X, Z) :- edge(X, Y), path(Y, Z).
 ?- path(a, d).
 [output]
-% Prolog result format 4
-query(1, path(a, d), []).
-result(1, complete, 1).
-answer(1, []).
+path(a, d).
 
 
 [case] tabled/findall-inherits-answer-distinctness
@@ -1508,7 +1293,4 @@ path(X, Y) :- edge(X, Y).
 path(X, Z) :- edge(X, Y), path(Y, Z).
 ?- findall(d, path(a, d), L).
 [output]
-% Prolog result format 4
-query(1, findall(d, path(a, d), _0), ['L' = _0]).
-result(1, complete, 1).
-answer(1, ['L' = [d]]).
+findall(d, path(a, d), [d]).

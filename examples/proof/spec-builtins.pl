@@ -1,12 +1,5 @@
-% Prolog result format 4
-query(1, year(event1, _0), ['Year' = _0]).
-result(1, complete, 1).
-answer(1, ['Year' = 2026]).
-why(1, ['Year' = 2026], [year(event1, 2026)]).
-query(2, quoted(_0), ['Subject' = _0]).
-result(2, complete, 1).
-answer(2, ['Subject' = subject]).
-why(2, ['Subject' = subject], [quoted(subject)]).
+year(event1, 2026).
+quoted(subject).
 
 clause(1, event(event1, datetime(2026, 5, 15, 10, 20, 30)), true).
 clause(2,

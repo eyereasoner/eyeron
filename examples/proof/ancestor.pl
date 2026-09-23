@@ -1,12 +1,6 @@
-% Prolog result format 4
-query(1, ancestor(alice, _0), ['Who' = _0]).
-result(1, complete, 3).
-answer(1, ['Who' = bob]).
-why(1, ['Who' = bob], [ancestor(alice, bob)]).
-answer(1, ['Who' = carol]).
-why(1, ['Who' = carol], [ancestor(alice, carol)]).
-answer(1, ['Who' = dana]).
-why(1, ['Who' = dana], [ancestor(alice, dana)]).
+ancestor(alice, bob).
+ancestor(alice, carol).
+ancestor(alice, dana).
 
 clause(1, parent(alice, bob), true).
 clause(2, parent(bob, carol), true).

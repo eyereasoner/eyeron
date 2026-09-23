@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, fib(100, _0), ['Value' = _0]).
-result(1, complete, 1).
-answer(1, ['Value' = 354224848179261915075]).
-why(1, ['Value' = 354224848179261915075], [fib(100, 354224848179261915075)]).
+fib(100, 354224848179261915075).
 
 clause(1, fib(0, 0), true).
 clause(2, fib(1, 1), true).

@@ -1,14 +1,6 @@
-% Prolog result format 4
-query(1, priority(_0), ['Person' = _0]).
-result(1, complete, 2).
-answer(1, ['Person' = alice]).
-why(1, ['Person' = alice], [priority(alice)]).
-answer(1, ['Person' = carol]).
-why(1, ['Person' = carol], [priority(carol)]).
-query(2, ordinary(_0), ['Person' = _0]).
-result(2, complete, 1).
-answer(2, ['Person' = bob]).
-why(2, ['Person' = bob], [ordinary(bob)]).
+priority(alice).
+priority(carol).
+ordinary(bob).
 
 clause(1, level(alice, gold), true).
 clause(2, level(bob, bronze), true).

@@ -1,16 +1,8 @@
-% Prolog result format 4
-query(1, rolls_up_to(_0, car), ['Concept' = _0]).
-result(1, complete, 5).
-answer(1, ['Concept' = car]).
-why(1, ['Concept' = car], [rolls_up_to(car, car)]).
-answer(1, ['Concept' = tel_car]).
-why(1, ['Concept' = tel_car], [rolls_up_to(tel_car, car)]).
-answer(1, ['Concept' = heavy_vehicle]).
-why(1, ['Concept' = heavy_vehicle], [rolls_up_to(heavy_vehicle, car)]).
-answer(1, ['Concept' = plate_vehicle]).
-why(1, ['Concept' = plate_vehicle], [rolls_up_to(plate_vehicle, car)]).
-answer(1, ['Concept' = passenger_car]).
-why(1, ['Concept' = passenger_car], [rolls_up_to(passenger_car, car)]).
+rolls_up_to(car, car).
+rolls_up_to(tel_car, car).
+rolls_up_to(heavy_vehicle, car).
+rolls_up_to(plate_vehicle, car).
+rolls_up_to(passenger_car, car).
 
 clause(1, concept(car), true).
 clause(6, broad_match(tel_car, car), true).

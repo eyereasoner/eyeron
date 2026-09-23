@@ -1,9 +1,4 @@
-% Prolog result format 4
-query(1, small_check(_0, _1), ['Naive' = _0, 'Fast' = _1]).
-result(1, complete, 1).
-answer(1, ['Naive' = 38, 'Fast' = 38]).
-query(2, large_case(_0, _1), ['Case' = _0, 'Value' = _1]).
-result(2, complete, 3).
-answer(2, ['Case' = last_12_digits, 'Value' = 940335579136]).
-answer(2, ['Case' = seven_power_billion, 'Value' = 312556845]).
-answer(2, ['Case' = three_power_two_power_25, 'Value' = 849572438]).
+small_check(38, 38).
+large_case(last_12_digits, 940335579136).
+large_case(seven_power_billion, 312556845).
+large_case(three_power_two_power_25, 849572438).

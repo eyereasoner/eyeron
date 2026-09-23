@@ -1,14 +1,5 @@
-% Prolog result format 4
-query(1, solution(_0), ['Moves' = _0]).
-result(1, complete, 2).
-answer(1, ['Moves' = [goat, nothing, wolf, goat, cabbage, nothing, goat]]).
-why(1,
-    ['Moves' = [goat, nothing, wolf, goat, cabbage, nothing, goat]],
-    [solution([goat, nothing, wolf, goat, cabbage, nothing, goat])]).
-answer(1, ['Moves' = [goat, nothing, cabbage, goat, wolf, nothing, goat]]).
-why(1,
-    ['Moves' = [goat, nothing, cabbage, goat, wolf, nothing, goat]],
-    [solution([goat, nothing, cabbage, goat, wolf, nothing, goat])]).
+solution([goat, nothing, wolf, goat, cabbage, nothing, goat]).
+solution([goat, nothing, cabbage, goat, wolf, nothing, goat]).
 
 clause(3, change(e, w), true).
 clause(4, change(w, e), true).

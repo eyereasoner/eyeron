@@ -1,16 +1,6 @@
-% Prolog result format 4
-query(1, statement_source(_0, _1), ['Speaker' = _0, 'Source' = _1]).
-result(1, complete, 2).
-answer(1, ['Speaker' = alice, 'Source' = chat]).
-why(1, ['Speaker' = alice, 'Source' = chat], [statement_source(alice, chat)]).
-answer(1, ['Speaker' = bob, 'Source' = email]).
-why(1, ['Speaker' = bob, 'Source' = email], [statement_source(bob, email)]).
-query(2, statement(bob, says, hi), []).
-result(2, complete, 0).
-query(3, certainty(blank(claim1), _0), ['Certainty' = _0]).
-result(3, complete, 1).
-answer(3, ['Certainty' = 0.9]).
-why(3, ['Certainty' = 0.9], [certainty(blank(claim1), 0.9)]).
+statement_source(alice, chat).
+statement_source(bob, email).
+certainty(blank(claim1), 0.9).
 
 clause(2, reifies(blank(claim1), triple(alice, says, hello)), true).
 clause(3, source(blank(claim1), chat), true).

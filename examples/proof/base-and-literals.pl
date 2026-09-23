@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, adult(_0), ['Person' = _0]).
-result(1, complete, 1).
-answer(1, ['Person' = alice]).
-why(1, ['Person' = alice], [adult(alice)]).
+adult(alice).
 
 clause(1, person(alice, literal("Alice Smith", en), typed(22, integer)), true).
 clause(3,

@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, test, []).
-result(1, complete, 1).
-answer(1, []).
-why(1, [], [test]).
+test.
 
 clause(1, animal(koko), true).
 clause(2, cat(generated_cat), animal(koko)).

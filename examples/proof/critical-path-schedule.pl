@@ -1,50 +1,22 @@
-% Prolog result format 4
-query(1, project_finish(_0), ['Finish' = _0]).
-result(1, complete, 1).
-answer(1, ['Finish' = 23]).
-why(1, ['Finish' = 23], [project_finish(23)]).
-query(2, critical_task(_0), ['Task' = _0]).
-result(2, complete, 7).
-answer(2, ['Task' = launch]).
-why(2, ['Task' = launch], [critical_task(launch)]).
-answer(2, ['Task' = security_review]).
-why(2, ['Task' = security_review], [critical_task(security_review)]).
-answer(2, ['Task' = integration]).
-why(2, ['Task' = integration], [critical_task(integration)]).
-answer(2, ['Task' = backend]).
-why(2, ['Task' = backend], [critical_task(backend)]).
-answer(2, ['Task' = database]).
-why(2, ['Task' = database], [critical_task(database)]).
-answer(2, ['Task' = architecture]).
-why(2, ['Task' = architecture], [critical_task(architecture)]).
-answer(2, ['Task' = requirements]).
-why(2, ['Task' = requirements], [critical_task(requirements)]).
-query(3, schedule(_0, _1, _2), ['Task' = _0, 'Start' = _1, 'Finish' = _2]).
-result(3, complete, 11).
-answer(3, ['Task' = requirements, 'Start' = 0, 'Finish' = 2]).
-why(3, ['Task' = requirements, 'Start' = 0, 'Finish' = 2], [schedule(requirements, 0, 2)]).
-answer(3, ['Task' = architecture, 'Start' = 2, 'Finish' = 5]).
-why(3, ['Task' = architecture, 'Start' = 2, 'Finish' = 5], [schedule(architecture, 2, 5)]).
-answer(3, ['Task' = api_design, 'Start' = 2, 'Finish' = 4]).
-why(3, ['Task' = api_design, 'Start' = 2, 'Finish' = 4], [schedule(api_design, 2, 4)]).
-answer(3, ['Task' = database, 'Start' = 5, 'Finish' = 9]).
-why(3, ['Task' = database, 'Start' = 5, 'Finish' = 9], [schedule(database, 5, 9)]).
-answer(3, ['Task' = backend, 'Start' = 9, 'Finish' = 15]).
-why(3, ['Task' = backend, 'Start' = 9, 'Finish' = 15], [schedule(backend, 9, 15)]).
-answer(3, ['Task' = frontend, 'Start' = 4, 'Finish' = 9]).
-why(3, ['Task' = frontend, 'Start' = 4, 'Finish' = 9], [schedule(frontend, 4, 9)]).
-answer(3, ['Task' = auth, 'Start' = 5, 'Finish' = 8]).
-why(3, ['Task' = auth, 'Start' = 5, 'Finish' = 8], [schedule(auth, 5, 8)]).
-answer(3, ['Task' = integration, 'Start' = 15, 'Finish' = 19]).
-why(3, ['Task' = integration, 'Start' = 15, 'Finish' = 19], [schedule(integration, 15, 19)]).
-answer(3, ['Task' = security_review, 'Start' = 19, 'Finish' = 22]).
-why(3,
-    ['Task' = security_review, 'Start' = 19, 'Finish' = 22],
-    [schedule(security_review, 19, 22)]).
-answer(3, ['Task' = load_test, 'Start' = 19, 'Finish' = 21]).
-why(3, ['Task' = load_test, 'Start' = 19, 'Finish' = 21], [schedule(load_test, 19, 21)]).
-answer(3, ['Task' = launch, 'Start' = 22, 'Finish' = 23]).
-why(3, ['Task' = launch, 'Start' = 22, 'Finish' = 23], [schedule(launch, 22, 23)]).
+project_finish(23).
+critical_task(launch).
+critical_task(security_review).
+critical_task(integration).
+critical_task(backend).
+critical_task(database).
+critical_task(architecture).
+critical_task(requirements).
+schedule(requirements, 0, 2).
+schedule(architecture, 2, 5).
+schedule(api_design, 2, 4).
+schedule(database, 5, 9).
+schedule(backend, 9, 15).
+schedule(frontend, 4, 9).
+schedule(auth, 5, 8).
+schedule(integration, 15, 19).
+schedule(security_review, 19, 22).
+schedule(load_test, 19, 21).
+schedule(launch, 22, 23).
 
 clause(1, task(requirements, 2), true).
 clause(2, task(architecture, 3), true).

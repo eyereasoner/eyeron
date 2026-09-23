@@ -1,20 +1,7 @@
-% Prolog result format 4
-query(1, has_statement, []).
-result(1, complete, 1).
-answer(1, []).
-why(1, [], [has_statement]).
-query(2, named_statement(_0), ['Statement' = _0]).
-result(2, complete, 1).
-answer(2, ['Statement' = claim]).
-why(2, ['Statement' = claim], [named_statement(claim)]).
-query(3, statement_author(_0), ['Who' = _0]).
-result(3, complete, 1).
-answer(3, ['Who' = bob]).
-why(3, ['Who' = bob], [statement_author(bob)]).
-query(4, statement_date(_0), ['Date' = _0]).
-result(4, complete, 1).
-answer(4, ['Date' = date(2021, 7, 7)]).
-why(4, ['Date' = date(2021, 7, 7)], [statement_date(date(2021, 7, 7))]).
+has_statement.
+named_statement(claim).
+statement_author(bob).
+statement_date(date(2021, 7, 7)).
 
 clause(1, statement(alice, name, "Alice"), true).
 clause(2, reifies(claim, triple(alice, name, "Alice")), true).

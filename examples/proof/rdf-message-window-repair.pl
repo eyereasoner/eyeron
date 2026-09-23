@@ -1,26 +1,6 @@
-% Prolog result format 4
-query(1, raw_conflict(_0), ['Door' = _0]).
-result(1, complete, 1).
-answer(1, ['Door' = doorA]).
-why(1, ['Door' = doorA], [raw_conflict(doorA)]).
-query(2,
-      preferred_repair(_0, _1, _2, _3),
-      ['Evidence' = _0, 'State' = _1, 'Priority' = _2, 'Source' = _3]).
-result(2, complete, 1).
-answer(2,
-       ['Evidence' = reading004,
-        'State' = closed,
-        'Priority' = 3,
-        'Source' = "safety-controller"]).
-why(2,
-    ['Evidence' = reading004, 'State' = closed, 'Priority' = 3, 'Source' = "safety-controller"],
-    [preferred_repair(reading004, closed, 3, "safety-controller")]).
-query(3, materialized_action(_0), ['Text' = _0]).
-result(3, complete, 1).
-answer(3, ['Text' = "mark the fire compartment as sealed"]).
-why(3,
-    ['Text' = "mark the fire compartment as sealed"],
-    [materialized_action("mark the fire compartment as sealed")]).
+raw_conflict(doorA).
+preferred_repair(reading004, closed, 3, "safety-controller").
+materialized_action("mark the fire compartment as sealed").
 
 clause(1, door_reading(reading002, doorA, open, 1, "corridor-camera"), true).
 clause(2, door_reading(reading003, doorA, closed, 1, "hallway-latch"), true).

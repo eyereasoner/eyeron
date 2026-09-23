@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, indeed_more_interesting(_0, _1), ['X' = _0, 'Y' = _1]).
-result(1, complete, 1).
-answer(1, ['X' = five, 'Y' = three]).
-why(1, ['X' = five, 'Y' = three], [indeed_more_interesting(five, three)]).
+indeed_more_interesting(five, three).
 
 clause(1, value(five, 5), true).
 clause(2, value(three, 3), true).

@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, trusted(_0), ['Claim' = _0]).
-result(1, complete, 1).
-answer(1, ['Claim' = iri("https://example/claim1")]).
-why(1, ['Claim' = iri("https://example/claim1")], [trusted(iri("https://example/claim1"))]).
+trusted(iri("https://example/claim1")).
 
 clause(1,
        quad(iri("https://example/alice"), iri("https://example/role"), iri("https://example/reviewer"), iri("https://example/staff")),

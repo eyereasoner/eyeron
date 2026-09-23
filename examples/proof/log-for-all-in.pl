@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, result_is(_0), ['R' = _0]).
-result(1, complete, 1).
-answer(1, ['R' = true]).
-why(1, ['R' = true], [result_is(true)]).
+result_is(true).
 
 clause(1, composite_task(c), true).
 clause(9, all_completed(var('C')), (composite_task(var('C')), \+incomplete(var('C')))).

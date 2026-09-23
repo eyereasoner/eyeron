@@ -45,7 +45,7 @@ printf '@prefix : <http://example.org/> . :Socrates a :Man . { ?x a :Man . } => 
 
 ## Proofs
 
-All three formats support `--proof`, and all three write **the same proof**: a list of steps, one per justified conclusion, each naming why it holds, the bindings that justification used, and the conclusions it used. Only the syntax differs, because each proof is a document in the language that produced it — an N3 proof is N3, a SPARQL-RL proof is an `.srl` rule set, a Prolog proof is a Prolog result document — so each can be read back by the engine that wrote it.
+All three formats support `--proof`, and all three write **the same proof**: what was concluded, then why. The claims come first — N3's derived triples, SPARQL-RL's inference graph, the goals a Prolog query proved — and then a list of steps, one per justified conclusion, each naming why it holds, the bindings that justification used, and the conclusions it used. Only the syntax differs, because each proof is a document in the language that produced it — an N3 proof is N3, a SPARQL-RL proof is an `.srl` rule set, a Prolog proof is a Prolog program — so each can be read back by the engine that wrote it.
 
 | One step | N3 | SPARQL 1.2 RL | Prolog |
 | --- | --- | --- | --- |

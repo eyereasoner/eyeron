@@ -1,10 +1,5 @@
-% Prolog result format 4
-query(1, ancestor(iris, _0), ['Descendant' = _0]).
-result(1, complete, 2).
-answer(1, ['Descendant' = jules]).
-why(1, ['Descendant' = jules], [ancestor(iris, jules)]).
-answer(1, ['Descendant' = kai]).
-why(1, ['Descendant' = kai], [ancestor(iris, kai)]).
+ancestor(iris, jules).
+ancestor(iris, kai).
 
 clause(1, parent(iris, jules), true).
 clause(2, parent(jules, kai), true).

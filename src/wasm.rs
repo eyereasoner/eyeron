@@ -213,7 +213,7 @@ fn format_sparql_rl_solutions(prefixes: &std::collections::BTreeMap<String, Stri
     out
 }
 
-/// Run a Prolog (`.pl`) program and return its "Prolog result format 4"
+/// Run a Prolog (`.pl`) program and return its result document
 /// output — or a JSON rendering when `json` is set. `query`, when
 /// non-blank, is appended as an extra `?-` directive before running
 /// (matching the `--query` CLI flag).

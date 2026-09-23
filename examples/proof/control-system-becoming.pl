@@ -1,90 +1,37 @@
-% Prolog result format 4
-query(1, inherits_requirement(_0, _1), ['L' = _0, 'R' = _1]).
-result(1, complete, 5).
-answer(1, ['L' = c2, 'R' = stabilityReq]).
-why(1, ['L' = c2, 'R' = stabilityReq], [inherits_requirement(c2, stabilityReq)]).
-answer(1, ['L' = c2, 'R' = trackingReq]).
-why(1, ['L' = c2, 'R' = trackingReq], [inherits_requirement(c2, trackingReq)]).
-answer(1, ['L' = c3, 'R' = overshootReq]).
-why(1, ['L' = c3, 'R' = overshootReq], [inherits_requirement(c3, overshootReq)]).
-answer(1, ['L' = c3, 'R' = stabilityReq]).
-why(1, ['L' = c3, 'R' = stabilityReq], [inherits_requirement(c3, stabilityReq)]).
-answer(1, ['L' = c3, 'R' = trackingReq]).
-why(1, ['L' = c3, 'R' = trackingReq], [inherits_requirement(c3, trackingReq)]).
-query(2, considers(_0, _1), ['C' = _0, 'S' = _1]).
-result(2, complete, 2).
-answer(2, ['C' = c2, 'S' = leadCompensator]).
-why(2, ['C' = c2, 'S' = leadCompensator], [considers(c2, leadCompensator)]).
-answer(2, ['C' = c3, 'S' = integralAction]).
-why(2, ['C' = c3, 'S' = integralAction], [considers(c3, integralAction)]).
-query(3, targets(_0, _1), ['C' = _0, 'R' = _1]).
-result(3, complete, 2).
-answer(3, ['C' = c2, 'R' = overshootReq]).
-why(3, ['C' = c2, 'R' = overshootReq], [targets(c2, overshootReq)]).
-answer(3, ['C' = c3, 'R' = disturbanceRejectionReq]).
-why(3, ['C' = c3, 'R' = disturbanceRejectionReq], [targets(c3, disturbanceRejectionReq)]).
-query(4, preserves(_0, _1), ['C' = _0, 'R' = _1]).
-result(4, complete, 5).
-answer(4, ['C' = c2, 'R' = stabilityReq]).
-why(4, ['C' = c2, 'R' = stabilityReq], [preserves(c2, stabilityReq)]).
-answer(4, ['C' = c2, 'R' = trackingReq]).
-why(4, ['C' = c2, 'R' = trackingReq], [preserves(c2, trackingReq)]).
-answer(4, ['C' = c3, 'R' = overshootReq]).
-why(4, ['C' = c3, 'R' = overshootReq], [preserves(c3, overshootReq)]).
-answer(4, ['C' = c3, 'R' = stabilityReq]).
-why(4, ['C' = c3, 'R' = stabilityReq], [preserves(c3, stabilityReq)]).
-answer(4, ['C' = c3, 'R' = trackingReq]).
-why(4, ['C' = c3, 'R' = trackingReq], [preserves(c3, trackingReq)]).
-query(5, integrates(_0, _1), ['C' = _0, 'S' = _1]).
-result(5, complete, 2).
-answer(5, ['C' = c2, 'S' = leadCompensator]).
-why(5, ['C' = c2, 'S' = leadCompensator], [integrates(c2, leadCompensator)]).
-answer(5, ['C' = c3, 'S' = integralAction]).
-why(5, ['C' = c3, 'S' = integralAction], [integrates(c3, integralAction)]).
-query(6, satisfies(_0, _1), ['C' = _0, 'R' = _1]).
-result(6, complete, 9).
-answer(6, ['C' = c1, 'R' = stabilityReq]).
-why(6, ['C' = c1, 'R' = stabilityReq], [satisfies(c1, stabilityReq)]).
-answer(6, ['C' = c1, 'R' = trackingReq]).
-why(6, ['C' = c1, 'R' = trackingReq], [satisfies(c1, trackingReq)]).
-answer(6, ['C' = c2, 'R' = overshootReq]).
-why(6, ['C' = c2, 'R' = overshootReq], [satisfies(c2, overshootReq)]).
-answer(6, ['C' = c3, 'R' = disturbanceRejectionReq]).
-why(6, ['C' = c3, 'R' = disturbanceRejectionReq], [satisfies(c3, disturbanceRejectionReq)]).
-answer(6, ['C' = c2, 'R' = stabilityReq]).
-why(6, ['C' = c2, 'R' = stabilityReq], [satisfies(c2, stabilityReq)]).
-answer(6, ['C' = c2, 'R' = trackingReq]).
-why(6, ['C' = c2, 'R' = trackingReq], [satisfies(c2, trackingReq)]).
-answer(6, ['C' = c3, 'R' = overshootReq]).
-why(6, ['C' = c3, 'R' = overshootReq], [satisfies(c3, overshootReq)]).
-answer(6, ['C' = c3, 'R' = stabilityReq]).
-why(6, ['C' = c3, 'R' = stabilityReq], [satisfies(c3, stabilityReq)]).
-answer(6, ['C' = c3, 'R' = trackingReq]).
-why(6, ['C' = c3, 'R' = trackingReq], [satisfies(c3, trackingReq)]).
-query(7, realizes(_0, _1), ['C' = _0, 'S' = _1]).
-result(7, complete, 3).
-answer(7, ['C' = c1, 'S' = baselinePID]).
-why(7, ['C' = c1, 'S' = baselinePID], [realizes(c1, baselinePID)]).
-answer(7, ['C' = c2, 'S' = leadCompensator]).
-why(7, ['C' = c2, 'S' = leadCompensator], [realizes(c2, leadCompensator)]).
-answer(7, ['C' = c3, 'S' = integralAction]).
-why(7, ['C' = c3, 'S' = integralAction], [realizes(c3, integralAction)]).
-query(8, status(_0, _1), ['C' = _0, 'S' = _1]).
-result(8, complete, 3).
-answer(8, ['C' = c1, 'S' = approvedController]).
-why(8, ['C' = c1, 'S' = approvedController], [status(c1, approvedController)]).
-answer(8, ['C' = c2, 'S' = approvedController]).
-why(8, ['C' = c2, 'S' = approvedController], [status(c2, approvedController)]).
-answer(8, ['C' = c3, 'S' = approvedController]).
-why(8, ['C' = c3, 'S' = approvedController], [status(c3, approvedController)]).
-query(9, available_for_future_tuning(_0, _1), ['C' = _0, 'Y' = _1]).
-result(9, complete, 3).
-answer(9, ['C' = c1, 'Y' = yes]).
-why(9, ['C' = c1, 'Y' = yes], [available_for_future_tuning(c1, yes)]).
-answer(9, ['C' = c2, 'Y' = yes]).
-why(9, ['C' = c2, 'Y' = yes], [available_for_future_tuning(c2, yes)]).
-answer(9, ['C' = c3, 'Y' = yes]).
-why(9, ['C' = c3, 'Y' = yes], [available_for_future_tuning(c3, yes)]).
+inherits_requirement(c2, stabilityReq).
+inherits_requirement(c2, trackingReq).
+inherits_requirement(c3, overshootReq).
+inherits_requirement(c3, stabilityReq).
+inherits_requirement(c3, trackingReq).
+considers(c2, leadCompensator).
+considers(c3, integralAction).
+targets(c2, overshootReq).
+targets(c3, disturbanceRejectionReq).
+preserves(c2, stabilityReq).
+preserves(c2, trackingReq).
+preserves(c3, overshootReq).
+preserves(c3, stabilityReq).
+preserves(c3, trackingReq).
+integrates(c2, leadCompensator).
+integrates(c3, integralAction).
+satisfies(c1, stabilityReq).
+satisfies(c1, trackingReq).
+satisfies(c2, overshootReq).
+satisfies(c3, disturbanceRejectionReq).
+satisfies(c2, stabilityReq).
+satisfies(c2, trackingReq).
+satisfies(c3, overshootReq).
+satisfies(c3, stabilityReq).
+satisfies(c3, trackingReq).
+realizes(c1, baselinePID).
+realizes(c2, leadCompensator).
+realizes(c3, integralAction).
+status(c1, approvedController).
+status(c2, approvedController).
+status(c3, approvedController).
+available_for_future_tuning(c1, yes).
+available_for_future_tuning(c2, yes).
+available_for_future_tuning(c3, yes).
 
 clause(1, suggests(reduceOvershoot, leadCompensator), true).
 clause(2, introduces_requirement(reduceOvershoot, overshootReq), true).

@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, report(_0, _1), ['Count' = _0, 'Total' = _1]).
-result(1, complete, 1).
-answer(1, ['Count' = 3, 'Total' = 35]).
-why(1, ['Count' = 3, 'Total' = 35], [report(3, 35)]).
+report(3, 35).
 
 clause(1, reading(sensor_a, 10), true).
 clause(2, reading(sensor_b, 15), true).

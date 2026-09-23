@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, unique_identity(_0), ['E2_' = _0]).
-result(1, complete, 1).
-answer(1, ['E2_' = e2]).
-why(1, ['E2_' = e2], [unique_identity(e2)]).
+unique_identity(e2).
 
 clause(1, in_g(e), true).
 clause(2, candidate_identity(e2), true).

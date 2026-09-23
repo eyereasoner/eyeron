@@ -1,24 +1,8 @@
-% Prolog result format 4
-query(1, solve(ancestor(ann, _0)), ['Descendant' = _0]).
-result(1, complete, 2).
-answer(1, ['Descendant' = bob]).
-why(1, ['Descendant' = bob], [solve(ancestor(ann, bob))]).
-answer(1, ['Descendant' = cid]).
-why(1, ['Descendant' = cid], [solve(ancestor(ann, cid))]).
-query(2, steps(ancestor(ann, cid), _0), ['Clauses' = _0]).
-result(2, complete, 1).
-answer(2, ['Clauses' = 4]).
-why(2, ['Clauses' = 4], [steps(ancestor(ann, cid), 4)]).
-query(3, clause(ancestor(_0, _1), _2), ['Older' = _0, 'Younger' = _1, 'Body' = _2]).
-result(3, complete, 2).
-answer(3, ['Older' = _0, 'Younger' = _1, 'Body' = parent(_0, _1)]).
-why(3,
-    ['Older' = _0, 'Younger' = _1, 'Body' = parent(_0, _1)],
-    [clause(ancestor(_0, _1), parent(_0, _1))]).
-answer(3, ['Older' = _0, 'Younger' = _1, 'Body' = (parent(_0, _2), ancestor(_2, _1))]).
-why(3,
-    ['Older' = _0, 'Younger' = _1, 'Body' = (parent(_0, _2), ancestor(_2, _1))],
-    [clause(ancestor(_0, _1), (parent(_0, _2), ancestor(_2, _1)))]).
+solve(ancestor(ann, bob)).
+solve(ancestor(ann, cid)).
+steps(ancestor(ann, cid), 4).
+clause(ancestor(_0, _1), parent(_0, _1)).
+clause(ancestor(_0, _1), (parent(_0, _2), ancestor(_2, _1))).
 
 clause(5, solve(true), true).
 clause(6, solve((var('A'), var('B'))), (solve(var('A')), solve(var('B')))).

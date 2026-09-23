@@ -1,14 +1,6 @@
-% Prolog result format 4
-query(1, test_is(_0), ['R' = _0]).
-result(1, complete, 1).
-answer(1, ['R' = true]).
-why(1, ['R' = true], [test_is(true)]).
-query(2, type_(_0, _1), ['S' = _0, 'T' = _1]).
-result(2, complete, 2).
-answer(2, ['S' = socrates, 'T' = human]).
-why(2, ['S' = socrates, 'T' = human], [type_(socrates, human)]).
-answer(2, ['S' = socrates, 'T' = mortal]).
-why(2, ['S' = socrates, 'T' = mortal], [type_(socrates, mortal)]).
+test_is(true).
+type_(socrates, human).
+type_(socrates, mortal).
 
 clause(1, type_(socrates, human), true).
 clause(2, subclass_of(human, mortal), true).

@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, instance_of(socrates, mortal), []).
-result(1, complete, 1).
-answer(1, []).
-why(1, [], [instance_of(socrates, mortal)]).
+instance_of(socrates, mortal).
 
 clause(1, instance_of(socrates, human), true).
 clause(2, subclass_of(human, mortal), true).

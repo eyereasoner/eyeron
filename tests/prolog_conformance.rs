@@ -31,7 +31,7 @@ fn manifest_path() -> PathBuf {
 
 #[derive(Debug)]
 enum Expectation {
-    /// The exact result document (Prolog result format 4) the program must produce.
+    /// The exact result document the program must produce.
     Output(String),
     /// A substring of the error message the program must raise.
     Error(String),

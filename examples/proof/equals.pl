@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, test, []).
-result(1, complete, 1).
-answer(1, []).
-why(1, [], [test]).
+test.
 
 clause(1, same_as(x, y), true).
 clause(2, test, same_as(x, y)).

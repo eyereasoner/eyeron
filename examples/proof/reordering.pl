@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, test_is(_0), ['R' = _0]).
-result(1, complete, 1).
-answer(1, ['R' = true]).
-why(1, ['R' = true], [test_is(true)]).
+test_is(true).
 
 clause(1, has(alice, [book, 1]), true).
 clause(2, has(bob, [table, 1]), true).

@@ -1,16 +1,6 @@
-% Prolog result format 4
-query(1, first(_0), ['Value' = _0]).
-result(1, complete, 1).
-answer(1, ['Value' = 1]).
-why(1, ['Value' = 1], [first(1)]).
-query(2, second_property(_0), ['Value' = _0]).
-result(2, complete, 1).
-answer(2, ['Value' = q]).
-why(2, ['Value' = q], [second_property(q)]).
-query(3, third_first(_0), ['Value' = _0]).
-result(3, complete, 1).
-answer(3, ['Value' = 2]).
-why(3, ['Value' = 2], [third_first(2)]).
+first(1).
+second_property(q).
+third_first(2).
 
 clause(1, nested(root, [1, node(q), [2]]), true).
 clause(2, first(var('First')), nested(root, [var('First'), var('Second'), var('Third')])).

@@ -1,14 +1,6 @@
-% Prolog result format 4
-query(1, grandparent_of(_0, _1), ['Person' = _0, 'Grandchild' = _1]).
-result(1, complete, 1).
-answer(1, ['Person' = alice, 'Grandchild' = carol]).
-why(1, ['Person' = alice, 'Grandchild' = carol], [grandparent_of(alice, carol)]).
-query(2, has_parent(_0, _1), ['Child' = _0, 'Parent' = _1]).
-result(2, complete, 2).
-answer(2, ['Child' = bob, 'Parent' = alice]).
-why(2, ['Child' = bob, 'Parent' = alice], [has_parent(bob, alice)]).
-answer(2, ['Child' = carol, 'Parent' = bob]).
-why(2, ['Child' = carol, 'Parent' = bob], [has_parent(carol, bob)]).
+grandparent_of(alice, carol).
+has_parent(bob, alice).
+has_parent(carol, bob).
 
 clause(1, parent_of(alice, bob), true).
 clause(2, parent_of(bob, carol), true).

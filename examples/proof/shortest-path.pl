@@ -1,8 +1,4 @@
-% Prolog result format 4
-query(1, best(a, d, _0, _1), ['Path' = _0, 'Cost' = _1]).
-result(1, complete, 1).
-answer(1, ['Path' = [a, b, c, d], 'Cost' = 5]).
-why(1, ['Path' = [a, b, c, d], 'Cost' = 5], [best(a, d, [a, b, c, d], 5)]).
+best(a, d, [a, b, c, d], 5).
 
 clause(1, edge(a, b, 2), true).
 clause(2, edge(a, c, 5), true).

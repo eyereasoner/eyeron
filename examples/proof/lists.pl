@@ -1,18 +1,8 @@
-% Prolog result format 4
-query(1, append(_0, _1, [a, b]), ['Left' = _0, 'Right' = _1]).
-result(1, complete, 3).
-answer(1, ['Left' = [], 'Right' = [a, b]]).
-why(1, ['Left' = [], 'Right' = [a, b]], [append([], [a, b], [a, b])]).
-answer(1, ['Left' = [a], 'Right' = [b]]).
-why(1, ['Left' = [a], 'Right' = [b]], [append([a], [b], [a, b])]).
-answer(1, ['Left' = [a, b], 'Right' = []]).
-why(1, ['Left' = [a, b], 'Right' = []], [append([a, b], [], [a, b])]).
-query(2, member(_0, [a, b, a]), ['X' = _0]).
-result(2, complete, 2).
-answer(2, ['X' = a]).
-why(2, ['X' = a], [member(a, [a, b, a])]).
-answer(2, ['X' = b]).
-why(2, ['X' = b], [member(b, [a, b, a])]).
+append([], [a, b], [a, b]).
+append([a], [b], [a, b]).
+append([a, b], [], [a, b]).
+member(a, [a, b, a]).
+member(b, [a, b, a]).
 
 clause(1, append([], var('Ys'), var('Ys')), true).
 clause(2,
