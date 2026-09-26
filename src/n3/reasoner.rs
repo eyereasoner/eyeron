@@ -4443,6 +4443,14 @@ fn string_value(term: &Term) -> Option<String> {
 fn eval_math_compare(pred: &str, left: &Term, right: &Term, bindings: &Bindings) -> Vec<Bindings> {
     let lterm = resolve(left, bindings);
     let rterm = resolve(right, bindings);
+    // xsd:dateTime / xsd:date order as instants, and only against each other:
+    // a dateTime is never comparable with a number or an untyped string.
+    if let (Some(l), Some(r)) = (datetime_seconds(&lterm), datetime_seconds(&rterm)) {
+        return compare_ordered(pred, l.partial_cmp(&r), bindings);
+    }
+    if datetime_seconds(&lterm).is_some() || datetime_seconds(&rterm).is_some() {
+        return Vec::new();
+    }
     let Some(l) = comparable_number(&lterm) else { return Vec::new(); };
     let Some(r) = comparable_number(&rterm) else { return Vec::new(); };
     let ok = if pred == MATH_GREATER_THAN {
@@ -4457,6 +4465,28 @@ fn eval_math_compare(pred: &str, left: &Term, right: &Term, bindings: &Bindings)
         (l.value - r.value).abs() <= f64::EPSILON
     } else if pred == MATH_NOT_EQUAL_TO {
         (l.value - r.value).abs() > f64::EPSILON
+    } else {
+        false
+    };
+    if ok { vec![bindings.clone()] } else { Vec::new() }
+}
+
+/// The six math: comparisons over an already-computed ordering.
+fn compare_ordered(pred: &str, ord: Option<std::cmp::Ordering>, bindings: &Bindings) -> Vec<Bindings> {
+    use std::cmp::Ordering::*;
+    let Some(ord) = ord else { return Vec::new(); };
+    let ok = if pred == MATH_GREATER_THAN {
+        ord == Greater
+    } else if pred == MATH_LESS_THAN {
+        ord == Less
+    } else if pred == MATH_NOT_GREATER_THAN {
+        ord != Greater
+    } else if pred == MATH_NOT_LESS_THAN {
+        ord != Less
+    } else if pred == MATH_EQUAL_TO {
+        ord == Equal
+    } else if pred == MATH_NOT_EQUAL_TO {
+        ord != Equal
     } else {
         false
     };
