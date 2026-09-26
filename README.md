@@ -28,7 +28,7 @@ cargo build --release
 ## Documentation
 
 - [`docs/n3.md`](docs/n3.md), [`docs/sparql-rl.md`](docs/sparql-rl.md) — per-format syntax, semantics, CLI flags, internals, and known limitations.
-- [`docs/reasoning.md`](docs/reasoning.md) — how each language's evaluator searches, and why the same program gives proofs of different sizes.
+- [`docs/reasoning.md`](docs/reasoning.md) — how N3 and SRL evaluate rules, and what each prints and records in proofs.
 - [`docs/guide.md`](docs/guide.md) — choosing a language, building and running, proofs, the Rust library and browser APIs, testing, and the architecture.
 - [`docs/proof-checking.md`](docs/proof-checking.md) — what makes a proof document valid for a program, and what `--check-proof` verifies.
 

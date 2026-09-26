@@ -1,5 +1,5 @@
 //! Reader and step checker for SPARQL 1.2 RL proof documents
-//! (specification §8.3).
+//! (specification §8.2).
 //!
 //! A proof is an `.srl` rule set whose `DATA` block holds the conclusions
 //! and one `_:stepN` node per step. Checking a `pe:rule` step re-performs
@@ -162,7 +162,7 @@ impl SrlProof {
     }
 
     /// A use names either a step node or, for a statement given in `DATA`
-    /// or the base graph, the statement itself (§8.3).
+    /// or the base graph, the statement itself (§8.2).
     fn resolve_use(&self, used: &Term) -> Resolution {
         if let Some(position) = self.by_node.get(used) {
             return Resolution::Step(*position);

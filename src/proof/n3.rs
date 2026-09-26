@@ -18,7 +18,7 @@ use super::{check, Checked, Document as ProofDocument, Kind, Report, Resolution}
 const PE: &str = "https://eyereasoner.github.io/pe#";
 
 /// Built-ins whose value is not a function of the triple they appear in, so
-/// re-evaluating them cannot confirm anything (specification §5.3, §6.3).
+/// re-evaluating them cannot confirm anything (specification §5.3, §6.1).
 /// Each reads something outside the proof: the clock, the process, or the
 /// network.
 const IMPURE_BUILTINS: &[&str] = &[

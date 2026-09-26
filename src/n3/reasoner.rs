@@ -2046,7 +2046,7 @@ struct ExplainState {
 /// so `log:collectAllIn` can legitimately collect more than it did then.
 /// Recording such a premise as unproven would claim the chain is broken
 /// when it is not; it is a trust obligation, which is what
-/// `docs/proof-checking.md` §6.3 calls it.
+/// `docs/proof-checking.md` §6.1 calls it.
 pub fn builtin_reads_outside_its_triple(predicate: &Term) -> bool {
     let Term::Iri(iri) = predicate else { return false };
     matches!(
@@ -3237,10 +3237,9 @@ fn eval_log_skolem(subject: &Term, object: &Term, bindings: &Bindings) -> Vec<Bi
     if unify_term(object, &skolem, &mut b) { vec![canonicalize_bindings(&b)] } else { Vec::new() }
 }
 
-/// `?x log:uuid ?u`: a deterministic name-based (RFC 4122 version 5, SHA-1)
-/// UUID string for a bound IRI, blank node or literal. Deterministic on
-/// purpose: the same skolem always names the same report node, so two runs
-/// (or two reasoners) agree on identifiers.
+/// `?x log:uuid ?u`: a deterministic UUID-shaped string for a bound term.
+/// The first 16 bytes of SHA-1 of the term's text are given version/variant
+/// bits. No namespace UUID is included, so this is not RFC UUIDv5.
 fn eval_log_uuid(subject: &Term, object: &Term, bindings: &Bindings) -> Vec<Bindings> {
     let s = resolve(subject, bindings);
     let name = match &s {
