@@ -62,7 +62,7 @@ pub enum BinaryOp {
 
 /// A SPARQL property path: a single IRI, an inverse path (`^p`), or a
 /// sequence (`p1/p2/...`). That is all of SPARQL 1.2 RL's path grammar
-/// (§7.6, productions [85]–[88]); alternation and the `?`/`+`/`*` length
+/// (§7.6, productions \[85\]–\[88\]); alternation and the `?`/`+`/`*` length
 /// modifiers are SPARQL syntax SRL leaves out deliberately, so that every
 /// path expands into triple patterns (`super::eval::expand_path`) and
 /// `super::stratify`/`super::wellformed` can analyse a body as the

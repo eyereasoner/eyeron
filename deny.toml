@@ -1,0 +1,23 @@
+# cargo-deny policy. Run locally with `cargo deny check`.
+
+[graph]
+all-features = true
+
+[advisories]
+# Known-vulnerable or unmaintained crates fail the build.
+version = 2
+
+[licenses]
+version = 2
+# Permissive licences only; eyeron itself is MIT.
+allow = ["MIT", "Apache-2.0", "Apache-2.0 WITH LLVM-exception", "BSD-3-Clause", "ISC", "Unicode-3.0", "Zlib", "CDLA-Permissive-2.0"]
+confidence-threshold = 0.8
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

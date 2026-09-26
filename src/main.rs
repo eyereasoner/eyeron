@@ -157,7 +157,7 @@ fn run_stream_messages(opt: &CliOptions) -> Result<()> {
         if is_rdf_message_log(&text) {
             message_sources.push(source.clone());
         } else {
-            let base = opt.base_iri.as_deref().or_else(|| None);
+            let base = opt.base_iri.as_deref().or(None);
             let parsed = parse_n3_with_source(&text, base, Some(source))
                 .map_err(|err| EyeronError::new(err.with_source_location(&text, source)))?;
             program.merge(parsed);

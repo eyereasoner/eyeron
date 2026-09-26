@@ -6,7 +6,7 @@
 //! `Term::Formula(vec![triple])` (see `super::parser`'s module doc), but
 //! N3 also uses `Term::Formula` for a genuine quoted graph, and that is
 //! how `n3::printing` renders it: `{ s p o . }`. SRL's grammar has no
-//! such term — a triple term is written `<<( s p o )>>` ([80] `TripleTerm`
+//! such term — a triple term is written `<<( s p o )>>` (\[80\] `TripleTerm`
 //! in SPARQL 1.2 RL §7.6) — so an SRL result containing a reifier would
 //! otherwise print in a syntax neither SRL nor Turtle can read back, and
 //! would disagree with eyeleng's own output.
