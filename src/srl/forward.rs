@@ -475,7 +475,7 @@ mod tests {
         let program = parse_sparql_rl("PREFIX : <http://example/> DATA { :s :p :o . :d :in :data }", None).unwrap();
         let shared = Triple::new(iri("s"), iri("p"), iri("o"));
         let only_in_data = Triple::new(iri("d"), iri("in"), iri("data"));
-        let result = reason(&program, &[shared.clone()], &ReasonerOptions::default()).unwrap();
+        let result = reason(&program, std::slice::from_ref(&shared), &ReasonerOptions::default()).unwrap();
         assert_eq!(result.closure, vec![only_in_data]);
         assert!(result.explicit.contains(&shared), "`explicit` still lists every DATA fact, for proof references");
     }
@@ -507,7 +507,7 @@ mod tests {
             None,
         ).unwrap();
         let fact = Triple::new(iri("s"), iri("p"), iri("o"));
-        let result = reason(&program, &[fact.clone()], &ReasonerOptions::default()).unwrap();
+        let result = reason(&program, std::slice::from_ref(&fact), &ReasonerOptions::default()).unwrap();
         assert_eq!(result.status, CompletionStatus::Complete);
         assert!(!result.derived.contains(&fact), "the base graph already has it");
         assert_eq!(result.derived.iter().filter(|t| t.p == iri("id")).count(), 1);

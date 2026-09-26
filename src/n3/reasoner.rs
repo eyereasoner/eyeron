@@ -23,7 +23,7 @@ pub type Bindings = BTreeMap<String, Term>;
 
 #[cfg(test)]
 std::thread_local! {
-    static TEST_BROAD_FACT_SCANS: std::cell::Cell<usize> = std::cell::Cell::new(0);
+    static TEST_BROAD_FACT_SCANS: std::cell::Cell<usize> = const { std::cell::Cell::new(0) };
 }
 
 #[cfg(test)]
@@ -219,6 +219,9 @@ fn resolve_pattern_with_seen(term: &Term, bindings: &Bindings, seen: &mut HashSe
 }
 
 
+/// (predicate, list length, bound positions) -> values at those positions -> fact indices.
+type DeepListIndex = HashMap<(Term, usize, Vec<usize>), HashMap<Vec<Term>, Vec<usize>>>;
+
 #[derive(Debug, Default, Clone)]
 pub(crate) struct FactIndex {
     // Keep the index deliberately lean.  Earlier versions indexed each fact in
@@ -232,7 +235,7 @@ pub(crate) struct FactIndex {
     // Partial native-list patterns are indexed only after a lookup shape is
     // actually requested.  The outer key is (predicate, list length, bound
     // positions); the inner key contains the values at those positions.
-    deep_list_s: RefCell<HashMap<(Term, usize, Vec<usize>), HashMap<Vec<Term>, Vec<usize>>>>,
+    deep_list_s: RefCell<DeepListIndex>,
 }
 
 impl FactIndex {

@@ -230,7 +230,7 @@ fn run_options(opt: Options) -> Result<Counts, String> {
         fs::write(&opt.output, format!("{earl}\n")).map_err(|e| format!("failed to write {}: {e}", opt.output.display()))?;
         if !opt.quiet { eprintln!("EARL report: {}", opt.output.display()); }
     }
-    if opt.earl_stdout { print!("{earl}\n"); }
+    if opt.earl_stdout { println!("{earl}"); }
     else if opt.json { print_json_summary(&runs, &counts, duration_ms); }
     else if !opt.quiet {
         println!("== Total");
@@ -481,9 +481,8 @@ fn manifest_cases(doc: &Document, manifest: &str) -> Vec<ManifestCase> {
     }
     if subjects.is_empty() {
         for t in &doc.facts {
-            if matches!(&t.p, Term::Iri(p) if p == RDF_TYPE) {
-                if !subjects.contains(&t.s) { subjects.push(t.s.clone()); }
-            }
+            if matches!(&t.p, Term::Iri(p) if p == RDF_TYPE)
+                && !subjects.contains(&t.s) { subjects.push(t.s.clone()); }
         }
     }
     let mut out = Vec::new();
@@ -536,7 +535,7 @@ fn normalize_manifest_include(iri: &str, base: &str) -> String {
 
 fn objects<'a>(doc: &'a Document, subject: Option<&Term>, predicate: &str) -> Vec<&'a Term> {
     doc.facts.iter()
-        .filter(|t| subject.map_or(true, |s| &t.s == s))
+        .filter(|t| subject.is_none_or(|s| &t.s == s))
         .filter(|t| matches!(&t.p, Term::Iri(p) if p == predicate))
         .map(|t| &t.o)
         .collect()
@@ -1336,7 +1335,7 @@ fn total_counts(runs: &[ManifestRun]) -> Counts {
 }
 
 fn should_print_case_progress(item: &CaseResult, index: usize, verbose: bool) -> bool {
-    verbose || !matches!(item.status, Status::Pass) || index == 0 || (index + 1) % 100 == 0
+    verbose || !matches!(item.status, Status::Pass) || index == 0 || (index + 1).is_multiple_of(100)
 }
 
 fn format_progress_line(item: &CaseResult, index: usize) -> String {
@@ -1386,7 +1385,7 @@ fn rdf_manifests_to_earl(runs: &[ManifestRun]) -> String {
     lines.join("\n")
 }
 
-fn escape_iri(iri: &str) -> String { iri.replace('<', "").replace('>', "") }
+fn escape_iri(iri: &str) -> String { iri.replace(['<', '>'], "") }
 fn turtle_string(s: &str) -> String { format!("{:?}", s) }
 
 fn print_json_summary(runs: &[ManifestRun], counts: &Counts, duration_ms: u128) {
