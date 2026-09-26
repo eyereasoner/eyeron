@@ -81,7 +81,9 @@ cargo test --release --test playground
 cargo test --release --test proof_checking
 ```
 
-The suite includes unit and CLI tests, example outputs and proofs, the Notation3 conformance suite, the local W3C RDF manifest mirror, and the W3C SPARQL 1.2 RL mirror. `scripts/test-all` prints a grand total across test binaries. N3 and SRL example output is compared by graph isomorphism so triple order and blank-node labels may differ, while missing or extra triples fail.
+The suite includes unit and CLI tests, example outputs and proofs, the Notation3 conformance suite, the local W3C RDF manifest mirror, and the W3C SPARQL 1.2 RL mirror. `scripts/test-all` prints a grand total across test binaries. N3 and SRL graph output is compared by graph isomorphism so triple order and blank-node labels may differ, while missing or extra triples fail. N3 Markdown reports are checked against their stable expected lines.
+
+The N3 and SRL example suites print separate output and proof passes. Each proof line shows generation and golden-comparison time. Proofs match their saved goldens exactly, except `age.n3`, whose current clock value and derived elapsed duration are normalized before comparison.
 
 ## Repository map
 

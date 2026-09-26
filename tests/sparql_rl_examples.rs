@@ -48,11 +48,12 @@ fn manifest_dir() -> &'static Path {
 
 fn main() {
     let started = std::time::Instant::now();
+    progress_line("running SRL output goldens");
     every_error_example_fails_with_its_expected_message();
     every_nondeterministic_example_runs();
     let golden_checked = every_example_with_a_golden_matches_by_graph_isomorphism();
     every_packaged_example_is_accounted_for();
-    every_example_with_a_proof_golden_matches();
+    let proof_checked = every_example_with_a_proof_golden_matches();
     every_eligible_srl_example_has_a_proof_golden();
 
     let expected_error = ERROR_EXAMPLES.len();
@@ -60,7 +61,7 @@ fn main() {
     let total = golden_checked + expected_error + excluded;
     let elapsed = started.elapsed().as_secs_f64();
     progress_line(&format!(
-        "\nsrl result: {}. {total} passed; 0 failed; finished in {elapsed:.2}s ({golden_checked} by golden match, {expected_error} expected-error, {excluded} excluded-nondeterministic)",
+        "\nsrl result: {}. {total} passed; 0 failed; finished in {elapsed:.2}s ({golden_checked} output goldens, {proof_checked} proof goldens, {expected_error} expected-error, {excluded} excluded-nondeterministic)",
         green("ok"),
     ));
 }
@@ -248,7 +249,8 @@ fn every_example_with_a_golden_matches_by_graph_isomorphism() -> usize {
     checked
 }
 
-fn check_proof_golden(name: &str) -> Result<(), String> {
+fn check_proof_golden(name: &str) -> Result<(f64, f64), String> {
+    let started = std::time::Instant::now();
     let golden_path = manifest_dir().join("examples/proof").join(format!("{name}.srl"));
     if !golden_path.exists() {
         return Err(format!("{name}: every eligible .srl example must have a proof golden, missing {}", golden_path.display()));
@@ -260,9 +262,10 @@ fn check_proof_golden(name: &str) -> Result<(), String> {
         return Err(format!("{name}: {summary:?}"));
     }
     let actual = proof_to_srl(&program.prefixes, &result);
+    let generation_time = started.elapsed().as_secs_f64();
     let expected = read(&golden_path);
     if actual == expected {
-        Ok(())
+        Ok((generation_time, started.elapsed().as_secs_f64() - generation_time))
     } else {
         Err(format!("{name}: proof does not match its golden\nactual:\n{actual}\nexpected:\n{expected}"))
     }
@@ -270,15 +273,13 @@ fn check_proof_golden(name: &str) -> Result<(), String> {
 
 /// Every non-error, non-`NO_PROOF_EXAMPLES` `.srl` example's `--proof`
 /// output, byte for byte against `examples/proof/<name>.srl` — the SRL
-/// counterpart to `tests/eye.rs`'s own strict plain-and-proof golden
-/// matching (SRL's forward reasoner is fully
-/// deterministic outside the already-excluded `EXCLUDED_FOR_NONDETERMINISM`/
-/// `EXCLUDED_FOR_MESSAGE_LOG_ENCODING` examples, so an exact match is
-/// appropriate here — unlike N3's proof goldens, most of which are only
-/// checked for well-formedness because a handful legitimately embed a
-/// live timestamp).
-fn every_example_with_a_proof_golden_matches() {
+/// counterpart to the N3 proof pass. SRL is deterministic outside the
+/// already-excluded nondeterministic and message-log examples, so an exact
+/// match is appropriate here.
+fn every_example_with_a_proof_golden_matches() -> usize {
     let mut checked = 0;
+    let expected = example_names().len() - ERROR_EXAMPLES.len() - NO_PROOF_EXAMPLES.len();
+    progress_line(&format!("running {expected} SRL proof goldens"));
     for name in example_names() {
         if ERROR_EXAMPLES.iter().any(|(n, _)| *n == name) {
             continue;
@@ -286,13 +287,21 @@ fn every_example_with_a_proof_golden_matches() {
         if NO_PROOF_EXAMPLES.iter().any(|(n, _)| *n == name) {
             continue;
         }
-        if let Err(msg) = check_proof_golden(&name) {
-            panic!("{msg}");
+        let started = std::time::Instant::now();
+        match check_proof_golden(&name) {
+            Ok((generation, comparison)) => progress_line(&format!(
+                "proof examples/proof/{name}.srl ... {} (generate {generation:.3}s, compare {comparison:.3}s)",
+                green("ok")
+            )),
+            Err(msg) => {
+                progress_line(&format!("proof examples/proof/{name}.srl ... {} ({:.3}s)", red("fail"), started.elapsed().as_secs_f64()));
+                panic!("{msg}");
+            }
         }
         checked += 1;
     }
-    let expected = example_names().len() - ERROR_EXAMPLES.len() - NO_PROOF_EXAMPLES.len();
     assert_eq!(checked, expected, "expected every eligible .srl example ({expected}) to have a proof golden checked, got {checked}");
+    checked
 }
 
 /// Guards against a stale `NO_PROOF_EXAMPLES` entry naming a file that no
@@ -489,4 +498,3 @@ fn render_term(term: &Term, mapping: &BTreeMap<String, String>, require_mapping:
         Term::Var(name) => Some(format!("?{name}")),
     }
 }
-

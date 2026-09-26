@@ -3,7 +3,7 @@ mod golden_n3;
 #[path = "support/report.rs"]
 mod report;
 
-use eyeron::{parse_n3, parse_n3_with_source, proof_to_n3, reason_document, ReasonerOptions};
+use eyeron::{parse_n3_with_source, proof_to_n3, reason_document, ReasonerOptions};
 use golden_n3::check_golden_documents;
 use report::{green, progress_line, red};
 use std::collections::BTreeMap;
@@ -37,18 +37,17 @@ const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
 
 fn main() {
     let started = std::time::Instant::now();
-    proof_goldens_are_valid_n3_documents();
-    every_proof_golden_has_a_source_that_generates_a_valid_proof();
-    selected_proof_examples_match_eyeling_style_goldens();
-    every_eligible_n3_example_has_a_proof_golden();
-    every_top_level_n3_example_parses();
+    progress_line("running N3 output goldens");
     let golden_checked = all_packaged_example_goldens_match_expected_lines();
     let total = every_n3_example_is_accounted_for(golden_checked);
+    every_top_level_n3_example_parses();
+    every_eligible_n3_example_has_a_proof_golden();
+    let proof_checked = every_proof_golden_matches();
 
     let parse_only = PARSE_ONLY_EXAMPLES.len();
     let elapsed = started.elapsed().as_secs_f64();
     progress_line(&format!(
-        "\nn3 result: {}. {total} passed; 0 failed; finished in {elapsed:.2}s ({golden_checked} by golden match, {parse_only} parse-only)",
+        "\nn3 result: {}. {total} passed; 0 failed; finished in {elapsed:.2}s ({golden_checked} output goldens, {proof_checked} proof goldens, {parse_only} parse-only)",
         green("ok"),
     ));
 }
@@ -68,29 +67,6 @@ fn every_n3_example_is_accounted_for(golden_checked: usize) -> usize {
         PARSE_ONLY_EXAMPLES.len()
     );
     total
-}
-
-fn proof_goldens_are_valid_n3_documents() {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
-    let proof_dir = root.join("examples/proof");
-    assert!(proof_dir.exists(), "examples/proof directory is missing");
-
-    let files = sorted_n3_files(&proof_dir, "examples/proof");
-    assert!(
-        !files.is_empty(),
-        "no proof goldens found in examples/proof"
-    );
-
-    for path in files {
-        let source = read(&path);
-        parse_n3(&source, None).unwrap_or_else(|err| {
-            panic!(
-                "proof golden {} is not parseable N3: {}",
-                path.display(),
-                err
-            )
-        });
-    }
 }
 
 /// As `parse_n3_with_source`, but also merges in `examples/input/{name}.trig`
@@ -118,11 +94,16 @@ fn effective_n3_document(name: &str, source_path: &Path) -> eyeron::Document {
     doc
 }
 
-fn every_proof_golden_has_a_source_that_generates_a_valid_proof() {
+fn every_proof_golden_matches() -> usize {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
     let proof_dir = root.join("examples/proof");
-
-    for golden_path in sorted_n3_files(&proof_dir, "examples/proof") {
+    assert!(proof_dir.exists(), "examples/proof directory is missing");
+    let files = sorted_n3_files(&proof_dir, "examples/proof");
+    assert!(!files.is_empty(), "no proof goldens found in examples/proof");
+    progress_line(&format!("running {} N3 proof goldens", files.len()));
+    let mut mismatches = Vec::new();
+    for golden_path in &files {
+        let started = std::time::Instant::now();
         let name = golden_path
             .file_name()
             .and_then(|name| name.to_str())
@@ -143,48 +124,26 @@ fn every_proof_golden_has_a_source_that_generates_a_valid_proof() {
             },
         );
         let proof = proof_to_n3(&doc.prefixes, &result);
+        let generation_time = started.elapsed();
         assert!(
             !proof.trim().is_empty(),
             "{} generated an empty proof",
             source_path.display()
         );
-        parse_n3(&proof, None).unwrap_or_else(|err| {
-            panic!(
-                "generated proof for {} is not valid N3: {}\n{}",
-                name, err, proof
-            )
-        });
+        let expected = read(golden_path);
+        let matches = normalize_proof_golden(stem, &expected) == normalize_proof_golden(stem, &proof);
+        let comparison_time = started.elapsed() - generation_time;
+        let status = if matches { green("ok") } else { red("fail") };
+        progress_line(&format!(
+            "proof examples/proof/{name} ... {status} (generate {:.3}s, compare {:.3}s)",
+            generation_time.as_secs_f64(), comparison_time.as_secs_f64()
+        ));
+        if !matches {
+            mismatches.push(name.to_string());
+        }
     }
-}
-
-fn selected_proof_examples_match_eyeling_style_goldens() {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
-
-    for name in ["backward", "socrates"] {
-        let source_path = root.join("examples").join(format!("{name}.n3"));
-        let golden_path = root.join("examples/proof").join(format!("{name}.n3"));
-        let source = read(&source_path);
-        let golden = read(&golden_path);
-        let label = source_path.to_string_lossy();
-        let doc = parse_n3_with_source(&source, None, Some(label.as_ref()))
-            .unwrap_or_else(|err| panic!("failed to parse {}: {}", source_path.display(), err));
-        let result = reason_document(
-            &doc,
-            &ReasonerOptions {
-                proof: true,
-                ..ReasonerOptions::default()
-            },
-        );
-        let out = proof_to_n3(&doc.prefixes, &result);
-
-        assert_eq!(
-            normalize_proof_golden(&golden),
-            normalize_proof_golden(&out),
-            "proof example {name} did not match {}\nactual:\n{}",
-            golden_path.display(),
-            out
-        );
-    }
+    assert!(mismatches.is_empty(), "N3 proof golden mismatches: {}", mismatches.join(", "));
+    files.len()
 }
 
 /// Guards against a top-level `.n3` example silently getting no
@@ -370,6 +329,15 @@ fn read(path: &Path) -> String {
         .unwrap_or_else(|err| panic!("failed to read {}: {}", path.display(), err))
 }
 
-fn normalize_proof_golden(text: &str) -> String {
-    text.replace("\r\n", "\n").trim().to_string()
+fn normalize_proof_golden(name: &str, text: &str) -> String {
+    let normalized = text.replace("\r\n", "\n");
+    if name != "age" {
+        return normalized.trim().to_string();
+    }
+    // age.n3 reads the current clock and derives a duration from it. Keep
+    // the rest of the proof byte-for-byte comparable to its saved golden.
+    let clock = regex::Regex::new(r#""\d{4}-\d{2}-\d{2}T[^"]+"\^\^xsd:dateTime"#).unwrap();
+    let duration = regex::Regex::new(r#""PT[0-9.]+S"\^\^xsd:duration"#).unwrap();
+    let without_clock = clock.replace_all(&normalized, "\"<clock>\"^^xsd:dateTime");
+    duration.replace_all(&without_clock, "\"<elapsed>\"^^xsd:duration").trim().to_string()
 }
