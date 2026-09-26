@@ -1364,11 +1364,11 @@ fn match_premise_remaining(
             // Visit order is by estimate, so break count ties by source index
             // to pick the same premise a source-order scan would.
             if progresses {
-                if best_index.map_or(true, |b| (candidates.len(), idx) < (best_candidates.len(), b)) {
+                if best_index.is_none_or(|b| (candidates.len(), idx) < (best_candidates.len(), b)) {
                     best_index = Some(idx);
                     best_candidates = candidates;
                 }
-            } else if fallback_index.map_or(true, |f| (candidates.len(), idx) < (fallback_candidates.len(), f)) {
+            } else if fallback_index.is_none_or(|f| (candidates.len(), idx) < (fallback_candidates.len(), f)) {
                 fallback_index = Some(idx);
                 fallback_candidates = candidates;
             }
