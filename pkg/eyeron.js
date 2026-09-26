@@ -442,7 +442,7 @@ function __wbg_get_imports() {
         __wbg___wbindgen_throw_344f42d3211c4765: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
-        __wbg_now_7b2a3f36e330cc3c: function() {
+        __wbg_now_f1c978f188f78638: function() {
             const ret = Date.now();
             return ret;
         },
