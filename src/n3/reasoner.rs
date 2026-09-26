@@ -2663,6 +2663,36 @@ fn eval_collect_all_in(
         .map(|triple| resolve_triple(triple, bindings))
         .collect::<Vec<_>>();
 
+    // A blank node that arrives through `bindings` (`?M = _:b1` from the data)
+    // is a concrete node; only a blank the scoped clause itself spells out
+    // (`_:s`) is an existential pattern. Without this split the substituted
+    // data blank matched every node, which is why 2-3 collected scalars needed
+    // a "singleton" compatibility second answer.
+    // The unresolved subject list shows which blanks the rule itself wrote;
+    // `parts` above is already substituted, so it cannot tell them apart. When
+    // the list only arrives through a variable there is nothing syntactic to
+    // consult and every blank stays a pattern (the previous behaviour).
+    let mut initial_bindings = BTreeMap::new();
+    if let Term::List(raw_parts) = subject {
+        if let Some(Term::Formula(raw_clause)) = raw_parts.get(1) {
+            let mut template_blanks = HashSet::<String>::new();
+            for triple in raw_clause {
+                collect_blank_labels(&triple.s, &mut template_blanks);
+                collect_blank_labels(&triple.p, &mut template_blanks);
+                collect_blank_labels(&triple.o, &mut template_blanks);
+            }
+            let mut goal_blanks = HashSet::<String>::new();
+            for triple in &clause_goals {
+                collect_blank_labels(&triple.s, &mut goal_blanks);
+                collect_blank_labels(&triple.p, &mut goal_blanks);
+                collect_blank_labels(&triple.o, &mut goal_blanks);
+            }
+            for label in goal_blanks.difference(&template_blanks) {
+                initial_bindings.insert(blank_binding_name(label), Term::Blank(label.clone()));
+            }
+        }
+    }
+
     let mut solutions = Vec::new();
     match_premise_at(
         &clause_goals,
@@ -2670,7 +2700,7 @@ fn eval_collect_all_in(
         scope_index,
         scope_rules,
         0,
-        BTreeMap::new(),
+        initial_bindings,
         depth + 1,
         backward_stack,
         budget,
@@ -2685,44 +2715,26 @@ fn eval_collect_all_in(
     }
 
     let collected_list = Term::List(collected.clone());
-    let scalar_singleton_compat = (2..=3).contains(&collected.len())
-        && collected.iter().all(|item| !matches!(item, Term::List(_)))
-        && matches!(resolve(&result_template, bindings), Term::Var(_))
-        && clause_goals.iter().any(triple_contains_bound_blank_var);
     let mut out = bindings.clone();
     let mut results = Vec::new();
     if unify_term(&result_template, &collected_list, &mut out) {
         results.push(canonicalize_bindings(&out));
     }
-    // Compatibility for the static comma-object conformance case: it expects
-    // scalar collections to be usable as one-item list objects. Never split
-    // collections of structured list values (such as Dijkstra queue entries),
-    // where doing so would create alternative partial aggregates.
-    if scalar_singleton_compat {
-        for item in collected {
-            let mut singleton = bindings.clone();
-            if unify_term(&result_template, &Term::List(vec![item]), &mut singleton) {
-                let singleton = canonicalize_bindings(&singleton);
-                if !results.contains(&singleton) { results.push(singleton); }
-            }
-        }
-    }
     results
 }
 
-fn triple_contains_bound_blank_var(triple: &Triple) -> bool {
-    [&triple.s, &triple.p, &triple.o]
-        .into_iter()
-        .any(term_contains_bound_blank_var)
-}
-
-fn term_contains_bound_blank_var(term: &Term) -> bool {
+fn collect_blank_labels(term: &Term, out: &mut HashSet<String>) {
     match term {
-        Term::Var(name) => name.starts_with("_:"),
-        Term::Blank(_) => true,
-        Term::List(items) => items.iter().any(term_contains_bound_blank_var),
-        Term::Formula(triples) => triples.iter().any(triple_contains_bound_blank_var),
-        _ => false,
+        Term::Blank(label) => {
+            out.insert(label.clone());
+        }
+        Term::List(items) => items.iter().for_each(|item| collect_blank_labels(item, out)),
+        Term::Formula(triples) => triples.iter().for_each(|t| {
+            collect_blank_labels(&t.s, out);
+            collect_blank_labels(&t.p, out);
+            collect_blank_labels(&t.o, out);
+        }),
+        _ => {}
     }
 }
 
