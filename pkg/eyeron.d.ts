@@ -26,14 +26,6 @@ export class EyeronSession {
 export function reason(input: string): string;
 
 /**
- * Run a Prolog (`.pl`) program and return its result document
- * output — or a JSON rendering when `json` is set. `query`, when
- * non-blank, is appended as an extra `?-` directive before running
- * (matching the `--query` CLI flag).
- */
-export function reasonProlog(input: string, proof: boolean, json: boolean, query: string): string;
-
-/**
  * Run a SPARQL 1.2 RL rule set (`.srl` syntax) and return its inference
  * graph (SPARQL 1.2 RL §6.5's `GI`), or — when `query` is non-blank —
  * the bindings for that query body pattern matched against the completed
@@ -87,7 +79,6 @@ export interface InitOutput {
     readonly eyeronsession_reason: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly eyeronsession_reasonReport: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly reason: (a: number, b: number, c: number) => void;
-    readonly reasonProlog: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly reasonSrl: (a: number, b: number, c: number, d: number, e: number) => void;
     readonly reasonSrlWithImports: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => void;
     readonly reasonWithData: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;

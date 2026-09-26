@@ -1,4 +1,0 @@
-test1(true).
-test2(true).
-test3(true).
-test4(true).

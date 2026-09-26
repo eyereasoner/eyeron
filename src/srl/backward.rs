@@ -20,7 +20,7 @@
 //! materialize a closure; it proves one query directly against the
 //! rule set's own `DATA { ... }` facts (and the immutable base graph for
 //! `WHERE DATA`/`NOT DATA` subgoals), the classical SLD-resolution
-//! reading of a Datalog/Prolog-style program.
+//! reading of a Datalog-style program.
 
 use std::collections::{BTreeMap, HashSet};
 

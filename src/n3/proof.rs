@@ -40,8 +40,7 @@ pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult)
 
     // What was derived, then one step per conclusion. A step names what it
     // used by that premise's own triple, so the steps need no nesting and
-    // no wrapper: this is the shape `srl::proof` and `prolog::output`
-    // already write.
+    // no wrapper: `srl::proof` uses the same shape.
     let mut output_seen = BTreeSet::<Triple>::new();
     for root in &roots {
         if output_seen.insert(root.fact.clone()) {
@@ -243,8 +242,7 @@ impl<'a> ProofCollector<'a, '_> {
 
 /// The 1-based position of `rule` in the document's rule list — the number
 /// a proof step cites. `proof_to_n3` and `proof_to_srl` both cite a rule
-/// this way, and `prolog::output` cites a clause by its own number, so a
-/// step reads the same in all three formats.
+/// this way, so a step reads the same in both formats.
 ///
 /// A rule's source location is tried first and structural equality only as
 /// a fallback, because the rule a `DerivedFact` carries is not always

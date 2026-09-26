@@ -1,1 +1,0 @@
-eligible(bob).

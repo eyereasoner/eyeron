@@ -52,18 +52,6 @@ fn check(extension: &str, name: &str) -> Result<Report, String> {
     let proof = fs::read_to_string(examples.join(format!("proof/{name}.{extension}"))).map_err(|e| e.to_string())?;
 
     match extension {
-        "pl" => {
-            let source = match name {
-                "proof-audit" => format!("{}\n{}", fs::read_to_string(examples.join("proof/socrates.pl")).unwrap(), source),
-                "rdf12-interoperability" => {
-                    let quads = fs::read_to_string(examples.join("rdf12-interoperability.nq")).unwrap();
-                    let facts = eyeron::prolog::rdf::parse_nquads(&quads, "d0_").unwrap();
-                    format!("{}{}", eyeron::prolog::rdf::facts_to_prolog(&facts), source)
-                }
-                _ => source,
-            };
-            eyeron::proof::prolog::check_proof(&source, &proof).map_err(|e| e.message)
-        }
         "srl" => {
             // `IMPORTS` brings in rules the checker has to number too, so
             // resolve it the way the CLI does before checking.
@@ -106,7 +94,7 @@ fn main() {
     let mut trusted = 0usize;
     let mut gaps_seen: Vec<&str> = Vec::new();
 
-    for extension in ["n3", "srl", "pl"] {
+    for extension in ["n3", "srl"] {
         for path in sorted_proofs(extension) {
             let name = path.file_stem().and_then(|s| s.to_str()).expect("utf8 name").to_string();
             let key = format!("{extension}/{name}");

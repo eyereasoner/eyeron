@@ -1,5 +1,4 @@
 use eyeron::error::{EyeronError, Result};
-use eyeron::prolog;
 use eyeron::n3::printing::{document_debug, rdf_result_to_string, result_to_string};
 use eyeron::n3::proof::proof_to_n3;
 use eyeron::n3::reasoner::{reason, ReasonerOptions};
@@ -37,18 +36,6 @@ struct CliOptions {
     /// given as the positional arguments (`docs/proof-checking.md`).
     check_proof: Option<String>,
     query_mode: QueryMode,
-    /// `.pl` only: parse and validate without evaluating.
-    check: bool,
-    /// `.pl` only: print `--json` instead of Prolog result-format-3 text.
-    json: bool,
-    /// `.pl` only: `--rdf-input FILE` (repeatable), imported as `rdf/4` facts.
-    rdf_input: Vec<String>,
-    /// `.pl` only: print the `rdf/4` predicate's answers as N-Quads instead
-    /// of evaluating the file's own `?-` directives.
-    rdf_output: bool,
-    max_steps: Option<u64>,
-    max_tables: Option<u64>,
-    max_answers: Option<u64>,
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
@@ -65,10 +52,7 @@ enum QueryMode {
 fn main() {
     if let Err(err) = run() {
         eprintln!("eyeron: {}", err);
-        // A `.pl` evaluation that hit `--max-steps`/`--max-tables`/
-        // `--max-answers` exits 2; every other error exits 1.
-        let exit_code = if err.message.starts_with("Evaluation incomplete:") { 2 } else { 1 };
-        std::process::exit(exit_code);
+        std::process::exit(1);
     }
 }
 
@@ -92,10 +76,6 @@ fn run() -> Result<()> {
 
     if let Some(path) = &opt.check_proof {
         return run_check_proof(path, &sources);
-    }
-
-    if sources.iter().any(|(label, text)| is_prolog_source(label, text)) {
-        return run_prolog(&opt, &sources);
     }
 
     if sources.iter().any(|(label, text)| is_sparql_rl_source(label, text)) {
@@ -441,15 +421,6 @@ fn sparql_rl_query_text(opt: &CliOptions) -> Result<Option<String>> {
     }
 }
 
-/// Whether `(label, text)` looks like a Prolog program: either the
-/// filename ends in `.pl`, or (for stdin/URLs, and as a fallback for
-/// files) the content itself looks like one (see
-/// `eyeron::prolog::is_prolog`).
-fn is_prolog_source(label: &str, text: &str) -> bool {
-    let has_pl_extension = label.split(['?', '#']).next().and_then(|path| Path::new(path).extension()).is_some_and(|ext| ext.eq_ignore_ascii_case("pl"));
-    has_pl_extension || prolog::is_prolog(text)
-}
-
 fn read_text_source(source: &str) -> Result<String> {
     if source == "-" {
         let mut s = String::new();
@@ -463,65 +434,6 @@ fn read_text_source(source: &str) -> Result<String> {
     }
 }
 
-fn run_prolog(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
-    if opt.rdf_output && (opt.json || opt.proof || opt.check || opt.query.is_some() || opt.query_file.is_some()) {
-        return Err(EyeronError::new("--rdf-output cannot be combined with --check, --json, --proof, or --query"));
-    }
-    for (label, text) in sources {
-        if !is_prolog_source(label, text) {
-            return Err(EyeronError::new(format!("{} does not look like a Prolog program; mixing .pl and N3/SPARQL-RL input in one run is not supported", label)));
-        }
-    }
-
-    let mut imported = String::new();
-    for (index, file) in opt.rdf_input.iter().enumerate() {
-        let text = read_text_source(file)?;
-        let facts = prolog::rdf::parse_nquads(&text, &format!("d{}_", index)).map_err(|err| EyeronError::new(err.with_source_location(&text, file)))?;
-        imported.push_str(&prolog::rdf::facts_to_prolog(&facts));
-    }
-
-    let body: String = sources.iter().map(|(_, text)| text.as_str()).collect::<Vec<_>>().join("\n");
-    let mut source = format!("{}{}", imported, body);
-    if let Some(query_text) = sparql_rl_query_text(opt)? {
-        source.push_str(&format!("\n?- {}.\n", query_text.trim().trim_end_matches('.')));
-    }
-    if opt.rdf_output {
-        source.push_str("\n?- rdf(Subject, Predicate, Object, Graph).\n");
-    }
-
-    if opt.check {
-        let result = prolog::check(&source)?;
-        if opt.json {
-            print!("{}", prolog::output::check_result_json(&result));
-        } else {
-            print!("{}", prolog::output::format_check(&result));
-        }
-        return Ok(());
-    }
-
-    let mut limits = prolog::Limits::default();
-    if let Some(v) = opt.max_steps {
-        limits.max_steps = v;
-    }
-    if let Some(v) = opt.max_tables {
-        limits.max_tables = v;
-    }
-    if let Some(v) = opt.max_answers {
-        limits.max_answers = v;
-    }
-
-    let result = prolog::run(&source, limits)?;
-    if opt.rdf_output {
-        let last = result.queries.last().ok_or_else(|| EyeronError::new("--rdf-output produced no query result"))?;
-        print!("{}", prolog::rdf::answers_to_nquads(last)?);
-    } else if opt.json {
-        print!("{}", prolog::output::run_result_json(&result));
-    } else {
-        print!("{}", prolog::output::format_result(&result, opt.proof));
-    }
-    Ok(())
-}
-
 /// `--check-proof`: read the proof document and check it against the
 /// program, reporting the verdict the specification's §9 requires.
 fn run_check_proof(path: &str, sources: &[(String, String)]) -> Result<()> {
@@ -531,7 +443,6 @@ fn run_check_proof(path: &str, sources: &[(String, String)]) -> Result<()> {
 
     let extension = Path::new(path.split(['?', '#']).next().unwrap_or(path)).extension().and_then(|e| e.to_str()).unwrap_or("");
     let report = match extension {
-        "pl" => eyeron::proof::prolog::check_proof(&source, &proof)?,
         "srl" => {
             let mut program = srl::parse_sparql_rl(&source, None)?;
             resolve_sparql_rl_imports(&mut program, false)?;
@@ -637,32 +548,6 @@ fn parse_args(args: Vec<String>) -> Result<CliOptions> {
                 );
             }
             "--stream-messages" => opt.stream_messages = true,
-            "--check" => opt.check = true,
-            "--json" => opt.json = true,
-            "--rdf-input" => {
-                let flag = args[i].clone();
-                i += 1;
-                if i >= args.len() {
-                    return Err(EyeronError::new(format!("{} requires a value", flag)));
-                }
-                opt.rdf_input.push(args[i].clone());
-            }
-            "--rdf-output" => opt.rdf_output = true,
-            "--max-steps" | "--max-tables" | "--max-answers" => {
-                let flag = args[i].clone();
-                i += 1;
-                if i >= args.len() {
-                    return Err(EyeronError::new(format!("{} requires a value", flag)));
-                }
-                let value = args[i].parse::<u64>().ok().filter(|v| *v >= 1).ok_or_else(|| {
-                    EyeronError::new(format!("{} requires a positive integer, got {}", flag, args[i]))
-                })?;
-                match flag.as_str() {
-                    "--max-steps" => opt.max_steps = Some(value),
-                    "--max-tables" => opt.max_tables = Some(value),
-                    _ => opt.max_answers = Some(value),
-                }
-            }
             "--data" => {
                 let flag = args[i].clone();
                 i += 1;

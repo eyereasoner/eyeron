@@ -8,7 +8,6 @@ export const eyeronsession_programRules: (a: number) => number;
 export const eyeronsession_reason: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
 export const eyeronsession_reasonReport: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
 export const reason: (a: number, b: number, c: number) => void;
-export const reasonProlog: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
 export const reasonSrl: (a: number, b: number, c: number, d: number, e: number) => void;
 export const reasonSrlWithImports: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => void;
 export const reasonWithData: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;

@@ -1,5 +1,4 @@
 # N3 example: proof-audit.
-# Companion to proof-audit.pl: the Prolog source replays socrates.pl's own
 # golden proof document (a flat `step(conclusion, by, bindings, uses)`
 # relation) and queries it for dependency chains, supporting source facts,
 # and the bindings a rule application used. N3's own `-p/--proof` output
@@ -10,7 +9,6 @@
 # pe:rule 1; pe:binding ...; pe:uses ...`. So auditing a proof needs no
 # special traversal at all -- the steps are already facts in the graph,
 # and matching `?step pe:uses ?dep` searches them directly, mirroring the
-# Prolog source's own `member(Used, Uses)` search. Each step carries
 # exactly one justification: `pe:fact` (an original source assertion) or
 # `pe:rule` (the number of the rule the engine applied); the proof's root
 # is the one step of the latter kind.

@@ -275,7 +275,7 @@
         <h1>The Eyeron Playground</h1>
         <p>
           Run <a href="https://github.com/eyereasoner/eyeron" target="_blank" rel="noopener noreferrer">eyeron</a>
-          in your browser — Notation3 (N3), SPARQL 1.2 RL, and Prolog — with the same native reasoner core, compiled to WebAssembly.
+          in your browser — Notation3 (N3) and SPARQL 1.2 RL — with the same native reasoner core, compiled to WebAssembly.
         </p>
         <p class="hint">Version <strong id="version">…</strong></p>
       </header>
@@ -294,7 +294,6 @@
             <select id="language" aria-label="Choose the input format">
               <option value="n3">Notation3 (.n3)</option>
               <option value="srl">SPARQL 1.2 RL (.srl)</option>
-              <option value="pl">Prolog (.pl)</option>
             </select>
             <label for="examples">Example</label>
             <select id="examples" aria-label="Load a bundled example">
@@ -311,18 +310,11 @@
             <summary>Advanced options</summary>
             <div class="advanced-panel-body">
               <p class="advanced-note n3-only-row">These mirror the Eyeling playground workflow: keep reusable knowledge in the background, reason over the editor, and optionally provide RDF Message logs separately.</p>
-              <div class="option-row srl-only-row pl-only-row">
+              <div class="option-row srl-only-row">
                 <div class="option-copy">
                   <label for="format-query">Query</label>
-                  <span class="hint">SPARQL-RL: a body pattern (<code>{ ?x :descendedFrom :C }</code>) to match against the closure instead of printing every derived fact. Prolog: a goal (<code>ancestor(alice, Who)</code>) appended as an extra <code>?-</code> directive.</span>
-                  <input id="format-query" type="text" placeholder="leave blank to run the program's own output/questions" style="margin-top:0.4rem; width:100%;" />
-                </div>
-              </div>
-              <div class="option-row pl-only-row">
-                <input id="pl-json" type="checkbox" />
-                <div class="option-copy">
-                  <label for="pl-json">JSON output</label>
-                  <span class="hint">Render a JSON representation instead of Prolog result-format-3 syntax.</span>
+                  <span class="hint">A body pattern (<code>{ ?x :descendedFrom :C }</code>) to match against the closure instead of printing every derived fact.</span>
+                  <input id="format-query" type="text" placeholder="leave blank to print the inference graph" style="margin-top:0.4rem; width:100%;" />
                 </div>
               </div>
               <div class="option-row n3-only-row">
@@ -332,7 +324,7 @@
                   <span class="hint">Enables the browser Eyeling engine for log:query output, log:outputString rendering, and Eyeling-compatible proof/RDF execution.</span>
                 </div>
               </div>
-              <div class="option-row n3-only-row pl-only-row srl-only-row">
+              <div class="option-row n3-only-row srl-only-row">
                 <input id="proof" type="checkbox" />
                 <div class="option-copy">
                   <label for="proof">Proof explanations</label>
@@ -417,9 +409,6 @@
           </div>
           <p class="hint">
             Build the browser module with <code>wasm-pack build --target web --out-dir pkg</code>, then serve this directory over HTTP.
-          </p>
-          <p class="hint pl-only-row">
-            Two Prolog examples expect companion input the playground does not wire up standalone: <code>proof-audit.pl</code> (needs <code>examples/proof/socrates.pl</code> prepended) and <code>rdf12-interoperability.pl</code> (needs <code>--rdf-input examples/rdf12-interoperability.nq</code>) — run those from the command line instead.
           </p>
           <p class="hint srl-only-row">
             <code>import-main.srl</code>'s <code>IMPORTS</code> directive and <code>rdf-messages.srl</code>'s <code>examples/rdf-messages.trig</code> base data are both fetched and wired in automatically when you load either example. <code>rdf-messages.srl</code> itself derives nothing either way: its rule expects the <code>eymsg:payloadTriple &lt;&lt;...&gt;&gt;</code> RDF-star encoding eyeleng's own message-log parser produces, while Eyeron's parses message logs into a different internal replay view — a known encoding gap, not a playground limitation.
@@ -757,149 +746,11 @@
         "wolf-goat-cabbage.srl"
       ];
 
-      const bundledExamplesProlog = [
-        "age.pl",
-        "aggregation.pl",
-        "alignment-demo.pl",
-        "alma-rdf-messages.pl",
-        "ancestor.pl",
-        "annotation-evidence.pl",
-        "assignment.pl",
-        "backward-recursion.pl",
-        "backward.pl",
-        "base-and-literals.pl",
-        "bayes-diagnosis.pl",
-        "bmi.pl",
-        "builtin-call-complete.pl",
-        "cat-koko.pl",
-        "check-unsafe.pl",
-        "collection-nesting.pl",
-        "collection.pl",
-        "collections-and-blank-nodes.pl",
-        "composition-of-injective-functions-is-injective.pl",
-        "constructor-theory-becoming.pl",
-        "context-association.pl",
-        "control-system-becoming.pl",
-        "critical-path-schedule.pl",
-        "cyclic-reachability.pl",
-        "deep-taxonomy-10.pl",
-        "deep-taxonomy-100.pl",
-        "deep-taxonomy-1000.pl",
-        "deep-taxonomy-10000.pl",
-        "deep-taxonomy-100000.pl",
-        "derivative.pl",
-        "derived-backward-rule-2.pl",
-        "derived-backward-rule.pl",
-        "derived-rule.pl",
-        "developmental-genetics-becoming.pl",
-        "dijkstra.pl",
-        "dining-philosophers.pl",
-        "dog-license.pl",
-        "dog.pl",
-        "dpv-odrl-purpose-mapping.pl",
-        "engineering-becoming.pl",
-        "equals-same-as.pl",
-        "equals.pl",
-        "equivalence-classes-overlap-implies-same-class.pl",
-        "euler-identity.pl",
-        "existential-rule.pl",
-        "expression-eval.pl",
-        "family-cousins.pl",
-        "family.pl",
-        "fibonacci.pl",
-        "filter-function-and-langdir.pl",
-        "filter-town.pl",
-        "four-queens.pl",
-        "good-cobbler.pl",
-        "grammar.pl",
-        "graph-join.pl",
-        "graph-term-emulation.pl",
-        "gray-code-counter.pl",
-        "greatest-lower-bound-uniqueness.pl",
-        "group-inverse-uniqueness.pl",
-        "hanoi.pl",
-        "if-then.pl",
-        "import-lib.pl",
-        "import-main.pl",
-        "knowledge-engineering-alignment-flow.pl",
-        "list-builtins-tests.pl",
-        "list-iterate.pl",
-        "list-map.pl",
-        "lists.pl",
-        "log-collect-all-in.pl",
-        "log-conclusion.pl",
-        "log-for-all-in.pl",
-        "log-not-includes.pl",
-        "log-uri.pl",
-        "meta-interpreter.pl",
-        "minimal-skos-alignment.pl",
-        "modular-exponentiation.pl",
-        "monkey.pl",
-        "monoid-identity-uniqueness.pl",
-        "negation-orphan.pl",
-        "negation.pl",
-        "now-and-language-builtins.pl",
-        "odrl-dpv-risk-ranked.pl",
-        "patch.pl",
-        "path-discovery.pl",
-        "peano-arithmetic.pl",
-        "pillar.pl",
-        "policy.pl",
-        "proof-audit.pl",
-        "property-paths.pl",
-        "query.pl",
-        "quoted-head-unquote-select.pl",
-        "quoted-head-unquote.pl",
-        "rdf-list.pl",
-        "rdf-message-cold-chain-recall.pl",
-        "rdf-message-flow.pl",
-        "rdf-message-ldes-incremental.pl",
-        "rdf-message-microgrid.pl",
-        "rdf-message-window-repair.pl",
-        "rdf-messages.pl",
-        "rdf12-interoperability.pl",
-        "reification-and-annotations.pl",
-        "reifiers.pl",
-        "reordering.pl",
-        "rule-matching.pl",
-        "schema-foaf-mapping.pl",
-        "shortest-path.pl",
-        "similar.pl",
-        "socrates.pl",
-        "spec-2-1-basic-usage.pl",
-        "spec-2-1-descended-from.pl",
-        "spec-2-2-recursion.pl",
-        "spec-2-3-filtering.pl",
-        "spec-2-4-negation.pl",
-        "spec-2-5-assignment.pl",
-        "spec-4-1-rule-syntax.pl",
-        "spec-4-1-srl-syntax.pl",
-        "spec-builtins.pl",
-        "stratified-negation.pl",
-        "string-builtins-tests.pl",
-        "sudoku.pl",
-        "time.pl",
-        "transitive-closure.pl",
-        "turtle-shortcuts.pl",
-        "type-inference.pl",
-        "unicode-and-signed-numbers.pl",
-        "unstratified-negation.pl",
-        "variable-predicate-dependency.pl",
-        "version-and-in.pl",
-        "void.pl",
-        "vulnerability-impact.pl",
-        "well-formedness-error.pl",
-        "whitehead-becoming.pl",
-        "witch.pl",
-        "wolf-goat-cabbage.pl",
-      ];
-
-      const bundledExamplesByLanguage = { n3: bundledExamplesN3, srl: bundledExamplesSrl, pl: bundledExamplesProlog };
-      const bundledExamples = [...bundledExamplesN3, ...bundledExamplesSrl, ...bundledExamplesProlog];
+      const bundledExamplesByLanguage = { n3: bundledExamplesN3, srl: bundledExamplesSrl };
+      const bundledExamples = [...bundledExamplesN3, ...bundledExamplesSrl];
 
       function languageForExampleName(name) {
         if (bundledExamplesSrl.includes(name)) return 'srl';
-        if (bundledExamplesProlog.includes(name)) return 'pl';
         return 'n3';
       }
 
@@ -928,7 +779,6 @@
       const languageSelect = document.getElementById('language');
       const exampleSelect = document.getElementById('examples');
       const formatQueryInput = document.getElementById('format-query');
-      const plJsonCheckbox = document.getElementById('pl-json');
       const copyShareLinkButton = document.getElementById('copy-share-link');
       const createGistShareButton = document.getElementById('create-gist-share');
       const pauseButton = document.getElementById('pause');
@@ -2048,7 +1898,6 @@
           streamMessagesCheckbox.checked = !!shared.streamMessages;
           enforceHttpsCheckbox.checked = shared.enforceHttps !== false;
           formatQueryInput.value = shared.formatQuery || '';
-          plJsonCheckbox.checked = !!shared.plJson;
           backgroundKnowledgeText = shared.background || '';
           backgroundKnowledgeSource = shared.backgroundSource || '';
           backgroundKnowledgeRdfMode = !!backgroundKnowledgeText && urlLooksRdfCompatibleInput(backgroundKnowledgeSource);
@@ -2090,7 +1939,6 @@
         streamMessagesCheckbox.checked = localStorage.getItem('eyeron.playground.streamMessages') === '1';
         enforceHttpsCheckbox.checked = localStorage.getItem('eyeron.playground.enforceHttps') !== '0';
         formatQueryInput.value = localStorage.getItem('eyeron.playground.formatQuery') || '';
-        plJsonCheckbox.checked = localStorage.getItem('eyeron.playground.plJson') === '1';
         backgroundKnowledgeText = localStorage.getItem('eyeron.playground.background') || '';
         backgroundKnowledgeSource = localStorage.getItem('eyeron.playground.backgroundSource') || '';
         backgroundKnowledgeRdfMode = !!backgroundKnowledgeText && urlLooksRdfCompatibleInput(backgroundKnowledgeSource);
@@ -2122,7 +1970,7 @@
       }
 
       function selectedEngine() {
-        // Eyeling is an alternate N3-only engine; SPARQL-RL and Prolog
+        // Eyeling is an alternate N3-only engine; SPARQL-RL
         // always run through eyeron's own wasm module regardless of the
         // (hidden, but possibly still-checked from an earlier N3 session)
         // "Use Eyeling" checkbox.
@@ -2135,8 +1983,8 @@
 
       function syncLanguageVisibility() {
         const lang = languageSelect.value;
-        const activeClass = { n3: 'n3-only-row', srl: 'srl-only-row', pl: 'pl-only-row' }[lang] || 'n3-only-row';
-        document.querySelectorAll('.n3-only-row, .srl-only-row, .pl-only-row').forEach((el) => {
+        const activeClass = { n3: 'n3-only-row', srl: 'srl-only-row' }[lang] || 'n3-only-row';
+        document.querySelectorAll('.n3-only-row, .srl-only-row').forEach((el) => {
           el.style.display = el.classList.contains(activeClass) ? '' : 'none';
         });
         syncEngineSummary();
@@ -2329,14 +2177,6 @@
         }
       }
 
-      function runProlog() {
-        try {
-          return { ok: true, output: eyeronModule.reasonProlog(input.getValue(), proofCheckbox.checked, plJsonCheckbox.checked, formatQueryInput.value.trim()) };
-        } catch (err) {
-          return reportFromThrow(err);
-        }
-      }
-
       function runEyeron() {
         const rawReport = eyeronModule.reasonWithDataReport
           ? eyeronModule.reasonWithDataReport(
@@ -2377,7 +2217,6 @@
         localStorage.setItem('eyeron.playground.example', currentExample || '');
         localStorage.setItem('eyeron.playground.language', languageSelect.value);
         localStorage.setItem('eyeron.playground.formatQuery', formatQueryInput.value.trim());
-        localStorage.setItem('eyeron.playground.plJson', plJsonCheckbox.checked ? '1' : '0');
 
         runButton.disabled = true;
         runPaused = false;
@@ -2399,7 +2238,7 @@
               pausedRunResult.elapsedMs = performance.now() - startedAt;
             }
           } else {
-            const report = languageSelect.value === 'srl' ? await runSrl() : languageSelect.value === 'pl' ? runProlog() : runEyeron();
+            const report = languageSelect.value === 'srl' ? await runSrl() : runEyeron();
             if (report.ok) {
               setOutputText(report.output || '', 'auto');
               setRuntimeStats(derivedCountFromReport(report), performance.now() - startedAt);

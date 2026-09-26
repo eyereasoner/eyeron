@@ -105,7 +105,7 @@ fn add_edges_closed(edge_map: &mut BTreeMap<(usize, usize), bool>, from_idx: usi
 /// all-pairs scan was `O(rules^2)` regardless of how few dependency edges
 /// actually exist, which made stratifying a long single-premise rule chain
 /// such as `deep-taxonomy-100000.srl` the dominant cost of the whole run
-/// even though the N3 and Prolog equivalents of the same benchmark have
+/// even though the N3 equivalent of the same benchmark has
 /// nothing resembling it (`crate::n3::reasoner` has no stratification
 /// step at all). Lookups here are an over-approximation of
 /// `can_possibly_generate`'s exact per-position term compatibility (in

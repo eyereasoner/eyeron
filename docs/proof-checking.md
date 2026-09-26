@@ -4,12 +4,11 @@
 > document to be **valid for a source program**, and of what a conforming
 > proof checker must do. `src/proof/` is the reference implementation and
 > `eyeron --check-proof` runs it. For how each front end *writes* a proof,
-> see [`n3.md`](n3.md), [`sparql-rl.md`](sparql-rl.md) and
-> [`prolog.md`](prolog.md#answers-and-proofs).
+> see [`n3.md`](n3.md) and [`sparql-rl.md`](sparql-rl.md).
 
 ## 1. Why this document exists
 
-eyeron's three front ends write proofs in three syntaxes but in one shape:
+eyeron's two front ends write proofs in two syntaxes but in one shape:
 a list of **steps**, each naming a conclusion, the single reason it holds,
 the bindings that reason used, and what it used. Until now that shape was
 described as "an inspectable explanation graph, not an independently
@@ -17,9 +16,9 @@ verified proof certificate" — a reader could follow it, but nothing checked
 that it held together.
 
 This specification closes that gap. It defines checking **once**, over an
-abstract proof model, and then binds each of the three syntaxes to that
-model. A checker therefore has one set of rules to implement and three
-readers, rather than three checkers.
+abstract proof model, and then binds each of the two syntaxes to that
+model. A checker therefore has one set of rules to implement and two
+syntax readers.
 
 The keywords **MUST**, **MUST NOT**, **SHOULD** and **MAY** are to be read
 as normative requirements.
@@ -49,7 +48,7 @@ NOT be read as asserting:
 ## 3. The abstract proof model
 
 A **statement** is whatever the front end concludes: an RDF triple for N3
-and SPARQL 1.2 RL, a goal term for Prolog.
+and SPARQL 1.2 RL.
 
 A **step** is a quadruple:
 
@@ -80,15 +79,7 @@ it: the offending step's conclusion, the condition, and what was expected.
 it MUST be an **instance** of the conclusion of some step of the document,
 or of a given statement of the source program.
 
-"Instance", not "equal". A conclusion with free variables is universally
-quantified — it asserts every instance of itself — and an engine that
-memoizes answers records the most general one once, so each use of it may
-be more specific. `examples/proof/type-inference.pl` concludes
-`type([], lam(x, var(x)), fun(A, A))` in one step and uses it as
-`type([], lam(x, var(x)), fun(int, int))` in another. Requiring equality
-would reject that sound proof. A checker MUST therefore resolve by
-one-way matching, binding only the variables of the *conclusion*: the use
-may not instantiate itself to meet the conclusion halfway.
+A use must match a step conclusion or a given statement under the front end's term-matching rules.
 
 **(C2) Well-foundedness.** The relation "step *a* uses a statement that
 resolves to step *b*'s conclusion" MUST be acyclic. Equivalently, every step MUST have
@@ -99,19 +90,7 @@ given statements has rank 1.
 This is the condition that makes the document a proof rather than a story.
 Without it a step could justify its own conclusion, directly or around a
 loop, and every other condition would still hold. Note that (C2) constrains
-the *derivation*, not the data: `examples/cyclic-reachability.pl` reasons
-over a cyclic graph, and its proof is well-founded because each answer is
-justified by an earlier one.
-
-An engine that memoizes by call pattern has to take care here. The same
-conclusion can be an answer of more than one memo table — `leq(X, b)` and
-`leq(a, Y)` are different calls that can both answer `leq(a, b)` — and each
-table records its own first derivation. Citing whichever table a consumer
-happened to read can then produce a derivation of a conclusion that uses
-that same conclusion by way of the other table. Recording, for each
-conclusion, the derivation found *earliest in the whole run* avoids this:
-a derivation can only use answers that already existed, so earliest-first
-makes every edge point backwards in time.
+the *derivation*, not the data: a cyclic graph may still have a well-founded proof if each step uses earlier conclusions.
 
 **(C3) Justification.** Every step MUST satisfy the condition its
 justification carries (§5, §6).
@@ -149,26 +128,11 @@ across the conclusion and every premise. A checker MUST NOT accept a step
 whose bindings are insufficient to determine the inference but which
 happens to unify.
 
-Taking the rule from the source is what ties the proof to the program. A
-proof document MAY also carry its own copy of a rule for readability
-(Prolog's `clause/3` records do); a checker MAY compare it with the source
-but MUST NOT substitute it for the source.
+Taking the rule from the source is what ties the proof to the program. A proof document MAY carry its own copy of a rule for readability; a checker MAY compare it with the source but MUST NOT substitute it for the source.
 
 ### 5.2 `fact`
 
-The step claims its conclusion is given outright by the source.
-
-`fact` is the **zero-premise case of §5.1**, and a checker MUST verify it
-the same way: locate the rule the justification names, instantiate it under
-the step's bindings, and require its conclusion to unify with the step's.
-The two extra requirements are that the located rule have no premises and
-that the step's `uses` be empty.
-
-`bindings` is *not* necessarily empty. A given statement may be written
-with variables — `member_at([X|_], 0, X)` is one — in which case the step
-records the instance used, as `['X' = "001"]`. Treating `fact` as a
-separate kind of check, rather than as `rule` with no premises, would miss
-that.
+The step claims its conclusion is given outright by the source. A checker MUST verify that the source contains a matching fact and that the step has no premises.
 
 ### 5.3 `builtin`
 
@@ -179,7 +143,7 @@ require it to succeed.
 A built-in is checkable exactly when re-evaluating it is a pure function of
 the conclusion. A built-in that consults anything else — the clock, the
 network, a random source, the rest of the fact set — is not, and MUST be
-treated as trusted (§6.3) rather than silently accepted.
+treated as trusted (§6.1) rather than silently accepted.
 
 ## 6. Trusted justifications
 
@@ -188,20 +152,7 @@ from the proof document and the source program alone. Trust is not a
 loophole: each form below is enumerable, a checker MUST report every
 occurrence, and a caller MAY refuse a document that has any.
 
-### 6.1 `absent`
-
-A closed-world claim: that a goal has no proof. Re-establishing it would
-require running the reasoner to completion — exactly what §2 forbids a
-checker from doing. It is recorded as an obligation on the engine that
-wrote it.
-
-### 6.2 `collected`
-
-That an all-solutions built-in collected *all and only* the solutions.
-Establishing the "all" half has the same shape as `absent`, and for the
-same reason it is an obligation.
-
-### 6.3 Impure built-ins
+### 6.1 Impure built-ins
 
 A `builtin` step whose relation is not a pure function of its conclusion
 (§5.3).
@@ -220,24 +171,7 @@ containing one is invalid.
 
 ## 8. Syntax bindings
 
-### 8.1 Prolog (`.pl`)
-
-| model | document |
-| --- | --- |
-| claims | the document's plain facts (not `clause/3` or `step/4`) |
-| step | a `step(Conclusion, By, Bindings, Uses)` fact |
-| `bindings` | the `'Name' = Value` pairs of the third argument |
-| `uses` | the goal terms of the fourth argument |
-| `rule N` | `rule(N)` |
-| `fact` | `fact(N)`, naming the clause, which MUST have no body |
-| `builtin` | `builtin`; the conclusion is the goal |
-| `absent` | `absent`; the conclusion is the `\+` goal |
-| `collected` | `collected`; the conclusion is the `findall/3` goal |
-
-Given statements are the program's clauses with an empty body. Rules are
-numbered as the program's clauses are, from 1.
-
-### 8.2 Notation3 (`.n3`)
+### 8.1 Notation3 (`.n3`)
 
 | model | document |
 | --- | --- |
@@ -252,7 +186,7 @@ numbered as the program's clauses are, from 1.
 
 Given statements are the source document's own triples.
 
-### 8.3 SPARQL 1.2 RL (`.srl`)
+### 8.2 SPARQL 1.2 RL (`.srl`)
 
 | model | document |
 | --- | --- |
@@ -285,45 +219,4 @@ establishes.
 
 ## 10. What eyeron's own proofs establish
 
-`tests/proof_checking.rs` checks every packaged proof document against the
-program it was produced from. **All 380** — 126 N3, 123 SPARQL-RL, 131
-Prolog — are valid, covering **135,121 steps**, of which **134,724 are
-verified** and **397 are trust obligations** (§6).
-
-Getting there meant fixing the proof writers, not relaxing the rules. What
-checking found, in the order it mattered:
-
-- **A circular derivation.** The same conclusion can be an answer of more
-  than one memo table, and citing whichever table a consumer read produced
-  a step justified by its own conclusion. Taking the derivation found
-  earliest in the whole run makes the graph acyclic by construction.
-- **Premises that were never recorded.** A SPARQL-RL rule body with a
-  property path expanded to patterns whose variables the solver invented
-  afresh each visit, so every such premise was dropped as non-ground —
-  `reordering.srl` recorded a step with no premises and no bindings at all.
-  Paths are now expanded once, when the rule is prepared.
-- **Rules the proof did not carry.** A step citing a rule the engine
-  generated while reasoning cited a position in a list the source does not
-  reproduce. Such a rule is now carried by the step, in its own direction,
-  and the checker holds it to the step that derives it.
-- **An explanation that cost more than the derivation.** Explaining a
-  premise rebuilt its whole derivation, so `fib(30)` cost exponentially
-  more to explain than to derive and ran out of budget. An explanation is
-  now a flat set of steps, each conclusion explained once: three minutes
-  and 19 unproven premises became 0.03 seconds and none.
-- **Three things N3 gives that the walker did not recognise**: a built-in
-  whose truth depends on the fact set and cannot be re-checked afterwards
-  (a trust obligation, not a broken chain); a rule written in the document,
-  which N3 reads as data like any other statement; and an instance of a
-  given statement that carries variables, which N3 reads as universally
-  quantified.
-
-- **A proof that grew with the square of the derivation.** `proof_to_n3`
-  walked each claim's dependencies independently and wrapped the result in
-  its own `pe:why` graph, so a premise shared by several claims was written
-  out again under each one. Reading a proof back as a flat set of steps
-  made the nesting pointless: one walk now covers every claim, each step is
-  written once, and a step is an ordinary top-level triple whose subject is
-  its quoted conclusion. `deep-taxonomy-100`'s proof went from 81,031 lines
-  to 1,880, and sizes that previously could not be produced at all now take
-  seconds.
+`tests/proof_checking.rs` checks every packaged N3 and SRL proof against the program that produced it. It re-performs rule steps, checks premises, and detects cycles. The suite covers examples with derived rules, property paths, built-ins, and shared proof steps.

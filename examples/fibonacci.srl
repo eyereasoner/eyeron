@@ -1,4 +1,4 @@
-# Companion to fibonacci.n3/.pl: SET-based rules are always "run once"
+# Companion to fibonacci.n3: SET-based rules are always "run once"
 # (SPARQL 1.2 RL SS4.4) and can never depend on themselves, even
 # indirectly, so a single general recursive :fib rule is unstratifiable
 # (confirmed by testing; genuinely a SPARQL 1.2 RL constraint, not just an
@@ -7,7 +7,6 @@
 # (:n2, :n3, ...), so the dependency graph is a DAG, not a cycle, even
 # though every rule shares the :fib predicate name.
 #
-# Adapted: fibonacci.pl asks fib(100, ?value), exact because Prolog uses
 # arbitrary-precision integers throughout. SRL's arithmetic is IEEE double
 # precision, which can only represent integers exactly up to 2^53; fib(79)
 # already exceeds that. This stops at :n78 (fib(78) = 8944394323791464),

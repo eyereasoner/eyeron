@@ -1,12 +1,10 @@
-//! Eyeron core Notation3 reasoner.
+//! Eyeron Notation3 and SPARQL 1.2 RL reasoner.
 //!
-//! This crate intentionally keeps the public API small: parse one or more N3
-//! sources, run forward-chaining rules, and render newly-derived triples.
+//! The crate exposes parsers, reasoners, and proof support for both formats.
 
 pub mod ast;
 pub mod error;
 pub mod n3;
-pub mod prolog;
 pub mod proof;
 pub mod srl;
 pub mod sudoku;

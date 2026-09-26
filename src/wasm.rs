@@ -213,29 +213,6 @@ fn format_sparql_rl_solutions(prefixes: &std::collections::BTreeMap<String, Stri
     out
 }
 
-/// Run a Prolog (`.pl`) program and return its result document
-/// output — or a JSON rendering when `json` is set. `query`, when
-/// non-blank, is appended as an extra `?-` directive before running
-/// (matching the `--query` CLI flag).
-#[wasm_bindgen(js_name = reasonProlog)]
-pub fn reason_prolog(input: &str, proof: bool, json: bool, query: &str) -> std::result::Result<String, JsValue> {
-    run_prolog(input, proof, json, query).map_err(|err| JsValue::from_str(&err))
-}
-
-fn run_prolog(input: &str, proof: bool, json: bool, query: &str) -> std::result::Result<String, String> {
-    let mut source = input.to_string();
-    let trimmed_query = query.trim();
-    if !trimmed_query.is_empty() {
-        source.push_str(&format!("\n?- {}.\n", trimmed_query.trim_end_matches('.')));
-    }
-    let result = crate::prolog::run(&source, crate::prolog::Limits::default()).map_err(|err| err.with_source_location(&source, "program"))?;
-    if json {
-        Ok(crate::prolog::output::run_result_json(&result))
-    } else {
-        Ok(crate::prolog::output::format_result(&result, proof))
-    }
-}
-
 struct SessionRun {
     output: String,
     result: ReasonerResult,

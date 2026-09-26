@@ -3,8 +3,7 @@
 //! The four validity conditions are checked *here*, once, over an abstract
 //! view of a proof document (`Document`). Each front end supplies a reader
 //! that presents its own syntax through that view and re-performs its own
-//! inferences. So there is one checker and three readers, not three
-//! checkers.
+//! inferences. So there is one checker with two readers, one for each syntax.
 //!
 //! Nothing in this module reasons. It never searches for a derivation, only
 //! re-performs the ones the document recorded — which is what keeps a
@@ -12,7 +11,6 @@
 
 pub mod n3;
 pub mod srl;
-pub mod prolog;
 
 use std::collections::BTreeMap;
 
