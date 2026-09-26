@@ -1235,8 +1235,12 @@ impl Parser {
     fn check(&self, expected: &TokenKind) -> bool { same_variant(self.peek_kind(), expected) }
 
     fn advance(&mut self) -> &Token {
-        if self.pos < self.tokens.len().saturating_sub(1) { self.pos += 1; }
-        &self.tokens[self.pos - 1]
+        // At Eof the cursor stays put and the Eof token itself is returned
+        // (returning `tokens[pos - 1]` re-read the last real token forever,
+        // so a truncated `[` or `<<` recursed until the stack overflowed).
+        let at = self.pos;
+        if at < self.tokens.len().saturating_sub(1) { self.pos += 1; }
+        &self.tokens[at]
     }
 
     fn peek(&self) -> &Token { &self.tokens[self.pos] }

@@ -984,3 +984,173 @@ fn log_uuid_maps_a_skolem_to_a_stable_uuid_string() {
         assert!(u.chars().all(|c| c == '-' || c.is_ascii_hexdigit()), "{u}");
     }
 }
+
+// --- Regression tests for the parser EOF fix and the join-ordering and regex
+// optimizations. The expected outputs below are what the unoptimized matcher
+// produced (observed on upstream dd2e4df), so a faster join order must not
+// change them. ---
+
+fn parse_on_small_stack(source: &'static str) -> bool {
+    // A 1 MiB stack turns unbounded recursion into a quick abort instead of a
+    // long wait, and matches what an embedding thread or a wasm module gets.
+    std::thread::Builder::new()
+        .stack_size(1024 * 1024)
+        .spawn(move || parse_n3(source, None).is_err())
+        .unwrap()
+        .join()
+        .expect("parsing must not overflow the stack")
+}
+
+#[test]
+fn input_truncated_inside_a_bracket_is_a_parse_error_not_a_stack_overflow() {
+    // Before the fix, `advance()` re-returned the last real token at EOF, so
+    // `parse_term` saw the same `[` (or `<<`) again forever and the process
+    // aborted with a stack overflow that `catch_unwind` cannot stop.
+    for source in [
+        "[",
+        "<<",
+        "[[",
+        "@prefix : <http://e/> . :a :b [",
+        "@prefix : <http://e/> . :a :b :c . [",
+        "@prefix : <http://e/> . :a :b [ :p",
+        "@prefix : <http://e/> . :a :b << :c :d",
+        "{",
+        "(",
+        "@prefix",
+    ] {
+        assert!(parse_on_small_stack(source), "{source:?} must be rejected as incomplete");
+    }
+}
+
+#[test]
+fn complete_documents_still_parse_after_the_eof_fix() {
+    for source in [
+        "",
+        "@prefix : <http://e/> . :a :b :c .",
+        "@prefix : <http://e/> . :a :b [ :p :q ] .",
+        "@prefix : <http://e/> . :a :b ( 1 2 ) .",
+        "@prefix : <http://e/> . { :a :b :c } => { :d :e :f } .",
+    ] {
+        assert!(parse_n3(source, None).is_ok(), "{source:?} must still parse");
+    }
+}
+
+#[test]
+fn collect_all_in_returns_solutions_in_source_order_of_the_first_premise() {
+    // The list `log:collectAllIn` returns is a term value: reordering the
+    // join changes what a rule reading it derives. `?z :q ?z` has fewer real
+    // matches than its index bucket, which is what a bucket-size estimate must
+    // not be trusted for.
+    let source = r#"
+        @prefix : <http://e/> .
+        @prefix log: <http://www.w3.org/2000/10/swap/log#> .
+        :e :q :e .
+        :f :q :f .
+        :d :q [ :k 1 ] .
+        :b :s :c .
+        :b :s :e .
+        :b :t :f .
+        :go :go :go .
+        { :go :go :go .
+          ( (?y ?z) { ?z :q ?z . ?x :s ?y . ?x :t :f } ?L ) log:collectAllIn _:g
+        } => { :result :is ?L } .
+    "#;
+    let output = reason(source).unwrap();
+    assert!(output.contains(":result :is ((:c :e) (:e :e) (:c :f) (:e :f))"), "{output}");
+}
+
+#[test]
+fn a_rule_reading_a_collected_list_sees_the_same_element_as_before() {
+    let source = r#"
+        @prefix : <http://e/> .
+        @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+        @prefix log: <http://www.w3.org/2000/10/swap/log#> .
+        :e :q :e . :f :q :f . :d :q [ :k 1 ] .
+        :b :s :c . :b :s :e . :b :t :f .
+        :go :go :go .
+        { :go :go :go .
+          ( (?y ?z) { ?z :q ?z . ?x :s ?y . ?x :t :f } ?L ) log:collectAllIn _:g .
+          ?L rdf:rest ?R . ?R rdf:first ?Second
+        } => { :second :is ?Second } .
+    "#;
+    let output = reason(source).unwrap();
+    assert!(output.contains(":second :is (:e :e)"), "{output}");
+}
+
+#[test]
+fn a_join_with_a_repeated_variable_derives_facts_in_the_unoptimized_order() {
+    let source = r#"
+        @prefix : <http://e/> .
+        @prefix list: <http://www.w3.org/2000/10/swap/list#> .
+        :e :q :e . :f :q :f . :b :s :c . :b :s :e . :d :q [ :k 1 ] . :b :t :f .
+        { ?z :q ?z . (1 2 ?y) list:member ?y . ?x :s ?y . ?x :t :f }
+          => { :r3 :out [ :vals (?x ?y ?z) ] } .
+    "#;
+    let output = reason(source).unwrap();
+    let positions: Vec<usize> = ["(:b :c :e)", "(:b :e :e)", "(:b :c :f)", "(:b :e :f)"]
+        .iter()
+        .map(|vals| output.find(vals).unwrap_or_else(|| panic!("missing {vals}\n{output}")))
+        .collect();
+    assert!(positions.windows(2).all(|w| w[0] < w[1]), "solutions out of order:\n{output}");
+}
+
+#[test]
+fn a_skewed_three_premise_join_is_not_quadratic() {
+    // `?x :a ?y . ?y :b ?z . ?z :c ?w` over N chains. Materialising every
+    // premise's whole bucket at every level made this quadratic: 25 s at
+    // N = 4000 in a release build, minutes in a debug build. With cheapest-first
+    // ordering it takes a fraction of a second. The bound is far above the
+    // fast time and far below the slow one so it holds on a slow CI machine.
+    let n = 3000;
+    let mut source = String::from("@prefix : <http://e/> .\n");
+    for i in 0..n {
+        source.push_str(&format!(":x{i} :a :y{i} . :y{i} :b :z{i} . :z{i} :c :w{i} .\n"));
+    }
+    source.push_str("{ ?x :a ?y . ?y :b ?z . ?z :c ?w } => { ?x :d ?w } .\n");
+    let started = std::time::Instant::now();
+    let output = reason(&source).unwrap();
+    let elapsed = started.elapsed();
+    assert_eq!(output.matches(" :d ").count(), n);
+    assert!(elapsed.as_secs() < 30, "join took {elapsed:?}: candidate materialisation is quadratic again");
+}
+
+#[test]
+fn repeated_datetime_and_duration_comparisons_agree_with_a_single_one() {
+    // The date and duration patterns are compiled once; many comparisons must
+    // still give the same answers as one.
+    let mut source = String::from(
+        "@prefix : <http://e/> .\n@prefix math: <http://www.w3.org/2000/10/swap/math#> .\n\
+         @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n",
+    );
+    for day in 1..=28 {
+        source.push_str(&format!(
+            ":d{day} :at \"2024-02-{day:02}T00:00:00Z\"^^xsd:dateTime . :d{day} :len \"P{day}D\"^^xsd:duration .\n"
+        ));
+    }
+    source.push_str(
+        "{ ?x :at ?t . ?t math:lessThan \"2024-02-15T00:00:00Z\"^^xsd:dateTime } => { ?x :early true } .\n\
+         { ?x :len ?d . ?d math:greaterThan \"P20D\"^^xsd:duration } => { ?x :long true } .\n",
+    );
+    let output = reason(&source).unwrap();
+    assert_eq!(output.matches(":early true").count(), 14, "{output}");
+    assert_eq!(output.matches(":long true").count(), 8, "{output}");
+}
+
+#[test]
+fn string_regex_builtins_give_the_same_answers_when_a_pattern_repeats() {
+    let source = r#"
+        @prefix : <http://e/> .
+        @prefix string: <http://www.w3.org/2000/10/swap/string#> .
+        :a :s "hello" . :b :s "help" . :c :s "hello" .
+        { ?x :s ?v . ?v string:matches "^hel+o$" } => { ?x :ok true } .
+        { ?x :s ?v . ?v string:notMatches "^hel+o$" } => { ?x :no true } .
+        { ?x :s ?v . ( ?v "l+" "L" ) string:replace ?r } => { ?x :replaced ?r } .
+        { ?x :s ?v . ( ?v "^h(.)" ) string:scrape ?g } => { ?x :second ?g } .
+    "#;
+    let output = reason(source).unwrap();
+    assert_eq!(output.matches(":ok true").count(), 2, "{output}");
+    assert_eq!(output.matches(":no true").count(), 1, "{output}");
+    assert!(output.contains(":a :replaced \"heLo\""), "{output}");
+    assert!(output.contains(":b :replaced \"heLp\""), "{output}");
+    assert!(output.contains(":c :second \"e\""), "{output}");
+}
