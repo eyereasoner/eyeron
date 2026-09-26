@@ -876,3 +876,111 @@ fn sift_repro_keeps_runnable_backward_goals_in_source_order() {
         "the runnable :remove backward premise must run before the later () :sift () fact:\n{output}",
     );
 }
+
+// --- ds-labs-org enforcer gaps (TDD): found running SolidLab's ODRL-Evaluator
+// rule set on eyeron; each test is the minimal reproduction. ---
+
+#[test]
+fn math_comparisons_order_xsd_datetime_and_date() {
+    let source = r#"
+        @prefix : <http://example.org/>.
+        @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+        @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+        { "2024-02-12T11:20:10.999Z"^^xsd:dateTime math:greaterThan "2020-01-01T00:00:00Z"^^xsd:dateTime } => { :a :gt true }.
+        { "2024-02-12T11:20:10.999Z"^^xsd:dateTime math:lessThan "2030-01-01T00:00:00Z"^^xsd:dateTime } => { :a :lt true }.
+        { "2024-02-12T11:20:10.999Z"^^xsd:dateTime math:notEqualTo "2020-01-01T00:00:00Z"^^xsd:dateTime } => { :a :neq true }.
+        { "2024-02-12T11:20:10.999Z"^^xsd:dateTime math:equalTo "2024-02-12T11:20:10.999Z"^^xsd:dateTime } => { :a :eq true }.
+        { "2024-02-12T11:20:10.999Z"^^xsd:dateTime math:notGreaterThan "2024-02-12T11:20:10.999Z"^^xsd:dateTime } => { :a :ngt true }.
+        { "2024-02-12T11:20:10.999Z"^^xsd:dateTime math:notLessThan "2024-02-12T11:20:10.999Z"^^xsd:dateTime } => { :a :nlt true }.
+        { "2024-02-12"^^xsd:date math:lessThan "2030-01-01"^^xsd:date } => { :a :dateLt true }.
+        # a UTC offset is the same instant as its Z form
+        { "2024-02-12T12:20:10+01:00"^^xsd:dateTime math:equalTo "2024-02-12T11:20:10Z"^^xsd:dateTime } => { :a :offsetEq true }.
+
+        # and the negative direction must not fire
+        { "2024-02-12T11:20:10Z"^^xsd:dateTime math:greaterThan "2030-01-01T00:00:00Z"^^xsd:dateTime } => { :a :wrongGt true }.
+        { "2024-02-12T11:20:10Z"^^xsd:dateTime math:equalTo "2024-02-12T11:20:11Z"^^xsd:dateTime } => { :a :wrongEq true }.
+    "#;
+    let output = reason(source).unwrap();
+    for expected in ["gt", "lt", "neq", "eq", "ngt", "nlt", "dateLt", "offsetEq"] {
+        assert!(output.contains(&format!(":a :{expected} true")), "missing :{expected}\n{output}");
+    }
+    for wrong in ["wrongGt", "wrongEq"] {
+        assert!(!output.contains(wrong), "spurious :{wrong}\n{output}");
+    }
+}
+
+#[test]
+fn datetime_and_date_are_not_mutually_comparable_with_other_types() {
+    // A dateTime against a plain string or a number is not an ordering.
+    let source = r#"
+        @prefix : <http://example.org/>.
+        @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+        @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+        { "2024-02-12T11:20:10Z"^^xsd:dateTime math:lessThan "2030-01-01T00:00:00Z" } => { :a :mixedStr true }.
+        { "2024-02-12T11:20:10Z"^^xsd:dateTime math:lessThan 5 } => { :a :mixedNum true }.
+    "#;
+    let output = reason(source).unwrap();
+    assert!(!output.contains("mixed"), "{output}");
+}
+
+#[test]
+fn collect_all_in_with_blank_node_template_returns_exactly_one_list() {
+    // Two matches, one aggregate: there must be exactly one `:count 2`, never
+    // also `:count 1` (a stale singleton alternative made ODRL rules both
+    // Active and Inactive).
+    let source = r#"
+        @prefix : <http://example.org/>.
+        @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+        @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+        :r :p :a . :r :p :b . :a :s :yes .
+
+        { ( ?t { :r :p _:s } ?L ) log:collectAllIn ?S . ?L list:length ?n } => { :r :count ?n }.
+        { ( ?x { :r :p ?x . ?x :s :yes } ?L ) log:collectAllIn ?S . ?L list:length ?n } => { :r :sat ?n }.
+    "#;
+    let output = reason(source).unwrap();
+    assert!(output.contains(":r :count 2"), "{output}");
+    assert!(!output.contains(":r :count 1"), "{output}");
+    assert!(output.contains(":r :sat 1"), "{output}");
+}
+
+#[test]
+fn collect_all_in_three_scalars_under_blank_template_is_one_list() {
+    let source = r#"
+        @prefix : <http://example.org/>.
+        @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+        @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+        :r :p :a . :r :p :b . :r :p :c .
+        { ( ?t { :r :p _:s } ?L ) log:collectAllIn ?S . ?L list:length ?n } => { :r :count ?n }.
+    "#;
+    let output = reason(source).unwrap();
+    assert!(output.contains(":r :count 3"), "{output}");
+    assert!(!output.contains(":r :count 1"), "{output}");
+    assert!(!output.contains(":r :count 2"), "{output}");
+}
+
+#[test]
+fn log_uuid_maps_a_skolem_to_a_stable_uuid_string() {
+    let source = r#"
+        @prefix : <http://example.org/>.
+        @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+        { ("a") log:skolem ?s1 . ?s1 log:uuid ?u1 } => { :a :id ?u1 }.
+        { ("b") log:skolem ?s2 . ?s2 log:uuid ?u2 } => { :b :id ?u2 }.
+    "#;
+    let first = reason(source).unwrap();
+    let second = reason(source).unwrap();
+    assert_eq!(first, second, "log:uuid must be deterministic for the same skolem");
+
+    let uuid_of = |subject: &str| -> String {
+        let line = first.lines().find(|l| l.contains(&format!(":{subject} :id"))).unwrap_or_else(|| panic!("no :{subject} :id in\n{first}"));
+        line.split('"').nth(1).unwrap_or_else(|| panic!("no string literal in {line}")).to_string()
+    };
+    let (a, b) = (uuid_of("a"), uuid_of("b"));
+    assert_ne!(a, b, "different skolems, different uuids");
+    for u in [&a, &b] {
+        let parts: Vec<usize> = u.split('-').map(str::len).collect();
+        assert_eq!(parts, [8, 4, 4, 4, 12], "{u}");
+        assert!(u.chars().all(|c| c == '-' || c.is_ascii_hexdigit()), "{u}");
+    }
+}
