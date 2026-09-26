@@ -236,7 +236,7 @@ impl Runner {
             return Ok(cached.clone());
         }
         let text = if is_url(resource) {
-            ureq::get(resource).call().map_err(|err| format!("failed to fetch {resource}: {err}"))?.into_string().map_err(|err| format!("failed to read response from {resource}: {err}"))?
+            ureq::get(resource).call().map_err(|err| format!("failed to fetch {resource}: {err}"))?.into_body().read_to_string().map_err(|err| format!("failed to read response from {resource}: {err}"))?
         } else {
             fs::read_to_string(resource).map_err(|err| format!("failed to read {resource}: {err}"))?
         };

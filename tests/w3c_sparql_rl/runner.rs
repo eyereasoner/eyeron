@@ -427,7 +427,7 @@ fn is_url(value: &str) -> bool {
 }
 
 fn fetch_url(resource: &str) -> Result<String, String> {
-    ureq::get(resource).call().map_err(|err| err.to_string())?.into_string().map_err(|err| err.to_string())
+    ureq::get(resource).call().map_err(|err| err.to_string())?.into_body().read_to_string().map_err(|err| err.to_string())
 }
 
 fn github_raw_fallback(resource: &str) -> Option<String> {

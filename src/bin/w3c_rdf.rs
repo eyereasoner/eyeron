@@ -1164,7 +1164,8 @@ fn fetch_url(resource: &str) -> Result<String, String> {
     ureq::get(resource)
         .call()
         .map_err(|err| err.to_string())?
-        .into_string()
+        .into_body()
+        .read_to_string()
         .map_err(|err| err.to_string())
 }
 
