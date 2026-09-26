@@ -13,6 +13,7 @@ use std::env;
 use std::fs;
 use std::io::{self, BufRead, BufReader, Read, Write};
 use std::path::Path;
+use ureq::ResponseExt;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
@@ -182,9 +183,9 @@ fn run_stream_messages(opt: &CliOptions) -> Result<()> {
             let response = ureq::get(&source)
                 .call()
                 .map_err(|err| EyeronError::new(format!("failed to fetch {source}: {err}")))?;
-            let final_url = response.get_url().to_string();
+            let final_url = response.get_uri().to_string();
             stream_message_reader(
-                BufReader::new(response.into_reader()),
+                BufReader::new(response.into_body().into_reader()),
                 &final_url,
                 base.as_deref(),
                 &program,
@@ -358,7 +359,8 @@ fn run_sparql_rl(opt: &CliOptions, sources: &[(String, String)]) -> Result<()> {
                 .call()
                 .map_err(|err| EyeronError::new(format!("failed to fetch {data_file}: {err}")))?;
             response
-                .into_string()
+                .into_body()
+                .read_to_string()
                 .map_err(|err| EyeronError::new(format!("failed to read response from {data_file}: {err}")))?
         } else {
             fs::read_to_string(data_file)?
@@ -428,7 +430,7 @@ fn read_text_source(source: &str) -> Result<String> {
         Ok(s)
     } else if is_http_url(source) {
         let response = ureq::get(source).call().map_err(|err| EyeronError::new(format!("failed to fetch {source}: {err}")))?;
-        response.into_string().map_err(|err| EyeronError::new(format!("failed to read response from {source}: {err}")))
+        response.into_body().read_to_string().map_err(|err| EyeronError::new(format!("failed to read response from {source}: {err}")))
     } else {
         Ok(fs::read_to_string(source)?)
     }
@@ -667,8 +669,8 @@ fn read_sources(files: &[String]) -> Result<Vec<(String, String)>> {
             let response = ureq::get(f)
                 .call()
                 .map_err(|err| EyeronError::new(format!("failed to fetch {f}: {err}")))?;
-            let final_url = response.get_url().to_string();
-            let text = response.into_string().map_err(|err| {
+            let final_url = response.get_uri().to_string();
+            let text = response.into_body().read_to_string().map_err(|err| {
                 EyeronError::new(format!("failed to read response from {f}: {err}"))
             })?;
             out.push((final_url, text));
@@ -709,7 +711,8 @@ fn resolve_sparql_rl_imports(program: &mut SparqlRlProgram, proof: bool) -> Resu
                 .call()
                 .map_err(|err| EyeronError::new(format!("failed to fetch imported rule set {target}: {err}")))?;
             response
-                .into_string()
+                .into_body()
+                .read_to_string()
                 .map_err(|err| EyeronError::new(format!("failed to read imported rule set {target}: {err}")))?
         } else {
             let path = file_iri_to_path(&target)
