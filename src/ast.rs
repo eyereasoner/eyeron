@@ -32,6 +32,7 @@ pub const LOG_SEMANTICS: &str = "http://www.w3.org/2000/10/swap/log#semantics";
 pub const LOG_SEMANTICS_OR_ERROR: &str = "http://www.w3.org/2000/10/swap/log#semanticsOrError";
 pub const LOG_PARSED_AS_N3: &str = "http://www.w3.org/2000/10/swap/log#parsedAsN3";
 pub const LOG_SKOLEM: &str = "http://www.w3.org/2000/10/swap/log#skolem";
+pub const LOG_UUID: &str = "http://www.w3.org/2000/10/swap/log#uuid";
 pub const DT_DATATYPE: &str = "https://eyereasoner.github.io/eyeron/datatype#datatype";
 pub const DT_LEXICAL_FORM: &str = "https://eyereasoner.github.io/eyeron/datatype#lexicalForm";
 pub const EYELING_DT_DATATYPE: &str = "https://eyereasoner.github.io/eyeling/datatype#datatype";
