@@ -11,14 +11,14 @@ export class EyeronSession {
     [Symbol.dispose](): void;
     constructor(program: string, proof: boolean);
     /**
-     * Reason over a single independent data batch.
-     */
-    reason(data: string, rdf: boolean, rdf_format: string): string;
-    /**
      * Like `reason`, but returns the same structured JSON error envelope as
      * `reasonWithDataReport`, plus per-run reasoner statistics.
      */
     reasonReport(data: string, rdf: boolean, rdf_format: string): string;
+    /**
+     * Reason over a single independent data batch.
+     */
+    reason(data: string, rdf: boolean, rdf_format: string): string;
     readonly programFacts: number;
     readonly programRules: number;
 }
