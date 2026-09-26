@@ -1108,7 +1108,7 @@ fn is_builtin_iri(iri: &str) -> bool {
         LOG_EQUAL_TO | LOG_NOT_EQUAL_TO | LOG_COLLECT_ALL_IN | LOG_FOR_ALL_IN
         | LOG_CONCLUSION | LOG_CONJUNCTION | LOG_INCLUDES | LOG_NOT_INCLUDES | LOG_URI
         | LOG_RAW_TYPE | LOG_DTLIT | LOG_LANGLIT | LOG_CONTENT | LOG_SEMANTICS
-        | LOG_SEMANTICS_OR_ERROR | LOG_PARSED_AS_N3 | LOG_SKOLEM | CRYPTO_SHA
+        | LOG_SEMANTICS_OR_ERROR | LOG_PARSED_AS_N3 | LOG_SKOLEM | LOG_UUID | CRYPTO_SHA
         | DT_DATATYPE | DT_LEXICAL_FORM | EYELING_DT_DATATYPE | EYELING_DT_LEXICAL_FORM
         | RDF_FIRST | RDF_REST | LIST_FIRST | LIST_REST
         | LIST_APPEND | LIST_ITERATE | LIST_MAP | LIST_FIRST_REST | LIST_REVERSE
@@ -1124,7 +1124,7 @@ fn is_agenda_safe_builtin_iri(iri: &str) -> bool {
     // containing them can still be driven by its ordinary fact premises.
     matches!(iri,
         LOG_EQUAL_TO | LOG_NOT_EQUAL_TO | LOG_URI | LOG_RAW_TYPE | LOG_DTLIT
-        | LOG_LANGLIT | LOG_CONTENT | LOG_SKOLEM | CRYPTO_SHA
+        | LOG_LANGLIT | LOG_CONTENT | LOG_SKOLEM | LOG_UUID | CRYPTO_SHA
         | DT_DATATYPE | DT_LEXICAL_FORM | EYELING_DT_DATATYPE | EYELING_DT_LEXICAL_FORM
         | MATH_SUM | MATH_DIFFERENCE | SUDOKU_SOLVE
     ) || is_math_operator(iri) || is_math_comparison(iri)
@@ -2544,6 +2544,7 @@ fn eval_builtin(
         Term::Iri(ref iri) if iri == LOG_SEMANTICS_OR_ERROR => Some(eval_log_semantics_or_error(&premise.s, &premise.o, bindings)),
         Term::Iri(ref iri) if iri == LOG_PARSED_AS_N3 => Some(eval_log_parsed_as_n3(&premise.s, &premise.o, bindings)),
         Term::Iri(ref iri) if iri == LOG_SKOLEM => Some(eval_log_skolem(&premise.s, &premise.o, bindings)),
+        Term::Iri(ref iri) if iri == LOG_UUID => Some(eval_log_uuid(&premise.s, &premise.o, bindings)),
         Term::Iri(ref iri) if matches!(iri.as_str(), DT_DATATYPE | EYELING_DT_DATATYPE) => {
             Some(eval_datatype_inspection(&premise.s, &premise.o, bindings, true))
         }
@@ -3234,6 +3235,30 @@ fn eval_log_skolem(subject: &Term, object: &Term, bindings: &Bindings) -> Vec<Bi
     let skolem = Term::Iri(format!("https://eyereasoner.github.io/.well-known/genid/{}", stable_term_hash(&s)));
     let mut b = bindings.clone();
     if unify_term(object, &skolem, &mut b) { vec![canonicalize_bindings(&b)] } else { Vec::new() }
+}
+
+/// `?x log:uuid ?u`: a deterministic name-based (RFC 4122 version 5, SHA-1)
+/// UUID string for a bound IRI, blank node or literal. Deterministic on
+/// purpose: the same skolem always names the same report node, so two runs
+/// (or two reasoners) agree on identifiers.
+fn eval_log_uuid(subject: &Term, object: &Term, bindings: &Bindings) -> Vec<Bindings> {
+    let s = resolve(subject, bindings);
+    let name = match &s {
+        Term::Var(_) => return Vec::new(),
+        Term::Iri(iri) => iri.clone(),
+        Term::Literal(lit) => lit.value.clone(),
+        other => format!("{:?}", other),
+    };
+    let hex = sha1_hex(name.as_bytes());
+    let mut bytes = [0u8; 16];
+    for (i, byte) in bytes.iter_mut().enumerate() {
+        *byte = u8::from_str_radix(&hex[2 * i..2 * i + 2], 16).unwrap_or(0);
+    }
+    bytes[6] = (bytes[6] & 0x0f) | 0x50;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    let h: String = bytes.iter().map(|b| format!("{b:02x}")).collect();
+    let uuid = format!("{}-{}-{}-{}-{}", &h[0..8], &h[8..12], &h[12..16], &h[16..20], &h[20..32]);
+    bind_string_result(object, uuid, bindings)
 }
 
 fn stable_term_hash(term: &Term) -> String {
