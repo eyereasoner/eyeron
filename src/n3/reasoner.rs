@@ -309,6 +309,30 @@ impl FactIndex {
         }
     }
 
+    /// Size of the index bucket `candidates(..)` would scan, without
+    /// materialising it, plus whether every fact in that bucket is certain to
+    /// match (so the bucket size is the exact candidate count). `None` when the
+    /// lookup shape is not a plain bucket (unbound predicate, open list subject).
+    pub(crate) fn estimate(&self, pattern: &Triple, bindings: &Bindings) -> Option<(usize, bool)> {
+        let s = resolve_pattern(&pattern.s, bindings);
+        let p = resolve_pattern(&pattern.p, bindings);
+        let o = resolve_pattern(&pattern.o, bindings);
+        let (sg, pg, og) = (s.is_ground(), p.is_ground(), o.is_ground());
+        if !pg { return None; }
+        if !sg && matches!(s, Term::List(_)) { return None; }
+        // A bucket entry always matches when each open position is a plain
+        // variable that occurs nowhere else in the pattern.
+        let plain = |t: &Term| matches!(t, Term::Var(_));
+        let len = |v: Option<&Vec<usize>>| v.map_or(0, |v| v.len());
+        if sg && og {
+            let a = self.by_sp.get(&(s, p.clone())).map_or(0, |v| v.len());
+            let b = self.by_po.get(&(p, o)).map_or(0, |v| v.len());
+            Some((a.min(b), a.min(b) == 0))
+        } else if og { Some((len(self.by_po.get(&(p, o))), plain(&s))) }
+        else if sg { Some((len(self.by_sp.get(&(s, p))), plain(&o))) }
+        else { Some((len(self.by_p.get(&p)), plain(&s) && plain(&o) && s != o)) }
+    }
+
     fn deep_list_subject_candidates(&self, facts: &[Triple], predicate: &Term, subject: &Term) -> Option<Vec<usize>> {
         let Term::List(pattern_items) = subject else { return None; };
         if pattern_items.is_empty() { return None; }
@@ -626,6 +650,7 @@ fn reason_with_plan(
     mut active_rules: Vec<Rule>,
     mut agenda_index: AgendaIndex,
 ) -> ReasonerResult {
+    let _clear_regex_cache = ClearRegexCacheOnDrop;
     let mut closure = Vec::<Triple>::new();
     let mut fact_index = FactIndex::default();
     let mut seen = HashSet::<Triple>::new();
@@ -1240,7 +1265,7 @@ fn match_premise_remaining(
 ) {
     if !budget.tick() { return; }
     if premises.is_empty() {
-        out.push(canonicalize_bindings(&bindings));
+        out.push(canonicalize_owned(bindings));
         return;
     }
 
@@ -1287,8 +1312,21 @@ fn match_premise_remaining(
     // input substitution unchanged; those are legal, but selecting them before
     // a neighbouring list:iterate/fact goal can lose the chance to bind the
     // variables needed by later tests.
+    // Visit ordinary indexed fact premises cheapest-bucket-first (builtins keep
+    // their slots), so the estimate-based skip below prunes the big buckets.
+    let visit_order: Vec<usize> = {
+        let mut order: Vec<usize> = (0..premises.len()).collect();
+        if let Some(index) = fact_index {
+            let slots: Vec<usize> = order.iter().copied().filter(|&i| !is_builtin_premise(&premises[i]) && !may_match_rule_fact(&premises[i], &bindings)).collect();
+            let mut keyed: Vec<(usize, usize)> = slots.iter().map(|&i| (index.estimate(&premises[i], &bindings).map_or(usize::MAX, |e| e.0), i)).collect();
+            keyed.sort_by_key(|k| k.0);
+            for (slot, (_, i)) in slots.iter().zip(keyed) { order[*slot] = i; }
+        }
+        order
+    };
     for broad_scan_pass in [false, true] {
-        for (idx, premise) in premises.iter().enumerate() {
+        for idx in visit_order.iter().copied() {
+            let premise = &premises[idx];
             if premise_is_speculative_builtin(premise, &bindings)
                 || aggregate_waits_for_sibling_binding(premise, &premises, idx, &bindings)
             {
@@ -1299,6 +1337,17 @@ fn match_premise_remaining(
                 continue;
             }
 
+            // Skip materialising a premise only when its exact candidate count
+            // cannot beat the current choice under the (count, source index)
+            // order the unoptimised matcher uses, so the selected premise, and
+            // with it the solution order, is unchanged.
+            if let (Some(index), Some(best)) = (fact_index, best_index) {
+                if !is_builtin_premise(premise) && !may_match_rule_fact(premise, &bindings) {
+                    if let Some((est, exact)) = index.estimate(premise, &bindings) {
+                        if exact && (est, idx) > (best_candidates.len(), best) { continue; }
+                    }
+                }
+            }
             let candidates = match_one_premise(
                 premise,
                 facts,
@@ -1312,12 +1361,14 @@ fn match_premise_remaining(
             );
             if candidates.is_empty() { continue; }
             let progresses = candidates.iter().any(|b| bindings_progress(&bindings, b));
+            // Visit order is by estimate, so break count ties by source index
+            // to pick the same premise a source-order scan would.
             if progresses {
-                if best_index.is_none() || candidates.len() < best_candidates.len() {
+                if best_index.map_or(true, |b| (candidates.len(), idx) < (best_candidates.len(), b)) {
                     best_index = Some(idx);
                     best_candidates = candidates;
                 }
-            } else if fallback_index.is_none() || candidates.len() < fallback_candidates.len() {
+            } else if fallback_index.map_or(true, |f| (candidates.len(), idx) < (fallback_candidates.len(), f)) {
                 fallback_index = Some(idx);
                 fallback_candidates = candidates;
             }
@@ -1695,7 +1746,7 @@ fn match_one_premise(
     for fact in candidates {
         let mut b = bindings.clone();
         if match_triple(premise, fact, &mut b) {
-            out.push(canonicalize_bindings(&b));
+            out.push(canonicalize_owned(b));
         }
     }
 
@@ -1919,7 +1970,7 @@ fn match_backward_premises_ordered(
 ) {
     if !budget.tick() { return; }
     if remaining.is_empty() {
-        out.push(canonicalize_bindings(&bindings));
+        out.push(canonicalize_owned(bindings));
         return;
     }
 
@@ -4088,6 +4139,48 @@ fn eval_math_sum(left: &Term, right: &Term, bindings: &Bindings, facts: &[Triple
     }
 }
 
+/// Most compiled patterns kept per thread. A compiled `Regex` may hold up to
+/// the regex crate's default size limit (10 MiB), so the worst case is bounded
+/// at `REGEX_CACHE_CAPACITY` times that, not at the number of distinct patterns
+/// a hostile document can name.
+const REGEX_CACHE_CAPACITY: usize = 16;
+
+thread_local! {
+    static REGEX_CACHE: std::cell::RefCell<HashMap<String, Option<Regex>>> =
+        std::cell::RefCell::new(HashMap::new());
+}
+
+/// Compiles `pattern` once per reasoning run and reuses it (`Regex` clones are
+/// cheap `Arc` bumps). A rule body evaluates the same literal pattern once per
+/// candidate fact; recompiling each time cost ~65 ms per call for a large
+/// pattern. The cache is emptied when the run ends (see
+/// `ClearRegexCacheOnDrop`), so a long-lived thread that reasons repeatedly does
+/// not retain compiled patterns between calls.
+fn cached_regex(pattern: &str) -> Option<Regex> {
+    REGEX_CACHE.with(|cache| {
+        let mut cache = cache.borrow_mut();
+        if let Some(hit) = cache.get(pattern) {
+            return hit.clone();
+        }
+        if cache.len() >= REGEX_CACHE_CAPACITY {
+            cache.clear();
+        }
+        let compiled = Regex::new(pattern).ok();
+        cache.insert(pattern.to_string(), compiled.clone());
+        compiled
+    })
+}
+
+/// Empties this thread's regex cache when a reasoning run returns, on every
+/// exit path.
+struct ClearRegexCacheOnDrop;
+
+impl Drop for ClearRegexCacheOnDrop {
+    fn drop(&mut self) {
+        REGEX_CACHE.with(|cache| cache.borrow_mut().clear());
+    }
+}
+
 fn is_string_builtin(iri: &str) -> bool {
     matches!(iri,
         STRING_LESS_THAN | STRING_GREATER_THAN | STRING_NOT_LESS_THAN | STRING_NOT_GREATER_THAN
@@ -4158,7 +4251,7 @@ fn eval_string_builtin(
         STRING_MATCHES | STRING_NOT_MATCHES => {
             let Some(text) = string_value(&resolve(left, bindings)) else { return Vec::new(); };
             let Some(pattern) = string_value(&resolve(right, bindings)) else { return Vec::new(); };
-            let matched = match Regex::new(&pattern) {
+            let matched = match cached_regex(&pattern).ok_or(()) {
                 Ok(regex) => regex.is_match(&text),
                 // The notation3tests corpus contains a few XPath/JavaScript
                 // regex forms (notably look-around) that Rust's regex crate
@@ -4176,7 +4269,7 @@ fn eval_string_builtin(
             let Some(text) = string_value(&resolve(&items[0], bindings)) else { return Vec::new(); };
             let Some(from) = string_value(&resolve(&items[1], bindings)) else { return Vec::new(); };
             let Some(to) = string_value(&resolve(&items[2], bindings)) else { return Vec::new(); };
-            let replaced = match Regex::new(&from) {
+            let replaced = match cached_regex(&from).ok_or(()) {
                 Ok(regex) => {
                     let replacement = regex_replacement_for_rust(&to);
                     regex.replace_all(&text, replacement.as_str()).into_owned()
@@ -4190,7 +4283,7 @@ fn eval_string_builtin(
             if items.len() != 2 { return Vec::new(); }
             let Some(text) = string_value(&resolve(&items[0], bindings)) else { return Vec::new(); };
             let Some(pattern) = string_value(&resolve(&items[1], bindings)) else { return Vec::new(); };
-            let scraped = match Regex::new(&pattern) {
+            let scraped = match cached_regex(&pattern).ok_or(()) {
                 Ok(regex) => {
                     let Some(captures) = regex.captures(&text) else { return Vec::new(); };
                     (1..captures.len())
@@ -4547,7 +4640,11 @@ fn comparable_number(term: &Term) -> Option<Numeric> {
 fn duration_seconds(term: &Term) -> Option<f64> {
     let Term::Literal(lit) = term else { return None; };
     if lit.datatype.as_deref() != Some(XSD_DURATION) { return None; }
-    let captures = Regex::new(r"^(-)?P(?:(\d+(?:\.\d+)?)Y)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)D)?(?:T(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?$").ok()?.captures(&lit.value)?;
+    static DURATION_RE: std::sync::OnceLock<Option<Regex>> = std::sync::OnceLock::new();
+    let re = DURATION_RE
+        .get_or_init(|| Regex::new(r"^(-)?P(?:(\d+(?:\.\d+)?)Y)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)D)?(?:T(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?$").ok())
+        .as_ref()?;
+    let captures = re.captures(&lit.value)?;
     let n = |i| captures.get(i).map_or(Some(0.0), |m| m.as_str().parse().ok());
     // XML Schema year/month durations have no fixed length. Eyeling's age
     // comparisons use the conventional Gregorian averages below.
@@ -4559,7 +4656,10 @@ fn duration_seconds(term: &Term) -> Option<f64> {
 fn datetime_seconds(term: &Term) -> Option<f64> {
     let Term::Literal(lit) = term else { return None; };
     if !matches!(lit.datatype.as_deref(), Some(XSD_DATE | XSD_DATE_TIME)) { return None; }
-    let re = Regex::new(r"^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?(Z|[+-]\d{2}:\d{2})?)?(Z|[+-]\d{2}:\d{2})?$").ok()?;
+    static DATETIME_RE: std::sync::OnceLock<Option<Regex>> = std::sync::OnceLock::new();
+    let re = DATETIME_RE
+        .get_or_init(|| Regex::new(r"^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?(Z|[+-]\d{2}:\d{2})?)?(Z|[+-]\d{2}:\d{2})?$").ok())
+        .as_ref()?;
     let c = re.captures(&lit.value)?;
     let get = |i| c.get(i).and_then(|m| m.as_str().parse::<i64>().ok());
     let (year, month, day) = (get(1)? as i32, get(2)? as u32, get(3)? as u32);
@@ -4774,6 +4874,16 @@ fn resolve_pattern_triple(t: &Triple, bindings: &Bindings) -> Triple {
         resolve_pattern(&t.p, bindings),
         resolve_pattern(&t.o, bindings),
     )
+}
+
+/// Owned variant: values with no variable anywhere resolve to themselves, so
+/// the map can be returned as-is instead of being rebuilt entry by entry.
+fn canonicalize_owned(bindings: Bindings) -> Bindings {
+    if bindings.values().all(Term::is_ground) {
+        bindings
+    } else {
+        canonicalize_bindings(&bindings)
+    }
 }
 
 fn canonicalize_bindings(bindings: &Bindings) -> Bindings {
@@ -5115,5 +5225,70 @@ mod reasoner_index_regression_tests {
             0,
             "issue #6 must not scan the whole closure once per rdf:type trigger",
         );
+    }
+}
+
+#[cfg(test)]
+mod regex_cache_tests {
+    use super::*;
+
+    fn cache_len() -> usize {
+        REGEX_CACHE.with(|cache| cache.borrow().len())
+    }
+
+    fn empty_cache() {
+        REGEX_CACHE.with(|cache| cache.borrow_mut().clear());
+    }
+
+    #[test]
+    fn the_cache_never_holds_more_than_its_capacity() {
+        empty_cache();
+        for n in 0..REGEX_CACHE_CAPACITY * 4 {
+            assert!(cached_regex(&format!("a{{{}}}b", n + 1)).is_some());
+            assert!(
+                cache_len() <= REGEX_CACHE_CAPACITY,
+                "{} entries after {} distinct patterns",
+                cache_len(),
+                n + 1
+            );
+        }
+        empty_cache();
+    }
+
+    #[test]
+    fn a_repeated_pattern_occupies_one_entry_and_matches_like_a_fresh_compile() {
+        empty_cache();
+        for _ in 0..100 {
+            let cached = cached_regex(r"^h.*o$").expect("valid pattern");
+            assert!(cached.is_match("hello"));
+            assert!(!cached.is_match("help"));
+        }
+        assert_eq!(cache_len(), 1);
+        empty_cache();
+    }
+
+    #[test]
+    fn an_invalid_pattern_stays_invalid_and_is_remembered_as_such() {
+        empty_cache();
+        assert!(cached_regex("(").is_none());
+        assert!(cached_regex("(").is_none());
+        assert_eq!(cache_len(), 1);
+        empty_cache();
+    }
+
+    #[test]
+    fn a_reasoning_run_leaves_the_cache_empty() {
+        let source = r#"
+            @prefix : <http://example.org/>.
+            @prefix string: <http://www.w3.org/2000/10/swap/string#>.
+            :a :s "hello" . :b :s "world" .
+            { ?x :s ?v . ?v string:matches "^h.*o$" } => { ?x :ok true } .
+        "#;
+        let document = parse_n3(source, None).expect("fixture parses");
+        let result = reason(&document, &ReasonerOptions::default());
+        assert!(result.is_complete());
+        let ok = Term::Iri("http://example.org/ok".to_string());
+        assert_eq!(result.derived.iter().filter(|t| t.p == ok).count(), 1, "only :a matches");
+        assert_eq!(cache_len(), 0, "a finished run must not leave compiled patterns behind");
     }
 }
