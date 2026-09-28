@@ -24,27 +24,27 @@ use std::path::{Path, PathBuf};
 /// specification says what a valid proof must contain, and such a document
 /// does not contain it.
 ///
-/// The list is empty. Every packaged proof checks, and the test fails if
-/// one stops doing so.
+/// An entry that starts checking fails the suite too, so a fixed defect
+/// cannot sit here unnoticed.
 const KNOWN_GAPS: &[(&str, &str)] = &[
     // These four examples derive exactly what eyeling derives; it is the
     // proof eyeron writes for them that does not check. Recorded rather than
     // hidden: each one is a proof-emission defect to fix, and this list
     // fails the suite again as soon as one of them starts checking.
     (
-        "n3/odrl-dpv-campaign-audit",
+        "odrl-dpv-campaign-audit",
         "the log:conclusion closure it quotes is recorded twice with different contents: resolving the premise substitutes the outer rule\'s ?User into the rule quoted inside the closure, so the premise no longer equals the conclusion that derived it",
     ),
     (
-        "n3/odrl-dpv-conflict-audit",
+        "odrl-dpv-conflict-audit",
         "the log:conclusion closure it quotes is recorded twice with different contents: resolving the premise substitutes the outer rule\'s ?User into the rule quoted inside the closure, so the premise no longer equals the conclusion that derived it",
     ),
     (
-        "n3/odrl-policy-audit",
+        "odrl-policy-audit",
         "the log:conclusion closure it quotes is recorded twice with different contents: resolving the premise substitutes the outer rule\'s ?User into the rule quoted inside the closure, so the premise no longer equals the conclusion that derived it",
     ),
     (
-        "n3/polynomial",
+        "polynomial",
         "explaining its lagrangeRoots4 steps fails although the goal re-derives exactly when asked directly; the explainer takes the first matching rule body and does not try another",
     ),
 ];
@@ -100,8 +100,7 @@ fn main() {
     {
         for path in sorted_proofs() {
             let name = path.file_stem().and_then(|s| s.to_str()).expect("utf8 name").to_string();
-            let key = format!("n3/{name}");
-            let expected_gap = KNOWN_GAPS.iter().find(|(entry, _)| *entry == key);
+            let expected_gap = KNOWN_GAPS.iter().find(|(entry, _)| *entry == name.as_str());
             let outcome = check(&name);
             let (valid, summary) = match &outcome {
                 Ok(report) => {
@@ -116,20 +115,20 @@ fn main() {
             match (valid, expected_gap) {
                 (true, None) => {
                     passed += 1;
-                    progress_line(&format!("proof examples/proof/{key} ... {} ({summary})", green("ok")));
+                    progress_line(&format!("proof examples/proof/{name}.n3 ... {} ({summary})", green("ok")));
                 }
                 (false, Some((_, reason))) => {
                     passed += 1;
                     gaps_seen.push(reason);
-                    progress_line(&format!("proof examples/proof/{key} ... {} ({reason})", green("known gap")));
+                    progress_line(&format!("proof examples/proof/{name}.n3 ... {} ({reason})", green("known gap")));
                 }
                 (true, Some((_, reason))) => {
                     failed += 1;
-                    progress_line(&format!("proof examples/proof/{key} ... {} (now checks; remove from KNOWN_GAPS: {reason})", red("fail")));
+                    progress_line(&format!("proof examples/proof/{name}.n3 ... {} (now checks; remove from KNOWN_GAPS: {reason})", red("fail")));
                 }
                 (false, None) => {
                     failed += 1;
-                    progress_line(&format!("proof examples/proof/{key} ... {} ({summary})", red("fail")));
+                    progress_line(&format!("proof examples/proof/{name}.n3 ... {} ({summary})", red("fail")));
                     if let Ok(report) = &outcome {
                         for failure in report.failures.iter().take(2) {
                             progress_line(&format!("    [{}] {} -- {}", failure.condition, failure.conclusion, failure.detail));
