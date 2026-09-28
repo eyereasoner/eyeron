@@ -1740,3 +1740,59 @@ fn a_rule_that_concludes_its_own_premise_is_not_its_own_justification() {
     assert!(proof.contains(":a :size 3"), "{proof}");
     assert!(!proof.contains("pe:unproven"), "{proof}");
 }
+
+#[test]
+fn a_guard_that_holds_neither_changes_the_answers_nor_their_order() {
+    // The matcher drops a ready test that holds instead of materialising a
+    // continuation for it, and re-examines only the premises whose variables
+    // moved. Both are sound because such a test binds nothing -- but only if
+    // the answers, and the order they come out in, are untouched.
+    let source = r#"
+        @prefix : <http://e/>.
+        @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+        @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+        :a :n 1. :a :n 2. :a :n 3. :a :n 4. :a :n 5.
+        {
+            :a :n ?X.
+            ?X log:notEqualTo 3.
+            ?X math:greaterThan 1.
+            :a :n ?Y.
+            ?Y log:notEqualTo ?X.
+            (?X ?Y) math:sum ?S.
+            ?S math:lessThan 8.
+        } => { :pair :sum ?S }.
+    "#;
+
+    let output = reason(source).unwrap();
+    // 2,4,5 pass the guards on ?X; the sums under 8 are the ones listed here.
+    let mut sums: Vec<&str> = output
+        .lines()
+        .filter_map(|line| line.trim().strip_prefix(":pair :sum "))
+        .map(|rest| rest.trim_end_matches(" ."))
+        .collect();
+    sums.sort();
+    assert_eq!(sums, vec!["3", "5", "6", "7"], "{output}");
+}
+
+#[test]
+fn a_guard_that_fails_still_stops_the_branch() {
+    // The early-failure check is what stops hanoi.n3 recursing through 0, -1,
+    // .. after `?n math:greaterThan 1` is already false. Examining fewer
+    // premises per node must not lose that.
+    let source = r#"
+        @prefix : <http://e/>.
+        @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+        { (0 ?N) :count ?N } <= true.
+        { (?K ?N) :count ?R } <= {
+            ?K math:greaterThan 0.
+            (?K 1) math:difference ?K1.
+            (?N 1) math:sum ?N1.
+            (?K1 ?N1) :count ?R.
+        }.
+        { (5 0) :count ?R } => { :result :is ?R }.
+    "#;
+
+    let output = reason(source).unwrap();
+    assert!(output.contains(":result :is 5"), "{output}");
+}

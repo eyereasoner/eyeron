@@ -1097,6 +1097,7 @@ fn reason_with_plan(
                 match_premise_remaining(
                     &rule.premise,
                     rest,
+                    None,
                     &closure,
                     Some(&fact_index),
                     &active_rules,
@@ -1791,6 +1792,7 @@ fn match_premises(
     match_premise_remaining(
         premises,
         (0..premises.len()).collect(),
+        None,
         facts,
         fact_index,
         rules,
@@ -1816,7 +1818,7 @@ fn match_premise_at(
     budget: &mut SearchBudget,
     out: &mut Vec<Bindings>,
 ) {
-    match_premise_remaining(premises, (index..premises.len()).collect(), facts, fact_index, rules, bindings, depth, backward_stack, budget, out);
+    match_premise_remaining(premises, (index..premises.len()).collect(), None, facts, fact_index, rules, bindings, depth, backward_stack, budget, out);
 }
 
 /// `remaining` names the premises still to satisfy, as positions in
@@ -1826,6 +1828,11 @@ fn match_premise_at(
 fn match_premise_remaining(
     premises: &[Triple],
     remaining: Vec<usize>,
+    // Variables bound since this node's premises were last examined, or
+    // `None` to examine them all. A premise none of whose variables moved
+    // cannot have changed its mind, and asking anyway meant an index lookup
+    // for every remaining premise at every level of the search.
+    changed: Option<&[Name]>,
     facts: &[Triple],
     fact_index: Option<&FactIndex>,
     rules: &[Rule],
@@ -1852,9 +1859,23 @@ fn match_premise_remaining(
     // failure check, the matcher can bind `?N1` with math:difference even when
     // `?N math:greaterThan 1` is already false, then recursively try 0, -1, ... .
     for &i in &remaining {
+        if let Some(changed) = changed {
+            if !premise_mentions_any(&premises[i], changed) { continue; }
+        }
         if premise_is_definitively_false(&premises[i], facts, fact_index, rules, &bindings) {
             return;
         }
+    }
+
+    // A ready test that holds adds nothing: it has one continuation and binds
+    // nothing, so drop it and carry the same bindings on. One that does not
+    // hold has already returned, just above. Doing this before the ordering
+    // work below is what keeps a body of guards cheap.
+    if let Some(pos) = remaining.iter().position(|&i| premise_is_a_test_that_holds(&premises[i], &bindings)) {
+        let mut rest = remaining;
+        rest.remove(pos);
+        match_premise_remaining(premises, rest, Some(&[]), facts, fact_index, rules, bindings, depth, backward_stack, budget, out);
+        return;
     }
 
     let mut best_index = None;
@@ -2015,7 +2036,8 @@ fn match_premise_remaining(
     let mut rest = remaining;
     rest.retain(|&i| i != idx);
     for b in best_candidates {
-        match_premise_remaining(premises, rest.clone(), facts, fact_index, rules, b, depth, backward_stack, budget, out);
+        let changed = changed_bindings(&bindings, &b);
+        match_premise_remaining(premises, rest.clone(), changed.as_deref(), facts, fact_index, rules, b, depth, backward_stack, budget, out);
     }
 }
 
@@ -2187,6 +2209,55 @@ fn bindings_progress(before: &Bindings, after: &Bindings) -> bool {
     })
 }
 
+/// Whether a premise is a test whose operands are ready and which holds.
+///
+/// Such a premise constrains nothing further: it contributes exactly one
+/// continuation and binds nothing, so the search can drop it and carry the
+/// bindings on. Materialising that continuation copies the whole binding map,
+/// and a rule body of guards -- kaprekar-6174's chains carry thirteen apiece
+/// -- spends most of its time doing exactly that.
+/// Whether a premise is written with any of these variables.
+fn premise_mentions_any(premise: &Triple, names: &[Name]) -> bool {
+    fn walk(term: &Term, names: &[Name]) -> bool {
+        match term {
+            Term::Var(name) => names.contains(name),
+            Term::List(items) => items.iter().any(|item| walk(item, names)),
+            Term::Formula(triples) => triples
+                .iter()
+                .any(|t| walk(&t.s, names) || walk(&t.p, names) || walk(&t.o, names)),
+            _ => false,
+        }
+    }
+    walk(&premise.s, names) || walk(&premise.p, names) || walk(&premise.o, names)
+}
+
+/// The variables whose binding this step changed, or `None` when one of them
+/// was bound to another variable -- then a premise can change its mind without
+/// mentioning the variable that moved, and every premise has to be looked at
+/// again.
+fn changed_bindings(before: &Bindings, after: &Bindings) -> Option<Vec<Name>> {
+    let mut changed = Vec::new();
+    for (name, value) in after {
+        if term_has_var(value) { return None; }
+        if before.get(name) != Some(value) { changed.push(name.clone()); }
+    }
+    Some(changed)
+}
+
+fn premise_is_a_test_that_holds(premise: &Triple, bindings: &Bindings) -> bool {
+    let Term::Iri(iri) = resolve(&premise.p, bindings) else { return false; };
+    if is_math_comparison(&iri) {
+        return math_comparison_holds(&iri, &premise.s, &premise.o, bindings) == Some(true);
+    }
+    if iri == LOG_NOT_EQUAL_TO {
+        let left = resolve(&premise.s, bindings);
+        let right = resolve(&premise.o, bindings);
+        if matches!(left, Term::Var(_)) || matches!(right, Term::Var(_)) { return false; }
+        return !terms_equal_semantic(&left, &right);
+    }
+    false
+}
+
 fn premise_is_definitively_false(
     premise: &Triple,
     facts: &[Triple],
@@ -2201,7 +2272,7 @@ fn premise_is_definitively_false(
         let left = resolve(&premise.s, bindings);
         let right = resolve(&premise.o, bindings);
         if numeric_value(&left).is_some() && numeric_value(&right).is_some() {
-            return eval_math_compare(&iri, &premise.s, &premise.o, bindings).is_empty();
+            return math_comparison_holds(&iri, &premise.s, &premise.o, bindings) != Some(true);
         }
     }
 
@@ -5335,18 +5406,29 @@ fn string_value(term: &Term) -> Option<String> {
 }
 
 fn eval_math_compare(pred: &str, left: &Term, right: &Term, bindings: &Bindings) -> Vec<Bindings> {
+    match math_comparison_holds(pred, left, right, bindings) {
+        Some(true) => vec![bindings.clone()],
+        _ => Vec::new(),
+    }
+}
+
+/// Whether a comparison holds, `None` when its operands are not comparable
+/// and it therefore decides nothing. Separate from `eval_math_compare` so that
+/// asking the question costs nothing: the answer is a bool, where building a
+/// solution for it copies the whole binding map.
+fn math_comparison_holds(pred: &str, left: &Term, right: &Term, bindings: &Bindings) -> Option<bool> {
     let lterm = resolve(left, bindings);
     let rterm = resolve(right, bindings);
     // xsd:dateTime / xsd:date order as instants, and only against each other:
     // a dateTime is never comparable with a number or an untyped string.
     if let (Some(l), Some(r)) = (datetime_seconds(&lterm), datetime_seconds(&rterm)) {
-        return compare_ordered(pred, l.partial_cmp(&r), bindings);
+        return ordering_holds(pred, l.partial_cmp(&r));
     }
     if datetime_seconds(&lterm).is_some() || datetime_seconds(&rterm).is_some() {
-        return Vec::new();
+        return None;
     }
-    let Some(l) = comparable_number(&lterm) else { return Vec::new(); };
-    let Some(r) = comparable_number(&rterm) else { return Vec::new(); };
+    let l = comparable_number(&lterm)?;
+    let r = comparable_number(&rterm)?;
     // Two integers compare exactly.  Anything else compares through the f64
     // view, where equality has to allow for rounding.
     use std::cmp::Ordering;
@@ -5369,13 +5451,13 @@ fn eval_math_compare(pred: &str, left: &Term, right: &Term, bindings: &Bindings)
     } else {
         false
     };
-    if ok { vec![bindings.clone()] } else { Vec::new() }
+    Some(ok)
 }
 
 /// The six math: comparisons over an already-computed ordering.
-fn compare_ordered(pred: &str, ord: Option<std::cmp::Ordering>, bindings: &Bindings) -> Vec<Bindings> {
+fn ordering_holds(pred: &str, ord: Option<std::cmp::Ordering>) -> Option<bool> {
     use std::cmp::Ordering::*;
-    let Some(ord) = ord else { return Vec::new(); };
+    let ord = ord?;
     let ok = if pred == MATH_GREATER_THAN {
         ord == Greater
     } else if pred == MATH_LESS_THAN {
@@ -5391,7 +5473,7 @@ fn compare_ordered(pred: &str, ord: Option<std::cmp::Ordering>, bindings: &Bindi
     } else {
         false
     };
-    if ok { vec![bindings.clone()] } else { Vec::new() }
+    Some(ok)
 }
 
 const XSD_DATE: &str = "http://www.w3.org/2001/XMLSchema#date";
@@ -5545,17 +5627,38 @@ fn canonical_numeric_lexical(lit: &Literal) -> Option<String> {
     })
 }
 
+/// Whether an `xsd:integer` is already written the way
+/// `canonical_numeric_lexical` would write it: no leading `+`, and no leading
+/// zeros beyond the single digit `0`. Seeing that is a scan of the text, where
+/// deciding it by parsing the number into a `BigInt` and writing it back out
+/// again is what every index lookup used to cost -- and the index is consulted
+/// for every remaining premise at every level of the search.
+fn is_canonical_integer(value: &str) -> bool {
+    let digits = value.strip_prefix('-').unwrap_or(value);
+    if digits.is_empty() || !digits.bytes().all(|b| b.is_ascii_digit()) { return false; }
+    if digits.len() > 1 && digits.as_bytes()[0] == b'0' { return false; }
+    // `-0` is written `0`.
+    value != "-0"
+}
+
 /// A term as an index keys it: the term itself, unless it spells a number
 /// some other way than `canonical_numeric_lexical` would.
 fn index_form(term: &Term) -> std::borrow::Cow<'_, Term> {
     use std::borrow::Cow;
     match term {
-        Term::Literal(lit) => match canonical_numeric_lexical(lit) {
-            Some(value) if value != lit.value => {
-                Cow::Owned(Term::Literal(Literal { value: value.into(), ..lit.clone() }))
+        Term::Literal(lit) => {
+            if lit.datatype.as_deref() == Some("http://www.w3.org/2001/XMLSchema#integer")
+                && is_canonical_integer(&lit.value)
+            {
+                return Cow::Borrowed(term);
             }
-            _ => Cow::Borrowed(term),
-        },
+            match canonical_numeric_lexical(lit) {
+                Some(value) if value != lit.value => {
+                    Cow::Owned(Term::Literal(Literal { value: value.into(), ..lit.clone() }))
+                }
+                _ => Cow::Borrowed(term),
+            }
+        }
         Term::List(items) => {
             let mut canonical: Option<Vec<Term>> = None;
             for (idx, item) in items.iter().enumerate() {
