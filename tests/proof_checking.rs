@@ -73,13 +73,16 @@ fn check(name: &str) -> Result<Report, String> {
 
     let mut document =
         eyeron::parse_n3_with_source(&source, None, Some(&format!("{name}.n3"))).map_err(|e| e.message)?;
-    let companion = examples.join(format!("input/{name}.trig"));
+    let mut companion = examples.join(format!("input/{name}.n3"));
+    if !companion.exists() {
+        companion = examples.join(format!("input/{name}.trig"));
+    }
     if companion.exists() {
         let text = fs::read_to_string(&companion).unwrap();
         let parsed = if eyeron::is_rdf_message_log(&text) {
             eyeron::parse_rdf_message_log(&text, None)
         } else {
-            eyeron::parse_n3_with_source(&text, None, Some(&format!("input/{name}.trig")))
+            eyeron::parse_n3_with_source(&text, None, Some(&companion.to_string_lossy()))
                 .or_else(|_| eyeron::parse_rdf12(&text, None, eyeron::RdfFormat::Trig))
         }
         .map_err(|e| e.message)?;

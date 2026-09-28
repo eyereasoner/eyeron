@@ -1,0 +1,51 @@
+# ============================================================
+# A decision you do not have to trust
+#
+# Half one of two. This half decides; verifiable-decision-audit.n3
+# reads the proof of this decision back in and asks what it rests on.
+#
+# A research-data request is permitted when three separate
+# authorities have each said their piece: an ethics committee, the
+# cohort's consent record, and the de-identification registry. No
+# single rule decides it -- the permit is the end of a chain, which
+# is what makes its proof worth reading.
+#
+#   eyeron examples/verifiable-decision.n3
+#   eyeron -p examples/verifiable-decision.n3 > proof.n3
+#   eyeron --check-proof proof.n3 examples/verifiable-decision.n3
+#
+# The third command checks the proof against this program without
+# reasoning at all: it re-performs the steps the document records,
+# and says so. Nothing about it trusts the engine that wrote it.
+# ============================================================
+
+@prefix : <https://example.org/access#>.
+
+# ---------------------------------------------------------
+# What the authorities assert
+# ---------------------------------------------------------
+
+:request-42 :asksFor :cohort-b .
+:request-42 :madeBy  :dr-okafor .
+:request-42 :purpose :secondaryResearch .
+
+:dr-okafor    :holdsApproval  :eth-2026-118 .
+:eth-2026-118 :coversPurpose  :secondaryResearch .
+:cohort-b     :consentCovers  :secondaryResearch .
+:cohort-b     :deidentified   true .
+
+# ---------------------------------------------------------
+# What it takes to say yes
+# ---------------------------------------------------------
+
+{ ?r :madeBy ?who. ?who :holdsApproval ?a. ?r :purpose ?p. ?a :coversPurpose ?p }
+    => { ?r :hasEthicsCover true }.
+
+{ ?r :asksFor ?ds. ?r :purpose ?p. ?ds :consentCovers ?p }
+    => { ?r :hasConsent true }.
+
+{ ?r :asksFor ?ds. ?ds :deidentified true }
+    => { ?r :meetsPrivacyBar true }.
+
+{ ?r :hasEthicsCover true. ?r :hasConsent true. ?r :meetsPrivacyBar true }
+    => { ?r :decision :permit }.

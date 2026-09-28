@@ -33,6 +33,7 @@ cargo build --release
 - [`docs/reasoning.md`](docs/reasoning.md) — how Eyeron evaluates rules, and what it prints and records in proofs.
 - [`docs/guide.md`](docs/guide.md) — building and running, proofs, the Rust library and browser APIs, testing, and the architecture.
 - [`docs/proof-checking.md`](docs/proof-checking.md) — what makes a proof document valid for a program, and what `--check-proof` verifies.
+- [`docs/verifiable-reasoning.md`](docs/verifiable-reasoning.md) — deriving an answer, proving it, checking the proof, and writing a policy about what the proof rests on.
 
 ## License
 

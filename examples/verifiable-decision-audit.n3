@@ -1,0 +1,97 @@
+# ============================================================
+# A decision you do not have to trust
+#
+# Half two of two. verifiable-decision.n3 decided; this reads the
+# proof of that decision back in and asks what it rests on.
+#
+# The proof is supplied as examples/input/verifiable-decision-audit.n3,
+# which is a copy of examples/proof/verifiable-decision.n3 -- the
+# engine's own output, nothing written by hand. A test keeps the two
+# identical, so this audit is always of the current proof.
+#
+# Why this is worth doing at all: a proof is not a debugging aid. It
+# is a list of exactly what a conclusion stands on, in the same
+# language as everything else, so a policy can be written *about* it.
+# The decision here is permitted; the question this half answers is
+# whether it is permitted on grounds we are prepared to stand behind.
+#
+# Every step of an eyeron proof is an ordinary triple whose subject
+# is the quoted claim, so no traversal is needed -- `?claim pe:uses
+# ?dep` matches the steps directly.
+#
+#   eyeron examples/verifiable-decision-audit.n3 \
+#          examples/input/verifiable-decision-audit.n3
+#
+# Take away one `:policy :trusts` line and the run stops: the last
+# rule is an inference fuse, and a decision resting on a document
+# outside the policy is the situation it forbids. The report names
+# the document and the policy it was weighed against.
+# ============================================================
+
+@prefix :    <https://example.org/access#>.
+@prefix doc: <https://example.org/doc/>.
+@prefix pe:  <https://eyereasoner.github.io/pe#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+# ---------------------------------------------------------
+# The claim under audit
+# ---------------------------------------------------------
+
+:audit :of { :request-42 :decision :permit }.
+
+# ---------------------------------------------------------
+# Who said what. Each authority vouches for the claims it
+# put its name to, quoted exactly as the proof records them.
+# ---------------------------------------------------------
+
+doc:intake   :asserts { :request-42 :asksFor :cohort-b . }.
+doc:intake   :asserts { :request-42 :madeBy :dr-okafor . }.
+doc:intake   :asserts { :request-42 :purpose :secondaryResearch . }.
+doc:ethics   :asserts { :dr-okafor :holdsApproval :eth-2026-118 . }.
+doc:ethics   :asserts { :eth-2026-118 :coversPurpose :secondaryResearch . }.
+doc:consent  :asserts { :cohort-b :consentCovers :secondaryResearch . }.
+doc:registry :asserts { :cohort-b :deidentified true . }.
+
+# ---------------------------------------------------------
+# What we are prepared to stand behind. The policy is a quoted
+# graph rather than loose triples, so "not trusted" can be
+# asked of it by name: not in this graph, not vouched for.
+# ---------------------------------------------------------
+
+:policy :says {
+  :policy :trusts doc:intake .
+  :policy :trusts doc:ethics .
+  :policy :trusts doc:consent .
+  :policy :trusts doc:registry .
+}.
+
+# ---------------------------------------------------------
+# What the decision rests on, followed to the ground
+# ---------------------------------------------------------
+
+{ ?claim pe:uses ?dep } => { ?claim :restsOn ?dep }.
+{ ?a :restsOn ?b. ?b :restsOn ?c } => { ?a :restsOn ?c }.
+
+{ :audit :of ?root. ?root :restsOn ?claim. ?claim pe:fact ?src }
+    => { :audit :restsOnAssertion ?claim }.
+
+{ :audit :restsOnAssertion ?claim. ?doc :asserts ?claim }
+    => { :audit :vouchedBy ?doc }.
+
+# ---------------------------------------------------------
+# The constraint: nothing unvouched-for underneath a permit
+# ---------------------------------------------------------
+
+{ :audit :vouchedBy ?doc.
+  :policy :says ?trusted.
+  ?trusted log:notIncludes { :policy :trusts ?doc }.
+} => false.
+
+# ---------------------------------------------------------
+# Report only the audit's own conclusions. Naming the answer
+# something the premise does not already say keeps it a
+# derivation, so `-p` writes a proof of the audit too: the
+# checking is no more to be taken on trust than the decision.
+# ---------------------------------------------------------
+
+{ :audit :vouchedBy ?doc } log:query { :audit :standsOn ?doc }.

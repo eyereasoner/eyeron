@@ -48,6 +48,22 @@ const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
     ("liar", "it trips an inference fuse, so the run stops with nothing derived and nothing to prove"),
 ];
 
+/// verifiable-decision-audit.n3 audits the proof of verifiable-decision.n3,
+/// which it reads as a companion input. That copy has to be the engine's
+/// current output and not a stale one, or the audit would be of a decision
+/// the program no longer makes -- and would keep passing while saying
+/// nothing.
+fn the_audited_proof_is_the_current_one() {
+    let root = manifest_dir();
+    let written = read(&root.join("examples/proof/verifiable-decision.n3"));
+    let audited = read(&root.join("examples/input/verifiable-decision-audit.n3"));
+    assert_eq!(
+        written, audited,
+        "examples/input/verifiable-decision-audit.n3 is not examples/proof/verifiable-decision.n3; \
+         copy the proof over it so the audit is of the decision this program makes now"
+    );
+}
+
 /// One example and the goldens describing it.
 struct Case {
     name: String,
@@ -61,6 +77,7 @@ fn main() {
     let cases = collect_cases();
     every_n3_example_is_accounted_for(cases.len());
     every_eligible_n3_example_has_a_proof_golden();
+    the_audited_proof_is_the_current_one();
 
     let proof_checked = cases.iter().filter(|case| case.proof_golden.is_some()).count();
     progress_line(&format!(
@@ -191,7 +208,13 @@ fn parse_document(source_path: &Path, name: &str) -> Document {
     let mut doc = parse_n3_with_source(&source, None, Some(label.as_ref()))
         .unwrap_or_else(|err| panic!("example {} is not valid N3: {}", source_path.display(), err));
 
-    let input_path = manifest_dir().join("examples/input").join(format!("{name}.trig"));
+    // A companion input is N3 when it is named `.n3` -- an eyeron proof
+    // document is one, and reading it as RDF would reject its quoted formulas
+    // -- and otherwise a `.trig` the reader below works out.
+    let mut input_path = manifest_dir().join("examples/input").join(format!("{name}.n3"));
+    if !input_path.exists() {
+        input_path = manifest_dir().join("examples/input").join(format!("{name}.trig"));
+    }
     if input_path.exists() {
         let input = read(&input_path);
         // An `examples/input/*.trig` companion is either an RDF Message Log,

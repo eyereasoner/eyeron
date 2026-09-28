@@ -1,6 +1,6 @@
 # Eyeron guide
 
-Eyeron turns facts and rules into conclusions you can inspect from a command line, a Rust application, or a browser. Rules are written in [Notation3](n3.md); the data they reason over may be N3, Turtle, TriG, N-Triples, N-Quads, or an RDF Message Log. A run emits the newly derived facts. See [how Eyeron reasons](reasoning.md) for the evaluation strategy.
+Eyeron turns facts and rules into conclusions you can inspect from a command line, a Rust application, or a browser. Rules are written in [Notation3](n3.md); the data they reason over may be N3, Turtle, TriG, N-Triples, N-Quads, or an RDF Message Log. A run emits the newly derived facts. See [how Eyeron reasons](reasoning.md) for the evaluation strategy, and [verifiable reasoning](verifiable-reasoning.md) for handing someone an answer they can check without running the engine.
 
 ## Building and running
 

@@ -1,0 +1,69 @@
+@prefix : <https://example.org/access#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:request-42 :hasConsent true .
+:request-42 :meetsPrivacyBar true .
+:request-42 :hasEthicsCover true .
+:request-42 :decision :permit .
+
+{ :request-42 :hasConsent true . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "ds"; pe:value :cohort-b ],
+    [ pe:var "p"; pe:value :secondaryResearch ],
+    [ pe:var "r"; pe:value :request-42 ];
+  pe:uses
+    { :request-42 :asksFor :cohort-b . },
+    { :request-42 :purpose :secondaryResearch . },
+    { :cohort-b :consentCovers :secondaryResearch . }.
+
+{ :request-42 :asksFor :cohort-b . }
+  pe:fact "verifiable-decision.n3".
+
+{ :request-42 :purpose :secondaryResearch . }
+  pe:fact "verifiable-decision.n3".
+
+{ :cohort-b :consentCovers :secondaryResearch . }
+  pe:fact "verifiable-decision.n3".
+
+{ :request-42 :meetsPrivacyBar true . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "ds"; pe:value :cohort-b ],
+    [ pe:var "r"; pe:value :request-42 ];
+  pe:uses
+    { :request-42 :asksFor :cohort-b . },
+    { :cohort-b :deidentified true . }.
+
+{ :cohort-b :deidentified true . }
+  pe:fact "verifiable-decision.n3".
+
+{ :request-42 :hasEthicsCover true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :eth-2026-118 ],
+    [ pe:var "p"; pe:value :secondaryResearch ],
+    [ pe:var "r"; pe:value :request-42 ],
+    [ pe:var "who"; pe:value :dr-okafor ];
+  pe:uses
+    { :request-42 :madeBy :dr-okafor . },
+    { :dr-okafor :holdsApproval :eth-2026-118 . },
+    { :request-42 :purpose :secondaryResearch . },
+    { :eth-2026-118 :coversPurpose :secondaryResearch . }.
+
+{ :request-42 :madeBy :dr-okafor . }
+  pe:fact "verifiable-decision.n3".
+
+{ :dr-okafor :holdsApproval :eth-2026-118 . }
+  pe:fact "verifiable-decision.n3".
+
+{ :eth-2026-118 :coversPurpose :secondaryResearch . }
+  pe:fact "verifiable-decision.n3".
+
+{ :request-42 :decision :permit . }
+  pe:rule 4;
+  pe:binding [ pe:var "r"; pe:value :request-42 ];
+  pe:uses
+    { :request-42 :hasEthicsCover true . },
+    { :request-42 :hasConsent true . },
+    { :request-42 :meetsPrivacyBar true . }.

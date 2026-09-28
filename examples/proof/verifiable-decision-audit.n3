@@ -1,0 +1,1201 @@
+@prefix : <https://example.org/access#> .
+@prefix doc: <https://example.org/doc/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+{
+    :request-42 :hasConsent true .
+} :restsOn {
+    :request-42 :asksFor :cohort-b .
+} .
+{
+    :request-42 :hasConsent true .
+} :restsOn {
+    :request-42 :purpose :secondaryResearch .
+} .
+{
+    :request-42 :hasConsent true .
+} :restsOn {
+    :cohort-b :consentCovers :secondaryResearch .
+} .
+{
+    :request-42 :meetsPrivacyBar true .
+} :restsOn {
+    :request-42 :asksFor :cohort-b .
+} .
+{
+    :request-42 :meetsPrivacyBar true .
+} :restsOn {
+    :cohort-b :deidentified true .
+} .
+{
+    :request-42 :hasEthicsCover true .
+} :restsOn {
+    :request-42 :madeBy :dr-okafor .
+} .
+{
+    :request-42 :hasEthicsCover true .
+} :restsOn {
+    :dr-okafor :holdsApproval :eth-2026-118 .
+} .
+{
+    :request-42 :hasEthicsCover true .
+} :restsOn {
+    :request-42 :purpose :secondaryResearch .
+} .
+{
+    :request-42 :hasEthicsCover true .
+} :restsOn {
+    :eth-2026-118 :coversPurpose :secondaryResearch .
+} .
+{
+    :request-42 :decision :permit .
+} :restsOn {
+    :request-42 :hasEthicsCover true .
+} .
+{
+    :request-42 :decision :permit .
+} :restsOn {
+    :request-42 :hasConsent true .
+} .
+{
+    :request-42 :decision :permit .
+} :restsOn {
+    :request-42 :meetsPrivacyBar true .
+} .
+{
+    :request-42 :decision :permit .
+} :restsOn {
+    :request-42 :asksFor :cohort-b .
+} .
+{
+    :request-42 :decision :permit .
+} :restsOn {
+    :request-42 :purpose :secondaryResearch .
+} .
+{
+    :request-42 :decision :permit .
+} :restsOn {
+    :cohort-b :consentCovers :secondaryResearch .
+} .
+{
+    :request-42 :decision :permit .
+} :restsOn {
+    :cohort-b :deidentified true .
+} .
+{
+    :request-42 :decision :permit .
+} :restsOn {
+    :request-42 :madeBy :dr-okafor .
+} .
+{
+    :request-42 :decision :permit .
+} :restsOn {
+    :dr-okafor :holdsApproval :eth-2026-118 .
+} .
+{
+    :request-42 :decision :permit .
+} :restsOn {
+    :eth-2026-118 :coversPurpose :secondaryResearch .
+} .
+:audit :restsOnAssertion {
+    :request-42 :asksFor :cohort-b .
+} .
+:audit :restsOnAssertion {
+    :request-42 :purpose :secondaryResearch .
+} .
+:audit :restsOnAssertion {
+    :cohort-b :consentCovers :secondaryResearch .
+} .
+:audit :restsOnAssertion {
+    :cohort-b :deidentified true .
+} .
+:audit :restsOnAssertion {
+    :request-42 :madeBy :dr-okafor .
+} .
+:audit :restsOnAssertion {
+    :dr-okafor :holdsApproval :eth-2026-118 .
+} .
+:audit :restsOnAssertion {
+    :eth-2026-118 :coversPurpose :secondaryResearch .
+} .
+:audit :vouchedBy doc:intake .
+:audit :vouchedBy doc:consent .
+:audit :vouchedBy doc:registry .
+:audit :vouchedBy doc:ethics .
+:audit :standsOn doc:intake .
+:audit :standsOn doc:consent .
+:audit :standsOn doc:registry .
+:audit :standsOn doc:ethics .
+
+{
+  {
+      :request-42 :hasConsent true .
+  } :restsOn {
+      :request-42 :asksFor :cohort-b .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :hasConsent true .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :request-42 :asksFor :cohort-b .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :hasConsent true .
+        } pe:uses {
+            :request-42 :asksFor :cohort-b .
+        } .
+    }.
+
+{
+  {
+      :request-42 :hasConsent true .
+  } pe:uses {
+      :request-42 :asksFor :cohort-b .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :hasConsent true .
+  } :restsOn {
+      :request-42 :purpose :secondaryResearch .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :hasConsent true .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :request-42 :purpose :secondaryResearch .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :hasConsent true .
+        } pe:uses {
+            :request-42 :purpose :secondaryResearch .
+        } .
+    }.
+
+{
+  {
+      :request-42 :hasConsent true .
+  } pe:uses {
+      :request-42 :purpose :secondaryResearch .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :hasConsent true .
+  } :restsOn {
+      :cohort-b :consentCovers :secondaryResearch .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :hasConsent true .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :cohort-b :consentCovers :secondaryResearch .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :hasConsent true .
+        } pe:uses {
+            :cohort-b :consentCovers :secondaryResearch .
+        } .
+    }.
+
+{
+  {
+      :request-42 :hasConsent true .
+  } pe:uses {
+      :cohort-b :consentCovers :secondaryResearch .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :meetsPrivacyBar true .
+  } :restsOn {
+      :request-42 :asksFor :cohort-b .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :meetsPrivacyBar true .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :request-42 :asksFor :cohort-b .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :meetsPrivacyBar true .
+        } pe:uses {
+            :request-42 :asksFor :cohort-b .
+        } .
+    }.
+
+{
+  {
+      :request-42 :meetsPrivacyBar true .
+  } pe:uses {
+      :request-42 :asksFor :cohort-b .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :meetsPrivacyBar true .
+  } :restsOn {
+      :cohort-b :deidentified true .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :meetsPrivacyBar true .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :cohort-b :deidentified true .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :meetsPrivacyBar true .
+        } pe:uses {
+            :cohort-b :deidentified true .
+        } .
+    }.
+
+{
+  {
+      :request-42 :meetsPrivacyBar true .
+  } pe:uses {
+      :cohort-b :deidentified true .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :hasEthicsCover true .
+  } :restsOn {
+      :request-42 :madeBy :dr-okafor .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :hasEthicsCover true .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :request-42 :madeBy :dr-okafor .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :hasEthicsCover true .
+        } pe:uses {
+            :request-42 :madeBy :dr-okafor .
+        } .
+    }.
+
+{
+  {
+      :request-42 :hasEthicsCover true .
+  } pe:uses {
+      :request-42 :madeBy :dr-okafor .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :hasEthicsCover true .
+  } :restsOn {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :hasEthicsCover true .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :dr-okafor :holdsApproval :eth-2026-118 .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :hasEthicsCover true .
+        } pe:uses {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } .
+    }.
+
+{
+  {
+      :request-42 :hasEthicsCover true .
+  } pe:uses {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :hasEthicsCover true .
+  } :restsOn {
+      :request-42 :purpose :secondaryResearch .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :hasEthicsCover true .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :request-42 :purpose :secondaryResearch .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :hasEthicsCover true .
+        } pe:uses {
+            :request-42 :purpose :secondaryResearch .
+        } .
+    }.
+
+{
+  {
+      :request-42 :hasEthicsCover true .
+  } pe:uses {
+      :request-42 :purpose :secondaryResearch .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :hasEthicsCover true .
+  } :restsOn {
+      :eth-2026-118 :coversPurpose :secondaryResearch .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :hasEthicsCover true .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :eth-2026-118 :coversPurpose :secondaryResearch .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :hasEthicsCover true .
+        } pe:uses {
+            :eth-2026-118 :coversPurpose :secondaryResearch .
+        } .
+    }.
+
+{
+  {
+      :request-42 :hasEthicsCover true .
+  } pe:uses {
+      :eth-2026-118 :coversPurpose :secondaryResearch .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :decision :permit .
+  } :restsOn {
+      :request-42 :hasEthicsCover true .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :request-42 :hasEthicsCover true .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :decision :permit .
+        } pe:uses {
+            :request-42 :hasEthicsCover true .
+        } .
+    }.
+
+{
+  {
+      :request-42 :decision :permit .
+  } pe:uses {
+      :request-42 :hasEthicsCover true .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :decision :permit .
+  } :restsOn {
+      :request-42 :hasConsent true .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :request-42 :hasConsent true .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :decision :permit .
+        } pe:uses {
+            :request-42 :hasConsent true .
+        } .
+    }.
+
+{
+  {
+      :request-42 :decision :permit .
+  } pe:uses {
+      :request-42 :hasConsent true .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :decision :permit .
+  } :restsOn {
+      :request-42 :meetsPrivacyBar true .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "dep"; pe:value {
+        :request-42 :meetsPrivacyBar true .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :decision :permit .
+        } pe:uses {
+            :request-42 :meetsPrivacyBar true .
+        } .
+    }.
+
+{
+  {
+      :request-42 :decision :permit .
+  } pe:uses {
+      :request-42 :meetsPrivacyBar true .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :decision :permit .
+  } :restsOn {
+      :request-42 :asksFor :cohort-b .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "b"; pe:value {
+        :request-42 :hasConsent true .
+    } ],
+    [ pe:var "c"; pe:value {
+        :request-42 :asksFor :cohort-b .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :request-42 :hasConsent true .
+        } .
+    },
+    {
+        {
+            :request-42 :hasConsent true .
+        } :restsOn {
+            :request-42 :asksFor :cohort-b .
+        } .
+    }.
+
+{
+  {
+      :request-42 :decision :permit .
+  } :restsOn {
+      :request-42 :purpose :secondaryResearch .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "b"; pe:value {
+        :request-42 :hasConsent true .
+    } ],
+    [ pe:var "c"; pe:value {
+        :request-42 :purpose :secondaryResearch .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :request-42 :hasConsent true .
+        } .
+    },
+    {
+        {
+            :request-42 :hasConsent true .
+        } :restsOn {
+            :request-42 :purpose :secondaryResearch .
+        } .
+    }.
+
+{
+  {
+      :request-42 :decision :permit .
+  } :restsOn {
+      :cohort-b :consentCovers :secondaryResearch .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "b"; pe:value {
+        :request-42 :hasConsent true .
+    } ],
+    [ pe:var "c"; pe:value {
+        :cohort-b :consentCovers :secondaryResearch .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :request-42 :hasConsent true .
+        } .
+    },
+    {
+        {
+            :request-42 :hasConsent true .
+        } :restsOn {
+            :cohort-b :consentCovers :secondaryResearch .
+        } .
+    }.
+
+{
+  {
+      :request-42 :decision :permit .
+  } :restsOn {
+      :cohort-b :deidentified true .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "b"; pe:value {
+        :request-42 :meetsPrivacyBar true .
+    } ],
+    [ pe:var "c"; pe:value {
+        :cohort-b :deidentified true .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :request-42 :meetsPrivacyBar true .
+        } .
+    },
+    {
+        {
+            :request-42 :meetsPrivacyBar true .
+        } :restsOn {
+            :cohort-b :deidentified true .
+        } .
+    }.
+
+{
+  {
+      :request-42 :decision :permit .
+  } :restsOn {
+      :request-42 :madeBy :dr-okafor .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "b"; pe:value {
+        :request-42 :hasEthicsCover true .
+    } ],
+    [ pe:var "c"; pe:value {
+        :request-42 :madeBy :dr-okafor .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :request-42 :hasEthicsCover true .
+        } .
+    },
+    {
+        {
+            :request-42 :hasEthicsCover true .
+        } :restsOn {
+            :request-42 :madeBy :dr-okafor .
+        } .
+    }.
+
+{
+  {
+      :request-42 :decision :permit .
+  } :restsOn {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "b"; pe:value {
+        :request-42 :hasEthicsCover true .
+    } ],
+    [ pe:var "c"; pe:value {
+        :dr-okafor :holdsApproval :eth-2026-118 .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :request-42 :hasEthicsCover true .
+        } .
+    },
+    {
+        {
+            :request-42 :hasEthicsCover true .
+        } :restsOn {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } .
+    }.
+
+{
+  {
+      :request-42 :decision :permit .
+  } :restsOn {
+      :eth-2026-118 :coversPurpose :secondaryResearch .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "b"; pe:value {
+        :request-42 :hasEthicsCover true .
+    } ],
+    [ pe:var "c"; pe:value {
+        :eth-2026-118 :coversPurpose :secondaryResearch .
+    } ];
+  pe:uses
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :request-42 :hasEthicsCover true .
+        } .
+    },
+    {
+        {
+            :request-42 :hasEthicsCover true .
+        } :restsOn {
+            :eth-2026-118 :coversPurpose :secondaryResearch .
+        } .
+    }.
+
+{
+  :audit :restsOnAssertion {
+      :request-42 :asksFor :cohort-b .
+  } .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :asksFor :cohort-b .
+    } ],
+    [ pe:var "root"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "src"; pe:value "verifiable-decision.n3" ];
+  pe:uses
+    {
+        :audit :of {
+            :request-42 :decision :permit .
+        } .
+    },
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :request-42 :asksFor :cohort-b .
+        } .
+    },
+    {
+        {
+            :request-42 :asksFor :cohort-b .
+        } pe:fact "verifiable-decision.n3" .
+    }.
+
+{
+  :audit :of {
+      :request-42 :decision :permit .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 :asksFor :cohort-b .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  :audit :restsOnAssertion {
+      :request-42 :purpose :secondaryResearch .
+  } .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :purpose :secondaryResearch .
+    } ],
+    [ pe:var "root"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "src"; pe:value "verifiable-decision.n3" ];
+  pe:uses
+    {
+        :audit :of {
+            :request-42 :decision :permit .
+        } .
+    },
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :request-42 :purpose :secondaryResearch .
+        } .
+    },
+    {
+        {
+            :request-42 :purpose :secondaryResearch .
+        } pe:fact "verifiable-decision.n3" .
+    }.
+
+{
+  {
+      :request-42 :purpose :secondaryResearch .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  :audit :restsOnAssertion {
+      :cohort-b :consentCovers :secondaryResearch .
+  } .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :cohort-b :consentCovers :secondaryResearch .
+    } ],
+    [ pe:var "root"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "src"; pe:value "verifiable-decision.n3" ];
+  pe:uses
+    {
+        :audit :of {
+            :request-42 :decision :permit .
+        } .
+    },
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :cohort-b :consentCovers :secondaryResearch .
+        } .
+    },
+    {
+        {
+            :cohort-b :consentCovers :secondaryResearch .
+        } pe:fact "verifiable-decision.n3" .
+    }.
+
+{
+  {
+      :cohort-b :consentCovers :secondaryResearch .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  :audit :restsOnAssertion {
+      :cohort-b :deidentified true .
+  } .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :cohort-b :deidentified true .
+    } ],
+    [ pe:var "root"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "src"; pe:value "verifiable-decision.n3" ];
+  pe:uses
+    {
+        :audit :of {
+            :request-42 :decision :permit .
+        } .
+    },
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :cohort-b :deidentified true .
+        } .
+    },
+    {
+        {
+            :cohort-b :deidentified true .
+        } pe:fact "verifiable-decision.n3" .
+    }.
+
+{
+  {
+      :cohort-b :deidentified true .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  :audit :restsOnAssertion {
+      :request-42 :madeBy :dr-okafor .
+  } .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :madeBy :dr-okafor .
+    } ],
+    [ pe:var "root"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "src"; pe:value "verifiable-decision.n3" ];
+  pe:uses
+    {
+        :audit :of {
+            :request-42 :decision :permit .
+        } .
+    },
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :request-42 :madeBy :dr-okafor .
+        } .
+    },
+    {
+        {
+            :request-42 :madeBy :dr-okafor .
+        } pe:fact "verifiable-decision.n3" .
+    }.
+
+{
+  {
+      :request-42 :madeBy :dr-okafor .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  :audit :restsOnAssertion {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :dr-okafor :holdsApproval :eth-2026-118 .
+    } ],
+    [ pe:var "root"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "src"; pe:value "verifiable-decision.n3" ];
+  pe:uses
+    {
+        :audit :of {
+            :request-42 :decision :permit .
+        } .
+    },
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } .
+    },
+    {
+        {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } pe:fact "verifiable-decision.n3" .
+    }.
+
+{
+  {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  :audit :restsOnAssertion {
+      :eth-2026-118 :coversPurpose :secondaryResearch .
+  } .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :eth-2026-118 :coversPurpose :secondaryResearch .
+    } ],
+    [ pe:var "root"; pe:value {
+        :request-42 :decision :permit .
+    } ],
+    [ pe:var "src"; pe:value "verifiable-decision.n3" ];
+  pe:uses
+    {
+        :audit :of {
+            :request-42 :decision :permit .
+        } .
+    },
+    {
+        {
+            :request-42 :decision :permit .
+        } :restsOn {
+            :eth-2026-118 :coversPurpose :secondaryResearch .
+        } .
+    },
+    {
+        {
+            :eth-2026-118 :coversPurpose :secondaryResearch .
+        } pe:fact "verifiable-decision.n3" .
+    }.
+
+{
+  {
+      :eth-2026-118 :coversPurpose :secondaryResearch .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{ :audit :vouchedBy doc:intake . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :request-42 :asksFor :cohort-b .
+    } ],
+    [ pe:var "doc"; pe:value doc:intake ];
+  pe:uses
+    {
+        :audit :restsOnAssertion {
+            :request-42 :asksFor :cohort-b .
+        } .
+    },
+    {
+        doc:intake :asserts {
+            :request-42 :asksFor :cohort-b .
+        } .
+    }.
+
+{
+  doc:intake :asserts {
+      :request-42 :asksFor :cohort-b .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{ :audit :vouchedBy doc:consent . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :cohort-b :consentCovers :secondaryResearch .
+    } ],
+    [ pe:var "doc"; pe:value doc:consent ];
+  pe:uses
+    {
+        :audit :restsOnAssertion {
+            :cohort-b :consentCovers :secondaryResearch .
+        } .
+    },
+    {
+        doc:consent :asserts {
+            :cohort-b :consentCovers :secondaryResearch .
+        } .
+    }.
+
+{
+  doc:consent :asserts {
+      :cohort-b :consentCovers :secondaryResearch .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{ :audit :vouchedBy doc:registry . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :cohort-b :deidentified true .
+    } ],
+    [ pe:var "doc"; pe:value doc:registry ];
+  pe:uses
+    {
+        :audit :restsOnAssertion {
+            :cohort-b :deidentified true .
+        } .
+    },
+    {
+        doc:registry :asserts {
+            :cohort-b :deidentified true .
+        } .
+    }.
+
+{
+  doc:registry :asserts {
+      :cohort-b :deidentified true .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{ :audit :vouchedBy doc:ethics . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :dr-okafor :holdsApproval :eth-2026-118 .
+    } ],
+    [ pe:var "doc"; pe:value doc:ethics ];
+  pe:uses
+    {
+        :audit :restsOnAssertion {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } .
+    },
+    {
+        doc:ethics :asserts {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } .
+    }.
+
+{
+  doc:ethics :asserts {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{ :audit :standsOn doc:intake . }
+  pe:rule
+    {
+        {
+            :audit :vouchedBy ?doc .
+        } => {
+            :audit :standsOn ?doc .
+        } .
+    };
+  pe:binding [ pe:var "doc"; pe:value doc:intake ];
+  pe:uses { :audit :vouchedBy doc:intake . }.
+
+{ :audit :standsOn doc:consent . }
+  pe:rule
+    {
+        {
+            :audit :vouchedBy ?doc .
+        } => {
+            :audit :standsOn ?doc .
+        } .
+    };
+  pe:binding [ pe:var "doc"; pe:value doc:consent ];
+  pe:uses { :audit :vouchedBy doc:consent . }.
+
+{ :audit :standsOn doc:registry . }
+  pe:rule
+    {
+        {
+            :audit :vouchedBy ?doc .
+        } => {
+            :audit :standsOn ?doc .
+        } .
+    };
+  pe:binding [ pe:var "doc"; pe:value doc:registry ];
+  pe:uses { :audit :vouchedBy doc:registry . }.
+
+{ :audit :standsOn doc:ethics . }
+  pe:rule
+    {
+        {
+            :audit :vouchedBy ?doc .
+        } => {
+            :audit :standsOn ?doc .
+        } .
+    };
+  pe:binding [ pe:var "doc"; pe:value doc:ethics ];
+  pe:uses { :audit :vouchedBy doc:ethics . }.
