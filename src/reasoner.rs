@@ -214,6 +214,12 @@ fn term_has_var_or_blank(term: &Term) -> bool {
 
 pub(crate) fn resolve_pattern(term: &Term, bindings: &Bindings) -> Term {
     if !term_has_var_or_blank(term) { return term.clone(); }
+    // As `resolve`: a variable bound straight to a value needs no guard.
+    if let Term::Var(name) = term {
+        if let Some(bound) = bindings.get(name) {
+            if !term_has_var(bound) { return bound.clone(); }
+        }
+    }
     resolve_pattern_with_seen(term, bindings, &mut HashSet::new())
 }
 
@@ -489,6 +495,59 @@ impl FactIndex {
                 #[cfg(test)]
                 TEST_BROAD_FACT_SCANS.with(|count| count.set(count.get().saturating_add(1)));
                 facts.iter().collect()
+            }
+        }
+    }
+
+    /// Whether any fact in the bucket `candidates` would return actually
+    /// matches, without building that bucket.
+    ///
+    /// `premise_is_definitively_false` asks this of every remaining premise at
+    /// every node of the search, and materialising a `Vec<&Triple>` each time
+    /// was the allocation the search spent most of its time on.
+    pub(crate) fn any_candidate_matches(&self, facts: &[Triple], pattern: &Triple, bindings: &Bindings) -> bool {
+        let s = resolve_pattern(&pattern.s, bindings);
+        let p = resolve_pattern(&pattern.p, bindings);
+        let o = resolve_pattern(&pattern.o, bindings);
+        let (sg, pg, og) = (s.is_ground(), p.is_ground(), o.is_ground());
+
+        // The deep-list shape builds its own vector either way, so leave it to
+        // `candidates`.
+        if pg && !sg && self.deep_list_subject_candidates(facts, &p, &s).is_some() {
+            return self.candidates(facts, pattern, bindings).iter().any(|fact| {
+                let mut local = BTreeMap::new();
+                match_triple(&resolve_pattern_triple(pattern, bindings), fact, &mut local)
+            });
+        }
+
+        let indices = if sg && pg && og {
+            match (self.sp_bucket(facts, &s, &p), self.po_bucket(facts, &p, &o)) {
+                (Some(sp), Some(po)) if sp.len() <= po.len() => Some(sp),
+                (Some(_), Some(po)) => Some(po),
+                _ => None,
+            }
+        } else if pg && og {
+            self.po_bucket(facts, &p, &o)
+        } else if sg && pg {
+            self.sp_bucket(facts, &s, &p)
+        } else if pg {
+            self.p_bucket(facts, &p)
+        } else {
+            None
+        };
+
+        let resolved = resolve_pattern_triple(pattern, bindings);
+        let matches = |fact: &Triple| {
+            let mut local = BTreeMap::new();
+            match_triple(&resolved, fact, &mut local)
+        };
+        match indices {
+            Some(indices) => indices.iter().any(|idx| matches(&facts[*idx])),
+            None if pg => false,
+            None => {
+                #[cfg(test)]
+                TEST_BROAD_FACT_SCANS.with(|count| count.set(count.get().saturating_add(1)));
+                facts.iter().any(matches)
             }
         }
     }
@@ -2191,14 +2250,14 @@ fn premise_is_definitively_false(
     {
         let resolved = resolve_pattern_triple(premise, bindings);
         if ordinary_fact_goal_is_ready(&resolved) {
-            let candidates = match fact_index {
-                Some(index) => index.candidates(facts, &resolved, &BTreeMap::new()),
-                None => facts.iter().collect(),
+            let any = match fact_index {
+                Some(index) => index.any_candidate_matches(facts, &resolved, &BTreeMap::new()),
+                None => facts.iter().any(|fact| {
+                    let mut local = BTreeMap::new();
+                    match_triple(&resolved, fact, &mut local)
+                }),
             };
-            if !candidates.iter().any(|fact| {
-                let mut local = BTreeMap::new();
-                match_triple(&resolved, fact, &mut local)
-            }) {
+            if !any {
                 return true;
             }
         }
@@ -3133,6 +3192,16 @@ pub(crate) fn unify_term(left: &Term, right: &Term, bindings: &mut Bindings) -> 
     }
 }
 
+/// Whether an IRI could name a builtin at all: the namespaces every arm of
+/// `eval_builtin` answers to, and the ones `is_builtin_iri`, `is_list_builtin`,
+/// `is_math_operator`, `is_math_comparison`, `is_string_builtin` and
+/// `is_time_builtin` draw from.
+fn may_name_a_builtin(iri: &str) -> bool {
+    iri.starts_with("http://www.w3.org/2000/10/swap/")
+        || iri.starts_with("https://eyereasoner.github.io/")
+        || iri.starts_with("http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+}
+
 fn eval_builtin(
     premise: &Triple,
     bindings: &Bindings,
@@ -3144,6 +3213,15 @@ fn eval_builtin(
     budget: &mut SearchBudget,
 ) -> Option<Vec<Bindings>> {
     let pred = resolve(&premise.p, bindings);
+    // Every predicate the arms below answer to lives in one of three
+    // namespaces. `match_one_premise` tries this for every premise it
+    // considers, and most of those are ordinary facts, which would otherwise
+    // walk the whole chain of string comparisons before falling out at the
+    // bottom.
+    match &pred {
+        Term::Iri(iri) if may_name_a_builtin(iri) => {}
+        _ => return None,
+    }
     match pred {
         Term::Iri(ref iri) if iri == LOG_EQUAL_TO => Some(eval_equal(&premise.s, &premise.o, bindings, facts)),
         Term::Iri(ref iri) if iri == LOG_NOT_EQUAL_TO => Some(eval_not_equal(&premise.s, &premise.o, bindings, facts)),
@@ -5922,6 +6000,14 @@ fn occurs_in_with_seen(
 
 fn resolve(term: &Term, bindings: &Bindings) -> Term {
     if !term_has_var(term) { return term.clone(); }
+    // A variable bound straight to a value cannot start a cycle, and that is
+    // nearly every resolve the matcher does. Only the remaining cases pay for
+    // the guard, which allocates a set to hold the names already followed.
+    if let Term::Var(name) = term {
+        if let Some(bound) = bindings.get(name) {
+            if !term_has_var(bound) { return bound.clone(); }
+        }
+    }
     resolve_with_seen(term, bindings, &mut HashSet::new())
 }
 
