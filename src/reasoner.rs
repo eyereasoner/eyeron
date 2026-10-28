@@ -163,6 +163,8 @@ struct RunReport {
     completed_backward_goals: HashMap<String, Vec<Triple>>,
     /// The first firing that derived a statement a built-in rejects.
     contradiction: Option<FiredFuse>,
+    /// Current-graph tests used by firings that actually added conclusions.
+    assumptions: BTreeMap<Triple, Rule>,
 }
 
 impl RunReport {
@@ -870,9 +872,13 @@ impl std::fmt::Display for ReasonerLimit {
     }
 }
 
-/// A structured semantic error encountered while evaluating a rule premise.
+/// A structured semantic error encountered during reasoning or consistency checking.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum ReasonerError {
+    ConsistencyCheck {
+        premise: Triple,
+        detail: String,
+    },
     UnsupportedBuiltin {
         builtin: String,
         premise: Triple,
@@ -883,6 +889,7 @@ pub enum ReasonerError {
 impl std::fmt::Display for ReasonerError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            Self::ConsistencyCheck { detail, .. } => write!(f, "could not finish checking inference consistency: {detail}"),
             Self::UnsupportedBuiltin { builtin, detail, .. } => {
                 write!(f, "unsupported builtin {}: {}", builtin, detail)
             }
@@ -970,7 +977,8 @@ impl Default for ReasonerOptions {
 }
 
 /// A `{ .. } => false` rule whose premise became provable, or a rule that
-/// derived a built-in statement the built-in rejects.
+/// derived a built-in statement the built-in rejects, or used a current-graph
+/// assumption that later inference facts contradict.
 #[derive(Debug, Clone)]
 pub struct FiredFuse {
     pub rule: Rule,
@@ -981,6 +989,8 @@ pub struct FiredFuse {
     /// statements are exactly those it holds for, so deriving one it rejects
     /// is a contradiction, as if the rule had concluded `false`.
     pub contradiction: Option<Triple>,
+    /// A current-graph test used during inference that later facts refute.
+    pub invalidated_assumption: Option<(Triple, String)>,
 }
 
 #[derive(Debug, Clone)]
@@ -1473,6 +1483,8 @@ fn reason_with_plan(
         closure_saturated = false;
     }
 
+    if fuse.is_none() { fuse = invalidated_assumption(&closure, &mut report); }
+
     // A fired fuse is not an answer with a caveat: the rules forbade this
     // situation, so the run has nothing to assert. The closure stays as the
     // record of how far it got before stopping.
@@ -1660,7 +1672,49 @@ fn note_contradiction(rule: &Rule, bindings: &Bindings, t: &Triple, report: &mut
         .iter()
         .map(|triple| instantiate_triple(triple, bindings, &mut blank_map).unwrap_or_else(|| triple.clone()))
         .collect();
-    report.contradiction = Some(FiredFuse { rule: rule.clone(), instance, contradiction: Some(t.clone()) });
+    report.contradiction = Some(FiredFuse { rule: rule.clone(), instance, contradiction: Some(t.clone()), invalidated_assumption: None });
+}
+
+fn record_assumptions(rule: &Rule, bindings: &Bindings, report: &mut RunReport) {
+    for premise in &rule.premise {
+        if !is_deferred_scoped_premise(premise) && !matches!(premise.p, Term::Var(_)) { continue; }
+        // A literal quoted graph remains quoted, including a graph that
+        // happens to look like the unbound-scope stand-in.
+        if matches!(premise.p, Term::Iri(ref p) if p == LOG_NOT_INCLUDES)
+            && matches!(premise.s, Term::Formula(_)) { continue; }
+        let mut test = resolve_pattern_triple(premise, bindings);
+        if crate::proof_check_n3::current_graph_test(&test).is_some()
+            && !crate::proof_check_n3::reads_outside_proof(&test)
+        {
+            if matches!(&test.p, Term::Iri(p) if p == LOG_NOT_INCLUDES) {
+                test.s = Term::blank("current_graph");
+            }
+            report.assumptions.entry(test).or_insert_with(|| rule.clone());
+        }
+    }
+}
+
+fn invalidated_assumption(closure: &[Triple], report: &mut RunReport) -> Option<FiredFuse> {
+    if report.assumptions.is_empty() { return None; }
+    let evidence = Evidence::new(closure.to_vec());
+    for (test, rule) in &report.assumptions {
+        let detail = match crate::proof_check_n3::contradiction(&evidence, test) {
+            Ok(detail) => detail,
+            Err(detail) => {
+                report.errors.push(ReasonerError::ConsistencyCheck { premise: test.clone(), detail });
+                return None;
+            }
+        };
+        if let Some(detail) = detail {
+            return Some(FiredFuse {
+                rule: rule.clone(),
+                instance: vec![test.clone()],
+                contradiction: None,
+                invalidated_assumption: Some((test.clone(), detail.replace("the proof's own evidence", "the current graph"))),
+            });
+        }
+    }
+    None
 }
 
 /// The order the general path matches rules in: source order, except that
@@ -1859,6 +1913,7 @@ fn emit_conclusions(
     report: &mut RunReport,
 ) -> bool {
     let capture_proof = options.proof;
+    let before = (closure.len(), pending_rules.len());
     let max_term_bytes = options.max_term_bytes;
     let mut rules_changed = false;
     // One handle per firing, shared by every fact this firing derives. A
@@ -1869,7 +1924,9 @@ fn emit_conclusions(
     if !rule.conclusion.universals.is_empty() {
         let graph = instantiate_graph_term(&rule.conclusion, bindings, &blank_map);
         let proof = shared_rule.as_ref().map(|rule| (rule, bindings));
-        return register_quantified_assertion(graph, generated_rule_facts, pending_rules, proof, proofs);
+        let changed = register_quantified_assertion(graph, generated_rule_facts, pending_rules, proof, proofs);
+        if changed { record_assumptions(rule, bindings, report); }
+        return changed;
     }
 
     let withheld = withheld_existential_conclusions(rule, bindings, &blank_map, closure, fact_index, seen, rules, options, report);
@@ -1926,6 +1983,7 @@ fn emit_conclusions(
         }
     }
 
+    if (closure.len(), pending_rules.len()) != before { record_assumptions(rule, bindings, report); }
     rules_changed
 }
 
@@ -2292,7 +2350,7 @@ fn fired_fuse(
             .iter()
             .map(|triple| instantiate_triple(triple, &bindings, &mut blank_map).unwrap_or_else(|| triple.clone()))
             .collect();
-        return Some(FiredFuse { rule: rule.clone(), instance, contradiction: None });
+        return Some(FiredFuse { rule: rule.clone(), instance, contradiction: None, invalidated_assumption: None });
     }
     None
 }
@@ -3533,8 +3591,18 @@ impl Evidence {
     /// The solutions of `pattern` over the evidence alone.
     pub fn solutions(&self, pattern: &[Triple]) -> Vec<Bindings> {
         let mut budget = SearchBudget::for_proof(1);
+        self.solutions_with_budget(pattern, &mut budget)
+    }
+
+    pub(crate) fn try_solutions(&self, pattern: &[Triple]) -> Result<Vec<Bindings>, String> {
+        let mut budget = SearchBudget::for_proof(1);
+        let out = self.solutions_with_budget(pattern, &mut budget);
+        Self::checked(out, budget)
+    }
+
+    fn solutions_with_budget(&self, pattern: &[Triple], budget: &mut SearchBudget) -> Vec<Bindings> {
         let mut out = Vec::new();
-        match_premise_at(pattern, &self.facts, Some(&self.index), &[], 0, Bindings::new(), 0, &mut HashSet::new(), &mut budget, &mut out);
+        match_premise_at(pattern, &self.facts, Some(&self.index), &[], 0, Bindings::new(), 0, &mut HashSet::new(), budget, &mut out);
         out
     }
 
@@ -3553,12 +3621,27 @@ impl Evidence {
 
     /// Evaluate built-in `goal`, with the evidence as the current graph.
     pub fn evaluate(&self, goal: &Triple) -> Vec<Bindings> {
+        self.evaluate_with_budget(goal, &mut SearchBudget::for_proof(1))
+    }
+
+    pub(crate) fn try_evaluate(&self, goal: &Triple) -> Result<Vec<Bindings>, String> {
+        let mut budget = SearchBudget::for_proof(1);
+        let out = self.evaluate_with_budget(goal, &mut budget);
+        Self::checked(out, budget)
+    }
+
+    fn evaluate_with_budget(&self, goal: &Triple, budget: &mut SearchBudget) -> Vec<Bindings> {
         let mut concrete = BTreeMap::new();
         for term in [&goal.s, &goal.p, &goal.o] {
             bind_concrete_blanks(term, &mut concrete);
         }
-        let mut budget = SearchBudget::for_proof(1);
-        eval_builtin(goal, &concrete, &self.facts, Some(&self.index), &[], 0, &mut HashSet::new(), &mut budget).unwrap_or_default()
+        eval_builtin(goal, &concrete, &self.facts, Some(&self.index), &[], 0, &mut HashSet::new(), budget).unwrap_or_default()
+    }
+
+    fn checked(out: Vec<Bindings>, budget: SearchBudget) -> Result<Vec<Bindings>, String> {
+        if let Some(limit) = budget.limits_reached.first() { return Err(limit.to_string()); }
+        if let Some(error) = budget.errors.first() { return Err(error.to_string()); }
+        Ok(out)
     }
 
     /// Whether every triple of `pattern` is a built-in, so that its failing
@@ -4242,8 +4325,17 @@ fn eval_collect_all_in(
                 collect_blank_labels(&triple.p, &mut goal_blanks);
                 collect_blank_labels(&triple.o, &mut goal_blanks);
             }
-            for label in goal_blanks.difference(&template_blanks) {
-                initial_bindings.insert(blank_binding_name(label), Term::Blank(label.clone().into()));
+            for label in &goal_blanks {
+                let key = blank_binding_name(label);
+                // A consistency recheck receives an already substituted
+                // clause. Preserve concrete data blanks supplied by its
+                // caller; only the clause's own existential binders reopen
+                // as patterns.
+                if !template_blanks.contains(label)
+                    || (bindings.contains_key(&key) && !raw_clause.existentials.contains(label.as_str()))
+                {
+                    initial_bindings.insert(key, Term::Blank(label.clone().into()));
+                }
             }
         }
     }

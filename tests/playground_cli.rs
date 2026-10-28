@@ -56,6 +56,18 @@ fn browser_modes_match_native_output_and_exit_status() {
 }
 
 #[test]
+fn browser_and_native_reject_invalidated_scoped_assumptions_without_check_mode() {
+    for source in [
+        include_str!("fixtures/scoped-consistency/negative-cycle.n3"),
+        include_str!("fixtures/scoped-consistency/negative-existential-cycle.n3"),
+        include_str!("fixtures/scoped-consistency/examiner-count.n3"),
+    ] {
+        let output = compare(&["-"], source, None);
+        assert!(output.contains("# Contradiction:"), "{output}");
+    }
+}
+
+#[test]
 fn browser_rejects_the_same_invalid_options_and_inputs() {
     for args in [
         vec!["--max-backward-depth", "many", "-"],

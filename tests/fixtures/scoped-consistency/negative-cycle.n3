@@ -1,0 +1,14 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <https://example.org/course#> .
+
+:philosophy :teacher :russell .
+:philosophy :teacher :wittgenstein .
+
+{
+    ?course :teacher ?x .
+    ?scope log:notIncludes { ?x :isA :Unicorn } .
+} => {
+    ?x :isNot :Unicorn .
+} .
+
+{ ?x :isNot :Unicorn } => { ?x :isA :Unicorn } .

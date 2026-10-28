@@ -1749,6 +1749,87 @@ fn a_fuse_that_cannot_fire_leaves_the_rest_of_the_run_alone() {
 }
 
 #[test]
+fn invalidated_scoped_assumptions_fail_with_and_without_proof_capture() {
+    for (source, detail) in [
+        (include_str!("fixtures/scoped-consistency/negative-cycle.n3"), "lacks this"),
+        (include_str!("fixtures/scoped-consistency/negative-existential-cycle.n3"), "lacks this"),
+        (include_str!("fixtures/scoped-consistency/examiner-count.n3"), "omits"),
+    ] {
+        let doc = parse_n3(source, None).unwrap();
+        assert!(reason(source).unwrap_err().message.contains("# Contradiction:"));
+        for proof in [false, true] {
+            let result = reason_document(&doc, &ReasonerOptions { proof, ..Default::default() });
+            let fuse = result.fuse.as_ref().expect("invalidated assumption must stop inference");
+            let report = eyeron::fuse_report(&doc.prefixes, fuse);
+            assert!(report.contains(detail), "{report}");
+            assert!(result.derived.is_empty());
+            assert!(result.proofs.is_empty());
+        }
+    }
+}
+
+#[test]
+fn unused_absence_tests_and_quoted_graphs_do_not_create_runtime_assumptions() {
+    let source = r#"
+        @prefix : <http://example.org/>.
+        @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+        @prefix ex: <http://example.org/>.
+        :a :seed true.
+        { ?scope log:notIncludes { :a :blocked true }. :missing :fact true }
+            => { :a :unused true }.
+        { { ex:a ex:b ex:c } log:notIncludes { :a :blocked true } }
+            => { :a :quoted true }.
+        { :a :seed true } => { :a :blocked true }.
+    "#;
+    let doc = parse_n3(source, None).unwrap();
+    let result = reason_document(&doc, &ReasonerOptions::default());
+    assert!(result.is_complete(), "{:?}", result.errors);
+    assert!(result.fuse.is_none(), "{:?}", result.fuse);
+    assert!(result_to_string(&doc.prefixes, &result.derived).contains(":quoted true"));
+}
+
+#[test]
+fn a_later_counterexample_invalidates_a_universal_builtin_test() {
+    let doc = parse_n3(r#"
+        @prefix : <http://example.org/>.
+        @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+        @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+        :a :value 1.
+        { ({ :a :value ?v } { ?v math:lessThan 2 }) log:forAllIn ?scope }
+            => { :a :value 3 }.
+    "#, None).unwrap();
+    let result = reason_document(&doc, &ReasonerOptions::default());
+    let fuse = result.fuse.as_ref().expect("later value is a counterexample");
+    assert!(eyeron::fuse_report(&doc.prefixes, fuse).contains("counterexample"));
+    assert!(result.derived.is_empty());
+}
+
+#[test]
+fn collection_consistency_preserves_concrete_data_blank_identity() {
+    let source = include_str!("notation3tests/tests/static/log/collectAllIn/success-literal-6.n3");
+    let doc = parse_n3(source, None).unwrap();
+    let result = reason_document(&doc, &ReasonerOptions::default());
+    assert!(result.is_complete(), "{:?}", result.errors);
+    assert!(result.fuse.is_none(), "{:?}", result.fuse);
+    let output = result_to_string(&doc.prefixes, &result.derived);
+    assert!(output.contains(":test :is true"), "{output}");
+}
+
+#[test]
+fn query_answers_do_not_invalidate_inference_absence_assumptions() {
+    let doc = parse_n3(r#"
+        @prefix : <http://example.org/>.
+        @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+        { ?scope log:notIncludes { :a :blocked true } } => { :a :free true }.
+        { :a :free true } log:query { :a :blocked true }.
+    "#, None).unwrap();
+    let result = reason_document(&doc, &ReasonerOptions::default());
+    assert!(result.is_complete(), "{:?}", result.errors);
+    assert!(result.fuse.is_none(), "{:?}", result.fuse);
+    assert!(result_to_string(&doc.prefixes, &result.derived).contains(":blocked true"));
+}
+
+#[test]
 fn deriving_a_built_in_statement_that_does_not_hold_trips_a_fuse() {
     // A built-in's statements are exactly those it holds for, so a rule that
     // concludes one it rejects has derived a contradiction.

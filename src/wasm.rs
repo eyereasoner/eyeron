@@ -140,6 +140,9 @@ impl EyeronSession {
             &data_doc,
             &ReasonerOptions { proof: self.proof, ..ReasonerOptions::default() },
         );
+        if let Some(fuse) = &result.fuse {
+            return Err(PlaygroundError::from_fuse(crate::fuse_report(&prefixes, fuse)));
+        }
         if !result.is_complete() {
             return Err(PlaygroundError::from_reasoner(&result));
         }
@@ -174,6 +177,9 @@ fn run_report(program: &str, data: &str, proof: bool, rdf: bool, rdf_format: &st
     }
 
     let result = reason_document(&doc, &ReasonerOptions { proof, ..ReasonerOptions::default() });
+    if let Some(fuse) = &result.fuse {
+        return Err(PlaygroundError::from_fuse(crate::fuse_report(&doc.prefixes, fuse)));
+    }
     if !result.is_complete() {
         return Err(PlaygroundError::from_reasoner(&result));
     }
@@ -198,6 +204,11 @@ struct PlaygroundError {
 }
 
 impl PlaygroundError {
+    fn from_fuse(report: String) -> Self {
+        Self { code: "inference_fuse", display: report.clone(), message: report,
+            editor: "program", line: None, column: None, details: None }
+    }
+
     fn from_error(err: EyeronError, source: &str, editor: &'static str, label: &str) -> Self {
         let (line, column) = err.offset.map(|offset| line_col(source, offset)).unwrap_or((0, 0));
         Self {
@@ -223,6 +234,8 @@ impl PlaygroundError {
             .errors
             .iter()
             .map(|error| match error {
+                ReasonerError::ConsistencyCheck { detail, .. } => format!(
+                    "{{\"code\":\"consistency_check\",\"detail\":{}}}", json_string(detail)),
                 ReasonerError::UnsupportedBuiltin { builtin, detail, .. } => format!(
                     "{{\"code\":\"unsupported_builtin\",\"builtin\":{},\"detail\":{}}}",
                     json_string(builtin),

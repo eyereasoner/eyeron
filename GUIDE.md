@@ -342,6 +342,8 @@ eyeron examples/fuse.n3
 
 This example describes one stone as both black and white and forbids that combination. The exit status is **65**. A fuse is useful for constraints your program explicitly states; its behavior is defined in [the language reference](SPEC.md#5-inference-fuses).
 
+Inference also stops with status **65** when later facts contradict a current-graph absence, collection, or universal test used to derive a conclusion. The report names the invalidated assumption; no conclusions are printed. This check runs in ordinary mode as well as with `-p` and `-c`.
+
 ## Browser
 
 Open the [playground with Socrates loaded](https://eyereasoner.github.io/eyeron/playground#example=socrates). Everything runs through WebAssembly in your browser.
@@ -450,7 +452,7 @@ fn main() -> eyeron::Result<()> {
 }
 ```
 
-The convenience `reason(&str)` parses N3 or an RDF Message Log and returns serialized derived output. It returns an error for incomplete reasoning. Use the structured API when your application needs to inspect fuses, completion, or proof details.
+The convenience `reason(&str)` parses N3 or an RDF Message Log and returns serialized derived output. It returns an error for incomplete reasoning or a fired inference fuse. Use the structured API when your application needs to inspect fuses, completion, or proof details.
 
 ### Capture and check a proof
 

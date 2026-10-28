@@ -51,7 +51,7 @@ const LOG_CONJUNCTION: &str = "http://www.w3.org/2000/10/swap/log#conjunction";
 /// records, so it is an obligation (§9.6) — but one the proof's own evidence
 /// can still contradict (C6). `None` for any other built-in, or a quoted
 /// scope, which makes the test a function of its arguments (C5).
-fn current_graph_test(triple: &Triple) -> Option<&'static str> {
+pub(crate) fn current_graph_test(triple: &Triple) -> Option<&'static str> {
     let Term::Iri(name) = &triple.p else { return None };
     // Anything but a quoted graph — a variable, a blank, a scope level such
     // as `1` — names the current graph.
@@ -69,7 +69,7 @@ fn current_graph_test(triple: &Triple) -> Option<&'static str> {
 /// Negative tests over the current graph, collections, and universal tests
 /// execute clauses, so an external read nested there remains an obligation.
 /// Over a quoted graph a negative test only matches quoted statements.
-fn reads_outside_proof(triple: &Triple) -> bool {
+pub(crate) fn reads_outside_proof(triple: &Triple) -> bool {
     let Term::Iri(name) = &triple.p else { return false };
     if IMPURE_BUILTINS.contains(&name.as_str()) { return true; }
     if name.as_str() == LOG_NOT_INCLUDES
@@ -1246,8 +1246,10 @@ impl ProofDocument for N3Proof {
             self.facts.iter().cloned().chain(self.steps.iter().filter(|step| !self.answers_query(step)).map(|step| step.conclusion.clone())).collect());
         let mut contradictions = Vec::new();
         for step in &tests {
-            if let Some(detail) = contradiction(&evidence, &step.conclusion) {
-                contradictions.push((describe(&step.conclusion), detail));
+            match contradiction(&evidence, &step.conclusion) {
+                Ok(Some(detail)) => contradictions.push((describe(&step.conclusion), detail)),
+                Ok(None) => {},
+                Err(detail) => contradictions.push((describe(&step.conclusion), format!("could not finish checking this current-graph test: {detail}"))),
             }
         }
         let examined_introductions = self.unsatisfied_existentials(&evidence, &introductions, &mut contradictions);
@@ -1376,42 +1378,44 @@ impl ProofDocument for N3Proof {
 /// if anything. The evidence is only what the proof records, so a test it
 /// does not contradict may still have been wrong; one it does contradict
 /// cannot have held.
-fn contradiction(evidence: &crate::reasoner::Evidence, test: &Triple) -> Option<String> {
-    let Term::Iri(name) = &test.p else { return None };
+pub(crate) fn contradiction(evidence: &crate::reasoner::Evidence, test: &Triple) -> std::result::Result<Option<String>, String> {
+    let Term::Iri(name) = &test.p else { return Ok(None) };
     let scope = Term::blank("current_graph");
     match name.as_str() {
         LOG_NOT_INCLUDES => {
             let retest = Triple::new(scope, test.p.clone(), test.o.clone());
-            evidence.evaluate(&retest).is_empty()
-                .then(|| "assumes the current graph lacks this, but the proof's own evidence includes it".to_string())
+            Ok(evidence.try_evaluate(&retest)?.is_empty()
+                .then(|| "assumes the current graph lacks this, but the proof's own evidence includes it".to_string()))
         }
-        LOG_INCLUDES => None,
+        LOG_INCLUDES => Ok(None),
         LOG_COLLECT_ALL_IN => {
-            let Term::List(parts) = &test.s else { return None };
-            let [template, condition, collected] = parts.as_slice() else { return None };
-            let collected = list_items(collected)?;
+            let Term::List(parts) = &test.s else { return Ok(None) };
+            let [template, condition, collected] = parts.as_slice() else { return Ok(None) };
+            let Some(collected) = list_items(collected) else { return Ok(None) };
             let result = Term::var("__collected");
             let retest = Triple::new(Term::List(vec![template.clone(), condition.clone(), result]), test.p.clone(), scope);
-            let visible = evidence.evaluate(&retest).into_iter()
-                .find_map(|bindings| bindings.get("__collected").cloned())?;
-            let Term::List(visible) = visible else { return None };
-            let missing = visible.iter().find(|item| !collected.contains(item))?;
-            Some(format!("omits {}, which the proof's own evidence supplies",
-                crate::printing::term_to_n3_object(missing, &BTreeMap::new())))
+            let visible = evidence.try_evaluate(&retest)?.into_iter()
+                .find_map(|bindings| bindings.get("__collected").cloned());
+            let Some(Term::List(visible)) = visible else { return Ok(None) };
+            Ok(visible.iter().find(|item| !collected.contains(item)).map(|missing| format!(
+                "omits {}, which the proof's own evidence supplies",
+                crate::printing::term_to_n3_object(missing, &BTreeMap::new()))))
         }
         LOG_FOR_ALL_IN => {
-            let Term::List(parts) = &test.s else { return None };
-            let [Term::Formula(condition), Term::Formula(conclusion)] = parts.as_slice() else { return None };
+            let Term::List(parts) = &test.s else { return Ok(None) };
+            let [Term::Formula(condition), Term::Formula(conclusion)] = parts.as_slice() else { return Ok(None) };
             // Only a conclusion made of built-ins can be refuted: an
             // ordinary triple the proof does not record may still hold.
-            evidence.solutions(condition).into_iter().find_map(|bindings| {
+            for bindings in evidence.try_solutions(condition)? {
                 let mapping: BTreeMap<Term, Term> = bindings.iter().map(|(name, value)| (Term::Var(name.clone()), value.clone())).collect();
                 let instance = conclusion.substitute(&mapping);
-                (crate::reasoner::Evidence::is_decidable(&instance) && evidence.solutions(&instance).is_empty())
-                    .then(|| format!("has a counterexample in the proof's own evidence: {}", describe(&instance.triples[0])))
-            })
+                if crate::reasoner::Evidence::is_decidable(&instance) && evidence.try_solutions(&instance)?.is_empty() {
+                    return Ok(Some(format!("has a counterexample in the proof's own evidence: {}", describe(&instance.triples[0]))));
+                }
+            }
+            Ok(None)
         }
-        _ => None,
+        _ => Ok(None),
     }
 }
 

@@ -21,12 +21,6 @@ use eyeron::{proof_to_n3, reason_document, ReasonerOptions};
 use examples::{manifest_dir, parse_document, read, run_with_timeout, sorted_n3_files, NO_PROOF_EXAMPLES, PARSE_ONLY_EXAMPLES};
 use report::{green, progress_line, red};
 
-/// Examples whose proofs must be rejected, and the condition that rejects
-/// them. variable-predicate-dependency.n3 is an intentional negative cycle:
-/// the run assumes `:a a :Blocked` is absent and then derives it, so its
-/// proof contradicts itself (C6).
-const EXPECTED_INVALID: &[(&str, &str)] = &[("variable-predicate-dependency", "C6")];
-
 /// verifiable-decision-audit.n3 audits the proof of verifiable-decision.n3,
 /// which it reads as a companion input. That copy has to be the engine's
 /// current proof and not a stale one, or the audit would be of a decision
@@ -85,20 +79,13 @@ fn main() {
         if PARSE_ONLY_EXAMPLES.contains(&name.as_str()) { continue; }
         let worker_name = name.clone();
         let outcome = run_with_timeout(&name, move || check(&worker_name));
-        let expected = EXPECTED_INVALID.iter().find(|(invalid, _)| *invalid == name).map(|(_, condition)| *condition);
         let (valid, summary) = match &outcome {
             Ok(Outcome::Checked(report)) => {
                 proofs += 1;
                 steps += report.steps;
                 verified += report.verified;
                 trusted += report.obligations.len();
-                match expected {
-                    Some(condition) => {
-                        let rejected = !report.valid() && report.failures.iter().all(|failure| failure.condition == condition);
-                        (rejected, format!("{}, rejected under {condition} as expected", report.verdict()))
-                    }
-                    None => (report.valid(), report.verdict()),
-                }
+                (report.valid(), report.verdict())
             }
             Ok(Outcome::NothingToProve) => (true, "derives nothing to prove".to_string()),
             Err(message) => (false, message.clone()),

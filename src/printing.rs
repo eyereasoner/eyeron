@@ -212,6 +212,13 @@ fn implication_to_n3(t: &Triple, prefixes: &BTreeMap<String, String>) -> String 
 /// graph it describes -- nothing was derived, the run stopped.
 pub fn fuse_report(prefixes: &BTreeMap<String, String>, fuse: &FiredFuse) -> String {
     let mut out = String::from("# Inference fuse triggered.\n");
+    if let Some((test, detail)) = &fuse.invalidated_assumption {
+        out.push_str(&format!("# Contradiction: {detail}.\n# Invalidated assumption:\n"));
+        for line in triple_to_n3(prefixes, test).lines() {
+            out.push_str(&format!("#   {line}\n"));
+        }
+        return out;
+    }
     if let Some(statement) = &fuse.contradiction {
         let rule = Triple::new(
             Term::Formula(fuse.rule.premise.clone()),

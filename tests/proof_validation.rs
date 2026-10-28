@@ -351,6 +351,19 @@ fn a_collection_over_the_current_graph_cannot_omit_what_the_proof_shows() {
 }
 
 #[test]
+fn a_current_graph_check_cannot_succeed_when_its_search_budget_is_exhausted() {
+    // Every combination collects the same member. A partial search would
+    // therefore appear consistent, even though the check did not finish.
+    let condition = (0..18).map(|i| format!(":seed :value ?v{i} . ")).collect::<String>();
+    let source = format!(":seed :value 0, 1. {{ (:constant {{ {condition} }} ?all) log:collectAllIn ?S }} => {{ :result :all ?all }}.");
+    let test = format!("(:constant {{ {condition} }} (:constant)) log:collectAllIn ?S");
+    let proof = format!(":result :all (:constant).\n\
+        {{ :result :all (:constant) }} pe:rule 1; pe:binding [ pe:var \"all\"; pe:value (:constant) ]; pe:uses {{ {test} }}.\n\
+        {{ {test} }} pe:builtin log:collectAllIn.");
+    rejects_under(&source, &proof, "C6", "could not finish checking");
+}
+
+#[test]
 fn evidence_that_trips_an_inference_fuse_is_rejected() {
     let source = ":a a :Cat. { ?x a :Cat } => { ?x a :Dog }. { ?x a :Cat, :Dog } => false.";
     let proof = ":a a :Dog.\n\

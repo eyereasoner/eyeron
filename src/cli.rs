@@ -446,6 +446,9 @@ fn run_one_message(
     let parsed = parse_rdf_message_log(&replay, base)
         .map_err(|err| EyeronError::new(err.with_source_location(&replay, &message_label)))?;
     let result = prepared.reason(&parsed, reasoner_options);
+    if let Some(fuse) = &result.fuse {
+        return Err(EyeronError::new(fuse_report(&BTreeMap::new(), fuse)));
+    }
     if let Some(summary) = result.incomplete_summary() {
         return Err(EyeronError::new(summary));
     }

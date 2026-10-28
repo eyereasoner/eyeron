@@ -1,0 +1,47 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix : <https://example.org/course#> .
+
+:philosophy :teacher :russell .
+:philosophy :teacher :wittgenstein .
+:philosophy :participant :wittgenstein .
+
+{
+    ?course :participant ?person .
+} => {
+    ?person a :Student .
+} .
+
+{
+    ?course :teacher ?person .
+    ?scope log:notIncludes {
+        ?person a :Student .
+    } .
+} => {
+    ?course :examiner ?person .
+} .
+
+{
+    ?course :participant ?person .
+} => {
+    ?course :examiner _:examiner .
+    _:examiner a :Person ; :has _:x .
+    _:x a :Diploma .
+} .
+
+{
+    ?x :examiner ?y .
+} => {
+    ?y a :Person ; :has _:x .
+    _:x a :Diploma .
+} .
+
+{
+    ?course :participant ?anyone .
+    (?examiner {
+        ?course :examiner ?examiner .
+    } ?examiners) log:collectAllIn ?scope .
+    ?examiners list:length ?count .
+} => {
+    ?course :numberOfExaminers ?count .
+} .

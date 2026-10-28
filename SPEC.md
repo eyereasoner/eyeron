@@ -346,11 +346,18 @@ rule's existential piece runs before it; rules that could satisfy each other
 keep source order. Ordinary forward consequences of earlier deferred rules
 MUST saturate before a later existential introduction decides.
 
+Current-graph tests used by firings that add conclusions are retained. Before
+returning results, the reasoner MUST reject a run whose inference facts
+contradict a retained absence, collection, or universal test under the finite
+evidence checks in Section 9.6. Such a contradiction trips an inference fuse
+and suppresses conclusions, regardless of whether proof capture is enabled.
+Query answers do not enter this evidence. External reads are not re-executed.
+
 *Informative.* The order lets a negation name an existing individual before an
 existential that individual satisfies, and lets a rule introduce a larger
 piece before a smaller one it covers. A program whose deferred rules depend on
-each other's results in a cycle can still depend on that order; the proof
-checker then rejects its proof under C6 (Section 9.6).
+each other's results in a cycle can still depend on that order; invalidated
+current-graph tests stop the run rather than produce a successful result.
 
 ### 6.3 Queries and Output
 
@@ -759,9 +766,10 @@ produce an invalid report.
 
 [tests/proof_checking.rs](tests/proof_checking.rs) generates the proof of
 every packaged example that derives anything and requires it to be nonempty
-and check, except `variable-predicate-dependency`: an intentional negative
-cycle that assumes `:a a :Blocked` is absent and then derives it, which C6
-rejects. [Generation regressions](tests/proof_generation.rs) also check fresh
+and check. `variable-predicate-dependency` is an intentional negative cycle
+that assumes `:a a :Blocked` is absent and then derives it; it trips an
+inference fuse and has no conclusions to prove.
+[Generation regressions](tests/proof_generation.rs) also check fresh
 proofs, including source-only and backward-only identity queries, long
 query-selected chains on a small stack, quoted closures with overlapping
 variable names, backward premise ordering, and backtracking past incomplete or

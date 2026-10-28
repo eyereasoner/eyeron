@@ -46,6 +46,9 @@ pub fn reason(input: &str) -> Result<String> {
     // clone of every fact in `doc` that this function has no use for.
     let options = ReasonerOptions { include_explicit: false, ..ReasonerOptions::default() };
     let result = reason_document(&doc, &options);
+    if let Some(fuse) = &result.fuse {
+        return Err(EyeronError::new(fuse_report(&doc.prefixes, fuse)));
+    }
     if let Some(summary) = result.incomplete_summary() {
         return Err(EyeronError::new(summary));
     }

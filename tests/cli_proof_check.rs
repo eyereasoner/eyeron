@@ -283,3 +283,25 @@ fn malformed_proof_metadata_is_a_cli_error() {
     assert!(output.stdout.is_empty());
     assert!(String::from_utf8_lossy(&output.stderr).contains("exactly one premise triple"));
 }
+
+#[test]
+fn inconsistent_scoped_inference_fails_in_every_output_mode() {
+    for source in [
+        include_str!("fixtures/scoped-consistency/negative-cycle.n3"),
+        include_str!("fixtures/scoped-consistency/negative-existential-cycle.n3"),
+        include_str!("fixtures/scoped-consistency/examiner-count.n3"),
+    ] {
+        for flags in [&["-"][..], &["-p", "-"], &["-c", "-"]] {
+            let output = run_with_stdin(flags, source.as_bytes());
+            assert_eq!(output.status.code(), Some(65), "{flags:?}: {output:?}");
+            let report = String::from_utf8(output.stdout).unwrap();
+            assert!(report.contains("# Contradiction:"), "{report}");
+            assert!(report.lines().all(|line| line.starts_with('#')), "{report}");
+        }
+        let fixture = FixtureDir::new();
+        let path = fixture.write("inconsistent.n3", source);
+        let output = run(&["--rdf", &path]);
+        assert_eq!(output.status.code(), Some(65), "{output:?}");
+        assert!(String::from_utf8_lossy(&output.stdout).contains("# Contradiction:"));
+    }
+}
