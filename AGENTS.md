@@ -170,4 +170,6 @@ The script switches to `main`, pulls with `--ff-only`, bumps the version with
 the wasm build reports the new version, stages every change, commits, creates
 an annotated `v*` tag, and pushes the branch and tag. Review the working tree
 first because it stages everything. A push to `main` deploys GitHub Pages and
-runs CI; a `v*` tag creates the GitHub release from the tag's message.
+runs CI; a `v*` tag creates the GitHub release from the tag's message and
+publishes the crate through `.github/workflows/publish-crates.yml`. See the
+guide for its one-time crates.io authentication setup and existing-tag dispatch.

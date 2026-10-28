@@ -560,4 +560,22 @@ The vendored N3 suite has two adjusted expectations for Eyeron's graph-term scop
 | `src/proof_check.rs`, `src/proof_check_n3.rs` | Generic checker and N3 reader |
 | `src/cli.rs`, `src/main.rs`, `src/wasm.rs` | Shared CLI behavior, native I/O, browser bindings |
 
-For maintainers, `./release patch "message"` (or `minor`/`major`) pulls `main`, bumps the version, rebuilds the playground, commits all working-tree changes, and pushes `main` and an annotated tag. Run the checks beforehand; the script does not run tests. Tag pushes trigger the GitHub release workflow.
+For maintainers, `./release patch "message"` (or `minor`/`major`) pulls `main`, bumps the version, rebuilds the playground, commits all working-tree changes, and pushes `main` and an annotated tag. Run the checks beforehand; the script does not run tests. Tag pushes trigger the GitHub release and crates.io publishing workflows.
+
+### Automatic crates.io publishing
+
+`.github/workflows/publish-crates.yml` publishes every `v*` tag to crates.io,
+after checking that the tag matches `Cargo.toml` and that the packaged crate
+builds. The workflow can also publish an existing release through **Actions →
+Publish to crates.io → Run workflow**: enter its tag, such as `v0.8.25`.
+The optional dry-run input verifies the package without uploading it.
+
+For the first publication, configure the repository or organization Actions
+secret `CARGO_REGISTRY_TOKEN` with a crates.io token permitted to create `eyeron`
+and publish its versions. The workflow uses it automatically; subsequent tag
+pushes need no publishing commands from a maintainer.
+
+After the crate exists, maintainers may configure a crates.io GitHub trusted
+publisher for owner `eyereasoner`, repository `eyeron`, and workflow
+`publish-crates.yml`, then remove the token secret. The workflow then obtains
+a short-lived token through OIDC, like Eyeling's npm publishing workflow.
