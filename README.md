@@ -1,5 +1,8 @@
 # <img src="assets/eye.png" alt="" width="48" height="48" align="middle"> Eyeron
 
+[![Zenodo](https://img.shields.io/badge/Zenodo-1682D4?logo=zenodo&logoColor=white)](https://zenodo.org/account/settings/github/repository/eyereasoner/eyeron)
+[![crates.io](https://img.shields.io/crates/v/eyeron.svg)](https://crates.io/crates/eyeron)
+
 Eyeron is a Rust reasoner for **Notation3 (N3)**. It derives conclusions from
 facts and rules, writes N3 proofs, and checks those proofs. It runs as a
 command-line program, a Rust library, and a browser application.
