@@ -30,12 +30,12 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Clippy (all targets)
         run: cargo clippy --locked --all-targets -- -D warnings
-      - name: Playground loading and sharing
-        run: node --experimental-vm-modules --test tests/playground_loading.mjs tests/playground_sharing.mjs
+      - name: Test runner and playground
+        run: node --experimental-vm-modules --test tests/test_all.mjs tests/playground_loading.mjs tests/playground_sharing.mjs
       # Unit + doc tests, both conformance suites, example output/proof
       # snapshots, and the proof-checking corpus.
-      - name: Release tests
-        run: cargo test --locked --release
+      - name: Optimized tests
+        run: ./scripts/test-all --locked
       - name: Rustdoc
         run: cargo doc --locked --no-deps
         env:

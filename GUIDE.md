@@ -538,9 +538,11 @@ node --experimental-vm-modules --test tests/playground_loading.mjs tests/playgro
 cargo doc --no-deps
 ```
 
-`scripts/test-all` runs the release suite and finishes with the number of individual tests, percentage OK, and total elapsed time. It counts conformance cases in place of their suite checks, without double-counting W3C manifest and aggregate reports.
+`scripts/test-all` runs every Rust suite using the optimized `test-fast` profile. It skips link-time optimization, enables incremental builds, and checks two example proofs concurrently. It finishes with the number of individual tests, percentage OK, and total elapsed time. It counts conformance cases in place of their suite checks, without double-counting W3C manifest and aggregate reports. Failures retain Cargo's exit status, and every suite runs even after another fails.
 
-The example harness compares N3 output as a graph and Markdown output by stable report lines. The proof-checking harness generates the proof of every example that derives anything and requires it to be nonempty and check under C1–C9. One intentional negative cycle is expected to fail C6. No proof or report is stored, so there is nothing to keep in step with the engine.
+Use `EYERON_TEST_JOBS` to change the number of proof workers. For production-profile performance measurements with sequential examples, run `EYERON_TEST_JOBS=1 ./scripts/test-all --release`. Other Cargo arguments, including `--locked`, `--test`, and `--profile`, are forwarded. Direct `cargo test --release` runs remain sequential across example proofs. Production and Wasm release builds keep their full link-time optimization.
+
+The example harness compares N3 output as a graph and Markdown output by stable report lines. The proof-checking harness generates the proof of every example that derives anything and requires it to be nonempty and check under C1–C9. An intentional negative cycle trips an inference fuse and has no conclusions to prove. No proof or report is stored, so there is nothing to keep in step with the engine.
 
 After an intentional output change, regenerate and review the output goldens:
 

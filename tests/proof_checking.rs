@@ -18,7 +18,7 @@ mod report;
 
 use eyeron::proof_check::Report;
 use eyeron::{proof_to_n3, reason_document, ReasonerOptions};
-use examples::{manifest_dir, parse_document, read, run_with_timeout, sorted_n3_files, NO_PROOF_EXAMPLES, PARSE_ONLY_EXAMPLES};
+use examples::{example_jobs, manifest_dir, parse_document, read, run_cases, sorted_n3_files, NO_PROOF_EXAMPLES, PARSE_ONLY_EXAMPLES};
 use report::{green, progress_line, red};
 
 /// verifiable-decision-audit.n3 audits the proof of verifiable-decision.n3,
@@ -74,11 +74,10 @@ fn main() {
             "NO_PROOF_EXAMPLES names {name:?}, which does not exist under examples/");
     }
 
-    for path in sorted_n3_files(&manifest_dir().join("examples")) {
-        let name = path.file_stem().and_then(|s| s.to_str()).expect("utf8 name").to_string();
-        if PARSE_ONLY_EXAMPLES.contains(&name.as_str()) { continue; }
-        let worker_name = name.clone();
-        let outcome = run_with_timeout(&name, move || check(&worker_name));
+    let names = sorted_n3_files(&manifest_dir().join("examples")).into_iter()
+        .map(|path| path.file_stem().and_then(|s| s.to_str()).expect("utf8 name").to_string())
+        .filter(|name| !PARSE_ONLY_EXAMPLES.contains(&name.as_str())).collect();
+    run_cases(names, example_jobs(), check, |name, outcome, elapsed| {
         let (valid, summary) = match &outcome {
             Ok(Outcome::Checked(report)) => {
                 proofs += 1;
@@ -93,17 +92,17 @@ fn main() {
 
         if valid {
             passed += 1;
-            progress_line(&format!("proof examples/{name}.n3 ... {} ({summary})", green("ok")));
+            progress_line(&format!("proof examples/{name}.n3 ... {} ({summary}; {:.3}s)", green("ok"), elapsed.as_secs_f64()));
         } else {
             failed += 1;
-            progress_line(&format!("proof examples/{name}.n3 ... {} ({summary})", red("fail")));
+            progress_line(&format!("proof examples/{name}.n3 ... {} ({summary}; {:.3}s)", red("fail"), elapsed.as_secs_f64()));
             if let Ok(Outcome::Checked(report)) = &outcome {
                 for failure in report.failures.iter().take(2) {
                     progress_line(&format!("    [{}] {} -- {}", failure.condition, failure.conclusion, failure.detail));
                 }
             }
         }
-    }
+    });
 
     let elapsed = started.elapsed().as_secs_f64();
     progress_line(&format!(

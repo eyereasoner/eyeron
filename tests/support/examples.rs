@@ -129,3 +129,54 @@ pub fn run_with_timeout<T: Send + 'static>(name: &str, work: impl FnOnce() -> Re
         }
     }
 }
+
+/// Direct Cargo runs stay sequential for per-example timing. The test-all
+/// script opts into a bounded number of independent proof checks.
+pub fn example_jobs() -> usize {
+    let jobs = match std::env::var("EYERON_TEST_JOBS") {
+        Ok(value) => value.parse::<std::num::NonZeroUsize>()
+            .expect("EYERON_TEST_JOBS must be a positive integer").get(),
+        Err(_) => 1,
+    };
+    jobs.min(std::thread::available_parallelism().map_or(1, |count| count.get()))
+}
+
+/// Check every case once, preserving its timeout and reporting outcomes on
+/// the calling thread. With one worker, source order is preserved too.
+pub fn run_cases<T: Send + 'static>(
+    names: Vec<String>,
+    jobs: usize,
+    check: fn(&str) -> Result<T, String>,
+    mut report: impl FnMut(String, Result<T, String>, Duration),
+) {
+    assert!(jobs > 0, "at least one example worker is required");
+    if jobs == 1 {
+        for name in names {
+            let started = std::time::Instant::now();
+            let worker_name = name.clone();
+            let outcome = run_with_timeout(&name, move || check(&worker_name));
+            report(name, outcome, started.elapsed());
+        }
+        return;
+    }
+    let pending = std::sync::Mutex::new(names.into_iter());
+    let (tx, rx) = std::sync::mpsc::channel();
+    std::thread::scope(|scope| {
+        for _ in 0..jobs {
+            let pending = &pending;
+            let tx = tx.clone();
+            scope.spawn(move || loop {
+                let name = pending.lock().expect("example queue poisoned").next();
+                let Some(name) = name else { break };
+                let started = std::time::Instant::now();
+                let worker_name = name.clone();
+                let outcome = run_with_timeout(&name, move || check(&worker_name));
+                if tx.send((name, outcome, started.elapsed())).is_err() { break; }
+            });
+        }
+        drop(tx);
+        for (name, outcome, elapsed) in rx {
+            report(name, outcome, elapsed);
+        }
+    });
+}

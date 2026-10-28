@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Run the release suite with live output and one final count of individual tests.
+# Run the optimized suite with live output and one final count of individual tests.
 # Conformance cases replace their harness checks; W3C cases are counted once.
 # Keep colours through tee for Cargo, libtest, and the custom harnesses.
 
@@ -12,9 +12,18 @@ cd "$repo_root"
 log=$(mktemp)
 trap 'rm -f "$log"' EXIT
 
+# An explicit Cargo profile takes precedence over the faster testing profile.
+profile=(--profile test-fast)
+for arg in "$@"; do
+  case "$arg" in
+    --release|-r|--profile|--profile=*) profile=(); break ;;
+  esac
+done
+
 # Run every suite even after one fails, so the count covers all of them.
+# Two proof workers overlap independent examples without unbounded memory use.
 started=$EPOCHREALTIME
-CARGO_TERM_COLOR=always cargo test --release --no-fail-fast --color always "$@" -- --color always 2>&1 | tee "$log"
+EYERON_TEST_JOBS="${EYERON_TEST_JOBS:-2}" CARGO_TERM_COLOR=always cargo test "${profile[@]}" --no-fail-fast --color always "$@" -- --color always 2>&1 | tee "$log"
 status=${PIPESTATUS[0]}
 elapsed=$(awk -v s="$started" -v e="$EPOCHREALTIME" 'BEGIN { printf "%.2f", e - s }')
 

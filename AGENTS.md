@@ -59,7 +59,9 @@ cargo playground
 git diff --check
 ```
 
-`./scripts/test-all` runs every suite with `--no-fail-fast` and ends with one
+`./scripts/test-all` uses the optimized `test-fast` profile, enables incremental
+builds, and checks two example proofs concurrently (`EYERON_TEST_JOBS` overrides
+the worker count). It runs every suite with `--no-fail-fast` and ends with one
 line, `Tests: N run; P% OK; Ts total`, naming any suite that ended without a
 result. `cargo playground` needs wasm-pack. `cargo deny check` needs a
 one-time `cargo install --locked cargo-deny`; CI runs it on every push.
@@ -133,8 +135,8 @@ exactly what the run outputs. For every new check, add a forged proof to
 
 eyeron is expected to run about as fast as its JavaScript sibling eyeling; a
 gap of several times is a defect. After engine changes, run
-`./scripts/test-all` once on a quiet machine, and look per example as well
-as at the total: one slow example can
+`EYERON_TEST_JOBS=1 ./scripts/test-all --release` once on a quiet machine, and
+look per example as well as at the total: one slow example can
 hide behind an otherwise faster suite. Do not time anything while other
 builds or agents share the machine. Profile before optimizing; valgrind's
 callgrind works where perf is unavailable. Hand-rolled hashers need final

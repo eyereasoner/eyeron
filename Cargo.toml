@@ -1,6 +1,6 @@
 [package]
 name = "eyeron"
-version = "0.8.27"
+version = "0.8.28"
 edition = "2021"
 default-run = "eyeron"
 authors = ["Jos De Roo"]
@@ -69,6 +69,15 @@ wasm-bindgen = "0.2"
 lto = true
 codegen-units = 1
 strip = true
+
+# Keep tests optimized without repeating whole-program optimization for each
+# integration-test executable. Production and Wasm builds use `release`.
+[profile.test-fast]
+inherits = "release"
+lto = "off"
+# Keep engine helpers together so the runtime retains ordinary inlining.
+codegen-units = 1
+incremental = true
 
 [package.metadata.wasm-pack.profile.release]
 # Rust emits WebAssembly bulk-memory and nontrapping float-to-int instructions.
