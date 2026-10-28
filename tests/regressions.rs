@@ -384,6 +384,53 @@ fn an_existential_is_introduced_once_per_frontier_assignment() {
 }
 
 #[test]
+fn derived_multi_premise_existential_rules_keep_the_agenda_queue_in_bounds() {
+    let source = "@prefix : <urn:review:>.\n\
+        :a :start true. :a :p :b. :b :q :c.\n\
+        { :a :start true } => { { ?x :p ?y. ?y :q ?z } => { ?x :r _:w } }.";
+    let document = parse_n3_with_source(source, None, Some("derived-existential.n3")).unwrap();
+    for proof in [false, true] {
+        let result = reason_document(&document, &ReasonerOptions { proof, ..Default::default() });
+        assert!(result.is_complete(), "{:?}", result.incomplete_summary());
+        let output = result_to_string(&document.prefixes, &result.derived);
+        assert_eq!(output.matches(":a :r _:").count(), 1, "{output}");
+        if proof {
+            let report = eyeron::proof_check_n3::check_proof_document(
+                &document, &proof_to_n3(&document.prefixes, &result)).unwrap();
+            assert!(report.valid(), "{:?}", report.failures);
+        }
+    }
+}
+
+#[test]
+fn existential_introduction_waits_for_transitive_deferred_consequences() {
+    for conclusion in [":a :p _:w", ":a :p _:w. _:w a :Role"] {
+        let existential = format!("{{ :a :seed true }} => {{ {conclusion} }}.");
+        let rules = [
+            existential.as_str(),
+            "{ ?scope log:notIncludes { :a :blocked true } } => { :a :q :known }.",
+            "{ :a :q ?x } => { :a :middle ?x }.",
+            "{ :a :middle ?x } => { :a :p ?x }.",
+        ];
+        for order in [[0, 1, 2, 3], [0, 3, 2, 1], [1, 0, 3, 2], [3, 2, 1, 0]] {
+            let source = format!("@prefix : <urn:review:>.\n\
+                @prefix log: <http://www.w3.org/2000/10/swap/log#>.\n\
+                :a :seed true.\n{}\n\
+                {{ :a :middle ?x }} => {{ ?x a :Role }}.", order.map(|i| rules[i]).join("\n"));
+            let document = parse_n3_with_source(&source, None, Some("transitive-satisfaction.n3")).unwrap();
+            let result = reason_document(&document, &ReasonerOptions { proof: true, ..Default::default() });
+            assert!(result.is_complete(), "{:?}", result.incomplete_summary());
+            let output = result_to_string(&document.prefixes, &result.derived);
+            assert!(output.contains(":a :p :known"), "{output}");
+            assert!(!output.contains("_:"), "{output}");
+            let report = eyeron::proof_check_n3::check_proof_document(
+                &document, &proof_to_n3(&document.prefixes, &result)).unwrap();
+            assert!(report.valid(), "{:?}", report.failures);
+        }
+    }
+}
+
+#[test]
 fn a_blank_node_bound_to_the_frontier_is_an_individual_in_the_satisfaction_test() {
     let out = reason("@prefix : <http://example.org/>.\n\
         :p1 :manager :bob. :p2 :manager _:auto.\n\
@@ -391,6 +438,20 @@ fn a_blank_node_bound_to_the_frontier_is_an_individual_in_the_satisfaction_test(
     assert!(out.contains(":bob :supervisor _:"), "{}", out);
     assert!(out.contains(":supervises :bob"), "{}", out);
     assert_eq!(out.matches(":supervises _:").count(), 1, "{}", out);
+}
+
+#[test]
+fn witness_scheduling_keeps_unrelated_scoped_work_bounded() {
+    for (source, max_iterations, max_matches) in [
+        (include_str!("../examples/dining-philosophers.n3"), 1200, 13000),
+        (include_str!("../examples/odrl-policy-evaluation-snaf.n3"), 28, 45000),
+    ] {
+        let document = parse_n3(source, None).unwrap();
+        let result = reason_document(&document, &ReasonerOptions::default());
+        assert!(result.is_complete(), "{:?}", result.incomplete_summary());
+        assert!(result.statistics.iterations < max_iterations, "{:?}", result.statistics);
+        assert!(result.statistics.match_steps < max_matches, "{:?}", result.statistics);
+    }
 }
 
 #[test]

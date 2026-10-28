@@ -341,8 +341,10 @@ Rules with a scoped collection or negative test over the current graph
 introduce existentials (Section 4.2), are deferred: they run once ordinary
 forward reasoning is saturated, and are reconsidered whenever more facts are
 derived. Deferred rules run in source order, except that a deferred rule whose
-conclusion could satisfy another deferred rule's existential piece runs before
-it; rules that could satisfy each other keep source order.
+conclusion or ordinary forward consequences could satisfy another deferred
+rule's existential piece runs before it; rules that could satisfy each other
+keep source order. Ordinary forward consequences of earlier deferred rules
+MUST saturate before a later existential introduction decides.
 
 *Informative.* The order lets a negation name an existing individual before an
 existential that individual satisfies, and lets a rule introduce a larger

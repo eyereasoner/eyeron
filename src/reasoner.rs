@@ -1320,6 +1320,9 @@ fn reason_with_plan(
                 );
                 report.absorb(budget);
                 if introduces_existentials(&rule) {
+                    // The agenda can already contain rules promoted during
+                    // this pass, before the general path resizes its state.
+                    queued_introductions.resize_with(active_rules.len(), Vec::new);
                     queued_introductions[rule_index].extend(rule_bindings);
                     continue;
                 }
@@ -1365,8 +1368,10 @@ fn reason_with_plan(
         last_slow_run.resize(active_rules.len(), None);
         queued_introductions.resize(active_rules.len(), Vec::new());
         if rule_order.len() != rule_count_at_start { rule_order = general_rule_order(&active_rules); }
+        let mut introductions_saturated = closure_saturated;
         for &idx in &rule_order {
-            if closure_saturated && !queued_introductions[idx].is_empty() {
+            let before_rule = (closure.len(), pending_rules.len());
+            if introductions_saturated && !queued_introductions[idx].is_empty() {
                 let rule = active_rules[idx].clone();
                 for bindings in std::mem::take(&mut queued_introductions[idx]) {
                     emit_conclusions(
@@ -1388,8 +1393,9 @@ fn reason_with_plan(
             if agenda_index.indexed.contains(&idx) { continue; }
             let rule = active_rules[idx].clone();
             if !rule.is_forward || rule.is_fuse { continue; }
-            if !closure_saturated
-                && (rule.premise.iter().any(is_deferred_scoped_premise) || introduces_existentials(&rule))
+            let introduces = introduces_existentials(&rule);
+            if (!closure_saturated && rule.premise.iter().any(is_deferred_scoped_premise))
+                || (introduces && !introductions_saturated)
             {
                 continue;
             }
@@ -1426,6 +1432,12 @@ fn reason_with_plan(
                     options,
                     &mut report,
                 );
+            }
+            // Ordinary consequences can satisfy a later existential. Defer
+            // introductions until those consequences are saturated, without
+            // restarting unrelated scoped tests or direct witness firings.
+            if !introduces && (closure.len(), pending_rules.len()) != before_rule {
+                introductions_saturated = false;
             }
         }
 
@@ -1644,9 +1656,9 @@ fn note_contradiction(rule: &Rule, bindings: &Bindings, t: &Triple, report: &mut
 }
 
 /// The order the general path matches rules in: source order, except that
-/// a deferred rule whose conclusion could satisfy an existential piece of
-/// another deferred rule goes before it. Introducing the larger piece first
-/// leaves the smaller one satisfied rather than witnessed twice, and a
+/// a deferred rule whose ordinary consequences could satisfy an existential
+/// piece of another deferred rule goes before it. Introducing the larger piece
+/// first leaves the smaller one satisfied rather than witnessed twice, and a
 /// negation that names an existing individual decides before an existential
 /// that individual satisfies. Rules that could satisfy each other keep their
 /// source order.
@@ -1659,12 +1671,35 @@ fn general_rule_order(rules: &[Rule]) -> Vec<usize> {
                 && (rule.premise.iter().any(is_deferred_scoped_premise) || introduces_existentials(rule))
         })
         .collect();
+    let ordinary: Vec<usize> = (0..rules.len())
+        .filter(|i| rules[*i].is_forward && !rules[*i].is_fuse && !deferred.contains(i))
+        .collect();
+    // This is possible dependency reachability, not evaluation: matching one
+    // premise is enough to put a rule's conclusions before a later decision.
+    let consequences: BTreeMap<usize, BTreeSet<usize>> = deferred.iter().map(|&start| {
+        let mut reachable = BTreeSet::from([start]);
+        let mut pending = vec![start];
+        while let Some(source) = pending.pop() {
+            for &target in &ordinary {
+                if !reachable.contains(&target) && rules[target].premise.iter().enumerate().any(|(position, goal)| {
+                    !is_builtin_premise(goal)
+                        && conclusion_may_satisfy(&rules[source].conclusion, &rules[target].premise, &[position])
+                }) {
+                    reachable.insert(target);
+                    pending.push(target);
+                }
+            }
+        }
+        (start, reachable)
+    }).collect();
     let mut before: BTreeMap<usize, BTreeSet<usize>> = BTreeMap::new();
     for &later in &deferred {
         if !introduces_existentials(&rules[later]) { continue; }
         let pieces = existential_pieces(&rules[later].conclusion);
         for &earlier in &deferred {
-            if earlier != later && pieces.iter().any(|piece| conclusion_may_satisfy(&rules[earlier].conclusion, &rules[later].conclusion, piece)) {
+            if earlier != later && pieces.iter().any(|piece| piece.iter().all(|&position|
+                consequences[&earlier].iter().any(|&source|
+                    conclusion_may_satisfy(&rules[source].conclusion, &rules[later].conclusion, &[position])))) {
                 before.entry(later).or_default().insert(earlier);
             }
         }
