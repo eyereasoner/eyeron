@@ -571,8 +571,8 @@ Publish to crates.io → Run workflow**: enter its tag, such as `v0.8.25`.
 The optional dry-run input verifies the package without uploading it.
 
 For the first publication, configure the repository or organization Actions
-secret `CARGO_REGISTRY_TOKEN` with a crates.io token permitted to create `eyeron`
-and publish its versions. The workflow uses it automatically; subsequent tag
+secret `CRATES_TOKEN` (or `CARGO_REGISTRY_TOKEN`) with a crates.io token permitted
+to create `eyeron` and publish its versions. The workflow uses it automatically; subsequent tag
 pushes need no publishing commands from a maintainer.
 
 After the crate exists, maintainers may configure a crates.io GitHub trusted

@@ -27,7 +27,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     env:
-      HAS_PUBLISH_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN != '' }}
+      HAS_PUBLISH_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN != '' || secrets.CRATES_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -70,7 +70,7 @@ jobs:
           except HTTPError as error:
               if error.code == 404:
                   raise SystemExit('::error::The first crates.io publication needs the '
-                                   'CARGO_REGISTRY_TOKEN Actions secret. Add a token that can '
+                                   'CRATES_TOKEN or CARGO_REGISTRY_TOKEN Actions secret. Add a token that can '
                                    'create eyeron and publish its versions, then rerun this workflow. '
                                    'Publishing itself runs entirely in Actions.')
               raise
@@ -84,5 +84,5 @@ jobs:
       - name: Publish to crates.io
         if: ${{ !inputs.dry_run }}
         env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN || steps.auth.outputs.token }}
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN || secrets.CRATES_TOKEN || steps.auth.outputs.token }}
         run: cargo publish --locked --registry crates-io
