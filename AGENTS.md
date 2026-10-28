@@ -132,9 +132,9 @@ exactly what the run outputs. For every new check, add a forged proof to
 `tests/proof_validation.rs` and confirm that all packaged proofs still check.
 
 eyeron is expected to run about as fast as its JavaScript sibling eyeling; a
-gap of several times is a defect. After engine changes, compare
-`./scripts/test-all` against the last release tag, three runs each, on a quiet
-machine, and look per example as well as at the total: one slow example can
+gap of several times is a defect. After engine changes, run
+`./scripts/test-all` once on a quiet machine, and look per example as well
+as at the total: one slow example can
 hide behind an otherwise faster suite. Do not time anything while other
 builds or agents share the machine. Profile before optimizing; valgrind's
 callgrind works where perf is unavailable. Hand-rolled hashers need final
