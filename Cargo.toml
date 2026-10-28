@@ -17,16 +17,19 @@ crate-type = ["rlib", "cdylib"]
 name = "eyeron"
 path = "src/main.rs"
 test = false
+required-features = ["cli"]
 
 [[bin]]
 name = "w3c_rdf"
 path = "src/w3c_rdf.rs"
 test = false
+required-features = ["cli"]
 
 [[bin]]
 name = "eyeron-playground-build"
 path = "tools/build_playground.rs"
 test = false
+required-features = ["cli"]
 
 [[test]]
 name = "w3c_rdf"
@@ -50,7 +53,14 @@ regex = "1"
 serde_json = "1"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-ureq = "3"
+# Only the binaries fetch URLs; the library does no I/O.
+ureq = { version = "3", optional = true }
+
+[features]
+default = ["cli"]
+# The command-line programs and their HTTP client. Library users can turn it
+# off with `default-features = false`.
+cli = ["dep:ureq"]
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2"

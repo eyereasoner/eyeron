@@ -136,6 +136,8 @@ impl SearchBudget {
             // `result.derived`/`.is_complete()`/`.errors` off this nested
             // run's result -- never `.explicit`/`.explicit_sources`.
             include_explicit: false,
+            // Inherit the outer run's pinned clock (see `ClockOverride`).
+            now: None,
         }
     }
 
@@ -936,6 +938,10 @@ pub struct ReasonerOptions {
     /// since proof reconstruction needs it -- never silently produces a
     /// proof that can't find its own explicit support.
     pub include_explicit: bool,
+    /// The instant `time:localTime` reports, in milliseconds since the Unix
+    /// epoch. `None` reads the wall clock. Embedders that reason over a past
+    /// state, or that need reproducible runs, pin it here.
+    pub now: Option<i64>,
 }
 
 impl Default for ReasonerOptions {
@@ -958,6 +964,7 @@ impl Default for ReasonerOptions {
             trace: false,
             proof: false,
             include_explicit: true,
+            now: None,
         }
     }
 }
@@ -1181,6 +1188,7 @@ fn reason_with_plan(
     agenda_index: &AgendaIndex,
     axioms: &[usize],
 ) -> ReasonerResult {
+    let _clock = ClockOverride::set(options.now);
     // Borrowed until a rule reifies itself as data mid-run (rare -- see
     // `rule_from_triple`/`pending_rules` below) and has to be appended: only
     // that path pays for an owned copy of the rule set and a rebuilt agenda.
@@ -6282,7 +6290,7 @@ fn eval_time_builtin(pred: &str, left: &Term, right: &Term, bindings: &Bindings)
         if !matches!(resolved, Term::Var(_) | Term::Blank(_)) {
             return if datetime_seconds(&resolved).is_some() { vec![bindings.clone()] } else { Vec::new() };
         }
-        let Some((seconds, millis)) = current_unix_time() else { return Vec::new(); };
+        let Some((seconds, millis)) = run_unix_time() else { return Vec::new(); };
         let value = typed_literal(format_datetime_utc(seconds, millis), XSD_DATE_TIME);
         let mut b = bindings.clone();
         return if unify_term(right, &value, &mut b) { vec![canonicalize_owned(b)] } else { Vec::new() };
@@ -6485,6 +6493,40 @@ fn format_datetime_utc(seconds: i64, millis: u32) -> String {
     let sod = seconds.rem_euclid(86_400);
     let (year, month, day) = civil_from_days(days);
     format!("{year:04}-{month:02}-{day:02}T{:02}:{:02}:{:02}.{millis:03}+00:00", sod / 3600, sod % 3600 / 60, sod % 60)
+}
+
+thread_local! {
+    /// `ReasonerOptions::now` for the run in progress on this thread.
+    static NOW_OVERRIDE: std::cell::Cell<Option<i64>> = const { std::cell::Cell::new(None) };
+}
+
+/// Installs `ReasonerOptions::now` for one run and restores the previous
+/// value when dropped, so nested runs (`log:conclusion`) see the same clock.
+struct ClockOverride(Option<i64>);
+
+impl ClockOverride {
+    fn set(now: Option<i64>) -> Self {
+        let previous = NOW_OVERRIDE.with(|c| c.get());
+        if now.is_some() {
+            NOW_OVERRIDE.with(|c| c.set(now));
+        }
+        ClockOverride(previous)
+    }
+}
+
+impl Drop for ClockOverride {
+    fn drop(&mut self) {
+        let previous = self.0;
+        NOW_OVERRIDE.with(|c| c.set(previous));
+    }
+}
+
+/// The pinned clock if a run set one, else the wall clock.
+fn run_unix_time() -> Option<(i64, u32)> {
+    if let Some(ms) = NOW_OVERRIDE.with(|c| c.get()) {
+        return Some((ms.div_euclid(1000), ms.rem_euclid(1000) as u32));
+    }
+    current_unix_time()
 }
 
 /// The current wall-clock time as `(unix seconds, milliseconds)`. `SystemTime::now()`
