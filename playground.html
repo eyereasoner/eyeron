@@ -18,13 +18,16 @@
       input[type="text"], input[type="url"], input[type="number"], select { min-width: 0; border: 1px solid var(--border); padding: 0.45rem 0.6rem; background: var(--panel); color: var(--text); }
       :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       [hidden] { display: none !important; }
-      .page { max-width: 1500px; margin: 0 auto; padding: calc(1.5rem + env(safe-area-inset-top)) calc(1rem + env(safe-area-inset-right)) calc(2rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left)); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "heading options" "actions options" "input output"; align-items: start; gap: 1rem; }
+      .page { max-width: 1500px; margin: 0 auto; padding: calc(1.5rem + env(safe-area-inset-top)) calc(1rem + env(safe-area-inset-right)) calc(2rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left)); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "nav nav" "heading options" "actions options" "input output"; align-items: start; gap: 1rem; }
       header { grid-area: heading; display: flex; align-items: center; gap: 1rem; text-align: left; }
       header .logo { display: block; flex: none; border-radius: 50%; }
       header .header-copy { min-width: 0; }
       header h1 { margin: 0; font-size: 1.9rem; font-weight: 650; letter-spacing: -0.02em; }
       header p { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
       header a { color: var(--accent); }
+      .site-nav { grid-area: nav; justify-self: end; display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: 0.82rem; font-weight: 650; }
+      .site-nav a { color: inherit; text-underline-offset: 4px; }
+      .site-nav [aria-current="page"] { text-decoration-thickness: 2px; }
       .card { min-width: 0; padding: 1rem 1.25rem; border: 1px solid #e5e7eb; border-radius: 0.85rem; background: var(--panel); }
       h2, legend { margin: 0 0 0.75rem; padding: 0; font-size: 1rem; font-weight: 650; }
       .row { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; }
@@ -94,9 +97,10 @@
       #create-gist-share { background: #fcfa44; }
       .error { color: #b91c1c; }
       .ok { color: #047857; }
-      @media (max-width: 980px) { .page { grid-template-columns: minmax(0, 1fr); grid-template-areas: "heading" "actions" "input" "options" "output"; } }
+      @media (max-width: 980px) { .page { grid-template-columns: minmax(0, 1fr); grid-template-areas: "nav" "heading" "actions" "input" "options" "output"; } }
       @media (max-width: 640px) {
         header { align-items: flex-start; gap: 0.75rem; }
+        .site-nav { justify-self: start; }
         header .logo { width: 48px; height: 48px; }
         .card { padding: 1rem; }
         .page { padding-top: calc(1rem + env(safe-area-inset-top)); }
@@ -123,11 +127,17 @@
   </head>
   <body>
     <main class="page">
+      <nav class="site-nav" aria-label="Project">
+        <a href="GUIDE">Guide</a>
+        <a href="playground" aria-current="page">Playground</a>
+        <a href="SPEC">Specification</a>
+        <a href="https://github.com/eyereasoner/eyeron">Repository ↗</a>
+      </nav>
       <header>
         <img class="logo" src="assets/eye.png" alt="" width="64" height="64">
         <div class="header-copy">
           <h1>The Eyeron Playground</h1>
-          <p>Write N3 or try an example with <a href="https://github.com/eyereasoner/eyeron">eyeron</a>.</p>
+          <p>Write N3 or try an example with eyeron.</p>
           <p class="hint">Version <strong id="version">…</strong></p>
         </div>
       </header>

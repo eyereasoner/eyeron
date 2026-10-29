@@ -24,6 +24,9 @@ user-facing text direct.
 - `tools/build_playground.rs`: builds `pkg/` with wasm-pack (`cargo playground`).
 - `playground.html`: hand-written browser playground; `pkg/` holds the
   committed wasm build it loads.
+- `_config.yml`, `_layouts/default.html`, `assets/docs.css`: GitHub Pages
+  renders the Markdown documents with one masthead (Guide, Playground,
+  Specification, Repository), the same nav the playground shows.
 - `examples/*.n3`: runnable examples. `examples/output/` holds output goldens
   (`.n3` or `.md`), `examples/input/` companion inputs loaded with the
   example of the same stem (`.n3`, else `.trig`), and `examples/deck/`

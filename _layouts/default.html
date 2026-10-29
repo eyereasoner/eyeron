@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% assign heading = page.title | default: site.title | strip_html | strip %}
+  <title>{{ heading | escape }}</title>
+  <link rel="icon" href="{{ '/assets/eye.png' | relative_url }}" type="image/png">
+  <link rel="stylesheet" href="{{ '/assets/docs.css' | relative_url }}">
+</head>
+<body>
+  <main class="documentation">
+    <header class="masthead">
+      <a class="brand" href="{{ '/' | relative_url }}"><img src="{{ '/assets/eye.png' | relative_url }}" width="64" height="64" alt=""><h1>{{ heading | escape }}</h1></a>
+      <nav class="site-nav" aria-label="Project">
+        <a href="{{ '/GUIDE' | relative_url }}"{% if page.path == 'GUIDE.md' %} aria-current="page"{% endif %}>Guide</a>
+        <a href="{{ '/playground' | relative_url }}">Playground</a>
+        <a href="{{ '/SPEC' | relative_url }}"{% if page.path == 'SPEC.md' %} aria-current="page"{% endif %}>Specification</a>
+        <a href="https://github.com/eyereasoner/eyeron">Repository ↗</a>
+      </nav>
+    </header>
+    {% comment %}
+      Pages serves source files raw (a .rs file even as XML) and has no
+      folder listings, so links into the source folders open the repository.
+      Markdown there is rendered here as .html pages, so those links stay.
+      The capture is whitespace-trimmed because it rebuilds <pre> blocks too.
+    {% endcomment %}
+    {%- assign folders = 'src/,tests/,examples/,tools/,scripts/' | split: ',' -%}
+    {%- assign local = site.baseurl | append: '/' -%}
+    {%- assign local_size = local | size -%}
+    {%- assign parts = content | split: 'href="' -%}
+    {%- capture body -%}
+      {%- for part in parts -%}
+        {%- if forloop.first -%}{{ part }}{%- continue -%}{%- endif -%}
+        {%- assign url = part | split: '"' | first -%}
+        {%- assign path = url -%}
+        {%- assign head = url | slice: 0, local_size -%}
+        {%- if head == local -%}{%- assign path = url | slice: local_size, url.size -%}{%- endif -%}
+        {%- assign folder = path | split: '/' | first | append: '/' -%}
+        {%- assign suffix = path | split: '#' | first | slice: -5, 5 -%}
+        {%- if folders contains folder and suffix != '.html' -%}
+          href="https://github.com/eyereasoner/eyeron/blob/main/{{ path }}{{ part | remove_first: url }}
+        {%- else -%}
+          href="{{ part }}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture %}
+    <article>{{ body }}</article>
+    <footer><span>Eyeron · Notation3 reasoning with checked proofs</span><span>MIT licensed</span></footer>
+  </main>
+</body>
+</html>
