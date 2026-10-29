@@ -1,21 +1,29 @@
 # <img src="assets/eye.png" alt="" width="48" height="48" align="absmiddle"> Eyeron specification
 
-**Status of this document.** This document specifies the Notation3 (N3)
-language as Eyeron implements it: its terms, rules, and quantifier scopes, how
-a program is evaluated, its built-ins, the N3 proofs Eyeron writes, and the
-validity conditions C1–C9 its proof checker applies. It describes the current
-implementation. Sections and paragraphs marked *informative* explain or
-illustrate and add no requirements. The [guide](GUIDE.md) describes the
-command line, browser playground, Rust library, and development, and is
-informative.
+**Status of this document.** This document specifies the Eyeron reasoner, not
+the Notation3 (N3) language. The language is defined by the [W3C Notation 3
+Community Group](https://www.w3.org/community/n3-dev/) in [Notation3
+Language](https://w3c-cg.github.io/N3/spec/) [N3], with its [built-in
+functions](https://w3c-cg.github.io/N3/spec/builtins.html) [N3-BUILTINS] and
+[semantics](https://w3c-cg.github.io/N3/spec/semantics.html) [N3-SEMANTICS].
+This document states how Eyeron reads N3 and RDF input, the choices it makes
+in scoping, graph terms, and existential conclusions, how it evaluates a
+program and what a run outputs, its built-ins and resource limits, the N3
+proofs it writes, and the validity conditions C1–C9 its proof checker applies.
+It describes the current implementation. Sections and paragraphs marked
+*informative* explain or illustrate and add no requirements. The
+[guide](GUIDE.md) describes the command line, browser playground, Rust
+library, and development, and is informative.
 
 **Abstract.** Eyeron derives conclusions from N3 facts and rules over N3 and
-RDF input. Rules run forward to a fixpoint or backward on demand; scoped
+RDF 1.2 input. Rules run forward to a fixpoint or backward on demand; scoped
 negation and collection read the saturated graph; a blank node in a rule
 conclusion introduces an existential witness only when no known fact already
-satisfies it. A run can write an N3 proof of exactly what it outputs, and a
-separate checker re-performs that proof's recorded inferences against the
-source program, reporting what it verified and which assumptions it accepted.
+satisfies it. A run ends complete, stopped by an inference fuse, or reported
+incomplete at a resource limit. A complete run can write an N3 proof of
+exactly what it outputs, and a separate checker re-performs that proof's
+recorded inferences against the source program, reporting what it verified
+and which assumptions it accepted.
 
 ## Table of Contents
 
@@ -42,6 +50,7 @@ source program, reporting what it verified and which assumptions it accepted.
    2. [Deferred Tests and Introductions](#62-deferred-tests-and-introductions)
    3. [Queries and Output](#63-queries-and-output)
    4. [Resource Limits](#64-resource-limits)
+   5. [Run Outcome](#65-run-outcome)
 7. [Built-ins](#7-built-ins)
 8. [RDF Messages](#8-rdf-messages)
 9. [Proofs and Verification](#9-proofs-and-verification)
@@ -67,11 +76,13 @@ source program, reporting what it verified and which assumptions it accepted.
 
 This specification defines:
 
-- N3 documents, terms, rules, quantifier scopes, graph terms, and how separate
-  inputs combine (Section 2);
+- how Eyeron reads N3 documents, terms, rules, quantifier scopes, and graph
+  terms, how separate inputs combine, and how RDF 1.2 input maps onto N3
+  terms (Section 2);
 - graph inclusion and scoped negation (Section 3), existential conclusions
   (Section 4), and inference fuses (Section 5);
-- how a program is evaluated and what it outputs (Section 6);
+- how a program is evaluated, what it outputs, its resource limits, and how a
+  run ends (Section 6);
 - the built-ins (Section 7) and RDF Message Log processing (Section 8);
 - N3 proofs and the conditions under which a proof checks (Section 9).
 
@@ -137,13 +148,23 @@ contract.
 ### 2.1 Terms and Rules
 
 ```n3
-@prefix : <http://example.org/>.
-:Socrates a :Human.
-{ ?x a :Human } => { ?x a :Mortal }.
+@prefix : <http://example.org/> .
+
+:Socrates a :Human .
+
+{
+    ?x a :Human .
+} => {
+    ?x a :Mortal .
+} .
 ```
 
-The syntax is that of [N3]. The parser supports prefixes, bases, IRIs, variables, blank nodes, literals,
-lists, and quoted graph terms. N3 keeps its conventional prefixes. `=>` names
+The syntax is that of the W3C N3 Community Group's [Notation3
+Language](https://w3c-cg.github.io/N3/spec/) [N3]; where Eyeron's behavior
+differs from that report, this document and Section 10 say so. The parser
+supports prefixes, bases, IRIs,
+variables, blank nodes, literals, lists, and quoted graph terms. N3 keeps its
+conventional prefixes. `=>` names
 `log:implies`; `<=` names `log:impliedBy` and registers a backward rule. A
 rule's conclusion MAY generate rules, which then run like source rules, or MAY
 unquote a graph supplied by its bindings. `=`, the syntax for `owl:sameAs`,
@@ -158,10 +179,11 @@ and `triples`. `Term::formula` and `Rule::new` accept triple vectors too.
 ### 2.2 Explicit Quantification
 
 ```n3
-@prefix : <http://example.org/>.
-@forAll :x.
-@forSome :y.
-:x :loves :y.
+@prefix : <http://example.org/> .
+@forAll :x .
+@forSome :y .
+
+:x :loves :y .
 ```
 
 This means "everybody loves somebody." Declarations MUST precede the graph's
@@ -176,9 +198,13 @@ their innermost graph. `?x` and `_:x` are distinct variables. To put an
 existential outside a universal, nest the universal:
 
 ```n3
-@prefix : <http://example.org/>.
-@forSome :beloved.
-{} => { @forAll :person. :person :loves :beloved }.
+@prefix : <http://example.org/> .
+@forSome :beloved .
+
+{} => {
+    @forAll :person .
+    :person :loves :beloved .
+} .
 ```
 
 Universal assertions are instantiated on demand rather than by enumerating an
@@ -218,11 +244,28 @@ resolved IRI.
 ### 2.5 RDF Syntaxes
 
 Turtle, TriG, N-Triples, N-Quads, and RDF Message Logs supply RDF 1.2 data
-[RDF12-CONCEPTS] and follow their grammars strictly: an undeclared prefix, a prefixed name in N-Triples or N-Quads, and a
-misplaced dot after `@version` or `VERSION` are errors. N-Triples and N-Quads
-accept an uppercase `VERSION "1.2"` announcement on its own line, using a
-double-quoted short string and no trailing period; prefix, base, and
-Turtle-style `@version` directives remain invalid in these line syntaxes.
+[RDF12-CONCEPTS] and follow their grammars strictly: an undeclared prefix, a
+prefixed name in N-Triples or N-Quads, and a misplaced dot after `@version` or
+`VERSION` are errors. N-Triples and N-Quads accept an uppercase `VERSION
+"1.2"` announcement on its own line, using a double-quoted short string and no
+trailing period; prefix, base, and Turtle-style `@version` directives remain
+invalid in these line syntaxes.
+
+RDF input becomes facts of the same document model as N3 input, so N3 rules
+read it without conversion:
+
+| RDF 1.2 input | N3 facts |
+| --- | --- |
+| Triple in the default graph | The same triple |
+| Triple term `<<( s p o )>>` | The graph term `{ s p o }` |
+| Reified triple `<< s p o ~ r >>` | `r rdf:reifies { s p o }`, with `r` as the term's value; without `~ r`, `r` is a fresh blank node |
+| Annotation <code>s p o ~ r {&#124; q v &#124;}</code> | `s p o`, `r rdf:reifies { s p o }`, and `r q v`; without `~ r`, `r` is a fresh blank node |
+| Named graph `g { s p o }` in TriG | `g log:nameOf { s p o }` |
+| Literal with base direction, `"text"@en--ltr` | The same literal, of datatype `rdf:dirLangString`; its language tag keeps the direction, `en--ltr` |
+
+A triple term is therefore a graph term (Section 2.3): it is opaque, keeps
+literal lexical identity, and is matched as a quoted statement, not asserted.
+Section 8 describes how an RDF Message Log maps onto these facts.
 
 ## 3. Graph Inclusion and Negation
 
@@ -347,14 +390,13 @@ introductions whose positive premises they can enable. A deferred rule whose
 conclusion or ordinary forward consequences could satisfy another rule's
 existential piece also runs before it. Completing a piece using both existing
 premise facts and a rule's conclusion takes precedence over introducing the
-whole piece: the support
-must match under one consistent substitution, so separate individuals do not
-form one reusable graph. Otherwise deferred rules keep source order, including
-unresolved dependency cycles. Deciding whether a rule can complete a piece
-is a bounded search; when it runs out of steps, the run reports
-`ReasonerLimit::SchedulingSearch`, since its order may then differ. Ordinary
-forward consequences of earlier deferred rules MUST saturate before a later
-existential introduction decides.
+whole piece: the support must match under one consistent substitution, so
+separate individuals do not form one reusable graph. Otherwise deferred rules
+keep source order, including unresolved dependency cycles. Deciding whether a
+rule can complete a piece is a bounded search; when it runs out of steps, the
+run reports `ReasonerLimit::SchedulingSearch`, since its order may then
+differ. Ordinary forward consequences of earlier deferred rules MUST saturate
+before a later existential introduction decides.
 
 Current-graph tests used by firings that add conclusions are retained. Before
 returning results, the reasoner MUST reject a run whose inference facts
@@ -374,9 +416,9 @@ current-graph tests stop the run rather than produce a successful result.
 `log:query` rules run after deferred reasoning, selecting answers without
 feeding them back into the closure. `ReasonerResult` separates input facts,
 derived results, and the closure. Normal output serializes derived results,
-or query answers when queries are present. `log:outputString` results
-override triple serialization with concatenated text. `--proof` instead writes
-a proof of the output (Section 9).
+or query answers when queries are present, as N3, or as TriG with `--rdf`.
+`log:outputString` results override triple serialization with concatenated
+text. `--proof` instead writes a proof of the output (Section 9).
 
 ### 6.4 Resource Limits
 
@@ -402,11 +444,29 @@ widths larger than the default term-byte bound and yields no binding. Exact
 integer exponentiation has a fixed size guard. Invalid built-in arguments
 usually produce no match rather than an incomplete run.
 
+### 6.5 Run Outcome
+
+A run that reaches reasoning ends in exactly one of three outcomes. A fuse
+takes precedence over a reached limit.
+
+| Outcome | `ReasonerResult` | CLI |
+| --- | --- | --- |
+| Complete | `status` is `Complete` and `fuse` is `None` | Writes the output (Section 6.3) and exits with status 0 |
+| Fuse | `fuse` names the fired rule and its instance (Section 5) | Writes the fuse report to standard output and exits with status 65 |
+| Incomplete | `status` is `Incomplete`; `limits_reached` and `errors` say why, and `incomplete_summary()` describes it | Writes no output, reports the summary on standard error, and exits with status 1 |
+
+Only a complete run has output, so `--proof` and `--prove-and-check` prove
+complete runs only. Invalid options, unreadable inputs, and syntax errors are
+reported on standard error with status 1 before reasoning starts. Proof
+checking has its own statuses (Section 9.9).
+
 ## 7. Built-ins
 
-These names are dispatched in [reasoner.rs](src/reasoner.rs). Supported
-argument directions depend on the built-in; an unbound input is not generally
-an invitation to enumerate values.
+Eyeron implements the built-ins below, which [N3-BUILTINS] describes; the
+notes after the table state behavior particular to Eyeron. They are
+dispatched in [reasoner.rs](src/reasoner.rs). Supported argument directions
+depend on the built-in; an unbound input is not generally an invitation to
+enumerate values.
 
 | Namespace | Names |
 | --- | --- |
@@ -418,7 +478,8 @@ an invitation to enumerate values.
 | `crypto:` | `sha` |
 
 Namespace prefixes above use `http://www.w3.org/2000/10/swap/` plus the
-namespace name and `#`, the namespaces of [SWAP]. Additional datatype inspection predicates are
+namespace name and `#`, the namespaces of [N3-BUILTINS] and [SWAP]. Additional
+datatype inspection predicates are
 `datatype` and `lexicalForm` under
 `https://eyereasoner.github.io/eyeron/datatype#`, with the corresponding
 `eyeling` namespace aliases. The nonstandard
@@ -790,11 +851,31 @@ circular explanations.
 
 ## 10. Compatibility and Limitations
 
-The RDF parser profiles are exercised against the vendored RDF 1.1 and 1.2
-manifests. That coverage does not imply implementation of every historical N3
-extension or a complete OWL reasoner. Eyeron has no persistent graph store,
-query service, or custom external built-in loader. Compatibility-only CLI
-flags are listed in [the guide](GUIDE.md#cli-options).
+The language is that of [N3]. Beyond it, this document fixes these choices of
+the reasoner:
+
+- graph terms are opaque and keep literal lexical identity (Section 2.3), and
+  separately given inputs keep their blank-node scopes apart (Section 2.4);
+- RDF 1.2 triple terms, reifiers, and named graphs map onto graph terms
+  (Section 2.5);
+- `log:notIncludes`, `log:collectAllIn`, and `log:forAllIn` over the current
+  graph read it once ordinary reasoning is saturated (Sections 3 and 6.2);
+- a blank node in a forward-rule conclusion introduces a witness only when no
+  fact already satisfies its piece (Section 4);
+- a rule concluding `false`, or deriving a statement a pure built-in rejects,
+  is an inference fuse (Section 5);
+- reasoning is bounded by reported budgets (Sections 6.4 and 6.5);
+- proofs use the `pe:` vocabulary and are checked under C1–C9 (Section 9).
+
+The RDF parsers pass all 1180 cases of twelve W3C RDF 1.1 and RDF 1.2 test
+manifests (Turtle, TriG, N-Triples, N-Quads, and semantics), kept as a local
+copy in `tests/w3c_rdf/rdf-tests/`; each run writes the results as an [EARL
+report](reports/w3c-rdf-earl.ttl). The N3 behavior is exercised against the
+vendored Notation3 conformance suite in `tests/notation3tests/`. That coverage
+does not imply implementation of every historical N3 extension or a complete
+OWL reasoner. Eyeron has no persistent graph store, query service, or custom
+external built-in loader. Compatibility-only CLI flags are listed in [the
+guide](GUIDE.md#cli-options).
 
 Deferred rules follow the order of Section 6.2 rather than a computed
 stratification, so a program whose negations, collections, and existentials
@@ -837,8 +918,12 @@ Regular expressions in `string:` built-ins run on Rust's linear-time engine.
 ### 12.1 Normative References
 
 [N3]
-: "Notation3 Language", W3C Notation 3 Community Group report,
-  <https://w3c.github.io/N3/spec/>.
+: "Notation3 Language", Draft Community Group Report, W3C Notation 3
+  Community Group, <https://w3c-cg.github.io/N3/spec/>.
+
+[N3-BUILTINS]
+: "Notation3 Builtin Functions", Draft Community Group Report, W3C Notation 3
+  Community Group, <https://w3c-cg.github.io/N3/spec/builtins.html>.
 
 [RDF12-CONCEPTS]
 : "RDF 1.2 Concepts and Abstract Data Model", W3C,
@@ -854,10 +939,14 @@ Regular expressions in `string:` built-ins run on Rust's linear-time engine.
 
 ### 12.2 Informative References
 
+[N3-SEMANTICS]
+: "Notation3 Semantics", Draft Community Group Report, W3C Notation 3
+  Community Group, <https://w3c-cg.github.io/N3/spec/semantics.html>.
+
 [STRATNEG]
-: Küchenmeister, L., Ivliev, A., Arndt, D., and Krötzsch, M., "Stratified
-  Negation in RDF Rules: A Correct Approach", arXiv:2607.28778,
-  <https://arxiv.org/abs/2607.28778>.
+: Küchenmeister, N., Ivliev, A., Arndt, D., and Krötzsch, M., "Stratified
+  Negation in RDF Rules: A Correct Approach (Extended Version)",
+  arXiv:2607.28778, <https://arxiv.org/abs/2607.28778>.
 
 [SWAP]
 : "CWM built-in functions", <https://www.w3.org/2000/10/swap/doc/CwmBuiltins>.

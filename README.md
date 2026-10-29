@@ -11,8 +11,10 @@ command-line program, a Rust library, and a browser application.
   your browser.
 - **[Guide](https://eyereasoner.github.io/eyeron/GUIDE)**: build, run, check
   proofs, use the library, and develop Eyeron.
-- **[Specification](https://eyereasoner.github.io/eyeron/SPEC)**: the language,
-  its evaluation, and the C1–C9 proof contract.
+- **[Specification](https://eyereasoner.github.io/eyeron/SPEC)**: the reasoner,
+  its evaluation, and the C1–C9 proof contract. The N3 language is defined by
+  the W3C N3 Community Group's
+  [Notation3 Language](https://w3c-cg.github.io/N3/spec/).
 - **[Examples](examples/)**: runnable programs, with their expected output in
   [`examples/output/`](examples/output/).
 

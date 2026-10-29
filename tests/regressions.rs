@@ -960,6 +960,38 @@ fn eyeling_datatype_inspection_builtins_drive_generated_rules() {
 }
 
 #[test]
+fn literals_with_a_base_direction_have_datatype_rdf_dir_lang_string() {
+    let source = r#"
+        @prefix : <http://example.org/> .
+        @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+        @prefix log: <http://www.w3.org/2000/10/swap/log#> .
+        @prefix dt: <https://eyereasoner.github.io/eyeron/datatype#> .
+
+        :directed :label "hi"@en--ltr .
+        :tagged :label "hi"@en .
+        {
+            ?item :label ?literal .
+            ?literal dt:datatype ?datatype .
+            ?pair log:dtlit ?literal .
+        } => {
+            ?item :datatype ?datatype ; :pair ?pair .
+        } .
+        { ("hi" rdf:dirLangString) log:dtlit "hi"@en--ltr . } => { :directedPair :holds true . } .
+        { ("hi" rdf:langString) log:dtlit "hi"@en--ltr . } => { :undirectedPair :holds true . } .
+        { ("bye" rdf:langString) log:dtlit "hi"@en . } => { :otherLexicalForm :holds true . } .
+    "#;
+
+    let output = reason(source).unwrap();
+    assert!(output.contains(":directed :datatype rdf:dirLangString"), "{output}");
+    assert!(output.contains(":directed :pair (\"hi\" rdf:dirLangString)"), "{output}");
+    assert!(output.contains(":tagged :datatype rdf:langString"), "{output}");
+    assert!(output.contains(":tagged :pair (\"hi\" rdf:langString)"), "{output}");
+    assert!(output.contains(":directedPair :holds true"), "{output}");
+    assert!(!output.contains(":undirectedPair"), "{output}");
+    assert!(!output.contains(":otherLexicalForm"), "{output}");
+}
+
+#[test]
 fn blank_scope_log_not_includes_guards_generated_rules() {
     let source = r#"
         @prefix : <http://example.org/> .

@@ -4965,12 +4965,7 @@ fn eval_datatype_inspection(
 ) -> Vec<Bindings> {
     let Term::Literal(lit) = resolve_pattern(subject, bindings) else { return Vec::new(); };
     let value = if datatype {
-        let iri = if lit.language.is_some() {
-            Name::from(RDF_LANG_STRING_IRI)
-        } else {
-            lit.datatype.unwrap_or_else(|| XSD_STRING_IRI.into())
-        };
-        Term::Iri(iri)
+        Term::Iri(literal_datatype(&lit))
     } else {
         Term::Literal(Literal::plain(lit.value))
     };
@@ -4987,6 +4982,7 @@ const LOG_LITERAL_IRI: &str = "http://www.w3.org/2000/10/swap/log#Literal";
 const LOG_OTHER_IRI: &str = "http://www.w3.org/2000/10/swap/log#Other";
 const RDF_LIST_IRI: &str = "http://www.w3.org/1999/02/22-rdf-syntax-ns#List";
 const RDF_LANG_STRING_IRI: &str = "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString";
+const RDF_DIR_LANG_STRING_IRI: &str = "http://www.w3.org/1999/02/22-rdf-syntax-ns#dirLangString";
 pub(crate) const XSD_STRING_IRI: &str = "http://www.w3.org/2001/XMLSchema#string";
 
 fn eval_log_dtlit(subject: &Term, object: &Term, bindings: &Bindings, facts: &[Triple]) -> Vec<Bindings> {
@@ -5010,10 +5006,11 @@ fn eval_log_dtlit(subject: &Term, object: &Term, bindings: &Bindings, facts: &[T
         (Term::List(parts), _) if parts.len() == 2 => {
             let Some(lex) = string_value(&resolve(&parts[0], bindings)) else { return Vec::new(); };
             let Term::Iri(dt) = resolve(&parts[1], bindings) else { return Vec::new(); };
-            let lit = if dt == RDF_LANG_STRING_IRI {
+            // A language tag cannot be spelled by a datatype, so these pairs
+            // only check a literal the object already gives.
+            let lit = if dt == RDF_LANG_STRING_IRI || dt == RDF_DIR_LANG_STRING_IRI {
                 match o {
-                    Term::Literal(ref lit) if lit.language.is_some() => Term::Literal(lit.clone()),
-                    Term::Var(_) | Term::Blank(_) => return Vec::new(),
+                    Term::Literal(ref lit) if *lit.value == *lex && literal_datatype(lit) == dt => Term::Literal(lit.clone()),
                     _ => return Vec::new(),
                 }
             } else if dt == XSD_STRING_IRI {
@@ -5033,15 +5030,20 @@ fn eval_log_dtlit(subject: &Term, object: &Term, bindings: &Bindings, facts: &[T
     }
 }
 
+/// The datatype of a literal. A language tag that carries an RDF 1.2 base
+/// direction, such as `en--ltr`, makes it an `rdf:dirLangString`.
+fn literal_datatype(lit: &Literal) -> Name {
+    match lit.language.as_deref() {
+        Some(lang) if lang.contains("--") => Name::from(RDF_DIR_LANG_STRING_IRI),
+        Some(_) => Name::from(RDF_LANG_STRING_IRI),
+        None => lit.datatype.clone().unwrap_or_else(|| XSD_STRING_IRI.into()),
+    }
+}
+
 fn dtlit_pair(lit: &Literal) -> Term {
-    let datatype = if lit.language.is_some() {
-        Name::from(RDF_LANG_STRING_IRI)
-    } else {
-        lit.datatype.clone().unwrap_or_else(|| XSD_STRING_IRI.into())
-    };
     Term::List(vec![
         Term::Literal(Literal::plain(lit.value.clone())),
-        Term::Iri(datatype),
+        Term::Iri(literal_datatype(lit)),
     ])
 }
 

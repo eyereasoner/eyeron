@@ -2,7 +2,7 @@
 
 Give Eyeron a few facts and rules, ask a question, and follow the answer back to its evidence. This guide takes you from a first conclusion to saved proofs, browser experiments, and your own Rust application.
 
-Eyeron is a **Notation3 (N3) reasoner**. It runs as a command-line program, a Rust library, and a browser application. RDF formats can supply data to its N3 rules. The [specification](SPEC.md) defines the language, its evaluation, and what proof verification establishes.
+Eyeron is a **Notation3 (N3) reasoner**. It runs as a command-line program, a Rust library, and a browser application. RDF formats can supply data to its N3 rules. The [specification](SPEC.md) defines how Eyeron reads and evaluates N3, what a run outputs, and what proof verification establishes; the language itself is the W3C N3 Community Group's [Notation3 Language](https://w3c-cg.github.io/N3/spec/).
 
 **Start now:** [Try Socrates in the playground](https://eyereasoner.github.io/eyeron/playground#example=socrates) · [Run locally](#build-and-run) · [Check a proof](#proofs-and-their-limits)
 
@@ -340,7 +340,7 @@ An inference fuse has the form `{ … } => false .`. When its premise matches, r
 eyeron examples/fuse.n3
 ```
 
-This example describes one stone as both black and white and forbids that combination. The exit status is **65**. A fuse is useful for constraints your program explicitly states; its behavior is defined in [the language reference](SPEC.md#5-inference-fuses).
+This example describes one stone as both black and white and forbids that combination. The exit status is **65**. A fuse is useful for constraints your program explicitly states; its behavior is defined in [the specification](SPEC.md#5-inference-fuses).
 
 Inference also stops with status **65** when later facts contradict a current-graph absence, collection, or universal test used to derive a conclusion. The report names the invalidated assumption; no conclusions are printed. This check runs in ordinary mode as well as with `-p` and `-c`.
 
