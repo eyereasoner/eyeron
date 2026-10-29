@@ -1,6 +1,6 @@
 # <img src="assets/eye.png" alt="" width="48" height="48" align="middle"> Eyeron
 
-[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23746169-blue.svg)](https://doi.org/10.5281/zenodo.23746169)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23746168-blue.svg)](https://doi.org/10.5281/zenodo.23746168)
 [![crates.io](https://img.shields.io/crates/v/eyeron.svg)](https://crates.io/crates/eyeron)
 
 Eyeron is a Rust reasoner for **Notation3 (N3)**. It derives conclusions from
