@@ -1,0 +1,32 @@
+# A rule that refutes its own absence test
+#
+# Russell and Wittgenstein teach philosophy. One rule relates each course to
+# its teachers while the current graph contains no unicorn, and another rule
+# introduces a unicorn from that relation. The unicorn contradicts the absence
+# the first rule assumed, so eyeron trips an inference fuse and returns no
+# conclusions. The example shows that scoped negation over the current graph
+# is checked against what inference derives afterwards.
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <https://example.org/course#> .
+
+# Facts
+:philosophy :teacher :russell .
+:philosophy :teacher :wittgenstein .
+
+# A teacher is related to the course while no unicorn is known.
+{
+    ?course :teacher ?person .
+    ?scope log:notIncludes {
+        ?x a :Unicorn .
+    } .
+} => {
+    ?course :something ?person .
+} .
+
+# That relation brings some unicorn into being.
+{
+    ?course :something ?person .
+} => {
+    _:x a :Unicorn .
+} .

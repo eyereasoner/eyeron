@@ -1,0 +1,66 @@
+# An examiner who holds a diploma
+#
+# Wittgenstein participates in the philosophy course that Russell and
+# Wittgenstein both teach. A teacher who is not a student is an examiner, every
+# examiner is a person with some diploma, and every course with a participant
+# needs some examiner who is a person with a diploma. Once Russell's diploma
+# is introduced, Russell is that examiner, so eyeron introduces no fresh
+# examiner, gives Russell one diploma, and counts exactly one examiner.
+# The example shows that a rule completing an existing individual takes
+# precedence over an existential that would introduce a new one.
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix : <https://example.org/course#> .
+
+# Facts
+:philosophy :teacher :russell .
+:philosophy :teacher :wittgenstein .
+:philosophy :participant :wittgenstein .
+
+# Participants are students.
+{
+    ?course :participant ?person .
+} => {
+    ?person a :Student .
+} .
+
+# A teacher who is not a student is an examiner.
+{
+    ?course :teacher ?person .
+    ?scope log:notIncludes {
+        ?person a :Student .
+    } .
+} => {
+    ?course :examiner ?person .
+} .
+
+# A course with a participant has some examiner who holds a diploma.
+{
+    ?course :participant ?person .
+} => {
+    ?course :examiner _:examiner .
+    _:examiner a :Person .
+    _:examiner :has _:x .
+    _:x a :Diploma .
+} .
+
+# Every examiner is a person with some diploma.
+{
+    ?x :examiner ?y .
+} => {
+    ?y a :Person .
+    ?y :has _:x .
+    _:x a :Diploma .
+} .
+
+# Count the examiners of each course with a participant.
+{
+    ?course :participant ?anyone .
+    (?examiner {
+        ?course :examiner ?examiner .
+    } ?examiners) log:collectAllIn ?scope .
+    ?examiners list:length ?count .
+} => {
+    ?course :numberOfExaminers ?count .
+} .

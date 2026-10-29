@@ -522,6 +522,28 @@ fn anonymous_blank_nodes_never_take_a_label_the_source_uses() {
 }
 
 #[test]
+fn graph_patterns_match_when_substitution_merges_their_statements() {
+    // Formulas are sets: with `?x = :a` the pattern is `{ :a :p :c }`.
+    let source = "@prefix : <http://example.org/>.\n\
+        :e :g { :a :p :c }. :d :g { :a :p :c. :b :p :c }. :n :g { :a :p 1 }.\n\
+        { :e :g { ?x :p :c. :a :p :c } } => { :pattern :x ?x }.\n\
+        { :e :g ?g. ?g log:equalTo { ?x :p :c. :a :p :c } } => { :equal :x ?x }.\n\
+        { :d :g { ?x :p :c. :a :p :c } } => { :both :x ?x }.\n\
+        { :d :g { ?x :p :c } } => { :bad :one ?x }.\n\
+        { :e :g { ?x :p :c. :a :p :c. :a :q :c } } => { :bad :extra ?x }.\n\
+        { :n :g { ?x :p \"01\"^^xsd:integer. :a :p 1 } } => { :bad :lexical ?x }.";
+    let out = reason(source).unwrap();
+    for expected in [":pattern :x :a", ":equal :x :a", ":both :x :b"] {
+        assert!(out.contains(expected), "{expected}: {out}");
+    }
+    assert!(!out.contains(":bad"), "{out}");
+    let doc = parse_n3(source, None).unwrap();
+    let result = reason_document(&doc, &ReasonerOptions { proof: true, ..Default::default() });
+    let checked = eyeron::proof_check_n3::check_proof_document(&doc, &proof_to_n3(&doc.prefixes, &result)).unwrap();
+    assert!(checked.valid(), "{:?}", checked.failures);
+}
+
+#[test]
 fn witness_scheduling_keeps_unrelated_scoped_work_bounded() {
     for (source, max_iterations, max_matches) in [
         (include_str!("../examples/dining-philosophers.n3"), 1200, 13000),

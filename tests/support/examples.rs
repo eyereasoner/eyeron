@@ -28,6 +28,8 @@ pub const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
     ("check-unsafe", "deliberately derives nothing: its head variable is unsafe/unbound by design"),
     ("fuse", "it trips an inference fuse, so the run stops with nothing derived and nothing to prove"),
     ("liar", "it trips an inference fuse, so the run stops with nothing derived and nothing to prove"),
+    ("unicorn-absence-paradox", "its introduced unicorn invalidates an absence assumption and trips an inference fuse"),
+    ("unicorn-self-denial", "its negative cycle invalidates an absence assumption and trips an inference fuse"),
     ("variable-predicate-dependency", "its negative cycle invalidates an absence assumption and trips an inference fuse"),
 ];
 

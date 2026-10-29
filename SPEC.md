@@ -189,10 +189,12 @@ within their scope.
 
 Graph terms retain their binders and are compared as sets, up to bijective
 renaming of locally bound variables of the same quantifier kind. Duplicate
-triples and unused declarations do not change identity. Substitution reaches
-free variables inside nested graphs while preserving local binders. A graph
-with locally quantified variables can therefore be ground; a graph referring
-to an outer universal remains open.
+triples and unused declarations do not change identity, so a pattern matches
+a graph when its substitution yields the same set, even by merging
+statements: `{ ?x :p :c . :a :p :c }` matches `{ :a :p :c }` with `?x = :a`.
+Substitution reaches free variables inside nested graphs while preserving
+local binders. A graph with locally quantified variables can therefore be
+ground; a graph referring to an outer universal remains open.
 
 Graph terms are opaque and keep literal lexical identity: inside a quoted
 graph `"01"^^xsd:integer` is not `1`, while `()` is `rdf:nil`. Numeric
@@ -348,8 +350,11 @@ premise facts and a rule's conclusion takes precedence over introducing the
 whole piece: the support
 must match under one consistent substitution, so separate individuals do not
 form one reusable graph. Otherwise deferred rules keep source order, including
-unresolved dependency cycles. Ordinary forward consequences of earlier
-deferred rules MUST saturate before a later existential introduction decides.
+unresolved dependency cycles. Deciding whether a rule can complete a piece
+is a bounded search; when it runs out of steps, the run reports
+`ReasonerLimit::SchedulingSearch`, since its order may then differ. Ordinary
+forward consequences of earlier deferred rules MUST saturate before a later
+existential introduction decides.
 
 Current-graph tests used by firings that add conclusions are retained. Before
 returning results, the reasoner MUST reject a run whose inference facts

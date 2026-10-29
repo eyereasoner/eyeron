@@ -856,6 +856,9 @@ pub enum ReasonerLimit {
     BackwardSolutionsPerGoal,
     TermSize,
     TermDepth,
+    /// Deciding whether one rule can complete another's existential piece
+    /// took too many steps, so the deferred rule order is unconfirmed.
+    SchedulingSearch,
 }
 
 impl std::fmt::Display for ReasonerLimit {
@@ -867,6 +870,7 @@ impl std::fmt::Display for ReasonerLimit {
             Self::BackwardSolutionsPerGoal => "backward-solution limit",
             Self::TermSize => "term-size limit",
             Self::TermDepth => "term-nesting limit",
+            Self::SchedulingSearch => "scheduling-search limit",
         };
         write!(f, "{}", label)
     }
@@ -1240,7 +1244,7 @@ fn reason_with_plan(
     // Per rule, the (closure length, rule count, saturated) the rule was last
     // matched against, for the loop below.
     let mut last_slow_run = vec![None::<(usize, usize, bool)>; active_rules.len()];
-    let mut rule_order = general_rule_order(&active_rules);
+    let mut rule_order = general_rule_order(&active_rules, &mut report);
     // Agenda matches of rules that introduce existentials, held until the
     // closure is saturated, when whether a piece is satisfied is decided.
     let mut queued_introductions = vec![Vec::<Bindings>::new(); active_rules.len()];
@@ -1386,7 +1390,7 @@ fn reason_with_plan(
         // A rule promoted from data mid-run extends the rule set.
         last_slow_run.resize(active_rules.len(), None);
         queued_introductions.resize(active_rules.len(), Vec::new());
-        if rule_order.len() != rule_count_at_start { rule_order = general_rule_order(&active_rules); }
+        if rule_order.len() != rule_count_at_start { rule_order = general_rule_order(&active_rules, &mut report); }
         let mut introductions_saturated = closure_saturated;
         for &idx in &rule_order {
             let before_rule = (closure.len(), pending_rules.len());
@@ -1721,8 +1725,10 @@ fn invalidated_assumption(closure: &[Triple], report: &mut RunReport) -> Option<
 /// Order deferred producers before the introductions they can enable or
 /// satisfy. Completing a piece around an existing individual takes precedence
 /// over introducing the whole piece; otherwise larger pieces precede smaller
-/// ones they satisfy. Unresolved cycles keep source order.
-fn general_rule_order(rules: &[Rule]) -> Vec<usize> {
+/// ones they satisfy. Unresolved cycles keep source order. A completion
+/// search that runs out of steps reports `ReasonerLimit::SchedulingSearch`,
+/// since the order may then differ from the one Section 6.2 describes.
+fn general_rule_order(rules: &[Rule], report: &mut RunReport) -> Vec<usize> {
     if !rules.iter().any(introduces_existentials) { return (0..rules.len()).collect(); }
     let deferred: Vec<usize> = (0..rules.len())
         .filter(|&i| {
@@ -1773,7 +1779,10 @@ fn general_rule_order(rules: &[Rule]) -> Vec<usize> {
                 before.entry(later).or_default().insert(earlier);
             }
             if introduces_existentials(&rules[earlier]) && pieces.iter().any(|piece|
-                rule_may_complete_piece(&rules[earlier], &rules[later].conclusion, piece))
+                rule_may_complete_piece(&rules[earlier], &rules[later].conclusion, piece).unwrap_or_else(|| {
+                    report.hit_limit(ReasonerLimit::SchedulingSearch);
+                    false
+                }))
             {
                 completions.entry(later).or_default().insert(earlier);
             }
@@ -1805,10 +1814,10 @@ fn general_rule_order(rules: &[Rule]) -> Vec<usize> {
 
 /// Whether one firing can complete `piece` using both its existing premise
 /// facts and its conclusions. All head positions share one substitution, so
-/// unrelated individuals cannot be mistaken for a reusable graph. This is a
-/// scheduling hint: an expensive search may fall back to the ordinary order.
-fn rule_may_complete_piece(rule: &Rule, target: &Graph, piece: &[usize]) -> bool {
-    if piece.len() < 2 { return false; }
+/// unrelated individuals cannot be mistaken for a reusable graph. `None`
+/// when the search runs out of steps before it decides.
+fn rule_may_complete_piece(rule: &Rule, target: &Graph, piece: &[usize]) -> Option<bool> {
+    if piece.len() < 2 { return Some(false); }
     fn open(term: &Term, side: &str, scope: &str) -> Term {
         match term {
             Term::Var(name) => Term::var(format!("{side}v_{name}")),
@@ -1822,7 +1831,7 @@ fn rule_may_complete_piece(rule: &Rule, target: &Graph, piece: &[usize]) -> bool
     let support: Vec<(Triple, bool)> = rule.premise.iter().filter(|t| !is_builtin_premise(t))
         .map(|t| (triple(t, "__completion_", "body_"), false))
         .chain(rule.conclusion.iter().map(|t| (triple(t, "__completion_", "head_"), true))).collect();
-    if support.len() == rule.conclusion.len() { return false; }
+    if support.len() == rule.conclusion.len() { return Some(false); }
     let wanted: Vec<Triple> = piece.iter().map(|&i| triple(&target[i], "__piece_", "head_")).collect();
     fn matches(wanted: &[Triple], support: &[(Triple, bool)], bindings: &Bindings,
         body: bool, head: bool, remaining: &mut usize) -> bool {
@@ -1837,8 +1846,13 @@ fn rule_may_complete_piece(rule: &Rule, target: &Graph, piece: &[usize]) -> bool
         }
         false
     }
+    // A piece statement nothing in the firing can match decides at once.
+    if wanted.iter().any(|goal| !support.iter().any(|(candidate, _)| unify_triple(goal, candidate, &mut Bindings::new()))) {
+        return Some(false);
+    }
     let mut remaining = 2000;
-    matches(&wanted, &support, &Bindings::new(), false, false, &mut remaining)
+    let found = matches(&wanted, &support, &Bindings::new(), false, false, &mut remaining);
+    (found || remaining > 0).then_some(found)
 }
 
 /// Whether every triple of `piece` in `target` could be an instance of
@@ -4310,6 +4324,11 @@ fn eval_equal(left: &Term, right: &Term, bindings: &Bindings, facts: &[Triple]) 
         (Term::Var(a), Term::Var(b)) if a == b => vec![bindings.clone()],
         (Term::Var(a), other) => bind_one(bindings, a, other.clone()).into_iter().map(canonicalize_owned).collect(),
         (other, Term::Var(b)) => bind_one(bindings, b, other.clone()).into_iter().map(canonicalize_owned).collect(),
+        // Graphs unify, so `?g log:equalTo { ?x :p :c }` binds `?x`.
+        (Term::Formula(a), Term::Formula(b)) => {
+            let mut out = bindings.clone();
+            if unify_formula_unordered(a, b, &mut out) { vec![canonicalize_owned(out)] } else { Vec::new() }
+        }
         (a, b) if terms_equal_semantic(a, b) => vec![bindings.clone()],
         _ => Vec::new(),
     }
@@ -7110,7 +7129,11 @@ fn unify_formula_unordered(left: &Graph, right: &Graph, bindings: &mut Bindings)
         }
         let a = set(left);
         let b = set(right);
-        if a.len() != b.len() {
+        // Substituting a free variable can make two statements one, so
+        // `{ ?x :p :c . :a :p :c }` equals `{ :a :p :c }` with `?x = :a`.
+        // Graphs without one keep their size and pair one-to-one.
+        let may_merge = graph_has_free_var(left) || graph_has_free_var(right);
+        if a.len() != b.len() && !may_merge {
             return false;
         }
         let ab = bound(left);
@@ -7168,32 +7191,75 @@ fn unify_formula_unordered(left: &Graph, right: &Graph, bindings: &mut Bindings)
             }
             false
         }
+        // Two sets are equal when each statement of one matches some
+        // statement of the other under one substitution: pair every left
+        // statement, then cover every right statement left unpaired.
+        #[allow(clippy::too_many_arguments)]
+        fn cover(
+            a: &[&Triple],
+            b: &[&Triple],
+            covered: &mut [usize],
+            i: usize,
+            j: usize,
+            alpha: &mut Alpha,
+            bindings: &mut Bindings,
+            next: &mut dyn FnMut(&mut Alpha, &mut Bindings) -> bool,
+        ) -> bool {
+            if j == b.len() {
+                return next(alpha, bindings);
+            }
+            if i == a.len() && covered[j] > 0 {
+                return cover(a, b, covered, i, j + 1, alpha, bindings, next);
+            }
+            let candidates: Vec<(usize, usize)> = if i < a.len() {
+                (0..b.len()).map(|k| (i, k)).collect()
+            } else {
+                (0..a.len()).map(|k| (k, j)).collect()
+            };
+            for (x, y) in candidates {
+                if !may_pair(a[x], b[y]) {
+                    continue;
+                }
+                covered[y] += 1;
+                let mut state = alpha.clone();
+                let mut local = bindings.clone();
+                let pairs = [(&a[x].s, &b[y].s), (&a[x].p, &b[y].p), (&a[x].o, &b[y].o)];
+                let (i, j) = if i < a.len() { (i + 1, j) } else { (i, j + 1) };
+                if sequence(&pairs, 0, &mut state, &mut local, &mut |alpha, bindings| {
+                    cover(a, b, covered, i, j, alpha, bindings, next)
+                }) {
+                    *alpha = state;
+                    *bindings = local;
+                    return true;
+                }
+                covered[y] -= 1;
+            }
+            false
+        }
         let parent = outer.clone();
-        go(
-            &a,
-            &b,
-            &mut vec![false; b.len()],
-            0,
-            &mut alpha,
-            bindings,
-            &mut |matched, bindings| {
-                let mut resumed = parent.clone();
-                for (key, value) in &matched.pairs {
-                    if parent.left.contains_key(key)
-                        && !ab.contains_key(key)
-                        && !bb.contains_key(value)
-                    {
-                        resumed.pairs.insert(key.clone(), value.clone());
-                    }
+        let mut finish = |matched: &mut Alpha, bindings: &mut Bindings| {
+            let mut resumed = parent.clone();
+            for (key, value) in &matched.pairs {
+                if parent.left.contains_key(key)
+                    && !ab.contains_key(key)
+                    && !bb.contains_key(value)
+                {
+                    resumed.pairs.insert(key.clone(), value.clone());
                 }
-                if next(&mut resumed, bindings) {
-                    *outer = resumed;
-                    true
-                } else {
-                    false
-                }
-            },
-        )
+            }
+            if next(&mut resumed, bindings) {
+                *outer = resumed;
+                true
+            } else {
+                false
+            }
+        };
+        if a.len() == b.len() && go(&a, &b, &mut vec![false; b.len()], 0, &mut alpha, bindings, &mut finish) {
+            return true;
+        }
+        // Every one-to-one pairing is also a cover, so only graphs that
+        // can merge statements need the wider search.
+        may_merge && cover(&a, &b, &mut vec![0; b.len()], 0, 0, &mut alpha, bindings, &mut finish)
     }
     let mut local = bindings.clone();
     if graph(

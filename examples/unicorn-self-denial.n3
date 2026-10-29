@@ -1,0 +1,32 @@
+# Teachers who become what they are said not to be
+#
+# Russell and Wittgenstein teach philosophy. One rule says a teacher is not a
+# unicorn when the current graph does not say they are, and another rule turns
+# that statement into the very claim it denies. Russell's derived claim
+# contradicts the absence used to derive it, so eyeron trips an inference fuse
+# and returns no conclusions. The example shows a negative dependency cycle
+# through scoped negation, decided for each individual.
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <https://example.org/course#> .
+
+# Facts
+:philosophy :teacher :russell .
+:philosophy :teacher :wittgenstein .
+
+# A teacher is not a unicorn when the current graph does not say so.
+{
+    ?course :teacher ?x .
+    ?scope log:notIncludes {
+        ?x :isA :Unicorn .
+    } .
+} => {
+    ?x :isNot :Unicorn .
+} .
+
+# Whatever is not a unicorn is a unicorn.
+{
+    ?x :isNot :Unicorn .
+} => {
+    ?x :isA :Unicorn .
+} .
