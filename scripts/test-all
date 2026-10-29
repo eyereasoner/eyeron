@@ -77,7 +77,8 @@ totals=$(sed -E 's/\x1b\[[0-9;]*m//g' "$log" | awk '
   }
   END {
     close_suite()
-    printf "%d %.1f %s", run, run ? 100 * ok / run : 0, missing
+    # Round down, so a single failure never reads as 100.0% OK.
+    printf "%d %.1f %s", run, run ? int(1000 * ok / run) / 10 : 0, missing
   }
 ')
 read -r run percent_ok missing <<< "$totals"
