@@ -434,6 +434,9 @@ Behavior to account for:
   term's text, with version and variant bits. It does not include a UUID
   namespace. Different literal datatypes can share a result when their
   lexical text is the same. `log:skolem` instead returns an IRI.
+- `time:localTime` reports one instant per run: the wall clock read when the
+  run starts, or the instant an embedder pins. Nested runs such as
+  `log:conclusion` share it.
 - `log:content` and `log:semantics` recognize the bundled `HELLO` fixtures.
   They do not fetch arbitrary resources. `log:semanticsOrError` returns a
   resource-error string for other IRIs. CLI URL input is fetched by the CLI

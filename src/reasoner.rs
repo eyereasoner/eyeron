@@ -946,8 +946,9 @@ pub struct ReasonerOptions {
     /// proof that can't find its own explicit support.
     pub include_explicit: bool,
     /// The instant `time:localTime` reports, in milliseconds since the Unix
-    /// epoch. `None` reads the wall clock. Embedders that reason over a past
-    /// state, or that need reproducible runs, pin it here.
+    /// epoch. `None` reads the wall clock once when the run starts.
+    /// Embedders that reason over a past state, or that need reproducible
+    /// runs, pin it here.
     pub now: Option<i64>,
 }
 
@@ -6648,20 +6649,22 @@ fn format_datetime_utc(seconds: i64, millis: u32) -> String {
 }
 
 thread_local! {
-    /// `ReasonerOptions::now` for the run in progress on this thread.
+    /// The instant `time:localTime` reports for the run in progress on this thread.
     static NOW_OVERRIDE: std::cell::Cell<Option<i64>> = const { std::cell::Cell::new(None) };
 }
 
-/// Installs `ReasonerOptions::now` for one run and restores the previous
-/// value when dropped, so nested runs (`log:conclusion`) see the same clock.
+/// Fixes the instant for one run and restores the previous value when
+/// dropped. An unpinned run reads the wall clock once, so every firing sees
+/// one "now" and a rule cannot fire again with a later one; nested runs
+/// (`log:conclusion`) inherit the outer run's instant.
 struct ClockOverride(Option<i64>);
 
 impl ClockOverride {
     fn set(now: Option<i64>) -> Self {
         let previous = NOW_OVERRIDE.with(|c| c.get());
-        if now.is_some() {
-            NOW_OVERRIDE.with(|c| c.set(now));
-        }
+        let now = now.or(previous)
+            .or_else(|| current_unix_time().map(|(seconds, millis)| seconds * 1000 + i64::from(millis)));
+        NOW_OVERRIDE.with(|c| c.set(now));
         ClockOverride(previous)
     }
 }
@@ -6673,7 +6676,7 @@ impl Drop for ClockOverride {
     }
 }
 
-/// The pinned clock if a run set one, else the wall clock.
+/// The run's instant, or the wall clock outside a run.
 fn run_unix_time() -> Option<(i64, u32)> {
     if let Some(ms) = NOW_OVERRIDE.with(|c| c.get()) {
         return Some((ms.div_euclid(1000), ms.rem_euclid(1000) as u32));
