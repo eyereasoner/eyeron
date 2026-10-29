@@ -506,6 +506,22 @@ fn a_blank_node_bound_to_the_frontier_is_an_individual_in_the_satisfaction_test(
 }
 
 #[test]
+fn anonymous_blank_nodes_never_take_a_label_the_source_uses() {
+    // `[ ]`, paths, and reifiers are named from a counter; `_:b1` and
+    // `_:path2` must stay distinct individuals all the same.
+    let out = reason("@prefix : <http://example.org/>.\n\
+        :a :p [ :q 1 ]. _:b1 :q 2. _:b2 :q 2.\n\
+        :c!:r :q 1. _:path2 :q 2. _:path3 :q 2. _:path4 :q 2.\n\
+        { :a :p ?x. ?x :q 2 } => { :bad :blank true }.\n\
+        { :c :r ?x. ?x :q 2 } => { :bad :path true }.").unwrap();
+    assert!(!out.contains(":bad"), "{out}");
+    let turtle = "@prefix : <http://example.org/>. :a :p [ :q 1 ]. _:b1 :q 2. _:b2 :q 2.";
+    let doc = parse_rdf12(turtle, None, RdfFormat::Turtle).unwrap();
+    let subjects: std::collections::BTreeSet<_> = doc.facts.iter().filter(|t| t.p == doc.facts[1].p).map(|t| &t.s).collect();
+    assert_eq!(subjects.len(), 3, "{:?}", doc.facts);
+}
+
+#[test]
 fn witness_scheduling_keeps_unrelated_scoped_work_bounded() {
     for (source, max_iterations, max_matches) in [
         (include_str!("../examples/dining-philosophers.n3"), 1200, 13000),

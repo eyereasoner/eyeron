@@ -327,9 +327,10 @@ struct Parser {
     depth: usize,
     scopes: Vec<QuantifierScope>,
     quantifier_counter: usize,
-    /// The `__q`-prefixed variable and blank labels the input itself uses,
-    /// collected on the first quantifier so generated names avoid them.
-    source_q_labels: Option<std::collections::BTreeSet<String>>,
+    /// The variable and blank labels the input itself uses, collected on the
+    /// first generated name so quantifiers and anonymous blank nodes never
+    /// take a label the source spells.
+    source_labels: Option<std::collections::BTreeSet<String>>,
     /// Prefixes the input declared.  RDF syntaxes resolve only these; the
     /// conventional prefixes seeded into `doc.prefixes` are for N3 and for
     /// printing.
@@ -356,7 +357,7 @@ impl Parser {
         doc.prefixes.insert("math".to_string(), "http://www.w3.org/2000/10/swap/math#".to_string());
         doc.prefixes.insert("string".to_string(), "http://www.w3.org/2000/10/swap/string#".to_string());
         doc.prefixes.insert("time".to_string(), "http://www.w3.org/2000/10/swap/time#".to_string());
-        Self { tokens, pos: 0, doc, blank_counter: 0, profile, source_label: None, line_starts: Vec::new(), depth: 0, scopes: vec![QuantifierScope::default()], quantifier_counter: 0, source_q_labels: None, declared_prefixes: Default::default() }
+        Self { tokens, pos: 0, doc, blank_counter: 0, profile, source_label: None, line_starts: Vec::new(), depth: 0, scopes: vec![QuantifierScope::default()], quantifier_counter: 0, source_labels: None, declared_prefixes: Default::default() }
     }
 
     fn with_source(mut self, source_label: Option<&str>, line_starts: Vec<usize>) -> Self {
@@ -1405,20 +1406,10 @@ impl Parser {
                     name.offset,
                 ));
             }
-            let tokens = &self.tokens;
-            let source_q_labels = self.source_q_labels.get_or_insert_with(|| {
-                tokens
-                    .iter()
-                    .filter_map(|t| match &t.kind {
-                        TokenKind::Var(n) | TokenKind::Blank(n) if n.starts_with("__q") => Some(n.clone()),
-                        _ => None,
-                    })
-                    .collect()
-            });
             let id: Name = loop {
                 self.quantifier_counter += 1;
                 let candidate = format!("__q{}", self.quantifier_counter);
-                if !source_q_labels.contains(&candidate) {
+                if !self.is_source_label(&candidate) {
                     break candidate.into();
                 }
             };
@@ -1440,13 +1431,32 @@ impl Parser {
         self.expect_dot()
     }
 
+    /// Whether the input spells `label` as a variable or blank node.
+    fn is_source_label(&mut self, label: &str) -> bool {
+        let tokens = &self.tokens;
+        self.source_labels.get_or_insert_with(|| {
+            tokens
+                .iter()
+                .filter_map(|t| match &t.kind {
+                    TokenKind::Var(n) | TokenKind::Blank(n) => Some(n.clone()),
+                    _ => None,
+                })
+                .collect()
+        }).contains(label)
+    }
+
+    /// A blank node for `[ ]`, a path, or a reifier. Its name skips labels
+    /// the source uses, so `[ :q 1 ]` and `_:b1` stay different nodes.
     fn fresh_blank(&mut self, prefix: &str) -> Term {
-        self.blank_counter += 1;
-        {
-            let name: Name = format!("{}{}", prefix, self.blank_counter).into();
-            if !self.profile.is_rdf12() { self.scopes.last_mut().unwrap().graph.existentials.insert(name.clone()); }
-            Term::blank(name)
-        }
+        let name: Name = loop {
+            self.blank_counter += 1;
+            let candidate = format!("{}{}", prefix, self.blank_counter);
+            if !self.is_source_label(&candidate) {
+                break candidate.into();
+            }
+        };
+        if !self.profile.is_rdf12() { self.scopes.last_mut().unwrap().graph.existentials.insert(name.clone()); }
+        Term::blank(name)
     }
 
     fn expect_dot(&mut self) -> Result<()> { self.expect(TokenKind::Dot) }
