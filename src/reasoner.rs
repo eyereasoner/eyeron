@@ -1699,7 +1699,7 @@ fn invalidated_assumption(closure: &[Triple], report: &mut RunReport) -> Option<
     if report.assumptions.is_empty() { return None; }
     let evidence = Evidence::new(closure.to_vec());
     for (test, rule) in &report.assumptions {
-        let detail = match crate::proof_check_n3::contradiction(&evidence, test) {
+        let detail = match crate::proof_check_n3::contradiction(&evidence, "the current graph", test) {
             Ok(detail) => detail,
             Err(detail) => {
                 report.errors.push(ReasonerError::ConsistencyCheck { premise: test.clone(), detail });
@@ -1711,7 +1711,7 @@ fn invalidated_assumption(closure: &[Triple], report: &mut RunReport) -> Option<
                 rule: rule.clone(),
                 instance: vec![test.clone()],
                 contradiction: None,
-                invalidated_assumption: Some((test.clone(), detail.replace("the proof's own evidence", "the current graph"))),
+                invalidated_assumption: Some((test.clone(), detail)),
             });
         }
     }

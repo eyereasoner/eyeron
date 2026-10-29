@@ -1246,7 +1246,7 @@ impl ProofDocument for N3Proof {
             self.facts.iter().cloned().chain(self.steps.iter().filter(|step| !self.answers_query(step)).map(|step| step.conclusion.clone())).collect());
         let mut contradictions = Vec::new();
         for step in &tests {
-            match contradiction(&evidence, &step.conclusion) {
+            match contradiction(&evidence, "the proof's own evidence", &step.conclusion) {
                 Ok(Some(detail)) => contradictions.push((describe(&step.conclusion), detail)),
                 Ok(None) => {},
                 Err(detail) => contradictions.push((describe(&step.conclusion), format!("could not finish checking this current-graph test: {detail}"))),
@@ -1375,17 +1375,17 @@ impl ProofDocument for N3Proof {
 }
 
 /// What in `evidence` contradicts the current-graph test `test` records,
-/// if anything. The evidence is only what the proof records, so a test it
-/// does not contradict may still have been wrong; one it does contradict
-/// cannot have held.
-pub(crate) fn contradiction(evidence: &crate::reasoner::Evidence, test: &Triple) -> std::result::Result<Option<String>, String> {
+/// if anything, naming `evidence` as `source` in the detail. Evidence that
+/// is only what a proof records may fail to contradict a wrong test; a test
+/// it does contradict cannot have held.
+pub(crate) fn contradiction(evidence: &crate::reasoner::Evidence, source: &str, test: &Triple) -> std::result::Result<Option<String>, String> {
     let Term::Iri(name) = &test.p else { return Ok(None) };
     let scope = Term::blank("current_graph");
     match name.as_str() {
         LOG_NOT_INCLUDES => {
             let retest = Triple::new(scope, test.p.clone(), test.o.clone());
             Ok(evidence.try_evaluate(&retest)?.is_empty()
-                .then(|| "assumes the current graph lacks this, but the proof's own evidence includes it".to_string()))
+                .then(|| format!("assumes the current graph lacks this, but {source} includes it")))
         }
         LOG_INCLUDES => Ok(None),
         LOG_COLLECT_ALL_IN => {
@@ -1398,7 +1398,7 @@ pub(crate) fn contradiction(evidence: &crate::reasoner::Evidence, test: &Triple)
                 .find_map(|bindings| bindings.get("__collected").cloned());
             let Some(Term::List(visible)) = visible else { return Ok(None) };
             Ok(visible.iter().find(|item| !collected.contains(item)).map(|missing| format!(
-                "omits {}, which the proof's own evidence supplies",
+                "omits {}, which {source} supplies",
                 crate::printing::term_to_n3_object(missing, &BTreeMap::new()))))
         }
         LOG_FOR_ALL_IN => {
@@ -1410,7 +1410,7 @@ pub(crate) fn contradiction(evidence: &crate::reasoner::Evidence, test: &Triple)
                 let mapping: BTreeMap<Term, Term> = bindings.iter().map(|(name, value)| (Term::Var(name.clone()), value.clone())).collect();
                 let instance = conclusion.substitute(&mapping);
                 if crate::reasoner::Evidence::is_decidable(&instance) && evidence.try_solutions(&instance)?.is_empty() {
-                    return Ok(Some(format!("has a counterexample in the proof's own evidence: {}", describe(&instance.triples[0]))));
+                    return Ok(Some(format!("has a counterexample in {source}: {}", describe(&instance.triples[0]))));
                 }
             }
             Ok(None)
