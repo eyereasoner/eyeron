@@ -289,7 +289,7 @@ fn inconsistent_scoped_inference_fails_in_every_output_mode() {
     for source in [
         include_str!("fixtures/scoped-consistency/negative-cycle.n3"),
         include_str!("fixtures/scoped-consistency/negative-existential-cycle.n3"),
-        include_str!("fixtures/scoped-consistency/examiner-count.n3"),
+        include_str!("fixtures/scoped-consistency/growing-collection.n3"),
     ] {
         for flags in [&["-"][..], &["-p", "-"], &["-c", "-"]] {
             let output = run_with_stdin(flags, source.as_bytes());
@@ -304,4 +304,19 @@ fn inconsistent_scoped_inference_fails_in_every_output_mode() {
         assert_eq!(output.status.code(), Some(65), "{output:?}");
         assert!(String::from_utf8_lossy(&output.stdout).contains("# Contradiction:"));
     }
+}
+
+#[test]
+fn completing_an_existing_examiner_succeeds_in_ordinary_and_proof_modes() {
+    let source = include_str!("fixtures/scoped-consistency/examiner-count.n3");
+    for flags in [&["-"][..], &["-p", "-"], &["-c", "-"]] {
+        let output = run_with_stdin(flags, source.as_bytes());
+        assert!(output.status.success(), "{flags:?}: {output:?}");
+        if flags == ["-"] {
+            let text = String::from_utf8(output.stdout).unwrap();
+            assert!(text.contains(":numberOfExaminers 1"), "{text}");
+            assert!(!text.contains(":examiner _:"), "{text}");
+        }
+    }
+    assert_separate_roundtrip(&["-"], Some(source.as_bytes()));
 }

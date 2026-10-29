@@ -1,0 +1,10 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <http://example.org/> .
+
+:group :member :first .
+
+{
+    (?member { :group :member ?member } ?members) log:collectAllIn ?scope .
+} => {
+    :group :member :second .
+} .

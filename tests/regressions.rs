@@ -431,6 +431,71 @@ fn existential_introduction_waits_for_transitive_deferred_consequences() {
 }
 
 #[test]
+fn an_existing_examiner_is_completed_before_introducing_another_examiner() {
+    let source = include_str!("fixtures/scoped-consistency/examiner-count.n3");
+    let original = parse_n3_with_source(source, None, Some("examiner-reuse.n3")).unwrap();
+    // The collection stays after the producer rules; vary every producer's
+    // position, including whether the extension appears before its provider.
+    for order in [[0, 1, 2, 3, 4], [0, 1, 3, 2, 4], [2, 3, 1, 0, 4], [3, 2, 0, 1, 4], [0, 2, 1, 3, 4]] {
+        let mut doc = original.clone();
+        doc.rules = order.iter().map(|&i| original.rules[i].clone()).collect();
+        for proof in [false, true] {
+            let result = reason_document(&doc, &ReasonerOptions { proof, ..Default::default() });
+            assert!(result.is_complete(), "{:?}", result.incomplete_summary());
+            assert!(result.fuse.is_none(), "{order:?}: {:?}", result.fuse);
+            let output = result_to_string(&doc.prefixes, &result.derived);
+            assert_eq!(output.matches(":examiner :russell").count(), 1, "{output}");
+            assert!(!output.contains(":examiner _:"), "{output}");
+            assert_eq!(output.matches("a :Diploma").count(), 1, "{output}");
+            assert!(output.contains(":numberOfExaminers 1"), "{output}");
+            assert!(!output.contains(":numberOfExaminers 2"), "{output}");
+            if proof {
+                let checked = eyeron::proof_check_n3::check_proof_document(&doc, &proof_to_n3(&doc.prefixes, &result)).unwrap();
+                assert!(checked.valid(), "{order:?}: {:?}", checked.failures);
+            }
+        }
+    }
+    // When both teachers are students there is no existing examiner. The
+    // larger graph is required and must still introduce exactly one.
+    let source = format!("{source}\n:philosophy :participant :russell .\n");
+    let doc = parse_n3(&source, None).unwrap();
+    let result = reason_document(&doc, &ReasonerOptions::default());
+    assert!(result.is_complete() && result.fuse.is_none(), "{result:?}");
+    let output = result_to_string(&doc.prefixes, &result.derived);
+    assert_eq!(output.matches(":examiner _:").count(), 1, "{output}");
+    assert!(output.contains(":numberOfExaminers 1"), "{output}");
+}
+
+#[test]
+fn a_larger_fresh_piece_still_precedes_a_smaller_piece_it_satisfies() {
+    for reverse in [false, true] {
+        let mut rules = [
+            "{ :a :seed true } => { _:person a :Person; :has _:diploma. _:diploma a :Diploma }.",
+            "{ :a :seed true } => { _:other a :Diploma }.",
+        ];
+        if reverse { rules.reverse(); }
+        let source = format!("@prefix : <urn:reuse:>. :a :seed true. {}", rules.join("\n"));
+        let doc = parse_n3(&source, None).unwrap();
+        let result = reason_document(&doc, &ReasonerOptions::default());
+        assert!(result.is_complete() && result.fuse.is_none(), "{result:?}");
+        let output = result_to_string(&doc.prefixes, &result.derived);
+        assert_eq!(output.matches("a :Person").count(), 1, "{output}");
+        assert_eq!(output.matches("a :Diploma").count(), 1, "{output}");
+    }
+}
+
+#[test]
+fn fresh_type_witnesses_do_not_enable_unrelated_named_type_premises() {
+    let doc = parse_n3_with_source(include_str!("../examples/dependent-type.n3"), None, Some("dependent-type.n3")).unwrap();
+    let result = reason_document(&doc, &ReasonerOptions { proof: true, ..Default::default() });
+    assert!(result.is_complete() && result.fuse.is_none(), "{result:?}");
+    let output = result_to_string(&doc.prefixes, &result.derived);
+    assert_eq!(output.matches("a :Type").count(), 2, "{output}");
+    let checked = eyeron::proof_check_n3::check_proof_document(&doc, &proof_to_n3(&doc.prefixes, &result)).unwrap();
+    assert!(checked.valid(), "{:?}", checked.failures);
+}
+
+#[test]
 fn a_blank_node_bound_to_the_frontier_is_an_individual_in_the_satisfaction_test() {
     let out = reason("@prefix : <http://example.org/>.\n\
         :p1 :manager :bob. :p2 :manager _:auto.\n\
@@ -1753,7 +1818,7 @@ fn invalidated_scoped_assumptions_fail_with_and_without_proof_capture() {
     for (source, detail) in [
         (include_str!("fixtures/scoped-consistency/negative-cycle.n3"), "lacks this"),
         (include_str!("fixtures/scoped-consistency/negative-existential-cycle.n3"), "lacks this"),
-        (include_str!("fixtures/scoped-consistency/examiner-count.n3"), "omits"),
+        (include_str!("fixtures/scoped-consistency/growing-collection.n3"), "omits"),
     ] {
         let doc = parse_n3(source, None).unwrap();
         assert!(reason(source).unwrap_err().message.contains("# Contradiction:"));

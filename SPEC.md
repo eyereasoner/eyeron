@@ -340,11 +340,16 @@ Rules with a scoped collection or negative test over the current graph
 (`log:notIncludes`, `log:collectAllIn`, `log:forAllIn`), and rules that
 introduce existentials (Section 4.2), are deferred: they run once ordinary
 forward reasoning is saturated, and are reconsidered whenever more facts are
-derived. Deferred rules run in source order, except that a deferred rule whose
-conclusion or ordinary forward consequences could satisfy another deferred
-rule's existential piece runs before it; rules that could satisfy each other
-keep source order. Ordinary forward consequences of earlier deferred rules
-MUST saturate before a later existential introduction decides.
+derived. Deferred rules without existential introductions run before
+introductions whose positive premises they can enable. A deferred rule whose
+conclusion or ordinary forward consequences could satisfy another rule's
+existential piece also runs before it. Completing a piece using both existing
+premise facts and a rule's conclusion takes precedence over introducing the
+whole piece: the support
+must match under one consistent substitution, so separate individuals do not
+form one reusable graph. Otherwise deferred rules keep source order, including
+unresolved dependency cycles. Ordinary forward consequences of earlier
+deferred rules MUST saturate before a later existential introduction decides.
 
 Current-graph tests used by firings that add conclusions are retained. Before
 returning results, the reasoner MUST reject a run whose inference facts

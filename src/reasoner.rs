@@ -1717,13 +1717,10 @@ fn invalidated_assumption(closure: &[Triple], report: &mut RunReport) -> Option<
     None
 }
 
-/// The order the general path matches rules in: source order, except that
-/// a deferred rule whose ordinary consequences could satisfy an existential
-/// piece of another deferred rule goes before it. Introducing the larger piece
-/// first leaves the smaller one satisfied rather than witnessed twice, and a
-/// negation that names an existing individual decides before an existential
-/// that individual satisfies. Rules that could satisfy each other keep their
-/// source order.
+/// Order deferred producers before the introductions they can enable or
+/// satisfy. Completing a piece around an existing individual takes precedence
+/// over introducing the whole piece; otherwise larger pieces precede smaller
+/// ones they satisfy. Unresolved cycles keep source order.
 fn general_rule_order(rules: &[Rule]) -> Vec<usize> {
     if !rules.iter().any(introduces_existentials) { return (0..rules.len()).collect(); }
     let deferred: Vec<usize> = (0..rules.len())
@@ -1755,15 +1752,40 @@ fn general_rule_order(rules: &[Rule]) -> Vec<usize> {
         (start, reachable)
     }).collect();
     let mut before: BTreeMap<usize, BTreeSet<usize>> = BTreeMap::new();
+    let mut completions: BTreeMap<usize, BTreeSet<usize>> = BTreeMap::new();
     for &later in &deferred {
         if !introduces_existentials(&rules[later]) { continue; }
         let pieces = existential_pieces(&rules[later].conclusion);
         for &earlier in &deferred {
-            if earlier != later && pieces.iter().any(|piece| piece.iter().all(|&position|
+            if earlier == later { continue; }
+            // A deferred producer can enable an introduction even when its
+            // head alone cannot satisfy the introduction's complete piece.
+            if !introduces_existentials(&rules[earlier]) && rules[later].premise.iter().enumerate().any(|(position, goal)|
+                !is_builtin_premise(goal) && consequences[&earlier].iter().any(|&source|
+                    conclusion_may_satisfy(&rules[source].conclusion, &rules[later].premise, &[position])))
+            {
+                before.entry(later).or_default().insert(earlier);
+            }
+            if pieces.iter().any(|piece| piece.iter().all(|&position|
                 consequences[&earlier].iter().any(|&source|
                     conclusion_may_satisfy(&rules[source].conclusion, &rules[later].conclusion, &[position])))) {
                 before.entry(later).or_default().insert(earlier);
             }
+            if introduces_existentials(&rules[earlier]) && pieces.iter().any(|piece|
+                rule_may_complete_piece(&rules[earlier], &rules[later].conclusion, piece))
+            {
+                completions.entry(later).or_default().insert(earlier);
+            }
+        }
+    }
+    for (&later, earlier_rules) in &completions {
+        for &earlier in earlier_rules {
+            // Completing a graph around an existing individual takes
+            // precedence over creating a larger graph with a fresh one.
+            if !completions.get(&earlier).is_some_and(|rules| rules.contains(&later)) {
+                if let Some(required) = before.get_mut(&earlier) { required.remove(&later); }
+            }
+            before.entry(later).or_default().insert(earlier);
         }
     }
     let mut remaining: BTreeSet<usize> = deferred.iter().copied().collect();
@@ -1778,6 +1800,44 @@ fn general_rule_order(rules: &[Rule]) -> Vec<usize> {
     let mut sorted = sorted.into_iter();
     let deferred: BTreeSet<usize> = deferred.into_iter().collect();
     (0..rules.len()).map(|i| if deferred.contains(&i) { sorted.next().unwrap() } else { i }).collect()
+}
+
+/// Whether one firing can complete `piece` using both its existing premise
+/// facts and its conclusions. All head positions share one substitution, so
+/// unrelated individuals cannot be mistaken for a reusable graph. This is a
+/// scheduling hint: an expensive search may fall back to the ordinary order.
+fn rule_may_complete_piece(rule: &Rule, target: &Graph, piece: &[usize]) -> bool {
+    if piece.len() < 2 { return false; }
+    fn open(term: &Term, side: &str, scope: &str) -> Term {
+        match term {
+            Term::Var(name) => Term::var(format!("{side}v_{name}")),
+            Term::Blank(name) => Term::var(format!("{side}{scope}b_{name}")),
+            Term::List(items) => Term::List(items.iter().map(|t| open(t, side, scope)).collect()),
+            other => other.clone(),
+        }
+    }
+    let triple = |t: &Triple, side: &str, scope: &str| Triple::new(
+        open(&t.s, side, scope), open(&t.p, side, scope), open(&t.o, side, scope));
+    let support: Vec<(Triple, bool)> = rule.premise.iter().filter(|t| !is_builtin_premise(t))
+        .map(|t| (triple(t, "__completion_", "body_"), false))
+        .chain(rule.conclusion.iter().map(|t| (triple(t, "__completion_", "head_"), true))).collect();
+    if support.len() == rule.conclusion.len() { return false; }
+    let wanted: Vec<Triple> = piece.iter().map(|&i| triple(&target[i], "__piece_", "head_")).collect();
+    fn matches(wanted: &[Triple], support: &[(Triple, bool)], bindings: &Bindings,
+        body: bool, head: bool, remaining: &mut usize) -> bool {
+        let Some((goal, rest)) = wanted.split_first() else { return body && head };
+        for (candidate, conclusion) in support {
+            if *remaining == 0 { return false; }
+            *remaining -= 1;
+            let mut bindings = bindings.clone();
+            if unify_triple(goal, candidate, &mut bindings)
+                && matches(rest, support, &bindings, body || !*conclusion, head || *conclusion, remaining)
+            { return true; }
+        }
+        false
+    }
+    let mut remaining = 2000;
+    matches(&wanted, &support, &Bindings::new(), false, false, &mut remaining)
 }
 
 /// Whether every triple of `piece` in `target` could be an instance of

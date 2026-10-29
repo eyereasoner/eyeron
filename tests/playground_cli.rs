@@ -60,11 +60,20 @@ fn browser_and_native_reject_invalidated_scoped_assumptions_without_check_mode()
     for source in [
         include_str!("fixtures/scoped-consistency/negative-cycle.n3"),
         include_str!("fixtures/scoped-consistency/negative-existential-cycle.n3"),
-        include_str!("fixtures/scoped-consistency/examiner-count.n3"),
+        include_str!("fixtures/scoped-consistency/growing-collection.n3"),
     ] {
         let output = compare(&["-"], source, None);
         assert!(output.contains("# Contradiction:"), "{output}");
     }
+}
+
+#[test]
+fn browser_and_native_reuse_the_existing_examiner() {
+    let source = include_str!("fixtures/scoped-consistency/examiner-count.n3");
+    let output = compare(&["-"], source, None);
+    assert!(output.contains(":numberOfExaminers 1"), "{output}");
+    assert!(!output.contains(":examiner _:"), "{output}");
+    compare(&["-c", "-"], source, None);
 }
 
 #[test]
