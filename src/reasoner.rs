@@ -7205,7 +7205,7 @@ fn unify_formula_unordered(left: &Graph, right: &Graph, bindings: &mut Bindings)
             bindings: &mut Bindings,
             next: &mut dyn FnMut(&mut Alpha, &mut Bindings) -> bool,
         ) -> bool {
-            if j == b.len() {
+            if i == a.len() && j == b.len() {
                 return next(alpha, bindings);
             }
             if i == a.len() && covered[j] > 0 {

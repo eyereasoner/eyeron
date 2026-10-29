@@ -531,7 +531,8 @@ fn graph_patterns_match_when_substitution_merges_their_statements() {
         { :d :g { ?x :p :c. :a :p :c } } => { :both :x ?x }.\n\
         { :d :g { ?x :p :c } } => { :bad :one ?x }.\n\
         { :e :g { ?x :p :c. :a :p :c. :a :q :c } } => { :bad :extra ?x }.\n\
-        { :n :g { ?x :p \"01\"^^xsd:integer. :a :p 1 } } => { :bad :lexical ?x }.";
+        { :n :g { ?x :p \"01\"^^xsd:integer. :a :p 1 } } => { :bad :lexical ?x }.\n\
+        :z :g {}. { :z :g { ?x :p :c } } => { :bad :empty :z }.";
     let out = reason(source).unwrap();
     for expected in [":pattern :x :a", ":equal :x :a", ":both :x :b"] {
         assert!(out.contains(expected), "{expected}: {out}");
