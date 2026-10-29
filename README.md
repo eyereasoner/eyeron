@@ -9,10 +9,10 @@ command-line program, a Rust library, and a browser application.
 
 - **[Playground](https://eyereasoner.github.io/eyeron/playground)**: run N3 in
   your browser.
-- **[Guide](GUIDE.md)**: build, run, check proofs, use the library, and develop
-  Eyeron.
-- **[Specification](SPEC.md)**: the language, its evaluation, and the C1–C9
-  proof contract.
+- **[Guide](https://eyereasoner.github.io/eyeron/GUIDE)**: build, run, check
+  proofs, use the library, and develop Eyeron.
+- **[Specification](https://eyereasoner.github.io/eyeron/SPEC)**: the language,
+  its evaluation, and the C1–C9 proof contract.
 - **[Examples](examples/)**: runnable programs, with their expected output in
   [`examples/output/`](examples/output/).
 
