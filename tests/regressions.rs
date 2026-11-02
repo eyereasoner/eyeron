@@ -632,6 +632,56 @@ fn rdf12_trig_profile_materializes_named_graphs_as_quads() {
 }
 
 #[test]
+fn n3_rejects_rdf_triple_terms_at_the_opening_delimiter() {
+    for body in [
+        ":s :p <<( _:x :b :c )>> . _:x a :Unicorn .",
+        ":s :p << :a :b :c >> .",
+        "<<( :a :b :c )>> :p :o .",
+        "{ :s :p <<( ?x :b :c )>> . ?x a :Unicorn } => { :x :y :z } .",
+        ":s :p (<<( :a :b :c )>>) .",
+    ] {
+        let input = format!("@prefix : <https://example.org/course#> .\n{body}");
+        let error = parse_n3(&input, None).unwrap_err();
+        assert_eq!(error.offset, input.find("<<"), "{input}");
+        assert!(error.message.contains("not allowed in N3; use a quoted graph"), "{error}");
+    }
+    // Delimiters in comments and strings are ordinary text.
+    parse_n3("# <<( :a :b :c )>>\n<urn:s> <urn:p> \"<<( :a :b :c )>>\" .", None).unwrap();
+}
+
+#[test]
+fn rdf_message_logs_keep_rdf_triple_terms_and_reification() {
+    let doc = eyeron::parse_rdf_message_log(r#"
+        VERSION "1.2-messages"
+        PREFIX : <http://example.org/>
+        :s :p <<( _:x :b :c )>> .
+        _:x a :Unicorn .
+        MESSAGE
+        :s :p << :a :b :c ~ :r >> .
+    "#, None).unwrap();
+    let payloads: Vec<_> = doc.facts.iter()
+        .filter(|triple| triple.p == eyeron::Term::iri("http://www.w3.org/2000/10/swap/log#nameOf"))
+        .map(|triple| match &triple.o { eyeron::Term::Formula(graph) => graph, _ => panic!("expected payload graph") })
+        .collect();
+    assert_eq!(payloads.len(), 2);
+    let eyeron::Term::Formula(quoted) = &payloads[0][0].o else { panic!("expected triple term") };
+    assert_eq!(quoted[0].s, payloads[0][1].s);
+    assert!(payloads[1].iter().any(|triple| triple.p == eyeron::Term::iri("http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies")));
+}
+
+#[test]
+fn rdf_message_payloads_follow_rdf_grammar() {
+    for payload in [
+        "?s :p :o .",
+        ":s :p { :a :b :c } .",
+        ":s log:nameOf :o .",
+    ] {
+        let input = format!("VERSION \"1.2-messages\"\nPREFIX : <http://example.org/>\n{payload}");
+        assert!(eyeron::parse_rdf_message_log(&input, None).is_err(), "accepted {payload}");
+    }
+}
+
+#[test]
 fn rdf12_parenthesized_triple_terms_use_formula_term_representation() {
     let doc = eyeron::parse_rdf12(
         r#"PREFIX : <http://example.org/>

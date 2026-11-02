@@ -1,6 +1,6 @@
 # Classifying a quoted Socrates statement
 #
-# A triple term says that Socrates is human, and a class link relates
+# A quoted graph says that Socrates is human, and a class link relates
 # humans to mortals. An N3 rule derives the corresponding quoted mortality
 # statement.
 
@@ -9,12 +9,18 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix : <http://example.org/socrates#> .
 
-:we :have <<(:Socrates rdf:type :Human)>> .
+:we :have {
+    :Socrates rdf:type :Human .
+} .
 :Human rdfs:subClassOf :Mortal .
 
 {
     ?A rdfs:subClassOf ?B .
-    :we :have <<(?S rdf:type ?A)>>
+    :we :have {
+        ?S rdf:type ?A .
+    }
 } => {
-    :we :have <<(?S rdf:type ?B)>>
+    :we :have {
+        ?S rdf:type ?B .
+    }
 } .

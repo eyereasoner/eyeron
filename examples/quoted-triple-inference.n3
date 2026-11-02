@@ -1,8 +1,8 @@
 # Carrying metadata across a symmetric triple
 #
 # A marriage relation is declared symmetric and also appears as an
-# annotated triple term. N3 rules derive the reversed fact and the matching
-# reversed triple term with its metadata.
+# annotated quoted graph. N3 rules derive the reversed fact and the matching
+# reversed quoted graph with its metadata.
 
 @base <https://eyereasoner.github.io/eye/reasoning/n3-star/example.n3> .
 @prefix : <https://eyereasoner.github.io/eye/reasoning#> .
@@ -16,15 +16,21 @@
 
 {
     ?p a :SymetricRelation .
-    <<(?s ?p ?o)>> ?p2 ?o2
+    {
+        ?s ?p ?o .
+    } ?p2 ?o2
 } => {
-    <<(?o ?p ?s)>> ?p2 ?o2
+    {
+        ?o ?p ?s .
+    } ?p2 ?o2
 } .
 
 :marriedTo a :SymetricRelation .
 
 :alice :marriedTo :bob .
-<<(:alice :marriedTo :bob)>> :since "1999" .
+{
+    :alice :marriedTo :bob .
+} :since "1999" .
 
 {
     :bob :marriedTo :alice
@@ -33,13 +39,17 @@
 } .
 
 {
-    <<(:bob :marriedTo :alice)>> :since "1999"
+    {
+        :bob :marriedTo :alice .
+    } :since "1999"
 } => {
     :TEST :PASS 2
 } .
 
 {
-    <<(:alice ?p :bob)>> :since "1999"
+    {
+        :alice ?p :bob .
+    } :since "1999"
 } => {
     :TEST :PASS 3
 } .

@@ -6,6 +6,70 @@ import vm from 'node:vm';
 const html = readFileSync(new URL('../playground.html', import.meta.url), 'utf8');
 const loader = html.slice(html.indexOf('      function ensureWorker()'), html.indexOf('      async function run('));
 
+function editors() {
+  const context = vm.createContext({ document: { createElement: () => ({ append() {}, setAttribute() {} }) } });
+  vm.runInContext(html.slice(html.indexOf('      const n3Tokens ='), html.indexOf('      const input = createEditor(')), context);
+  function create(text) {
+    const attributes = new Map(), events = new Map();
+    let layer;
+    const textarea = {
+      value: text,
+      replaceWith(frame) { frame.append = (highlight) => { layer = highlight; }; },
+      setAttribute: (name, value) => attributes.set(name, value),
+      removeAttribute: (name) => attributes.delete(name),
+      addEventListener: (event, callback) => events.set(event, callback),
+    };
+    const editor = context.createEditor(textarea);
+    return { editor, textarea, attributes, html: () => layer.innerHTML, edit: () => events.get('input')() };
+  }
+  return { context, create };
+}
+
+test('parse errors mark the delimiter in red and clear when the source changes', () => {
+  const page = editors();
+  const input = page.create('@prefix : <urn:example:> .\n:s :p <<( _:x :b :c )>> .');
+  input.editor.setError(2, 7, 'RDF triple terms are not allowed in N3');
+  assert.match(input.html(), /<span class="t-error">&lt;&lt;<\/span>/);
+  assert.equal(input.attributes.get('aria-invalid'), 'true');
+  input.edit();
+  assert.doesNotMatch(input.html(), /t-error/);
+  assert.equal(input.attributes.has('aria-invalid'), false);
+  input.editor.setError(2, 7, 'Invalid N3');
+  input.editor.setValue(':s :p { :a :b :c } .');
+  assert.doesNotMatch(input.html(), /t-error/);
+});
+
+test('error columns count Unicode characters and retain safe coloring for large inputs and EOF', () => {
+  const page = editors();
+  const input = page.create(':s :p "🦄" ; :q <<( :a :b :c )>> .');
+  const column = Array.from(input.textarea.value.split('<<')[0]).length + 1;
+  input.editor.setError(1, column, 'Invalid N3');
+  assert.match(input.html(), /<span class="t-error">&lt;&lt;<\/span>/);
+  input.editor.setValue('# ' + 'x'.repeat(200001) + '\n<s> <p> <<');
+  input.editor.setError(2, 9, 'Invalid N3');
+  assert.match(input.html(), /&lt;s&gt; &lt;p&gt; <span class="t-error">&lt;&lt;<\/span>/);
+  input.editor.setValue('<s>');
+  input.editor.setError(1, 4, 'Expected predicate');
+  assert.match(input.html(), /<span class="t-error"> <\/span>$/);
+});
+
+test('CLI locations mark the matching source, stdin, or saved proof', () => {
+  const page = editors();
+  const input = page.create(':s :p <<'), extra = page.create(':s :p <<'), proof = page.create(':s :p <<');
+  Object.assign(page.context, {
+    sources: [{ name: '-' }, { name: 'https://example.org/data.n3' }],
+    input: input.editor, additionalEditors: [extra.editor], proof: proof.editor, proofName: 'proof.n3',
+  });
+  vm.runInContext(html.slice(html.indexOf('      function showParseError('), html.indexOf('      function ensureWorker()')), page.context);
+  page.context.showParseError('eyeron: https://example.org/data.n3:1:7: Invalid N3\n:s :p <<\n      ^');
+  assert.doesNotMatch(input.html(), /t-error/);
+  assert.match(extra.html(), /t-error/);
+  page.context.showParseError('eyeron: <stdin>:1:7: Invalid N3\n');
+  assert.match(input.html(), /t-error/);
+  page.context.showParseError('eyeron: proof.n3:1:7: Invalid N3\n');
+  assert.match(proof.html(), /t-error/);
+});
+
 // An existing visitor has the previous release cached at both unversioned
 // URLs. Exercise the page's real worker loader against that stale asset pair.
 function browser() {

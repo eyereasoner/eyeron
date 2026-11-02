@@ -105,6 +105,27 @@ fn browser_modes_that_exit_early_do_not_need_to_read_stdin() {
 }
 
 #[test]
+fn invalid_n3_triple_terms_have_a_source_location_and_a_correction() {
+    let text = "@prefix : <https://example.org/course#> .\n:s :p <<( _:x :b :c )>> .\n_:x a :Unicorn .\n";
+    let result = eyeron::cli::run_browser_request(&json!({
+        "args": ["example.n3"], "sources": [{ "name": "example.n3", "text": text }]
+    }).to_string(), &mut |_| panic!("invalid N3 must produce no output"));
+    assert_eq!(result["exitCode"], 1);
+    assert!(result["stderr"].as_str().unwrap().contains(
+        "eyeron: example.n3:2:7: RDF triple-term syntax '<< ... >>' is not allowed in N3; use a quoted graph '{ ... }'"
+    ));
+
+    let corrected = r#"
+        @prefix : <https://example.org/course#> .
+        :s :p { :u :b :c } .
+        :u a :Unicorn .
+        { :s :p { ?x :b :c } . ?x a :Unicorn } => { :x :y :z } .
+    "#;
+    let output = compare(&["-c", "-"], corrected, None);
+    assert!(output.contains("checked:"), "{output}");
+}
+
+#[test]
 fn browser_checks_saved_proofs_and_rejects_a_forged_claim() {
     let generated = Command::new(env!("CARGO_BIN_EXE_eyeron")).args(["-p", "examples/socrates.n3"]).output().unwrap();
     let saved = String::from_utf8(generated.stdout).unwrap();

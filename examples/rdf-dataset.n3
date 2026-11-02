@@ -14,7 +14,9 @@ VERSION "1.2"
     ?condition :requires ?action .
     :maintenanceSystem :trusted true .
 } => {
-    :workOrder :entails <<(:sensor :needs ?action)>> .
+    :workOrder :entails {
+        :sensor :needs ?action .
+    } .
     :audit log:nameOf {
         :workOrder :basedOn :factoryDataset .
         :workOrder :checkedBy :maintenanceSystem .
@@ -22,9 +24,13 @@ VERSION "1.2"
 } .
 
 {
-    :workOrder :entails <<(?device :needs ?action)>> .
+    :workOrder :entails {
+        ?device :needs ?action .
+    } .
 } log:query {
-    :workOrder :entails <<(?device :needs ?action)>> .
+    :workOrder :entails {
+        ?device :needs ?action .
+    } .
 } .
 
 # Markdown rendering via log:outputString.

@@ -123,7 +123,7 @@ pub fn parse_rdf_message_log(input: &str, base_iri: Option<&str>) -> Result<Docu
 
         let rewritten = rewrite_message_blank_labels(message, idx + 1);
         let msg_text = format!("{}\n{}\n", prefixes, rewritten);
-        let msg_doc = parse_n3(&msg_text, base_iri)?;
+        let msg_doc = parse_rdf12_compat(&msg_text, base_iri, RdfFormat::Turtle)?;
         for (k, v) in &msg_doc.prefixes {
             doc.prefixes.insert(k.clone(), v.clone());
         }
@@ -1061,7 +1061,15 @@ impl Parser {
             }
             TokenKind::LBracket => self.parse_blank_node_property_list(),
             TokenKind::LParen => self.parse_list(),
-            TokenKind::LTriple => self.parse_triple_term(),
+            TokenKind::LTriple => {
+                if !self.profile.is_rdf12() {
+                    return Err(EyeronError::at(
+                        "RDF triple-term syntax '<< ... >>' is not allowed in N3; use a quoted graph '{ ... }'",
+                        tok.offset,
+                    ));
+                }
+                self.parse_triple_term()
+            }
             other => Err(EyeronError::at(format!("expected term, got {:?}", other), tok.offset)),
         }
     }

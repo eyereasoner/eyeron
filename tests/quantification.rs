@@ -136,6 +136,29 @@ fn outer_variables_are_inherited_and_inner_declarations_shadow_them() {
 }
 
 #[test]
+fn an_outer_existential_connects_a_quoted_statement_to_an_asserted_fact() {
+    let source = format!(r#"{PREFIX}
+        @forSome :witness .
+        :s :p {{ :witness :b :c }} .
+        :witness a :Unicorn .
+        {{ :s :p {{ ?x :b :c }} . ?x a :Unicorn }} => {{ :x :y :z }} .
+    "#);
+    let doc = parse_n3(&source, None).unwrap();
+    let result = reason_document(&doc, &ReasonerOptions::default());
+    assert!(result.is_complete());
+    assert_eq!(result.derived, vec![eyeron::Triple::new(
+        Term::iri("http://example.org/x"),
+        Term::iri("http://example.org/y"),
+        Term::iri("http://example.org/z"),
+    )]);
+    // Reusing a local blank label across the graph boundary does not connect it.
+    assert!(derives(r#"
+        :s :p { _:x :b :c } . _:x a :Unicorn .
+        { :s :p { ?x :b :c } . ?x a :Unicorn } => { :x :y :z } .
+    "#).is_empty());
+}
+
+#[test]
 fn explicit_universals_drive_rules_and_existentials_produce_witnesses() {
     let output =
         derives("@forAll :x. { :x a :Human } => { @forSome :y. :x :hasMother :y }. :tom a :Human.");

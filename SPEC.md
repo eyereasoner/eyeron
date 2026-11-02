@@ -213,6 +213,10 @@ within their scope.
 
 ### 2.3 Graph Terms
 
+N3 quotes graphs with `{ ... }`. RDF triple-term syntax `<< ... >>`,
+including `<<( ... )>>`, MUST NOT be used in N3 input; it is accepted only
+in RDF input (Section 2.5).
+
 Graph terms retain their binders and are compared as sets, up to bijective
 renaming of locally bound variables of the same quantifier kind. Duplicate
 triples and unused declarations do not change identity, so a pattern matches

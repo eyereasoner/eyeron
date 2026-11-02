@@ -86,6 +86,7 @@
       .t-number { color: #9a5200; }
       .t-brace { color: var(--accent); }
       .t-punct { color: var(--muted); }
+      .t-error { color: #991b1b; background: #fee2e2; text-decoration: underline wavy #b91c1c; }
       .messages { margin: 0.85rem 0 0; max-height: 18rem; padding: 0.75rem; border-radius: 0.5rem; background: #fef2f2; color: #991b1b; font-size: 0.82rem; line-height: 1.45; white-space: pre-wrap; overflow: auto; overflow-wrap: anywhere; }
       .run-toolbar { grid-area: actions; align-self: stretch; position: sticky; top: 0; z-index: 10; display: flex; align-items: center; align-content: start; flex-wrap: wrap; gap: 0.6rem 1.25rem; box-shadow: 0 3px 8px #1118270a; }
       .run-toolbar .status { flex: 1 1 12rem; min-width: 0; margin: 0; overflow-wrap: anywhere; }
@@ -597,17 +598,25 @@
       }
 
       /** N3 sources and results share one lexical coloring. */
-      function highlight(text) {
+      function highlight(text, error = null, colored = true) {
+        function fragment(part, offset) {
+          if (!error || offset >= error.end || offset + part.length <= error.start) return escapeHtml(part);
+          const start = Math.max(0, error.start - offset);
+          const end = Math.min(part.length, error.end - offset);
+          return escapeHtml(part.slice(0, start)) + '<span class="t-error">' + escapeHtml(part.slice(start, end)) + '</span>' + escapeHtml(part.slice(end));
+        }
+        if (!colored) return fragment(text, 0);
         let html = '';
         let at = 0;
         for (const match of text.matchAll(n3Tokens)) {
           const [kind] = Object.entries(match.groups).find(([, value]) => value !== undefined);
           const className = kind === 'word' ? (n3Words.test(match[0]) ? 't-keyword' : '') : tokenClasses[kind];
-          html += escapeHtml(text.slice(at, match.index));
-          html += className ? `<span class="${className}">${escapeHtml(match[0])}</span>` : escapeHtml(match[0]);
+          html += fragment(text.slice(at, match.index), at);
+          const token = fragment(match[0], match.index);
+          html += className ? `<span class="${className}">${token}</span>` : token;
           at = match.index + match[0].length;
         }
-        return html + escapeHtml(text.slice(at));
+        return html + fragment(text.slice(at), at);
       }
 
       // The subset of an editor the page uses: value, change events, a
@@ -627,20 +636,27 @@
         let colored = true;
         let pending = [];
         let frameRequested = false;
+        let error = null;
+        function clearError() {
+          error = null;
+          textarea.removeAttribute('aria-invalid');
+          textarea.removeAttribute('title');
+        }
         function paint() {
           frameRequested = false;
           if (pending.length) { textarea.value += pending.join(''); pending = []; }
           const text = textarea.value;
           // A trailing space keeps a final empty line as tall as the textarea's.
-          if (colored && text.length <= maxHighlighted) layer.innerHTML = highlight(text) + ' ';
-          else layer.textContent = text + ' ';
+          if (!error && (!colored || text.length > maxHighlighted)) layer.textContent = text + ' ';
+          else layer.innerHTML = highlight(text + ' ', error, colored && text.length <= maxHighlighted);
         }
-        textarea.addEventListener('input', () => { paint(); for (const listener of listeners) listener(); });
+        textarea.addEventListener('input', () => { clearError(); paint(); for (const listener of listeners) listener(); });
         paint();
         return {
           getValue: () => { if (pending.length) paint(); return textarea.value; },
           setValue(text) {
             pending = [];
+            clearError();
             textarea.value = text;
             paint();
             for (const listener of listeners) listener();
@@ -651,6 +667,19 @@
             if (!frameRequested) { frameRequested = true; requestAnimationFrame(paint); }
           },
           on(event, listener) { if (event === 'change') listeners.push(listener); },
+          setError(line, column, message) {
+            clearError();
+            const lines = textarea.value.split('\n');
+            if (line >= 1 && line <= lines.length && column >= 1) {
+              const start = lines.slice(0, line - 1).reduce((sum, text) => sum + text.length + 1, 0)
+                + Array.from(lines[line - 1]).slice(0, column - 1).join('').length;
+              const width = textarea.value.startsWith('<<', start) ? 2 : (textarea.value.codePointAt(start) > 0xffff ? 2 : 1);
+              error = { start, end: start + width };
+              textarea.setAttribute('aria-invalid', 'true');
+              textarea.setAttribute('title', message);
+            }
+            paint();
+          },
           setOption(name, value) {
             if (name === 'readOnly') textarea.readOnly = value;
             if (name === 'mode') { colored = value === 'n3'; paint(); }
@@ -946,6 +975,22 @@
         finally { sharing = false; updateShareButtons(); }
       }
 
+      function showParseError(stderr) {
+        const editors = sources.map((source, index) => ({
+          name: source.name.trim() === '-' ? '<stdin>' : source.name.trim(),
+          editor: index === 0 ? input : additionalEditors[index - 1],
+        }));
+        editors.push({ name: proofName, editor: proof });
+        for (const { name, editor } of editors) {
+          const prefix = 'eyeron: ' + name + ':';
+          for (const line of stderr.split('\n')) {
+            if (!line.startsWith(prefix)) continue;
+            const match = /^(\d+):(\d+): (.*)$/.exec(line.slice(prefix.length));
+            if (match) editor.setError(Number(match[1]), Number(match[2]), match[3]);
+          }
+        }
+      }
+
       function ensureWorker() {
         if (worker) return workerReady;
         // Refresh the glue and binary together: Pages caches both URLs across
@@ -1024,6 +1069,7 @@
           return;
         }
         setBusy(true);
+        for (const editor of [input, ...additionalEditors, proof]) editor.setError(null);
         output.setValue('');
         output.setOption('mode', args.some((arg) => ['--ast', '--prove-and-check', '--check-proof', '--help', '--version'].includes(arg)) ? null : 'n3');
         byId('messages').hidden = true;
@@ -1036,6 +1082,7 @@
           const report = await new Promise((resolve, reject) => { finishRun = resolve; failRun = reject; worker.postMessage(request); });
           byId('messages').textContent = report.stderr;
           byId('messages').hidden = !report.stderr;
+          if (!report.ok) showParseError(report.stderr);
           const verdict = report.exitCode === 0 ? 'Done' : report.exitCode === 65 ? 'Inference fuse' : 'Failed';
           setStatus(`${verdict} · exit ${report.exitCode} · ${((performance.now() - started) / 1000).toFixed(2)} s`, report.ok ? 'ok' : 'error');
           revealPanel(document.querySelector('.output-card'));

@@ -10,10 +10,14 @@ VERSION "1.2"
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
 {
-    ?observation rdf:reifies <<(?device :reports ?condition)>> .
+    ?observation rdf:reifies {
+        ?device :reports ?condition .
+    } .
     ?condition :requires ?action .
 } => {
-    ?observation :entails <<(?device :needs ?action)>> .
+    ?observation :entails {
+        ?device :needs ?action .
+    } .
 } .
 
 {

@@ -318,6 +318,8 @@ Files are parsed separately and merged. Reusing the blank-node label `_:contact`
 
 Quoted graphs also have meaning as values. A triple inside `{ … }` does not automatically become an ordinary fact outside that graph. Inside quoted graph values, literal lexical identity matters: `"01"^^xsd:integer` and `1` are different. See [quantification and graph terms](SPEC.md#2-documents-and-terms) before building rules that manipulate quoted statements.
 
+Use `{ :s :p :o }` to quote a statement in N3. The RDF triple-term syntax `<<( :s :p :o )>>` belongs in RDF input, such as a companion `.ttl` or `.trig` file. Blank-node labels inside an N3 quoted graph are local to that graph; use an outer `@forSome` declaration to share an unnamed individual with the surrounding graph.
+
 ### Process an RDF Message Log
 
 Normal replay parses a whole log into `eymsg:` envelopes and quoted payloads that rules can inspect. Start with [rdf-messages.n3](examples/rdf-messages.n3) and its [companion input](examples/input/rdf-messages.trig).
