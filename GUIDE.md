@@ -362,6 +362,8 @@ On wide screens, Options sits beside the heading and controls, with equal input 
 
 Choose a bundled example or load a URL. Either replaces the current inputs. Companion data appears in an additional editor; inputs are parsed separately and merged. Loaded URLs retain their format and base IRI, and `--base-iri` overrides that base. Browser URL loading requires the server to allow cross-origin requests.
 
+Keep N3 rules in the main editor and paste RDF 1.2 data into **RDF 1.2 input**. Choose **TriG**, **Turtle**, **N-Triples**, or **N-Quads**, then press **Run** to reason over both inputs. Prefix declarations apply only to their own input. RDF companion files open in this box automatically. Clearing it omits that data from the next run. The selected format controls RDF parsing; `--rdf` is optional and selects RDF/TriG output. Shared links and local autosave include the RDF data and its format.
+
 To check a saved proof, choose **--check-proof FILE · Check a saved proof** and paste the proof into the **Proof to check** editor, or load its URL. Keep the matching program and data in the input editors.
 
 ### Share an experiment

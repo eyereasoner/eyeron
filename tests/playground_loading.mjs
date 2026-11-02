@@ -2,12 +2,15 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import vm from 'node:vm';
+import init, { runCliReport } from '../pkg/eyeron.js';
 
 const html = readFileSync(new URL('../playground.html', import.meta.url), 'utf8');
 const loader = html.slice(html.indexOf('      function ensureWorker()'), html.indexOf('      async function run('));
 
 function editors() {
-  const context = vm.createContext({ document: { createElement: () => ({ append() {}, setAttribute() {} }) } });
+  const context = vm.createContext({ document: { createElement: () => ({
+    value: '', append() {}, setAttribute() {}, removeAttribute() {}, replaceWith() {}, addEventListener() {},
+  }) } });
   vm.runInContext(html.slice(html.indexOf('      const n3Tokens ='), html.indexOf('      const input = createEditor(')), context);
   function create(text) {
     const attributes = new Map(), events = new Map();
@@ -68,6 +71,111 @@ test('CLI locations mark the matching source, stdin, or saved proof', () => {
   assert.match(input.html(), /t-error/);
   page.context.showParseError('eyeron: proof.n3:1:7: Invalid N3\n');
   assert.match(proof.html(), /t-error/);
+});
+
+function rdfPage(sources = [{ name: 'rules.n3', text: '{ ?s <urn:p> ?o } => { ?s <urn:q> ?o } .', baseIri: null }]) {
+  const page = editors(), fields = new Map();
+  const input = page.create(''), rdf = page.create('');
+  Object.assign(page.context, {
+    sources: structuredClone(sources), rdfSource: null, additionalEditors: [], restoring: false, busy: false,
+    input: input.editor, rdfInput: rdf.editor, proofName: 'proof.n3', proof: { getValue: () => '' },
+    byId: (id) => {
+      if (!fields.has(id)) fields.set(id, { value: '', checked: false, hidden: false, append() {}, replaceChildren() {} });
+      return fields.get(id);
+    },
+    scheduleSave() {},
+  });
+  vm.runInContext(html.slice(html.indexOf('      function rdfFormat('), html.indexOf('      function quoteArgument(')), page.context);
+  vm.runInContext(html.slice(html.indexOf('      function quoteArgument('), html.indexOf('      function scheduleSave(')), page.context);
+  rdf.editor.on('change', () => { if (!page.context.restoring) page.context.updateRdfInput(); });
+  page.context.showSources();
+  return { ...page, fields, input, rdf, sources: () => JSON.parse(JSON.stringify(page.context.activeSources())) };
+}
+
+test('a separate RDF editor combines pasted data with N3 and keeps --rdf optional', () => {
+  const page = rdfPage();
+  const rules = page.input.editor.getValue();
+  assert.equal(page.fields.get('rdf-format').value, 'trig');
+  page.rdf.editor.setValue('@prefix : <urn:example:> . :s :p <<( :a :b :c )>> .');
+  assert.equal(page.input.editor.getValue(), rules);
+  assert.deepEqual(page.sources().map((source) => source.name), ['rules.n3', 'data.trig']);
+  assert.equal(page.fields.get('command').textContent, 'eyeron rules.n3 data.trig');
+  page.fields.get('rdf').checked = true;
+  page.context.updateOptions();
+  assert.equal(page.fields.get('command').textContent, 'eyeron --rdf rules.n3 data.trig');
+  const saved = JSON.parse(JSON.stringify(page.context.state()));
+  assert.deepEqual(saved.sources, page.sources());
+  page.rdf.editor.setValue('');
+  assert.deepEqual(page.sources().map((source) => source.name), ['rules.n3']);
+  assert.equal(page.fields.get('command').textContent, 'eyeron --rdf rules.n3');
+});
+
+test('RDF companion data restores into its box and format changes preserve the input base', () => {
+  const sources = [
+    { name: '-', text: '{ ?s <urn:p> ?o } => { ?s <urn:q> ?o } .', baseIri: null },
+    { name: 'https://example.org/data.trig', text: '<relative> <urn:p> <urn:o> .', baseIri: 'https://example.org/data.trig' },
+    { name: 'evidence.n3', text: '<urn:s> <urn:p> <urn:o> .', baseIri: null },
+  ];
+  const page = rdfPage(sources);
+  assert.equal(page.rdf.editor.getValue(), sources[1].text);
+  assert.equal(page.context.additionalEditors[0], page.rdf.editor);
+  assert.equal(page.context.additionalEditors[1].getValue(), sources[2].text);
+  assert.equal(page.sources()[0].name, 'program.n3');
+  for (const format of ['ttl', 'nt', 'nq', 'trig']) {
+    page.fields.get('rdf-format').value = format;
+    page.context.updateRdfInput();
+    assert.equal(page.sources()[1].name, 'data.' + format);
+    assert.equal(page.sources()[1].baseIri, sources[1].baseIri);
+    page.context.sources = JSON.parse(JSON.stringify(page.context.state().sources));
+    page.context.showSources();
+    assert.equal(page.rdf.editor.getValue(), sources[1].text);
+    assert.equal(page.fields.get('rdf-format').value, format);
+  }
+  page.context.sources = [{ name: 'next.n3', text: 'replacement', baseIri: null }];
+  page.context.showSources();
+  assert.equal(page.rdf.editor.getValue(), '');
+  assert.equal(page.context.activeSources().length, 1);
+});
+
+test('adding RDF data names older unnamed N3 input and routes parse errors to the data box', () => {
+  const page = rdfPage([{ name: '-', text: '{ ?s <urn:p> ?o } => { ?s <urn:q> ?o } .', baseIri: null }]);
+  page.fields.get('rdf').checked = true;
+  page.rdf.editor.setValue('<<');
+  assert.equal(page.fields.get('command').textContent, 'eyeron --rdf program.n3 data.trig');
+  vm.runInContext(html.slice(html.indexOf('      function showParseError('), html.indexOf('      function ensureWorker()')), page.context);
+  page.context.showParseError('eyeron: data.trig:1:1: Incomplete RDF triple term\n');
+  assert.match(page.rdf.html(), /<span class="t-error">&lt;&lt;<\/span>/);
+  assert.doesNotMatch(page.input.html(), /t-error/);
+});
+
+test('the browser engine reasons over the N3 and RDF boxes together in all four formats', async () => {
+  await init({ module_or_path: readFileSync(new URL('../pkg/eyeron_bg.wasm', import.meta.url)) });
+  const prefix = 'https://example.org/course#';
+  const rules = `@prefix : <${prefix}> .
+    { :s :p { ?x :b :c } . ?x a :Unicorn } => { :x :y :z } .`;
+  const turtle = `@prefix : <${prefix}> . :s :p <<( :u :b :c )>> . :u a :Unicorn .`;
+  const ntriples = `<${prefix}s> <${prefix}p> <<( <${prefix}u> <${prefix}b> <${prefix}c> )>> .
+    <${prefix}u> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <${prefix}Unicorn> .`;
+  for (const format of ['trig', 'ttl', 'nt', 'nq']) {
+    const page = rdfPage([{ name: '-', text: rules, baseIri: null }]);
+    page.fields.get('rdf-format').value = format;
+    page.rdf.editor.setValue(['trig', 'ttl'].includes(format) ? turtle : ntriples);
+    for (const rdf of [false, true]) {
+      page.fields.get('rdf').checked = rdf;
+      let output = '';
+      const request = { args: page.context.argumentsForRun(), sources: page.sources() };
+      const report = JSON.parse(runCliReport(JSON.stringify(request), (chunk) => { output += chunk; }));
+      assert.equal(report.exitCode, 0, `${format}: ${report.stderr}`);
+      assert.match(output, /:x :y :z/);
+    }
+    page.fields.get('mode').value = '--prove-and-check';
+    let output = '';
+    const report = JSON.parse(runCliReport(JSON.stringify({
+      args: page.context.argumentsForRun(), sources: page.sources(),
+    }), (chunk) => { output += chunk; }));
+    assert.equal(report.exitCode, 0, `${format}: ${report.stderr}`);
+    assert.match(output, /checked:/);
+  }
 });
 
 // An existing visitor has the previous release cached at both unversioned

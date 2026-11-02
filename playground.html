@@ -75,6 +75,7 @@
       .editor:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
       .editor > .highlight { pointer-events: none; color: var(--text); }
       #proof-panel .editor { min-height: 15rem; }
+      #rdf-panel .editor { min-height: 14rem; }
       .additional-input .editor { min-height: 18rem; }
       .output-card .editor { min-height: 24rem; }
       .t-comment { color: var(--muted); }
@@ -168,6 +169,22 @@
           <p id="input-source" class="input-source" hidden></p>
           <textarea id="input" spellcheck="false" aria-label="Input text"></textarea>
           <p class="hint">Edit the N3 above, choose an example, or load a URL. Loading replaces the input.</p>
+          <section id="rdf-panel" class="additional-input" aria-labelledby="rdf-heading">
+            <div class="panel-heading">
+              <h3 id="rdf-heading">RDF 1.2 input</h3>
+              <label class="field" for="rdf-format"><span>Format</span>
+                <select id="rdf-format">
+                  <option value="trig">TriG</option>
+                  <option value="ttl">Turtle</option>
+                  <option value="nt">N-Triples</option>
+                  <option value="nq">N-Quads</option>
+                </select>
+              </label>
+            </div>
+            <p id="rdf-source" class="input-source" hidden></p>
+            <textarea id="rdf-input" spellcheck="false" aria-label="RDF 1.2 input"></textarea>
+            <p class="hint">Paste RDF data here and choose its format. Run combines it with the N3 above. Prefix declarations apply only to their own input. This box does not require <code>--rdf</code>; that option selects RDF/TriG output.</p>
+          </section>
           <div id="additional-inputs"></div>
           <section id="proof-panel" class="proof-input" aria-labelledby="proof-heading" hidden>
             <h2 id="proof-heading">Proof to check</h2>
@@ -195,7 +212,7 @@
             <label class="toggle" title="Stream output after fixpoint"><input id="stream" type="checkbox" /><span><code>-s, --stream</code></span></label>
             <label class="toggle" title="Reason over RDF Messages independently"><input id="stream-messages" type="checkbox" /><span><code>--stream-messages</code></span></label>
           </div>
-          <pre class="command" aria-label="Equivalent command"><code id="command">eyeron -</code></pre>
+          <pre class="command" aria-label="Equivalent command"><code id="command">eyeron program.n3</code></pre>
         </section>
         <div class="card output-card">
           <div class="panel-heading"><h2>Output</h2><button id="save-output" class="secondary" type="button" disabled>Save output</button></div>
@@ -688,12 +705,14 @@
       }
 
       const input = createEditor(byId('input'), { label: 'N3 input' });
+      const rdfInput = createEditor(byId('rdf-input'), { label: 'RDF 1.2 input' });
       const proof = createEditor(byId('proof-input'), { label: 'Saved N3 proof' });
       const output = createEditor(byId('output'), { label: 'Command output', readOnly: true });
       const defaultProgram = '@prefix : <http://example.org/socrates#> .\n\n:Socrates a :Human .\n\n{\n    ?person a :Human .\n} => {\n    ?person a :Mortal .\n} .\n';
       const stateKey = 'eyeron.playground.cli.v1';
       const gistTokenKey = 'eyeron.playground.github.gistToken.v1';
-      let sources = [{ name: '-', text: defaultProgram, baseIri: null }];
+      let sources = [{ name: 'program.n3', text: defaultProgram, baseIri: null }];
+      let rdfSource = null;
       let originalExample = null;
       let additionalEditors = [];
       let proofName = 'proof.n3';
@@ -725,15 +744,62 @@
         return name === '-' ? null : new URL(name, location.href).href;
       }
 
+      function rdfFormat(source) {
+        return /\.(trig|ttl|nt|nq)$/i.exec(source.name.split(/[?#]/)[0])?.[1].toLowerCase();
+      }
+
+      function activeSources() {
+        return sources.filter((source) => source !== rdfSource || source.text.trim());
+      }
+
+      function nameN3Input() {
+        if (sources[0].name !== '-') return;
+        let name = 'program.n3';
+        for (let suffix = 2; sources.some((source) => source.name === name) || name === proofName; suffix++) name = 'program' + suffix + '.n3';
+        sources[0].name = name;
+        byId('input-source').textContent = name;
+        byId('input-source').hidden = false;
+      }
+
+      function updateRdfInput() {
+        const text = rdfInput.getValue();
+        const format = byId('rdf-format').value;
+        if (!rdfSource && !text.trim()) { updateOptions(); return; }
+        if (!rdfSource || rdfFormat(rdfSource) !== format) {
+          let name = 'data.' + format;
+          for (let suffix = 2; sources.some((source) => source !== rdfSource && source.name === name) || name === proofName; suffix++) name = 'data' + suffix + '.' + format;
+          if (rdfSource) rdfSource.name = name;
+          else {
+            rdfSource = { name, text, baseIri: null };
+            sources.push(rdfSource);
+            additionalEditors.push(rdfInput);
+          }
+        }
+        rdfSource.text = text;
+        // A separate data box lets --rdf select output without treating the
+        // rules in an older unnamed-input snapshot as Turtle.
+        nameN3Input();
+        byId('rdf-source').textContent = rdfSource.name;
+        byId('rdf-source').hidden = false;
+        updateOptions();
+      }
+
       function showSources() {
         const wasRestoring = restoring;
         restoring = true;
         input.setValue(sources[0].text);
         byId('input-source').textContent = sources[0].name;
         byId('input-source').hidden = sources[0].name === '-';
+        rdfSource = sources.slice(1).find((source) => rdfFormat(source)) || null;
+        if (rdfSource) nameN3Input();
+        byId('rdf-format').value = rdfSource ? rdfFormat(rdfSource) : 'trig';
+        rdfInput.setValue(rdfSource?.text || '');
+        byId('rdf-source').textContent = rdfSource?.name || '';
+        byId('rdf-source').hidden = !rdfSource;
         additionalEditors = [];
         byId('additional-inputs').replaceChildren();
         for (const source of sources.slice(1)) {
+          if (source === rdfSource) { additionalEditors.push(rdfInput); continue; }
           const section = document.createElement('section');
           section.className = 'additional-input';
           const heading = document.createElement('h3');
@@ -765,7 +831,7 @@
         if (base) args.push('--base-iri', base);
         const depth = byId('max-backward-depth').value;
         if (depth !== '') args.push('--max-backward-depth', depth);
-        return args.concat(sources.map((source) => source.name.trim() || '-'));
+        return args.concat(activeSources().map((source) => source.name.trim() || '-'));
       }
 
       function quoteArgument(value) {
@@ -780,7 +846,7 @@
       }
 
       function state() {
-        return { v: 1, sources, mode: byId('mode').value, rdf: byId('rdf').checked,
+        return { v: 1, sources: activeSources(), mode: byId('mode').value, rdf: byId('rdf').checked,
           stream: byId('stream').checked, streamMessages: byId('stream-messages').checked,
           baseIri: byId('base-iri').value, maxBackwardDepth: byId('max-backward-depth').value,
           proof: { name: proofName, text: proof.getValue() }, example: byId('examples').value };
@@ -800,6 +866,7 @@
         byId('stop').disabled = !value;
         byId('save-output').disabled = !output.getValue();
         input.setOption('readOnly', value);
+        rdfInput.setOption('readOnly', value);
         for (const editor of additionalEditors) editor.setOption('readOnly', value);
         proof.setOption('readOnly', value);
         updateShareButtons();
@@ -1057,7 +1124,7 @@
       async function run(args = argumentsForRun()) {
         if (busy) return;
         if (!args.includes('--help') && !args.includes('--version')) {
-          const names = sources.map((source) => source.name.trim() || '-');
+          const names = activeSources().map((source) => source.name.trim() || '-');
           const duplicate = names.find((name, index) => names.indexOf(name) !== index);
           if (duplicate) {
             setStatus(`More than one saved input is named ${duplicate}. Load an example or URL to replace the saved inputs.`, 'error');
@@ -1069,7 +1136,7 @@
           return;
         }
         setBusy(true);
-        for (const editor of [input, ...additionalEditors, proof]) editor.setError(null);
+        for (const editor of [input, rdfInput, ...additionalEditors, proof]) editor.setError(null);
         output.setValue('');
         output.setOption('mode', args.some((arg) => ['--ast', '--prove-and-check', '--check-proof', '--help', '--version'].includes(arg)) ? null : 'n3');
         byId('messages').hidden = true;
@@ -1078,7 +1145,7 @@
         setStatus('Running…');
         try {
           await ensureWorker();
-          const request = { args, sources, proof: { name: proofName, text: proof.getValue() } };
+          const request = { args, sources: activeSources(), proof: { name: proofName, text: proof.getValue() } };
           const report = await new Promise((resolve, reject) => { finishRun = resolve; failRun = reject; worker.postMessage(request); });
           byId('messages').textContent = report.stderr;
           byId('messages').hidden = !report.stderr;
@@ -1175,6 +1242,8 @@
 
       for (const name of bundledExamplesN3) byId('examples').add(new Option(name, name));
       input.on('change', () => { if (!restoring) { sources[0].text = input.getValue(); scheduleSave(); } });
+      rdfInput.on('change', () => { if (!restoring) updateRdfInput(); });
+      byId('rdf-format').addEventListener('change', () => { if (!restoring) { rdfInput.setError(null); updateRdfInput(); } });
       proof.on('change', scheduleSave);
       for (const id of ['mode', 'rdf', 'stream', 'stream-messages', 'base-iri', 'max-backward-depth']) {
         byId(id).addEventListener('input', updateOptions);
