@@ -1,0 +1,371 @@
+@prefix : <https://example.org/demo#> .
+@prefix a: <https://example.org/appA#> .
+@prefix b: <https://example.org/appB#> .
+@prefix c: <https://example.org/appC#> .
+@prefix ex: <https://example.org/common#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:aliceA a ex:Customer .
+:aliceA ex:email "alice@example.com" .
+:aliceA ex:lifetimeSpendEur "1200"^^xsd:decimal .
+:aliceB a ex:Customer .
+:aliceB ex:email "alice@example.com" .
+:aliceB ex:lifetimeSpendEur 1200.00 .
+:aliceB ex:hasOpenInvoice :invoice42 .
+:invoice42 ex:amountDueEur "200"^^xsd:decimal .
+:aliceC a ex:Customer .
+:aliceC ex:email "alice@example.com" .
+:aliceC ex:marketingOptIn true .
+:aliceC ex:preferredChannel c:Email .
+:aliceA ex:sameCustomerAs :aliceA .
+:aliceA ex:sameCustomerAs :aliceB .
+:aliceA ex:sameCustomerAs :aliceC .
+:aliceB ex:sameCustomerAs :aliceA .
+:aliceC ex:sameCustomerAs :aliceA .
+:aliceB ex:sameCustomerAs :aliceB .
+:aliceB ex:sameCustomerAs :aliceC .
+:aliceC ex:sameCustomerAs :aliceB .
+:aliceA ex:lifetimeSpendEur 1200.00 .
+:aliceA ex:hasOpenInvoice :invoice42 .
+:aliceC ex:sameCustomerAs :aliceC .
+:aliceA ex:marketingOptIn true .
+:aliceA ex:preferredChannel c:Email .
+:aliceA ex:eligibleFor ex:GoldDiscount .
+:aliceA ex:recommendedAction ex:ApplyGoldDiscountAndSendInvoiceReminder .
+"001" log:outputString "ACTION: apply GoldDiscount and send invoice reminder (opt-in confirmed).\n" .
+
+{ :aliceA a ex:Customer . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "p"; pe:value :aliceA ];
+  pe:uses
+    { :aliceA a a:Buyer . },
+    { :aliceA a:email "alice@example.com" . }.
+
+{ :aliceA a a:Buyer . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceA a:email "alice@example.com" . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceA ex:email "alice@example.com" . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "p"; pe:value :aliceA ];
+  pe:uses
+    { :aliceA a a:Buyer . },
+    { :aliceA a:email "alice@example.com" . }.
+
+{ :aliceA ex:lifetimeSpendEur "1200"^^xsd:decimal . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "p"; pe:value :aliceA ],
+    [ pe:var "s"; pe:value "1200"^^xsd:decimal ];
+  pe:uses { :aliceA a:spentEur "1200"^^xsd:decimal . }.
+
+{ :aliceA a:spentEur "1200"^^xsd:decimal . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceB a ex:Customer . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "p"; pe:value :aliceB ];
+  pe:uses
+    { :aliceB a b:Client . },
+    { :aliceB b:email "alice@example.com" . }.
+
+{ :aliceB a b:Client . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceB b:email "alice@example.com" . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceB ex:email "alice@example.com" . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "p"; pe:value :aliceB ];
+  pe:uses
+    { :aliceB a b:Client . },
+    { :aliceB b:email "alice@example.com" . }.
+
+{ :aliceB ex:lifetimeSpendEur 1200.00 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "p"; pe:value :aliceB ],
+    [ pe:var "s"; pe:value 1200.00 ];
+  pe:uses { :aliceB b:totalSpent 1200.00 . }.
+
+{ :aliceB b:totalSpent 1200.00 . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceB ex:hasOpenInvoice :invoice42 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "i"; pe:value :invoice42 ],
+    [ pe:var "p"; pe:value :aliceB ];
+  pe:uses
+    { :invoice42 a b:Invoice . },
+    { :invoice42 b:forClient :aliceB . }.
+
+{ :invoice42 a b:Invoice . }
+  pe:fact "interop-demo.n3".
+
+{ :invoice42 b:forClient :aliceB . }
+  pe:fact "interop-demo.n3".
+
+{ :invoice42 ex:amountDueEur "200"^^xsd:decimal . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "d"; pe:value "200"^^xsd:decimal ],
+    [ pe:var "i"; pe:value :invoice42 ];
+  pe:uses
+    { :invoice42 a b:Invoice . },
+    { :invoice42 b:amountDue "200"^^xsd:decimal . }.
+
+{ :invoice42 b:amountDue "200"^^xsd:decimal . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceC a ex:Customer . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "p"; pe:value :aliceC ];
+  pe:uses
+    { :aliceC a c:Contact . },
+    { :aliceC c:primaryEmail "alice@example.com" . }.
+
+{ :aliceC a c:Contact . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceC c:primaryEmail "alice@example.com" . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceC ex:email "alice@example.com" . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "p"; pe:value :aliceC ];
+  pe:uses
+    { :aliceC a c:Contact . },
+    { :aliceC c:primaryEmail "alice@example.com" . }.
+
+{ :aliceC ex:marketingOptIn true . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "p"; pe:value :aliceC ],
+    [ pe:var "v"; pe:value true ];
+  pe:uses { :aliceC c:marketingOptIn true . }.
+
+{ :aliceC c:marketingOptIn true . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceC ex:preferredChannel c:Email . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "ch"; pe:value c:Email ],
+    [ pe:var "p"; pe:value :aliceC ];
+  pe:uses { :aliceC c:preferredChannel c:Email . }.
+
+{ :aliceC c:preferredChannel c:Email . }
+  pe:fact "interop-demo.n3".
+
+{ :aliceA ex:sameCustomerAs :aliceA . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "x"; pe:value :aliceA ],
+    [ pe:var "y"; pe:value :aliceA ];
+  pe:uses
+    { :aliceA a ex:Customer . },
+    { :aliceA ex:email "alice@example.com" . },
+    { :aliceA a ex:Customer . },
+    { :aliceA ex:email "alice@example.com" . }.
+
+{ :aliceA ex:sameCustomerAs :aliceB . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "x"; pe:value :aliceA ],
+    [ pe:var "y"; pe:value :aliceB ];
+  pe:uses
+    { :aliceA a ex:Customer . },
+    { :aliceA ex:email "alice@example.com" . },
+    { :aliceB a ex:Customer . },
+    { :aliceB ex:email "alice@example.com" . }.
+
+{ :aliceA ex:sameCustomerAs :aliceC . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "x"; pe:value :aliceA ],
+    [ pe:var "y"; pe:value :aliceC ];
+  pe:uses
+    { :aliceA a ex:Customer . },
+    { :aliceA ex:email "alice@example.com" . },
+    { :aliceC a ex:Customer . },
+    { :aliceC ex:email "alice@example.com" . }.
+
+{ :aliceB ex:sameCustomerAs :aliceA . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "x"; pe:value :aliceB ],
+    [ pe:var "y"; pe:value :aliceA ];
+  pe:uses
+    { :aliceB a ex:Customer . },
+    { :aliceB ex:email "alice@example.com" . },
+    { :aliceA a ex:Customer . },
+    { :aliceA ex:email "alice@example.com" . }.
+
+{ :aliceC ex:sameCustomerAs :aliceA . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "x"; pe:value :aliceC ],
+    [ pe:var "y"; pe:value :aliceA ];
+  pe:uses
+    { :aliceC a ex:Customer . },
+    { :aliceC ex:email "alice@example.com" . },
+    { :aliceA a ex:Customer . },
+    { :aliceA ex:email "alice@example.com" . }.
+
+{ :aliceB ex:sameCustomerAs :aliceB . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "x"; pe:value :aliceB ],
+    [ pe:var "y"; pe:value :aliceB ];
+  pe:uses
+    { :aliceB a ex:Customer . },
+    { :aliceB ex:email "alice@example.com" . },
+    { :aliceB a ex:Customer . },
+    { :aliceB ex:email "alice@example.com" . }.
+
+{ :aliceB ex:sameCustomerAs :aliceC . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "x"; pe:value :aliceB ],
+    [ pe:var "y"; pe:value :aliceC ];
+  pe:uses
+    { :aliceB a ex:Customer . },
+    { :aliceB ex:email "alice@example.com" . },
+    { :aliceC a ex:Customer . },
+    { :aliceC ex:email "alice@example.com" . }.
+
+{ :aliceC ex:sameCustomerAs :aliceB . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "x"; pe:value :aliceC ],
+    [ pe:var "y"; pe:value :aliceB ];
+  pe:uses
+    { :aliceC a ex:Customer . },
+    { :aliceC ex:email "alice@example.com" . },
+    { :aliceB a ex:Customer . },
+    { :aliceB ex:email "alice@example.com" . }.
+
+{ :aliceA ex:lifetimeSpendEur 1200.00 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "canon"; pe:value :aliceA ],
+    [ pe:var "other"; pe:value :aliceB ],
+    [ pe:var "s"; pe:value 1200.00 ];
+  pe:uses
+    { :aliceA a a:Buyer . },
+    { :aliceA ex:sameCustomerAs :aliceB . },
+    { :aliceB ex:lifetimeSpendEur 1200.00 . }.
+
+{ :aliceA ex:hasOpenInvoice :invoice42 . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "canon"; pe:value :aliceA ],
+    [ pe:var "inv"; pe:value :invoice42 ],
+    [ pe:var "other"; pe:value :aliceB ];
+  pe:uses
+    { :aliceA a a:Buyer . },
+    { :aliceA ex:sameCustomerAs :aliceB . },
+    { :aliceB ex:hasOpenInvoice :invoice42 . }.
+
+{ :aliceC ex:sameCustomerAs :aliceC . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "e"; pe:value "alice@example.com" ],
+    [ pe:var "x"; pe:value :aliceC ],
+    [ pe:var "y"; pe:value :aliceC ];
+  pe:uses
+    { :aliceC a ex:Customer . },
+    { :aliceC ex:email "alice@example.com" . },
+    { :aliceC a ex:Customer . },
+    { :aliceC ex:email "alice@example.com" . }.
+
+{ :aliceA ex:marketingOptIn true . }
+  pe:rule 13;
+  pe:binding
+    [ pe:var "canon"; pe:value :aliceA ],
+    [ pe:var "other"; pe:value :aliceC ],
+    [ pe:var "v"; pe:value true ];
+  pe:uses
+    { :aliceA a a:Buyer . },
+    { :aliceA ex:sameCustomerAs :aliceC . },
+    { :aliceC ex:marketingOptIn true . }.
+
+{ :aliceA ex:preferredChannel c:Email . }
+  pe:rule 14;
+  pe:binding
+    [ pe:var "canon"; pe:value :aliceA ],
+    [ pe:var "ch"; pe:value c:Email ],
+    [ pe:var "other"; pe:value :aliceC ];
+  pe:uses
+    { :aliceA a a:Buyer . },
+    { :aliceA ex:sameCustomerAs :aliceC . },
+    { :aliceC ex:preferredChannel c:Email . }.
+
+{ :aliceA ex:eligibleFor ex:GoldDiscount . }
+  pe:rule 15;
+  pe:binding
+    [ pe:var "c"; pe:value :aliceA ],
+    [ pe:var "inv"; pe:value :invoice42 ],
+    [ pe:var "s"; pe:value 1200.00 ];
+  pe:uses
+    { :aliceA a ex:Customer . },
+    { :aliceA ex:lifetimeSpendEur 1200.00 . },
+    { :aliceA ex:hasOpenInvoice :invoice42 . },
+    { :aliceA ex:marketingOptIn true . },
+    { 1200.00 math:greaterThan "1000"^^xsd:decimal . }.
+
+{ 1200.00 math:greaterThan "1000"^^xsd:decimal . }
+  pe:builtin math:greaterThan.
+
+{ :aliceA ex:recommendedAction ex:ApplyGoldDiscountAndSendInvoiceReminder . }
+  pe:rule 15;
+  pe:binding
+    [ pe:var "c"; pe:value :aliceA ],
+    [ pe:var "inv"; pe:value :invoice42 ],
+    [ pe:var "s"; pe:value 1200.00 ];
+  pe:uses
+    { :aliceA a ex:Customer . },
+    { :aliceA ex:lifetimeSpendEur 1200.00 . },
+    { :aliceA ex:hasOpenInvoice :invoice42 . },
+    { :aliceA ex:marketingOptIn true . },
+    { 1200.00 math:greaterThan "1000"^^xsd:decimal . }.
+
+{ "001" log:outputString "ACTION: apply GoldDiscount and send invoice reminder (opt-in confirmed).\n" . }
+  pe:rule 15;
+  pe:binding
+    [ pe:var "c"; pe:value :aliceA ],
+    [ pe:var "inv"; pe:value :invoice42 ],
+    [ pe:var "s"; pe:value 1200.00 ];
+  pe:uses
+    { :aliceA a ex:Customer . },
+    { :aliceA ex:lifetimeSpendEur 1200.00 . },
+    { :aliceA ex:hasOpenInvoice :invoice42 . },
+    { :aliceA ex:marketingOptIn true . },
+    { 1200.00 math:greaterThan "1000"^^xsd:decimal . }.

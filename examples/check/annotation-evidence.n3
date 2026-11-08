@@ -1,0 +1,33 @@
+# checked: 8 steps, 8 verified, 0 trusted
+@prefix : <http://example/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:test :hasStatement true .
+:test :hasNamedStatement :claim .
+:test :statementAuthor :bob .
+:test :statementDate "2021-07-07"^^xsd:date .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/annotation-evidence.n3";
+    pe:source "examples/annotation-evidence.n3";
+    pe:verdict pe:checked;
+    pe:steps 8;
+    pe:verified 8;
+    pe:trusted 0;
+    pe:factSteps 4;
+    pe:ruleSteps 4;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 10; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 12; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 4; pe:failed 0 ].

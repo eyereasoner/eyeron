@@ -1,0 +1,176 @@
+# checked with obligations: 66 steps, 46 verified, 20 trusted
+@prefix : <http://example.org/pyth#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:T1 :answer _:b1_92526b09178a1e12 .
+_:b1_92526b09178a1e12 a :Hypotenuse .
+_:b1_92526b09178a1e12 :value "5"^^xsd:decimal .
+:T1 :status "solve-c" .
+:T2 :answer _:b1_8a3ca326eedd2a02 .
+_:b1_8a3ca326eedd2a02 a :Hypotenuse .
+_:b1_8a3ca326eedd2a02 :value "13"^^xsd:decimal .
+:T2 :status "solve-c" .
+:T3 :answer _:b1_dbe3b5f9cd24e3b3 .
+_:b1_dbe3b5f9cd24e3b3 a :Hypotenuse .
+_:b1_dbe3b5f9cd24e3b3 :value "17"^^xsd:decimal .
+:T3 :status "solve-c" .
+:T6 :answer _:b1_2e18166e780d32c4 .
+_:b1_2e18166e780d32c4 a :Hypotenuse .
+_:b1_2e18166e780d32c4 :value 6.5 .
+:T6 :status "solve-c" .
+:T5 :answer _:b4_64765e20e5ab33d2 .
+_:b4_64765e20e5ab33d2 a :Leg .
+_:b4_64765e20e5ab33d2 :which "a" .
+_:b4_64765e20e5ab33d2 :value "8"^^xsd:decimal .
+:T5 :status "solve-a" .
+:T4 :answer _:b6_b7bfe635c8ff0aed .
+_:b6_b7bfe635c8ff0aed a :Leg .
+_:b6_b7bfe635c8ff0aed :which "b" .
+_:b6_b7bfe635c8ff0aed :value "12"^^xsd:decimal .
+:T4 :status "solve-b" .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/pythagorean-theorem.n3";
+    pe:source "examples/pythagorean-theorem.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 66;
+    pe:verified 46;
+    pe:trusted 20;
+    pe:builtinSteps 22;
+    pe:factSteps 18;
+    pe:ruleSteps 26;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 44; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 66; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 66; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 254; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 22; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 92; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 20; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 234; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T1 :answer _:b1_92526b09178a1e12 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_92526b09178a1e12 a :Hypotenuse .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_92526b09178a1e12 :value "5"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T2 :answer _:b1_8a3ca326eedd2a02 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_8a3ca326eedd2a02 a :Hypotenuse .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_8a3ca326eedd2a02 :value "13"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T3 :answer _:b1_dbe3b5f9cd24e3b3 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_dbe3b5f9cd24e3b3 a :Hypotenuse .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_dbe3b5f9cd24e3b3 :value "17"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T6 :answer _:b1_2e18166e780d32c4 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_2e18166e780d32c4 a :Hypotenuse .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_2e18166e780d32c4 :value 6.5 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T5 :answer _:b4_64765e20e5ab33d2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_64765e20e5ab33d2 a :Leg .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_64765e20e5ab33d2 :which "a" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_64765e20e5ab33d2 :value "8"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T4 :answer _:b6_b7bfe635c8ff0aed .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_b7bfe635c8ff0aed a :Leg .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_b7bfe635c8ff0aed :which "b" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_b7bfe635c8ff0aed :value "12"^^xsd:decimal .
+        }
+    ].

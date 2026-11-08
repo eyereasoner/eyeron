@@ -1,0 +1,44 @@
+@prefix : <https://example.org/see/smoke#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+
+:Case :product 42 .
+:out01 log:outputString "# smoke-arithmetic\n\n## Source files\n\n- [N3 rules](../smoke-arithmetic.n3)\n- [Input TriG](../input/smoke-arithmetic.trig)\n\n## Answer\nproduct = 42\n\n## Explanation\nThe compiled rule multiplies :x and :y using math:product." .
+
+{ :Case :product 42 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Product"; pe:value 42 ],
+    [ pe:var "X"; pe:value 6 ],
+    [ pe:var "Y"; pe:value 7 ];
+  pe:uses
+    { :Input :x 6 . },
+    { :Input :y 7 . },
+    { (6 7) math:product 42 . },
+    { 42 math:greaterThan 0 . }.
+
+{ :Input :x 6 . }
+  pe:fact "<unknown>".
+
+{ :Input :y 7 . }
+  pe:fact "<unknown>".
+
+{ (6 7) math:product 42 . }
+  pe:builtin math:product.
+
+{ 42 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :out01 log:outputString "# smoke-arithmetic\n\n## Source files\n\n- [N3 rules](../smoke-arithmetic.n3)\n- [Input TriG](../input/smoke-arithmetic.trig)\n\n## Answer\nproduct = 42\n\n## Explanation\nThe compiled rule multiplies :x and :y using math:product." . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Block"; pe:value "# smoke-arithmetic\n\n## Source files\n\n- [N3 rules](../smoke-arithmetic.n3)\n- [Input TriG](../input/smoke-arithmetic.trig)\n\n## Answer\nproduct = 42\n\n## Explanation\nThe compiled rule multiplies :x and :y using math:product." ],
+    [ pe:var "Product"; pe:value 42 ];
+  pe:uses
+    { :Case :product 42 . },
+    { ("# smoke-arithmetic\n\n## Source files\n\n- [N3 rules](../smoke-arithmetic.n3)\n- [Input TriG](../input/smoke-arithmetic.trig)\n\n## Answer\nproduct = %s\n\n## Explanation\nThe compiled rule multiplies :x and :y using math:product." 42) string:format "# smoke-arithmetic\n\n## Source files\n\n- [N3 rules](../smoke-arithmetic.n3)\n- [Input TriG](../input/smoke-arithmetic.trig)\n\n## Answer\nproduct = 42\n\n## Explanation\nThe compiled rule multiplies :x and :y using math:product." . }.
+
+{ ("# smoke-arithmetic\n\n## Source files\n\n- [N3 rules](../smoke-arithmetic.n3)\n- [Input TriG](../input/smoke-arithmetic.trig)\n\n## Answer\nproduct = %s\n\n## Explanation\nThe compiled rule multiplies :x and :y using math:product." 42) string:format "# smoke-arithmetic\n\n## Source files\n\n- [N3 rules](../smoke-arithmetic.n3)\n- [Input TriG](../input/smoke-arithmetic.trig)\n\n## Answer\nproduct = 42\n\n## Explanation\nThe compiled rule multiplies :x and :y using math:product." . }
+  pe:builtin string:format.

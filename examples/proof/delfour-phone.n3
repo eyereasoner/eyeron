@@ -1,0 +1,655 @@
+@prefix : <https://example.org/person#> .
+@prefix ctx: <https://example.org/context#> .
+@prefix health: <https://example.org/health#> .
+@prefix ins: <https://example.org/insight#> .
+@prefix need: <https://example.org/need#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix profile: <https://example.org/profile/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix vocab: <https://example.org/vocab/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:me need:needsLowSugar true .
+_:ins_3b8612157ed1ad3c a ins:Insight .
+_:ins_3b8612157ed1ad3c ins:metric "sugar_g_per_serving" .
+_:ins_3b8612157ed1ad3c ins:threshold 10.0 .
+_:ins_3b8612157ed1ad3c ins:suggestionPolicy "lower_metric_first_higher_price_ok" .
+_:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" .
+_:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" .
+_:ins_3b8612157ed1ad3c ins:retailer "Delfour" .
+_:ins_3b8612157ed1ad3c ins:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime .
+_:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime .
+_:pol_a3a8310003b7487f a odrl:Policy .
+_:pol_a3a8310003b7487f odrl:profile profile:Delfour-Insight-Policy .
+_:pol_a3a8310003b7487f odrl:permission _:b2_a3a8310003b7487f .
+_:b2_a3a8310003b7487f a odrl:Permission .
+_:b2_a3a8310003b7487f odrl:action odrl:use .
+_:b2_a3a8310003b7487f odrl:target _:ins_3b8612157ed1ad3c .
+_:b2_a3a8310003b7487f odrl:constraint _:b3_a3a8310003b7487f .
+_:b3_a3a8310003b7487f a odrl:Constraint .
+_:b3_a3a8310003b7487f odrl:leftOperand odrl:purpose .
+_:b3_a3a8310003b7487f odrl:operator odrl:eq .
+_:b3_a3a8310003b7487f odrl:rightOperand vocab:shopping_assist .
+_:pol_a3a8310003b7487f odrl:prohibition _:b4_a3a8310003b7487f .
+_:b4_a3a8310003b7487f a odrl:Prohibition .
+_:b4_a3a8310003b7487f odrl:action odrl:distribute .
+_:b4_a3a8310003b7487f odrl:target _:ins_3b8612157ed1ad3c .
+_:b4_a3a8310003b7487f odrl:constraint _:b5_a3a8310003b7487f .
+_:b5_a3a8310003b7487f a odrl:Constraint .
+_:b5_a3a8310003b7487f odrl:leftOperand odrl:purpose .
+_:b5_a3a8310003b7487f odrl:operator odrl:eq .
+_:b5_a3a8310003b7487f odrl:rightOperand vocab:marketing .
+_:pol_a3a8310003b7487f odrl:duty _:b6_a3a8310003b7487f .
+_:b6_a3a8310003b7487f a odrl:Duty .
+_:b6_a3a8310003b7487f odrl:action odrl:delete .
+_:b6_a3a8310003b7487f odrl:constraint _:b7_a3a8310003b7487f .
+_:b7_a3a8310003b7487f a odrl:Constraint .
+_:b7_a3a8310003b7487f odrl:leftOperand odrl:dateTime .
+_:b7_a3a8310003b7487f odrl:operator odrl:eq .
+_:b7_a3a8310003b7487f odrl:rightOperand "2025-10-04T18:51:53Z"^^xsd:dateTime .
+
+{ :me need:needsLowSugar true . }
+  pe:rule 1;
+  pe:binding [ pe:var "p"; pe:value :me ];
+  pe:uses { :me health:householdCondition health:Diabetes . }.
+
+{ :me health:householdCondition health:Diabetes . }
+  pe:fact "delfour-phone.n3".
+
+{ _:ins_3b8612157ed1ad3c a ins:Insight . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "c"; pe:value _:b1 ],
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "p"; pe:value :me ],
+    [ pe:var "ret"; pe:value "Delfour" ],
+    [ pe:var "ts"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ];
+  pe:uses
+    { :me need:needsLowSugar true . },
+    { _:b1 ctx:retailer "Delfour" . },
+    { _:b1 ctx:device "self-scanner" . },
+    { _:b1 ctx:event "pick_up_scanner" . },
+    { _:b1 ctx:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . },
+    { _:b1 ctx:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b1 ctx:retailer "Delfour" . }
+  pe:fact "delfour-phone.n3".
+
+{ _:b1 ctx:device "self-scanner" . }
+  pe:fact "delfour-phone.n3".
+
+{ _:b1 ctx:event "pick_up_scanner" . }
+  pe:fact "delfour-phone.n3".
+
+{ _:b1 ctx:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . }
+  pe:fact "delfour-phone.n3".
+
+{ _:b1 ctx:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }
+  pe:fact "delfour-phone.n3".
+
+{ _:ins_3b8612157ed1ad3c ins:metric "sugar_g_per_serving" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "c"; pe:value _:b1 ],
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "p"; pe:value :me ],
+    [ pe:var "ret"; pe:value "Delfour" ],
+    [ pe:var "ts"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ];
+  pe:uses
+    { :me need:needsLowSugar true . },
+    { _:b1 ctx:retailer "Delfour" . },
+    { _:b1 ctx:device "self-scanner" . },
+    { _:b1 ctx:event "pick_up_scanner" . },
+    { _:b1 ctx:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . },
+    { _:b1 ctx:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:ins_3b8612157ed1ad3c ins:threshold 10.0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "c"; pe:value _:b1 ],
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "p"; pe:value :me ],
+    [ pe:var "ret"; pe:value "Delfour" ],
+    [ pe:var "ts"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ];
+  pe:uses
+    { :me need:needsLowSugar true . },
+    { _:b1 ctx:retailer "Delfour" . },
+    { _:b1 ctx:device "self-scanner" . },
+    { _:b1 ctx:event "pick_up_scanner" . },
+    { _:b1 ctx:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . },
+    { _:b1 ctx:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:ins_3b8612157ed1ad3c ins:suggestionPolicy "lower_metric_first_higher_price_ok" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "c"; pe:value _:b1 ],
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "p"; pe:value :me ],
+    [ pe:var "ret"; pe:value "Delfour" ],
+    [ pe:var "ts"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ];
+  pe:uses
+    { :me need:needsLowSugar true . },
+    { _:b1 ctx:retailer "Delfour" . },
+    { _:b1 ctx:device "self-scanner" . },
+    { _:b1 ctx:event "pick_up_scanner" . },
+    { _:b1 ctx:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . },
+    { _:b1 ctx:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "c"; pe:value _:b1 ],
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "p"; pe:value :me ],
+    [ pe:var "ret"; pe:value "Delfour" ],
+    [ pe:var "ts"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ];
+  pe:uses
+    { :me need:needsLowSugar true . },
+    { _:b1 ctx:retailer "Delfour" . },
+    { _:b1 ctx:device "self-scanner" . },
+    { _:b1 ctx:event "pick_up_scanner" . },
+    { _:b1 ctx:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . },
+    { _:b1 ctx:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "c"; pe:value _:b1 ],
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "p"; pe:value :me ],
+    [ pe:var "ret"; pe:value "Delfour" ],
+    [ pe:var "ts"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ];
+  pe:uses
+    { :me need:needsLowSugar true . },
+    { _:b1 ctx:retailer "Delfour" . },
+    { _:b1 ctx:device "self-scanner" . },
+    { _:b1 ctx:event "pick_up_scanner" . },
+    { _:b1 ctx:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . },
+    { _:b1 ctx:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "c"; pe:value _:b1 ],
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "p"; pe:value :me ],
+    [ pe:var "ret"; pe:value "Delfour" ],
+    [ pe:var "ts"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ];
+  pe:uses
+    { :me need:needsLowSugar true . },
+    { _:b1 ctx:retailer "Delfour" . },
+    { _:b1 ctx:device "self-scanner" . },
+    { _:b1 ctx:event "pick_up_scanner" . },
+    { _:b1 ctx:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . },
+    { _:b1 ctx:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:ins_3b8612157ed1ad3c ins:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "c"; pe:value _:b1 ],
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "p"; pe:value :me ],
+    [ pe:var "ret"; pe:value "Delfour" ],
+    [ pe:var "ts"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ];
+  pe:uses
+    { :me need:needsLowSugar true . },
+    { _:b1 ctx:retailer "Delfour" . },
+    { _:b1 ctx:device "self-scanner" . },
+    { _:b1 ctx:event "pick_up_scanner" . },
+    { _:b1 ctx:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . },
+    { _:b1 ctx:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "c"; pe:value _:b1 ],
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "p"; pe:value :me ],
+    [ pe:var "ret"; pe:value "Delfour" ],
+    [ pe:var "ts"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ];
+  pe:uses
+    { :me need:needsLowSugar true . },
+    { _:b1 ctx:retailer "Delfour" . },
+    { _:b1 ctx:device "self-scanner" . },
+    { _:b1 ctx:event "pick_up_scanner" . },
+    { _:b1 ctx:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime . },
+    { _:b1 ctx:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:pol_a3a8310003b7487f a odrl:Policy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:pol_a3a8310003b7487f odrl:profile profile:Delfour-Insight-Policy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:pol_a3a8310003b7487f odrl:permission _:b2_a3a8310003b7487f . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b2_a3a8310003b7487f a odrl:Permission . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b2_a3a8310003b7487f odrl:action odrl:use . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b2_a3a8310003b7487f odrl:target _:ins_3b8612157ed1ad3c . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b2_a3a8310003b7487f odrl:constraint _:b3_a3a8310003b7487f . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b3_a3a8310003b7487f a odrl:Constraint . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b3_a3a8310003b7487f odrl:leftOperand odrl:purpose . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b3_a3a8310003b7487f odrl:operator odrl:eq . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b3_a3a8310003b7487f odrl:rightOperand vocab:shopping_assist . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:pol_a3a8310003b7487f odrl:prohibition _:b4_a3a8310003b7487f . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b4_a3a8310003b7487f a odrl:Prohibition . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b4_a3a8310003b7487f odrl:action odrl:distribute . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b4_a3a8310003b7487f odrl:target _:ins_3b8612157ed1ad3c . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b4_a3a8310003b7487f odrl:constraint _:b5_a3a8310003b7487f . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b5_a3a8310003b7487f a odrl:Constraint . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b5_a3a8310003b7487f odrl:leftOperand odrl:purpose . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b5_a3a8310003b7487f odrl:operator odrl:eq . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b5_a3a8310003b7487f odrl:rightOperand vocab:marketing . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:pol_a3a8310003b7487f odrl:duty _:b6_a3a8310003b7487f . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b6_a3a8310003b7487f a odrl:Duty . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b6_a3a8310003b7487f odrl:action odrl:delete . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b6_a3a8310003b7487f odrl:constraint _:b7_a3a8310003b7487f . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b7_a3a8310003b7487f a odrl:Constraint . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b7_a3a8310003b7487f odrl:leftOperand odrl:dateTime . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b7_a3a8310003b7487f odrl:operator odrl:eq . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.
+
+{ _:b7_a3a8310003b7487f odrl:rightOperand "2025-10-04T18:51:53Z"^^xsd:dateTime . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dev"; pe:value "self-scanner" ],
+    [ pe:var "ev"; pe:value "pick_up_scanner" ],
+    [ pe:var "exp"; pe:value "2025-10-04T18:51:53Z"^^xsd:dateTime ],
+    [ pe:var "ins"; pe:value _:ins_3b8612157ed1ad3c ],
+    [ pe:var "ret"; pe:value "Delfour" ];
+  pe:uses
+    { _:ins_3b8612157ed1ad3c a ins:Insight . },
+    { _:ins_3b8612157ed1ad3c ins:retailer "Delfour" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" . },
+    { _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime . }.

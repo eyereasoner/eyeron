@@ -1,0 +1,41 @@
+@prefix : <http://example.org/#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:xxx a :aaa .
+
+{ :xxx a :aaa . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value :aaa ],
+    [ pe:var "b"; pe:value :bbb ],
+    [ pe:var "c"; pe:value :ccc ],
+    [ pe:var "x"; pe:value :xxx ],
+    [ pe:var "y"; pe:value ?__rulefact_0__y ];
+  pe:uses
+    { :aaa owl:onProperty :bbb . },
+    { :aaa owl:allValuesFrom :ccc . },
+    {
+        {
+            :xxx :bbb ?__rulefact_0__y .
+        } => {
+            ?__rulefact_0__y a :ccc .
+        } .
+    }.
+
+{ :aaa owl:onProperty :bbb . }
+  pe:fact "slide33.n3".
+
+{ :aaa owl:allValuesFrom :ccc . }
+  pe:fact "slide33.n3".
+
+{
+  {
+      :xxx :bbb ?__rulefact_0__y .
+  } => {
+      ?__rulefact_0__y a :ccc .
+  } .
+}
+  pe:fact "slide33.n3".

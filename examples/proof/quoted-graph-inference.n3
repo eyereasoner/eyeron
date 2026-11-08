@@ -1,0 +1,77 @@
+@prefix : <https://eyereasoner.github.io/eye/reasoning#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:bob :marriedTo :alice .
+{
+    :bob :marriedTo :alice .
+} :since "1999" .
+:TEST :PASS 3 .
+:TEST :PASS 1 .
+:TEST :PASS 2 .
+
+{ :bob :marriedTo :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "o"; pe:value :bob ],
+    [ pe:var "p"; pe:value :marriedTo ],
+    [ pe:var "s"; pe:value :alice ];
+  pe:uses
+    { :marriedTo a :SymetricRelation . },
+    { :alice :marriedTo :bob . }.
+
+{ :marriedTo a :SymetricRelation . }
+  pe:fact "quoted-graph-inference.n3".
+
+{ :alice :marriedTo :bob . }
+  pe:fact "quoted-graph-inference.n3".
+
+{
+  {
+      :bob :marriedTo :alice .
+  } :since "1999" .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "o"; pe:value :bob ],
+    [ pe:var "o2"; pe:value "1999" ],
+    [ pe:var "p"; pe:value :marriedTo ],
+    [ pe:var "p2"; pe:value :since ],
+    [ pe:var "s"; pe:value :alice ];
+  pe:uses
+    { :marriedTo a :SymetricRelation . },
+    {
+        {
+            :alice :marriedTo :bob .
+        } :since "1999" .
+    }.
+
+{
+  {
+      :alice :marriedTo :bob .
+  } :since "1999" .
+}
+  pe:fact "quoted-graph-inference.n3".
+
+{ :TEST :PASS 3 . }
+  pe:rule 5;
+  pe:binding [ pe:var "p"; pe:value :marriedTo ];
+  pe:uses
+    {
+        {
+            :alice :marriedTo :bob .
+        } :since "1999" .
+    }.
+
+{ :TEST :PASS 1 . }
+  pe:rule 3;
+  pe:uses { :bob :marriedTo :alice . }.
+
+{ :TEST :PASS 2 . }
+  pe:rule 4;
+  pe:uses
+    {
+        {
+            :bob :marriedTo :alice .
+        } :since "1999" .
+    }.

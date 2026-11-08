@@ -1,0 +1,621 @@
+@prefix ex: <https://example.org/ns#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:Alice a ex:Adult .
+ex:Alice ex:memberOf ex:OrgX .
+ex:Alice ex:ancestor ex:Bob .
+ex:Bob a ex:Adult .
+ex:Bob ex:memberOf ex:OrgX .
+ex:Bob ex:ancestor ex:Carol .
+ex:Carol a ex:Adult .
+ex:Carol ex:canRead ex:Proj1 .
+ex:Carol ex:canRead ex:Proj2 .
+ex:Alice ex:canRead ex:Proj1 .
+ex:Bob ex:canRead ex:Proj1 .
+ex:Alice ex:canRead ex:Proj2 .
+ex:Bob ex:canRead ex:Proj2 .
+ex:Alice ex:ancestor ex:Carol .
+ex:Carol ex:reason _:b1_b4108f03f3910612 .
+_:b1_b4108f03f3910612 a ex:Reason .
+_:b1_b4108f03f3910612 ex:for ex:Proj1 .
+_:b1_b4108f03f3910612 ex:because "memberOf(org) & ownedBy(org)" .
+ex:Carol ex:reason _:b1_bcb9cc03f8789b63 .
+_:b1_bcb9cc03f8789b63 a ex:Reason .
+_:b1_bcb9cc03f8789b63 ex:for ex:Proj2 .
+_:b1_bcb9cc03f8789b63 ex:because "memberOf(org) & ownedBy(org)" .
+ex:Alice ex:reason _:b1_31dc2656febb340d .
+_:b1_31dc2656febb340d a ex:Reason .
+_:b1_31dc2656febb340d ex:for ex:Proj1 .
+_:b1_31dc2656febb340d ex:because "memberOf(org) & ownedBy(org)" .
+ex:Bob ex:reason _:b1_ffa92e4f8625967c .
+_:b1_ffa92e4f8625967c a ex:Reason .
+_:b1_ffa92e4f8625967c ex:for ex:Proj1 .
+_:b1_ffa92e4f8625967c ex:because "memberOf(org) & ownedBy(org)" .
+ex:Alice ex:reason _:b1_4cb215570e2bf6e8 .
+_:b1_4cb215570e2bf6e8 a ex:Reason .
+_:b1_4cb215570e2bf6e8 ex:for ex:Proj2 .
+_:b1_4cb215570e2bf6e8 ex:because "memberOf(org) & ownedBy(org)" .
+ex:Bob ex:reason _:b1_e6868f4f7826f011 .
+_:b1_e6868f4f7826f011 a ex:Reason .
+_:b1_e6868f4f7826f011 ex:for ex:Proj2 .
+_:b1_e6868f4f7826f011 ex:because "memberOf(org) & ownedBy(org)" .
+ex:Proj2 ex:hasManager _:b2_4f7da57dfb42d02e .
+_:b2_4f7da57dfb42d02e a ex:Person .
+_:b2_4f7da57dfb42d02e ex:role "AutoManager" .
+ex:Bob ex:hasSupervisor _:b3_11e4cabcc7cc4fe .
+_:b3_11e4cabcc7cc4fe a ex:Person .
+_:b3_11e4cabcc7cc4fe ex:role "Supervisor" .
+_:b3_11e4cabcc7cc4fe ex:supervises ex:Bob .
+_:b2_4f7da57dfb42d02e ex:hasSupervisor _:b3_9555f4089b7909b4 .
+_:b3_9555f4089b7909b4 a ex:Person .
+_:b3_9555f4089b7909b4 ex:role "Supervisor" .
+_:b3_9555f4089b7909b4 ex:supervises _:b2_4f7da57dfb42d02e .
+ex:Alice a ex:Person .
+ex:Alice ex:age 29 .
+ex:Alice ex:memberOf ex:TeamA .
+ex:Alice ex:parent ex:Bob .
+ex:Bob a ex:Person .
+ex:Bob ex:age 54 .
+ex:Bob ex:memberOf ex:TeamA .
+ex:Bob ex:parent ex:Carol .
+ex:Carol a ex:Person .
+ex:Carol ex:age 78 .
+ex:Carol ex:memberOf ex:OrgX .
+ex:TeamA a ex:Team .
+ex:TeamA ex:partOf ex:OrgX .
+ex:OrgX a ex:Org .
+ex:Proj1 a ex:Project .
+ex:Proj1 ex:ownedBy ex:OrgX .
+ex:Proj1 ex:hasManager ex:Bob .
+ex:Proj2 a ex:Project .
+ex:Proj2 ex:ownedBy ex:OrgX .
+ex:Proj2 ex:needsManager true .
+
+{ ex:Alice a ex:Adult . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "n"; pe:value 29 ],
+    [ pe:var "p"; pe:value ex:Alice ];
+  pe:uses
+    { ex:Alice ex:age 29 . },
+    { 29 math:greaterThan 17 . }.
+
+{ ex:Alice ex:age 29 . }
+  pe:fact "kronecker.n3".
+
+{ 29 math:greaterThan 17 . }
+  pe:builtin math:greaterThan.
+
+{ ex:Alice ex:memberOf ex:OrgX . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "team"; pe:value ex:TeamA ];
+  pe:uses
+    { ex:Alice ex:memberOf ex:TeamA . },
+    { ex:TeamA ex:partOf ex:OrgX . }.
+
+{ ex:Alice ex:memberOf ex:TeamA . }
+  pe:fact "kronecker.n3".
+
+{ ex:TeamA ex:partOf ex:OrgX . }
+  pe:fact "kronecker.n3".
+
+{ ex:Alice ex:ancestor ex:Bob . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value ex:Alice ],
+    [ pe:var "y"; pe:value ex:Bob ];
+  pe:uses { ex:Alice ex:parent ex:Bob . }.
+
+{ ex:Alice ex:parent ex:Bob . }
+  pe:fact "kronecker.n3".
+
+{ ex:Bob a ex:Adult . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "n"; pe:value 54 ],
+    [ pe:var "p"; pe:value ex:Bob ];
+  pe:uses
+    { ex:Bob ex:age 54 . },
+    { 54 math:greaterThan 17 . }.
+
+{ ex:Bob ex:age 54 . }
+  pe:fact "kronecker.n3".
+
+{ 54 math:greaterThan 17 . }
+  pe:builtin math:greaterThan.
+
+{ ex:Bob ex:memberOf ex:OrgX . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "team"; pe:value ex:TeamA ];
+  pe:uses
+    { ex:Bob ex:memberOf ex:TeamA . },
+    { ex:TeamA ex:partOf ex:OrgX . }.
+
+{ ex:Bob ex:memberOf ex:TeamA . }
+  pe:fact "kronecker.n3".
+
+{ ex:Bob ex:ancestor ex:Carol . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value ex:Bob ],
+    [ pe:var "y"; pe:value ex:Carol ];
+  pe:uses { ex:Bob ex:parent ex:Carol . }.
+
+{ ex:Bob ex:parent ex:Carol . }
+  pe:fact "kronecker.n3".
+
+{ ex:Carol a ex:Adult . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "n"; pe:value 78 ],
+    [ pe:var "p"; pe:value ex:Carol ];
+  pe:uses
+    { ex:Carol ex:age 78 . },
+    { 78 math:greaterThan 17 . }.
+
+{ ex:Carol ex:age 78 . }
+  pe:fact "kronecker.n3".
+
+{ 78 math:greaterThan 17 . }
+  pe:builtin math:greaterThan.
+
+{ ex:Carol ex:canRead ex:Proj1 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Carol ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Carol ex:memberOf ex:OrgX . },
+    { ex:Proj1 a ex:Project . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . }.
+
+{ ex:Carol ex:memberOf ex:OrgX . }
+  pe:fact "kronecker.n3".
+
+{ ex:Proj1 a ex:Project . }
+  pe:fact "kronecker.n3".
+
+{ ex:Proj1 ex:ownedBy ex:OrgX . }
+  pe:fact "kronecker.n3".
+
+{ ex:Carol ex:canRead ex:Proj2 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Carol ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Carol ex:memberOf ex:OrgX . },
+    { ex:Proj2 a ex:Project . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . }.
+
+{ ex:Proj2 a ex:Project . }
+  pe:fact "kronecker.n3".
+
+{ ex:Proj2 ex:ownedBy ex:OrgX . }
+  pe:fact "kronecker.n3".
+
+{ ex:Alice ex:canRead ex:Proj1 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Alice ex:memberOf ex:OrgX . },
+    { ex:Proj1 a ex:Project . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . }.
+
+{ ex:Bob ex:canRead ex:Proj1 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Bob ex:memberOf ex:OrgX . },
+    { ex:Proj1 a ex:Project . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . }.
+
+{ ex:Alice ex:canRead ex:Proj2 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Alice ex:memberOf ex:OrgX . },
+    { ex:Proj2 a ex:Project . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . }.
+
+{ ex:Bob ex:canRead ex:Proj2 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Bob ex:memberOf ex:OrgX . },
+    { ex:Proj2 a ex:Project . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . }.
+
+{ ex:Alice ex:ancestor ex:Carol . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "x"; pe:value ex:Alice ],
+    [ pe:var "y"; pe:value ex:Bob ],
+    [ pe:var "z"; pe:value ex:Carol ];
+  pe:uses
+    { ex:Alice ex:parent ex:Bob . },
+    { ex:Bob ex:ancestor ex:Carol . }.
+
+{ ex:Carol ex:reason _:b1_b4108f03f3910612 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Carol ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Carol ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Carol ex:memberOf ex:OrgX . }.
+
+{ _:b1_b4108f03f3910612 a ex:Reason . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Carol ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Carol ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Carol ex:memberOf ex:OrgX . }.
+
+{ _:b1_b4108f03f3910612 ex:for ex:Proj1 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Carol ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Carol ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Carol ex:memberOf ex:OrgX . }.
+
+{ _:b1_b4108f03f3910612 ex:because "memberOf(org) & ownedBy(org)" . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Carol ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Carol ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Carol ex:memberOf ex:OrgX . }.
+
+{ ex:Carol ex:reason _:b1_bcb9cc03f8789b63 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Carol ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Carol ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Carol ex:memberOf ex:OrgX . }.
+
+{ _:b1_bcb9cc03f8789b63 a ex:Reason . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Carol ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Carol ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Carol ex:memberOf ex:OrgX . }.
+
+{ _:b1_bcb9cc03f8789b63 ex:for ex:Proj2 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Carol ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Carol ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Carol ex:memberOf ex:OrgX . }.
+
+{ _:b1_bcb9cc03f8789b63 ex:because "memberOf(org) & ownedBy(org)" . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Carol ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Carol ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Carol ex:memberOf ex:OrgX . }.
+
+{ ex:Alice ex:reason _:b1_31dc2656febb340d . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Alice ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Alice ex:memberOf ex:OrgX . }.
+
+{ _:b1_31dc2656febb340d a ex:Reason . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Alice ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Alice ex:memberOf ex:OrgX . }.
+
+{ _:b1_31dc2656febb340d ex:for ex:Proj1 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Alice ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Alice ex:memberOf ex:OrgX . }.
+
+{ _:b1_31dc2656febb340d ex:because "memberOf(org) & ownedBy(org)" . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Alice ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Alice ex:memberOf ex:OrgX . }.
+
+{ ex:Bob ex:reason _:b1_ffa92e4f8625967c . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Bob ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Bob ex:memberOf ex:OrgX . }.
+
+{ _:b1_ffa92e4f8625967c a ex:Reason . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Bob ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Bob ex:memberOf ex:OrgX . }.
+
+{ _:b1_ffa92e4f8625967c ex:for ex:Proj1 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Bob ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Bob ex:memberOf ex:OrgX . }.
+
+{ _:b1_ffa92e4f8625967c ex:because "memberOf(org) & ownedBy(org)" . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses
+    { ex:Bob ex:canRead ex:Proj1 . },
+    { ex:Proj1 ex:ownedBy ex:OrgX . },
+    { ex:Bob ex:memberOf ex:OrgX . }.
+
+{ ex:Alice ex:reason _:b1_4cb215570e2bf6e8 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Alice ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Alice ex:memberOf ex:OrgX . }.
+
+{ _:b1_4cb215570e2bf6e8 a ex:Reason . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Alice ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Alice ex:memberOf ex:OrgX . }.
+
+{ _:b1_4cb215570e2bf6e8 ex:for ex:Proj2 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Alice ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Alice ex:memberOf ex:OrgX . }.
+
+{ _:b1_4cb215570e2bf6e8 ex:because "memberOf(org) & ownedBy(org)" . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Alice ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Alice ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Alice ex:memberOf ex:OrgX . }.
+
+{ ex:Bob ex:reason _:b1_e6868f4f7826f011 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Bob ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Bob ex:memberOf ex:OrgX . }.
+
+{ _:b1_e6868f4f7826f011 a ex:Reason . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Bob ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Bob ex:memberOf ex:OrgX . }.
+
+{ _:b1_e6868f4f7826f011 ex:for ex:Proj2 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Bob ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Bob ex:memberOf ex:OrgX . }.
+
+{ _:b1_e6868f4f7826f011 ex:because "memberOf(org) & ownedBy(org)" . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "org"; pe:value ex:OrgX ],
+    [ pe:var "p"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Bob ex:canRead ex:Proj2 . },
+    { ex:Proj2 ex:ownedBy ex:OrgX . },
+    { ex:Bob ex:memberOf ex:OrgX . }.
+
+{ ex:Proj2 ex:hasManager _:b2_4f7da57dfb42d02e . }
+  pe:rule 7;
+  pe:binding [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Proj2 a ex:Project . },
+    { ex:Proj2 ex:needsManager true . }.
+
+{ ex:Proj2 ex:needsManager true . }
+  pe:fact "kronecker.n3".
+
+{ _:b2_4f7da57dfb42d02e a ex:Person . }
+  pe:rule 7;
+  pe:binding [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Proj2 a ex:Project . },
+    { ex:Proj2 ex:needsManager true . }.
+
+{ _:b2_4f7da57dfb42d02e ex:role "AutoManager" . }
+  pe:rule 7;
+  pe:binding [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses
+    { ex:Proj2 a ex:Project . },
+    { ex:Proj2 ex:needsManager true . }.
+
+{ ex:Bob ex:hasSupervisor _:b3_11e4cabcc7cc4fe . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "m"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses { ex:Proj1 ex:hasManager ex:Bob . }.
+
+{ ex:Proj1 ex:hasManager ex:Bob . }
+  pe:fact "kronecker.n3".
+
+{ _:b3_11e4cabcc7cc4fe a ex:Person . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "m"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses { ex:Proj1 ex:hasManager ex:Bob . }.
+
+{ _:b3_11e4cabcc7cc4fe ex:role "Supervisor" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "m"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses { ex:Proj1 ex:hasManager ex:Bob . }.
+
+{ _:b3_11e4cabcc7cc4fe ex:supervises ex:Bob . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "m"; pe:value ex:Bob ],
+    [ pe:var "proj"; pe:value ex:Proj1 ];
+  pe:uses { ex:Proj1 ex:hasManager ex:Bob . }.
+
+{ _:b2_4f7da57dfb42d02e ex:hasSupervisor _:b3_9555f4089b7909b4 . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "m"; pe:value _:b2_4f7da57dfb42d02e ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses { ex:Proj2 ex:hasManager _:b2_4f7da57dfb42d02e . }.
+
+{ _:b3_9555f4089b7909b4 a ex:Person . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "m"; pe:value _:b2_4f7da57dfb42d02e ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses { ex:Proj2 ex:hasManager _:b2_4f7da57dfb42d02e . }.
+
+{ _:b3_9555f4089b7909b4 ex:role "Supervisor" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "m"; pe:value _:b2_4f7da57dfb42d02e ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses { ex:Proj2 ex:hasManager _:b2_4f7da57dfb42d02e . }.
+
+{ _:b3_9555f4089b7909b4 ex:supervises _:b2_4f7da57dfb42d02e . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "m"; pe:value _:b2_4f7da57dfb42d02e ],
+    [ pe:var "proj"; pe:value ex:Proj2 ];
+  pe:uses { ex:Proj2 ex:hasManager _:b2_4f7da57dfb42d02e . }.
+
+{ ex:Alice a ex:Person . }
+  pe:fact "kronecker.n3".
+
+{ ex:Bob a ex:Person . }
+  pe:fact "kronecker.n3".
+
+{ ex:Carol a ex:Person . }
+  pe:fact "kronecker.n3".
+
+{ ex:TeamA a ex:Team . }
+  pe:fact "kronecker.n3".
+
+{ ex:OrgX a ex:Org . }
+  pe:fact "kronecker.n3".

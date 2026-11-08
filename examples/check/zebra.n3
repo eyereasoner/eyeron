@@ -1,0 +1,35 @@
+# checked: 61 steps, 61 verified, 0 trusted
+@prefix : <http://eulersharp.sourceforge.net/2005/11swap/zebra#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:german :eats :fish .
+:solution :house (1 :yellow :norwegian :cats :water :dunhill) .
+:solution :house (2 :blue :dane :horse :tea :blends) .
+:solution :house (3 :red :brit :birds :milk :pallmall) .
+:solution :house (4 :green :german :fish :coffee :prince) .
+:solution :house (5 :white :swede :dogs :beer :bluemasters) .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/zebra.n3";
+    pe:source "examples/zebra.n3";
+    pe:verdict pe:checked;
+    pe:steps 61;
+    pe:verified 61;
+    pe:trusted 0;
+    pe:builtinSteps 54;
+    pe:ruleSteps 7;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 7; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 61; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 61; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 187; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 54; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 67; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 188; pe:failed 0 ].

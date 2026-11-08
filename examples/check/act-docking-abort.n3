@@ -1,0 +1,590 @@
+# checked with obligations: 136 steps, 47 verified, 89 trusted
+@prefix : <http://example.org/docking-abort/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:abortLamp :can :LocalPermutation .
+:abortLamp :can :LocalClone .
+:flightPLC :can :LocalPermutation .
+:flightPLC :can :LocalClone .
+:radioFrame :can :LocalPermutation .
+:radioFrame :can :LocalClone .
+:auditDisplay :can :LocalPermutation .
+:auditDisplay :can :LocalClone .
+:quantumSeal :cannot :UniversalClone .
+:quantumSeal :cannot :UnrestrictedAuditFanOut .
+(:abortLamp :abortLamp) :canCopy :AbortBit .
+(:abortLamp :flightPLC) :canCopy :AbortBit .
+(:abortLamp :radioFrame) :canCopy :AbortBit .
+(:abortLamp :auditDisplay) :canCopy :AbortBit .
+(:flightPLC :abortLamp) :canCopy :AbortBit .
+(:radioFrame :abortLamp) :canCopy :AbortBit .
+(:auditDisplay :abortLamp) :canCopy :AbortBit .
+(:flightPLC :flightPLC) :canCopy :AbortBit .
+(:flightPLC :radioFrame) :canCopy :AbortBit .
+(:flightPLC :auditDisplay) :canCopy :AbortBit .
+(:radioFrame :flightPLC) :canCopy :AbortBit .
+(:auditDisplay :flightPLC) :canCopy :AbortBit .
+(:radioFrame :radioFrame) :canCopy :AbortBit .
+(:radioFrame :auditDisplay) :canCopy :AbortBit .
+(:auditDisplay :radioFrame) :canCopy :AbortBit .
+(:auditDisplay :auditDisplay) :canCopy :AbortBit .
+:SerialNetwork a :PossibleTask .
+:ParallelNetwork a :PossibleTask .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/act-docking-abort.n3";
+    pe:source "examples/act-docking-abort.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 136;
+    pe:verified 47;
+    pe:trusted 89;
+    pe:factSteps 18;
+    pe:ruleSteps 118;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 136; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 136; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 136; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 554; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 19; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 164; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 89; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 662; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_8fad4d18d00ca2a a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_8fad4d18d00ca2a :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_8fad4d18d00ca2a :from :abortLamp .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_8fad4d18d00ca2a :to :abortLamp .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_8fad4d18d00ca2a :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_f9ef094762372be7 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_f9ef094762372be7 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_f9ef094762372be7 :from :abortLamp .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_f9ef094762372be7 :to :flightPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_f9ef094762372be7 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_d1f505dc42c30fa0 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_d1f505dc42c30fa0 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_d1f505dc42c30fa0 :from :abortLamp .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_d1f505dc42c30fa0 :to :radioFrame .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_d1f505dc42c30fa0 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_13f264403a90e9e9 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_13f264403a90e9e9 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_13f264403a90e9e9 :from :abortLamp .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_13f264403a90e9e9 :to :auditDisplay .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_13f264403a90e9e9 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_aa0636fd2a1e7ba3 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_aa0636fd2a1e7ba3 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_aa0636fd2a1e7ba3 :from :flightPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_aa0636fd2a1e7ba3 :to :abortLamp .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_aa0636fd2a1e7ba3 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_7092dc697917114e a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_7092dc697917114e :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_7092dc697917114e :from :radioFrame .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_7092dc697917114e :to :abortLamp .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_7092dc697917114e :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_8b3d44e80490bb93 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_8b3d44e80490bb93 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_8b3d44e80490bb93 :from :auditDisplay .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_8b3d44e80490bb93 :to :abortLamp .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_8b3d44e80490bb93 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_238279bd3708fd52 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_238279bd3708fd52 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_238279bd3708fd52 :from :flightPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_238279bd3708fd52 :to :flightPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_238279bd3708fd52 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_b08463d91645a877 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_b08463d91645a877 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_b08463d91645a877 :from :flightPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_b08463d91645a877 :to :radioFrame .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_b08463d91645a877 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_863183e04f10abe2 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_863183e04f10abe2 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_863183e04f10abe2 :from :flightPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_863183e04f10abe2 :to :auditDisplay .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_863183e04f10abe2 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_1af9fe4cfe200b43 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_1af9fe4cfe200b43 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_1af9fe4cfe200b43 :from :radioFrame .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_1af9fe4cfe200b43 :to :flightPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_1af9fe4cfe200b43 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_346101c50f84b8a2 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_346101c50f84b8a2 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_346101c50f84b8a2 :from :auditDisplay .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_346101c50f84b8a2 :to :flightPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_346101c50f84b8a2 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_43365b9db011f564 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_43365b9db011f564 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_43365b9db011f564 :from :radioFrame .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_43365b9db011f564 :to :radioFrame .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_43365b9db011f564 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_d756edc4965470fd a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_d756edc4965470fd :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_d756edc4965470fd :from :radioFrame .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_d756edc4965470fd :to :auditDisplay .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_d756edc4965470fd :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_ce7e2f3fe9b16467 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_ce7e2f3fe9b16467 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_ce7e2f3fe9b16467 :from :auditDisplay .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_ce7e2f3fe9b16467 :to :radioFrame .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_ce7e2f3fe9b16467 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_59abc45c537a01b2 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_59abc45c537a01b2 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_59abc45c537a01b2 :from :auditDisplay .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_59abc45c537a01b2 :to :auditDisplay .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_59abc45c537a01b2 :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_145b3fbe5c3c9d00 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_8fad4d18d00ca2a a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_8fad4d18d00ca2a :kind :Measure .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_8fad4d18d00ca2a :from :abortLamp .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_8fad4d18d00ca2a :to :abortLamp .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_8fad4d18d00ca2a :variable :AbortBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_145b3fbe5c3c9d00 :kind :SerialNetwork .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_145b3fbe5c3c9d00 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_145b3fbe5c3c9d00 :kind :ParallelNetwork .
+        }
+    ].

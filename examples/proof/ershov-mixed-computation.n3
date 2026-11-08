@@ -1,0 +1,215 @@
+@prefix : <http://example.org/mix#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:specialization :residualProgram {
+    {
+        ?order :subtotal ?subtotal .
+        (?subtotal 0.90) math:product ?discounted .
+        (?discounted 5.00) math:sum ?final .
+    } => {
+        ?order :finalPrice ?final .
+    } .
+} .
+:futureOrder :computedByResidualProgram "95"^^xsd:decimal .
+
+{
+  :specialization :residualProgram {
+      {
+          ?order :subtotal ?subtotal .
+          (?subtotal 0.90) math:product ?discounted .
+          (?discounted 5.00) math:sum ?final .
+      } => {
+          ?order :finalPrice ?final .
+      } .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "fee"; pe:value 5.00 ],
+    [ pe:var "rate"; pe:value 0.90 ];
+  pe:uses
+    { :pricingProgram :discountRate 0.90 . },
+    { :pricingProgram :shippingFee 5.00 . },
+    { :specialization :customerClass :VIP . }.
+
+{ :pricingProgram :discountRate 0.90 . }
+  pe:fact "ershov-mixed-computation.n3".
+
+{ :pricingProgram :shippingFee 5.00 . }
+  pe:fact "ershov-mixed-computation.n3".
+
+{ :specialization :customerClass :VIP . }
+  pe:fact "ershov-mixed-computation.n3".
+
+{ :futureOrder :computedByResidualProgram "95"^^xsd:decimal . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "closure"; pe:value {
+        {
+            ?order :subtotal ?subtotal .
+            (?subtotal 0.90) math:product ?discounted .
+            (?discounted 5.00) math:sum ?final .
+        } => {
+            ?order :finalPrice ?final .
+        } .
+        :futureOrder :subtotal 100.00 .
+        :futureOrder :finalPrice "95"^^xsd:decimal .
+    } ],
+    [ pe:var "price"; pe:value "95"^^xsd:decimal ],
+    [ pe:var "rp"; pe:value {
+        {
+            ?order :subtotal ?subtotal .
+            (?subtotal 0.90) math:product ?discounted .
+            (?discounted 5.00) math:sum ?final .
+        } => {
+            ?order :finalPrice ?final .
+        } .
+    } ],
+    [ pe:var "run"; pe:value {
+        {
+            ?order :subtotal ?subtotal .
+            (?subtotal 0.90) math:product ?discounted .
+            (?discounted 5.00) math:sum ?final .
+        } => {
+            ?order :finalPrice ?final .
+        } .
+        :futureOrder :subtotal 100.00 .
+    } ];
+  pe:uses
+    {
+        :specialization :residualProgram {
+            {
+                ?order :subtotal ?subtotal .
+                (?subtotal 0.90) math:product ?discounted .
+                (?discounted 5.00) math:sum ?final .
+            } => {
+                ?order :finalPrice ?final .
+            } .
+        } .
+    },
+    {
+        ({
+            {
+                ?order :subtotal ?subtotal .
+                (?subtotal 0.90) math:product ?discounted .
+                (?discounted 5.00) math:sum ?final .
+            } => {
+                ?order :finalPrice ?final .
+            } .
+        } {
+            :futureOrder :subtotal 100.00 .
+        }) log:conjunction {
+            {
+                ?order :subtotal ?subtotal .
+                (?subtotal 0.90) math:product ?discounted .
+                (?discounted 5.00) math:sum ?final .
+            } => {
+                ?order :finalPrice ?final .
+            } .
+            :futureOrder :subtotal 100.00 .
+        } .
+    },
+    {
+        {
+            {
+                ?order :subtotal ?subtotal .
+                (?subtotal 0.90) math:product ?discounted .
+                (?discounted 5.00) math:sum ?final .
+            } => {
+                ?order :finalPrice ?final .
+            } .
+            :futureOrder :subtotal 100.00 .
+        } log:conclusion {
+            {
+                ?order :subtotal ?subtotal .
+                (?subtotal 0.90) math:product ?discounted .
+                (?discounted 5.00) math:sum ?final .
+            } => {
+                ?order :finalPrice ?final .
+            } .
+            :futureOrder :subtotal 100.00 .
+            :futureOrder :finalPrice "95"^^xsd:decimal .
+        } .
+    },
+    {
+        {
+            {
+                ?order :subtotal ?subtotal .
+                (?subtotal 0.90) math:product ?discounted .
+                (?discounted 5.00) math:sum ?final .
+            } => {
+                ?order :finalPrice ?final .
+            } .
+            :futureOrder :subtotal 100.00 .
+            :futureOrder :finalPrice "95"^^xsd:decimal .
+        } log:includes {
+            :futureOrder :finalPrice "95"^^xsd:decimal .
+        } .
+    }.
+
+{
+  ({
+      {
+          ?order :subtotal ?subtotal .
+          (?subtotal 0.90) math:product ?discounted .
+          (?discounted 5.00) math:sum ?final .
+      } => {
+          ?order :finalPrice ?final .
+      } .
+  } {
+      :futureOrder :subtotal 100.00 .
+  }) log:conjunction {
+      {
+          ?order :subtotal ?subtotal .
+          (?subtotal 0.90) math:product ?discounted .
+          (?discounted 5.00) math:sum ?final .
+      } => {
+          ?order :finalPrice ?final .
+      } .
+      :futureOrder :subtotal 100.00 .
+  } .
+}
+  pe:builtin log:conjunction.
+
+{
+  {
+      {
+          ?order :subtotal ?subtotal .
+          (?subtotal 0.90) math:product ?discounted .
+          (?discounted 5.00) math:sum ?final .
+      } => {
+          ?order :finalPrice ?final .
+      } .
+      :futureOrder :subtotal 100.00 .
+  } log:conclusion {
+      {
+          ?order :subtotal ?subtotal .
+          (?subtotal 0.90) math:product ?discounted .
+          (?discounted 5.00) math:sum ?final .
+      } => {
+          ?order :finalPrice ?final .
+      } .
+      :futureOrder :subtotal 100.00 .
+      :futureOrder :finalPrice "95"^^xsd:decimal .
+  } .
+}
+  pe:builtin log:conclusion.
+
+{
+  {
+      {
+          ?order :subtotal ?subtotal .
+          (?subtotal 0.90) math:product ?discounted .
+          (?discounted 5.00) math:sum ?final .
+      } => {
+          ?order :finalPrice ?final .
+      } .
+      :futureOrder :subtotal 100.00 .
+      :futureOrder :finalPrice "95"^^xsd:decimal .
+  } log:includes {
+      :futureOrder :finalPrice "95"^^xsd:decimal .
+  } .
+}
+  pe:builtin log:includes.

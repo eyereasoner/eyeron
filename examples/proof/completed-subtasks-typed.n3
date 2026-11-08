@@ -1,0 +1,31 @@
+@prefix : <http://example.com/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:workflowA :completed (:taskA :taskB) .
+
+{ :workflowA :completed (:taskA :taskB) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "completed"; pe:value (:taskA :taskB) ],
+    [ pe:var "workflow"; pe:value :workflowA ];
+  pe:uses
+    { :workflowA a :Workflow . },
+    {
+        (?task {
+            :workflowA :includes ?task .
+            ?task a :Completed .
+        } (:taskA :taskB)) log:collectAllIn ?SCOPE .
+    }.
+
+{ :workflowA a :Workflow . }
+  pe:fact "completed-subtasks-typed.n3".
+
+{
+  (?task {
+      :workflowA :includes ?task .
+      ?task a :Completed .
+  } (:taskA :taskB)) log:collectAllIn ?SCOPE .
+}
+  pe:builtin log:collectAllIn.

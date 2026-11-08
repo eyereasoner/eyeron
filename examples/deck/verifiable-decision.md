@@ -97,10 +97,10 @@ eyeron --check-proof /tmp/decision.why.n3 \
   examples/verifiable-decision.n3
 ```
 
-The report includes:
+The report is N3: the checked answers, then a `pe:Check` resource with each condition, obligation and failure. Its first line gives the verdict:
 
-```text
-checked: 30 steps, 30 verified, 0 trusted
+```n3
+# checked: 30 steps, 30 verified, 0 trusted
 ```
 
 Those are 21 source facts and nine derived steps, produced by four rules.

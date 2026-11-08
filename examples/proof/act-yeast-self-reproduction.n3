@@ -1,0 +1,171 @@
+@prefix : <http://example.org/act/yeast/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:dnaRegister :can :SupportReplicationUnderNoDesignLaws .
+:contrastGenome :cannot :AccurateGenomeCopyUnderNoDesignLaws .
+:starterGenome :can :HeritableVariation .
+:contrastGenome :can :HeritableVariation .
+:starterGenome :can :AccurateGenomeCopyUnderNoDesignLaws .
+:starterCell :can :AccurateReplicationArchitecture .
+:starterCell :can :SelfReproduce .
+:starterCell :can :NaturalSelectionLineage .
+:contrastCell :can :AccurateReplicationArchitecture .
+:contrastCell :cannot :AccurateSelfReproduction .
+:contrastCell :cannot :NaturalSelectionLineage .
+
+{ :dnaRegister :can :SupportReplicationUnderNoDesignLaws . }
+  pe:rule 1;
+  pe:binding [ pe:var "Medium"; pe:value :dnaRegister ];
+  pe:uses
+    { :world :obeys :NoDesignLaws . },
+    { :dnaRegister a :DigitalInformationMedium . }.
+
+{ :world :obeys :NoDesignLaws . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :dnaRegister a :DigitalInformationMedium . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :contrastGenome :cannot :AccurateGenomeCopyUnderNoDesignLaws . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Genome"; pe:value :contrastGenome ],
+    [ pe:var "Medium"; pe:value :analogRegister ];
+  pe:uses
+    { :world :obeys :NoDesignLaws . },
+    { :contrastGenome a :Replicator . },
+    { :contrastGenome :storedIn :analogRegister . },
+    { :analogRegister a :NonDigitalInformationMedium . }.
+
+{ :contrastGenome a :Replicator . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :contrastGenome :storedIn :analogRegister . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :analogRegister a :NonDigitalInformationMedium . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :starterGenome :can :HeritableVariation . }
+  pe:rule 5;
+  pe:binding [ pe:var "Genome"; pe:value :starterGenome ];
+  pe:uses
+    { :starterGenome a :Replicator . },
+    { :mutationSource a :VariationSource . }.
+
+{ :starterGenome a :Replicator . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :mutationSource a :VariationSource . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :contrastGenome :can :HeritableVariation . }
+  pe:rule 5;
+  pe:binding [ pe:var "Genome"; pe:value :contrastGenome ];
+  pe:uses
+    { :contrastGenome a :Replicator . },
+    { :mutationSource a :VariationSource . }.
+
+{ :starterGenome :can :AccurateGenomeCopyUnderNoDesignLaws . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Genome"; pe:value :starterGenome ],
+    [ pe:var "Medium"; pe:value :dnaRegister ];
+  pe:uses
+    { :starterGenome a :Replicator . },
+    { :starterGenome :storedIn :dnaRegister . },
+    { :dnaRegister :can :SupportReplicationUnderNoDesignLaws . }.
+
+{ :starterGenome :storedIn :dnaRegister . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :starterCell :can :AccurateReplicationArchitecture . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Cell"; pe:value :starterCell ],
+    [ pe:var "Genome"; pe:value :starterGenome ],
+    [ pe:var "Vehicle"; pe:value :starterVehicle ];
+  pe:uses
+    { :starterGenome :accuracy :High . },
+    { :starterCell :hasReplicator :starterGenome . },
+    { :starterCell :hasVehicle :starterVehicle . },
+    { :starterVehicle a :Vehicle . }.
+
+{ :starterGenome :accuracy :High . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :starterCell :hasReplicator :starterGenome . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :starterCell :hasVehicle :starterVehicle . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :starterVehicle a :Vehicle . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :starterCell :can :SelfReproduce . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Cell"; pe:value :starterCell ],
+    [ pe:var "Genome"; pe:value :starterGenome ];
+  pe:uses
+    { :starterCell :hasReplicator :starterGenome . },
+    { :starterGenome :can :AccurateGenomeCopyUnderNoDesignLaws . },
+    { :starterCell :can :AccurateReplicationArchitecture . },
+    { :nutrientBath a :RawMaterialSupply . }.
+
+{ :nutrientBath a :RawMaterialSupply . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :starterCell :can :NaturalSelectionLineage . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Cell"; pe:value :starterCell ],
+    [ pe:var "Genome"; pe:value :starterGenome ];
+  pe:uses
+    { :starterCell :hasReplicator :starterGenome . },
+    { :starterCell :can :SelfReproduce . },
+    { :starterGenome :can :HeritableVariation . },
+    { :fermenter a :SelectionEnvironment . }.
+
+{ :fermenter a :SelectionEnvironment . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :contrastCell :can :AccurateReplicationArchitecture . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Cell"; pe:value :contrastCell ],
+    [ pe:var "Genome"; pe:value :contrastGenome ],
+    [ pe:var "Vehicle"; pe:value :contrastVehicle ];
+  pe:uses
+    { :contrastGenome :accuracy :High . },
+    { :contrastCell :hasReplicator :contrastGenome . },
+    { :contrastCell :hasVehicle :contrastVehicle . },
+    { :contrastVehicle a :Vehicle . }.
+
+{ :contrastGenome :accuracy :High . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :contrastCell :hasReplicator :contrastGenome . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :contrastCell :hasVehicle :contrastVehicle . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :contrastVehicle a :Vehicle . }
+  pe:fact "act-yeast-self-reproduction.n3".
+
+{ :contrastCell :cannot :AccurateSelfReproduction . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "Cell"; pe:value :contrastCell ],
+    [ pe:var "Genome"; pe:value :contrastGenome ];
+  pe:uses
+    { :contrastCell :hasReplicator :contrastGenome . },
+    { :contrastGenome :cannot :AccurateGenomeCopyUnderNoDesignLaws . }.
+
+{ :contrastCell :cannot :NaturalSelectionLineage . }
+  pe:rule 10;
+  pe:binding [ pe:var "Cell"; pe:value :contrastCell ];
+  pe:uses { :contrastCell :cannot :AccurateSelfReproduction . }.

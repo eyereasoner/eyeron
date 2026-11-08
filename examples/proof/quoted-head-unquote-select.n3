@@ -1,0 +1,76 @@
+@prefix : <http://example.org/ns#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+{
+    :c a :Cat .
+} => {
+    :c a :Animal .
+} .
+:c a :Animal .
+:test :is true .
+
+{
+  {
+      :c a :Cat .
+  } => {
+      :c a :Animal .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Class"; pe:value :Cat ],
+    [ pe:var "F"; pe:value {
+        {
+            :c a :Cat .
+        } => {
+            :c a :Animal .
+        } .
+    } ],
+    [ pe:var "Rule"; pe:value :ruleCat ],
+    [ pe:var "X"; pe:value :c ];
+  pe:uses
+    { :c a :Cat . },
+    { :Cat :activates :ruleCat . },
+    {
+        :ruleCat :formula {
+            {
+                :c a :Cat .
+            } => {
+                :c a :Animal .
+            } .
+        } .
+    }.
+
+{ :c a :Cat . }
+  pe:fact "quoted-head-unquote-select.n3".
+
+{ :Cat :activates :ruleCat . }
+  pe:fact "quoted-head-unquote-select.n3".
+
+{
+  :ruleCat :formula {
+      {
+          ?X a :Cat .
+      } => {
+          ?X a :Animal .
+      } .
+  } .
+}
+  pe:fact "quoted-head-unquote-select.n3".
+
+{ :c a :Animal . }
+  pe:rule
+    {
+        {
+            :c a :Cat .
+        } => {
+            :c a :Animal .
+        } .
+    };
+  pe:uses { :c a :Cat . }.
+
+{ :test :is true . }
+  pe:rule 2;
+  pe:uses { :c a :Animal . }.

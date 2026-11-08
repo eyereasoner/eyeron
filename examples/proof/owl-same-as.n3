@@ -1,0 +1,81 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:robert owl:sameAs :bob .
+:bob owl:sameAs :rob .
+:bob owl:sameAs :bob .
+:robert owl:sameAs :robert .
+:rob owl:sameAs :robert .
+:rob owl:sameAs :rob .
+:rob owl:sameAs :bob .
+
+{ :robert owl:sameAs :bob . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "X"; pe:value :bob ],
+    [ pe:var "Y"; pe:value :robert ];
+  pe:uses { :bob owl:sameAs :robert . }.
+
+{ :bob owl:sameAs :robert . }
+  pe:fact "owl-same-as.n3".
+
+{ :bob owl:sameAs :rob . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value :bob ],
+    [ pe:var "Y"; pe:value :robert ],
+    [ pe:var "Z"; pe:value :rob ];
+  pe:uses
+    { :bob owl:sameAs :robert . },
+    { :robert owl:sameAs :rob . }.
+
+{ :robert owl:sameAs :rob . }
+  pe:fact "owl-same-as.n3".
+
+{ :bob owl:sameAs :bob . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value :bob ],
+    [ pe:var "Y"; pe:value :robert ],
+    [ pe:var "Z"; pe:value :bob ];
+  pe:uses
+    { :bob owl:sameAs :robert . },
+    { :robert owl:sameAs :bob . }.
+
+{ :robert owl:sameAs :robert . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value :robert ],
+    [ pe:var "Y"; pe:value :bob ],
+    [ pe:var "Z"; pe:value :robert ];
+  pe:uses
+    { :robert owl:sameAs :bob . },
+    { :bob owl:sameAs :robert . }.
+
+{ :rob owl:sameAs :robert . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "X"; pe:value :robert ],
+    [ pe:var "Y"; pe:value :rob ];
+  pe:uses { :robert owl:sameAs :rob . }.
+
+{ :rob owl:sameAs :rob . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value :rob ],
+    [ pe:var "Y"; pe:value :robert ],
+    [ pe:var "Z"; pe:value :rob ];
+  pe:uses
+    { :rob owl:sameAs :robert . },
+    { :robert owl:sameAs :rob . }.
+
+{ :rob owl:sameAs :bob . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value :rob ],
+    [ pe:var "Y"; pe:value :robert ],
+    [ pe:var "Z"; pe:value :bob ];
+  pe:uses
+    { :rob owl:sameAs :robert . },
+    { :robert owl:sameAs :bob . }.

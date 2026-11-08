@@ -1,0 +1,89 @@
+@prefix : <http://example.org/dtt#> .
+@prefix ex: <http://example.org/ex#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:alice :hasType _:b2_c61da8ff03e55a86 .
+_:b2_c61da8ff03e55a86 a :Type .
+_:b2_c61da8ff03e55a86 :goodOf ex:Cobbler .
+ex:bob :hasType _:b3_4d0ffe581bfcf4e3 .
+_:b3_4d0ffe581bfcf4e3 a :Type .
+_:b3_4d0ffe581bfcf4e3 :goodOf ex:Physician .
+
+{ ex:alice :hasType _:b2_c61da8ff03e55a86 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "shoe"; pe:value <http://example.org/ex#shoe₁> ],
+    [ pe:var "x"; pe:value ex:alice ];
+  pe:uses
+    { ex:alice :hasType ex:Cobbler . },
+    { ex:alice :produces <http://example.org/ex#shoe₁> . },
+    { <http://example.org/ex#shoe₁> :quality ex:Excellent . }.
+
+{ ex:alice :hasType ex:Cobbler . }
+  pe:fact "dependent-type.n3".
+
+{ ex:alice :produces <http://example.org/ex#shoe₁> . }
+  pe:fact "dependent-type.n3".
+
+{ <http://example.org/ex#shoe₁> :quality ex:Excellent . }
+  pe:fact "dependent-type.n3".
+
+{ _:b2_c61da8ff03e55a86 a :Type . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "shoe"; pe:value <http://example.org/ex#shoe₁> ],
+    [ pe:var "x"; pe:value ex:alice ];
+  pe:uses
+    { ex:alice :hasType ex:Cobbler . },
+    { ex:alice :produces <http://example.org/ex#shoe₁> . },
+    { <http://example.org/ex#shoe₁> :quality ex:Excellent . }.
+
+{ _:b2_c61da8ff03e55a86 :goodOf ex:Cobbler . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "shoe"; pe:value <http://example.org/ex#shoe₁> ],
+    [ pe:var "x"; pe:value ex:alice ];
+  pe:uses
+    { ex:alice :hasType ex:Cobbler . },
+    { ex:alice :produces <http://example.org/ex#shoe₁> . },
+    { <http://example.org/ex#shoe₁> :quality ex:Excellent . }.
+
+{ ex:bob :hasType _:b3_4d0ffe581bfcf4e3 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "case"; pe:value <http://example.org/ex#case₁> ],
+    [ pe:var "x"; pe:value ex:bob ];
+  pe:uses
+    { ex:bob :hasType ex:Physician . },
+    { ex:bob :treats <http://example.org/ex#case₁> . },
+    { <http://example.org/ex#case₁> :outcome ex:Recovered . }.
+
+{ ex:bob :hasType ex:Physician . }
+  pe:fact "dependent-type.n3".
+
+{ ex:bob :treats <http://example.org/ex#case₁> . }
+  pe:fact "dependent-type.n3".
+
+{ <http://example.org/ex#case₁> :outcome ex:Recovered . }
+  pe:fact "dependent-type.n3".
+
+{ _:b3_4d0ffe581bfcf4e3 a :Type . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "case"; pe:value <http://example.org/ex#case₁> ],
+    [ pe:var "x"; pe:value ex:bob ];
+  pe:uses
+    { ex:bob :hasType ex:Physician . },
+    { ex:bob :treats <http://example.org/ex#case₁> . },
+    { <http://example.org/ex#case₁> :outcome ex:Recovered . }.
+
+{ _:b3_4d0ffe581bfcf4e3 :goodOf ex:Physician . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "case"; pe:value <http://example.org/ex#case₁> ],
+    [ pe:var "x"; pe:value ex:bob ];
+  pe:uses
+    { ex:bob :hasType ex:Physician . },
+    { ex:bob :treats <http://example.org/ex#case₁> . },
+    { <http://example.org/ex#case₁> :outcome ex:Recovered . }.

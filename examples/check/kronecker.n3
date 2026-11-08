@@ -1,0 +1,309 @@
+# checked with obligations: 72 steps, 37 verified, 35 trusted
+@prefix ex: <https://example.org/ns#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+ex:Alice a ex:Adult .
+ex:Alice ex:memberOf ex:OrgX .
+ex:Alice ex:ancestor ex:Bob .
+ex:Bob a ex:Adult .
+ex:Bob ex:memberOf ex:OrgX .
+ex:Bob ex:ancestor ex:Carol .
+ex:Carol a ex:Adult .
+ex:Carol ex:canRead ex:Proj1 .
+ex:Carol ex:canRead ex:Proj2 .
+ex:Alice ex:canRead ex:Proj1 .
+ex:Bob ex:canRead ex:Proj1 .
+ex:Alice ex:canRead ex:Proj2 .
+ex:Bob ex:canRead ex:Proj2 .
+ex:Alice ex:ancestor ex:Carol .
+ex:Carol ex:reason _:b1_b4108f03f3910612 .
+_:b1_b4108f03f3910612 a ex:Reason .
+_:b1_b4108f03f3910612 ex:for ex:Proj1 .
+_:b1_b4108f03f3910612 ex:because "memberOf(org) & ownedBy(org)" .
+ex:Carol ex:reason _:b1_bcb9cc03f8789b63 .
+_:b1_bcb9cc03f8789b63 a ex:Reason .
+_:b1_bcb9cc03f8789b63 ex:for ex:Proj2 .
+_:b1_bcb9cc03f8789b63 ex:because "memberOf(org) & ownedBy(org)" .
+ex:Alice ex:reason _:b1_31dc2656febb340d .
+_:b1_31dc2656febb340d a ex:Reason .
+_:b1_31dc2656febb340d ex:for ex:Proj1 .
+_:b1_31dc2656febb340d ex:because "memberOf(org) & ownedBy(org)" .
+ex:Bob ex:reason _:b1_ffa92e4f8625967c .
+_:b1_ffa92e4f8625967c a ex:Reason .
+_:b1_ffa92e4f8625967c ex:for ex:Proj1 .
+_:b1_ffa92e4f8625967c ex:because "memberOf(org) & ownedBy(org)" .
+ex:Alice ex:reason _:b1_4cb215570e2bf6e8 .
+_:b1_4cb215570e2bf6e8 a ex:Reason .
+_:b1_4cb215570e2bf6e8 ex:for ex:Proj2 .
+_:b1_4cb215570e2bf6e8 ex:because "memberOf(org) & ownedBy(org)" .
+ex:Bob ex:reason _:b1_e6868f4f7826f011 .
+_:b1_e6868f4f7826f011 a ex:Reason .
+_:b1_e6868f4f7826f011 ex:for ex:Proj2 .
+_:b1_e6868f4f7826f011 ex:because "memberOf(org) & ownedBy(org)" .
+ex:Proj2 ex:hasManager _:b2_4f7da57dfb42d02e .
+_:b2_4f7da57dfb42d02e a ex:Person .
+_:b2_4f7da57dfb42d02e ex:role "AutoManager" .
+ex:Bob ex:hasSupervisor _:b3_11e4cabcc7cc4fe .
+_:b3_11e4cabcc7cc4fe a ex:Person .
+_:b3_11e4cabcc7cc4fe ex:role "Supervisor" .
+_:b3_11e4cabcc7cc4fe ex:supervises ex:Bob .
+_:b2_4f7da57dfb42d02e ex:hasSupervisor _:b3_9555f4089b7909b4 .
+_:b3_9555f4089b7909b4 a ex:Person .
+_:b3_9555f4089b7909b4 ex:role "Supervisor" .
+_:b3_9555f4089b7909b4 ex:supervises _:b2_4f7da57dfb42d02e .
+ex:Alice a ex:Person .
+ex:Alice ex:age 29 .
+ex:Alice ex:memberOf ex:TeamA .
+ex:Alice ex:parent ex:Bob .
+ex:Bob a ex:Person .
+ex:Bob ex:age 54 .
+ex:Bob ex:memberOf ex:TeamA .
+ex:Bob ex:parent ex:Carol .
+ex:Carol a ex:Person .
+ex:Carol ex:age 78 .
+ex:Carol ex:memberOf ex:OrgX .
+ex:TeamA a ex:Team .
+ex:TeamA ex:partOf ex:OrgX .
+ex:OrgX a ex:Org .
+ex:Proj1 a ex:Project .
+ex:Proj1 ex:ownedBy ex:OrgX .
+ex:Proj1 ex:hasManager ex:Bob .
+ex:Proj2 a ex:Project .
+ex:Proj2 ex:ownedBy ex:OrgX .
+ex:Proj2 ex:needsManager true .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/kronecker.n3";
+    pe:source "examples/kronecker.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 72;
+    pe:verified 37;
+    pe:trusted 35;
+    pe:builtinSteps 3;
+    pe:factSteps 20;
+    pe:ruleSteps 49;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 69; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 72; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 72; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 256; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 141; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 35; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 236; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:Carol ex:reason _:b1_b4108f03f3910612 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_b4108f03f3910612 a ex:Reason .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_b4108f03f3910612 ex:for ex:Proj1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_b4108f03f3910612 ex:because "memberOf(org) & ownedBy(org)" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:Carol ex:reason _:b1_bcb9cc03f8789b63 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_bcb9cc03f8789b63 a ex:Reason .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_bcb9cc03f8789b63 ex:for ex:Proj2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_bcb9cc03f8789b63 ex:because "memberOf(org) & ownedBy(org)" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:Alice ex:reason _:b1_31dc2656febb340d .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_31dc2656febb340d a ex:Reason .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_31dc2656febb340d ex:for ex:Proj1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_31dc2656febb340d ex:because "memberOf(org) & ownedBy(org)" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:Bob ex:reason _:b1_ffa92e4f8625967c .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_ffa92e4f8625967c a ex:Reason .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_ffa92e4f8625967c ex:for ex:Proj1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_ffa92e4f8625967c ex:because "memberOf(org) & ownedBy(org)" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:Alice ex:reason _:b1_4cb215570e2bf6e8 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_4cb215570e2bf6e8 a ex:Reason .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_4cb215570e2bf6e8 ex:for ex:Proj2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_4cb215570e2bf6e8 ex:because "memberOf(org) & ownedBy(org)" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:Bob ex:reason _:b1_e6868f4f7826f011 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_e6868f4f7826f011 a ex:Reason .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_e6868f4f7826f011 ex:for ex:Proj2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_e6868f4f7826f011 ex:because "memberOf(org) & ownedBy(org)" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:Proj2 ex:hasManager _:b2_4f7da57dfb42d02e .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_4f7da57dfb42d02e a ex:Person .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_4f7da57dfb42d02e ex:role "AutoManager" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:Bob ex:hasSupervisor _:b3_11e4cabcc7cc4fe .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_11e4cabcc7cc4fe a ex:Person .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_11e4cabcc7cc4fe ex:role "Supervisor" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_11e4cabcc7cc4fe ex:supervises ex:Bob .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_4f7da57dfb42d02e ex:hasSupervisor _:b3_9555f4089b7909b4 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_9555f4089b7909b4 a ex:Person .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_9555f4089b7909b4 ex:role "Supervisor" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_9555f4089b7909b4 ex:supervises _:b2_4f7da57dfb42d02e .
+        }
+    ].

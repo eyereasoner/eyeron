@@ -1,0 +1,22 @@
+@prefix : <http://example.org/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:quantifierRenaming :preservesGraphIdentity true .
+
+{ :quantifierRenaming :preservesGraphIdentity true . }
+  pe:rule 1;
+  pe:uses
+    {
+        :explicitQuantifiers :graph {
+            @forAll <urn:eyeron:quantified:5f5f713133> .
+            <urn:eyeron:quantified:5f5f713133> :loves _:__q14 .
+        } .
+    }.
+
+{
+  :explicitQuantifiers :graph {
+      @forAll <urn:eyeron:quantified:5f5f7131> .
+      <urn:eyeron:quantified:5f5f7131> :loves _:__q2 .
+  } .
+}
+  pe:fact "explicit-quantification.n3".

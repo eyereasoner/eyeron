@@ -1,0 +1,33 @@
+@prefix : <http://example.com/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:taskA a :Completed .
+
+{ :taskA a :Completed . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value _:forAllIn ],
+    [ pe:var "task"; pe:value :taskA ];
+  pe:uses
+    { :taskA a :CompositeTask . },
+    {
+        ({
+            :taskA :subtask ?subtask .
+        } {
+            ?subtask a :Completed .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{ :taskA a :CompositeTask . }
+  pe:fact "completed-subtasks.n3".
+
+{
+  ({
+      :taskA :subtask ?subtask .
+  } {
+      ?subtask a :Completed .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.

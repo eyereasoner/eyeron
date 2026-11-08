@@ -1,0 +1,38 @@
+# checked: 1177 steps, 1177 verified, 0 trusted
+@prefix : <http://example.org/#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:poly1 :hasRoot (4.000000007450581 "0"^^xsd:decimal) .
+:poly1 :hasRoot (2.9999999925494194 "0"^^xsd:decimal) .
+:poly1 :hasRoot (1.9999999925494194 "0"^^xsd:decimal) .
+:poly1 :hasRoot (1.0000000074505808 "0"^^xsd:decimal) .
+:poly2 :hasRoot ("5"^^xsd:decimal 0.99999999999999) .
+:poly2 :hasRoot (3.0000000000000036 1.9999999999999987) .
+:poly2 :hasRoot (-3.1086244689504383e-15 1.0000000000000064) .
+:poly2 :hasRoot ("1"^^xsd:decimal 1.0000000000000049) .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/polynomial.n3";
+    pe:source "examples/polynomial.n3";
+    pe:verdict pe:checked;
+    pe:steps 1177;
+    pe:verified 1177;
+    pe:trusted 0;
+    pe:builtinSteps 867;
+    pe:factSteps 3;
+    pe:ruleSteps 307;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 310; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 1177; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 1177; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 1461; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 867; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 1185; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 307; pe:failed 0 ].

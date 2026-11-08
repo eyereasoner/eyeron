@@ -1,0 +1,36 @@
+# checked: 22 steps, 22 verified, 0 trusted
+@prefix : <https://eyereasoner.github.io/eyeling/examples/dijkstra-risk-path#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:Case :notes :riskCanOutweighRawCost .
+:Case :selectedPath :pathB .
+:Case :trustGate :noEnumeratedPathIsLower .
+:dijkstraRiskPath log:outputString "# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : ClinicA -> DepotB -> LabD -> HubZ\nraw cost : 10.00\nrisk sum : 0.55\nrisk-adjusted score : 11.10\nedges in selected path : 3\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." .
+:dijkstraRiskPath :selects :pathB .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/dijkstra-risk-path.n3";
+    pe:source "examples/dijkstra-risk-path.n3";
+    pe:source "examples/input/dijkstra-risk-path.trig";
+    pe:verdict pe:checked;
+    pe:steps 22;
+    pe:verified 22;
+    pe:trusted 0;
+    pe:builtinSteps 6;
+    pe:factSteps 11;
+    pe:ruleSteps 5;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 16; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 22; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 22; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 48; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 27; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 5; pe:failed 0 ].

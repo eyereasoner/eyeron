@@ -1,0 +1,57 @@
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:answer :contains log:implies .
+:answer :contains :contains .
+:test :is true .
+:answer :contains :is .
+
+{ :answer :contains log:implies . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value {
+        ?__rulefact_0__X ?__rulefact_0__Y ?__rulefact_0__Z .
+    } ],
+    [ pe:var "Z"; pe:value {
+        :answer :contains ?__rulefact_0__Y .
+    } ];
+  pe:uses
+    {
+        {
+            ?__rulefact_0__X ?__rulefact_0__Y ?__rulefact_0__Z .
+        } => {
+            :answer :contains ?__rulefact_0__Y .
+        } .
+    }.
+
+{
+  {
+      ?__rulefact_0__X ?__rulefact_0__Y ?__rulefact_0__Z .
+  } => {
+      :answer :contains ?__rulefact_0__Y .
+  } .
+}
+  pe:fact "self-referential.n3".
+
+{ :answer :contains :contains . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "X"; pe:value :answer ],
+    [ pe:var "Y"; pe:value :contains ],
+    [ pe:var "Z"; pe:value log:implies ];
+  pe:uses { :answer :contains log:implies . }.
+
+{ :test :is true . }
+  pe:rule 3;
+  pe:uses
+    { :answer :contains :contains . },
+    { :answer :contains log:implies . }.
+
+{ :answer :contains :is . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "X"; pe:value :test ],
+    [ pe:var "Y"; pe:value :is ],
+    [ pe:var "Z"; pe:value true ];
+  pe:uses { :test :is true . }.

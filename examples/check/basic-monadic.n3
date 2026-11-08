@@ -1,0 +1,43 @@
+# checked: 15 steps, 15 verified, 0 trusted
+@prefix : <http://eulersharp.sourceforge.net/2007/07test/graph#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:test :is {
+    :i42 :cycle (:i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9) .
+} .
+:test :is {
+    :i42 :cycle (:i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72) .
+} .
+:test :is {
+    :i42 :cycle (:i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87) .
+} .
+:test :is {
+    :i42 :cycle (:i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81) .
+} .
+:test :is {
+    :i42 :cycle (:i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75) .
+} .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/basic-monadic.n3";
+    pe:source "examples/basic-monadic.n3";
+    pe:verdict pe:checked;
+    pe:steps 15;
+    pe:verified 15;
+    pe:trusted 0;
+    pe:factSteps 5;
+    pe:ruleSteps 10;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 15; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 15; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 15; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 60; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 20; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 10; pe:failed 0 ].

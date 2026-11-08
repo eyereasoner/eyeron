@@ -1,0 +1,67 @@
+# checked with obligations: 30 steps, 26 verified, 4 trusted
+@prefix dqc: <https://eyereasoner.github.io/eye/reasoning/dqc#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+1 dqc:superdense-coding 1 .
+3 dqc:superdense-coding 3 .
+0 dqc:superdense-coding 0 .
+2 dqc:superdense-coding 2 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/superdense-coding.n3";
+    pe:source "examples/superdense-coding.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 30;
+    pe:verified 26;
+    pe:trusted 4;
+    pe:builtinSteps 6;
+    pe:factSteps 6;
+    pe:ruleSteps 18;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 24; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 44; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 34; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 18; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (1 {
+                1 dqc:sdcoding 1 .
+            } (1)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (1 {
+                3 dqc:sdcoding 3 .
+            } (1)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (1 {
+                0 dqc:sdcoding 0 .
+            } (1)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (1 {
+                2 dqc:sdcoding 2 .
+            } (1)) log:collectAllIn ?SCOPE .
+        }
+    ].

@@ -1,0 +1,31 @@
+@prefix : <http://example.org/#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+(:a :b :c) :Pythagoras true .
+
+{ (:a :b :c) :Pythagoras true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :a ],
+    [ pe:var "A2"; pe:value :a2 ],
+    [ pe:var "B"; pe:value :b ],
+    [ pe:var "B2"; pe:value :b2 ],
+    [ pe:var "C"; pe:value :c ],
+    [ pe:var "C2"; pe:value :c2 ];
+  pe:uses
+    { :a :Square :a2 . },
+    { :b :Square :b2 . },
+    { :c :Square :c2 . },
+    { (:a2 :b2) :Add :c2 . }.
+
+{ :a :Square :a2 . }
+  pe:fact "pythagorean-check.n3".
+
+{ :b :Square :b2 . }
+  pe:fact "pythagorean-check.n3".
+
+{ :c :Square :c2 . }
+  pe:fact "pythagorean-check.n3".
+
+{ (:a2 :b2) :Add :c2 . }
+  pe:fact "pythagorean-check.n3".

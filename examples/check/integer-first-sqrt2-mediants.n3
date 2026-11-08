@@ -1,0 +1,84 @@
+# checked: 230 steps, 230 verified, 0 trusted
+@prefix : <http://example.org/integer-first#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:result :boundsQ (0 1 1 2 1) .
+:result :gapTo2 (0 1 2) .
+:result :widthQ (0 1 1) .
+:result :fareyAdjacent (0 true) .
+:result :boundsQ (1 1 1 3 2) .
+:result :gapTo2 (1 1 1) .
+:result :widthQ (1 1 2) .
+:result :fareyAdjacent (1 true) .
+:result :boundsQ (2 4 3 3 2) .
+:result :gapTo2 (2 2 1) .
+:result :widthQ (2 1 6) .
+:result :fareyAdjacent (2 true) .
+:result :boundsQ (3 7 5 3 2) .
+:result :gapTo2 (3 1 1) .
+:result :widthQ (3 1 10) .
+:result :fareyAdjacent (3 true) .
+:result :boundsQ (4 7 5 10 7) .
+:result :gapTo2 (4 1 2) .
+:result :widthQ (4 1 35) .
+:result :fareyAdjacent (4 true) .
+:result :boundsQ (5 7 5 17 12) .
+:result :gapTo2 (5 1 1) .
+:result :widthQ (5 1 60) .
+:result :fareyAdjacent (5 true) .
+:result :boundsQ (6 24 17 17 12) .
+:result :gapTo2 (6 2 1) .
+:result :widthQ (6 1 204) .
+:result :fareyAdjacent (6 true) .
+:result :boundsQ (7 41 29 17 12) .
+:result :gapTo2 (7 1 1) .
+:result :widthQ (7 1 348) .
+:result :fareyAdjacent (7 true) .
+:result :boundsQ (8 41 29 58 41) .
+:result :gapTo2 (8 1 2) .
+:result :widthQ (8 1 1189) .
+:result :fareyAdjacent (8 true) .
+:result :decimalBounds (0 1 2) .
+:result :midpoint (0 1.5) .
+:result :decimalBounds (1 1 1.5) .
+:result :midpoint (1 1.25) .
+:result :decimalBounds (2 1.3333333333333333 1.5) .
+:result :midpoint (2 1.4166666666666665) .
+:result :decimalBounds (3 1.4 1.5) .
+:result :midpoint (3 1.45) .
+:result :decimalBounds (4 1.4 1.4285714285714286) .
+:result :midpoint (4 1.4142857142857141) .
+:result :decimalBounds (5 1.4 1.4166666666666667) .
+:result :midpoint (5 1.4083333333333332) .
+:result :decimalBounds (6 1.411764705882353 1.4166666666666667) .
+:result :midpoint (6 1.4142156862745099) .
+:result :decimalBounds (7 1.4137931034482758 1.4166666666666667) .
+:result :midpoint (7 1.4152298850574714) .
+:result :decimalBounds (8 1.4137931034482758 1.4146341463414633) .
+:result :midpoint (8 1.4142136248948696) .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/integer-first-sqrt2-mediants.n3";
+    pe:source "examples/integer-first-sqrt2-mediants.n3";
+    pe:verdict pe:checked;
+    pe:steps 230;
+    pe:verified 230;
+    pe:trusted 0;
+    pe:builtinSteps 122;
+    pe:factSteps 2;
+    pe:ruleSteps 106;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 108; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 230; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 230; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 618; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 122; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 284; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 724; pe:failed 0 ].

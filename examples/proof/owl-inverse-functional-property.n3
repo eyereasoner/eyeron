@@ -1,0 +1,66 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:alice owl:sameAs :alice .
+:alice owl:sameAs :aliceAlias .
+:aliceAlias owl:sameAs :alice .
+:aliceAlias owl:sameAs :aliceAlias .
+
+{ :alice owl:sameAs :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :shared ],
+    [ pe:var "P"; pe:value :account ],
+    [ pe:var "X"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :alice ];
+  pe:uses
+    { :account a owl:InverseFunctionalProperty . },
+    { :alice :account :shared . },
+    { :alice :account :shared . }.
+
+{ :account a owl:InverseFunctionalProperty . }
+  pe:fact "owl-inverse-functional-property.n3".
+
+{ :alice :account :shared . }
+  pe:fact "owl-inverse-functional-property.n3".
+
+{ :alice owl:sameAs :aliceAlias . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :shared ],
+    [ pe:var "P"; pe:value :account ],
+    [ pe:var "X"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :aliceAlias ];
+  pe:uses
+    { :account a owl:InverseFunctionalProperty . },
+    { :alice :account :shared . },
+    { :aliceAlias :account :shared . }.
+
+{ :aliceAlias :account :shared . }
+  pe:fact "owl-inverse-functional-property.n3".
+
+{ :aliceAlias owl:sameAs :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :shared ],
+    [ pe:var "P"; pe:value :account ],
+    [ pe:var "X"; pe:value :aliceAlias ],
+    [ pe:var "Y"; pe:value :alice ];
+  pe:uses
+    { :account a owl:InverseFunctionalProperty . },
+    { :aliceAlias :account :shared . },
+    { :alice :account :shared . }.
+
+{ :aliceAlias owl:sameAs :aliceAlias . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :shared ],
+    [ pe:var "P"; pe:value :account ],
+    [ pe:var "X"; pe:value :aliceAlias ],
+    [ pe:var "Y"; pe:value :aliceAlias ];
+  pe:uses
+    { :account a owl:InverseFunctionalProperty . },
+    { :aliceAlias :account :shared . },
+    { :aliceAlias :account :shared . }.

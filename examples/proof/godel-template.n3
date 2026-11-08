@@ -1,0 +1,201 @@
+@prefix : <http://example.org/godel-template#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:Demo :digits (:d4 :d2) .
+:Demo :tokens (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) .
+:Demo :godelPairs ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) .
+:Demo :godelNumber 93897428453934743498383922339000952994095115872750 .
+:outPairs :is ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) .
+:outG :is 93897428453934743498383922339000952994095115872750 .
+
+{ :Demo :digits (:d4 :d2) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "digits"; pe:value (:d4 :d2) ],
+    [ pe:var "n"; pe:value 42 ],
+    [ pe:var "pre"; pe:value (:NOT :PROVABLE :IN :S :LP) ],
+    [ pe:var "suf"; pe:value (:RP) ],
+    [ pe:var "tmp"; pe:value (:NOT :PROVABLE :IN :S :LP :d4 :d2) ],
+    [ pe:var "tokens"; pe:value (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) ];
+  pe:uses
+    { :Demo :n 42 . },
+    { 42 :digits (:d4 :d2) . },
+    { :GSchema :prefixTokens (:NOT :PROVABLE :IN :S :LP) . },
+    { :GSchema :suffixTokens (:RP) . },
+    { ((:NOT :PROVABLE :IN :S :LP) (:d4 :d2)) list:append (:NOT :PROVABLE :IN :S :LP :d4 :d2) . },
+    { ((:NOT :PROVABLE :IN :S :LP :d4 :d2) (:RP)) list:append (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) . }.
+
+{ :Demo :n 42 . }
+  pe:fact "godel-template.n3".
+
+{ 42 :digits (:d4 :d2) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "digs"; pe:value (:d4 :d2) ],
+    [ pe:var "dr"; pe:value :d2 ],
+    [ pe:var "n"; pe:value 42 ],
+    [ pe:var "nMinusR"; pe:value 40 ],
+    [ pe:var "q"; pe:value 4 ],
+    [ pe:var "qdigs"; pe:value (:d4) ],
+    [ pe:var "r"; pe:value 2 ];
+  pe:uses
+    { 42 math:notLessThan 10 . },
+    { (42 10) math:remainder 2 . },
+    { (42 2) math:difference 40 . },
+    { (40 10) math:quotient 4 . },
+    { 4 :digits (:d4) . },
+    { :d2 :digitValue 2 . },
+    { ((:d4) (:d2)) list:append (:d4 :d2) . }.
+
+{ 42 math:notLessThan 10 . }
+  pe:builtin math:notLessThan.
+
+{ (42 10) math:remainder 2 . }
+  pe:builtin math:remainder.
+
+{ (42 2) math:difference 40 . }
+  pe:builtin math:difference.
+
+{ (40 10) math:quotient 4 . }
+  pe:builtin math:quotient.
+
+{ 4 :digits (:d4) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "d"; pe:value :d4 ],
+    [ pe:var "n"; pe:value 4 ];
+  pe:uses
+    { 4 math:lessThan 10 . },
+    { :d4 :digitValue 4 . }.
+
+{ 4 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ :d4 :digitValue 4 . }
+  pe:fact "godel-template.n3".
+
+{ :d2 :digitValue 2 . }
+  pe:fact "godel-template.n3".
+
+{ ((:d4) (:d2)) list:append (:d4 :d2) . }
+  pe:builtin list:append.
+
+{ :GSchema :prefixTokens (:NOT :PROVABLE :IN :S :LP) . }
+  pe:fact "godel-template.n3".
+
+{ :GSchema :suffixTokens (:RP) . }
+  pe:fact "godel-template.n3".
+
+{ ((:NOT :PROVABLE :IN :S :LP) (:d4 :d2)) list:append (:NOT :PROVABLE :IN :S :LP :d4 :d2) . }
+  pe:builtin list:append.
+
+{ ((:NOT :PROVABLE :IN :S :LP :d4 :d2) (:RP)) list:append (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) . }
+  pe:builtin list:append.
+
+{ :Demo :tokens (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "digits"; pe:value (:d4 :d2) ],
+    [ pe:var "n"; pe:value 42 ],
+    [ pe:var "pre"; pe:value (:NOT :PROVABLE :IN :S :LP) ],
+    [ pe:var "suf"; pe:value (:RP) ],
+    [ pe:var "tmp"; pe:value (:NOT :PROVABLE :IN :S :LP :d4 :d2) ],
+    [ pe:var "tokens"; pe:value (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) ];
+  pe:uses
+    { :Demo :n 42 . },
+    { 42 :digits (:d4 :d2) . },
+    { :GSchema :prefixTokens (:NOT :PROVABLE :IN :S :LP) . },
+    { :GSchema :suffixTokens (:RP) . },
+    { ((:NOT :PROVABLE :IN :S :LP) (:d4 :d2)) list:append (:NOT :PROVABLE :IN :S :LP :d4 :d2) . },
+    { ((:NOT :PROVABLE :IN :S :LP :d4 :d2) (:RP)) list:append (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) . }.
+
+{ :Demo :godelPairs ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "pairs"; pe:value ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) ],
+    [ pe:var "primes"; pe:value (2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71) ],
+    [ pe:var "tokens"; pe:value (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) ];
+  pe:uses
+    { :Demo :tokens (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) . },
+    { :primeBases :is (2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71) . },
+    {
+        ((?p ?c) {
+            (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) list:iterate (?i ?tok) .
+            ((2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71) ?i) list:memberAt ?p .
+            ?tok :code ?c .
+        } ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6))) log:collectAllIn ?_:scope .
+    }.
+
+{ :primeBases :is (2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71) . }
+  pe:fact "godel-template.n3".
+
+{
+  ((?p ?c) {
+      (:NOT :PROVABLE :IN :S :LP :d4 :d2 :RP) list:iterate (?i ?tok) .
+      ((2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71) ?i) list:memberAt ?p .
+      ?tok :code ?c .
+  } ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6))) log:collectAllIn ?_:scope .
+}
+  pe:builtin log:collectAllIn.
+
+{ :Demo :godelNumber 93897428453934743498383922339000952994095115872750 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "factors"; pe:value (2 9 125 2401 161051 3937376385699289 582622237229761 47045881) ],
+    [ pe:var "g"; pe:value 93897428453934743498383922339000952994095115872750 ],
+    [ pe:var "pairs"; pe:value ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) ];
+  pe:uses
+    { :Demo :godelPairs ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) . },
+    {
+        (?factor {
+            ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) list:member ?pair .
+            ?pair math:exponentiation ?factor .
+        } (2 9 125 2401 161051 3937376385699289 582622237229761 47045881)) log:collectAllIn ?_:scope .
+    },
+    { (2 9 125 2401 161051 3937376385699289 582622237229761 47045881) math:product 93897428453934743498383922339000952994095115872750 . }.
+
+{
+  (?factor {
+      ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) list:member ?pair .
+      ?pair math:exponentiation ?factor .
+  } (2 9 125 2401 161051 3937376385699289 582622237229761 47045881)) log:collectAllIn ?_:scope .
+}
+  pe:builtin log:collectAllIn.
+
+{ (2 9 125 2401 161051 3937376385699289 582622237229761 47045881) math:product 93897428453934743498383922339000952994095115872750 . }
+  pe:builtin math:product.
+
+{ :outPairs :is ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "factors"; pe:value (2 9 125 2401 161051 3937376385699289 582622237229761 47045881) ],
+    [ pe:var "g"; pe:value 93897428453934743498383922339000952994095115872750 ],
+    [ pe:var "pairs"; pe:value ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) ];
+  pe:uses
+    { :Demo :godelPairs ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) . },
+    {
+        (?factor {
+            ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) list:member ?pair .
+            ?pair math:exponentiation ?factor .
+        } (2 9 125 2401 161051 3937376385699289 582622237229761 47045881)) log:collectAllIn ?_:scope .
+    },
+    { (2 9 125 2401 161051 3937376385699289 582622237229761 47045881) math:product 93897428453934743498383922339000952994095115872750 . }.
+
+{ :outG :is 93897428453934743498383922339000952994095115872750 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "factors"; pe:value (2 9 125 2401 161051 3937376385699289 582622237229761 47045881) ],
+    [ pe:var "g"; pe:value 93897428453934743498383922339000952994095115872750 ],
+    [ pe:var "pairs"; pe:value ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) ];
+  pe:uses
+    { :Demo :godelPairs ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) . },
+    {
+        (?factor {
+            ((2 1) (3 2) (5 3) (7 4) (11 5) (13 14) (17 12) (19 6)) list:member ?pair .
+            ?pair math:exponentiation ?factor .
+        } (2 9 125 2401 161051 3937376385699289 582622237229761 47045881)) log:collectAllIn ?_:scope .
+    },
+    { (2 9 125 2401 161051 3937376385699289 582622237229761 47045881) math:product 93897428453934743498383922339000952994095115872750 . }.

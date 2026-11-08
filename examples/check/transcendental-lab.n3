@@ -1,0 +1,139 @@
+# checked: 134 steps, 134 verified, 0 trusted
+@prefix : <https://example.org/trans-lab#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:report :transcendental :e .
+:report :transcendental :pi .
+:report :transcendental :pow_2_sqrt2 .
+:report :transcendental :e_plus_2 .
+:report :transcendental :two_times_pi .
+:report :transcendental :pi_div_2 .
+:report :transcendental :e_div_2 .
+:report :transcendental :exp_sqrt2 .
+:report :transcendental :pow_2_sqrt2_plus_1 .
+:report :proof {
+    :e :provedBy :Hermite1873 .
+} .
+:report :proof {
+    :e :provedBy :TransImpliesIrrational .
+} .
+:report :proof {
+    :e :provedBy :TransImpliesNotConstructible .
+} .
+:report :proof {
+    :pi :provedBy :Lindemann1882 .
+} .
+:report :proof {
+    :pi :provedBy :TransImpliesIrrational .
+} .
+:report :proof {
+    :pi :provedBy :TransImpliesNotConstructible .
+} .
+:report :proof {
+    :pow_2_sqrt2 :provedBy :GelfondSchneider .
+} .
+:report :proof {
+    :pow_2_sqrt2 :provedBy :TransImpliesIrrational .
+} .
+:report :proof {
+    :pow_2_sqrt2 :provedBy :TransImpliesNotConstructible .
+} .
+:report :proof {
+    :e_plus_2 :provedBy :TransPlusAlg .
+} .
+:report :proof {
+    :e_plus_2 :provedBy :TransImpliesIrrational .
+} .
+:report :proof {
+    :e_plus_2 :provedBy :TransImpliesNotConstructible .
+} .
+:report :proof {
+    :two_times_pi :provedBy :TransTimesAlgNZ .
+} .
+:report :proof {
+    :two_times_pi :provedBy :TransImpliesIrrational .
+} .
+:report :proof {
+    :two_times_pi :provedBy :TransImpliesNotConstructible .
+} .
+:report :proof {
+    :pi_div_2 :provedBy :TransDivAlgNZ .
+} .
+:report :proof {
+    :pi_div_2 :provedBy :TransImpliesIrrational .
+} .
+:report :proof {
+    :pi_div_2 :provedBy :TransImpliesNotConstructible .
+} .
+:report :proof {
+    :e_div_2 :provedBy :TransDivAlgNZ .
+} .
+:report :proof {
+    :e_div_2 :provedBy :TransImpliesIrrational .
+} .
+:report :proof {
+    :e_div_2 :provedBy :TransImpliesNotConstructible .
+} .
+:report :proof {
+    :exp_sqrt2 :provedBy :LindemannWeierstrass .
+} .
+:report :proof {
+    :exp_sqrt2 :provedBy :TransImpliesIrrational .
+} .
+:report :proof {
+    :exp_sqrt2 :provedBy :TransImpliesNotConstructible .
+} .
+:report :proof {
+    :pow_2_sqrt2_plus_1 :provedBy :TransPlusAlg .
+} .
+:report :proof {
+    :pow_2_sqrt2_plus_1 :provedBy :TransImpliesIrrational .
+} .
+:report :proof {
+    :pow_2_sqrt2_plus_1 :provedBy :TransImpliesNotConstructible .
+} .
+:report :irrational :e .
+:report :irrational :pi .
+:report :irrational :pow_2_sqrt2 .
+:report :irrational :e_plus_2 .
+:report :irrational :two_times_pi .
+:report :irrational :pi_div_2 .
+:report :irrational :e_div_2 .
+:report :irrational :exp_sqrt2 .
+:report :irrational :pow_2_sqrt2_plus_1 .
+:report :notConstructible :e .
+:report :notConstructible :pi .
+:report :notConstructible :pow_2_sqrt2 .
+:report :notConstructible :e_plus_2 .
+:report :notConstructible :two_times_pi .
+:report :notConstructible :pi_div_2 .
+:report :notConstructible :e_div_2 .
+:report :notConstructible :exp_sqrt2 .
+:report :notConstructible :pow_2_sqrt2_plus_1 .
+:report :unknown :sum_e_pi .
+:report :unknown :prod_e_pi .
+:report :unknown :pow_pi_e .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/transcendental-lab.n3";
+    pe:source "examples/transcendental-lab.n3";
+    pe:verdict pe:checked;
+    pe:steps 134;
+    pe:verified 134;
+    pe:trusted 0;
+    pe:factSteps 27;
+    pe:ruleSteps 107;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 134; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 134; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 134; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 298; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 191; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 405; pe:failed 0 ].

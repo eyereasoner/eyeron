@@ -1,0 +1,54 @@
+@prefix : <http://example.org/faltings#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:C :coveredBy :FaltingsTheorem .
+:C :hasRationalPointsCardinality :Finite .
+:C :doesNotHaveInfinitelyManyRationalPoints true .
+
+{ :C :coveredBy :FaltingsTheorem . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "curve"; pe:value :C ],
+    [ pe:var "field"; pe:value :Q ],
+    [ pe:var "g"; pe:value 2 ];
+  pe:uses
+    { :C a :Curve . },
+    { :C :definedOver :Q . },
+    { :C :genus 2 . },
+    { :Q a :NumberField . },
+    { 2 math:notLessThan 2 . }.
+
+{ :C a :Curve . }
+  pe:fact "faltings-genus2-finiteness.n3".
+
+{ :C :definedOver :Q . }
+  pe:fact "faltings-genus2-finiteness.n3".
+
+{ :C :genus 2 . }
+  pe:fact "faltings-genus2-finiteness.n3".
+
+{ :Q a :NumberField . }
+  pe:fact "faltings-genus2-finiteness.n3".
+
+{ 2 math:notLessThan 2 . }
+  pe:builtin math:notLessThan.
+
+{ :C :hasRationalPointsCardinality :Finite . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "curve"; pe:value :C ],
+    [ pe:var "field"; pe:value :Q ],
+    [ pe:var "g"; pe:value 2 ];
+  pe:uses
+    { :C a :Curve . },
+    { :C :definedOver :Q . },
+    { :C :genus 2 . },
+    { :Q a :NumberField . },
+    { 2 math:notLessThan 2 . }.
+
+{ :C :doesNotHaveInfinitelyManyRationalPoints true . }
+  pe:rule 2;
+  pe:binding [ pe:var "curve"; pe:value :C ];
+  pe:uses { :C :hasRationalPointsCardinality :Finite . }.

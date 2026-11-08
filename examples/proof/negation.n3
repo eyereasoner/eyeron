@@ -1,0 +1,38 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/negation#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:alice a :Eligible .
+
+{ :alice a :Eligible . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ],
+    [ pe:var "x"; pe:value :alice ];
+  pe:uses
+    { :alice a :Person . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :alice a :Blocked .
+        } .
+    }.
+
+{ :alice a :Person . }
+  pe:fact "negation.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :alice a :Blocked .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+rdf:type pe:derived
+    { :alice a :Eligible . }.

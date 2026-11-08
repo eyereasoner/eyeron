@@ -1,0 +1,346 @@
+@prefix : <http://example.org/high-trust-rdf#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:result :summary ("parameter-sanity" true "index-agreement" true "transcendental" "exp(-k*n/m)" "lambda" 0.5126953125 "certified-lambda" 0.5126953125 "exp-lower" 0.5988792348 "exp-upper" 0.5988792349 "fp-lower" 0.0016708059567271017 "fp-upper" 0.0016708059596428394 "expected-extra-exact-lookups-upper" 83.54029798214196 "decision" :AcceptForHighTrustUse) .
+:result :expIntervalCertificate :CertifiedDecimalInterval .
+:result :withinFpRateBudget true .
+:result :withinExactLookupBudget true .
+
+{ :result :summary ("parameter-sanity" true "index-agreement" true "transcendental" "exp(-k*n/m)" "lambda" 0.5126953125 "certified-lambda" 0.5126953125 "exp-lower" 0.5988792348 "exp-upper" 0.5988792349 "fp-lower" 0.0016708059567271017 "fp-upper" 0.0016708059596428394 "expected-extra-exact-lookups-upper" 83.54029798214196 "decision" :AcceptForHighTrustUse) . }
+  pe:rule
+    {
+        {
+            :artifact :parameterSanity ?sanity .
+            :artifact :indexAgreement ?agreement .
+            :artifact :lambda ?lambda .
+            :artifact :certifiedLambda ?certifiedLambda .
+            :artifact :exactTranscendentalSymbol ?sym .
+            :artifact :expMinusLambdaLower ?eLo .
+            :artifact :expMinusLambdaUpper ?eHi .
+            :artifact :fpRateLower ?fpLo .
+            :artifact :fpRateUpper ?fpHi .
+            :artifact :expectedExtraExactLookupsUpper ?extraHi .
+            :artifact :deploymentDecision ?decision .
+        } => {
+            :result :summary ("parameter-sanity" ?sanity "index-agreement" ?agreement "transcendental" ?sym "lambda" ?lambda "certified-lambda" ?certifiedLambda "exp-lower" ?eLo "exp-upper" ?eHi "fp-lower" ?fpLo "fp-upper" ?fpHi "expected-extra-exact-lookups-upper" ?extraHi "decision" ?decision) .
+        } .
+    };
+  pe:binding
+    [ pe:var "agreement"; pe:value true ],
+    [ pe:var "certifiedLambda"; pe:value 0.5126953125 ],
+    [ pe:var "decision"; pe:value :AcceptForHighTrustUse ],
+    [ pe:var "eHi"; pe:value 0.5988792349 ],
+    [ pe:var "eLo"; pe:value 0.5988792348 ],
+    [ pe:var "extraHi"; pe:value 83.54029798214196 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ],
+    [ pe:var "fpLo"; pe:value 0.0016708059567271017 ],
+    [ pe:var "lambda"; pe:value 0.5126953125 ],
+    [ pe:var "sanity"; pe:value true ],
+    [ pe:var "sym"; pe:value "exp(-k*n/m)" ];
+  pe:uses
+    { :artifact :parameterSanity true . },
+    { :artifact :indexAgreement true . },
+    { :artifact :lambda 0.5126953125 . },
+    { :artifact :certifiedLambda 0.5126953125 . },
+    { :artifact :exactTranscendentalSymbol "exp(-k*n/m)" . },
+    { :artifact :expMinusLambdaLower 0.5988792348 . },
+    { :artifact :expMinusLambdaUpper 0.5988792349 . },
+    { :artifact :fpRateLower 0.0016708059567271017 . },
+    { :artifact :fpRateUpper 0.0016708059596428394 . },
+    { :artifact :expectedExtraExactLookupsUpper 83.54029798214196 . },
+    { :artifact :deploymentDecision :AcceptForHighTrustUse . }.
+
+{ :artifact :parameterSanity true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "e"; pe:value 100.0 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "m"; pe:value 16384 ],
+    [ pe:var "n"; pe:value 1200 ],
+    [ pe:var "q"; pe:value 50000 ],
+    [ pe:var "r"; pe:value 0.002 ],
+    [ pe:var "s"; pe:value 1200 ];
+  pe:uses
+    { :artifact :canonicalTripleCount 1200 . },
+    { :artifact :spoIndexTripleCount 1200 . },
+    { :artifact :bloomBits 16384 . },
+    { :artifact :hashFunctions 7 . },
+    { :artifact :negativeLookupsPerBatch 50000 . },
+    { :artifact :fpRateBudget 0.002 . },
+    { :artifact :extraExactLookupsBudget 100.0 . },
+    { 1200 math:greaterThan 0 . },
+    { 1200 math:greaterThan 0 . },
+    { 16384 math:greaterThan 0 . },
+    { 7 math:greaterThan 0 . },
+    { 50000 math:greaterThan 0 . },
+    { 0.002 math:greaterThan 0 . },
+    { 100.0 math:greaterThan 0 . }.
+
+{ :artifact :canonicalTripleCount 1200 . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :spoIndexTripleCount 1200 . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :bloomBits 16384 . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :hashFunctions 7 . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :negativeLookupsPerBatch 50000 . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :fpRateBudget 0.002 . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :extraExactLookupsBudget 100.0 . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ 1200 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 16384 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 7 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 50000 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 0.002 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 100.0 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :artifact :indexAgreement true . }
+  pe:rule 2;
+  pe:binding [ pe:var "n"; pe:value 1200 ];
+  pe:uses
+    { :artifact :canonicalTripleCount 1200 . },
+    { :artifact :spoIndexTripleCount 1200 . }.
+
+{ :artifact :lambda 0.5126953125 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "kn"; pe:value 8400 ],
+    [ pe:var "lambda"; pe:value 0.5126953125 ],
+    [ pe:var "m"; pe:value 16384 ],
+    [ pe:var "n"; pe:value 1200 ];
+  pe:uses
+    { :artifact :parameterSanity true . },
+    { :artifact :tripleCount 1200 . },
+    { :artifact :hashFunctions 7 . },
+    { :artifact :bloomBits 16384 . },
+    { (7 1200) math:product 8400 . },
+    { (8400 16384) math:quotient 0.5126953125 . }.
+
+{ :artifact :tripleCount 1200 . }
+  pe:rule 2;
+  pe:binding [ pe:var "n"; pe:value 1200 ];
+  pe:uses
+    { :artifact :canonicalTripleCount 1200 . },
+    { :artifact :spoIndexTripleCount 1200 . }.
+
+{ (7 1200) math:product 8400 . }
+  pe:builtin math:product.
+
+{ (8400 16384) math:quotient 0.5126953125 . }
+  pe:builtin math:quotient.
+
+{ :artifact :certifiedLambda 0.5126953125 . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :exactTranscendentalSymbol "exp(-k*n/m)" . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :expMinusLambdaLower 0.5988792348 . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :expMinusLambdaUpper 0.5988792349 . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :fpRateLower 0.0016708059567271017 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "eHi"; pe:value 0.5988792349 ],
+    [ pe:var "eLo"; pe:value 0.5988792348 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ],
+    [ pe:var "fpLo"; pe:value 0.0016708059567271017 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "oneMinusHi"; pe:value 0.40112076519999995 ],
+    [ pe:var "oneMinusLo"; pe:value 0.40112076510000005 ];
+  pe:uses
+    { :artifact :expIntervalCertificate :CertifiedDecimalInterval . },
+    { :artifact :hashFunctions 7 . },
+    { :artifact :expMinusLambdaLower 0.5988792348 . },
+    { :artifact :expMinusLambdaUpper 0.5988792349 . },
+    { (1.0 0.5988792349) math:difference 0.40112076510000005 . },
+    { (1.0 0.5988792348) math:difference 0.40112076519999995 . },
+    { (0.40112076510000005 7) math:exponentiation 0.0016708059567271017 . },
+    { (0.40112076519999995 7) math:exponentiation 0.0016708059596428394 . }.
+
+{ :artifact :expIntervalCertificate :CertifiedDecimalInterval . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 0.5988792349 ],
+    [ pe:var "lambda"; pe:value 0.5126953125 ],
+    [ pe:var "lo"; pe:value 0.5988792348 ];
+  pe:uses
+    { :artifact :lambda 0.5126953125 . },
+    { :artifact :certifiedLambda 0.5126953125 . },
+    { :artifact :expMinusLambdaLower 0.5988792348 . },
+    { :artifact :expMinusLambdaUpper 0.5988792349 . },
+    { 0.5126953125 math:greaterThan 0 . },
+    { 0.5988792348 math:lessThan 0.5988792349 . },
+    { 0.5988792348 math:greaterThan 0 . },
+    { 0.5988792349 math:lessThan 1 . }.
+
+{ 0.5126953125 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 0.5988792348 math:lessThan 0.5988792349 . }
+  pe:builtin math:lessThan.
+
+{ 0.5988792348 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 0.5988792349 math:lessThan 1 . }
+  pe:builtin math:lessThan.
+
+{ (1.0 0.5988792349) math:difference 0.40112076510000005 . }
+  pe:builtin math:difference.
+
+{ (1.0 0.5988792348) math:difference 0.40112076519999995 . }
+  pe:builtin math:difference.
+
+{ (0.40112076510000005 7) math:exponentiation 0.0016708059567271017 . }
+  pe:builtin math:exponentiation.
+
+{ (0.40112076519999995 7) math:exponentiation 0.0016708059596428394 . }
+  pe:builtin math:exponentiation.
+
+{ :artifact :fpRateUpper 0.0016708059596428394 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "eHi"; pe:value 0.5988792349 ],
+    [ pe:var "eLo"; pe:value 0.5988792348 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ],
+    [ pe:var "fpLo"; pe:value 0.0016708059567271017 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "oneMinusHi"; pe:value 0.40112076519999995 ],
+    [ pe:var "oneMinusLo"; pe:value 0.40112076510000005 ];
+  pe:uses
+    { :artifact :expIntervalCertificate :CertifiedDecimalInterval . },
+    { :artifact :hashFunctions 7 . },
+    { :artifact :expMinusLambdaLower 0.5988792348 . },
+    { :artifact :expMinusLambdaUpper 0.5988792349 . },
+    { (1.0 0.5988792349) math:difference 0.40112076510000005 . },
+    { (1.0 0.5988792348) math:difference 0.40112076519999995 . },
+    { (0.40112076510000005 7) math:exponentiation 0.0016708059567271017 . },
+    { (0.40112076519999995 7) math:exponentiation 0.0016708059596428394 . }.
+
+{ :artifact :expectedExtraExactLookupsUpper 83.54029798214196 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "extraHi"; pe:value 83.54029798214196 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ],
+    [ pe:var "q"; pe:value 50000 ];
+  pe:uses
+    { :artifact :negativeLookupsPerBatch 50000 . },
+    { :artifact :fpRateUpper 0.0016708059596428394 . },
+    { (50000 0.0016708059596428394) math:product 83.54029798214196 . }.
+
+{ (50000 0.0016708059596428394) math:product 83.54029798214196 . }
+  pe:builtin math:product.
+
+{ :artifact :deploymentDecision :AcceptForHighTrustUse . }
+  pe:rule 9;
+  pe:uses
+    { :artifact :parameterSanity true . },
+    { :artifact :indexAgreement true . },
+    { :artifact :expIntervalCertificate :CertifiedDecimalInterval . },
+    { :artifact :withinFpRateBudget true . },
+    { :artifact :withinExactLookupBudget true . },
+    { :artifact :maybePositivePolicy :ConfirmAgainstCanonicalGraph . },
+    { :artifact :definiteNegativePolicy :ReturnAbsent . }.
+
+{ :artifact :withinFpRateBudget true . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "budget"; pe:value 0.002 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ];
+  pe:uses
+    { :artifact :fpRateUpper 0.0016708059596428394 . },
+    { :artifact :fpRateBudget 0.002 . },
+    { 0.0016708059596428394 math:greaterThan 0 . },
+    { 0.0016708059596428394 math:lessThan 0.002 . }.
+
+{ 0.0016708059596428394 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 0.0016708059596428394 math:lessThan 0.002 . }
+  pe:builtin math:lessThan.
+
+{ :artifact :withinExactLookupBudget true . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "budget"; pe:value 100.0 ],
+    [ pe:var "extraHi"; pe:value 83.54029798214196 ];
+  pe:uses
+    { :artifact :expectedExtraExactLookupsUpper 83.54029798214196 . },
+    { :artifact :extraExactLookupsBudget 100.0 . },
+    { 83.54029798214196 math:greaterThan 0 . },
+    { 83.54029798214196 math:lessThan 100.0 . }.
+
+{ 83.54029798214196 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 83.54029798214196 math:lessThan 100.0 . }
+  pe:builtin math:lessThan.
+
+{ :artifact :maybePositivePolicy :ConfirmAgainstCanonicalGraph . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :artifact :definiteNegativePolicy :ReturnAbsent . }
+  pe:fact "high-trust-rdf-bloom-envelope.n3".
+
+{ :result :expIntervalCertificate :CertifiedDecimalInterval . }
+  pe:rule
+    {
+        {
+            :artifact :expIntervalCertificate ?v .
+        } => {
+            :result :expIntervalCertificate ?v .
+        } .
+    };
+  pe:binding [ pe:var "v"; pe:value :CertifiedDecimalInterval ];
+  pe:uses { :artifact :expIntervalCertificate :CertifiedDecimalInterval . }.
+
+{ :result :withinFpRateBudget true . }
+  pe:rule
+    {
+        {
+            :artifact :withinFpRateBudget ?v .
+        } => {
+            :result :withinFpRateBudget ?v .
+        } .
+    };
+  pe:binding [ pe:var "v"; pe:value true ];
+  pe:uses { :artifact :withinFpRateBudget true . }.
+
+{ :result :withinExactLookupBudget true . }
+  pe:rule
+    {
+        {
+            :artifact :withinExactLookupBudget ?v .
+        } => {
+            :result :withinExactLookupBudget ?v .
+        } .
+    };
+  pe:binding [ pe:var "v"; pe:value true ];
+  pe:uses { :artifact :withinExactLookupBudget true . }.

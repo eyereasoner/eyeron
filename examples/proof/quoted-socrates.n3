@@ -1,0 +1,36 @@
+@prefix : <http://example.org/socrates#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:we :have {
+    :Socrates a :Mortal .
+} .
+
+{
+  :we :have {
+      :Socrates a :Mortal .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Mortal ],
+    [ pe:var "S"; pe:value :Socrates ];
+  pe:uses
+    { :Human rdfs:subClassOf :Mortal . },
+    {
+        :we :have {
+            :Socrates a :Human .
+        } .
+    }.
+
+{ :Human rdfs:subClassOf :Mortal . }
+  pe:fact "quoted-socrates.n3".
+
+{
+  :we :have {
+      :Socrates a :Human .
+  } .
+}
+  pe:fact "quoted-socrates.n3".

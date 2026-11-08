@@ -1,0 +1,643 @@
+@prefix : <http://example.org/braking#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:CityDry :safeInWorld :W0 .
+:CityWet :safeInWorld :W0 .
+:CityDry :safeInWorld :W1 .
+:HighwayDryShortGap :safeInWorld :W1 .
+:CityWet :safeInWorld :W1 .
+:CityDry :safeInWorld :W2 .
+:HighwayDryShortGap :safeInWorld :W2 .
+:CityWet :safeInWorld :W2 .
+:CityIce :safeInWorld :W2 .
+:CityDry :safeInWorld :W3 .
+:HighwayDryShortGap :riskyInWorld :W0 .
+:CityIce :riskyInWorld :W0 .
+:CityIce :riskyInWorld :W1 .
+:HighwayDryShortGap :riskyInWorld :W3 .
+:CityWet :riskyInWorld :W3 .
+:CityIce :riskyInWorld :W3 .
+
+{ :CityDry :safeInWorld :W0 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "S"; pe:value :CityDry ],
+    [ pe:var "d0"; pe:value 26.222066326530612 ],
+    [ pe:var "da"; pe:value 40.0 ];
+  pe:uses
+    { :CityDry :stopDistance_W0 26.222066326530612 . },
+    { :CityDry :availDistance 40.0 . },
+    { 26.222066326530612 math:notGreaterThan 40.0 . }.
+
+{ :CityDry :stopDistance_W0 26.222066326530612 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "S"; pe:value :CityDry ],
+    [ pe:var "d0"; pe:value 26.222066326530612 ],
+    [ pe:var "d_brake"; pe:value 12.322066326530612 ],
+    [ pe:var "d_react"; pe:value 13.9 ],
+    [ pe:var "denom"; pe:value 15.680000000000001 ],
+    [ pe:var "mu"; pe:value 0.8 ],
+    [ pe:var "tmp1"; pe:value 1.6 ],
+    [ pe:var "v"; pe:value 13.9 ],
+    [ pe:var "v2"; pe:value 193.21 ];
+  pe:uses
+    { :CityDry a :Scenario . },
+    { :CityDry :speed 13.9 . },
+    { :CityDry :mu 0.8 . },
+    { (13.9 1.0) math:product 13.9 . },
+    { (13.9 2) math:exponentiation 193.21 . },
+    { (0.8 2.0) math:product 1.6 . },
+    { (1.6 9.8) math:product 15.680000000000001 . },
+    { (193.21 15.680000000000001) math:quotient 12.322066326530612 . },
+    { (13.9 12.322066326530612) math:sum 26.222066326530612 . }.
+
+{ :CityDry a :Scenario . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ :CityDry :speed 13.9 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ :CityDry :mu 0.8 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ (13.9 1.0) math:product 13.9 . }
+  pe:builtin math:product.
+
+{ (13.9 2) math:exponentiation 193.21 . }
+  pe:builtin math:exponentiation.
+
+{ (0.8 2.0) math:product 1.6 . }
+  pe:builtin math:product.
+
+{ (1.6 9.8) math:product 15.680000000000001 . }
+  pe:builtin math:product.
+
+{ (193.21 15.680000000000001) math:quotient 12.322066326530612 . }
+  pe:builtin math:quotient.
+
+{ (13.9 12.322066326530612) math:sum 26.222066326530612 . }
+  pe:builtin math:sum.
+
+{ :CityDry :availDistance 40.0 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ 26.222066326530612 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :CityWet :safeInWorld :W0 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "S"; pe:value :CityWet ],
+    [ pe:var "d0"; pe:value 38.544132653061226 ],
+    [ pe:var "da"; pe:value 40.0 ];
+  pe:uses
+    { :CityWet :stopDistance_W0 38.544132653061226 . },
+    { :CityWet :availDistance 40.0 . },
+    { 38.544132653061226 math:notGreaterThan 40.0 . }.
+
+{ :CityWet :stopDistance_W0 38.544132653061226 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "S"; pe:value :CityWet ],
+    [ pe:var "d0"; pe:value 38.544132653061226 ],
+    [ pe:var "d_brake"; pe:value 24.644132653061224 ],
+    [ pe:var "d_react"; pe:value 13.9 ],
+    [ pe:var "denom"; pe:value 7.840000000000001 ],
+    [ pe:var "mu"; pe:value 0.4 ],
+    [ pe:var "tmp1"; pe:value 0.8 ],
+    [ pe:var "v"; pe:value 13.9 ],
+    [ pe:var "v2"; pe:value 193.21 ];
+  pe:uses
+    { :CityWet a :Scenario . },
+    { :CityWet :speed 13.9 . },
+    { :CityWet :mu 0.4 . },
+    { (13.9 1.0) math:product 13.9 . },
+    { (13.9 2) math:exponentiation 193.21 . },
+    { (0.4 2.0) math:product 0.8 . },
+    { (0.8 9.8) math:product 7.840000000000001 . },
+    { (193.21 7.840000000000001) math:quotient 24.644132653061224 . },
+    { (13.9 24.644132653061224) math:sum 38.544132653061226 . }.
+
+{ :CityWet a :Scenario . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ :CityWet :speed 13.9 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ :CityWet :mu 0.4 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ (0.4 2.0) math:product 0.8 . }
+  pe:builtin math:product.
+
+{ (0.8 9.8) math:product 7.840000000000001 . }
+  pe:builtin math:product.
+
+{ (193.21 7.840000000000001) math:quotient 24.644132653061224 . }
+  pe:builtin math:quotient.
+
+{ (13.9 24.644132653061224) math:sum 38.544132653061226 . }
+  pe:builtin math:sum.
+
+{ :CityWet :availDistance 40.0 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ 38.544132653061226 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :CityDry :safeInWorld :W1 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "S"; pe:value :CityDry ],
+    [ pe:var "d1"; pe:value 12.075625 ],
+    [ pe:var "da"; pe:value 40.0 ];
+  pe:uses
+    { :CityDry :stopDistance_W1 12.075625 . },
+    { :CityDry :availDistance 40.0 . },
+    { 12.075625 math:notGreaterThan 40.0 . }.
+
+{ :CityDry :stopDistance_W1 12.075625 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "S"; pe:value :CityDry ],
+    [ pe:var "d1"; pe:value 12.075625 ],
+    [ pe:var "denom1"; pe:value "16"^^xsd:decimal ],
+    [ pe:var "mu"; pe:value 0.8 ],
+    [ pe:var "tmp1"; pe:value 1.6 ],
+    [ pe:var "v"; pe:value 13.9 ],
+    [ pe:var "v2"; pe:value 193.21 ];
+  pe:uses
+    { :CityDry a :Scenario . },
+    { :CityDry :speed 13.9 . },
+    { :CityDry :mu 0.8 . },
+    { (13.9 2) math:exponentiation 193.21 . },
+    { (0.8 2.0) math:product 1.6 . },
+    { (1.6 10.0) math:product "16"^^xsd:decimal . },
+    { (193.21 "16"^^xsd:decimal) math:quotient 12.075625 . }.
+
+{ (1.6 10.0) math:product "16"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ (193.21 "16"^^xsd:decimal) math:quotient 12.075625 . }
+  pe:builtin math:quotient.
+
+{ 12.075625 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :HighwayDryShortGap :safeInWorld :W1 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "S"; pe:value :HighwayDryShortGap ],
+    [ pe:var "d1"; pe:value 48.3025 ],
+    [ pe:var "da"; pe:value 60.0 ];
+  pe:uses
+    { :HighwayDryShortGap :stopDistance_W1 48.3025 . },
+    { :HighwayDryShortGap :availDistance 60.0 . },
+    { 48.3025 math:notGreaterThan 60.0 . }.
+
+{ :HighwayDryShortGap :stopDistance_W1 48.3025 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "S"; pe:value :HighwayDryShortGap ],
+    [ pe:var "d1"; pe:value 48.3025 ],
+    [ pe:var "denom1"; pe:value "16"^^xsd:decimal ],
+    [ pe:var "mu"; pe:value 0.8 ],
+    [ pe:var "tmp1"; pe:value 1.6 ],
+    [ pe:var "v"; pe:value 27.8 ],
+    [ pe:var "v2"; pe:value 772.84 ];
+  pe:uses
+    { :HighwayDryShortGap a :Scenario . },
+    { :HighwayDryShortGap :speed 27.8 . },
+    { :HighwayDryShortGap :mu 0.8 . },
+    { (27.8 2) math:exponentiation 772.84 . },
+    { (0.8 2.0) math:product 1.6 . },
+    { (1.6 10.0) math:product "16"^^xsd:decimal . },
+    { (772.84 "16"^^xsd:decimal) math:quotient 48.3025 . }.
+
+{ :HighwayDryShortGap a :Scenario . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ :HighwayDryShortGap :speed 27.8 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ :HighwayDryShortGap :mu 0.8 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ (27.8 2) math:exponentiation 772.84 . }
+  pe:builtin math:exponentiation.
+
+{ (772.84 "16"^^xsd:decimal) math:quotient 48.3025 . }
+  pe:builtin math:quotient.
+
+{ :HighwayDryShortGap :availDistance 60.0 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ 48.3025 math:notGreaterThan 60.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :CityWet :safeInWorld :W1 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "S"; pe:value :CityWet ],
+    [ pe:var "d1"; pe:value 24.15125 ],
+    [ pe:var "da"; pe:value 40.0 ];
+  pe:uses
+    { :CityWet :stopDistance_W1 24.15125 . },
+    { :CityWet :availDistance 40.0 . },
+    { 24.15125 math:notGreaterThan 40.0 . }.
+
+{ :CityWet :stopDistance_W1 24.15125 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "S"; pe:value :CityWet ],
+    [ pe:var "d1"; pe:value 24.15125 ],
+    [ pe:var "denom1"; pe:value "8"^^xsd:decimal ],
+    [ pe:var "mu"; pe:value 0.4 ],
+    [ pe:var "tmp1"; pe:value 0.8 ],
+    [ pe:var "v"; pe:value 13.9 ],
+    [ pe:var "v2"; pe:value 193.21 ];
+  pe:uses
+    { :CityWet a :Scenario . },
+    { :CityWet :speed 13.9 . },
+    { :CityWet :mu 0.4 . },
+    { (13.9 2) math:exponentiation 193.21 . },
+    { (0.4 2.0) math:product 0.8 . },
+    { (0.8 10.0) math:product "8"^^xsd:decimal . },
+    { (193.21 "8"^^xsd:decimal) math:quotient 24.15125 . }.
+
+{ (0.8 10.0) math:product "8"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ (193.21 "8"^^xsd:decimal) math:quotient 24.15125 . }
+  pe:builtin math:quotient.
+
+{ 24.15125 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :CityDry :safeInWorld :W2 . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "S"; pe:value :CityDry ],
+    [ pe:var "d2"; pe:value 13.800714285714287 ],
+    [ pe:var "da"; pe:value 40.0 ];
+  pe:uses
+    { :CityDry :stopDistance_W2 13.800714285714287 . },
+    { :CityDry :availDistance 40.0 . },
+    { 13.800714285714287 math:notGreaterThan 40.0 . }.
+
+{ :CityDry :stopDistance_W2 13.800714285714287 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "S"; pe:value :CityDry ],
+    [ pe:var "d2"; pe:value 13.800714285714287 ],
+    [ pe:var "v"; pe:value 13.9 ],
+    [ pe:var "v2"; pe:value 193.21 ];
+  pe:uses
+    { :CityDry a :Scenario . },
+    { :CityDry :speed 13.9 . },
+    { (13.9 2) math:exponentiation 193.21 . },
+    { (193.21 14.0) math:quotient 13.800714285714287 . }.
+
+{ (193.21 14.0) math:quotient 13.800714285714287 . }
+  pe:builtin math:quotient.
+
+{ 13.800714285714287 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :HighwayDryShortGap :safeInWorld :W2 . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "S"; pe:value :HighwayDryShortGap ],
+    [ pe:var "d2"; pe:value 55.20285714285715 ],
+    [ pe:var "da"; pe:value 60.0 ];
+  pe:uses
+    { :HighwayDryShortGap :stopDistance_W2 55.20285714285715 . },
+    { :HighwayDryShortGap :availDistance 60.0 . },
+    { 55.20285714285715 math:notGreaterThan 60.0 . }.
+
+{ :HighwayDryShortGap :stopDistance_W2 55.20285714285715 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "S"; pe:value :HighwayDryShortGap ],
+    [ pe:var "d2"; pe:value 55.20285714285715 ],
+    [ pe:var "v"; pe:value 27.8 ],
+    [ pe:var "v2"; pe:value 772.84 ];
+  pe:uses
+    { :HighwayDryShortGap a :Scenario . },
+    { :HighwayDryShortGap :speed 27.8 . },
+    { (27.8 2) math:exponentiation 772.84 . },
+    { (772.84 14.0) math:quotient 55.20285714285715 . }.
+
+{ (772.84 14.0) math:quotient 55.20285714285715 . }
+  pe:builtin math:quotient.
+
+{ 55.20285714285715 math:notGreaterThan 60.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :CityWet :safeInWorld :W2 . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "S"; pe:value :CityWet ],
+    [ pe:var "d2"; pe:value 13.800714285714287 ],
+    [ pe:var "da"; pe:value 40.0 ];
+  pe:uses
+    { :CityWet :stopDistance_W2 13.800714285714287 . },
+    { :CityWet :availDistance 40.0 . },
+    { 13.800714285714287 math:notGreaterThan 40.0 . }.
+
+{ :CityWet :stopDistance_W2 13.800714285714287 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "S"; pe:value :CityWet ],
+    [ pe:var "d2"; pe:value 13.800714285714287 ],
+    [ pe:var "v"; pe:value 13.9 ],
+    [ pe:var "v2"; pe:value 193.21 ];
+  pe:uses
+    { :CityWet a :Scenario . },
+    { :CityWet :speed 13.9 . },
+    { (13.9 2) math:exponentiation 193.21 . },
+    { (193.21 14.0) math:quotient 13.800714285714287 . }.
+
+{ :CityIce :safeInWorld :W2 . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "S"; pe:value :CityIce ],
+    [ pe:var "d2"; pe:value 13.800714285714287 ],
+    [ pe:var "da"; pe:value 30.0 ];
+  pe:uses
+    { :CityIce :stopDistance_W2 13.800714285714287 . },
+    { :CityIce :availDistance 30.0 . },
+    { 13.800714285714287 math:notGreaterThan 30.0 . }.
+
+{ :CityIce :stopDistance_W2 13.800714285714287 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "S"; pe:value :CityIce ],
+    [ pe:var "d2"; pe:value 13.800714285714287 ],
+    [ pe:var "v"; pe:value 13.9 ],
+    [ pe:var "v2"; pe:value 193.21 ];
+  pe:uses
+    { :CityIce a :Scenario . },
+    { :CityIce :speed 13.9 . },
+    { (13.9 2) math:exponentiation 193.21 . },
+    { (193.21 14.0) math:quotient 13.800714285714287 . }.
+
+{ :CityIce a :Scenario . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ :CityIce :speed 13.9 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ :CityIce :availDistance 30.0 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ 13.800714285714287 math:notGreaterThan 30.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :CityDry :safeInWorld :W3 . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "S"; pe:value :CityDry ],
+    [ pe:var "d3"; pe:value 39.33309948979592 ],
+    [ pe:var "da"; pe:value 40.0 ];
+  pe:uses
+    { :CityDry :stopDistance_W3 39.33309948979592 . },
+    { :CityDry :availDistance 40.0 . },
+    { 39.33309948979592 math:notGreaterThan 40.0 . }.
+
+{ :CityDry :stopDistance_W3 39.33309948979592 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "S"; pe:value :CityDry ],
+    [ pe:var "d0"; pe:value 26.222066326530612 ],
+    [ pe:var "d3"; pe:value 39.33309948979592 ];
+  pe:uses
+    { :CityDry :stopDistance_W0 26.222066326530612 . },
+    { (26.222066326530612 1.5) math:product 39.33309948979592 . }.
+
+{ (26.222066326530612 1.5) math:product 39.33309948979592 . }
+  pe:builtin math:product.
+
+{ 39.33309948979592 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :HighwayDryShortGap :riskyInWorld :W0 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "S"; pe:value :HighwayDryShortGap ],
+    [ pe:var "d0"; pe:value 77.08826530612245 ],
+    [ pe:var "da"; pe:value 60.0 ];
+  pe:uses
+    { :HighwayDryShortGap :stopDistance_W0 77.08826530612245 . },
+    { :HighwayDryShortGap :availDistance 60.0 . },
+    { 77.08826530612245 math:greaterThan 60.0 . }.
+
+{ :HighwayDryShortGap :stopDistance_W0 77.08826530612245 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "S"; pe:value :HighwayDryShortGap ],
+    [ pe:var "d0"; pe:value 77.08826530612245 ],
+    [ pe:var "d_brake"; pe:value 49.28826530612245 ],
+    [ pe:var "d_react"; pe:value 27.8 ],
+    [ pe:var "denom"; pe:value 15.680000000000001 ],
+    [ pe:var "mu"; pe:value 0.8 ],
+    [ pe:var "tmp1"; pe:value 1.6 ],
+    [ pe:var "v"; pe:value 27.8 ],
+    [ pe:var "v2"; pe:value 772.84 ];
+  pe:uses
+    { :HighwayDryShortGap a :Scenario . },
+    { :HighwayDryShortGap :speed 27.8 . },
+    { :HighwayDryShortGap :mu 0.8 . },
+    { (27.8 1.0) math:product 27.8 . },
+    { (27.8 2) math:exponentiation 772.84 . },
+    { (0.8 2.0) math:product 1.6 . },
+    { (1.6 9.8) math:product 15.680000000000001 . },
+    { (772.84 15.680000000000001) math:quotient 49.28826530612245 . },
+    { (27.8 49.28826530612245) math:sum 77.08826530612245 . }.
+
+{ (27.8 1.0) math:product 27.8 . }
+  pe:builtin math:product.
+
+{ (772.84 15.680000000000001) math:quotient 49.28826530612245 . }
+  pe:builtin math:quotient.
+
+{ (27.8 49.28826530612245) math:sum 77.08826530612245 . }
+  pe:builtin math:sum.
+
+{ 77.08826530612245 math:greaterThan 60.0 . }
+  pe:builtin math:greaterThan.
+
+{ :CityIce :riskyInWorld :W0 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "S"; pe:value :CityIce ],
+    [ pe:var "d0"; pe:value 63.188265306122446 ],
+    [ pe:var "da"; pe:value 30.0 ];
+  pe:uses
+    { :CityIce :stopDistance_W0 63.188265306122446 . },
+    { :CityIce :availDistance 30.0 . },
+    { 63.188265306122446 math:greaterThan 30.0 . }.
+
+{ :CityIce :stopDistance_W0 63.188265306122446 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "S"; pe:value :CityIce ],
+    [ pe:var "d0"; pe:value 63.188265306122446 ],
+    [ pe:var "d_brake"; pe:value 49.28826530612245 ],
+    [ pe:var "d_react"; pe:value 13.9 ],
+    [ pe:var "denom"; pe:value 3.9200000000000004 ],
+    [ pe:var "mu"; pe:value 0.2 ],
+    [ pe:var "tmp1"; pe:value 0.4 ],
+    [ pe:var "v"; pe:value 13.9 ],
+    [ pe:var "v2"; pe:value 193.21 ];
+  pe:uses
+    { :CityIce a :Scenario . },
+    { :CityIce :speed 13.9 . },
+    { :CityIce :mu 0.2 . },
+    { (13.9 1.0) math:product 13.9 . },
+    { (13.9 2) math:exponentiation 193.21 . },
+    { (0.2 2.0) math:product 0.4 . },
+    { (0.4 9.8) math:product 3.9200000000000004 . },
+    { (193.21 3.9200000000000004) math:quotient 49.28826530612245 . },
+    { (13.9 49.28826530612245) math:sum 63.188265306122446 . }.
+
+{ :CityIce :mu 0.2 . }
+  pe:fact "braking-safety-worlds.n3".
+
+{ (0.2 2.0) math:product 0.4 . }
+  pe:builtin math:product.
+
+{ (0.4 9.8) math:product 3.9200000000000004 . }
+  pe:builtin math:product.
+
+{ (193.21 3.9200000000000004) math:quotient 49.28826530612245 . }
+  pe:builtin math:quotient.
+
+{ (13.9 49.28826530612245) math:sum 63.188265306122446 . }
+  pe:builtin math:sum.
+
+{ 63.188265306122446 math:greaterThan 30.0 . }
+  pe:builtin math:greaterThan.
+
+{ :CityIce :riskyInWorld :W1 . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "S"; pe:value :CityIce ],
+    [ pe:var "d1"; pe:value 48.3025 ],
+    [ pe:var "da"; pe:value 30.0 ];
+  pe:uses
+    { :CityIce :stopDistance_W1 48.3025 . },
+    { :CityIce :availDistance 30.0 . },
+    { 48.3025 math:greaterThan 30.0 . }.
+
+{ :CityIce :stopDistance_W1 48.3025 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "S"; pe:value :CityIce ],
+    [ pe:var "d1"; pe:value 48.3025 ],
+    [ pe:var "denom1"; pe:value "4"^^xsd:decimal ],
+    [ pe:var "mu"; pe:value 0.2 ],
+    [ pe:var "tmp1"; pe:value 0.4 ],
+    [ pe:var "v"; pe:value 13.9 ],
+    [ pe:var "v2"; pe:value 193.21 ];
+  pe:uses
+    { :CityIce a :Scenario . },
+    { :CityIce :speed 13.9 . },
+    { :CityIce :mu 0.2 . },
+    { (13.9 2) math:exponentiation 193.21 . },
+    { (0.2 2.0) math:product 0.4 . },
+    { (0.4 10.0) math:product "4"^^xsd:decimal . },
+    { (193.21 "4"^^xsd:decimal) math:quotient 48.3025 . }.
+
+{ (0.4 10.0) math:product "4"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ (193.21 "4"^^xsd:decimal) math:quotient 48.3025 . }
+  pe:builtin math:quotient.
+
+{ 48.3025 math:greaterThan 30.0 . }
+  pe:builtin math:greaterThan.
+
+{ :HighwayDryShortGap :riskyInWorld :W3 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "S"; pe:value :HighwayDryShortGap ],
+    [ pe:var "d3"; pe:value 115.63239795918368 ],
+    [ pe:var "da"; pe:value 60.0 ];
+  pe:uses
+    { :HighwayDryShortGap :stopDistance_W3 115.63239795918368 . },
+    { :HighwayDryShortGap :availDistance 60.0 . },
+    { 115.63239795918368 math:greaterThan 60.0 . }.
+
+{ :HighwayDryShortGap :stopDistance_W3 115.63239795918368 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "S"; pe:value :HighwayDryShortGap ],
+    [ pe:var "d0"; pe:value 77.08826530612245 ],
+    [ pe:var "d3"; pe:value 115.63239795918368 ];
+  pe:uses
+    { :HighwayDryShortGap :stopDistance_W0 77.08826530612245 . },
+    { (77.08826530612245 1.5) math:product 115.63239795918368 . }.
+
+{ (77.08826530612245 1.5) math:product 115.63239795918368 . }
+  pe:builtin math:product.
+
+{ 115.63239795918368 math:greaterThan 60.0 . }
+  pe:builtin math:greaterThan.
+
+{ :CityWet :riskyInWorld :W3 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "S"; pe:value :CityWet ],
+    [ pe:var "d3"; pe:value 57.81619897959184 ],
+    [ pe:var "da"; pe:value 40.0 ];
+  pe:uses
+    { :CityWet :stopDistance_W3 57.81619897959184 . },
+    { :CityWet :availDistance 40.0 . },
+    { 57.81619897959184 math:greaterThan 40.0 . }.
+
+{ :CityWet :stopDistance_W3 57.81619897959184 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "S"; pe:value :CityWet ],
+    [ pe:var "d0"; pe:value 38.544132653061226 ],
+    [ pe:var "d3"; pe:value 57.81619897959184 ];
+  pe:uses
+    { :CityWet :stopDistance_W0 38.544132653061226 . },
+    { (38.544132653061226 1.5) math:product 57.81619897959184 . }.
+
+{ (38.544132653061226 1.5) math:product 57.81619897959184 . }
+  pe:builtin math:product.
+
+{ 57.81619897959184 math:greaterThan 40.0 . }
+  pe:builtin math:greaterThan.
+
+{ :CityIce :riskyInWorld :W3 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "S"; pe:value :CityIce ],
+    [ pe:var "d3"; pe:value 94.78239795918367 ],
+    [ pe:var "da"; pe:value 30.0 ];
+  pe:uses
+    { :CityIce :stopDistance_W3 94.78239795918367 . },
+    { :CityIce :availDistance 30.0 . },
+    { 94.78239795918367 math:greaterThan 30.0 . }.
+
+{ :CityIce :stopDistance_W3 94.78239795918367 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "S"; pe:value :CityIce ],
+    [ pe:var "d0"; pe:value 63.188265306122446 ],
+    [ pe:var "d3"; pe:value 94.78239795918367 ];
+  pe:uses
+    { :CityIce :stopDistance_W0 63.188265306122446 . },
+    { (63.188265306122446 1.5) math:product 94.78239795918367 . }.
+
+{ (63.188265306122446 1.5) math:product 94.78239795918367 . }
+  pe:builtin math:product.
+
+{ 94.78239795918367 math:greaterThan 30.0 . }
+  pe:builtin math:greaterThan.

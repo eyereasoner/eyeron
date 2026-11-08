@@ -1,0 +1,140 @@
+@prefix ex: <https://example.org/#> .
+@prefix j: <https://example.org/json#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+_:b1 ex:userName "Alice" .
+_:b1 ex:eligibleForReview true .
+_:b1 ex:profileTag "multilingual-dark-profile" .
+_:b1 ex:hasHighValueStarterOrder true .
+_:b1 ex:hasCouponlessFollowup true .
+ex:test ex:is true .
+
+{ _:b1 ex:userName "Alice" . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Doc"; pe:value _:b1 ],
+    [ pe:var "Name"; pe:value "Alice" ];
+  pe:uses
+    { _:b1 ex:kind j:UserDocument . },
+    { _:b1 j:profile _:b2 . },
+    { _:b2 j:name "Alice" . },
+    { _:b2 j:active true . },
+    { _:b2 j:address _:b3 . },
+    { _:b3 j:country "BE" . }.
+
+{ _:b1 ex:kind j:UserDocument . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b1 j:profile _:b2 . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b2 j:name "Alice" . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b2 j:active true . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b2 j:address _:b3 . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b3 j:country "BE" . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b1 ex:eligibleForReview true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Doc"; pe:value _:b1 ],
+    [ pe:var "Name"; pe:value "Alice" ];
+  pe:uses
+    { _:b1 ex:kind j:UserDocument . },
+    { _:b1 j:profile _:b2 . },
+    { _:b2 j:name "Alice" . },
+    { _:b2 j:active true . },
+    { _:b2 j:address _:b3 . },
+    { _:b3 j:country "BE" . }.
+
+{ _:b1 ex:profileTag "multilingual-dark-profile" . }
+  pe:rule 2;
+  pe:binding [ pe:var "Doc"; pe:value _:b1 ];
+  pe:uses
+    { _:b1 j:preferences _:b4 . },
+    { _:b4 j:languages ("nl" "fr" "en") . },
+    { _:b4 j:theme "dark" . },
+    { _:b4 j:beta false . }.
+
+{ _:b1 j:preferences _:b4 . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b4 j:languages ("nl" "fr" "en") . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b4 j:theme "dark" . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b4 j:beta false . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b1 ex:hasHighValueStarterOrder true . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Doc"; pe:value _:b1 ],
+    [ pe:var "FirstId"; pe:value "ord-1" ],
+    [ pe:var "SecondId"; pe:value "ord-2" ];
+  pe:uses
+    { _:b1 j:orders (_:b5 _:b6) . },
+    { _:b5 j:id "ord-1" . },
+    { _:b5 j:total 125 . },
+    { _:b5 j:items ("book" "pen") . },
+    { _:b6 j:id "ord-2" . },
+    { _:b6 j:total 45 . },
+    { _:b6 j:items ("notebook") . },
+    { _:b6 j:coupon j:null . }.
+
+{ _:b1 j:orders (_:b5 _:b6) . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b5 j:id "ord-1" . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b5 j:total 125 . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b5 j:items ("book" "pen") . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b6 j:id "ord-2" . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b6 j:total 45 . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b6 j:items ("notebook") . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b6 j:coupon j:null . }
+  pe:fact "jsonterm-advanced.n3".
+
+{ _:b1 ex:hasCouponlessFollowup true . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Doc"; pe:value _:b1 ],
+    [ pe:var "FirstId"; pe:value "ord-1" ],
+    [ pe:var "SecondId"; pe:value "ord-2" ];
+  pe:uses
+    { _:b1 j:orders (_:b5 _:b6) . },
+    { _:b5 j:id "ord-1" . },
+    { _:b5 j:total 125 . },
+    { _:b5 j:items ("book" "pen") . },
+    { _:b6 j:id "ord-2" . },
+    { _:b6 j:total 45 . },
+    { _:b6 j:items ("notebook") . },
+    { _:b6 j:coupon j:null . }.
+
+{ ex:test ex:is true . }
+  pe:rule 4;
+  pe:binding [ pe:var "Doc"; pe:value _:b1 ];
+  pe:uses
+    { _:b1 ex:eligibleForReview true . },
+    { _:b1 ex:profileTag "multilingual-dark-profile" . },
+    { _:b1 ex:hasHighValueStarterOrder true . },
+    { _:b1 ex:hasCouponlessFollowup true . }.

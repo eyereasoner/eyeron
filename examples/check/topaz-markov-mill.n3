@@ -1,0 +1,249 @@
+# checked with obligations: 222 steps, 194 verified, 28 trusted
+@prefix : <http://example.org/topaz-markov#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:MC1 :rowOk _:b1 .
+:MC1 :rowOk _:b3 .
+:MC1 :rowOk _:b4 .
+:MC1 :pi1 _:b6_990a776e920f7fc .
+_:b6_990a776e920f7fc :pA 0.535 .
+_:b6_990a776e920f7fc :pB 0.325 .
+_:b6_990a776e920f7fc :pC 0.14 .
+:MC1 :P2rowA _:b9_627aa526ca984d81 .
+_:b9_627aa526ca984d81 :pA 0.6675000000000001 .
+_:b9_627aa526ca984d81 :pB 0.2375 .
+_:b9_627aa526ca984d81 :pC 0.095 .
+:MC1 :metrics _:b10_db0d06358326f900 .
+_:b10_db0d06358326f900 :t 0 .
+_:b10_db0d06358326f900 :pi _:b5 .
+:MC1 :metrics _:b11_553d0908dfc8051 .
+_:b11_553d0908dfc8051 :t 1 .
+_:b11_553d0908dfc8051 :pi _:b6_990a776e920f7fc .
+_:b11_553d0908dfc8051 :sumSq 0.41145000000000004 .
+_:b11_553d0908dfc8051 :gini 0.5885499999999999 .
+_:b11_553d0908dfc8051 :effectiveStates 2.4304289707133306 .
+_:b11_553d0908dfc8051 :tvToUniform 0.20166666666666666 .
+_:b11_553d0908dfc8051 :l2ToUniform 0.2794935896700793 .
+_:b10_db0d06358326f900 :sumSq 0.45999999999999996 .
+_:b10_db0d06358326f900 :gini 0.54 .
+_:b10_db0d06358326f900 :effectiveStates 2.173913043478261 .
+_:b10_db0d06358326f900 :tvToUniform 0.26666666666666666 .
+_:b10_db0d06358326f900 :l2ToUniform 0.3559026084010437 .
+:MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 .
+_:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 .
+_:b7_c2cc40f0cc1f5fe0 :pB 0.34275 .
+_:b7_c2cc40f0cc1f5fe0 :pC 0.16175 .
+:MC1 :metrics _:b12_68993eb8d66fd65b .
+_:b12_68993eb8d66fd65b :t 2 .
+_:b12_68993eb8d66fd65b :pi _:b7_c2cc40f0cc1f5fe0 .
+_:b12_68993eb8d66fd65b :sumSq 0.3891608750000001 .
+_:b12_68993eb8d66fd65b :gini 0.6108391249999999 .
+_:b12_68993eb8d66fd65b :effectiveStates 2.569631389589202 .
+_:b12_68993eb8d66fd65b :tvToUniform 0.17158333333333337 .
+_:b12_68993eb8d66fd65b :l2ToUniform 0.23627852561472165 .
+:MC1 :pi3 _:b8_e166a0454ed742d7 .
+_:b8_e166a0454ed742d7 :pA 0.4711125000000001 .
+_:b8_e166a0454ed742d7 :pB 0.3546875 .
+_:b8_e166a0454ed742d7 :pC 0.17420000000000002 .
+:MC1 :metrics _:b13_e22750eba2c1966f .
+_:b13_e22750eba2c1966f :t 3 .
+_:b13_e22750eba2c1966f :pi _:b8_e166a0454ed742d7 .
+_:b13_e22750eba2c1966f :sumSq 0.3780958503125001 .
+_:b13_e22750eba2c1966f :gini 0.6219041496875 .
+_:b13_e22750eba2c1966f :effectiveStates 2.644831989490204 .
+_:b13_e22750eba2c1966f :tvToUniform 0.15913333333333338 .
+_:b13_e22750eba2c1966f :l2ToUniform 0.2115715410426617 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/topaz-markov-mill.n3";
+    pe:source "examples/topaz-markov-mill.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 222;
+    pe:verified 194;
+    pe:trusted 28;
+    pe:builtinSteps 152;
+    pe:factSteps 19;
+    pe:ruleSteps 51;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 70; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 222; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 222; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 1172; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 152; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 273; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 28; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 51; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :MC1 :pi1 _:b6_990a776e920f7fc .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_990a776e920f7fc :pA 0.535 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_990a776e920f7fc :pB 0.325 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_990a776e920f7fc :pC 0.14 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :MC1 :P2rowA _:b9_627aa526ca984d81 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_627aa526ca984d81 :pA 0.6675000000000001 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_627aa526ca984d81 :pB 0.2375 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_627aa526ca984d81 :pC 0.095 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :MC1 :metrics _:b10_db0d06358326f900 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_db0d06358326f900 :t 0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_db0d06358326f900 :pi _:b5 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :MC1 :metrics _:b11_553d0908dfc8051 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b11_553d0908dfc8051 :t 1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b11_553d0908dfc8051 :pi _:b6_990a776e920f7fc .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :MC1 :metrics _:b12_68993eb8d66fd65b .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b12_68993eb8d66fd65b :t 2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b12_68993eb8d66fd65b :pi _:b7_c2cc40f0cc1f5fe0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :MC1 :pi3 _:b8_e166a0454ed742d7 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b8_e166a0454ed742d7 :pA 0.4711125000000001 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b8_e166a0454ed742d7 :pB 0.3546875 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b8_e166a0454ed742d7 :pC 0.17420000000000002 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :MC1 :metrics _:b13_e22750eba2c1966f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b13_e22750eba2c1966f :t 3 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b13_e22750eba2c1966f :pi _:b8_e166a0454ed742d7 .
+        }
+    ].

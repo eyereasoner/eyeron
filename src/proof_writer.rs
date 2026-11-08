@@ -22,7 +22,7 @@ pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult)
     let derived_by_fact = index_by_conclusion(&result.proofs);
     let explicit_facts = result.explicit.iter().cloned().collect::<BTreeSet<_>>();
 
-    let entries = collect_all_proof_entries(
+    let mut entries = collect_all_proof_entries(
         &roots,
         &other_claims,
         &derived_by_fact,
@@ -31,6 +31,7 @@ pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult)
         &result.closure,
         &result.rules,
     );
+    let listings = search_certificate(result, &roots, &other_claims, &derived_by_fact, &explicit_facts, &mut entries);
 
     let mut proof_prefixes = prefixes.clone();
     proof_prefixes.entry("pe".to_string()).or_insert_with(|| PE_NS.to_string());
@@ -61,7 +62,83 @@ pub fn proof_to_n3(prefixes: &BTreeMap<String, String>, result: &ReasonerResult)
         parts.push(outdent(&render_entry(entry, &numbering, &proof_prefixes)));
     }
 
+    // The search certificate, after the steps its listed facts have.
+    for (predicate, facts) in &listings {
+        let facts = facts.iter().map(|fact| indent(&graph_for_triple(fact, &proof_prefixes), "    ")).collect::<Vec<_>>();
+        let listed = if facts.is_empty() { " {}".to_string() } else { format!("\n{}", facts.join(",\n")) };
+        parts.push(String::new());
+        parts.push(format!("{} pe:derived{}.", term_to_n3_object(predicate, &proof_prefixes), listed));
+    }
+
     parts.join("\n").trim_end().to_string() + "\n"
+}
+
+/// More listed facts than this and a proof keeps its tests over the current
+/// graph as obligations rather than grow a certificate that large.
+const MAX_CERTIFICATE_FACTS: usize = 10_000;
+
+/// The search certificate that settles the proof's tests over the current
+/// graph (`SPEC.md` §9.6.1): for each predicate they depend on, every fact
+/// the run derived with it, in the order derived. Each listed fact needs a
+/// step of its own, which can bring further tests, so `entries` grows until
+/// the predicates to list stop changing. Empty when there is nothing to
+/// settle, or more than `MAX_CERTIFICATE_FACTS` to list.
+fn search_certificate<'a>(
+    result: &'a ReasonerResult,
+    roots: &[&'a DerivedFact],
+    other_claims: &[&'a Triple],
+    derived_by_fact: &BTreeMap<&'a Triple, Vec<&'a DerivedFact>>,
+    explicit_facts: &'a BTreeSet<Triple>,
+    entries: &mut Vec<ProofEntry<'a>>,
+) -> Vec<(Term, Vec<Triple>)> {
+    let rules: Vec<Rule> = result.rules.iter().filter(|rule| rule.source.is_some()).cloned().collect();
+    // The steps before any were added for listed facts.
+    let mut original = None;
+    let mut listed = BTreeSet::<Term>::new();
+    loop {
+        let mut needs = BTreeSet::new();
+        for entry in entries.iter() {
+            if let ProofEntry::Builtin { fact, .. } = entry {
+                if crate::proof_check_n3::certifiable_test(fact) {
+                    needs.extend(crate::proof_check_n3::certificate_needs(&rules, &result.explicit, fact).unwrap_or_default());
+                }
+            }
+        }
+        needs.extend(listed.iter().cloned());
+        if needs == listed { break; }
+        listed = needs;
+        let facts: Vec<&Triple> = result.closure.iter()
+            .filter(|fact| listed.contains(&fact.p) && !explicit_facts.contains(*fact)).collect();
+        if facts.len() > MAX_CERTIFICATE_FACTS {
+            // Steps added for an abandoned certificate would serve nothing.
+            if let Some(original) = original { *entries = original; }
+            return Vec::new();
+        }
+        let mut starts = roots.to_vec();
+        let mut claims = other_claims.to_vec();
+        for fact in facts {
+            match derived_by_fact.get(fact).and_then(|derivations| derivations.first()) {
+                Some(derivation) => starts.push(derivation),
+                None => claims.push(fact),
+            }
+        }
+        let expanded = collect_all_proof_entries(&starts, &claims, derived_by_fact, explicit_facts,
+            &result.explicit_sources, &result.closure, &result.rules);
+        let previous = std::mem::replace(entries, expanded);
+        original.get_or_insert(previous);
+    }
+    let mut listings: Vec<(Term, Vec<Triple>)> = Vec::new();
+    for fact in result.closure.iter().filter(|fact| listed.contains(&fact.p) && !explicit_facts.contains(*fact)) {
+        match listings.iter_mut().find(|(predicate, _)| *predicate == fact.p) {
+            Some((_, facts)) => facts.push(fact.clone()),
+            None => listings.push((fact.p.clone(), vec![fact.clone()])),
+        }
+    }
+    // A predicate the run derived nothing with is listed empty.
+    for predicate in listed {
+        if !listings.iter().any(|(listed, _)| *listed == predicate) { listings.push((predicate, Vec::new())); }
+    }
+    listings
 }
 
 /// The derivations to explain: one per distinct conclusion, the first

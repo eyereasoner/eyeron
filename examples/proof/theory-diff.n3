@@ -1,0 +1,878 @@
+@prefix : <http://example.org/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+{
+    ?P :parentOf ?Q .
+} :missingForwardRule {
+    ?Q :childOf ?P .
+} .
+{
+    ?Org :employs ?P .
+} :missingBackwardRule {
+    ?P :worksFor ?Org .
+} .
+{
+    ?Org :employs ?P .
+} :extraForwardRule {
+    ?P :worksFor ?Org .
+} .
+{
+    ?P :mentors ?Q .
+} :extraForwardRule {
+    ?Q :menteeOf ?P .
+} .
+
+{
+  {
+      ?P :parentOf ?Q .
+  } :missingForwardRule {
+      ?Q :childOf ?P .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        ?P :parentOf ?Q .
+    } ],
+    [ pe:var "Base"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+    } ],
+    [ pe:var "Cand"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?Org :employs ?P .
+        } => {
+            ?P :worksFor ?Org .
+        } .
+        {
+            ?P :mentors ?Q .
+        } => {
+            ?Q :menteeOf ?P .
+        } .
+    } ],
+    [ pe:var "H"; pe:value {
+        ?Q :childOf ?P .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :base {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } .
+    },
+    {
+        <> :candidate {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+            {
+                ?P :mentors ?Q .
+            } => {
+                ?Q :menteeOf ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } log:includes {
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+            {
+                ?P :mentors ?Q .
+            } => {
+                ?Q :menteeOf ?P .
+            } .
+        } log:notIncludes {
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+        } .
+    }.
+
+{
+  <> :base {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+  } .
+}
+  pe:fact "theory-diff.n3".
+
+{
+  <> :candidate {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?Org :employs ?P .
+      } => {
+          ?P :worksFor ?Org .
+      } .
+      {
+          ?P :mentors ?Q .
+      } => {
+          ?Q :menteeOf ?P .
+      } .
+  } .
+}
+  pe:fact "theory-diff.n3".
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+  } log:includes {
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?Org :employs ?P .
+      } => {
+          ?P :worksFor ?Org .
+      } .
+      {
+          ?P :mentors ?Q .
+      } => {
+          ?Q :menteeOf ?P .
+      } .
+  } log:notIncludes {
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{
+  {
+      ?Org :employs ?P .
+  } :missingBackwardRule {
+      ?P :worksFor ?Org .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        ?Org :employs ?P .
+    } ],
+    [ pe:var "Base"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+    } ],
+    [ pe:var "Cand"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?Org :employs ?P .
+        } => {
+            ?P :worksFor ?Org .
+        } .
+        {
+            ?P :mentors ?Q .
+        } => {
+            ?Q :menteeOf ?P .
+        } .
+    } ],
+    [ pe:var "H"; pe:value {
+        ?P :worksFor ?Org .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :base {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } .
+    },
+    {
+        <> :candidate {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+            {
+                ?P :mentors ?Q .
+            } => {
+                ?Q :menteeOf ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } log:includes {
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+            {
+                ?P :mentors ?Q .
+            } => {
+                ?Q :menteeOf ?P .
+            } .
+        } log:notIncludes {
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } .
+    }.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+  } log:includes {
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?Org :employs ?P .
+      } => {
+          ?P :worksFor ?Org .
+      } .
+      {
+          ?P :mentors ?Q .
+      } => {
+          ?Q :menteeOf ?P .
+      } .
+  } log:notIncludes {
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{
+  {
+      ?Org :employs ?P .
+  } :extraForwardRule {
+      ?P :worksFor ?Org .
+  } .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        ?Org :employs ?P .
+    } ],
+    [ pe:var "Base"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+    } ],
+    [ pe:var "Cand"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?Org :employs ?P .
+        } => {
+            ?P :worksFor ?Org .
+        } .
+        {
+            ?P :mentors ?Q .
+        } => {
+            ?Q :menteeOf ?P .
+        } .
+    } ],
+    [ pe:var "H"; pe:value {
+        ?P :worksFor ?Org .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :base {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } .
+    },
+    {
+        <> :candidate {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+            {
+                ?P :mentors ?Q .
+            } => {
+                ?Q :menteeOf ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+            {
+                ?P :mentors ?Q .
+            } => {
+                ?Q :menteeOf ?P .
+            } .
+        } log:includes {
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } log:notIncludes {
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+        } .
+    }.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?Org :employs ?P .
+      } => {
+          ?P :worksFor ?Org .
+      } .
+      {
+          ?P :mentors ?Q .
+      } => {
+          ?Q :menteeOf ?P .
+      } .
+  } log:includes {
+      {
+          ?Org :employs ?P .
+      } => {
+          ?P :worksFor ?Org .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+  } log:notIncludes {
+      {
+          ?Org :employs ?P .
+      } => {
+          ?P :worksFor ?Org .
+      } .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{
+  {
+      ?P :mentors ?Q .
+  } :extraForwardRule {
+      ?Q :menteeOf ?P .
+  } .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        ?P :mentors ?Q .
+    } ],
+    [ pe:var "Base"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+    } ],
+    [ pe:var "Cand"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?Org :employs ?P .
+        } => {
+            ?P :worksFor ?Org .
+        } .
+        {
+            ?P :mentors ?Q .
+        } => {
+            ?Q :menteeOf ?P .
+        } .
+    } ],
+    [ pe:var "H"; pe:value {
+        ?Q :menteeOf ?P .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :base {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } .
+    },
+    {
+        <> :candidate {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+            {
+                ?P :mentors ?Q .
+            } => {
+                ?Q :menteeOf ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+            {
+                ?P :mentors ?Q .
+            } => {
+                ?Q :menteeOf ?P .
+            } .
+        } log:includes {
+            {
+                ?P :mentors ?Q .
+            } => {
+                ?Q :menteeOf ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } log:notIncludes {
+            {
+                ?P :mentors ?Q .
+            } => {
+                ?Q :menteeOf ?P .
+            } .
+        } .
+    }.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?Org :employs ?P .
+      } => {
+          ?P :worksFor ?Org .
+      } .
+      {
+          ?P :mentors ?Q .
+      } => {
+          ?Q :menteeOf ?P .
+      } .
+  } log:includes {
+      {
+          ?P :mentors ?Q .
+      } => {
+          ?Q :menteeOf ?P .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+  } log:notIncludes {
+      {
+          ?P :mentors ?Q .
+      } => {
+          ?Q :menteeOf ?P .
+      } .
+  } .
+}
+  pe:builtin log:notIncludes.

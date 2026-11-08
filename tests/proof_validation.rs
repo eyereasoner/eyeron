@@ -1,7 +1,7 @@
 use eyeron::proof_check::Report;
 use eyeron::proof_check_n3::check_proof;
 
-const PREFIX: &str = "@prefix : <http://example.org/>.\n@prefix pe: <https://eyereasoner.github.io/pe#>.\n@prefix math: <http://www.w3.org/2000/10/swap/math#>.\n@prefix log: <http://www.w3.org/2000/10/swap/log#>.\n";
+const PREFIX: &str = "@prefix : <http://example.org/>.\n@prefix pe: <https://eyereasoner.github.io/pe#>.\n@prefix math: <http://www.w3.org/2000/10/swap/math#>.\n@prefix log: <http://www.w3.org/2000/10/swap/log#>.\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n";
 
 fn check(source: &str, proof: &str) -> eyeron::Result<Report> {
     check_proof(
@@ -294,6 +294,117 @@ fn rejects_under(source: &str, proof: &str, condition: &str, message: &str) {
 }
 
 #[test]
+fn a_negative_test_is_checked_with_its_local_variables_unbound() {
+    // `?x` only occurs in the tested clause, so the rule asks whether
+    // anything has `:p :y`; `:d` does. Binding `?x` to `:c` asks a weaker
+    // question that holds, and would prove what the program does not entail.
+    let source = ":y a :T. :d :p :y.\n{ ?y a :T. ?g log:notIncludes { ?x :p ?y } } => { ?y :unclaimed true }.";
+    let proof = |clause: &str| format!("
+        :y :unclaimed true.
+        {{ :y :unclaimed true }} pe:rule 1;
+          pe:binding [ pe:var \"g\"; pe:value {{ <http://example.org/a> <http://example.org/b> <http://example.org/c> }} ], [ pe:var \"y\"; pe:value :y ];
+          pe:uses {{ :y a :T }}, {{ {{ <http://example.org/a> <http://example.org/b> <http://example.org/c> }} log:notIncludes {{ {clause} }} }}.
+        {{ :y a :T }} pe:fact \"test.n3\".
+        {{ {{ <http://example.org/a> <http://example.org/b> <http://example.org/c> }} log:notIncludes {{ {clause} }} }} pe:builtin log:notIncludes.");
+    rejects_under(source, &proof(":c :p :y"), "C10", "only a test clause of rule 1 mentions");
+    rejects_under(source, &proof("?x :p :y"), "C6", "includes it");
+}
+
+/// Nixon's diamond with the negation over derived facts: whether someone is
+/// a pacifist depends on what the run derived about being a nonpacifist.
+const PACIFISTS: &str = "{ ?x a :Republican } => { ?x a :NonPacifist }.
+{ ?x a :Quaker. ?g log:notIncludes { ?x a :NonPacifist } } => { ?x a :Pacifist }.";
+
+/// A proof that `who` is a pacifist, with `certificate` appended.
+fn pacifist_proof(who: &str, certificate: &str) -> String {
+    format!("
+        :{who} a :Pacifist.
+        {{ :{who} a :Pacifist }} pe:rule 2;
+          pe:binding [ pe:var \"x\"; pe:value :{who} ], [ pe:var \"g\"; pe:value {{ <http://example.org/a> <http://example.org/b> <http://example.org/c> }} ];
+          pe:uses {{ :{who} a :Quaker }}, {{ {{ <http://example.org/a> <http://example.org/b> <http://example.org/c> }} log:notIncludes {{ :{who} a :NonPacifist }} }}.
+        {{ :{who} a :Quaker }} pe:fact \"test.n3\".
+        {{ {{ <http://example.org/a> <http://example.org/b> <http://example.org/c> }} log:notIncludes {{ :{who} a :NonPacifist }} }} pe:builtin log:notIncludes.
+        {certificate}")
+}
+
+const NIXON_IS_NONPACIFIST: &str = "{ :nixon a :NonPacifist } pe:rule 1; pe:binding [ pe:var \"x\"; pe:value :nixon ]; pe:uses { :nixon a :Republican }.
+        { :nixon a :Republican } pe:fact \"test.n3\".";
+
+#[test]
+fn a_search_certificate_settles_a_negation_over_derived_facts() {
+    let source = format!(":nixon a :Republican. :ada a :Quaker.\n{PACIFISTS}");
+    let without = check(&source, &pacifist_proof("ada", "")).unwrap();
+    assert!(without.valid(), "{:?}", without.failures);
+    assert_eq!(without.obligations.iter().map(|o| o.kind).collect::<Vec<_>>(), ["absent"]);
+    let certificate = format!("{NIXON_IS_NONPACIFIST}
+        rdf:type pe:derived {{ :nixon a :NonPacifist }}, {{ :ada a :Pacifist }}.");
+    let report = check(&source, &pacifist_proof("ada", &certificate)).unwrap();
+    assert!(report.valid(), "{:?}", report.failures);
+    assert!(report.obligations.is_empty(), "{:?}", report.obligations);
+}
+
+#[test]
+fn a_search_certificate_must_be_closed_under_the_forward_rules() {
+    // Nixon is a Republican, so rule 1 derives that he is a nonpacifist; a
+    // certificate that leaves this out would make him a pacifist as well.
+    let source = format!(":nixon a :Republican, :Quaker.\n{PACIFISTS}");
+    let proof = pacifist_proof("nixon", "rdf:type pe:derived { :nixon a :Pacifist }.");
+    rejects_under(&source, &proof, "C9", "is not closed: rule 1 derives");
+    // Listing what rule 1 derives shows the negation false.
+    let proof = pacifist_proof("nixon", &format!("{NIXON_IS_NONPACIFIST}
+        rdf:type pe:derived {{ :nixon a :NonPacifist }}, {{ :nixon a :Pacifist }}."));
+    rejects_under(&source, &proof, "C9", "the search certificate includes it");
+}
+
+#[test]
+fn a_search_certificate_lists_only_supported_facts() {
+    let source = format!(":nixon a :Republican. :ada a :Quaker.\n{PACIFISTS}");
+    let proof = pacifist_proof("ada", &format!("{NIXON_IS_NONPACIFIST}
+        rdf:type pe:derived {{ :nixon a :NonPacifist }}, {{ :ada a :Pacifist }}, {{ :zed a :NonPacifist }}."));
+    rejects_under(&source, &proof, "C9", "which no step concludes");
+}
+
+#[test]
+fn an_empty_listing_shows_that_nothing_was_derived_with_a_predicate() {
+    let source = format!(":ada a :Quaker.\n{PACIFISTS}");
+    let report = check(&source, &pacifist_proof("ada", "rdf:type pe:derived { :ada a :Pacifist }.")).unwrap();
+    assert!(report.valid() && report.obligations.is_empty(), "{:?} {:?}", report.failures, report.obligations);
+}
+
+#[test]
+fn a_certificate_cannot_settle_a_negation_inside_a_cycle() {
+    // Each rule negates the other's conclusion, so two current graphs are
+    // closed under them, one with `:a :p true` and one with `:a :q true`.
+    // A certificate showing one of them cannot settle which the run had.
+    let source = ":a a :Thing.
+        { ?x a :Thing. ?g log:notIncludes { ?x :q true } } => { ?x :p true }.
+        { ?x a :Thing. ?g log:notIncludes { ?x :p true } } => { ?x :q true }.";
+    let proof = "
+        :a :q true.
+        { :a :q true } pe:rule 2;
+          pe:binding [ pe:var \"x\"; pe:value :a ], [ pe:var \"g\"; pe:value { <http://example.org/a> <http://example.org/b> <http://example.org/c> } ];
+          pe:uses { :a a :Thing }, { { <http://example.org/a> <http://example.org/b> <http://example.org/c> } log:notIncludes { :a :p true } }.
+        { :a a :Thing } pe:fact \"test.n3\".
+        { { <http://example.org/a> <http://example.org/b> <http://example.org/c> } log:notIncludes { :a :p true } } pe:builtin log:notIncludes.
+        :p pe:derived {}.
+        :q pe:derived { :a :q true }.";
+    let report = check(source, proof).unwrap();
+    assert!(report.valid(), "{:?}", report.failures);
+    assert_eq!(report.obligations.iter().map(|o| o.kind).collect::<Vec<_>>(), ["absent"]);
+}
+
+#[test]
+fn malformed_search_certificates_are_reader_errors() {
+    for (listing, message) in [
+        ("{ :a :p :b } pe:derived { :a :p :b }.", "requires the predicate it lists"),
+        (":q pe:derived { :a :p :b }.", "exactly one triple with the listed predicate"),
+        (":p pe:derived { :a :p :b }, { :a :p :b }.", "twice"),
+    ] {
+        rejects_metadata(&format!("{{ :a :p :b }} pe:rule 1. {listing}"), message);
+    }
+}
+
+#[test]
 fn a_test_on_a_quoted_graph_is_re_decided_rather_than_trusted() {
     let source = "{ { :a :p :b } log:includes { :c :p :d } } => { :x :y :z }.";
     let step = |verb: &str| format!(
@@ -392,7 +503,7 @@ fn a_report_names_all_validity_conditions() {
     assert_eq!(names, [
         "C1 resolution", "C2 well-foundedness", "C3 justification", "C4 coverage",
         "C5 re-decision", "C6 boundary consistency", "C7 relevance",
-        "C8 witness integrity", "C9 query isolation",
+        "C8 witness integrity", "C9 search closure", "C10 call fidelity",
     ]);
 }
 
@@ -481,7 +592,7 @@ fn a_query_answer_cannot_be_used_as_carried_rule_provenance() {
          { :answer :p :b } pe:rule { { :a :p :b } => { :answer :p :b } }; pe:uses { :a :p :b }.\n\
          { :a :p :b } pe:rule { {} => { :a :p :b } }.\n\
          { {} => { :a :p :b } } pe:rule { {} => { {} => { :a :p :b } } }.",
-        "C9", "query answer",
+        "C10", "query answer",
     );
 }
 
@@ -490,7 +601,7 @@ fn a_claim_matching_a_query_head_still_needs_a_query_application() {
     rejects_under(
         ":a :p :b. { :missing :p :b } log:query { :a :p :b }.",
         ":a :p :b. { :a :p :b } pe:fact \"test.n3\".",
-        "C9", "query application",
+        "C10", "query application",
     );
 }
 
@@ -577,7 +688,7 @@ fn query_selection_checks_filters_and_accounts_for_their_dependencies() {
         { :seed :p :x } pe:fact \"test.n3\".";
     let report = check(source, proof).unwrap();
     assert!(report.valid(), "{:?}", report.failures);
-    rejects_under(source, ":bob a :Human. { :bob a :Human } pe:fact \"test.n3\".", "C9", "query application");
+    rejects_under(source, ":bob a :Human. { :bob a :Human } pe:fact \"test.n3\".", "C10", "query application");
 }
 
 #[test]
@@ -586,11 +697,11 @@ fn query_selection_replays_pure_tests_but_never_assumes_external_reads() {
         { ?who :number ?number. ?number math:greaterThan 2 } log:query { ?who :number ?number }.";
     let report = check(source, ":alice :number 3. { :alice :number 3 } pe:fact \"test.n3\".").unwrap();
     assert!(report.valid() && report.obligations.is_empty(), "{:?}", report);
-    rejects_under(source, ":bob :number 1. { :bob :number 1 } pe:fact \"test.n3\".", "C9", "query application");
+    rejects_under(source, ":bob :number 1. { :bob :number 1 } pe:fact \"test.n3\".", "C10", "query application");
     rejects_under(
         ":alice :p :b. { :alice :p :b. :document log:content ?text } log:query { :alice :p :b }.",
         ":alice :p :b. { :alice :p :b } pe:fact \"test.n3\".",
-        "C9", "query application",
+        "C10", "query application",
     );
 }
 
@@ -666,7 +777,7 @@ fn query_selection_cannot_invent_a_named_existential_for_an_unrecorded_filter() 
         "@forAll :person. @forSome :parent. :person :hasParent :parent.\n\
          :alice :p :b. { :alice :p :b; :hasParent :Zeus } log:query { :alice :p :b }.",
         ":alice :p :b. { :alice :p :b } pe:fact \"test.n3\".",
-        "C9", "query application",
+        "C10", "query application",
     );
 }
 
@@ -717,7 +828,7 @@ fn exhausting_query_selection_never_reports_checked() {
         source.push_str(&format!(":choice{index} :first :x; :second :y.\n"));
     }
     source.push_str("{ :answer :p :b. ?a :first :x. ?b :second :y. :missing :p :b } log:query { :answer :p :b }.");
-    rejects_under(&source, ":answer :p :b. { :answer :p :b } pe:fact \"test.n3\".", "C9", "match budget");
+    rejects_under(&source, ":answer :p :b. { :answer :p :b } pe:fact \"test.n3\".", "C10", "match budget");
 }
 
 #[test]

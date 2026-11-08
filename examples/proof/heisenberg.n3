@@ -1,0 +1,170 @@
+@prefix : <http://example.org/#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:psi :prodXP 0.5000000000000001 .
+:psi :prodXSz 0.3535533905932738 .
+:psi :prodSxSz 0.25 .
+:psi :xpStatus "saturates" .
+:psi :sxszStatus "saturates" .
+:psi :xszStatus "satisfied" .
+:psi a :QuantumState .
+:psi :deltaX "0.7071067811865476"^^xsd:double .
+:psi :deltaP "0.7071067811865476"^^xsd:double .
+:psi :deltaSx "0.5"^^xsd:double .
+:psi :deltaSz "0.5"^^xsd:double .
+:psi :boundXP "0.5"^^xsd:double .
+:psi :boundSxSz "0.25"^^xsd:double .
+:psi :boundXSz "0.0"^^xsd:double .
+
+{ :psi :prodXP 0.5000000000000001 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "dP"; pe:value "0.7071067811865476"^^xsd:double ],
+    [ pe:var "dX"; pe:value "0.7071067811865476"^^xsd:double ],
+    [ pe:var "prod"; pe:value 0.5000000000000001 ];
+  pe:uses
+    { :psi :deltaX "0.7071067811865476"^^xsd:double . },
+    { :psi :deltaP "0.7071067811865476"^^xsd:double . },
+    { ("0.7071067811865476"^^xsd:double "0.7071067811865476"^^xsd:double) math:product 0.5000000000000001 . }.
+
+{ :psi :deltaX "0.7071067811865476"^^xsd:double . }
+  pe:fact "heisenberg.n3".
+
+{ :psi :deltaP "0.7071067811865476"^^xsd:double . }
+  pe:fact "heisenberg.n3".
+
+{ ("0.7071067811865476"^^xsd:double "0.7071067811865476"^^xsd:double) math:product 0.5000000000000001 . }
+  pe:builtin math:product.
+
+{ :psi :prodXSz 0.3535533905932738 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "dX"; pe:value "0.7071067811865476"^^xsd:double ],
+    [ pe:var "dZ"; pe:value "0.5"^^xsd:double ],
+    [ pe:var "prod"; pe:value 0.3535533905932738 ];
+  pe:uses
+    { :psi :deltaX "0.7071067811865476"^^xsd:double . },
+    { :psi :deltaSz "0.5"^^xsd:double . },
+    { ("0.7071067811865476"^^xsd:double "0.5"^^xsd:double) math:product 0.3535533905932738 . }.
+
+{ :psi :deltaSz "0.5"^^xsd:double . }
+  pe:fact "heisenberg.n3".
+
+{ ("0.7071067811865476"^^xsd:double "0.5"^^xsd:double) math:product 0.3535533905932738 . }
+  pe:builtin math:product.
+
+{ :psi :prodSxSz 0.25 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d1"; pe:value "0.5"^^xsd:double ],
+    [ pe:var "d2"; pe:value "0.5"^^xsd:double ],
+    [ pe:var "prod"; pe:value 0.25 ];
+  pe:uses
+    { :psi :deltaSx "0.5"^^xsd:double . },
+    { :psi :deltaSz "0.5"^^xsd:double . },
+    { ("0.5"^^xsd:double "0.5"^^xsd:double) math:product 0.25 . }.
+
+{ :psi :deltaSx "0.5"^^xsd:double . }
+  pe:fact "heisenberg.n3".
+
+{ ("0.5"^^xsd:double "0.5"^^xsd:double) math:product 0.25 . }
+  pe:builtin math:product.
+
+{ :psi :xpStatus "saturates" . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bound"; pe:value "0.5"^^xsd:double ],
+    [ pe:var "boundPred"; pe:value :boundXP ],
+    [ pe:var "diff"; pe:value 1.1102230246251565e-16 ],
+    [ pe:var "gap"; pe:value 1.1102230246251565e-16 ],
+    [ pe:var "prod"; pe:value 0.5000000000000001 ],
+    [ pe:var "prodPred"; pe:value :prodXP ],
+    [ pe:var "statPred"; pe:value :xpStatus ];
+  pe:uses
+    { (:prodXP :boundXP) :statusPredicate :xpStatus . },
+    { :psi :prodXP 0.5000000000000001 . },
+    { :psi :boundXP "0.5"^^xsd:double . },
+    { (0.5000000000000001 "0.5"^^xsd:double) math:difference 1.1102230246251565e-16 . },
+    { 1.1102230246251565e-16 math:absoluteValue 1.1102230246251565e-16 . },
+    { 1.1102230246251565e-16 math:lessThan 1e-12 . }.
+
+{ (:prodXP :boundXP) :statusPredicate :xpStatus . }
+  pe:fact "heisenberg.n3".
+
+{ :psi :boundXP "0.5"^^xsd:double . }
+  pe:fact "heisenberg.n3".
+
+{ (0.5000000000000001 "0.5"^^xsd:double) math:difference 1.1102230246251565e-16 . }
+  pe:builtin math:difference.
+
+{ 1.1102230246251565e-16 math:absoluteValue 1.1102230246251565e-16 . }
+  pe:builtin math:absoluteValue.
+
+{ 1.1102230246251565e-16 math:lessThan 1e-12 . }
+  pe:builtin math:lessThan.
+
+{ :psi :sxszStatus "saturates" . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bound"; pe:value "0.25"^^xsd:double ],
+    [ pe:var "boundPred"; pe:value :boundSxSz ],
+    [ pe:var "diff"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "gap"; pe:value 0 ],
+    [ pe:var "prod"; pe:value 0.25 ],
+    [ pe:var "prodPred"; pe:value :prodSxSz ],
+    [ pe:var "statPred"; pe:value :sxszStatus ];
+  pe:uses
+    { (:prodSxSz :boundSxSz) :statusPredicate :sxszStatus . },
+    { :psi :prodSxSz 0.25 . },
+    { :psi :boundSxSz "0.25"^^xsd:double . },
+    { (0.25 "0.25"^^xsd:double) math:difference "0"^^xsd:decimal . },
+    { "0"^^xsd:decimal math:absoluteValue 0 . },
+    { 0 math:lessThan 1e-12 . }.
+
+{ (:prodSxSz :boundSxSz) :statusPredicate :sxszStatus . }
+  pe:fact "heisenberg.n3".
+
+{ :psi :boundSxSz "0.25"^^xsd:double . }
+  pe:fact "heisenberg.n3".
+
+{ (0.25 "0.25"^^xsd:double) math:difference "0"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ "0"^^xsd:decimal math:absoluteValue 0 . }
+  pe:builtin math:absoluteValue.
+
+{ 0 math:lessThan 1e-12 . }
+  pe:builtin math:lessThan.
+
+{ :psi :xszStatus "satisfied" . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "bound"; pe:value "0.0"^^xsd:double ],
+    [ pe:var "boundPred"; pe:value :boundXSz ],
+    [ pe:var "gap"; pe:value 0.3535533905932738 ],
+    [ pe:var "prod"; pe:value 0.3535533905932738 ],
+    [ pe:var "prodPred"; pe:value :prodXSz ],
+    [ pe:var "statPred"; pe:value :xszStatus ];
+  pe:uses
+    { (:prodXSz :boundXSz) :statusPredicate :xszStatus . },
+    { :psi :prodXSz 0.3535533905932738 . },
+    { :psi :boundXSz "0.0"^^xsd:double . },
+    { (0.3535533905932738 "0.0"^^xsd:double) math:difference 0.3535533905932738 . },
+    { 0.3535533905932738 math:greaterThan 1e-12 . }.
+
+{ (:prodXSz :boundXSz) :statusPredicate :xszStatus . }
+  pe:fact "heisenberg.n3".
+
+{ :psi :boundXSz "0.0"^^xsd:double . }
+  pe:fact "heisenberg.n3".
+
+{ (0.3535533905932738 "0.0"^^xsd:double) math:difference 0.3535533905932738 . }
+  pe:builtin math:difference.
+
+{ 0.3535533905932738 math:greaterThan 1e-12 . }
+  pe:builtin math:greaterThan.
+
+{ :psi a :QuantumState . }
+  pe:fact "heisenberg.n3".

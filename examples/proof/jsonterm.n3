@@ -1,0 +1,30 @@
+@prefix ex: <https://example.org/#> .
+@prefix j: <https://example.org/json#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+ex:test ex:is true .
+
+{ ex:test ex:is true . }
+  pe:rule 1;
+  pe:binding [ pe:var "U"; pe:value "alice" ];
+  pe:uses
+    { _:b1 j:user "alice" . },
+    { _:b1 j:roles ("admin" j:null) . },
+    { _:b1 ("likes" 1) _:b2 . },
+    { _:b2 j:city "Paris" . },
+    { _:b2 j:coords (2.35 48.85) . }.
+
+{ _:b1 j:user "alice" . }
+  pe:fact "jsonterm.n3".
+
+{ _:b1 j:roles ("admin" j:null) . }
+  pe:fact "jsonterm.n3".
+
+{ _:b1 ("likes" 1) _:b2 . }
+  pe:fact "jsonterm.n3".
+
+{ _:b2 j:city "Paris" . }
+  pe:fact "jsonterm.n3".
+
+{ _:b2 j:coords (2.35 48.85) . }
+  pe:fact "jsonterm.n3".

@@ -1,0 +1,88 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:robert owl:sameAs :robert .
+:robert :likes :pizza .
+:alice :knows :robert .
+:bob :enjoys :pizza .
+:enjoys owl:sameAs :enjoys .
+:robert :enjoys :pizza .
+
+{ :robert owl:sameAs :robert . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :robert ],
+    [ pe:var "P"; pe:value owl:sameAs ],
+    [ pe:var "X"; pe:value :bob ],
+    [ pe:var "Y"; pe:value :robert ];
+  pe:uses
+    { :bob owl:sameAs :robert . },
+    { :bob owl:sameAs :robert . }.
+
+{ :bob owl:sameAs :robert . }
+  pe:fact "owl-equality-substitution.n3".
+
+{ :robert :likes :pizza . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :pizza ],
+    [ pe:var "P"; pe:value :likes ],
+    [ pe:var "X"; pe:value :bob ],
+    [ pe:var "Y"; pe:value :robert ];
+  pe:uses
+    { :bob owl:sameAs :robert . },
+    { :bob :likes :pizza . }.
+
+{ :bob :likes :pizza . }
+  pe:fact "owl-equality-substitution.n3".
+
+{ :alice :knows :robert . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "P"; pe:value :knows ],
+    [ pe:var "S"; pe:value :alice ],
+    [ pe:var "X"; pe:value :bob ],
+    [ pe:var "Y"; pe:value :robert ];
+  pe:uses
+    { :bob owl:sameAs :robert . },
+    { :alice :knows :bob . }.
+
+{ :alice :knows :bob . }
+  pe:fact "owl-equality-substitution.n3".
+
+{ :bob :enjoys :pizza . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "O"; pe:value :pizza ],
+    [ pe:var "S"; pe:value :bob ],
+    [ pe:var "X"; pe:value :likes ],
+    [ pe:var "Y"; pe:value :enjoys ];
+  pe:uses
+    { :likes owl:sameAs :enjoys . },
+    { :bob :likes :pizza . }.
+
+{ :likes owl:sameAs :enjoys . }
+  pe:fact "owl-equality-substitution.n3".
+
+{ :enjoys owl:sameAs :enjoys . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :enjoys ],
+    [ pe:var "P"; pe:value owl:sameAs ],
+    [ pe:var "X"; pe:value :likes ],
+    [ pe:var "Y"; pe:value :enjoys ];
+  pe:uses
+    { :likes owl:sameAs :enjoys . },
+    { :likes owl:sameAs :enjoys . }.
+
+{ :robert :enjoys :pizza . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "O"; pe:value :pizza ],
+    [ pe:var "S"; pe:value :robert ],
+    [ pe:var "X"; pe:value :likes ],
+    [ pe:var "Y"; pe:value :enjoys ];
+  pe:uses
+    { :likes owl:sameAs :enjoys . },
+    { :robert :likes :pizza . }.

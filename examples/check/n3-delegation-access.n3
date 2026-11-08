@@ -1,0 +1,58 @@
+# checked: 35 steps, 35 verified, 0 trusted
+@prefix : <https://example.org/n3-delegation#> .
+@prefix id: <https://example.org/id/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:report :trusts <https://root.example/policy.n3> .
+:report :trusts <https://hr.example/policy.n3> .
+:report :trusts <https://team.example/members.n3> .
+:report :trusts <https://interns.example/members.n3> .
+:report :entails {
+    id:alice :canRead :buildReport .
+} .
+:report :entails {
+    id:alice :canRead :roadmap .
+} .
+:report :entails {
+    id:eve :canRead :buildReport .
+} .
+:report :entails {
+    id:eve :canRead :roadmap .
+} .
+{
+    id:alice :memberOf :eng .
+} :assertedBy <https://team.example/members.n3> .
+{
+    :eng :mayRead :buildReport .
+} :assertedBy <https://hr.example/policy.n3> .
+{
+    :eng :mayRead :roadmap .
+} :assertedBy <https://hr.example/policy.n3> .
+{
+    id:eve :memberOf :eng .
+} :assertedBy <https://interns.example/members.n3> .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/n3-delegation-access.n3";
+    pe:source "examples/n3-delegation-access.n3";
+    pe:verdict pe:checked;
+    pe:steps 35;
+    pe:verified 35;
+    pe:trusted 0;
+    pe:builtinSteps 7;
+    pe:factSteps 5;
+    pe:ruleSteps 23;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 28; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 35; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 35; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 97; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 7; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 47; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 120; pe:failed 0 ].

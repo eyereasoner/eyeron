@@ -1,0 +1,70 @@
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:milo a :Pet .
+:fido a :Pet .
+:Cat rdfs:subClassOf :Pet .
+:Dog rdfs:subClassOf :Pet .
+
+{ :milo a :Pet . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "D"; pe:value :Cat ],
+    [ pe:var "L"; pe:value (:Cat :Dog) ],
+    [ pe:var "X"; pe:value :milo ];
+  pe:uses
+    { :Pet owl:unionOf (:Cat :Dog) . },
+    { :Cat list:in (:Cat :Dog) . },
+    { :milo a :Cat . }.
+
+{ :Pet owl:unionOf (:Cat :Dog) . }
+  pe:fact "owl-union-of.n3".
+
+{ :Cat list:in (:Cat :Dog) . }
+  pe:builtin list:in.
+
+{ :milo a :Cat . }
+  pe:fact "owl-union-of.n3".
+
+{ :fido a :Pet . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "D"; pe:value :Dog ],
+    [ pe:var "L"; pe:value (:Cat :Dog) ],
+    [ pe:var "X"; pe:value :fido ];
+  pe:uses
+    { :Pet owl:unionOf (:Cat :Dog) . },
+    { :Dog list:in (:Cat :Dog) . },
+    { :fido a :Dog . }.
+
+{ :Dog list:in (:Cat :Dog) . }
+  pe:builtin list:in.
+
+{ :fido a :Dog . }
+  pe:fact "owl-union-of.n3".
+
+{ :Cat rdfs:subClassOf :Pet . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "D"; pe:value :Cat ],
+    [ pe:var "L"; pe:value (:Cat :Dog) ];
+  pe:uses
+    { :Pet owl:unionOf (:Cat :Dog) . },
+    { :Cat list:in (:Cat :Dog) . }.
+
+{ :Dog rdfs:subClassOf :Pet . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "D"; pe:value :Dog ],
+    [ pe:var "L"; pe:value (:Cat :Dog) ];
+  pe:uses
+    { :Pet owl:unionOf (:Cat :Dog) . },
+    { :Dog list:in (:Cat :Dog) . }.

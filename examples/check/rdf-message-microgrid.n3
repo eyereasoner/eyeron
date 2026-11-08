@@ -1,0 +1,61 @@
+# checked: 67 steps, 67 verified, 0 trusted
+@prefix : <https://eyereasoner.github.io/eyeling/examples/rdf-message-microgrid#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+<urn:eyeron:rdf-message-stream:1:envelope:1> :boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1> :replayContains <urn:eyeron:rdf-message-stream:1:envelope:1> .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1> :replayContains <urn:eyeron:rdf-message-stream:1:envelope:2> .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1> :replayContains <urn:eyeron:rdf-message-stream:1:envelope:3> .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1> :replayContains <urn:eyeron:rdf-message-stream:1:envelope:4> .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1> :replayContains <urn:eyeron:rdf-message-stream:1:envelope:5> .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :emptyMessageAllowed true .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :emptyMessageAllowed true .
+:clinicMicrogrid :criticalWatts 620 .
+:clinicMicrogrid :mustKeep :oxygenConcentrator .
+:clinicMicrogrid :mustKeep :vaccineFridge .
+:clinicMicrogrid :availableWatts 800 .
+:clinicMicrogrid :deferrableWatts 600 .
+:clinicMicrogrid :mayDefer :evChargers .
+:clinicMicrogrid :protectedBudgetWatts 1400 .
+:clinicMicrogrid :resilienceAction :protectClinic .
+:clinicMicrogrid :keeps :oxygenConcentrator .
+:clinicMicrogrid :keeps :vaccineFridge .
+:clinicMicrogrid :defers :evChargers .
+:rdfMessageMicrogridExample log:outputString "# rdf-message-microgrid\n\n## Source files\n\n- [N3 rules](../rdf-message-microgrid.n3)\n- [Input RDF Message Log](../input/rdf-message-microgrid.trig)\n\n## Answer\nStorm clinic microgrid accepted: 5 parser-replayed RDF Messages were processed atomically. Critical care needs 620 W, current battery plus solar gives 800 W, and deferring the EV chargers frees 600 W, so the protected budget is 1400 W. The reasoned action is to keep the oxygen concentrator and vaccine fridge online, while deferring EV charging.\n\n## Why this is an RDF Message Log example\nThe input now uses VERSION \\\"1.2-messages\\\" and MESSAGE delimiters. Eyeron parses those boundaries internally into an eymsg: replay view, so the rules do not need hand-written application envelopes. Each non-empty message is inspected with log:includes inside its own payload formula, and the final delimiter-only message is replayed as an empty heartbeat. The decision combines only the derived conclusions needed for load shedding while keeping the explanation tied to explicit message boundaries." .
+:rdfMessageMicrogridExample :demonstrates :ParserLevelMessageLog .
+:rdfMessageMicrogridExample :demonstrates :AtomicMessageContext .
+:rdfMessageMicrogridExample :demonstrates :EmptyHeartbeat .
+:rdfMessageMicrogridExample :demonstrates :ReplayableMessageLog .
+:rdfMessageMicrogridExample :demonstrates :ResilientDecisionSupport .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/rdf-message-microgrid.n3";
+    pe:source "examples/rdf-message-microgrid.n3";
+    pe:source "examples/input/rdf-message-microgrid.trig";
+    pe:verdict pe:checked;
+    pe:steps 67;
+    pe:verified 67;
+    pe:trusted 0;
+    pe:builtinSteps 9;
+    pe:factSteps 29;
+    pe:ruleSteps 29;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 58; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 67; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 67; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 243; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 96; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 29; pe:failed 0 ].

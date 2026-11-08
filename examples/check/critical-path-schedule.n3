@@ -1,0 +1,157 @@
+# checked with obligations: 119 steps, 107 verified, 12 trusted
+@prefix : <http://example/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:requirements :finish 2 .
+:architecture :finish 5 .
+:api_design :finish 4 .
+:database :finish 9 .
+:backend :finish 15 .
+:frontend :finish 9 .
+:auth :finish 8 .
+:integration :finish 19 .
+:security_review :finish 22 .
+:load_test :finish 21 .
+:launch :finish 23 .
+:test :projectFinish 23 .
+:launch :critical true .
+:security_review :critical true .
+:integration :critical true .
+:backend :critical true .
+:database :critical true .
+:architecture :critical true .
+:requirements :critical true .
+:requirements :schedule (0 2) .
+:architecture :schedule (2 5) .
+:api_design :schedule (2 4) .
+:database :schedule (5 9) .
+:backend :schedule (9 15) .
+:frontend :schedule (4 9) .
+:auth :schedule (5 8) .
+:integration :schedule (15 19) .
+:security_review :schedule (19 22) .
+:load_test :schedule (19 21) .
+:launch :schedule (22 23) .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/critical-path-schedule.n3";
+    pe:source "examples/critical-path-schedule.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 119;
+    pe:verified 107;
+    pe:trusted 12;
+    pe:builtinSteps 65;
+    pe:factSteps 17;
+    pe:ruleSteps 37;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 54; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 119; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 119; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 163; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 65; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 13; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 149; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 13; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 37; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :requirements :durationPath (?p ?candidate) .
+            } (2)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :architecture :durationPath (?p ?candidate) .
+            } (5)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :api_design :durationPath (?p ?candidate) .
+            } (4)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :database :durationPath (?p ?candidate) .
+            } (9)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :backend :durationPath (?p ?candidate) .
+            } (10 15)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :frontend :durationPath (?p ?candidate) .
+            } (9)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :auth :durationPath (?p ?candidate) .
+            } (8)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :integration :durationPath (?p ?candidate) .
+            } (14 19 13 12)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :security_review :durationPath (?p ?candidate) .
+            } (17 22 16 15)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :load_test :durationPath (?p ?candidate) .
+            } (16 21 15 14)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                :launch :durationPath (?p ?candidate) .
+            } (18 23 17 16 17 22 16 15)) log:collectAllIn ?SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?candidate {
+                ?any :finish ?candidate .
+            } (2 5 4 9 15 9 8 19 22 21 23)) log:collectAllIn ?SCOPE .
+        }
+    ].

@@ -1,0 +1,79 @@
+@prefix : <http://example/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :dogCount 5 .
+:bob :dogCount 2 .
+:alice :mustHave :dogLicense .
+
+{ :alice :dogCount 5 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "anyDog"; pe:value :dog1 ],
+    [ pe:var "count"; pe:value 5 ],
+    [ pe:var "dogs"; pe:value (:dog1 :dog2 :dog3 :dog4 :dog5) ],
+    [ pe:var "person"; pe:value :alice ];
+  pe:uses
+    { :alice :hasDog :dog1 . },
+    {
+        (?dog {
+            :alice :hasDog ?dog .
+        } (:dog1 :dog2 :dog3 :dog4 :dog5)) log:collectAllIn ?SCOPE .
+    },
+    { (:dog1 :dog2 :dog3 :dog4 :dog5) list:length 5 . }.
+
+{ :alice :hasDog :dog1 . }
+  pe:fact "dog-license.n3".
+
+{
+  (?dog {
+      :alice :hasDog ?dog .
+  } (:dog1 :dog2 :dog3 :dog4 :dog5)) log:collectAllIn ?SCOPE .
+}
+  pe:builtin log:collectAllIn.
+
+{ (:dog1 :dog2 :dog3 :dog4 :dog5) list:length 5 . }
+  pe:builtin list:length.
+
+{ :bob :dogCount 2 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "anyDog"; pe:value :dog6 ],
+    [ pe:var "count"; pe:value 2 ],
+    [ pe:var "dogs"; pe:value (:dog6 :dog7) ],
+    [ pe:var "person"; pe:value :bob ];
+  pe:uses
+    { :bob :hasDog :dog6 . },
+    {
+        (?dog {
+            :bob :hasDog ?dog .
+        } (:dog6 :dog7)) log:collectAllIn ?SCOPE .
+    },
+    { (:dog6 :dog7) list:length 2 . }.
+
+{ :bob :hasDog :dog6 . }
+  pe:fact "dog-license.n3".
+
+{
+  (?dog {
+      :bob :hasDog ?dog .
+  } (:dog6 :dog7)) log:collectAllIn ?SCOPE .
+}
+  pe:builtin log:collectAllIn.
+
+{ (:dog6 :dog7) list:length 2 . }
+  pe:builtin list:length.
+
+{ :alice :mustHave :dogLicense . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "count"; pe:value 5 ],
+    [ pe:var "person"; pe:value :alice ];
+  pe:uses
+    { :alice :dogCount 5 . },
+    { 5 math:greaterThan 4 . }.
+
+{ 5 math:greaterThan 4 . }
+  pe:builtin math:greaterThan.

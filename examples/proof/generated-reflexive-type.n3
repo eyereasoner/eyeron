@@ -1,0 +1,31 @@
+@prefix : <http://www.example.com/ns/ex#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+{
+    ?x :like ?x .
+} <= {
+    ?x a :Human .
+} .
+
+{
+  {
+      ?x :like ?x .
+  } <= {
+      ?x a :Human .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Human ],
+    [ pe:var "p"; pe:value :like ];
+  pe:uses
+    { :like a :Reflexive . },
+    { :like :range-include :Human . }.
+
+{ :like a :Reflexive . }
+  pe:fact "generated-reflexive-type.n3".
+
+{ :like :range-include :Human . }
+  pe:fact "generated-reflexive-type.n3".

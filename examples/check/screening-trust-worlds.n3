@@ -1,0 +1,45 @@
+# checked: 73 steps, 73 verified, 0 trusted
+@prefix : <http://example.org/screening#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:HighRiskClinic :trustsPositiveInWorld :W0 .
+:CommonMassGoodTest :trustsPositiveInWorld :W0 .
+:RareMassScreening :trustsPositiveInWorld :W1 .
+:HighRiskClinic :trustsPositiveInWorld :W1 .
+:CommonMassGoodTest :trustsPositiveInWorld :W1 .
+:CommonMassLowSpec :trustsPositiveInWorld :W1 .
+:HighRiskClinic :trustsPositiveInWorld :W2 .
+:CommonMassGoodTest :trustsPositiveInWorld :W2 .
+:HighRiskClinic :trustsPositiveInWorld :W3 .
+:RareMassScreening :rejectsPositiveInWorld :W0 .
+:CommonMassLowSpec :rejectsPositiveInWorld :W0 .
+:RareMassScreening :rejectsPositiveInWorld :W2 .
+:CommonMassLowSpec :rejectsPositiveInWorld :W2 .
+:RareMassScreening :rejectsPositiveInWorld :W3 .
+:CommonMassGoodTest :rejectsPositiveInWorld :W3 .
+:CommonMassLowSpec :rejectsPositiveInWorld :W3 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/screening-trust-worlds.n3";
+    pe:source "examples/screening-trust-worlds.n3";
+    pe:verdict pe:checked;
+    pe:steps 73;
+    pe:verified 73;
+    pe:trusted 0;
+    pe:builtinSteps 37;
+    pe:factSteps 16;
+    pe:ruleSteps 20;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 36; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 73; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 73; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 112; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 37; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 89; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 116; pe:failed 0 ].

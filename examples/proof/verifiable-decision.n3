@@ -1,0 +1,281 @@
+@prefix : <https://example.org/access#> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:research-use-42 dpv:hasJustification :eth-2026-118 .
+:research-use-42 dpv:hasLegalBasis :consent-b .
+:research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+:agreement-42 a odrl:Agreement .
+:agreement-42 odrl:profile :research-profile .
+:agreement-42 odrl:assigner :hospital .
+:agreement-42 odrl:assignee :dr-okafor .
+:agreement-42 odrl:permission :research-use-42 .
+:request-42 dpv:hasOutcome :agreement-42 .
+
+{ :research-use-42 dpv:hasJustification :eth-2026-118 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "approval"; pe:value :eth-2026-118 ],
+    [ pe:var "constraint"; pe:value :purpose-42 ],
+    [ pe:var "data"; pe:value :cohort-b ],
+    [ pe:var "purpose"; pe:value dpv:ScientificResearch ],
+    [ pe:var "request"; pe:value :request-42 ],
+    [ pe:var "use"; pe:value :research-use-42 ],
+    [ pe:var "who"; pe:value :dr-okafor ];
+  pe:uses
+    { :request-42 a odrl:Request . },
+    { :request-42 odrl:permission :research-use-42 . },
+    { :research-use-42 odrl:assignee :dr-okafor . },
+    { :research-use-42 odrl:target :cohort-b . },
+    { :research-use-42 odrl:constraint :purpose-42 . },
+    { :purpose-42 a odrl:Constraint . },
+    { :purpose-42 odrl:leftOperand odrl:purpose . },
+    { :purpose-42 odrl:operator odrl:eq . },
+    { :purpose-42 odrl:rightOperand dpv:ScientificResearch . },
+    { :dr-okafor :holdsApproval :eth-2026-118 . },
+    { :eth-2026-118 dpv:hasData :cohort-b . },
+    { :eth-2026-118 dpv:hasPurpose dpv:ScientificResearch . }.
+
+{ :request-42 a odrl:Request . }
+  pe:fact "verifiable-decision.n3".
+
+{ :request-42 odrl:permission :research-use-42 . }
+  pe:fact "verifiable-decision.n3".
+
+{ :research-use-42 odrl:assignee :dr-okafor . }
+  pe:fact "verifiable-decision.n3".
+
+{ :research-use-42 odrl:target :cohort-b . }
+  pe:fact "verifiable-decision.n3".
+
+{ :research-use-42 odrl:constraint :purpose-42 . }
+  pe:fact "verifiable-decision.n3".
+
+{ :purpose-42 a odrl:Constraint . }
+  pe:fact "verifiable-decision.n3".
+
+{ :purpose-42 odrl:leftOperand odrl:purpose . }
+  pe:fact "verifiable-decision.n3".
+
+{ :purpose-42 odrl:operator odrl:eq . }
+  pe:fact "verifiable-decision.n3".
+
+{ :purpose-42 odrl:rightOperand dpv:ScientificResearch . }
+  pe:fact "verifiable-decision.n3".
+
+{ :dr-okafor :holdsApproval :eth-2026-118 . }
+  pe:fact "verifiable-decision.n3".
+
+{ :eth-2026-118 dpv:hasData :cohort-b . }
+  pe:fact "verifiable-decision.n3".
+
+{ :eth-2026-118 dpv:hasPurpose dpv:ScientificResearch . }
+  pe:fact "verifiable-decision.n3".
+
+{ :research-use-42 dpv:hasLegalBasis :consent-b . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "consent"; pe:value :consent-b ],
+    [ pe:var "constraint"; pe:value :purpose-42 ],
+    [ pe:var "data"; pe:value :cohort-b ],
+    [ pe:var "purpose"; pe:value dpv:ScientificResearch ],
+    [ pe:var "request"; pe:value :request-42 ],
+    [ pe:var "use"; pe:value :research-use-42 ];
+  pe:uses
+    { :request-42 a odrl:Request . },
+    { :request-42 odrl:permission :research-use-42 . },
+    { :research-use-42 odrl:target :cohort-b . },
+    { :research-use-42 odrl:constraint :purpose-42 . },
+    { :purpose-42 a odrl:Constraint . },
+    { :purpose-42 odrl:leftOperand odrl:purpose . },
+    { :purpose-42 odrl:operator odrl:eq . },
+    { :purpose-42 odrl:rightOperand dpv:ScientificResearch . },
+    { :consent-b a dpv:Consent . },
+    { :consent-b dpv:hasData :cohort-b . },
+    { :consent-b dpv:hasPurpose dpv:ScientificResearch . },
+    { :consent-b dpv:hasConsentStatus dpv:ConsentGiven . }.
+
+{ :consent-b a dpv:Consent . }
+  pe:fact "verifiable-decision.n3".
+
+{ :consent-b dpv:hasData :cohort-b . }
+  pe:fact "verifiable-decision.n3".
+
+{ :consent-b dpv:hasPurpose dpv:ScientificResearch . }
+  pe:fact "verifiable-decision.n3".
+
+{ :consent-b dpv:hasConsentStatus dpv:ConsentGiven . }
+  pe:fact "verifiable-decision.n3".
+
+{ :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "data"; pe:value :cohort-b ],
+    [ pe:var "request"; pe:value :request-42 ],
+    [ pe:var "use"; pe:value :research-use-42 ];
+  pe:uses
+    { :request-42 a odrl:Request . },
+    { :request-42 odrl:permission :research-use-42 . },
+    { :research-use-42 odrl:target :cohort-b . },
+    { :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification . }.
+
+{ :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification . }
+  pe:fact "verifiable-decision.n3".
+
+{ :agreement-42 a odrl:Agreement . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "approval"; pe:value :eth-2026-118 ],
+    [ pe:var "consent"; pe:value :consent-b ],
+    [ pe:var "constraint"; pe:value :purpose-42 ],
+    [ pe:var "data"; pe:value :cohort-b ],
+    [ pe:var "holder"; pe:value :hospital ],
+    [ pe:var "researcher"; pe:value :dr-okafor ],
+    [ pe:var "use"; pe:value :research-use-42 ];
+  pe:uses
+    { :request-42 a odrl:Request . },
+    { :request-42 odrl:profile :research-profile . },
+    { :request-42 odrl:permission :research-use-42 . },
+    { :research-use-42 a odrl:Permission . },
+    { :research-use-42 odrl:assigner :hospital . },
+    { :research-use-42 odrl:assignee :dr-okafor . },
+    { :research-use-42 odrl:target :cohort-b . },
+    { :research-use-42 odrl:action odrl:use . },
+    { :research-use-42 odrl:constraint :purpose-42 . },
+    { :research-use-42 dpv:hasJustification :eth-2026-118 . },
+    { :research-use-42 dpv:hasLegalBasis :consent-b . },
+    { :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification . }.
+
+{ :request-42 odrl:profile :research-profile . }
+  pe:fact "verifiable-decision.n3".
+
+{ :research-use-42 a odrl:Permission . }
+  pe:fact "verifiable-decision.n3".
+
+{ :research-use-42 odrl:assigner :hospital . }
+  pe:fact "verifiable-decision.n3".
+
+{ :research-use-42 odrl:action odrl:use . }
+  pe:fact "verifiable-decision.n3".
+
+{ :agreement-42 odrl:profile :research-profile . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "approval"; pe:value :eth-2026-118 ],
+    [ pe:var "consent"; pe:value :consent-b ],
+    [ pe:var "constraint"; pe:value :purpose-42 ],
+    [ pe:var "data"; pe:value :cohort-b ],
+    [ pe:var "holder"; pe:value :hospital ],
+    [ pe:var "researcher"; pe:value :dr-okafor ],
+    [ pe:var "use"; pe:value :research-use-42 ];
+  pe:uses
+    { :request-42 a odrl:Request . },
+    { :request-42 odrl:profile :research-profile . },
+    { :request-42 odrl:permission :research-use-42 . },
+    { :research-use-42 a odrl:Permission . },
+    { :research-use-42 odrl:assigner :hospital . },
+    { :research-use-42 odrl:assignee :dr-okafor . },
+    { :research-use-42 odrl:target :cohort-b . },
+    { :research-use-42 odrl:action odrl:use . },
+    { :research-use-42 odrl:constraint :purpose-42 . },
+    { :research-use-42 dpv:hasJustification :eth-2026-118 . },
+    { :research-use-42 dpv:hasLegalBasis :consent-b . },
+    { :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification . }.
+
+{ :agreement-42 odrl:assigner :hospital . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "approval"; pe:value :eth-2026-118 ],
+    [ pe:var "consent"; pe:value :consent-b ],
+    [ pe:var "constraint"; pe:value :purpose-42 ],
+    [ pe:var "data"; pe:value :cohort-b ],
+    [ pe:var "holder"; pe:value :hospital ],
+    [ pe:var "researcher"; pe:value :dr-okafor ],
+    [ pe:var "use"; pe:value :research-use-42 ];
+  pe:uses
+    { :request-42 a odrl:Request . },
+    { :request-42 odrl:profile :research-profile . },
+    { :request-42 odrl:permission :research-use-42 . },
+    { :research-use-42 a odrl:Permission . },
+    { :research-use-42 odrl:assigner :hospital . },
+    { :research-use-42 odrl:assignee :dr-okafor . },
+    { :research-use-42 odrl:target :cohort-b . },
+    { :research-use-42 odrl:action odrl:use . },
+    { :research-use-42 odrl:constraint :purpose-42 . },
+    { :research-use-42 dpv:hasJustification :eth-2026-118 . },
+    { :research-use-42 dpv:hasLegalBasis :consent-b . },
+    { :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification . }.
+
+{ :agreement-42 odrl:assignee :dr-okafor . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "approval"; pe:value :eth-2026-118 ],
+    [ pe:var "consent"; pe:value :consent-b ],
+    [ pe:var "constraint"; pe:value :purpose-42 ],
+    [ pe:var "data"; pe:value :cohort-b ],
+    [ pe:var "holder"; pe:value :hospital ],
+    [ pe:var "researcher"; pe:value :dr-okafor ],
+    [ pe:var "use"; pe:value :research-use-42 ];
+  pe:uses
+    { :request-42 a odrl:Request . },
+    { :request-42 odrl:profile :research-profile . },
+    { :request-42 odrl:permission :research-use-42 . },
+    { :research-use-42 a odrl:Permission . },
+    { :research-use-42 odrl:assigner :hospital . },
+    { :research-use-42 odrl:assignee :dr-okafor . },
+    { :research-use-42 odrl:target :cohort-b . },
+    { :research-use-42 odrl:action odrl:use . },
+    { :research-use-42 odrl:constraint :purpose-42 . },
+    { :research-use-42 dpv:hasJustification :eth-2026-118 . },
+    { :research-use-42 dpv:hasLegalBasis :consent-b . },
+    { :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification . }.
+
+{ :agreement-42 odrl:permission :research-use-42 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "approval"; pe:value :eth-2026-118 ],
+    [ pe:var "consent"; pe:value :consent-b ],
+    [ pe:var "constraint"; pe:value :purpose-42 ],
+    [ pe:var "data"; pe:value :cohort-b ],
+    [ pe:var "holder"; pe:value :hospital ],
+    [ pe:var "researcher"; pe:value :dr-okafor ],
+    [ pe:var "use"; pe:value :research-use-42 ];
+  pe:uses
+    { :request-42 a odrl:Request . },
+    { :request-42 odrl:profile :research-profile . },
+    { :request-42 odrl:permission :research-use-42 . },
+    { :research-use-42 a odrl:Permission . },
+    { :research-use-42 odrl:assigner :hospital . },
+    { :research-use-42 odrl:assignee :dr-okafor . },
+    { :research-use-42 odrl:target :cohort-b . },
+    { :research-use-42 odrl:action odrl:use . },
+    { :research-use-42 odrl:constraint :purpose-42 . },
+    { :research-use-42 dpv:hasJustification :eth-2026-118 . },
+    { :research-use-42 dpv:hasLegalBasis :consent-b . },
+    { :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification . }.
+
+{ :request-42 dpv:hasOutcome :agreement-42 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "approval"; pe:value :eth-2026-118 ],
+    [ pe:var "consent"; pe:value :consent-b ],
+    [ pe:var "constraint"; pe:value :purpose-42 ],
+    [ pe:var "data"; pe:value :cohort-b ],
+    [ pe:var "holder"; pe:value :hospital ],
+    [ pe:var "researcher"; pe:value :dr-okafor ],
+    [ pe:var "use"; pe:value :research-use-42 ];
+  pe:uses
+    { :request-42 a odrl:Request . },
+    { :request-42 odrl:profile :research-profile . },
+    { :request-42 odrl:permission :research-use-42 . },
+    { :research-use-42 a odrl:Permission . },
+    { :research-use-42 odrl:assigner :hospital . },
+    { :research-use-42 odrl:assignee :dr-okafor . },
+    { :research-use-42 odrl:target :cohort-b . },
+    { :research-use-42 odrl:action odrl:use . },
+    { :research-use-42 odrl:constraint :purpose-42 . },
+    { :research-use-42 dpv:hasJustification :eth-2026-118 . },
+    { :research-use-42 dpv:hasLegalBasis :consent-b . },
+    { :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification . }.

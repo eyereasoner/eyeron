@@ -1,0 +1,88 @@
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:alice owl:sameAs :alias .
+:alias owl:sameAs :alice .
+
+{ :alice owl:sameAs :alias . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Person ],
+    [ pe:var "L"; pe:value (:givenName :birthDate) ],
+    [ pe:var "SCOPE"; pe:value _:forAllIn ],
+    [ pe:var "X"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :alias ];
+  pe:uses
+    { :Person owl:hasKey (:givenName :birthDate) . },
+    { :alice a :Person . },
+    { :alias a :Person . },
+    { :alice log:notEqualTo :alias . },
+    {
+        ({
+            ?P list:in (:givenName :birthDate) .
+        } {
+            :alice ?P ?Z .
+            :alias ?P ?Z .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{ :Person owl:hasKey (:givenName :birthDate) . }
+  pe:fact "owl-has-key.n3".
+
+{ :alice a :Person . }
+  pe:fact "owl-has-key.n3".
+
+{ :alias a :Person . }
+  pe:fact "owl-has-key.n3".
+
+{ :alice log:notEqualTo :alias . }
+  pe:builtin log:notEqualTo.
+
+{
+  ({
+      ?P list:in (:givenName :birthDate) .
+  } {
+      :alice ?P ?Z .
+      :alias ?P ?Z .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.
+
+{ :alias owl:sameAs :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Person ],
+    [ pe:var "L"; pe:value (:givenName :birthDate) ],
+    [ pe:var "SCOPE"; pe:value _:forAllIn ],
+    [ pe:var "X"; pe:value :alias ],
+    [ pe:var "Y"; pe:value :alice ];
+  pe:uses
+    { :Person owl:hasKey (:givenName :birthDate) . },
+    { :alias a :Person . },
+    { :alice a :Person . },
+    { :alias log:notEqualTo :alice . },
+    {
+        ({
+            ?P list:in (:givenName :birthDate) .
+        } {
+            :alias ?P ?Z .
+            :alice ?P ?Z .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{ :alias log:notEqualTo :alice . }
+  pe:builtin log:notEqualTo.
+
+{
+  ({
+      ?P list:in (:givenName :birthDate) .
+  } {
+      :alias ?P ?Z .
+      :alice ?P ?Z .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.

@@ -1,0 +1,14 @@
+@prefix : <http://example.org/#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:Ghent a :HumanCommunity .
+:Ghent a :City .
+
+{ :Ghent a :HumanCommunity . }
+  pe:rule 1;
+  pe:binding [ pe:var "x"; pe:value :Ghent ];
+  pe:uses { :Ghent a :City . }.
+
+{ :Ghent a :City . }
+  pe:fact "slide32.n3".

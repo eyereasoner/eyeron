@@ -1,0 +1,71 @@
+# checked with obligations: 12 steps, 6 verified, 6 trusted
+@prefix : <http://example.org/dtt#> .
+@prefix ex: <http://example.org/ex#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+ex:alice :hasType _:b2_c61da8ff03e55a86 .
+_:b2_c61da8ff03e55a86 a :Type .
+_:b2_c61da8ff03e55a86 :goodOf ex:Cobbler .
+ex:bob :hasType _:b3_4d0ffe581bfcf4e3 .
+_:b3_4d0ffe581bfcf4e3 a :Type .
+_:b3_4d0ffe581bfcf4e3 :goodOf ex:Physician .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/dependent-type.n3";
+    pe:source "examples/dependent-type.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 12;
+    pe:verified 6;
+    pe:trusted 6;
+    pe:factSteps 6;
+    pe:ruleSteps 6;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 12; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 12; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 12; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 24; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 18; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 6; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:alice :hasType _:b2_c61da8ff03e55a86 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_c61da8ff03e55a86 a :Type .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_c61da8ff03e55a86 :goodOf ex:Cobbler .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:bob :hasType _:b3_4d0ffe581bfcf4e3 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_4d0ffe581bfcf4e3 a :Type .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_4d0ffe581bfcf4e3 :goodOf ex:Physician .
+        }
+    ].

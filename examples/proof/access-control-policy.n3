@@ -1,0 +1,146 @@
+@prefix : <http://example.org/#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:test :for :PolicyX .
+:test :is true .
+
+{ :test :for :PolicyX . }
+  pe:rule
+    {
+        {
+            ?Pol a :Policy .
+            ?Pol :pass :allOfTest .
+            ?Pol :pass :anyOfTest .
+            ?Pol :pass :noneOfTest .
+        } => {
+            :test :for ?Pol .
+            :test :is true .
+        } .
+    };
+  pe:binding [ pe:var "Pol"; pe:value :PolicyX ];
+  pe:uses
+    { :PolicyX a :Policy . },
+    { :PolicyX :pass :allOfTest . },
+    { :PolicyX :pass :anyOfTest . },
+    { :PolicyX :pass :noneOfTest . }.
+
+{ :PolicyX a :Policy . }
+  pe:fact "access-control-policy.n3".
+
+{ :PolicyX :pass :allOfTest . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Pol"; pe:value :PolicyX ],
+    [ pe:var "Test"; pe:value :test1 ],
+    [ pe:var "X"; pe:value _:forAllIn ];
+  pe:uses
+    { :test1 :policy :PolicyX . },
+    { :PolicyX a :Policy . },
+    {
+        ({
+            :PolicyX :allOf ?__backward_0_0_c87a508a4ad72023__Field .
+        } {
+            :test1 :has ?__backward_0_0_c87a508a4ad72023__Field .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{ :test1 :policy :PolicyX . }
+  pe:fact "access-control-policy.n3".
+
+{
+  ({
+      :PolicyX :allOf ?__backward_0_0_c87a508a4ad72023__Field .
+  } {
+      :test1 :has ?__backward_0_0_c87a508a4ad72023__Field .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.
+
+{ :PolicyX :pass :anyOfTest . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "L"; pe:value 1 ],
+    [ pe:var "List"; pe:value (:C) ],
+    [ pe:var "Pol"; pe:value :PolicyX ],
+    [ pe:var "Test"; pe:value :test1 ];
+  pe:uses
+    { :test1 :policy :PolicyX . },
+    { :PolicyX a :Policy . },
+    {
+        (?__backward_0_1_110a03e826df6311__Field {
+            :PolicyX :anyOf ?__backward_0_1_110a03e826df6311__Field .
+            :test1 :has ?__backward_0_1_110a03e826df6311__Field .
+        } (:C)) log:collectAllIn ?__backward_0_1_110a03e826df6311__X .
+    },
+    { (:C) list:length 1 . },
+    { 1 log:notEqualTo 0 . }.
+
+{
+  (?__backward_0_1_110a03e826df6311__Field {
+      :PolicyX :anyOf ?__backward_0_1_110a03e826df6311__Field .
+      :test1 :has ?__backward_0_1_110a03e826df6311__Field .
+  } (:C)) log:collectAllIn ?__backward_0_1_110a03e826df6311__X .
+}
+  pe:builtin log:collectAllIn.
+
+{ (:C) list:length 1 . }
+  pe:builtin list:length.
+
+{ 1 log:notEqualTo 0 . }
+  pe:builtin log:notEqualTo.
+
+{ :PolicyX :pass :noneOfTest . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 0 ],
+    [ pe:var "List"; pe:value () ],
+    [ pe:var "Pol"; pe:value :PolicyX ],
+    [ pe:var "Test"; pe:value :test1 ];
+  pe:uses
+    { :test1 :policy :PolicyX . },
+    { :PolicyX a :Policy . },
+    {
+        (?__backward_0_2_8107c0f7e654fe6a__Field {
+            :PolicyX :noneOf ?__backward_0_2_8107c0f7e654fe6a__Field .
+            :test1 :has ?__backward_0_2_8107c0f7e654fe6a__Field .
+        } ()) log:collectAllIn ?__backward_0_2_8107c0f7e654fe6a__X .
+    },
+    { () list:length 0 . },
+    { 0 log:equalTo 0 . }.
+
+{
+  (?__backward_0_2_8107c0f7e654fe6a__Field {
+      :PolicyX :noneOf ?__backward_0_2_8107c0f7e654fe6a__Field .
+      :test1 :has ?__backward_0_2_8107c0f7e654fe6a__Field .
+  } ()) log:collectAllIn ?__backward_0_2_8107c0f7e654fe6a__X .
+}
+  pe:builtin log:collectAllIn.
+
+{ () list:length 0 . }
+  pe:builtin list:length.
+
+{ 0 log:equalTo 0 . }
+  pe:builtin log:equalTo.
+
+{ :test :is true . }
+  pe:rule
+    {
+        {
+            ?Pol a :Policy .
+            ?Pol :pass :allOfTest .
+            ?Pol :pass :anyOfTest .
+            ?Pol :pass :noneOfTest .
+        } => {
+            :test :for ?Pol .
+            :test :is true .
+        } .
+    };
+  pe:binding [ pe:var "Pol"; pe:value :PolicyX ];
+  pe:uses
+    { :PolicyX a :Policy . },
+    { :PolicyX :pass :allOfTest . },
+    { :PolicyX :pass :anyOfTest . },
+    { :PolicyX :pass :noneOfTest . }.

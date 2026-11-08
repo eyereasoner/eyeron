@@ -1,0 +1,58 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:alice a :CatOwner .
+:CatOwner rdfs:subClassOf :AnimalOwner .
+
+{ :alice a :CatOwner . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :CatOwner ],
+    [ pe:var "P"; pe:value :pet ],
+    [ pe:var "U"; pe:value :alice ],
+    [ pe:var "V"; pe:value :milo ],
+    [ pe:var "Y"; pe:value :Cat ];
+  pe:uses
+    { :CatOwner owl:someValuesFrom :Cat . },
+    { :CatOwner owl:onProperty :pet . },
+    { :alice :pet :milo . },
+    { :milo a :Cat . }.
+
+{ :CatOwner owl:someValuesFrom :Cat . }
+  pe:fact "owl-some-values-from.n3".
+
+{ :CatOwner owl:onProperty :pet . }
+  pe:fact "owl-some-values-from.n3".
+
+{ :alice :pet :milo . }
+  pe:fact "owl-some-values-from.n3".
+
+{ :milo a :Cat . }
+  pe:fact "owl-some-values-from.n3".
+
+{ :CatOwner rdfs:subClassOf :AnimalOwner . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :CatOwner ],
+    [ pe:var "D"; pe:value :AnimalOwner ],
+    [ pe:var "P"; pe:value :pet ],
+    [ pe:var "Y"; pe:value :Cat ],
+    [ pe:var "Z"; pe:value :Animal ];
+  pe:uses
+    { :CatOwner owl:someValuesFrom :Cat . },
+    { :CatOwner owl:onProperty :pet . },
+    { :AnimalOwner owl:someValuesFrom :Animal . },
+    { :AnimalOwner owl:onProperty :pet . },
+    { :Cat rdfs:subClassOf :Animal . }.
+
+{ :AnimalOwner owl:someValuesFrom :Animal . }
+  pe:fact "owl-some-values-from.n3".
+
+{ :AnimalOwner owl:onProperty :pet . }
+  pe:fact "owl-some-values-from.n3".
+
+{ :Cat rdfs:subClassOf :Animal . }
+  pe:fact "owl-some-values-from.n3".

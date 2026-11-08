@@ -1,0 +1,158 @@
+# checked with obligations: 40 steps, 20 verified, 20 trusted
+@prefix : <http://example.org/alarm-bit/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:opticalBeacon :can :LocalPermutation .
+:relayRegister :can :LocalPermutation .
+:opticalBeacon :can :InteroperateForVariable .
+:relayRegister :can :InteroperateForVariable .
+:quantumToken :cannot :UniversalClone .
+:quantumToken :cannot :UnrestrictedStateFanOut .
+(:opticalBeacon :opticalBeacon) :canCopy :AlarmBit .
+(:opticalBeacon :relayRegister) :canCopy :AlarmBit .
+(:relayRegister :opticalBeacon) :canCopy :AlarmBit .
+(:relayRegister :relayRegister) :canCopy :AlarmBit .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/act-alarm-bit-interoperability.n3";
+    pe:source "examples/act-alarm-bit-interoperability.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 40;
+    pe:verified 20;
+    pe:trusted 20;
+    pe:factSteps 10;
+    pe:ruleSteps 30;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 40; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 40; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 40; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 139; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 50; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 20; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 163; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_ff61f896812a7b58 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_ff61f896812a7b58 :taskType :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_ff61f896812a7b58 :from :opticalBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_ff61f896812a7b58 :to :opticalBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_ff61f896812a7b58 :variable :AlarmBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_3711e27ffff54b58 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_3711e27ffff54b58 :taskType :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_3711e27ffff54b58 :from :opticalBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_3711e27ffff54b58 :to :relayRegister .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_3711e27ffff54b58 :variable :AlarmBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_9ddf694a8a6dfa24 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_9ddf694a8a6dfa24 :taskType :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_9ddf694a8a6dfa24 :from :relayRegister .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_9ddf694a8a6dfa24 :to :opticalBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_9ddf694a8a6dfa24 :variable :AlarmBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_20482bf374f34 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_20482bf374f34 :taskType :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_20482bf374f34 :from :relayRegister .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_20482bf374f34 :to :relayRegister .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_20482bf374f34 :variable :AlarmBit .
+        }
+    ].

@@ -1,0 +1,67 @@
+@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:test :is true .
+
+{ :test :is true . }
+  pe:rule 1;
+  pe:uses { :ind a :A2 . }.
+
+{ :ind a :A2 . }
+  pe:rule 12;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N10 . }.
+
+{ :ind a :N10 . }
+  pe:rule 11;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N9 . }.
+
+{ :ind a :N9 . }
+  pe:rule 10;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N8 . }.
+
+{ :ind a :N8 . }
+  pe:rule 9;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N7 . }.
+
+{ :ind a :N7 . }
+  pe:rule 8;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N6 . }.
+
+{ :ind a :N6 . }
+  pe:rule 7;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N5 . }.
+
+{ :ind a :N5 . }
+  pe:rule 6;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N4 . }.
+
+{ :ind a :N4 . }
+  pe:rule 5;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N3 . }.
+
+{ :ind a :N3 . }
+  pe:rule 4;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N2 . }.
+
+{ :ind a :N2 . }
+  pe:rule 3;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N1 . }.
+
+{ :ind a :N1 . }
+  pe:rule 2;
+  pe:binding [ pe:var "X"; pe:value :ind ];
+  pe:uses { :ind a :N0 . }.
+
+{ :ind a :N0 . }
+  pe:fact "deep-taxonomy-10.n3".

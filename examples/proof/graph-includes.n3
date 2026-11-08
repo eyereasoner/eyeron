@@ -1,0 +1,52 @@
+@prefix : <http://example.org/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:subset :holds true .
+:existentialGeneralisation :holds true .
+
+{ :subset :holds true . }
+  pe:rule 1;
+  pe:uses
+    {
+        {
+            :s :p :o .
+            :a :b :c .
+        } log:includes {
+            :a :b :c .
+        } .
+    }.
+
+{
+  {
+      :s :p :o .
+      :a :b :c .
+  } log:includes {
+      :a :b :c .
+  } .
+}
+  pe:builtin log:includes.
+
+{ :existentialGeneralisation :holds true . }
+  pe:rule 2;
+  pe:uses
+    {
+        {
+            @forAll <urn:eyeron:quantified:5f5f7131> .
+            <urn:eyeron:quantified:5f5f7131> :p :o .
+        } log:includes {
+            @forAll <urn:eyeron:quantified:5f5f7132> .
+            <urn:eyeron:quantified:5f5f7132> :p _:__q3 .
+        } .
+    }.
+
+{
+  {
+      @forAll <urn:eyeron:quantified:5f5f7131> .
+      <urn:eyeron:quantified:5f5f7131> :p :o .
+  } log:includes {
+      @forAll <urn:eyeron:quantified:5f5f7132> .
+      <urn:eyeron:quantified:5f5f7132> :p _:__q3 .
+  } .
+}
+  pe:builtin log:includes.

@@ -1,0 +1,291 @@
+@prefix : <http://example.org/spectral-week#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:Greenhouse :redEnergy "960"^^xsd:decimal .
+:Greenhouse :blueEnergy "400"^^xsd:decimal .
+:Shade :redEnergy "180"^^xsd:decimal .
+:Shade :blueEnergy "80"^^xsd:decimal .
+:Sunflower :absorbedRed "816"^^xsd:decimal .
+:Sunflower :absorbedBlue 220.00000000000003 .
+:Fern :absorbedRed "72"^^xsd:decimal .
+:Fern :absorbedBlue "60"^^xsd:decimal .
+:Sunflower :absorbedEnergy "1036"^^xsd:decimal .
+:Fern :absorbedEnergy "132"^^xsd:decimal .
+:Sunflower :dailyStored "259"^^xsd:decimal .
+:Fern :dailyStored "33"^^xsd:decimal .
+:Sunflower :weeklyStored "1813"^^xsd:decimal .
+:Fern :weeklyStored "231"^^xsd:decimal .
+
+{ :Greenhouse :redEnergy "960"^^xsd:decimal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Ered"; pe:value "960"^^xsd:decimal ],
+    [ pe:var "Loc"; pe:value :Greenhouse ],
+    [ pe:var "RH"; pe:value 8.0 ],
+    [ pe:var "RI"; pe:value 120.0 ];
+  pe:uses
+    { :Greenhouse :redIntensity 120.0 . },
+    { :Greenhouse :redHours 8.0 . },
+    { (120.0 8.0) math:product "960"^^xsd:decimal . }.
+
+{ :Greenhouse :redIntensity 120.0 . }
+  pe:fact "spectral-week.n3".
+
+{ :Greenhouse :redHours 8.0 . }
+  pe:fact "spectral-week.n3".
+
+{ (120.0 8.0) math:product "960"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Greenhouse :blueEnergy "400"^^xsd:decimal . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "BH"; pe:value 2.0 ],
+    [ pe:var "BI"; pe:value 200.0 ],
+    [ pe:var "Eblue"; pe:value "400"^^xsd:decimal ],
+    [ pe:var "Loc"; pe:value :Greenhouse ];
+  pe:uses
+    { :Greenhouse :blueIntensity 200.0 . },
+    { :Greenhouse :blueHours 2.0 . },
+    { (200.0 2.0) math:product "400"^^xsd:decimal . }.
+
+{ :Greenhouse :blueIntensity 200.0 . }
+  pe:fact "spectral-week.n3".
+
+{ :Greenhouse :blueHours 2.0 . }
+  pe:fact "spectral-week.n3".
+
+{ (200.0 2.0) math:product "400"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Shade :redEnergy "180"^^xsd:decimal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Ered"; pe:value "180"^^xsd:decimal ],
+    [ pe:var "Loc"; pe:value :Shade ],
+    [ pe:var "RH"; pe:value 3.0 ],
+    [ pe:var "RI"; pe:value 60.0 ];
+  pe:uses
+    { :Shade :redIntensity 60.0 . },
+    { :Shade :redHours 3.0 . },
+    { (60.0 3.0) math:product "180"^^xsd:decimal . }.
+
+{ :Shade :redIntensity 60.0 . }
+  pe:fact "spectral-week.n3".
+
+{ :Shade :redHours 3.0 . }
+  pe:fact "spectral-week.n3".
+
+{ (60.0 3.0) math:product "180"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Shade :blueEnergy "80"^^xsd:decimal . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "BH"; pe:value 1.0 ],
+    [ pe:var "BI"; pe:value 80.0 ],
+    [ pe:var "Eblue"; pe:value "80"^^xsd:decimal ],
+    [ pe:var "Loc"; pe:value :Shade ];
+  pe:uses
+    { :Shade :blueIntensity 80.0 . },
+    { :Shade :blueHours 1.0 . },
+    { (80.0 1.0) math:product "80"^^xsd:decimal . }.
+
+{ :Shade :blueIntensity 80.0 . }
+  pe:fact "spectral-week.n3".
+
+{ :Shade :blueHours 1.0 . }
+  pe:fact "spectral-week.n3".
+
+{ (80.0 1.0) math:product "80"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Sunflower :absorbedRed "816"^^xsd:decimal . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "AR"; pe:value 0.85 ],
+    [ pe:var "Ared"; pe:value "816"^^xsd:decimal ],
+    [ pe:var "Ered"; pe:value "960"^^xsd:decimal ],
+    [ pe:var "Loc"; pe:value :Greenhouse ],
+    [ pe:var "P"; pe:value :Sunflower ];
+  pe:uses
+    { :Sunflower a :Plant . },
+    { :Sunflower :location :Greenhouse . },
+    { :Sunflower :absorbRed 0.85 . },
+    { :Greenhouse :redEnergy "960"^^xsd:decimal . },
+    { ("960"^^xsd:decimal 0.85) math:product "816"^^xsd:decimal . }.
+
+{ :Sunflower a :Plant . }
+  pe:fact "spectral-week.n3".
+
+{ :Sunflower :location :Greenhouse . }
+  pe:fact "spectral-week.n3".
+
+{ :Sunflower :absorbRed 0.85 . }
+  pe:fact "spectral-week.n3".
+
+{ ("960"^^xsd:decimal 0.85) math:product "816"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Sunflower :absorbedBlue 220.00000000000003 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "AB"; pe:value 0.55 ],
+    [ pe:var "Ablue"; pe:value 220.00000000000003 ],
+    [ pe:var "Eblue"; pe:value "400"^^xsd:decimal ],
+    [ pe:var "Loc"; pe:value :Greenhouse ],
+    [ pe:var "P"; pe:value :Sunflower ];
+  pe:uses
+    { :Sunflower a :Plant . },
+    { :Sunflower :location :Greenhouse . },
+    { :Sunflower :absorbBlue 0.55 . },
+    { :Greenhouse :blueEnergy "400"^^xsd:decimal . },
+    { ("400"^^xsd:decimal 0.55) math:product 220.00000000000003 . }.
+
+{ :Sunflower :absorbBlue 0.55 . }
+  pe:fact "spectral-week.n3".
+
+{ ("400"^^xsd:decimal 0.55) math:product 220.00000000000003 . }
+  pe:builtin math:product.
+
+{ :Fern :absorbedRed "72"^^xsd:decimal . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "AR"; pe:value 0.40 ],
+    [ pe:var "Ared"; pe:value "72"^^xsd:decimal ],
+    [ pe:var "Ered"; pe:value "180"^^xsd:decimal ],
+    [ pe:var "Loc"; pe:value :Shade ],
+    [ pe:var "P"; pe:value :Fern ];
+  pe:uses
+    { :Fern a :Plant . },
+    { :Fern :location :Shade . },
+    { :Fern :absorbRed 0.40 . },
+    { :Shade :redEnergy "180"^^xsd:decimal . },
+    { ("180"^^xsd:decimal 0.40) math:product "72"^^xsd:decimal . }.
+
+{ :Fern a :Plant . }
+  pe:fact "spectral-week.n3".
+
+{ :Fern :location :Shade . }
+  pe:fact "spectral-week.n3".
+
+{ :Fern :absorbRed 0.40 . }
+  pe:fact "spectral-week.n3".
+
+{ ("180"^^xsd:decimal 0.40) math:product "72"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Fern :absorbedBlue "60"^^xsd:decimal . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "AB"; pe:value 0.75 ],
+    [ pe:var "Ablue"; pe:value "60"^^xsd:decimal ],
+    [ pe:var "Eblue"; pe:value "80"^^xsd:decimal ],
+    [ pe:var "Loc"; pe:value :Shade ],
+    [ pe:var "P"; pe:value :Fern ];
+  pe:uses
+    { :Fern a :Plant . },
+    { :Fern :location :Shade . },
+    { :Fern :absorbBlue 0.75 . },
+    { :Shade :blueEnergy "80"^^xsd:decimal . },
+    { ("80"^^xsd:decimal 0.75) math:product "60"^^xsd:decimal . }.
+
+{ :Fern :absorbBlue 0.75 . }
+  pe:fact "spectral-week.n3".
+
+{ ("80"^^xsd:decimal 0.75) math:product "60"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Sunflower :absorbedEnergy "1036"^^xsd:decimal . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Ablue"; pe:value 220.00000000000003 ],
+    [ pe:var "Abs"; pe:value "1036"^^xsd:decimal ],
+    [ pe:var "Ared"; pe:value "816"^^xsd:decimal ],
+    [ pe:var "P"; pe:value :Sunflower ];
+  pe:uses
+    { :Sunflower :absorbedRed "816"^^xsd:decimal . },
+    { :Sunflower :absorbedBlue 220.00000000000003 . },
+    { ("816"^^xsd:decimal 220.00000000000003) math:sum "1036"^^xsd:decimal . }.
+
+{ ("816"^^xsd:decimal 220.00000000000003) math:sum "1036"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ :Fern :absorbedEnergy "132"^^xsd:decimal . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Ablue"; pe:value "60"^^xsd:decimal ],
+    [ pe:var "Abs"; pe:value "132"^^xsd:decimal ],
+    [ pe:var "Ared"; pe:value "72"^^xsd:decimal ],
+    [ pe:var "P"; pe:value :Fern ];
+  pe:uses
+    { :Fern :absorbedRed "72"^^xsd:decimal . },
+    { :Fern :absorbedBlue "60"^^xsd:decimal . },
+    { ("72"^^xsd:decimal "60"^^xsd:decimal) math:sum "132"^^xsd:decimal . }.
+
+{ ("72"^^xsd:decimal "60"^^xsd:decimal) math:sum "132"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ :Sunflower :dailyStored "259"^^xsd:decimal . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Abs"; pe:value "1036"^^xsd:decimal ],
+    [ pe:var "C"; pe:value 0.25 ],
+    [ pe:var "P"; pe:value :Sunflower ],
+    [ pe:var "Stored"; pe:value "259"^^xsd:decimal ];
+  pe:uses
+    { :Sunflower :absorbedEnergy "1036"^^xsd:decimal . },
+    { :Sunflower :conversion 0.25 . },
+    { ("1036"^^xsd:decimal 0.25) math:product "259"^^xsd:decimal . }.
+
+{ :Sunflower :conversion 0.25 . }
+  pe:fact "spectral-week.n3".
+
+{ ("1036"^^xsd:decimal 0.25) math:product "259"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Fern :dailyStored "33"^^xsd:decimal . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Abs"; pe:value "132"^^xsd:decimal ],
+    [ pe:var "C"; pe:value 0.25 ],
+    [ pe:var "P"; pe:value :Fern ],
+    [ pe:var "Stored"; pe:value "33"^^xsd:decimal ];
+  pe:uses
+    { :Fern :absorbedEnergy "132"^^xsd:decimal . },
+    { :Fern :conversion 0.25 . },
+    { ("132"^^xsd:decimal 0.25) math:product "33"^^xsd:decimal . }.
+
+{ :Fern :conversion 0.25 . }
+  pe:fact "spectral-week.n3".
+
+{ ("132"^^xsd:decimal 0.25) math:product "33"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Sunflower :weeklyStored "1813"^^xsd:decimal . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "D"; pe:value "259"^^xsd:decimal ],
+    [ pe:var "P"; pe:value :Sunflower ],
+    [ pe:var "W"; pe:value "1813"^^xsd:decimal ];
+  pe:uses
+    { :Sunflower :dailyStored "259"^^xsd:decimal . },
+    { ("259"^^xsd:decimal 7) math:product "1813"^^xsd:decimal . }.
+
+{ ("259"^^xsd:decimal 7) math:product "1813"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Fern :weeklyStored "231"^^xsd:decimal . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "D"; pe:value "33"^^xsd:decimal ],
+    [ pe:var "P"; pe:value :Fern ],
+    [ pe:var "W"; pe:value "231"^^xsd:decimal ];
+  pe:uses
+    { :Fern :dailyStored "33"^^xsd:decimal . },
+    { ("33"^^xsd:decimal 7) math:product "231"^^xsd:decimal . }.
+
+{ ("33"^^xsd:decimal 7) math:product "231"^^xsd:decimal . }
+  pe:builtin math:product.

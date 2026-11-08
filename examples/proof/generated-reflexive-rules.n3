@@ -1,0 +1,40 @@
+@prefix : <http://www.example.com/ns/ex#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+{
+    ?x :p ?x .
+} <= {
+    ?x :p ?y .
+} .
+{
+    ?y :p ?y .
+} <= {
+    ?x :p ?y .
+} .
+
+{
+  {
+      ?x :p ?x .
+  } <= {
+      ?x :p ?y .
+  } .
+}
+  pe:rule 1;
+  pe:binding [ pe:var "p"; pe:value :p ];
+  pe:uses { :p a :Reflexive . }.
+
+{ :p a :Reflexive . }
+  pe:fact "generated-reflexive-rules.n3".
+
+{
+  {
+      ?y :p ?y .
+  } <= {
+      ?x :p ?y .
+  } .
+}
+  pe:rule 1;
+  pe:binding [ pe:var "p"; pe:value :p ];
+  pe:uses { :p a :Reflexive . }.

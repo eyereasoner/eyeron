@@ -25,7 +25,7 @@ fn run_with_stdin(args: &[&str], input: &[u8]) -> Output {
 
 #[test]
 fn short_and_long_commands_match_the_two_process_proof_check() {
-    let source = "examples/dog-license.n3";
+    let source = "examples/examiner-diploma.n3";
     let proof = run(&["-p", source]);
     assert!(
         proof.status.success(),
@@ -44,18 +44,15 @@ fn short_and_long_commands_match_the_two_process_proof_check() {
         assert_eq!(combined.status, separate.status);
         assert_eq!(combined.stderr, separate.stderr);
         let output = String::from_utf8(combined.stdout).unwrap();
-        assert!(output.starts_with("Proof: <generated>\n"), "{output}");
-        assert!(output.contains("checked with obligations:"), "{output}");
-        assert!(
-            output.contains("Trust obligations (accepted without verifying their truth):"),
-            "{output}"
-        );
-        // Only the proof's location differs: no intermediate document is read.
+        assert!(output.starts_with("# checked with obligations:"), "{output}");
+        assert!(output.contains("pe:verdict pe:checkedWithObligations;"), "{output}");
+        assert!(output.contains("pe:obligation ["), "{output}");
+        // Only the saved proof's name differs: no intermediate document is read.
         assert_eq!(
-            output.lines().skip(1).collect::<Vec<_>>(),
+            output.lines().collect::<Vec<_>>(),
             String::from_utf8_lossy(&separate.stdout)
                 .lines()
-                .skip(1)
+                .filter(|line| !line.trim_start().starts_with("pe:proof "))
                 .collect::<Vec<_>>()
         );
     }
@@ -72,7 +69,7 @@ fn generated_proof_is_checked_with_the_input_base_iri() {
         String::from_utf8_lossy(&output.stderr)
     );
     let text = String::from_utf8(output.stdout).unwrap();
-    assert!(text.contains("Source program: <stdin>"), "{text}");
+    assert!(text.contains("pe:source \"<stdin>\";"), "{text}");
     assert!(
         text.contains("checked: 2 steps, 2 verified, 0 trusted"),
         "{text}"
@@ -111,7 +108,8 @@ fn separately_checked_invalid_proof_still_returns_failure() {
     assert_eq!(output.status.code(), Some(1));
     let text = String::from_utf8(output.stdout).unwrap();
     assert!(text.contains("invalid: 1 failure(s)"), "{text}");
-    assert!(text.contains("[C1: resolution]"), "{text}");
+    assert!(text.contains("pe:verdict pe:invalid;"), "{text}");
+    assert!(text.contains("pe:failure [\n        pe:id \"C1\";"), "{text}");
 }
 
 #[test]
@@ -205,7 +203,7 @@ fn assert_separate_roundtrip(args: &[&str], source_stdin: Option<&[u8]>) {
         String::from_utf8_lossy(&checked.stderr)
     );
     assert!(
-        String::from_utf8_lossy(&checked.stdout).lines().any(|line| line.starts_with("checked")),
+        String::from_utf8_lossy(&checked.stdout).lines().any(|line| line.starts_with("# checked")),
         "{}",
         String::from_utf8_lossy(&checked.stdout)
     );
@@ -319,4 +317,19 @@ fn completing_an_existing_examiner_succeeds_in_ordinary_and_proof_modes() {
         }
     }
     assert_separate_roundtrip(&["-"], Some(source.as_bytes()));
+}
+
+#[test]
+fn a_check_report_is_an_n3_document_of_the_answers_and_their_check() {
+    let output = run(&["-c", "examples/socrates.n3"]);
+    assert!(output.status.success());
+    let text = String::from_utf8(output.stdout).unwrap();
+    let report = eyeron::parse_n3(&text, None).unwrap_or_else(|err| panic!("{err}\n{text}"));
+    let iri = |name: &str| eyeron::ast::Term::iri(name);
+    let fact = |s: eyeron::ast::Term, p: &str, o: eyeron::ast::Term| report.facts.iter().any(|triple| triple.s == s && triple.p == iri(p) && triple.o == o);
+    assert!(fact(iri("http://example.org/socrates#Socrates"), "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        iri("http://example.org/socrates#Mortal")), "{text}");
+    assert!(report.facts.iter().any(|triple| triple.p == iri("https://eyereasoner.github.io/pe#verdict")
+        && triple.o == iri("https://eyereasoner.github.io/pe#checked")), "{text}");
+    assert_eq!(report.facts.iter().filter(|triple| triple.p == iri("https://eyereasoner.github.io/pe#condition")).count(), 10, "{text}");
 }

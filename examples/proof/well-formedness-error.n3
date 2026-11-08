@@ -1,0 +1,19 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/well-formedness-error#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:alice a :Bad .
+
+{ :alice a :Bad . }
+  pe:rule 1;
+  pe:binding [ pe:var "score"; pe:value 10 ];
+  pe:uses
+    { 10 math:greaterThan 5 . },
+    { :alice :score 10 . }.
+
+{ 10 math:greaterThan 5 . }
+  pe:builtin math:greaterThan.
+
+{ :alice :score 10 . }
+  pe:fact "well-formedness-error.n3".

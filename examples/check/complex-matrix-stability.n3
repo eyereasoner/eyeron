@@ -1,0 +1,36 @@
+# checked: 56 steps, 56 verified, 0 trusted
+@prefix : <https://example.org/complex-matrix-stability#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:A_unstable :spectralRadius 2 .
+:A_stable :spectralRadius 1 .
+:A_damped :spectralRadius 0 .
+:A_unstable :classification :unstable .
+:A_stable :classification :stable .
+:A_damped :classification :damped .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/complex-matrix-stability.n3";
+    pe:source "examples/complex-matrix-stability.n3";
+    pe:verdict pe:checked;
+    pe:steps 56;
+    pe:verified 56;
+    pe:trusted 0;
+    pe:builtinSteps 13;
+    pe:factSteps 22;
+    pe:ruleSteps 21;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 43; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 56; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 56; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 98; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 13; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 62; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 113; pe:failed 0 ].

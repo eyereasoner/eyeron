@@ -1,0 +1,54 @@
+# checked with obligations: 4 steps, 3 verified, 1 trusted
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:water :is :observable .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/proof-by-cases-2.n3";
+    pe:source "examples/proof-by-cases-2.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 4;
+    pe:verified 3;
+    pe:trusted 1;
+    pe:builtinSteps 1;
+    pe:factSteps 1;
+    pe:ruleSteps 2;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 5; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 1; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 1; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 5; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 1; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 6; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            ({
+                ({
+                    :water :is :solid .
+                } {
+                    :water :is :liquid .
+                } {
+                    :water :is :gas .
+                }) list:member {
+                    :water :is ?C .
+                } .
+            } {
+                {
+                    :water :is ?C .
+                } => {
+                    :water :is :observable .
+                } .
+            }) log:forAllIn _:forAllIn .
+        }
+    ].

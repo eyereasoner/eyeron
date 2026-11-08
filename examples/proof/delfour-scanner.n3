@@ -1,0 +1,344 @@
+@prefix act: <https://example.org/activity#> .
+@prefix ex: <https://example.org/enforce#> .
+@prefix ins: <https://example.org/insight#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix prod: <https://example.org/product#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix req: <https://example.org/request#> .
+@prefix schema: <http://schema.org/> .
+@prefix shop: <https://example.org/shop#> .
+@prefix vocab: <https://example.org/vocab/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+_:sk_2 a ex:Allowed .
+_:sk_2 ex:target _:sk_0 .
+req:r1 a ex:Allowed .
+req:r1 ex:target _:sk_0 .
+_:b3 shop:note "High sugar" .
+_:b3 shop:suggestedAlternative prod:BIS_101 .
+_:b3 shop:suggestedAlternative prod:CHOC_150 .
+_:a_8ab911721c1afd1f a act:Decision .
+_:a_8ab911721c1afd1f act:at "2025-10-04T16:51:53Z"^^xsd:dateTime .
+_:a_8ab911721c1afd1f act:request _:sk_2 .
+_:a_8ab911721c1afd1f act:outcome "Allowed" .
+_:a_1544a30569ede393 a act:Decision .
+_:a_1544a30569ede393 act:at "2025-10-04T16:51:53Z"^^xsd:dateTime .
+_:a_1544a30569ede393 act:request req:r1 .
+_:a_1544a30569ede393 act:outcome "Allowed" .
+
+{ _:sk_2 a ex:Allowed . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "ins"; pe:value _:sk_0 ],
+    [ pe:var "pol"; pe:value _:sk_1 ],
+    [ pe:var "req"; pe:value _:sk_2 ];
+  pe:uses
+    { _:sk_1 a odrl:Policy . },
+    { _:sk_1 odrl:permission _:sk_2 . },
+    { _:sk_2 odrl:action odrl:use . },
+    { _:sk_2 odrl:target _:sk_0 . },
+    { _:sk_2 odrl:constraint _:sk_3 . },
+    { _:sk_3 odrl:leftOperand odrl:purpose . },
+    { _:sk_3 odrl:operator odrl:eq . },
+    { _:sk_3 odrl:rightOperand vocab:shopping_assist . },
+    { _:sk_0 a ins:Insight . },
+    { _:sk_2 odrl:action odrl:use . },
+    { _:sk_2 odrl:constraint _:sk_3 . },
+    { _:sk_3 odrl:leftOperand odrl:purpose . },
+    { _:sk_3 odrl:rightOperand vocab:shopping_assist . }.
+
+{ _:sk_1 a odrl:Policy . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:sk_1 odrl:permission _:sk_2 . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:sk_2 odrl:action odrl:use . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:sk_2 odrl:target _:sk_0 . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:sk_2 odrl:constraint _:sk_3 . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:sk_3 odrl:leftOperand odrl:purpose . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:sk_3 odrl:operator odrl:eq . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:sk_3 odrl:rightOperand vocab:shopping_assist . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:sk_0 a ins:Insight . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:sk_2 ex:target _:sk_0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "ins"; pe:value _:sk_0 ],
+    [ pe:var "pol"; pe:value _:sk_1 ],
+    [ pe:var "req"; pe:value _:sk_2 ];
+  pe:uses
+    { _:sk_1 a odrl:Policy . },
+    { _:sk_1 odrl:permission _:sk_2 . },
+    { _:sk_2 odrl:action odrl:use . },
+    { _:sk_2 odrl:target _:sk_0 . },
+    { _:sk_2 odrl:constraint _:sk_3 . },
+    { _:sk_3 odrl:leftOperand odrl:purpose . },
+    { _:sk_3 odrl:operator odrl:eq . },
+    { _:sk_3 odrl:rightOperand vocab:shopping_assist . },
+    { _:sk_0 a ins:Insight . },
+    { _:sk_2 odrl:action odrl:use . },
+    { _:sk_2 odrl:constraint _:sk_3 . },
+    { _:sk_3 odrl:leftOperand odrl:purpose . },
+    { _:sk_3 odrl:rightOperand vocab:shopping_assist . }.
+
+{ req:r1 a ex:Allowed . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "ins"; pe:value _:sk_0 ],
+    [ pe:var "pol"; pe:value _:sk_1 ],
+    [ pe:var "req"; pe:value req:r1 ];
+  pe:uses
+    { _:sk_1 a odrl:Policy . },
+    { _:sk_1 odrl:permission _:sk_2 . },
+    { _:sk_2 odrl:action odrl:use . },
+    { _:sk_2 odrl:target _:sk_0 . },
+    { _:sk_2 odrl:constraint _:sk_3 . },
+    { _:sk_3 odrl:leftOperand odrl:purpose . },
+    { _:sk_3 odrl:operator odrl:eq . },
+    { _:sk_3 odrl:rightOperand vocab:shopping_assist . },
+    { _:sk_0 a ins:Insight . },
+    { req:r1 odrl:action odrl:use . },
+    { req:r1 odrl:constraint _:b2 . },
+    { _:b2 odrl:leftOperand odrl:purpose . },
+    { _:b2 odrl:rightOperand vocab:shopping_assist . }.
+
+{ req:r1 odrl:action odrl:use . }
+  pe:fact "delfour-scanner.n3".
+
+{ req:r1 odrl:constraint _:b2 . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:b2 odrl:leftOperand odrl:purpose . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:b2 odrl:rightOperand vocab:shopping_assist . }
+  pe:fact "delfour-scanner.n3".
+
+{ req:r1 ex:target _:sk_0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "ins"; pe:value _:sk_0 ],
+    [ pe:var "pol"; pe:value _:sk_1 ],
+    [ pe:var "req"; pe:value req:r1 ];
+  pe:uses
+    { _:sk_1 a odrl:Policy . },
+    { _:sk_1 odrl:permission _:sk_2 . },
+    { _:sk_2 odrl:action odrl:use . },
+    { _:sk_2 odrl:target _:sk_0 . },
+    { _:sk_2 odrl:constraint _:sk_3 . },
+    { _:sk_3 odrl:leftOperand odrl:purpose . },
+    { _:sk_3 odrl:operator odrl:eq . },
+    { _:sk_3 odrl:rightOperand vocab:shopping_assist . },
+    { _:sk_0 a ins:Insight . },
+    { req:r1 odrl:action odrl:use . },
+    { req:r1 odrl:constraint _:b2 . },
+    { _:b2 odrl:leftOperand odrl:purpose . },
+    { _:b2 odrl:rightOperand vocab:shopping_assist . }.
+
+{ _:b3 shop:note "High sugar" . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "alt"; pe:value prod:BIS_101 ],
+    [ pe:var "an"; pe:value "Low-Sugar Tea Biscuits" ],
+    [ pe:var "as"; pe:value 3.0 ],
+    [ pe:var "ins"; pe:value _:sk_0 ],
+    [ pe:var "name"; pe:value "Classic Tea Biscuits" ],
+    [ pe:var "p"; pe:value prod:BIS_001 ],
+    [ pe:var "req"; pe:value _:sk_2 ],
+    [ pe:var "scan"; pe:value _:b3 ],
+    [ pe:var "sug"; pe:value 12.0 ],
+    [ pe:var "thr"; pe:value 10.0 ];
+  pe:uses
+    { _:sk_2 a ex:Allowed . },
+    { _:sk_2 ex:target _:sk_0 . },
+    { _:sk_0 a ins:Insight . },
+    { _:sk_0 ins:metric "sugar_g_per_serving" . },
+    { _:sk_0 ins:threshold 10.0 . },
+    { _:b3 shop:scannedProduct prod:BIS_001 . },
+    { prod:BIS_001 schema:name "Classic Tea Biscuits" . },
+    { prod:BIS_001 schema:sugarContent 12.0 . },
+    { prod:BIS_101 schema:name "Low-Sugar Tea Biscuits" . },
+    { prod:BIS_101 schema:sugarContent 3.0 . },
+    { 3.0 math:lessThan 12.0 . },
+    { 12.0 math:notLessThan 10.0 . }.
+
+{ _:sk_0 ins:metric "sugar_g_per_serving" . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:sk_0 ins:threshold 10.0 . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:b3 shop:scannedProduct prod:BIS_001 . }
+  pe:fact "delfour-scanner.n3".
+
+{ prod:BIS_001 schema:name "Classic Tea Biscuits" . }
+  pe:fact "delfour-scanner.n3".
+
+{ prod:BIS_001 schema:sugarContent 12.0 . }
+  pe:fact "delfour-scanner.n3".
+
+{ prod:BIS_101 schema:name "Low-Sugar Tea Biscuits" . }
+  pe:fact "delfour-scanner.n3".
+
+{ prod:BIS_101 schema:sugarContent 3.0 . }
+  pe:fact "delfour-scanner.n3".
+
+{ 3.0 math:lessThan 12.0 . }
+  pe:builtin math:lessThan.
+
+{ 12.0 math:notLessThan 10.0 . }
+  pe:builtin math:notLessThan.
+
+{ _:b3 shop:suggestedAlternative prod:BIS_101 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "alt"; pe:value prod:BIS_101 ],
+    [ pe:var "an"; pe:value "Low-Sugar Tea Biscuits" ],
+    [ pe:var "as"; pe:value 3.0 ],
+    [ pe:var "ins"; pe:value _:sk_0 ],
+    [ pe:var "name"; pe:value "Classic Tea Biscuits" ],
+    [ pe:var "p"; pe:value prod:BIS_001 ],
+    [ pe:var "req"; pe:value _:sk_2 ],
+    [ pe:var "scan"; pe:value _:b3 ],
+    [ pe:var "sug"; pe:value 12.0 ],
+    [ pe:var "thr"; pe:value 10.0 ];
+  pe:uses
+    { _:sk_2 a ex:Allowed . },
+    { _:sk_2 ex:target _:sk_0 . },
+    { _:sk_0 a ins:Insight . },
+    { _:sk_0 ins:metric "sugar_g_per_serving" . },
+    { _:sk_0 ins:threshold 10.0 . },
+    { _:b3 shop:scannedProduct prod:BIS_001 . },
+    { prod:BIS_001 schema:name "Classic Tea Biscuits" . },
+    { prod:BIS_001 schema:sugarContent 12.0 . },
+    { prod:BIS_101 schema:name "Low-Sugar Tea Biscuits" . },
+    { prod:BIS_101 schema:sugarContent 3.0 . },
+    { 3.0 math:lessThan 12.0 . },
+    { 12.0 math:notLessThan 10.0 . }.
+
+{ _:b3 shop:suggestedAlternative prod:CHOC_150 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "alt"; pe:value prod:CHOC_150 ],
+    [ pe:var "an"; pe:value "85% Dark Chocolate" ],
+    [ pe:var "as"; pe:value 6.0 ],
+    [ pe:var "ins"; pe:value _:sk_0 ],
+    [ pe:var "name"; pe:value "Classic Tea Biscuits" ],
+    [ pe:var "p"; pe:value prod:BIS_001 ],
+    [ pe:var "req"; pe:value _:sk_2 ],
+    [ pe:var "scan"; pe:value _:b3 ],
+    [ pe:var "sug"; pe:value 12.0 ],
+    [ pe:var "thr"; pe:value 10.0 ];
+  pe:uses
+    { _:sk_2 a ex:Allowed . },
+    { _:sk_2 ex:target _:sk_0 . },
+    { _:sk_0 a ins:Insight . },
+    { _:sk_0 ins:metric "sugar_g_per_serving" . },
+    { _:sk_0 ins:threshold 10.0 . },
+    { _:b3 shop:scannedProduct prod:BIS_001 . },
+    { prod:BIS_001 schema:name "Classic Tea Biscuits" . },
+    { prod:BIS_001 schema:sugarContent 12.0 . },
+    { prod:CHOC_150 schema:name "85% Dark Chocolate" . },
+    { prod:CHOC_150 schema:sugarContent 6.0 . },
+    { 6.0 math:lessThan 12.0 . },
+    { 12.0 math:notLessThan 10.0 . }.
+
+{ prod:CHOC_150 schema:name "85% Dark Chocolate" . }
+  pe:fact "delfour-scanner.n3".
+
+{ prod:CHOC_150 schema:sugarContent 6.0 . }
+  pe:fact "delfour-scanner.n3".
+
+{ 6.0 math:lessThan 12.0 . }
+  pe:builtin math:lessThan.
+
+{ _:a_8ab911721c1afd1f a act:Decision . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "now"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ],
+    [ pe:var "req"; pe:value _:sk_2 ];
+  pe:uses
+    { _:sk_2 a ex:Allowed . },
+    { _:b1 ex:now "2025-10-04T16:51:53Z"^^xsd:dateTime . }.
+
+{ _:b1 ex:now "2025-10-04T16:51:53Z"^^xsd:dateTime . }
+  pe:fact "delfour-scanner.n3".
+
+{ _:a_8ab911721c1afd1f act:at "2025-10-04T16:51:53Z"^^xsd:dateTime . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "now"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ],
+    [ pe:var "req"; pe:value _:sk_2 ];
+  pe:uses
+    { _:sk_2 a ex:Allowed . },
+    { _:b1 ex:now "2025-10-04T16:51:53Z"^^xsd:dateTime . }.
+
+{ _:a_8ab911721c1afd1f act:request _:sk_2 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "now"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ],
+    [ pe:var "req"; pe:value _:sk_2 ];
+  pe:uses
+    { _:sk_2 a ex:Allowed . },
+    { _:b1 ex:now "2025-10-04T16:51:53Z"^^xsd:dateTime . }.
+
+{ _:a_8ab911721c1afd1f act:outcome "Allowed" . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "now"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ],
+    [ pe:var "req"; pe:value _:sk_2 ];
+  pe:uses
+    { _:sk_2 a ex:Allowed . },
+    { _:b1 ex:now "2025-10-04T16:51:53Z"^^xsd:dateTime . }.
+
+{ _:a_1544a30569ede393 a act:Decision . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "now"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ],
+    [ pe:var "req"; pe:value req:r1 ];
+  pe:uses
+    { req:r1 a ex:Allowed . },
+    { _:b1 ex:now "2025-10-04T16:51:53Z"^^xsd:dateTime . }.
+
+{ _:a_1544a30569ede393 act:at "2025-10-04T16:51:53Z"^^xsd:dateTime . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "now"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ],
+    [ pe:var "req"; pe:value req:r1 ];
+  pe:uses
+    { req:r1 a ex:Allowed . },
+    { _:b1 ex:now "2025-10-04T16:51:53Z"^^xsd:dateTime . }.
+
+{ _:a_1544a30569ede393 act:request req:r1 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "now"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ],
+    [ pe:var "req"; pe:value req:r1 ];
+  pe:uses
+    { req:r1 a ex:Allowed . },
+    { _:b1 ex:now "2025-10-04T16:51:53Z"^^xsd:dateTime . }.
+
+{ _:a_1544a30569ede393 act:outcome "Allowed" . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "now"; pe:value "2025-10-04T16:51:53Z"^^xsd:dateTime ],
+    [ pe:var "req"; pe:value req:r1 ];
+  pe:uses
+    { req:r1 a ex:Allowed . },
+    { _:b1 ex:now "2025-10-04T16:51:53Z"^^xsd:dateTime . }.

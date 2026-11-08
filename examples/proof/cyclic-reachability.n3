@@ -1,0 +1,102 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/cyclic-reachability#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:a :path :b .
+:b :path :c .
+:a :path :c .
+:c :path :a .
+:b :path :a .
+:a :path :a .
+:c :path :b .
+:b :path :b .
+:c :path :c .
+
+{ :a :path :b . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :b ];
+  pe:uses { :a :edge :b . }.
+
+{ :a :edge :b . }
+  pe:fact "cyclic-reachability.n3".
+
+{ :b :path :c . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :b ],
+    [ pe:var "y"; pe:value :c ];
+  pe:uses { :b :edge :c . }.
+
+{ :b :edge :c . }
+  pe:fact "cyclic-reachability.n3".
+
+{ :a :path :c . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :b ],
+    [ pe:var "z"; pe:value :c ];
+  pe:uses
+    { :a :path :b . },
+    { :b :edge :c . }.
+
+{ :c :path :a . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :c ],
+    [ pe:var "y"; pe:value :a ];
+  pe:uses { :c :edge :a . }.
+
+{ :c :edge :a . }
+  pe:fact "cyclic-reachability.n3".
+
+{ :b :path :a . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :b ],
+    [ pe:var "y"; pe:value :c ],
+    [ pe:var "z"; pe:value :a ];
+  pe:uses
+    { :b :path :c . },
+    { :c :edge :a . }.
+
+{ :a :path :a . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value :c ],
+    [ pe:var "z"; pe:value :a ];
+  pe:uses
+    { :a :path :c . },
+    { :c :edge :a . }.
+
+{ :c :path :b . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :c ],
+    [ pe:var "y"; pe:value :a ],
+    [ pe:var "z"; pe:value :b ];
+  pe:uses
+    { :c :path :a . },
+    { :a :edge :b . }.
+
+{ :b :path :b . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :b ],
+    [ pe:var "y"; pe:value :a ],
+    [ pe:var "z"; pe:value :b ];
+  pe:uses
+    { :b :path :a . },
+    { :a :edge :b . }.
+
+{ :c :path :c . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :c ],
+    [ pe:var "y"; pe:value :b ],
+    [ pe:var "z"; pe:value :c ];
+  pe:uses
+    { :c :path :b . },
+    { :b :edge :c . }.

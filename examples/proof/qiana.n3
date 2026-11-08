@@ -1,0 +1,96 @@
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:northStar :notNecessarilyA :gold .
+:Fabian :believes {
+    {
+        ?x a :glitter .
+    } => {
+        ?x :notNecessarilyA :gold .
+    } .
+} .
+
+{ :northStar :notNecessarilyA :gold . }
+  pe:rule
+    {
+        {
+            ?x a :glitter .
+        } => {
+            ?x :notNecessarilyA :gold .
+        } .
+    };
+  pe:binding [ pe:var "x"; pe:value :northStar ];
+  pe:uses { :northStar a :glitter . }.
+
+{ :northStar a :glitter . }
+  pe:fact "qiana.n3".
+
+{
+  {
+      ?x a :glitter .
+  } => {
+      ?x :notNecessarilyA :gold .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "phi"; pe:value {
+        {
+            ?x a :glitter .
+        } => {
+            ?x :notNecessarilyA :gold .
+        } .
+    } ];
+  pe:uses
+    {
+        :Einstein :says {
+            {
+                ?x a :glitter .
+            } => {
+                ?x :notNecessarilyA :gold .
+            } .
+        } .
+    }.
+
+{
+  :Einstein :says {
+      {
+          ?x a :glitter .
+      } => {
+          ?x :notNecessarilyA :gold .
+      } .
+  } .
+}
+  pe:fact "qiana.n3".
+
+{
+  :Fabian :believes {
+      {
+          ?x a :glitter .
+      } => {
+          ?x :notNecessarilyA :gold .
+      } .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "phi"; pe:value {
+        {
+            ?x a :glitter .
+        } => {
+            ?x :notNecessarilyA :gold .
+        } .
+    } ],
+    [ pe:var "x"; pe:value :Fabian ];
+  pe:uses
+    {
+        :Einstein :says {
+            {
+                ?x a :glitter .
+            } => {
+                ?x :notNecessarilyA :gold .
+            } .
+        } .
+    }.

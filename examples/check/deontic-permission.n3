@@ -1,0 +1,83 @@
+# checked: 30 steps, 30 verified, 0 trusted
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+{
+    :s1 :p1 :o1 .
+} log:isPermittedIn :w1 .
+{
+    :s2 :p2 :o2 .
+} log:isPermittedIn :w1 .
+{
+    {
+        :s3 :p3 :o3 .
+    } => false .
+} log:isPermittedIn :w1 .
+{
+    {
+        :s1 :p1 :o1 .
+    } => {
+        :s4 :p4 :o4 .
+    } .
+} log:isPermittedIn :w1 .
+{
+    :s1 :p1 :o1 .
+} log:isPermittedIn :w2 .
+{
+    :s2 :p2 :o2 .
+} log:isPermittedIn :w2 .
+{
+    {
+        :s3 :p3 :o3 .
+    } => false .
+} log:isPermittedIn :w2 .
+{
+    :s1 :p1 :o1 .
+} log:isObligatoryIn :w1 .
+{
+    :s2 :p2 :o2 .
+} log:isObligatoryIn :w1 .
+{
+    :s1 :p1 :o1 .
+} log:isObligatoryIn :w2 .
+{
+    :s2 :p2 :o2 .
+} log:isObligatoryIn :w2 .
+{
+    {
+        :s3 :p3 :o3 .
+    } => false .
+} log:isObligatoryIn :w2 .
+{
+    :s3 :p3 :o3 .
+} log:isForbiddenIn :w2 .
+{
+    :s4 :p4 :o4 .
+} log:isObligatoryIn :w2 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/deontic-permission.n3";
+    pe:source "examples/deontic-permission.n3";
+    pe:verdict pe:checked;
+    pe:steps 30;
+    pe:verified 30;
+    pe:trusted 0;
+    pe:builtinSteps 5;
+    pe:factSteps 11;
+    pe:ruleSteps 14;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 25; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 63; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 5; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 44; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 5; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 63; pe:failed 0 ].

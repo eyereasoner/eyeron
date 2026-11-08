@@ -1,0 +1,1213 @@
+@prefix : <http://example.org/reals#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+
+:sqrt2Seq :term (1 1.5) .
+:sqrt2Seq :error (0 1) .
+:sqrt2Seq :delta (1 0.5) .
+:sqrt2Seq log:outputString "n=0  x=1.0  delta=seed  err=1\n" .
+:sqrt2Seq :term (2 1.4166666666666665) .
+:sqrt2Seq :error (1 0.25) .
+:sqrt2Seq :delta (2 0.08333333333333348) .
+:sqrt2Seq log:outputString "n=1  x=1.5  delta=0.5  err=0.25\n" .
+:sqrt2Seq :term (3 1.4142156862745097) .
+:sqrt2Seq :error (2 0.006944444444444198) .
+:sqrt2Seq :delta (3 0.002450980392156854) .
+:sqrt2Seq log:outputString "n=2  x=1.4166666666666665  delta=0.08333333333333348  err=0.006944444444444198\n" .
+:sqrt2Seq :term (4 1.4142135623746899) .
+:sqrt2Seq :error (3 0.000006007304882427178) .
+:sqrt2Seq :delta (4 0.0000021238998197947723) .
+:sqrt2Seq log:outputString "n=3  x=1.4142156862745097  delta=0.002450980392156854  err=0.000006007304882427178\n" .
+:sqrt2Seq :term (5 1.414213562373095) .
+:sqrt2Seq :error (4 4.510614104447086e-12) .
+:sqrt2Seq :delta (5 1.5949463971764999e-12) .
+:sqrt2Seq log:outputString "n=4  x=1.4142135623746899  delta=0.0000021238998197947723  err=4.510614104447086e-12\n" .
+:sqrt2Seq :cauchyStep (4 true) .
+:sqrt2Seq :term (6 1.414213562373095) .
+:sqrt2Seq :error (5 4.440892098500626e-16) .
+:sqrt2Seq :delta (6 0) .
+:sqrt2Seq log:outputString "n=5  x=1.414213562373095  delta=1.5949463971764999e-12  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (5 true) .
+:sqrt2Seq :term (7 1.414213562373095) .
+:sqrt2Seq :error (6 4.440892098500626e-16) .
+:sqrt2Seq :delta (7 0) .
+:sqrt2Seq log:outputString "n=6  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (6 true) .
+:sqrt2Seq :term (8 1.414213562373095) .
+:sqrt2Seq :error (7 4.440892098500626e-16) .
+:sqrt2Seq :delta (8 0) .
+:sqrt2Seq log:outputString "n=7  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (7 true) .
+:sqrt2Seq :term (9 1.414213562373095) .
+:sqrt2Seq :error (8 4.440892098500626e-16) .
+:sqrt2Seq :delta (9 0) .
+:sqrt2Seq log:outputString "n=8  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (8 true) .
+:sqrt2Seq :term (10 1.414213562373095) .
+:sqrt2Seq :error (9 4.440892098500626e-16) .
+:sqrt2Seq :delta (10 0) .
+:sqrt2Seq log:outputString "n=9  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (9 true) .
+:sqrt2Seq :error (10 4.440892098500626e-16) .
+:sqrt2Real :approx 1.414213562373095 .
+:sqrt2Seq log:outputString "n=10  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (10 true) .
+:sqrt2Real log:outputString "Approximation (at limit): sqrt2 ≈ 1.414213562373095\n" .
+:sqrt2Seq :boundedCauchyTail true .
+:sqrt2Seq log:outputString "Tail check: for i,j in (4..10), all |x_i - x_j| < 0.0001 (finite check)\n" .
+
+{ :sqrt2Seq :term (1 1.5) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "limit"; pe:value 10 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "n1"; pe:value 1 ],
+    [ pe:var "sum"; pe:value "3"^^xsd:decimal ],
+    [ pe:var "twoOverX"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "x"; pe:value 1.0 ],
+    [ pe:var "x1"; pe:value 1.5 ];
+  pe:uses
+    { :sqrt2Seq :term (0 1.0) . },
+    { :sqrt2Seq :limit 10 . },
+    { 0 math:lessThan 10 . },
+    { (0 1) math:sum 1 . },
+    { (2 1.0) math:quotient "2"^^xsd:decimal . },
+    { (1.0 "2"^^xsd:decimal) math:sum "3"^^xsd:decimal . },
+    { ("3"^^xsd:decimal 2) math:quotient 1.5 . }.
+
+{ :sqrt2Seq :term (0 1.0) . }
+  pe:fact "sqrt2-cauchy.n3".
+
+{ :sqrt2Seq :limit 10 . }
+  pe:fact "sqrt2-cauchy.n3".
+
+{ 0 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ (0 1) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (2 1.0) math:quotient "2"^^xsd:decimal . }
+  pe:builtin math:quotient.
+
+{ (1.0 "2"^^xsd:decimal) math:sum "3"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ ("3"^^xsd:decimal 2) math:quotient 1.5 . }
+  pe:builtin math:quotient.
+
+{ :sqrt2Seq :error (0 1) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "err"; pe:value 1 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "x"; pe:value 1.0 ],
+    [ pe:var "x2"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :sqrt2Seq :term (0 1.0) . },
+    { (1.0 1.0) math:product "1"^^xsd:decimal . },
+    { ("1"^^xsd:decimal 2) math:difference "-1"^^xsd:decimal . },
+    { "-1"^^xsd:decimal math:absoluteValue 1 . }.
+
+{ (1.0 1.0) math:product "1"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ("1"^^xsd:decimal 2) math:difference "-1"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ "-1"^^xsd:decimal math:absoluteValue 1 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq :delta (1 0.5) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d"; pe:value 0.5 ],
+    [ pe:var "delta"; pe:value 0.5 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "n0"; pe:value 0 ],
+    [ pe:var "x"; pe:value 1.5 ],
+    [ pe:var "x0"; pe:value 1.0 ];
+  pe:uses
+    { :sqrt2Seq :term (1 1.5) . },
+    { 1 math:greaterThan 0 . },
+    { (1 1) math:difference 0 . },
+    { :sqrt2Seq :term (0 1.0) . },
+    { (1.5 1.0) math:difference 0.5 . },
+    { 0.5 math:absoluteValue 0.5 . }.
+
+{ 1 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (1 1) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ (1.5 1.0) math:difference 0.5 . }
+  pe:builtin math:difference.
+
+{ 0.5 math:absoluteValue 0.5 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq log:outputString "n=0  x=1.0  delta=seed  err=1\n" . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "err"; pe:value 1 ],
+    [ pe:var "line"; pe:value "n=0  x=1.0  delta=seed  err=1\n" ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "x"; pe:value 1.0 ];
+  pe:uses
+    { :sqrt2Seq :term (0 1.0) . },
+    { :sqrt2Seq :error (0 1) . },
+    { 0 math:equalTo 0 . },
+    { ("n=%s  x=%s  delta=seed  err=%s\n" 0 1.0 1) string:format "n=0  x=1.0  delta=seed  err=1\n" . }.
+
+{ 0 math:equalTo 0 . }
+  pe:builtin math:equalTo.
+
+{ ("n=%s  x=%s  delta=seed  err=%s\n" 0 1.0 1) string:format "n=0  x=1.0  delta=seed  err=1\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :term (2 1.4166666666666665) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "limit"; pe:value 10 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "n1"; pe:value 2 ],
+    [ pe:var "sum"; pe:value 2.833333333333333 ],
+    [ pe:var "twoOverX"; pe:value 1.3333333333333333 ],
+    [ pe:var "x"; pe:value 1.5 ],
+    [ pe:var "x1"; pe:value 1.4166666666666665 ];
+  pe:uses
+    { :sqrt2Seq :term (1 1.5) . },
+    { :sqrt2Seq :limit 10 . },
+    { 1 math:lessThan 10 . },
+    { (1 1) math:sum 2 . },
+    { (2 1.5) math:quotient 1.3333333333333333 . },
+    { (1.5 1.3333333333333333) math:sum 2.833333333333333 . },
+    { (2.833333333333333 2) math:quotient 1.4166666666666665 . }.
+
+{ 1 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ (2 1.5) math:quotient 1.3333333333333333 . }
+  pe:builtin math:quotient.
+
+{ (1.5 1.3333333333333333) math:sum 2.833333333333333 . }
+  pe:builtin math:sum.
+
+{ (2.833333333333333 2) math:quotient 1.4166666666666665 . }
+  pe:builtin math:quotient.
+
+{ :sqrt2Seq :error (1 0.25) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value 0.25 ],
+    [ pe:var "err"; pe:value 0.25 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "x"; pe:value 1.5 ],
+    [ pe:var "x2"; pe:value 2.25 ];
+  pe:uses
+    { :sqrt2Seq :term (1 1.5) . },
+    { (1.5 1.5) math:product 2.25 . },
+    { (2.25 2) math:difference 0.25 . },
+    { 0.25 math:absoluteValue 0.25 . }.
+
+{ (1.5 1.5) math:product 2.25 . }
+  pe:builtin math:product.
+
+{ (2.25 2) math:difference 0.25 . }
+  pe:builtin math:difference.
+
+{ 0.25 math:absoluteValue 0.25 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq :delta (2 0.08333333333333348) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d"; pe:value -0.08333333333333348 ],
+    [ pe:var "delta"; pe:value 0.08333333333333348 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "n0"; pe:value 1 ],
+    [ pe:var "x"; pe:value 1.4166666666666665 ],
+    [ pe:var "x0"; pe:value 1.5 ];
+  pe:uses
+    { :sqrt2Seq :term (2 1.4166666666666665) . },
+    { 2 math:greaterThan 0 . },
+    { (2 1) math:difference 1 . },
+    { :sqrt2Seq :term (1 1.5) . },
+    { (1.4166666666666665 1.5) math:difference -0.08333333333333348 . },
+    { -0.08333333333333348 math:absoluteValue 0.08333333333333348 . }.
+
+{ 2 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (2 1) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (1.4166666666666665 1.5) math:difference -0.08333333333333348 . }
+  pe:builtin math:difference.
+
+{ -0.08333333333333348 math:absoluteValue 0.08333333333333348 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq log:outputString "n=1  x=1.5  delta=0.5  err=0.25\n" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "delta"; pe:value 0.5 ],
+    [ pe:var "err"; pe:value 0.25 ],
+    [ pe:var "line"; pe:value "n=1  x=1.5  delta=0.5  err=0.25\n" ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "x"; pe:value 1.5 ];
+  pe:uses
+    { :sqrt2Seq :term (1 1.5) . },
+    { :sqrt2Seq :error (1 0.25) . },
+    { :sqrt2Seq :delta (1 0.5) . },
+    { 1 math:greaterThan 0 . },
+    { ("n=%s  x=%s  delta=%s  err=%s\n" 1 1.5 0.5 0.25) string:format "n=1  x=1.5  delta=0.5  err=0.25\n" . }.
+
+{ ("n=%s  x=%s  delta=%s  err=%s\n" 1 1.5 0.5 0.25) string:format "n=1  x=1.5  delta=0.5  err=0.25\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :term (3 1.4142156862745097) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "limit"; pe:value 10 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "n1"; pe:value 3 ],
+    [ pe:var "sum"; pe:value 2.8284313725490193 ],
+    [ pe:var "twoOverX"; pe:value 1.411764705882353 ],
+    [ pe:var "x"; pe:value 1.4166666666666665 ],
+    [ pe:var "x1"; pe:value 1.4142156862745097 ];
+  pe:uses
+    { :sqrt2Seq :term (2 1.4166666666666665) . },
+    { :sqrt2Seq :limit 10 . },
+    { 2 math:lessThan 10 . },
+    { (2 1) math:sum 3 . },
+    { (2 1.4166666666666665) math:quotient 1.411764705882353 . },
+    { (1.4166666666666665 1.411764705882353) math:sum 2.8284313725490193 . },
+    { (2.8284313725490193 2) math:quotient 1.4142156862745097 . }.
+
+{ 2 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ (2 1) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ (2 1.4166666666666665) math:quotient 1.411764705882353 . }
+  pe:builtin math:quotient.
+
+{ (1.4166666666666665 1.411764705882353) math:sum 2.8284313725490193 . }
+  pe:builtin math:sum.
+
+{ (2.8284313725490193 2) math:quotient 1.4142156862745097 . }
+  pe:builtin math:quotient.
+
+{ :sqrt2Seq :error (2 0.006944444444444198) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value 0.006944444444444198 ],
+    [ pe:var "err"; pe:value 0.006944444444444198 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "x"; pe:value 1.4166666666666665 ],
+    [ pe:var "x2"; pe:value 2.006944444444444 ];
+  pe:uses
+    { :sqrt2Seq :term (2 1.4166666666666665) . },
+    { (1.4166666666666665 1.4166666666666665) math:product 2.006944444444444 . },
+    { (2.006944444444444 2) math:difference 0.006944444444444198 . },
+    { 0.006944444444444198 math:absoluteValue 0.006944444444444198 . }.
+
+{ (1.4166666666666665 1.4166666666666665) math:product 2.006944444444444 . }
+  pe:builtin math:product.
+
+{ (2.006944444444444 2) math:difference 0.006944444444444198 . }
+  pe:builtin math:difference.
+
+{ 0.006944444444444198 math:absoluteValue 0.006944444444444198 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq :delta (3 0.002450980392156854) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d"; pe:value -0.002450980392156854 ],
+    [ pe:var "delta"; pe:value 0.002450980392156854 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "n0"; pe:value 2 ],
+    [ pe:var "x"; pe:value 1.4142156862745097 ],
+    [ pe:var "x0"; pe:value 1.4166666666666665 ];
+  pe:uses
+    { :sqrt2Seq :term (3 1.4142156862745097) . },
+    { 3 math:greaterThan 0 . },
+    { (3 1) math:difference 2 . },
+    { :sqrt2Seq :term (2 1.4166666666666665) . },
+    { (1.4142156862745097 1.4166666666666665) math:difference -0.002450980392156854 . },
+    { -0.002450980392156854 math:absoluteValue 0.002450980392156854 . }.
+
+{ 3 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (3 1) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (1.4142156862745097 1.4166666666666665) math:difference -0.002450980392156854 . }
+  pe:builtin math:difference.
+
+{ -0.002450980392156854 math:absoluteValue 0.002450980392156854 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq log:outputString "n=2  x=1.4166666666666665  delta=0.08333333333333348  err=0.006944444444444198\n" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "delta"; pe:value 0.08333333333333348 ],
+    [ pe:var "err"; pe:value 0.006944444444444198 ],
+    [ pe:var "line"; pe:value "n=2  x=1.4166666666666665  delta=0.08333333333333348  err=0.006944444444444198\n" ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "x"; pe:value 1.4166666666666665 ];
+  pe:uses
+    { :sqrt2Seq :term (2 1.4166666666666665) . },
+    { :sqrt2Seq :error (2 0.006944444444444198) . },
+    { :sqrt2Seq :delta (2 0.08333333333333348) . },
+    { 2 math:greaterThan 0 . },
+    { ("n=%s  x=%s  delta=%s  err=%s\n" 2 1.4166666666666665 0.08333333333333348 0.006944444444444198) string:format "n=2  x=1.4166666666666665  delta=0.08333333333333348  err=0.006944444444444198\n" . }.
+
+{ ("n=%s  x=%s  delta=%s  err=%s\n" 2 1.4166666666666665 0.08333333333333348 0.006944444444444198) string:format "n=2  x=1.4166666666666665  delta=0.08333333333333348  err=0.006944444444444198\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :term (4 1.4142135623746899) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "limit"; pe:value 10 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "n1"; pe:value 4 ],
+    [ pe:var "sum"; pe:value 2.8284271247493797 ],
+    [ pe:var "twoOverX"; pe:value 1.41421143847487 ],
+    [ pe:var "x"; pe:value 1.4142156862745097 ],
+    [ pe:var "x1"; pe:value 1.4142135623746899 ];
+  pe:uses
+    { :sqrt2Seq :term (3 1.4142156862745097) . },
+    { :sqrt2Seq :limit 10 . },
+    { 3 math:lessThan 10 . },
+    { (3 1) math:sum 4 . },
+    { (2 1.4142156862745097) math:quotient 1.41421143847487 . },
+    { (1.4142156862745097 1.41421143847487) math:sum 2.8284271247493797 . },
+    { (2.8284271247493797 2) math:quotient 1.4142135623746899 . }.
+
+{ 3 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ (3 1) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ (2 1.4142156862745097) math:quotient 1.41421143847487 . }
+  pe:builtin math:quotient.
+
+{ (1.4142156862745097 1.41421143847487) math:sum 2.8284271247493797 . }
+  pe:builtin math:sum.
+
+{ (2.8284271247493797 2) math:quotient 1.4142135623746899 . }
+  pe:builtin math:quotient.
+
+{ :sqrt2Seq :error (3 0.000006007304882427178) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value 0.000006007304882427178 ],
+    [ pe:var "err"; pe:value 0.000006007304882427178 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "x"; pe:value 1.4142156862745097 ],
+    [ pe:var "x2"; pe:value 2.0000060073048824 ];
+  pe:uses
+    { :sqrt2Seq :term (3 1.4142156862745097) . },
+    { (1.4142156862745097 1.4142156862745097) math:product 2.0000060073048824 . },
+    { (2.0000060073048824 2) math:difference 0.000006007304882427178 . },
+    { 0.000006007304882427178 math:absoluteValue 0.000006007304882427178 . }.
+
+{ (1.4142156862745097 1.4142156862745097) math:product 2.0000060073048824 . }
+  pe:builtin math:product.
+
+{ (2.0000060073048824 2) math:difference 0.000006007304882427178 . }
+  pe:builtin math:difference.
+
+{ 0.000006007304882427178 math:absoluteValue 0.000006007304882427178 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq :delta (4 0.0000021238998197947723) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d"; pe:value -0.0000021238998197947723 ],
+    [ pe:var "delta"; pe:value 0.0000021238998197947723 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "n0"; pe:value 3 ],
+    [ pe:var "x"; pe:value 1.4142135623746899 ],
+    [ pe:var "x0"; pe:value 1.4142156862745097 ];
+  pe:uses
+    { :sqrt2Seq :term (4 1.4142135623746899) . },
+    { 4 math:greaterThan 0 . },
+    { (4 1) math:difference 3 . },
+    { :sqrt2Seq :term (3 1.4142156862745097) . },
+    { (1.4142135623746899 1.4142156862745097) math:difference -0.0000021238998197947723 . },
+    { -0.0000021238998197947723 math:absoluteValue 0.0000021238998197947723 . }.
+
+{ 4 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (4 1) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (1.4142135623746899 1.4142156862745097) math:difference -0.0000021238998197947723 . }
+  pe:builtin math:difference.
+
+{ -0.0000021238998197947723 math:absoluteValue 0.0000021238998197947723 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq log:outputString "n=3  x=1.4142156862745097  delta=0.002450980392156854  err=0.000006007304882427178\n" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "delta"; pe:value 0.002450980392156854 ],
+    [ pe:var "err"; pe:value 0.000006007304882427178 ],
+    [ pe:var "line"; pe:value "n=3  x=1.4142156862745097  delta=0.002450980392156854  err=0.000006007304882427178\n" ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "x"; pe:value 1.4142156862745097 ];
+  pe:uses
+    { :sqrt2Seq :term (3 1.4142156862745097) . },
+    { :sqrt2Seq :error (3 0.000006007304882427178) . },
+    { :sqrt2Seq :delta (3 0.002450980392156854) . },
+    { 3 math:greaterThan 0 . },
+    { ("n=%s  x=%s  delta=%s  err=%s\n" 3 1.4142156862745097 0.002450980392156854 0.000006007304882427178) string:format "n=3  x=1.4142156862745097  delta=0.002450980392156854  err=0.000006007304882427178\n" . }.
+
+{ ("n=%s  x=%s  delta=%s  err=%s\n" 3 1.4142156862745097 0.002450980392156854 0.000006007304882427178) string:format "n=3  x=1.4142156862745097  delta=0.002450980392156854  err=0.000006007304882427178\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :term (5 1.414213562373095) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "limit"; pe:value 10 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "n1"; pe:value 5 ],
+    [ pe:var "sum"; pe:value 2.82842712474619 ],
+    [ pe:var "twoOverX"; pe:value 1.4142135623715002 ],
+    [ pe:var "x"; pe:value 1.4142135623746899 ],
+    [ pe:var "x1"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (4 1.4142135623746899) . },
+    { :sqrt2Seq :limit 10 . },
+    { 4 math:lessThan 10 . },
+    { (4 1) math:sum 5 . },
+    { (2 1.4142135623746899) math:quotient 1.4142135623715002 . },
+    { (1.4142135623746899 1.4142135623715002) math:sum 2.82842712474619 . },
+    { (2.82842712474619 2) math:quotient 1.414213562373095 . }.
+
+{ 4 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ (4 1) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ (2 1.4142135623746899) math:quotient 1.4142135623715002 . }
+  pe:builtin math:quotient.
+
+{ (1.4142135623746899 1.4142135623715002) math:sum 2.82842712474619 . }
+  pe:builtin math:sum.
+
+{ (2.82842712474619 2) math:quotient 1.414213562373095 . }
+  pe:builtin math:quotient.
+
+{ :sqrt2Seq :error (4 4.510614104447086e-12) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value 4.510614104447086e-12 ],
+    [ pe:var "err"; pe:value 4.510614104447086e-12 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "x"; pe:value 1.4142135623746899 ],
+    [ pe:var "x2"; pe:value 2.0000000000045106 ];
+  pe:uses
+    { :sqrt2Seq :term (4 1.4142135623746899) . },
+    { (1.4142135623746899 1.4142135623746899) math:product 2.0000000000045106 . },
+    { (2.0000000000045106 2) math:difference 4.510614104447086e-12 . },
+    { 4.510614104447086e-12 math:absoluteValue 4.510614104447086e-12 . }.
+
+{ (1.4142135623746899 1.4142135623746899) math:product 2.0000000000045106 . }
+  pe:builtin math:product.
+
+{ (2.0000000000045106 2) math:difference 4.510614104447086e-12 . }
+  pe:builtin math:difference.
+
+{ 4.510614104447086e-12 math:absoluteValue 4.510614104447086e-12 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq :delta (5 1.5949463971764999e-12) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d"; pe:value -1.5949463971764999e-12 ],
+    [ pe:var "delta"; pe:value 1.5949463971764999e-12 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "n0"; pe:value 4 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x0"; pe:value 1.4142135623746899 ];
+  pe:uses
+    { :sqrt2Seq :term (5 1.414213562373095) . },
+    { 5 math:greaterThan 0 . },
+    { (5 1) math:difference 4 . },
+    { :sqrt2Seq :term (4 1.4142135623746899) . },
+    { (1.414213562373095 1.4142135623746899) math:difference -1.5949463971764999e-12 . },
+    { -1.5949463971764999e-12 math:absoluteValue 1.5949463971764999e-12 . }.
+
+{ 5 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (5 1) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ (1.414213562373095 1.4142135623746899) math:difference -1.5949463971764999e-12 . }
+  pe:builtin math:difference.
+
+{ -1.5949463971764999e-12 math:absoluteValue 1.5949463971764999e-12 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq log:outputString "n=4  x=1.4142135623746899  delta=0.0000021238998197947723  err=4.510614104447086e-12\n" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "delta"; pe:value 0.0000021238998197947723 ],
+    [ pe:var "err"; pe:value 4.510614104447086e-12 ],
+    [ pe:var "line"; pe:value "n=4  x=1.4142135623746899  delta=0.0000021238998197947723  err=4.510614104447086e-12\n" ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "x"; pe:value 1.4142135623746899 ];
+  pe:uses
+    { :sqrt2Seq :term (4 1.4142135623746899) . },
+    { :sqrt2Seq :error (4 4.510614104447086e-12) . },
+    { :sqrt2Seq :delta (4 0.0000021238998197947723) . },
+    { 4 math:greaterThan 0 . },
+    { ("n=%s  x=%s  delta=%s  err=%s\n" 4 1.4142135623746899 0.0000021238998197947723 4.510614104447086e-12) string:format "n=4  x=1.4142135623746899  delta=0.0000021238998197947723  err=4.510614104447086e-12\n" . }.
+
+{ ("n=%s  x=%s  delta=%s  err=%s\n" 4 1.4142135623746899 0.0000021238998197947723 4.510614104447086e-12) string:format "n=4  x=1.4142135623746899  delta=0.0000021238998197947723  err=4.510614104447086e-12\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :cauchyStep (4 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "delta"; pe:value 0.0000021238998197947723 ],
+    [ pe:var "eps"; pe:value 0.0001 ],
+    [ pe:var "n"; pe:value 4 ];
+  pe:uses
+    { :sqrt2Seq :delta (4 0.0000021238998197947723) . },
+    { :sqrt2Seq :epsilon 0.0001 . },
+    { 0.0000021238998197947723 math:lessThan 0.0001 . }.
+
+{ :sqrt2Seq :epsilon 0.0001 . }
+  pe:fact "sqrt2-cauchy.n3".
+
+{ 0.0000021238998197947723 math:lessThan 0.0001 . }
+  pe:builtin math:lessThan.
+
+{ :sqrt2Seq :term (6 1.414213562373095) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "limit"; pe:value 10 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "n1"; pe:value 6 ],
+    [ pe:var "sum"; pe:value 2.82842712474619 ],
+    [ pe:var "twoOverX"; pe:value 1.4142135623730951 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x1"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (5 1.414213562373095) . },
+    { :sqrt2Seq :limit 10 . },
+    { 5 math:lessThan 10 . },
+    { (5 1) math:sum 6 . },
+    { (2 1.414213562373095) math:quotient 1.4142135623730951 . },
+    { (1.414213562373095 1.4142135623730951) math:sum 2.82842712474619 . },
+    { (2.82842712474619 2) math:quotient 1.414213562373095 . }.
+
+{ 5 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ (5 1) math:sum 6 . }
+  pe:builtin math:sum.
+
+{ (2 1.414213562373095) math:quotient 1.4142135623730951 . }
+  pe:builtin math:quotient.
+
+{ (1.414213562373095 1.4142135623730951) math:sum 2.82842712474619 . }
+  pe:builtin math:sum.
+
+{ :sqrt2Seq :error (5 4.440892098500626e-16) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value -4.440892098500626e-16 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x2"; pe:value 1.9999999999999996 ];
+  pe:uses
+    { :sqrt2Seq :term (5 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:product 1.9999999999999996 . },
+    { (1.9999999999999996 2) math:difference -4.440892098500626e-16 . },
+    { -4.440892098500626e-16 math:absoluteValue 4.440892098500626e-16 . }.
+
+{ (1.414213562373095 1.414213562373095) math:product 1.9999999999999996 . }
+  pe:builtin math:product.
+
+{ (1.9999999999999996 2) math:difference -4.440892098500626e-16 . }
+  pe:builtin math:difference.
+
+{ -4.440892098500626e-16 math:absoluteValue 4.440892098500626e-16 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq :delta (6 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "n0"; pe:value 5 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x0"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (6 1.414213562373095) . },
+    { 6 math:greaterThan 0 . },
+    { (6 1) math:difference 5 . },
+    { :sqrt2Seq :term (5 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:difference "0"^^xsd:decimal . },
+    { "0"^^xsd:decimal math:absoluteValue 0 . }.
+
+{ 6 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (6 1) math:difference 5 . }
+  pe:builtin math:difference.
+
+{ (1.414213562373095 1.414213562373095) math:difference "0"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ "0"^^xsd:decimal math:absoluteValue 0 . }
+  pe:builtin math:absoluteValue.
+
+{ :sqrt2Seq log:outputString "n=5  x=1.414213562373095  delta=1.5949463971764999e-12  err=4.440892098500626e-16\n" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "delta"; pe:value 1.5949463971764999e-12 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "line"; pe:value "n=5  x=1.414213562373095  delta=1.5949463971764999e-12  err=4.440892098500626e-16\n" ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (5 1.414213562373095) . },
+    { :sqrt2Seq :error (5 4.440892098500626e-16) . },
+    { :sqrt2Seq :delta (5 1.5949463971764999e-12) . },
+    { 5 math:greaterThan 0 . },
+    { ("n=%s  x=%s  delta=%s  err=%s\n" 5 1.414213562373095 1.5949463971764999e-12 4.440892098500626e-16) string:format "n=5  x=1.414213562373095  delta=1.5949463971764999e-12  err=4.440892098500626e-16\n" . }.
+
+{ ("n=%s  x=%s  delta=%s  err=%s\n" 5 1.414213562373095 1.5949463971764999e-12 4.440892098500626e-16) string:format "n=5  x=1.414213562373095  delta=1.5949463971764999e-12  err=4.440892098500626e-16\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :cauchyStep (5 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "delta"; pe:value 1.5949463971764999e-12 ],
+    [ pe:var "eps"; pe:value 0.0001 ],
+    [ pe:var "n"; pe:value 5 ];
+  pe:uses
+    { :sqrt2Seq :delta (5 1.5949463971764999e-12) . },
+    { :sqrt2Seq :epsilon 0.0001 . },
+    { 1.5949463971764999e-12 math:lessThan 0.0001 . }.
+
+{ 1.5949463971764999e-12 math:lessThan 0.0001 . }
+  pe:builtin math:lessThan.
+
+{ :sqrt2Seq :term (7 1.414213562373095) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "limit"; pe:value 10 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "n1"; pe:value 7 ],
+    [ pe:var "sum"; pe:value 2.82842712474619 ],
+    [ pe:var "twoOverX"; pe:value 1.4142135623730951 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x1"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (6 1.414213562373095) . },
+    { :sqrt2Seq :limit 10 . },
+    { 6 math:lessThan 10 . },
+    { (6 1) math:sum 7 . },
+    { (2 1.414213562373095) math:quotient 1.4142135623730951 . },
+    { (1.414213562373095 1.4142135623730951) math:sum 2.82842712474619 . },
+    { (2.82842712474619 2) math:quotient 1.414213562373095 . }.
+
+{ 6 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ (6 1) math:sum 7 . }
+  pe:builtin math:sum.
+
+{ :sqrt2Seq :error (6 4.440892098500626e-16) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value -4.440892098500626e-16 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x2"; pe:value 1.9999999999999996 ];
+  pe:uses
+    { :sqrt2Seq :term (6 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:product 1.9999999999999996 . },
+    { (1.9999999999999996 2) math:difference -4.440892098500626e-16 . },
+    { -4.440892098500626e-16 math:absoluteValue 4.440892098500626e-16 . }.
+
+{ :sqrt2Seq :delta (7 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "n0"; pe:value 6 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x0"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (7 1.414213562373095) . },
+    { 7 math:greaterThan 0 . },
+    { (7 1) math:difference 6 . },
+    { :sqrt2Seq :term (6 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:difference "0"^^xsd:decimal . },
+    { "0"^^xsd:decimal math:absoluteValue 0 . }.
+
+{ 7 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (7 1) math:difference 6 . }
+  pe:builtin math:difference.
+
+{ :sqrt2Seq log:outputString "n=6  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "line"; pe:value "n=6  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (6 1.414213562373095) . },
+    { :sqrt2Seq :error (6 4.440892098500626e-16) . },
+    { :sqrt2Seq :delta (6 0) . },
+    { 6 math:greaterThan 0 . },
+    { ("n=%s  x=%s  delta=%s  err=%s\n" 6 1.414213562373095 0 4.440892098500626e-16) string:format "n=6  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }.
+
+{ ("n=%s  x=%s  delta=%s  err=%s\n" 6 1.414213562373095 0 4.440892098500626e-16) string:format "n=6  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :cauchyStep (6 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "eps"; pe:value 0.0001 ],
+    [ pe:var "n"; pe:value 6 ];
+  pe:uses
+    { :sqrt2Seq :delta (6 0) . },
+    { :sqrt2Seq :epsilon 0.0001 . },
+    { 0 math:lessThan 0.0001 . }.
+
+{ 0 math:lessThan 0.0001 . }
+  pe:builtin math:lessThan.
+
+{ :sqrt2Seq :term (8 1.414213562373095) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "limit"; pe:value 10 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "n1"; pe:value 8 ],
+    [ pe:var "sum"; pe:value 2.82842712474619 ],
+    [ pe:var "twoOverX"; pe:value 1.4142135623730951 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x1"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (7 1.414213562373095) . },
+    { :sqrt2Seq :limit 10 . },
+    { 7 math:lessThan 10 . },
+    { (7 1) math:sum 8 . },
+    { (2 1.414213562373095) math:quotient 1.4142135623730951 . },
+    { (1.414213562373095 1.4142135623730951) math:sum 2.82842712474619 . },
+    { (2.82842712474619 2) math:quotient 1.414213562373095 . }.
+
+{ 7 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ (7 1) math:sum 8 . }
+  pe:builtin math:sum.
+
+{ :sqrt2Seq :error (7 4.440892098500626e-16) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value -4.440892098500626e-16 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x2"; pe:value 1.9999999999999996 ];
+  pe:uses
+    { :sqrt2Seq :term (7 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:product 1.9999999999999996 . },
+    { (1.9999999999999996 2) math:difference -4.440892098500626e-16 . },
+    { -4.440892098500626e-16 math:absoluteValue 4.440892098500626e-16 . }.
+
+{ :sqrt2Seq :delta (8 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "n0"; pe:value 7 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x0"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (8 1.414213562373095) . },
+    { 8 math:greaterThan 0 . },
+    { (8 1) math:difference 7 . },
+    { :sqrt2Seq :term (7 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:difference "0"^^xsd:decimal . },
+    { "0"^^xsd:decimal math:absoluteValue 0 . }.
+
+{ 8 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (8 1) math:difference 7 . }
+  pe:builtin math:difference.
+
+{ :sqrt2Seq log:outputString "n=7  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "line"; pe:value "n=7  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (7 1.414213562373095) . },
+    { :sqrt2Seq :error (7 4.440892098500626e-16) . },
+    { :sqrt2Seq :delta (7 0) . },
+    { 7 math:greaterThan 0 . },
+    { ("n=%s  x=%s  delta=%s  err=%s\n" 7 1.414213562373095 0 4.440892098500626e-16) string:format "n=7  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }.
+
+{ ("n=%s  x=%s  delta=%s  err=%s\n" 7 1.414213562373095 0 4.440892098500626e-16) string:format "n=7  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :cauchyStep (7 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "eps"; pe:value 0.0001 ],
+    [ pe:var "n"; pe:value 7 ];
+  pe:uses
+    { :sqrt2Seq :delta (7 0) . },
+    { :sqrt2Seq :epsilon 0.0001 . },
+    { 0 math:lessThan 0.0001 . }.
+
+{ :sqrt2Seq :term (9 1.414213562373095) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "limit"; pe:value 10 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "n1"; pe:value 9 ],
+    [ pe:var "sum"; pe:value 2.82842712474619 ],
+    [ pe:var "twoOverX"; pe:value 1.4142135623730951 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x1"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (8 1.414213562373095) . },
+    { :sqrt2Seq :limit 10 . },
+    { 8 math:lessThan 10 . },
+    { (8 1) math:sum 9 . },
+    { (2 1.414213562373095) math:quotient 1.4142135623730951 . },
+    { (1.414213562373095 1.4142135623730951) math:sum 2.82842712474619 . },
+    { (2.82842712474619 2) math:quotient 1.414213562373095 . }.
+
+{ 8 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ (8 1) math:sum 9 . }
+  pe:builtin math:sum.
+
+{ :sqrt2Seq :error (8 4.440892098500626e-16) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value -4.440892098500626e-16 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x2"; pe:value 1.9999999999999996 ];
+  pe:uses
+    { :sqrt2Seq :term (8 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:product 1.9999999999999996 . },
+    { (1.9999999999999996 2) math:difference -4.440892098500626e-16 . },
+    { -4.440892098500626e-16 math:absoluteValue 4.440892098500626e-16 . }.
+
+{ :sqrt2Seq :delta (9 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "n0"; pe:value 8 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x0"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (9 1.414213562373095) . },
+    { 9 math:greaterThan 0 . },
+    { (9 1) math:difference 8 . },
+    { :sqrt2Seq :term (8 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:difference "0"^^xsd:decimal . },
+    { "0"^^xsd:decimal math:absoluteValue 0 . }.
+
+{ 9 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (9 1) math:difference 8 . }
+  pe:builtin math:difference.
+
+{ :sqrt2Seq log:outputString "n=8  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "line"; pe:value "n=8  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (8 1.414213562373095) . },
+    { :sqrt2Seq :error (8 4.440892098500626e-16) . },
+    { :sqrt2Seq :delta (8 0) . },
+    { 8 math:greaterThan 0 . },
+    { ("n=%s  x=%s  delta=%s  err=%s\n" 8 1.414213562373095 0 4.440892098500626e-16) string:format "n=8  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }.
+
+{ ("n=%s  x=%s  delta=%s  err=%s\n" 8 1.414213562373095 0 4.440892098500626e-16) string:format "n=8  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :cauchyStep (8 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "eps"; pe:value 0.0001 ],
+    [ pe:var "n"; pe:value 8 ];
+  pe:uses
+    { :sqrt2Seq :delta (8 0) . },
+    { :sqrt2Seq :epsilon 0.0001 . },
+    { 0 math:lessThan 0.0001 . }.
+
+{ :sqrt2Seq :term (10 1.414213562373095) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "limit"; pe:value 10 ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "n1"; pe:value 10 ],
+    [ pe:var "sum"; pe:value 2.82842712474619 ],
+    [ pe:var "twoOverX"; pe:value 1.4142135623730951 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x1"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (9 1.414213562373095) . },
+    { :sqrt2Seq :limit 10 . },
+    { 9 math:lessThan 10 . },
+    { (9 1) math:sum 10 . },
+    { (2 1.414213562373095) math:quotient 1.4142135623730951 . },
+    { (1.414213562373095 1.4142135623730951) math:sum 2.82842712474619 . },
+    { (2.82842712474619 2) math:quotient 1.414213562373095 . }.
+
+{ 9 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ (9 1) math:sum 10 . }
+  pe:builtin math:sum.
+
+{ :sqrt2Seq :error (9 4.440892098500626e-16) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value -4.440892098500626e-16 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x2"; pe:value 1.9999999999999996 ];
+  pe:uses
+    { :sqrt2Seq :term (9 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:product 1.9999999999999996 . },
+    { (1.9999999999999996 2) math:difference -4.440892098500626e-16 . },
+    { -4.440892098500626e-16 math:absoluteValue 4.440892098500626e-16 . }.
+
+{ :sqrt2Seq :delta (10 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "n0"; pe:value 9 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x0"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (10 1.414213562373095) . },
+    { 10 math:greaterThan 0 . },
+    { (10 1) math:difference 9 . },
+    { :sqrt2Seq :term (9 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:difference "0"^^xsd:decimal . },
+    { "0"^^xsd:decimal math:absoluteValue 0 . }.
+
+{ 10 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (10 1) math:difference 9 . }
+  pe:builtin math:difference.
+
+{ :sqrt2Seq log:outputString "n=9  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "line"; pe:value "n=9  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (9 1.414213562373095) . },
+    { :sqrt2Seq :error (9 4.440892098500626e-16) . },
+    { :sqrt2Seq :delta (9 0) . },
+    { 9 math:greaterThan 0 . },
+    { ("n=%s  x=%s  delta=%s  err=%s\n" 9 1.414213562373095 0 4.440892098500626e-16) string:format "n=9  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }.
+
+{ ("n=%s  x=%s  delta=%s  err=%s\n" 9 1.414213562373095 0 4.440892098500626e-16) string:format "n=9  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :cauchyStep (9 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "eps"; pe:value 0.0001 ],
+    [ pe:var "n"; pe:value 9 ];
+  pe:uses
+    { :sqrt2Seq :delta (9 0) . },
+    { :sqrt2Seq :epsilon 0.0001 . },
+    { 0 math:lessThan 0.0001 . }.
+
+{ :sqrt2Seq :error (10 4.440892098500626e-16) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "d"; pe:value -4.440892098500626e-16 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ],
+    [ pe:var "x2"; pe:value 1.9999999999999996 ];
+  pe:uses
+    { :sqrt2Seq :term (10 1.414213562373095) . },
+    { (1.414213562373095 1.414213562373095) math:product 1.9999999999999996 . },
+    { (1.9999999999999996 2) math:difference -4.440892098500626e-16 . },
+    { -4.440892098500626e-16 math:absoluteValue 4.440892098500626e-16 . }.
+
+{ :sqrt2Real :approx 1.414213562373095 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :limit 10 . },
+    { :sqrt2Seq :term (10 1.414213562373095) . }.
+
+{ :sqrt2Seq log:outputString "n=10  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "err"; pe:value 4.440892098500626e-16 ],
+    [ pe:var "line"; pe:value "n=10  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" ],
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "x"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Seq :term (10 1.414213562373095) . },
+    { :sqrt2Seq :error (10 4.440892098500626e-16) . },
+    { :sqrt2Seq :delta (10 0) . },
+    { 10 math:greaterThan 0 . },
+    { ("n=%s  x=%s  delta=%s  err=%s\n" 10 1.414213562373095 0 4.440892098500626e-16) string:format "n=10  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }.
+
+{ ("n=%s  x=%s  delta=%s  err=%s\n" 10 1.414213562373095 0 4.440892098500626e-16) string:format "n=10  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :cauchyStep (10 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "delta"; pe:value 0 ],
+    [ pe:var "eps"; pe:value 0.0001 ],
+    [ pe:var "n"; pe:value 10 ];
+  pe:uses
+    { :sqrt2Seq :delta (10 0) . },
+    { :sqrt2Seq :epsilon 0.0001 . },
+    { 0 math:lessThan 0.0001 . }.
+
+{ :sqrt2Real log:outputString "Approximation (at limit): sqrt2 ≈ 1.414213562373095\n" . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "msg"; pe:value "Approximation (at limit): sqrt2 ≈ 1.414213562373095\n" ],
+    [ pe:var "x"; pe:value 1.414213562373095 ];
+  pe:uses
+    { :sqrt2Real :approx 1.414213562373095 . },
+    { ("Approximation (at limit): sqrt2 ≈ %s\n" 1.414213562373095) string:format "Approximation (at limit): sqrt2 ≈ 1.414213562373095\n" . }.
+
+{ ("Approximation (at limit): sqrt2 ≈ %s\n" 1.414213562373095) string:format "Approximation (at limit): sqrt2 ≈ 1.414213562373095\n" . }
+  pe:builtin string:format.
+
+{ :sqrt2Seq :boundedCauchyTail true . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "eps"; pe:value 0.0001 ],
+    [ pe:var "tail"; pe:value (4 5 6 7 8 9 10) ];
+  pe:uses
+    { :sqrt2Seq :tailIndices (4 5 6 7 8 9 10) . },
+    { :sqrt2Seq :epsilon 0.0001 . },
+    {
+        ({
+            ?i list:in (4 5 6 7 8 9 10) .
+            ?j list:in (4 5 6 7 8 9 10) .
+        } {
+            :sqrt2Seq :term (?i ?xi) .
+            :sqrt2Seq :term (?j ?xj) .
+            (?xi ?xj) math:difference ?d .
+            ?d math:absoluteValue ?ad .
+            ?ad math:lessThan 0.0001 .
+        }) log:forAllIn 1 .
+    }.
+
+{ :sqrt2Seq :tailIndices (4 5 6 7 8 9 10) . }
+  pe:fact "sqrt2-cauchy.n3".
+
+{
+  ({
+      ?i list:in (4 5 6 7 8 9 10) .
+      ?j list:in (4 5 6 7 8 9 10) .
+  } {
+      :sqrt2Seq :term (?i ?xi) .
+      :sqrt2Seq :term (?j ?xj) .
+      (?xi ?xj) math:difference ?d .
+      ?d math:absoluteValue ?ad .
+      ?ad math:lessThan 0.0001 .
+  }) log:forAllIn 1 .
+}
+  pe:builtin log:forAllIn.
+
+{ :sqrt2Seq log:outputString "Tail check: for i,j in (4..10), all |x_i - x_j| < 0.0001 (finite check)\n" . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "eps"; pe:value 0.0001 ],
+    [ pe:var "msg"; pe:value "Tail check: for i,j in (4..10), all |x_i - x_j| < 0.0001 (finite check)\n" ];
+  pe:uses
+    { :sqrt2Seq :boundedCauchyTail true . },
+    { :sqrt2Seq :epsilon 0.0001 . },
+    { ("Tail check: for i,j in (4..10), all |x_i - x_j| < %s (finite check)\n" 0.0001) string:format "Tail check: for i,j in (4..10), all |x_i - x_j| < 0.0001 (finite check)\n" . }.
+
+{ ("Tail check: for i,j in (4..10), all |x_i - x_j| < %s (finite check)\n" 0.0001) string:format "Tail check: for i,j in (4..10), all |x_i - x_j| < 0.0001 (finite check)\n" . }
+  pe:builtin string:format.
+
+:term pe:derived
+    { :sqrt2Seq :term (1 1.5) . },
+    { :sqrt2Seq :term (2 1.4166666666666665) . },
+    { :sqrt2Seq :term (3 1.4142156862745097) . },
+    { :sqrt2Seq :term (4 1.4142135623746899) . },
+    { :sqrt2Seq :term (5 1.414213562373095) . },
+    { :sqrt2Seq :term (6 1.414213562373095) . },
+    { :sqrt2Seq :term (7 1.414213562373095) . },
+    { :sqrt2Seq :term (8 1.414213562373095) . },
+    { :sqrt2Seq :term (9 1.414213562373095) . },
+    { :sqrt2Seq :term (10 1.414213562373095) . }.

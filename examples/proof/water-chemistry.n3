@@ -1,0 +1,28 @@
+@prefix h: <https://eyereasoner.github.io/eye/reasoning/h2o#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix t: <https://eyereasoner.github.io/eye/reasoning/tfcontext#> .
+
+h:traveler1 h:location (51.0535 3.7304) .
+
+{ h:traveler1 h:location (51.0535 3.7304) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value t:Ghent-Belgium ],
+    [ pe:var "LA"; pe:value 51.0535 ],
+    [ pe:var "LIST"; pe:value (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium) ],
+    [ pe:var "LO"; pe:value 3.7304 ],
+    [ pe:var "T"; pe:value h:traveler1 ];
+  pe:uses
+    { h:traveler1 h:inOneOf (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium) . },
+    { t:Ghent-Belgium list:in (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium) . },
+    { t:Ghent-Belgium t:position-tensor (51.0535 3.7304) . }.
+
+{ h:traveler1 h:inOneOf (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium) . }
+  pe:fact "water-chemistry.n3".
+
+{ t:Ghent-Belgium list:in (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium) . }
+  pe:builtin list:in.
+
+{ t:Ghent-Belgium t:position-tensor (51.0535 3.7304) . }
+  pe:fact "water-chemistry.n3".

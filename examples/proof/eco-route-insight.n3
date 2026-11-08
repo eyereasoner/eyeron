@@ -1,0 +1,287 @@
+@prefix : <https://eyereasoner.github.io/eyeling/examples/eco-route-insight#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+
+:Insight :status "issue" .
+:Insight :showEcoBanner "yes" .
+:Insight :suggestedRoute :altLowFuel .
+:Insight :estimatedSaving "21"^^xsd:decimal .
+:ecoRouteInsight log:outputString "# eco-route-insight\n\n## Source files\n\n- [N3 rules](../eco-route-insight.n3)\n- [Input TriG](../input/eco-route-insight.trig)\n\n## Answer\ninsight status : issue\nshow eco banner : yes\naudience : Depot X\nallowed use : ui.eco.banner\nsuggested route : alt-low-fuel\ncurrent fuel index : 120.75\nsuggested fuel index : 99.75\nestimated saving : 21.00\nexpires at : 2025-01-01T11:00:00Z\nraw data exported : no\nsignature algorithm : HMAC-SHA256\npayload digest : 00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135\nsignature key : local-demo-key\nsignature : 7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs\n\n## Explanation\nThe current route uses fuel index = distanceKm × (payloadKg / 1000) × gradientFactor. For shipment-1, Current urban route gives 42.00 × 2.50 × 1.15 = 120.75. The policy threshold is 120.00, so a local eco banner is justified. The selected alternative alt-low-fuel gives 38.00 × 2.50 × 1.05 = 99.75, saving 21.00 while staying within the ETA delay limit. The signed envelope exposes audience, use, expiry, route suggestion, and compact fuel indices, but not raw payload, GPS trace, driver behavior, or raw telemetry." .
+:ecoRouteInsight :issues :Insight .
+
+{ :Insight :status "issue" . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Alt"; pe:value 99.75 ],
+    [ pe:var "AltEta"; pe:value 66 ],
+    [ pe:var "Current"; pe:value 120.75 ],
+    [ pe:var "CurrentEta"; pe:value 64 ],
+    [ pe:var "Delay"; pe:value 2 ],
+    [ pe:var "MaxDelay"; pe:value 5 ],
+    [ pe:var "Saving"; pe:value "21"^^xsd:decimal ],
+    [ pe:var "Threshold"; pe:value 120 ];
+  pe:uses
+    { :currentRoute :fuelIndex 120.75 . },
+    { :currentRoute :etaMinutes 64 . },
+    { :altLowFuel :fuelIndex 99.75 . },
+    { :altLowFuel :etaMinutes 66 . },
+    { :Policy :fuelIndexThreshold 120 . },
+    { :Policy :maxEtaDelayMinutes 5 . },
+    { 120.75 math:greaterThan 120 . },
+    { 99.75 math:lessThan 120.75 . },
+    { (66 64) math:difference 2 . },
+    { 2 math:notGreaterThan 5 . },
+    { (120.75 99.75) math:difference "21"^^xsd:decimal . }.
+
+{ :currentRoute :fuelIndex 120.75 . }
+  pe:fact "<unknown>".
+
+{ :currentRoute :etaMinutes 64 . }
+  pe:fact "<unknown>".
+
+{ :altLowFuel :fuelIndex 99.75 . }
+  pe:fact "<unknown>".
+
+{ :altLowFuel :etaMinutes 66 . }
+  pe:fact "<unknown>".
+
+{ :Policy :fuelIndexThreshold 120 . }
+  pe:fact "<unknown>".
+
+{ :Policy :maxEtaDelayMinutes 5 . }
+  pe:fact "<unknown>".
+
+{ 120.75 math:greaterThan 120 . }
+  pe:builtin math:greaterThan.
+
+{ 99.75 math:lessThan 120.75 . }
+  pe:builtin math:lessThan.
+
+{ (66 64) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ 2 math:notGreaterThan 5 . }
+  pe:builtin math:notGreaterThan.
+
+{ (120.75 99.75) math:difference "21"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ :Insight :showEcoBanner "yes" . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Alt"; pe:value 99.75 ],
+    [ pe:var "AltEta"; pe:value 66 ],
+    [ pe:var "Current"; pe:value 120.75 ],
+    [ pe:var "CurrentEta"; pe:value 64 ],
+    [ pe:var "Delay"; pe:value 2 ],
+    [ pe:var "MaxDelay"; pe:value 5 ],
+    [ pe:var "Saving"; pe:value "21"^^xsd:decimal ],
+    [ pe:var "Threshold"; pe:value 120 ];
+  pe:uses
+    { :currentRoute :fuelIndex 120.75 . },
+    { :currentRoute :etaMinutes 64 . },
+    { :altLowFuel :fuelIndex 99.75 . },
+    { :altLowFuel :etaMinutes 66 . },
+    { :Policy :fuelIndexThreshold 120 . },
+    { :Policy :maxEtaDelayMinutes 5 . },
+    { 120.75 math:greaterThan 120 . },
+    { 99.75 math:lessThan 120.75 . },
+    { (66 64) math:difference 2 . },
+    { 2 math:notGreaterThan 5 . },
+    { (120.75 99.75) math:difference "21"^^xsd:decimal . }.
+
+{ :Insight :suggestedRoute :altLowFuel . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Alt"; pe:value 99.75 ],
+    [ pe:var "AltEta"; pe:value 66 ],
+    [ pe:var "Current"; pe:value 120.75 ],
+    [ pe:var "CurrentEta"; pe:value 64 ],
+    [ pe:var "Delay"; pe:value 2 ],
+    [ pe:var "MaxDelay"; pe:value 5 ],
+    [ pe:var "Saving"; pe:value "21"^^xsd:decimal ],
+    [ pe:var "Threshold"; pe:value 120 ];
+  pe:uses
+    { :currentRoute :fuelIndex 120.75 . },
+    { :currentRoute :etaMinutes 64 . },
+    { :altLowFuel :fuelIndex 99.75 . },
+    { :altLowFuel :etaMinutes 66 . },
+    { :Policy :fuelIndexThreshold 120 . },
+    { :Policy :maxEtaDelayMinutes 5 . },
+    { 120.75 math:greaterThan 120 . },
+    { 99.75 math:lessThan 120.75 . },
+    { (66 64) math:difference 2 . },
+    { 2 math:notGreaterThan 5 . },
+    { (120.75 99.75) math:difference "21"^^xsd:decimal . }.
+
+{ :Insight :estimatedSaving "21"^^xsd:decimal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Alt"; pe:value 99.75 ],
+    [ pe:var "AltEta"; pe:value 66 ],
+    [ pe:var "Current"; pe:value 120.75 ],
+    [ pe:var "CurrentEta"; pe:value 64 ],
+    [ pe:var "Delay"; pe:value 2 ],
+    [ pe:var "MaxDelay"; pe:value 5 ],
+    [ pe:var "Saving"; pe:value "21"^^xsd:decimal ],
+    [ pe:var "Threshold"; pe:value 120 ];
+  pe:uses
+    { :currentRoute :fuelIndex 120.75 . },
+    { :currentRoute :etaMinutes 64 . },
+    { :altLowFuel :fuelIndex 99.75 . },
+    { :altLowFuel :etaMinutes 66 . },
+    { :Policy :fuelIndexThreshold 120 . },
+    { :Policy :maxEtaDelayMinutes 5 . },
+    { 120.75 math:greaterThan 120 . },
+    { 99.75 math:lessThan 120.75 . },
+    { (66 64) math:difference 2 . },
+    { 2 math:notGreaterThan 5 . },
+    { (120.75 99.75) math:difference "21"^^xsd:decimal . }.
+
+{ :ecoRouteInsight log:outputString "# eco-route-insight\n\n## Source files\n\n- [N3 rules](../eco-route-insight.n3)\n- [Input TriG](../input/eco-route-insight.trig)\n\n## Answer\ninsight status : issue\nshow eco banner : yes\naudience : Depot X\nallowed use : ui.eco.banner\nsuggested route : alt-low-fuel\ncurrent fuel index : 120.75\nsuggested fuel index : 99.75\nestimated saving : 21.00\nexpires at : 2025-01-01T11:00:00Z\nraw data exported : no\nsignature algorithm : HMAC-SHA256\npayload digest : 00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135\nsignature key : local-demo-key\nsignature : 7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs\n\n## Explanation\nThe current route uses fuel index = distanceKm × (payloadKg / 1000) × gradientFactor. For shipment-1, Current urban route gives 42.00 × 2.50 × 1.15 = 120.75. The policy threshold is 120.00, so a local eco banner is justified. The selected alternative alt-low-fuel gives 38.00 × 2.50 × 1.05 = 99.75, saving 21.00 while staying within the ETA delay limit. The signed envelope exposes audience, use, expiry, route suggestion, and compact fuel indices, but not raw payload, GPS trace, driver behavior, or raw telemetry." . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Algorithm"; pe:value "HMAC-SHA256" ],
+    [ pe:var "AltDistance"; pe:value 38 ],
+    [ pe:var "AltGradient"; pe:value 1.05 ],
+    [ pe:var "AltId"; pe:value "alt-low-fuel" ],
+    [ pe:var "AltIndex"; pe:value 99.75 ],
+    [ pe:var "Audience"; pe:value "Depot X" ],
+    [ pe:var "Block"; pe:value "# eco-route-insight\n\n## Source files\n\n- [N3 rules](../eco-route-insight.n3)\n- [Input TriG](../input/eco-route-insight.trig)\n\n## Answer\ninsight status : issue\nshow eco banner : yes\naudience : Depot X\nallowed use : ui.eco.banner\nsuggested route : alt-low-fuel\ncurrent fuel index : 120.75\nsuggested fuel index : 99.75\nestimated saving : 21.00\nexpires at : 2025-01-01T11:00:00Z\nraw data exported : no\nsignature algorithm : HMAC-SHA256\npayload digest : 00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135\nsignature key : local-demo-key\nsignature : 7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs\n\n## Explanation\nThe current route uses fuel index = distanceKm × (payloadKg / 1000) × gradientFactor. For shipment-1, Current urban route gives 42.00 × 2.50 × 1.15 = 120.75. The policy threshold is 120.00, so a local eco banner is justified. The selected alternative alt-low-fuel gives 38.00 × 2.50 × 1.05 = 99.75, saving 21.00 while staying within the ETA delay limit. The signed envelope exposes audience, use, expiry, route suggestion, and compact fuel indices, but not raw payload, GPS trace, driver behavior, or raw telemetry." ],
+    [ pe:var "CurrentDistance"; pe:value 42 ],
+    [ pe:var "CurrentGradient"; pe:value 1.15 ],
+    [ pe:var "CurrentIndex"; pe:value 120.75 ],
+    [ pe:var "Digest"; pe:value "00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135" ],
+    [ pe:var "Expiry"; pe:value "2025-01-01T11:00:00Z" ],
+    [ pe:var "Key"; pe:value "local-demo-key" ],
+    [ pe:var "PayloadTons"; pe:value 2.5 ],
+    [ pe:var "Raw"; pe:value "no" ],
+    [ pe:var "Saving"; pe:value "21"^^xsd:decimal ],
+    [ pe:var "ShipmentId"; pe:value "shipment-1" ],
+    [ pe:var "Show"; pe:value "yes" ],
+    [ pe:var "Signature"; pe:value "7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs" ],
+    [ pe:var "Threshold"; pe:value 120 ],
+    [ pe:var "Use"; pe:value "ui.eco.banner" ];
+  pe:uses
+    { :Insight :status "issue" . },
+    { :Insight :showEcoBanner "yes" . },
+    { :Insight :suggestedRoute :altLowFuel . },
+    { :Insight :estimatedSaving "21"^^xsd:decimal . },
+    { :Scenario :audience "Depot X" . },
+    { :Scenario :allowedUse "ui.eco.banner" . },
+    { :Scenario :expiresAt "2025-01-01T11:00:00Z" . },
+    { :currentRoute :distanceKm 42 . },
+    { :currentRoute :gradientFactor 1.15 . },
+    { :currentRoute :fuelIndex 120.75 . },
+    { :altLowFuel :id "alt-low-fuel" . },
+    { :altLowFuel :distanceKm 38 . },
+    { :altLowFuel :gradientFactor 1.05 . },
+    { :altLowFuel :fuelIndex 99.75 . },
+    { :Shipment :id "shipment-1" . },
+    { :Shipment :payloadTons 2.5 . },
+    { :Envelope :rawDataExported "no" . },
+    { :Envelope :payloadDigest "00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135" . },
+    { :Envelope :signatureKey "local-demo-key" . },
+    { :Envelope :signature "7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs" . },
+    { :Policy :fuelIndexThreshold 120 . },
+    { :Policy :signatureAlgorithm "HMAC-SHA256" . },
+    { ("# eco-route-insight\n\n## Source files\n\n- [N3 rules](../eco-route-insight.n3)\n- [Input TriG](../input/eco-route-insight.trig)\n\n## Answer\ninsight status : issue\nshow eco banner : %s\naudience : %s\nallowed use : %s\nsuggested route : %s\ncurrent fuel index : %.2f\nsuggested fuel index : %.2f\nestimated saving : %.2f\nexpires at : %s\nraw data exported : %s\nsignature algorithm : %s\npayload digest : %s\nsignature key : %s\nsignature : %s\n\n## Explanation\nThe current route uses fuel index = distanceKm × (payloadKg / 1000) × gradientFactor. For %s, Current urban route gives %.2f × %.2f × %.2f = %.2f. The policy threshold is %.2f, so a local eco banner is justified. The selected alternative %s gives %.2f × %.2f × %.2f = %.2f, saving %.2f while staying within the ETA delay limit. The signed envelope exposes audience, use, expiry, route suggestion, and compact fuel indices, but not raw payload, GPS trace, driver behavior, or raw telemetry." "yes" "Depot X" "ui.eco.banner" "alt-low-fuel" 120.75 99.75 "21"^^xsd:decimal "2025-01-01T11:00:00Z" "no" "HMAC-SHA256" "00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135" "local-demo-key" "7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs" "shipment-1" 42 2.5 1.15 120.75 120 "alt-low-fuel" 38 2.5 1.05 99.75 "21"^^xsd:decimal) string:format "# eco-route-insight\n\n## Source files\n\n- [N3 rules](../eco-route-insight.n3)\n- [Input TriG](../input/eco-route-insight.trig)\n\n## Answer\ninsight status : issue\nshow eco banner : yes\naudience : Depot X\nallowed use : ui.eco.banner\nsuggested route : alt-low-fuel\ncurrent fuel index : 120.75\nsuggested fuel index : 99.75\nestimated saving : 21.00\nexpires at : 2025-01-01T11:00:00Z\nraw data exported : no\nsignature algorithm : HMAC-SHA256\npayload digest : 00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135\nsignature key : local-demo-key\nsignature : 7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs\n\n## Explanation\nThe current route uses fuel index = distanceKm × (payloadKg / 1000) × gradientFactor. For shipment-1, Current urban route gives 42.00 × 2.50 × 1.15 = 120.75. The policy threshold is 120.00, so a local eco banner is justified. The selected alternative alt-low-fuel gives 38.00 × 2.50 × 1.05 = 99.75, saving 21.00 while staying within the ETA delay limit. The signed envelope exposes audience, use, expiry, route suggestion, and compact fuel indices, but not raw payload, GPS trace, driver behavior, or raw telemetry." . }.
+
+{ :Scenario :audience "Depot X" . }
+  pe:fact "<unknown>".
+
+{ :Scenario :allowedUse "ui.eco.banner" . }
+  pe:fact "<unknown>".
+
+{ :Scenario :expiresAt "2025-01-01T11:00:00Z" . }
+  pe:fact "<unknown>".
+
+{ :currentRoute :distanceKm 42 . }
+  pe:fact "<unknown>".
+
+{ :currentRoute :gradientFactor 1.15 . }
+  pe:fact "<unknown>".
+
+{ :altLowFuel :id "alt-low-fuel" . }
+  pe:fact "<unknown>".
+
+{ :altLowFuel :distanceKm 38 . }
+  pe:fact "<unknown>".
+
+{ :altLowFuel :gradientFactor 1.05 . }
+  pe:fact "<unknown>".
+
+{ :Shipment :id "shipment-1" . }
+  pe:fact "<unknown>".
+
+{ :Shipment :payloadTons 2.5 . }
+  pe:fact "<unknown>".
+
+{ :Envelope :rawDataExported "no" . }
+  pe:fact "<unknown>".
+
+{ :Envelope :payloadDigest "00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135" . }
+  pe:fact "<unknown>".
+
+{ :Envelope :signatureKey "local-demo-key" . }
+  pe:fact "<unknown>".
+
+{ :Envelope :signature "7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs" . }
+  pe:fact "<unknown>".
+
+{ :Policy :signatureAlgorithm "HMAC-SHA256" . }
+  pe:fact "<unknown>".
+
+{ ("# eco-route-insight\n\n## Source files\n\n- [N3 rules](../eco-route-insight.n3)\n- [Input TriG](../input/eco-route-insight.trig)\n\n## Answer\ninsight status : issue\nshow eco banner : %s\naudience : %s\nallowed use : %s\nsuggested route : %s\ncurrent fuel index : %.2f\nsuggested fuel index : %.2f\nestimated saving : %.2f\nexpires at : %s\nraw data exported : %s\nsignature algorithm : %s\npayload digest : %s\nsignature key : %s\nsignature : %s\n\n## Explanation\nThe current route uses fuel index = distanceKm × (payloadKg / 1000) × gradientFactor. For %s, Current urban route gives %.2f × %.2f × %.2f = %.2f. The policy threshold is %.2f, so a local eco banner is justified. The selected alternative %s gives %.2f × %.2f × %.2f = %.2f, saving %.2f while staying within the ETA delay limit. The signed envelope exposes audience, use, expiry, route suggestion, and compact fuel indices, but not raw payload, GPS trace, driver behavior, or raw telemetry." "yes" "Depot X" "ui.eco.banner" "alt-low-fuel" 120.75 99.75 "21"^^xsd:decimal "2025-01-01T11:00:00Z" "no" "HMAC-SHA256" "00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135" "local-demo-key" "7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs" "shipment-1" 42 2.5 1.15 120.75 120 "alt-low-fuel" 38 2.5 1.05 99.75 "21"^^xsd:decimal) string:format "# eco-route-insight\n\n## Source files\n\n- [N3 rules](../eco-route-insight.n3)\n- [Input TriG](../input/eco-route-insight.trig)\n\n## Answer\ninsight status : issue\nshow eco banner : yes\naudience : Depot X\nallowed use : ui.eco.banner\nsuggested route : alt-low-fuel\ncurrent fuel index : 120.75\nsuggested fuel index : 99.75\nestimated saving : 21.00\nexpires at : 2025-01-01T11:00:00Z\nraw data exported : no\nsignature algorithm : HMAC-SHA256\npayload digest : 00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135\nsignature key : local-demo-key\nsignature : 7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs\n\n## Explanation\nThe current route uses fuel index = distanceKm × (payloadKg / 1000) × gradientFactor. For shipment-1, Current urban route gives 42.00 × 2.50 × 1.15 = 120.75. The policy threshold is 120.00, so a local eco banner is justified. The selected alternative alt-low-fuel gives 38.00 × 2.50 × 1.05 = 99.75, saving 21.00 while staying within the ETA delay limit. The signed envelope exposes audience, use, expiry, route suggestion, and compact fuel indices, but not raw payload, GPS trace, driver behavior, or raw telemetry." . }
+  pe:builtin string:format.
+
+{ :ecoRouteInsight :issues :Insight . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Algorithm"; pe:value "HMAC-SHA256" ],
+    [ pe:var "AltDistance"; pe:value 38 ],
+    [ pe:var "AltGradient"; pe:value 1.05 ],
+    [ pe:var "AltId"; pe:value "alt-low-fuel" ],
+    [ pe:var "AltIndex"; pe:value 99.75 ],
+    [ pe:var "Audience"; pe:value "Depot X" ],
+    [ pe:var "Block"; pe:value "# eco-route-insight\n\n## Source files\n\n- [N3 rules](../eco-route-insight.n3)\n- [Input TriG](../input/eco-route-insight.trig)\n\n## Answer\ninsight status : issue\nshow eco banner : yes\naudience : Depot X\nallowed use : ui.eco.banner\nsuggested route : alt-low-fuel\ncurrent fuel index : 120.75\nsuggested fuel index : 99.75\nestimated saving : 21.00\nexpires at : 2025-01-01T11:00:00Z\nraw data exported : no\nsignature algorithm : HMAC-SHA256\npayload digest : 00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135\nsignature key : local-demo-key\nsignature : 7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs\n\n## Explanation\nThe current route uses fuel index = distanceKm × (payloadKg / 1000) × gradientFactor. For shipment-1, Current urban route gives 42.00 × 2.50 × 1.15 = 120.75. The policy threshold is 120.00, so a local eco banner is justified. The selected alternative alt-low-fuel gives 38.00 × 2.50 × 1.05 = 99.75, saving 21.00 while staying within the ETA delay limit. The signed envelope exposes audience, use, expiry, route suggestion, and compact fuel indices, but not raw payload, GPS trace, driver behavior, or raw telemetry." ],
+    [ pe:var "CurrentDistance"; pe:value 42 ],
+    [ pe:var "CurrentGradient"; pe:value 1.15 ],
+    [ pe:var "CurrentIndex"; pe:value 120.75 ],
+    [ pe:var "Digest"; pe:value "00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135" ],
+    [ pe:var "Expiry"; pe:value "2025-01-01T11:00:00Z" ],
+    [ pe:var "Key"; pe:value "local-demo-key" ],
+    [ pe:var "PayloadTons"; pe:value 2.5 ],
+    [ pe:var "Raw"; pe:value "no" ],
+    [ pe:var "Saving"; pe:value "21"^^xsd:decimal ],
+    [ pe:var "ShipmentId"; pe:value "shipment-1" ],
+    [ pe:var "Show"; pe:value "yes" ],
+    [ pe:var "Signature"; pe:value "7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs" ],
+    [ pe:var "Threshold"; pe:value 120 ],
+    [ pe:var "Use"; pe:value "ui.eco.banner" ];
+  pe:uses
+    { :Insight :status "issue" . },
+    { :Insight :showEcoBanner "yes" . },
+    { :Insight :suggestedRoute :altLowFuel . },
+    { :Insight :estimatedSaving "21"^^xsd:decimal . },
+    { :Scenario :audience "Depot X" . },
+    { :Scenario :allowedUse "ui.eco.banner" . },
+    { :Scenario :expiresAt "2025-01-01T11:00:00Z" . },
+    { :currentRoute :distanceKm 42 . },
+    { :currentRoute :gradientFactor 1.15 . },
+    { :currentRoute :fuelIndex 120.75 . },
+    { :altLowFuel :id "alt-low-fuel" . },
+    { :altLowFuel :distanceKm 38 . },
+    { :altLowFuel :gradientFactor 1.05 . },
+    { :altLowFuel :fuelIndex 99.75 . },
+    { :Shipment :id "shipment-1" . },
+    { :Shipment :payloadTons 2.5 . },
+    { :Envelope :rawDataExported "no" . },
+    { :Envelope :payloadDigest "00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135" . },
+    { :Envelope :signatureKey "local-demo-key" . },
+    { :Envelope :signature "7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs" . },
+    { :Policy :fuelIndexThreshold 120 . },
+    { :Policy :signatureAlgorithm "HMAC-SHA256" . },
+    { ("# eco-route-insight\n\n## Source files\n\n- [N3 rules](../eco-route-insight.n3)\n- [Input TriG](../input/eco-route-insight.trig)\n\n## Answer\ninsight status : issue\nshow eco banner : %s\naudience : %s\nallowed use : %s\nsuggested route : %s\ncurrent fuel index : %.2f\nsuggested fuel index : %.2f\nestimated saving : %.2f\nexpires at : %s\nraw data exported : %s\nsignature algorithm : %s\npayload digest : %s\nsignature key : %s\nsignature : %s\n\n## Explanation\nThe current route uses fuel index = distanceKm × (payloadKg / 1000) × gradientFactor. For %s, Current urban route gives %.2f × %.2f × %.2f = %.2f. The policy threshold is %.2f, so a local eco banner is justified. The selected alternative %s gives %.2f × %.2f × %.2f = %.2f, saving %.2f while staying within the ETA delay limit. The signed envelope exposes audience, use, expiry, route suggestion, and compact fuel indices, but not raw payload, GPS trace, driver behavior, or raw telemetry." "yes" "Depot X" "ui.eco.banner" "alt-low-fuel" 120.75 99.75 "21"^^xsd:decimal "2025-01-01T11:00:00Z" "no" "HMAC-SHA256" "00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135" "local-demo-key" "7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs" "shipment-1" 42 2.5 1.15 120.75 120 "alt-low-fuel" 38 2.5 1.05 99.75 "21"^^xsd:decimal) string:format "# eco-route-insight\n\n## Source files\n\n- [N3 rules](../eco-route-insight.n3)\n- [Input TriG](../input/eco-route-insight.trig)\n\n## Answer\ninsight status : issue\nshow eco banner : yes\naudience : Depot X\nallowed use : ui.eco.banner\nsuggested route : alt-low-fuel\ncurrent fuel index : 120.75\nsuggested fuel index : 99.75\nestimated saving : 21.00\nexpires at : 2025-01-01T11:00:00Z\nraw data exported : no\nsignature algorithm : HMAC-SHA256\npayload digest : 00e19becd91e81d6881749655d23d43002d9ea714bba61e855eafbc8ef9a5135\nsignature key : local-demo-key\nsignature : 7fFGBN8fyI7xrmRz5VreeAUSf3LC_ywbj32NGk2ovUs\n\n## Explanation\nThe current route uses fuel index = distanceKm × (payloadKg / 1000) × gradientFactor. For shipment-1, Current urban route gives 42.00 × 2.50 × 1.15 = 120.75. The policy threshold is 120.00, so a local eco banner is justified. The selected alternative alt-low-fuel gives 38.00 × 2.50 × 1.05 = 99.75, saving 21.00 while staying within the ETA delay limit. The signed envelope exposes audience, use, expiry, route suggestion, and compact fuel indices, but not raw payload, GPS trace, driver behavior, or raw telemetry." . }.

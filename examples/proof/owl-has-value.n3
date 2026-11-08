@@ -1,0 +1,43 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:alice :citizenship :Belgium .
+:bob a :Belgian .
+
+{ :alice :citizenship :Belgium . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Belgian ],
+    [ pe:var "P"; pe:value :citizenship ],
+    [ pe:var "U"; pe:value :alice ],
+    [ pe:var "V"; pe:value :Belgium ];
+  pe:uses
+    { :Belgian owl:hasValue :Belgium . },
+    { :Belgian owl:onProperty :citizenship . },
+    { :alice a :Belgian . }.
+
+{ :Belgian owl:hasValue :Belgium . }
+  pe:fact "owl-has-value.n3".
+
+{ :Belgian owl:onProperty :citizenship . }
+  pe:fact "owl-has-value.n3".
+
+{ :alice a :Belgian . }
+  pe:fact "owl-has-value.n3".
+
+{ :bob a :Belgian . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :Belgian ],
+    [ pe:var "P"; pe:value :citizenship ],
+    [ pe:var "U"; pe:value :bob ],
+    [ pe:var "V"; pe:value :Belgium ];
+  pe:uses
+    { :Belgian owl:hasValue :Belgium . },
+    { :Belgian owl:onProperty :citizenship . },
+    { :bob :citizenship :Belgium . }.
+
+{ :bob :citizenship :Belgium . }
+  pe:fact "owl-has-value.n3".

@@ -1,0 +1,112 @@
+# checked: 426 steps, 426 verified, 0 trusted
+@prefix : <http://example.org/eyeling/sudoku#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:case :solution "162857493534129678789643521475312986913586742628794135356478219241935867897261354" .
+:r1c1 :value 1 .
+:r2c4 :value 1 .
+:r3c9 :value 1 .
+:r4c5 :value 1 .
+:r5c2 :value 1 .
+:r6c7 :value 1 .
+:r7c8 :value 1 .
+:r8c3 :value 1 .
+:r9c6 :value 1 .
+:r1c3 :value 2 .
+:r2c5 :value 2 .
+:r3c8 :value 2 .
+:r4c6 :value 2 .
+:r5c9 :value 2 .
+:r6c2 :value 2 .
+:r7c7 :value 2 .
+:r8c1 :value 2 .
+:r9c4 :value 2 .
+:r1c9 :value 3 .
+:r2c2 :value 3 .
+:r3c6 :value 3 .
+:r4c4 :value 3 .
+:r5c3 :value 3 .
+:r6c8 :value 3 .
+:r7c1 :value 3 .
+:r8c5 :value 3 .
+:r9c7 :value 3 .
+:r1c7 :value 4 .
+:r2c3 :value 4 .
+:r3c5 :value 4 .
+:r4c1 :value 4 .
+:r5c8 :value 4 .
+:r6c6 :value 4 .
+:r7c4 :value 4 .
+:r8c2 :value 4 .
+:r9c9 :value 4 .
+:r1c5 :value 5 .
+:r2c1 :value 5 .
+:r3c7 :value 5 .
+:r4c3 :value 5 .
+:r5c4 :value 5 .
+:r6c9 :value 5 .
+:r7c2 :value 5 .
+:r8c6 :value 5 .
+:r9c8 :value 5 .
+:r1c2 :value 6 .
+:r2c7 :value 6 .
+:r3c4 :value 6 .
+:r4c9 :value 6 .
+:r5c6 :value 6 .
+:r6c1 :value 6 .
+:r7c3 :value 6 .
+:r8c8 :value 6 .
+:r9c5 :value 6 .
+:r1c6 :value 7 .
+:r2c8 :value 7 .
+:r3c1 :value 7 .
+:r4c2 :value 7 .
+:r5c7 :value 7 .
+:r6c4 :value 7 .
+:r7c5 :value 7 .
+:r8c9 :value 7 .
+:r9c3 :value 7 .
+:r1c4 :value 8 .
+:r2c9 :value 8 .
+:r3c2 :value 8 .
+:r4c8 :value 8 .
+:r5c5 :value 8 .
+:r6c3 :value 8 .
+:r7c6 :value 8 .
+:r8c7 :value 8 .
+:r9c1 :value 8 .
+:r1c8 :value 9 .
+:r2c6 :value 9 .
+:r3c3 :value 9 .
+:r4c7 :value 9 .
+:r5c1 :value 9 .
+:r6c5 :value 9 .
+:r7c9 :value 9 .
+:r8c4 :value 9 .
+:r9c2 :value 9 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/sudoku.n3";
+    pe:source "examples/sudoku.n3";
+    pe:verdict pe:checked;
+    pe:steps 426;
+    pe:verified 426;
+    pe:trusted 0;
+    pe:builtinSteps 244;
+    pe:factSteps 100;
+    pe:ruleSteps 82;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 182; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 426; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 426; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 651; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 244; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 508; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 82; pe:failed 0 ].

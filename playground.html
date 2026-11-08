@@ -20,7 +20,7 @@
       [hidden] { display: none !important; }
       .page { max-width: 1500px; margin: 0 auto; padding: calc(1.5rem + env(safe-area-inset-top)) calc(1rem + env(safe-area-inset-right)) calc(2rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left)); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "nav nav" "heading options" "actions options" "input output"; align-items: start; gap: 1rem; }
       header { grid-area: heading; display: flex; align-items: center; gap: 1rem; text-align: left; }
-      header .logo { display: block; flex: none; border-radius: 50%; }
+      header .home, header .logo { display: block; flex: none; border-radius: 50%; }
       header .header-copy { min-width: 0; }
       header h1 { margin: 0; font-size: 1.9rem; font-weight: 650; letter-spacing: -0.02em; }
       header p { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
@@ -130,13 +130,12 @@
   <body>
     <main class="page">
       <nav class="site-nav" aria-label="Project">
-        <a href="GUIDE">Guide</a>
         <a href="playground" aria-current="page">Playground</a>
         <a href="SPEC">Specification</a>
         <a href="https://github.com/eyereasoner/eyeron">Repository ↗</a>
       </nav>
       <header>
-        <img class="logo" src="assets/eye.png" alt="" width="64" height="64">
+        <a class="home" href="./" aria-label="Eyeron home"><img class="logo" src="assets/eye.png" alt="" width="64" height="64"></a>
         <div class="header-copy">
           <h1>The Eyeron Playground</h1>
           <p>Write N3 or try an example with eyeron.</p>
@@ -1285,7 +1284,7 @@
       byId('share-url').addEventListener('click', () => byId('share-url').select());
       byId('save-output').addEventListener('click', () => {
         const url = URL.createObjectURL(new Blob([output.getValue()], { type: 'text/plain;charset=utf-8' }));
-        const link = document.createElement('a'); link.href = url; link.download = byId('mode').value === '--proof' ? 'proof.n3' : 'output.txt';
+        const link = document.createElement('a'); link.href = url; link.download = { '--proof': 'proof.n3', '--prove-and-check': 'check.n3', '--check-proof': 'check.n3' }[byId('mode').value] || 'output.txt';
         link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
       });
       document.addEventListener('keydown', (event) => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter' && !busy) { event.preventDefault(); run(); } });

@@ -1,0 +1,26 @@
+@prefix : <http://example.org/#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:A :moreInterestingThan :B .
+
+{ :A :moreInterestingThan :B . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "SX"; pe:value 8 ],
+    [ pe:var "SY"; pe:value 5 ],
+    [ pe:var "X"; pe:value :A ],
+    [ pe:var "Y"; pe:value :B ];
+  pe:uses
+    { :A :score 8 . },
+    { :B :score 5 . },
+    { 8 math:greaterThan 5 . }.
+
+{ :A :score 8 . }
+  pe:fact "backward-score.n3".
+
+{ :B :score 5 . }
+  pe:fact "backward-score.n3".
+
+{ 8 math:greaterThan 5 . }
+  pe:builtin math:greaterThan.

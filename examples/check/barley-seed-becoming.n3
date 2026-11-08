@@ -1,0 +1,72 @@
+# checked: 143 steps, 143 verified, 0 trusted
+@prefix : <http://example.org/barley-seed-becoming/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:mainGenome :canBecome :AccuratelyCopiedGenome .
+:fragileGenome :canBecome :AccuratelyCopiedGenome .
+:coatlessGenome :canBecome :AccuratelyCopiedGenome .
+:staticGenome :canBecome :AccuratelyCopiedGenome .
+:analogGenome :cannotBecome :AccuratelyCopiedGenome .
+:mainLine :canBecome :AccuratelyReproducedNextGeneration .
+:coatlessLine :canBecome :AccuratelyReproducedNextGeneration .
+:staticLine :canBecome :AccuratelyReproducedNextGeneration .
+:mainSeed :canBecome :GerminatingStage .
+:analogSeed :canBecome :GerminatingStage .
+:fragileSeed :canBecome :GerminatingStage .
+:coatlessSeed :canBecome :GerminatingStage .
+:staticSeed :canBecome :GerminatingStage .
+:mainAdult :canBecome :NextDormantSeedStage .
+:analogAdult :canBecome :NextDormantSeedStage .
+:fragileAdult :canBecome :NextDormantSeedStage .
+:coatlessAdult :canBecome :NextDormantSeedStage .
+:staticAdult :canBecome :NextDormantSeedStage .
+:mainSeed :canBecome :ProtectedDormantPhase .
+:mainLine :canBecome :LifeCycleClosure .
+:mainLine :canBecome :NovelVariantLineage .
+:mainLine :canBecome :AdaptivelyPersistentLineage .
+:analogSeed :canBecome :ProtectedDormantPhase .
+:analogLine :canBecome :LifeCycleClosure .
+:analogLine :canBecome :NovelVariantLineage .
+:analogLine :cannotBecome :AccuratelyReproducedNextGeneration .
+:fragileSeed :canBecome :ProtectedDormantPhase .
+:fragileLine :canBecome :LifeCycleClosure .
+:fragileLine :canBecome :NovelVariantLineage .
+:fragileLine :cannotBecome :ReliablyCorrectedLineage .
+:coatlessLine :canBecome :NovelVariantLineage .
+:coatlessLine :canBecome :AdaptivelyPersistentLineage .
+:coatlessLine :cannotBecome :ProtectedDormantPhase .
+:staticSeed :canBecome :ProtectedDormantPhase .
+:staticLine :canBecome :LifeCycleClosure .
+:staticLine :cannotBecome :AdaptiveLineage .
+:mainLine a :EvolvableBecoming .
+:analogLine :cannotBecome :EvolvableBecoming .
+:fragileLine :cannotBecome :AccuratelyReproducedNextGeneration .
+:coatlessLine :cannotBecome :LifeCycleClosure .
+:staticLine :cannotBecome :AdaptivelyPersistentLineage .
+:fragileLine :cannotBecome :EvolvableBecoming .
+:coatlessLine :cannotBecome :EvolvableBecoming .
+:staticLine :cannotBecome :EvolvableBecoming .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/barley-seed-becoming.n3";
+    pe:source "examples/barley-seed-becoming.n3";
+    pe:verdict pe:checked;
+    pe:steps 143;
+    pe:verified 143;
+    pe:trusted 0;
+    pe:factSteps 99;
+    pe:ruleSteps 44;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 143; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 143; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 143; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 267; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 187; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 267; pe:failed 0 ].

@@ -1,0 +1,241 @@
+@prefix : <https://example.org/insight/harborsmr/> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:decision :target <https://example.org/insight/harborsmr> .
+:decision :outcome "Allowed" .
+
+{ :decision :target <https://example.org/insight/harborsmr> . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "AuthorizedAt"; pe:value "2026-06-18T13:10:00+00:00"^^xsd:dateTime ],
+    [ pe:var "CoolingMarginPct"; pe:value 18 ],
+    [ pe:var "Device"; pe:value "port-hydrogen-hub" ],
+    [ pe:var "DispatchMW"; pe:value 16 ],
+    [ pe:var "Event"; pe:value "day_ahead_balancing" ],
+    [ pe:var "ExpiresAt"; pe:value "2026-06-18T18:00:00+00:00"^^xsd:dateTime ],
+    [ pe:var "ExportLimitMW"; pe:value 18 ],
+    [ pe:var "Load"; pe:value "PEM_electrolyzer_train_2" ],
+    [ pe:var "PlanRequestedMW"; pe:value 16 ],
+    [ pe:var "RequestedMW"; pe:value 16 ],
+    [ pe:var "ReserveMarginMW"; pe:value 24 ],
+    [ pe:var "SerializedInsight"; pe:value "{\"createdat\":\"2026-06-18t13:00:00+00:00\",\"expiresat\":\"2026-06-18t18:00:00+00:00\",\"exportmw\":18,\"id\":\"https://example.org/insight/harborsmr\",\"metric\":\"temporary_flexible_export_window\",\"scopedevice\":\"port-hydrogen-hub\",\"scopeevent\":\"day_ahead_balancing\",\"targetload\":\"pem_electrolyzer_train_2\",\"type\":\"ins:insight\"}" ],
+    [ pe:var "WindowEnd"; pe:value "2026-06-18T18:00:00+00:00"^^xsd:dateTime ],
+    [ pe:var "WindowStart"; pe:value "2026-06-18T14:00:00+00:00"^^xsd:dateTime ];
+  pe:uses
+    { :secureAggregate :reserveMarginMW 24 . },
+    { 24 math:greaterThan 19 . },
+    { :secureAggregate :coolingMarginPct 18 . },
+    { 18 math:greaterThan 14 . },
+    { :secureAggregate :plannedOutage false . },
+    { :electrolyzerRequest :requestedMW 16 . },
+    { :flexInsight :exportMW 18 . },
+    { 16 math:notGreaterThan 18 . },
+    { :flexInsight :serializedLowercase "{\"createdat\":\"2026-06-18t13:00:00+00:00\",\"expiresat\":\"2026-06-18t18:00:00+00:00\",\"exportmw\":18,\"id\":\"https://example.org/insight/harborsmr\",\"metric\":\"temporary_flexible_export_window\",\"scopedevice\":\"port-hydrogen-hub\",\"scopeevent\":\"day_ahead_balancing\",\"targetload\":\"pem_electrolyzer_train_2\",\"type\":\"ins:insight\"}" . },
+    { "{\"createdat\":\"2026-06-18t13:00:00+00:00\",\"expiresat\":\"2026-06-18t18:00:00+00:00\",\"exportmw\":18,\"id\":\"https://example.org/insight/harborsmr\",\"metric\":\"temporary_flexible_export_window\",\"scopedevice\":\"port-hydrogen-hub\",\"scopeevent\":\"day_ahead_balancing\",\"targetload\":\"pem_electrolyzer_train_2\",\"type\":\"ins:insight\"}" string:notMatches "coretemp|rodposition|neutronflux|operatorbadge" . },
+    { :secureAggregate :containsCoreTemperature false . },
+    { :secureAggregate :containsRodPosition false . },
+    { :secureAggregate :containsNeutronFlux false . },
+    { :secureAggregate :containsOperatorBadgeIds false . },
+    { :policy odrl:permission _:b1 . },
+    { _:b1 odrl:action odrl:use . },
+    { _:b1 odrl:target <https://example.org/insight/harborsmr> . },
+    { _:b1 odrl:constraint _:b2 . },
+    { _:b2 odrl:leftOperand odrl:purpose . },
+    { _:b2 odrl:operator odrl:eq . },
+    { _:b2 odrl:rightOperand "electrolysis_dispatch" . },
+    { :case :hubAuthAt "2026-06-18T13:10:00+00:00"^^xsd:dateTime . },
+    { :flexInsight :expiresAt "2026-06-18T18:00:00+00:00"^^xsd:dateTime . },
+    { "2026-06-18T13:10:00+00:00"^^xsd:dateTime math:notGreaterThan "2026-06-18T18:00:00+00:00"^^xsd:dateTime . },
+    { :policy odrl:prohibition _:b3 . },
+    { _:b3 odrl:action odrl:distribute . },
+    { _:b3 odrl:target <https://example.org/insight/harborsmr> . },
+    { _:b3 odrl:constraint _:b4 . },
+    { _:b4 odrl:leftOperand odrl:purpose . },
+    { _:b4 odrl:operator odrl:eq . },
+    { _:b4 odrl:rightOperand "market_resale" . },
+    { :flexInsight :scopeDevice "port-hydrogen-hub" . },
+    { :flexInsight :scopeEvent "day_ahead_balancing" . },
+    { :flexInsight :windowStart "2026-06-18T14:00:00+00:00"^^xsd:dateTime . },
+    { :flexInsight :expiresAt "2026-06-18T18:00:00+00:00"^^xsd:dateTime . },
+    { :dispatchPlan :dispatchMW 16 . },
+    { :electrolyzerRequest :requestedMW 16 . },
+    { :dispatchPlan :forLoad "PEM_electrolyzer_train_2" . },
+    { :electrolyzerRequest :targetLoad "PEM_electrolyzer_train_2" . },
+    { 16 math:notGreaterThan 16 . }.
+
+{ :secureAggregate :reserveMarginMW 24 . }
+  pe:fact "harborsmr.n3".
+
+{ 24 math:greaterThan 19 . }
+  pe:builtin math:greaterThan.
+
+{ :secureAggregate :coolingMarginPct 18 . }
+  pe:fact "harborsmr.n3".
+
+{ 18 math:greaterThan 14 . }
+  pe:builtin math:greaterThan.
+
+{ :secureAggregate :plannedOutage false . }
+  pe:fact "harborsmr.n3".
+
+{ :electrolyzerRequest :requestedMW 16 . }
+  pe:fact "harborsmr.n3".
+
+{ :flexInsight :exportMW 18 . }
+  pe:fact "harborsmr.n3".
+
+{ 16 math:notGreaterThan 18 . }
+  pe:builtin math:notGreaterThan.
+
+{ :flexInsight :serializedLowercase "{\"createdat\":\"2026-06-18t13:00:00+00:00\",\"expiresat\":\"2026-06-18t18:00:00+00:00\",\"exportmw\":18,\"id\":\"https://example.org/insight/harborsmr\",\"metric\":\"temporary_flexible_export_window\",\"scopedevice\":\"port-hydrogen-hub\",\"scopeevent\":\"day_ahead_balancing\",\"targetload\":\"pem_electrolyzer_train_2\",\"type\":\"ins:insight\"}" . }
+  pe:fact "harborsmr.n3".
+
+{ "{\"createdat\":\"2026-06-18t13:00:00+00:00\",\"expiresat\":\"2026-06-18t18:00:00+00:00\",\"exportmw\":18,\"id\":\"https://example.org/insight/harborsmr\",\"metric\":\"temporary_flexible_export_window\",\"scopedevice\":\"port-hydrogen-hub\",\"scopeevent\":\"day_ahead_balancing\",\"targetload\":\"pem_electrolyzer_train_2\",\"type\":\"ins:insight\"}" string:notMatches "coretemp|rodposition|neutronflux|operatorbadge" . }
+  pe:builtin string:notMatches.
+
+{ :secureAggregate :containsCoreTemperature false . }
+  pe:fact "harborsmr.n3".
+
+{ :secureAggregate :containsRodPosition false . }
+  pe:fact "harborsmr.n3".
+
+{ :secureAggregate :containsNeutronFlux false . }
+  pe:fact "harborsmr.n3".
+
+{ :secureAggregate :containsOperatorBadgeIds false . }
+  pe:fact "harborsmr.n3".
+
+{ :policy odrl:permission _:b1 . }
+  pe:fact "harborsmr.n3".
+
+{ _:b1 odrl:action odrl:use . }
+  pe:fact "harborsmr.n3".
+
+{ _:b1 odrl:target <https://example.org/insight/harborsmr> . }
+  pe:fact "harborsmr.n3".
+
+{ _:b1 odrl:constraint _:b2 . }
+  pe:fact "harborsmr.n3".
+
+{ _:b2 odrl:leftOperand odrl:purpose . }
+  pe:fact "harborsmr.n3".
+
+{ _:b2 odrl:operator odrl:eq . }
+  pe:fact "harborsmr.n3".
+
+{ _:b2 odrl:rightOperand "electrolysis_dispatch" . }
+  pe:fact "harborsmr.n3".
+
+{ :case :hubAuthAt "2026-06-18T13:10:00+00:00"^^xsd:dateTime . }
+  pe:fact "harborsmr.n3".
+
+{ :flexInsight :expiresAt "2026-06-18T18:00:00+00:00"^^xsd:dateTime . }
+  pe:fact "harborsmr.n3".
+
+{ "2026-06-18T13:10:00+00:00"^^xsd:dateTime math:notGreaterThan "2026-06-18T18:00:00+00:00"^^xsd:dateTime . }
+  pe:builtin math:notGreaterThan.
+
+{ :policy odrl:prohibition _:b3 . }
+  pe:fact "harborsmr.n3".
+
+{ _:b3 odrl:action odrl:distribute . }
+  pe:fact "harborsmr.n3".
+
+{ _:b3 odrl:target <https://example.org/insight/harborsmr> . }
+  pe:fact "harborsmr.n3".
+
+{ _:b3 odrl:constraint _:b4 . }
+  pe:fact "harborsmr.n3".
+
+{ _:b4 odrl:leftOperand odrl:purpose . }
+  pe:fact "harborsmr.n3".
+
+{ _:b4 odrl:operator odrl:eq . }
+  pe:fact "harborsmr.n3".
+
+{ _:b4 odrl:rightOperand "market_resale" . }
+  pe:fact "harborsmr.n3".
+
+{ :flexInsight :scopeDevice "port-hydrogen-hub" . }
+  pe:fact "harborsmr.n3".
+
+{ :flexInsight :scopeEvent "day_ahead_balancing" . }
+  pe:fact "harborsmr.n3".
+
+{ :flexInsight :windowStart "2026-06-18T14:00:00+00:00"^^xsd:dateTime . }
+  pe:fact "harborsmr.n3".
+
+{ :dispatchPlan :dispatchMW 16 . }
+  pe:fact "harborsmr.n3".
+
+{ :dispatchPlan :forLoad "PEM_electrolyzer_train_2" . }
+  pe:fact "harborsmr.n3".
+
+{ :electrolyzerRequest :targetLoad "PEM_electrolyzer_train_2" . }
+  pe:fact "harborsmr.n3".
+
+{ 16 math:notGreaterThan 16 . }
+  pe:builtin math:notGreaterThan.
+
+{ :decision :outcome "Allowed" . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "AuthorizedAt"; pe:value "2026-06-18T13:10:00+00:00"^^xsd:dateTime ],
+    [ pe:var "CoolingMarginPct"; pe:value 18 ],
+    [ pe:var "Device"; pe:value "port-hydrogen-hub" ],
+    [ pe:var "DispatchMW"; pe:value 16 ],
+    [ pe:var "Event"; pe:value "day_ahead_balancing" ],
+    [ pe:var "ExpiresAt"; pe:value "2026-06-18T18:00:00+00:00"^^xsd:dateTime ],
+    [ pe:var "ExportLimitMW"; pe:value 18 ],
+    [ pe:var "Load"; pe:value "PEM_electrolyzer_train_2" ],
+    [ pe:var "PlanRequestedMW"; pe:value 16 ],
+    [ pe:var "RequestedMW"; pe:value 16 ],
+    [ pe:var "ReserveMarginMW"; pe:value 24 ],
+    [ pe:var "SerializedInsight"; pe:value "{\"createdat\":\"2026-06-18t13:00:00+00:00\",\"expiresat\":\"2026-06-18t18:00:00+00:00\",\"exportmw\":18,\"id\":\"https://example.org/insight/harborsmr\",\"metric\":\"temporary_flexible_export_window\",\"scopedevice\":\"port-hydrogen-hub\",\"scopeevent\":\"day_ahead_balancing\",\"targetload\":\"pem_electrolyzer_train_2\",\"type\":\"ins:insight\"}" ],
+    [ pe:var "WindowEnd"; pe:value "2026-06-18T18:00:00+00:00"^^xsd:dateTime ],
+    [ pe:var "WindowStart"; pe:value "2026-06-18T14:00:00+00:00"^^xsd:dateTime ];
+  pe:uses
+    { :secureAggregate :reserveMarginMW 24 . },
+    { 24 math:greaterThan 19 . },
+    { :secureAggregate :coolingMarginPct 18 . },
+    { 18 math:greaterThan 14 . },
+    { :secureAggregate :plannedOutage false . },
+    { :electrolyzerRequest :requestedMW 16 . },
+    { :flexInsight :exportMW 18 . },
+    { 16 math:notGreaterThan 18 . },
+    { :flexInsight :serializedLowercase "{\"createdat\":\"2026-06-18t13:00:00+00:00\",\"expiresat\":\"2026-06-18t18:00:00+00:00\",\"exportmw\":18,\"id\":\"https://example.org/insight/harborsmr\",\"metric\":\"temporary_flexible_export_window\",\"scopedevice\":\"port-hydrogen-hub\",\"scopeevent\":\"day_ahead_balancing\",\"targetload\":\"pem_electrolyzer_train_2\",\"type\":\"ins:insight\"}" . },
+    { "{\"createdat\":\"2026-06-18t13:00:00+00:00\",\"expiresat\":\"2026-06-18t18:00:00+00:00\",\"exportmw\":18,\"id\":\"https://example.org/insight/harborsmr\",\"metric\":\"temporary_flexible_export_window\",\"scopedevice\":\"port-hydrogen-hub\",\"scopeevent\":\"day_ahead_balancing\",\"targetload\":\"pem_electrolyzer_train_2\",\"type\":\"ins:insight\"}" string:notMatches "coretemp|rodposition|neutronflux|operatorbadge" . },
+    { :secureAggregate :containsCoreTemperature false . },
+    { :secureAggregate :containsRodPosition false . },
+    { :secureAggregate :containsNeutronFlux false . },
+    { :secureAggregate :containsOperatorBadgeIds false . },
+    { :policy odrl:permission _:b1 . },
+    { _:b1 odrl:action odrl:use . },
+    { _:b1 odrl:target <https://example.org/insight/harborsmr> . },
+    { _:b1 odrl:constraint _:b2 . },
+    { _:b2 odrl:leftOperand odrl:purpose . },
+    { _:b2 odrl:operator odrl:eq . },
+    { _:b2 odrl:rightOperand "electrolysis_dispatch" . },
+    { :case :hubAuthAt "2026-06-18T13:10:00+00:00"^^xsd:dateTime . },
+    { :flexInsight :expiresAt "2026-06-18T18:00:00+00:00"^^xsd:dateTime . },
+    { "2026-06-18T13:10:00+00:00"^^xsd:dateTime math:notGreaterThan "2026-06-18T18:00:00+00:00"^^xsd:dateTime . },
+    { :policy odrl:prohibition _:b3 . },
+    { _:b3 odrl:action odrl:distribute . },
+    { _:b3 odrl:target <https://example.org/insight/harborsmr> . },
+    { _:b3 odrl:constraint _:b4 . },
+    { _:b4 odrl:leftOperand odrl:purpose . },
+    { _:b4 odrl:operator odrl:eq . },
+    { _:b4 odrl:rightOperand "market_resale" . },
+    { :flexInsight :scopeDevice "port-hydrogen-hub" . },
+    { :flexInsight :scopeEvent "day_ahead_balancing" . },
+    { :flexInsight :windowStart "2026-06-18T14:00:00+00:00"^^xsd:dateTime . },
+    { :flexInsight :expiresAt "2026-06-18T18:00:00+00:00"^^xsd:dateTime . },
+    { :dispatchPlan :dispatchMW 16 . },
+    { :electrolyzerRequest :requestedMW 16 . },
+    { :dispatchPlan :forLoad "PEM_electrolyzer_train_2" . },
+    { :electrolyzerRequest :targetLoad "PEM_electrolyzer_train_2" . },
+    { 16 math:notGreaterThan 16 . }.

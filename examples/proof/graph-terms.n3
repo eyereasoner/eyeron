@@ -1,0 +1,82 @@
+@prefix : <http://example.org/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :likes :spaghetti .
+:alice :likes :pizza .
+_:x :likes :pizza .
+_:x :likes :pasta .
+_:x :likes :spaghetti .
+
+{ :alice :likes :spaghetti . }
+  pe:rule 1;
+  pe:binding [ pe:var "x"; pe:value :alice ];
+  pe:uses { :alice :likes :pasta . }.
+
+{ :alice :likes :pasta . }
+  pe:fact "graph-terms.n3".
+
+{ :alice :likes :pizza . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value {
+        :alice :likes :pizza .
+        :alice :likes :pasta .
+    } ];
+  pe:uses
+    {
+        :bob :says {
+            :alice :likes :pizza .
+            :alice :likes :pasta .
+        } .
+    }.
+
+{
+  :bob :says {
+      :alice :likes :pizza .
+      :alice :likes :pasta .
+  } .
+}
+  pe:fact "graph-terms.n3".
+
+{ _:x :likes :pizza . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value {
+        _:x :likes :pizza .
+        _:x :likes :pasta .
+    } ];
+  pe:uses
+    {
+        :bob :says {
+            _:x :likes :pizza .
+            _:x :likes :pasta .
+        } .
+    }.
+
+{
+  :bob :says {
+      _:x :likes :pizza .
+      _:x :likes :pasta .
+  } .
+}
+  pe:fact "graph-terms.n3".
+
+{ _:x :likes :pasta . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value {
+        _:x :likes :pizza .
+        _:x :likes :pasta .
+    } ];
+  pe:uses
+    {
+        :bob :says {
+            _:x :likes :pizza .
+            _:x :likes :pasta .
+        } .
+    }.
+
+{ _:x :likes :spaghetti . }
+  pe:rule 1;
+  pe:binding [ pe:var "x"; pe:value _:x ];
+  pe:uses { _:x :likes :pasta . }.

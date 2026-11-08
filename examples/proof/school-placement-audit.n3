@@ -1,0 +1,268 @@
+@prefix : <https://eyereasoner.github.io/eyeling/examples/school-placement-audit#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+
+:Ada :auditFlag :walkingLimitExceeded .
+:Bjorn :auditFlag :walkingLimitExceeded .
+:Davi :auditFlag :walkingLimitExceeded .
+:Ada :auditFlag :assignmentDiffersFromAuditedBest .
+:Audit :result "fail" .
+:Audit :affectedChildren "Ada, Björn, Davi" .
+:Audit :largestHiddenDetour "Ada, 3000 m" .
+:Audit :recommendedAssignments "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga" .
+:Bjorn :auditFlag :assignmentDiffersFromAuditedBest .
+:Davi :auditFlag :assignmentDiffersFromAuditedBest .
+:schoolPlacementAudit log:outputString "# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : fail\nchildren affected by straight-line rule : Ada, Björn, Davi\nlargest hidden detour : Ada, 3000 m\nrecommended assignments : Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." .
+:schoolPlacementAudit :reports :Audit .
+
+{ :Ada :auditFlag :walkingLimitExceeded . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Audited"; pe:value :Lindholmen ],
+    [ pe:var "MaxWalking"; pe:value 2500 ],
+    [ pe:var "Provisional"; pe:value :Centrum ],
+    [ pe:var "Student"; pe:value :Ada ],
+    [ pe:var "Walk"; pe:value 3600 ];
+  pe:uses
+    { :Ada :provisional :Centrum . },
+    { :Ada :auditedBest :Lindholmen . },
+    { :Ada :walkingMeters 3600 . },
+    { :Policy :maxWalkingMeters 2500 . },
+    { 3600 math:greaterThan 2500 . }.
+
+{ :Ada :provisional :Centrum . }
+  pe:fact "<unknown>".
+
+{ :Ada :auditedBest :Lindholmen . }
+  pe:fact "<unknown>".
+
+{ :Ada :walkingMeters 3600 . }
+  pe:fact "<unknown>".
+
+{ :Policy :maxWalkingMeters 2500 . }
+  pe:fact "<unknown>".
+
+{ 3600 math:greaterThan 2500 . }
+  pe:builtin math:greaterThan.
+
+{ :Bjorn :auditFlag :walkingLimitExceeded . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Audited"; pe:value :Backa ],
+    [ pe:var "MaxWalking"; pe:value 2500 ],
+    [ pe:var "Provisional"; pe:value :Centrum ],
+    [ pe:var "Student"; pe:value :Bjorn ],
+    [ pe:var "Walk"; pe:value 3100 ];
+  pe:uses
+    { :Bjorn :provisional :Centrum . },
+    { :Bjorn :auditedBest :Backa . },
+    { :Bjorn :walkingMeters 3100 . },
+    { :Policy :maxWalkingMeters 2500 . },
+    { 3100 math:greaterThan 2500 . }.
+
+{ :Bjorn :provisional :Centrum . }
+  pe:fact "<unknown>".
+
+{ :Bjorn :auditedBest :Backa . }
+  pe:fact "<unknown>".
+
+{ :Bjorn :walkingMeters 3100 . }
+  pe:fact "<unknown>".
+
+{ 3100 math:greaterThan 2500 . }
+  pe:builtin math:greaterThan.
+
+{ :Davi :auditFlag :walkingLimitExceeded . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Audited"; pe:value :Haga ],
+    [ pe:var "MaxWalking"; pe:value 2500 ],
+    [ pe:var "Provisional"; pe:value :Centrum ],
+    [ pe:var "Student"; pe:value :Davi ],
+    [ pe:var "Walk"; pe:value 2800 ];
+  pe:uses
+    { :Davi :provisional :Centrum . },
+    { :Davi :auditedBest :Haga . },
+    { :Davi :walkingMeters 2800 . },
+    { :Policy :maxWalkingMeters 2500 . },
+    { 2800 math:greaterThan 2500 . }.
+
+{ :Davi :provisional :Centrum . }
+  pe:fact "<unknown>".
+
+{ :Davi :auditedBest :Haga . }
+  pe:fact "<unknown>".
+
+{ :Davi :walkingMeters 2800 . }
+  pe:fact "<unknown>".
+
+{ 2800 math:greaterThan 2500 . }
+  pe:builtin math:greaterThan.
+
+{ :Ada :auditFlag :assignmentDiffersFromAuditedBest . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Audited"; pe:value :Lindholmen ],
+    [ pe:var "Provisional"; pe:value :Centrum ],
+    [ pe:var "Student"; pe:value :Ada ];
+  pe:uses
+    { :Ada :provisional :Centrum . },
+    { :Ada :auditedBest :Lindholmen . },
+    { :Centrum log:notEqualTo :Lindholmen . }.
+
+{ :Centrum log:notEqualTo :Lindholmen . }
+  pe:builtin log:notEqualTo.
+
+{ :Audit :result "fail" . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "AdaDetour"; pe:value 3000 ],
+    [ pe:var "AdaFlag"; pe:value :walkingLimitExceeded ],
+    [ pe:var "BjornDetour"; pe:value 2000 ],
+    [ pe:var "BjornFlag"; pe:value :walkingLimitExceeded ],
+    [ pe:var "DaviDetour"; pe:value 1800 ],
+    [ pe:var "DaviFlag"; pe:value :walkingLimitExceeded ];
+  pe:uses
+    { :Ada :auditFlag :walkingLimitExceeded . },
+    { :Bjorn :auditFlag :walkingLimitExceeded . },
+    { :Davi :auditFlag :walkingLimitExceeded . },
+    { :Ada :hiddenDetour 3000 . },
+    { :Bjorn :hiddenDetour 2000 . },
+    { :Davi :hiddenDetour 1800 . },
+    { 2000 math:lessThan 3000 . },
+    { 1800 math:lessThan 3000 . }.
+
+{ :Ada :hiddenDetour 3000 . }
+  pe:fact "<unknown>".
+
+{ :Bjorn :hiddenDetour 2000 . }
+  pe:fact "<unknown>".
+
+{ :Davi :hiddenDetour 1800 . }
+  pe:fact "<unknown>".
+
+{ 2000 math:lessThan 3000 . }
+  pe:builtin math:lessThan.
+
+{ 1800 math:lessThan 3000 . }
+  pe:builtin math:lessThan.
+
+{ :Audit :affectedChildren "Ada, Björn, Davi" . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "AdaDetour"; pe:value 3000 ],
+    [ pe:var "AdaFlag"; pe:value :walkingLimitExceeded ],
+    [ pe:var "BjornDetour"; pe:value 2000 ],
+    [ pe:var "BjornFlag"; pe:value :walkingLimitExceeded ],
+    [ pe:var "DaviDetour"; pe:value 1800 ],
+    [ pe:var "DaviFlag"; pe:value :walkingLimitExceeded ];
+  pe:uses
+    { :Ada :auditFlag :walkingLimitExceeded . },
+    { :Bjorn :auditFlag :walkingLimitExceeded . },
+    { :Davi :auditFlag :walkingLimitExceeded . },
+    { :Ada :hiddenDetour 3000 . },
+    { :Bjorn :hiddenDetour 2000 . },
+    { :Davi :hiddenDetour 1800 . },
+    { 2000 math:lessThan 3000 . },
+    { 1800 math:lessThan 3000 . }.
+
+{ :Audit :largestHiddenDetour "Ada, 3000 m" . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "AdaDetour"; pe:value 3000 ],
+    [ pe:var "AdaFlag"; pe:value :walkingLimitExceeded ],
+    [ pe:var "BjornDetour"; pe:value 2000 ],
+    [ pe:var "BjornFlag"; pe:value :walkingLimitExceeded ],
+    [ pe:var "DaviDetour"; pe:value 1800 ],
+    [ pe:var "DaviFlag"; pe:value :walkingLimitExceeded ];
+  pe:uses
+    { :Ada :auditFlag :walkingLimitExceeded . },
+    { :Bjorn :auditFlag :walkingLimitExceeded . },
+    { :Davi :auditFlag :walkingLimitExceeded . },
+    { :Ada :hiddenDetour 3000 . },
+    { :Bjorn :hiddenDetour 2000 . },
+    { :Davi :hiddenDetour 1800 . },
+    { 2000 math:lessThan 3000 . },
+    { 1800 math:lessThan 3000 . }.
+
+{ :Audit :recommendedAssignments "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga" . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "AdaDetour"; pe:value 3000 ],
+    [ pe:var "AdaFlag"; pe:value :walkingLimitExceeded ],
+    [ pe:var "BjornDetour"; pe:value 2000 ],
+    [ pe:var "BjornFlag"; pe:value :walkingLimitExceeded ],
+    [ pe:var "DaviDetour"; pe:value 1800 ],
+    [ pe:var "DaviFlag"; pe:value :walkingLimitExceeded ];
+  pe:uses
+    { :Ada :auditFlag :walkingLimitExceeded . },
+    { :Bjorn :auditFlag :walkingLimitExceeded . },
+    { :Davi :auditFlag :walkingLimitExceeded . },
+    { :Ada :hiddenDetour 3000 . },
+    { :Bjorn :hiddenDetour 2000 . },
+    { :Davi :hiddenDetour 1800 . },
+    { 2000 math:lessThan 3000 . },
+    { 1800 math:lessThan 3000 . }.
+
+{ :Bjorn :auditFlag :assignmentDiffersFromAuditedBest . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Audited"; pe:value :Backa ],
+    [ pe:var "Provisional"; pe:value :Centrum ],
+    [ pe:var "Student"; pe:value :Bjorn ];
+  pe:uses
+    { :Bjorn :provisional :Centrum . },
+    { :Bjorn :auditedBest :Backa . },
+    { :Centrum log:notEqualTo :Backa . }.
+
+{ :Centrum log:notEqualTo :Backa . }
+  pe:builtin log:notEqualTo.
+
+{ :Davi :auditFlag :assignmentDiffersFromAuditedBest . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Audited"; pe:value :Haga ],
+    [ pe:var "Provisional"; pe:value :Centrum ],
+    [ pe:var "Student"; pe:value :Davi ];
+  pe:uses
+    { :Davi :provisional :Centrum . },
+    { :Davi :auditedBest :Haga . },
+    { :Centrum log:notEqualTo :Haga . }.
+
+{ :Centrum log:notEqualTo :Haga . }
+  pe:builtin log:notEqualTo.
+
+{ :schoolPlacementAudit log:outputString "# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : fail\nchildren affected by straight-line rule : Ada, Björn, Davi\nlargest hidden detour : Ada, 3000 m\nrecommended assignments : Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Affected"; pe:value "Ada, Björn, Davi" ],
+    [ pe:var "Assignments"; pe:value "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga" ],
+    [ pe:var "Block"; pe:value "# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : fail\nchildren affected by straight-line rule : Ada, Björn, Davi\nlargest hidden detour : Ada, 3000 m\nrecommended assignments : Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." ],
+    [ pe:var "Detour"; pe:value "Ada, 3000 m" ],
+    [ pe:var "Result"; pe:value "fail" ];
+  pe:uses
+    { :Audit :result "fail" . },
+    { :Audit :affectedChildren "Ada, Björn, Davi" . },
+    { :Audit :largestHiddenDetour "Ada, 3000 m" . },
+    { :Audit :recommendedAssignments "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga" . },
+    { ("# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : %s\nchildren affected by straight-line rule : %s\nlargest hidden detour : %s\nrecommended assignments : %s\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." "fail" "Ada, Björn, Davi" "Ada, 3000 m" "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga") string:format "# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : fail\nchildren affected by straight-line rule : Ada, Björn, Davi\nlargest hidden detour : Ada, 3000 m\nrecommended assignments : Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." . }.
+
+{ ("# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : %s\nchildren affected by straight-line rule : %s\nlargest hidden detour : %s\nrecommended assignments : %s\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." "fail" "Ada, Björn, Davi" "Ada, 3000 m" "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga") string:format "# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : fail\nchildren affected by straight-line rule : Ada, Björn, Davi\nlargest hidden detour : Ada, 3000 m\nrecommended assignments : Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." . }
+  pe:builtin string:format.
+
+{ :schoolPlacementAudit :reports :Audit . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Affected"; pe:value "Ada, Björn, Davi" ],
+    [ pe:var "Assignments"; pe:value "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga" ],
+    [ pe:var "Block"; pe:value "# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : fail\nchildren affected by straight-line rule : Ada, Björn, Davi\nlargest hidden detour : Ada, 3000 m\nrecommended assignments : Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." ],
+    [ pe:var "Detour"; pe:value "Ada, 3000 m" ],
+    [ pe:var "Result"; pe:value "fail" ];
+  pe:uses
+    { :Audit :result "fail" . },
+    { :Audit :affectedChildren "Ada, Björn, Davi" . },
+    { :Audit :largestHiddenDetour "Ada, 3000 m" . },
+    { :Audit :recommendedAssignments "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga" . },
+    { ("# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : %s\nchildren affected by straight-line rule : %s\nlargest hidden detour : %s\nrecommended assignments : %s\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." "fail" "Ada, Björn, Davi" "Ada, 3000 m" "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga") string:format "# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : fail\nchildren affected by straight-line rule : Ada, Björn, Davi\nlargest hidden detour : Ada, 3000 m\nrecommended assignments : Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." . }.

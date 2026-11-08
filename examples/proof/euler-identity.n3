@@ -1,0 +1,324 @@
+@prefix : <http://example.org/euler-identity#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:result :phasePi (-1 0) .
+:result :lhsPlusOne (0 0) .
+:result :rhsZero (0 0) .
+:result :phaseModSq 1 .
+:result :phaseModSqIsOne true .
+:result :identityHolds true .
+
+{ :result :phasePi (-1 0) . }
+  pe:rule
+    {
+        {
+            :phasePi :exact (?re ?im) .
+            :EulerIdentity :lhsExact (?sumRe ?sumIm) .
+            :EulerIdentity :rhsExact (?rhsRe ?rhsIm) .
+            :phasePi :modSq ?modSq .
+            :phasePi :modSqIsOne ?modOk .
+            :EulerIdentity :holds ?ok .
+        } => {
+            :result :phasePi (?re ?im) .
+            :result :lhsPlusOne (?sumRe ?sumIm) .
+            :result :rhsZero (?rhsRe ?rhsIm) .
+            :result :phaseModSq ?modSq .
+            :result :phaseModSqIsOne ?modOk .
+            :result :identityHolds ?ok .
+        } .
+    };
+  pe:binding
+    [ pe:var "im"; pe:value 0 ],
+    [ pe:var "modOk"; pe:value true ],
+    [ pe:var "modSq"; pe:value 1 ],
+    [ pe:var "ok"; pe:value true ],
+    [ pe:var "re"; pe:value -1 ],
+    [ pe:var "rhsIm"; pe:value 0 ],
+    [ pe:var "rhsRe"; pe:value 0 ],
+    [ pe:var "sumIm"; pe:value 0 ],
+    [ pe:var "sumRe"; pe:value 0 ];
+  pe:uses
+    { :phasePi :exact (-1 0) . },
+    { :EulerIdentity :lhsExact (0 0) . },
+    { :EulerIdentity :rhsExact (0 0) . },
+    { :phasePi :modSq 1 . },
+    { :phasePi :modSqIsOne true . },
+    { :EulerIdentity :holds true . }.
+
+{ :phasePi :exact (-1 0) . }
+  pe:rule 1;
+  pe:binding [ pe:var "minusOne"; pe:value -1 ];
+  pe:uses { (0 1) math:difference -1 . }.
+
+{ (0 1) math:difference -1 . }
+  pe:builtin math:difference.
+
+{ :EulerIdentity :lhsExact (0 0) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "im"; pe:value 0 ],
+    [ pe:var "oneIm"; pe:value 0 ],
+    [ pe:var "oneRe"; pe:value 1 ],
+    [ pe:var "re"; pe:value -1 ],
+    [ pe:var "sumIm"; pe:value 0 ],
+    [ pe:var "sumRe"; pe:value 0 ];
+  pe:uses
+    { :phasePi :exact (-1 0) . },
+    { :one :exact (1 0) . },
+    { (-1 1) math:sum 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ :one :exact (1 0) . }
+  pe:fact "euler-identity.n3".
+
+{ (-1 1) math:sum 0 . }
+  pe:builtin math:sum.
+
+{ (0 0) math:sum 0 . }
+  pe:builtin math:sum.
+
+{ :EulerIdentity :rhsExact (0 0) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "im"; pe:value 0 ],
+    [ pe:var "oneIm"; pe:value 0 ],
+    [ pe:var "oneRe"; pe:value 1 ],
+    [ pe:var "re"; pe:value -1 ],
+    [ pe:var "sumIm"; pe:value 0 ],
+    [ pe:var "sumRe"; pe:value 0 ];
+  pe:uses
+    { :phasePi :exact (-1 0) . },
+    { :one :exact (1 0) . },
+    { (-1 1) math:sum 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ :phasePi :modSq 1 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "im"; pe:value 0 ],
+    [ pe:var "im2"; pe:value 0 ],
+    [ pe:var "modSq"; pe:value 1 ],
+    [ pe:var "re"; pe:value -1 ],
+    [ pe:var "re2"; pe:value 1 ];
+  pe:uses
+    { :phasePi :exact (-1 0) . },
+    { (-1 -1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . }.
+
+{ (-1 -1) math:product 1 . }
+  pe:builtin math:product.
+
+{ (0 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ (1 0) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ :phasePi :modSqIsOne true . }
+  pe:rule 5;
+  pe:binding [ pe:var "modSq"; pe:value 1 ];
+  pe:uses
+    { :phasePi :modSq 1 . },
+    { 1 math:equalTo 1 . }.
+
+{ 1 math:equalTo 1 . }
+  pe:builtin math:equalTo.
+
+{ :EulerIdentity :holds true . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "sumIm"; pe:value 0 ],
+    [ pe:var "sumRe"; pe:value 0 ];
+  pe:uses
+    { :EulerIdentity :lhsExact (0 0) . },
+    { :zero :exact (0 0) . }.
+
+{ :zero :exact (0 0) . }
+  pe:fact "euler-identity.n3".
+
+{ :result :lhsPlusOne (0 0) . }
+  pe:rule
+    {
+        {
+            :phasePi :exact (?re ?im) .
+            :EulerIdentity :lhsExact (?sumRe ?sumIm) .
+            :EulerIdentity :rhsExact (?rhsRe ?rhsIm) .
+            :phasePi :modSq ?modSq .
+            :phasePi :modSqIsOne ?modOk .
+            :EulerIdentity :holds ?ok .
+        } => {
+            :result :phasePi (?re ?im) .
+            :result :lhsPlusOne (?sumRe ?sumIm) .
+            :result :rhsZero (?rhsRe ?rhsIm) .
+            :result :phaseModSq ?modSq .
+            :result :phaseModSqIsOne ?modOk .
+            :result :identityHolds ?ok .
+        } .
+    };
+  pe:binding
+    [ pe:var "im"; pe:value 0 ],
+    [ pe:var "modOk"; pe:value true ],
+    [ pe:var "modSq"; pe:value 1 ],
+    [ pe:var "ok"; pe:value true ],
+    [ pe:var "re"; pe:value -1 ],
+    [ pe:var "rhsIm"; pe:value 0 ],
+    [ pe:var "rhsRe"; pe:value 0 ],
+    [ pe:var "sumIm"; pe:value 0 ],
+    [ pe:var "sumRe"; pe:value 0 ];
+  pe:uses
+    { :phasePi :exact (-1 0) . },
+    { :EulerIdentity :lhsExact (0 0) . },
+    { :EulerIdentity :rhsExact (0 0) . },
+    { :phasePi :modSq 1 . },
+    { :phasePi :modSqIsOne true . },
+    { :EulerIdentity :holds true . }.
+
+{ :result :rhsZero (0 0) . }
+  pe:rule
+    {
+        {
+            :phasePi :exact (?re ?im) .
+            :EulerIdentity :lhsExact (?sumRe ?sumIm) .
+            :EulerIdentity :rhsExact (?rhsRe ?rhsIm) .
+            :phasePi :modSq ?modSq .
+            :phasePi :modSqIsOne ?modOk .
+            :EulerIdentity :holds ?ok .
+        } => {
+            :result :phasePi (?re ?im) .
+            :result :lhsPlusOne (?sumRe ?sumIm) .
+            :result :rhsZero (?rhsRe ?rhsIm) .
+            :result :phaseModSq ?modSq .
+            :result :phaseModSqIsOne ?modOk .
+            :result :identityHolds ?ok .
+        } .
+    };
+  pe:binding
+    [ pe:var "im"; pe:value 0 ],
+    [ pe:var "modOk"; pe:value true ],
+    [ pe:var "modSq"; pe:value 1 ],
+    [ pe:var "ok"; pe:value true ],
+    [ pe:var "re"; pe:value -1 ],
+    [ pe:var "rhsIm"; pe:value 0 ],
+    [ pe:var "rhsRe"; pe:value 0 ],
+    [ pe:var "sumIm"; pe:value 0 ],
+    [ pe:var "sumRe"; pe:value 0 ];
+  pe:uses
+    { :phasePi :exact (-1 0) . },
+    { :EulerIdentity :lhsExact (0 0) . },
+    { :EulerIdentity :rhsExact (0 0) . },
+    { :phasePi :modSq 1 . },
+    { :phasePi :modSqIsOne true . },
+    { :EulerIdentity :holds true . }.
+
+{ :result :phaseModSq 1 . }
+  pe:rule
+    {
+        {
+            :phasePi :exact (?re ?im) .
+            :EulerIdentity :lhsExact (?sumRe ?sumIm) .
+            :EulerIdentity :rhsExact (?rhsRe ?rhsIm) .
+            :phasePi :modSq ?modSq .
+            :phasePi :modSqIsOne ?modOk .
+            :EulerIdentity :holds ?ok .
+        } => {
+            :result :phasePi (?re ?im) .
+            :result :lhsPlusOne (?sumRe ?sumIm) .
+            :result :rhsZero (?rhsRe ?rhsIm) .
+            :result :phaseModSq ?modSq .
+            :result :phaseModSqIsOne ?modOk .
+            :result :identityHolds ?ok .
+        } .
+    };
+  pe:binding
+    [ pe:var "im"; pe:value 0 ],
+    [ pe:var "modOk"; pe:value true ],
+    [ pe:var "modSq"; pe:value 1 ],
+    [ pe:var "ok"; pe:value true ],
+    [ pe:var "re"; pe:value -1 ],
+    [ pe:var "rhsIm"; pe:value 0 ],
+    [ pe:var "rhsRe"; pe:value 0 ],
+    [ pe:var "sumIm"; pe:value 0 ],
+    [ pe:var "sumRe"; pe:value 0 ];
+  pe:uses
+    { :phasePi :exact (-1 0) . },
+    { :EulerIdentity :lhsExact (0 0) . },
+    { :EulerIdentity :rhsExact (0 0) . },
+    { :phasePi :modSq 1 . },
+    { :phasePi :modSqIsOne true . },
+    { :EulerIdentity :holds true . }.
+
+{ :result :phaseModSqIsOne true . }
+  pe:rule
+    {
+        {
+            :phasePi :exact (?re ?im) .
+            :EulerIdentity :lhsExact (?sumRe ?sumIm) .
+            :EulerIdentity :rhsExact (?rhsRe ?rhsIm) .
+            :phasePi :modSq ?modSq .
+            :phasePi :modSqIsOne ?modOk .
+            :EulerIdentity :holds ?ok .
+        } => {
+            :result :phasePi (?re ?im) .
+            :result :lhsPlusOne (?sumRe ?sumIm) .
+            :result :rhsZero (?rhsRe ?rhsIm) .
+            :result :phaseModSq ?modSq .
+            :result :phaseModSqIsOne ?modOk .
+            :result :identityHolds ?ok .
+        } .
+    };
+  pe:binding
+    [ pe:var "im"; pe:value 0 ],
+    [ pe:var "modOk"; pe:value true ],
+    [ pe:var "modSq"; pe:value 1 ],
+    [ pe:var "ok"; pe:value true ],
+    [ pe:var "re"; pe:value -1 ],
+    [ pe:var "rhsIm"; pe:value 0 ],
+    [ pe:var "rhsRe"; pe:value 0 ],
+    [ pe:var "sumIm"; pe:value 0 ],
+    [ pe:var "sumRe"; pe:value 0 ];
+  pe:uses
+    { :phasePi :exact (-1 0) . },
+    { :EulerIdentity :lhsExact (0 0) . },
+    { :EulerIdentity :rhsExact (0 0) . },
+    { :phasePi :modSq 1 . },
+    { :phasePi :modSqIsOne true . },
+    { :EulerIdentity :holds true . }.
+
+{ :result :identityHolds true . }
+  pe:rule
+    {
+        {
+            :phasePi :exact (?re ?im) .
+            :EulerIdentity :lhsExact (?sumRe ?sumIm) .
+            :EulerIdentity :rhsExact (?rhsRe ?rhsIm) .
+            :phasePi :modSq ?modSq .
+            :phasePi :modSqIsOne ?modOk .
+            :EulerIdentity :holds ?ok .
+        } => {
+            :result :phasePi (?re ?im) .
+            :result :lhsPlusOne (?sumRe ?sumIm) .
+            :result :rhsZero (?rhsRe ?rhsIm) .
+            :result :phaseModSq ?modSq .
+            :result :phaseModSqIsOne ?modOk .
+            :result :identityHolds ?ok .
+        } .
+    };
+  pe:binding
+    [ pe:var "im"; pe:value 0 ],
+    [ pe:var "modOk"; pe:value true ],
+    [ pe:var "modSq"; pe:value 1 ],
+    [ pe:var "ok"; pe:value true ],
+    [ pe:var "re"; pe:value -1 ],
+    [ pe:var "rhsIm"; pe:value 0 ],
+    [ pe:var "rhsRe"; pe:value 0 ],
+    [ pe:var "sumIm"; pe:value 0 ],
+    [ pe:var "sumRe"; pe:value 0 ];
+  pe:uses
+    { :phasePi :exact (-1 0) . },
+    { :EulerIdentity :lhsExact (0 0) . },
+    { :EulerIdentity :rhsExact (0 0) . },
+    { :phasePi :modSq 1 . },
+    { :phasePi :modSqIsOne true . },
+    { :EulerIdentity :holds true . }.

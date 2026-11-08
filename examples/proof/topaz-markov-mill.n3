@@ -1,0 +1,2990 @@
+@prefix : <http://example.org/topaz-markov#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:MC1 :rowOk _:b1 .
+:MC1 :rowOk _:b3 .
+:MC1 :rowOk _:b4 .
+:MC1 :pi1 _:b6_990a776e920f7fc .
+_:b6_990a776e920f7fc :pA 0.535 .
+_:b6_990a776e920f7fc :pB 0.325 .
+_:b6_990a776e920f7fc :pC 0.14 .
+:MC1 :P2rowA _:b9_627aa526ca984d81 .
+_:b9_627aa526ca984d81 :pA 0.6675000000000001 .
+_:b9_627aa526ca984d81 :pB 0.2375 .
+_:b9_627aa526ca984d81 :pC 0.095 .
+:MC1 :metrics _:b10_db0d06358326f900 .
+_:b10_db0d06358326f900 :t 0 .
+_:b10_db0d06358326f900 :pi _:b5 .
+:MC1 :metrics _:b11_553d0908dfc8051 .
+_:b11_553d0908dfc8051 :t 1 .
+_:b11_553d0908dfc8051 :pi _:b6_990a776e920f7fc .
+_:b11_553d0908dfc8051 :sumSq 0.41145000000000004 .
+_:b11_553d0908dfc8051 :gini 0.5885499999999999 .
+_:b11_553d0908dfc8051 :effectiveStates 2.4304289707133306 .
+_:b11_553d0908dfc8051 :tvToUniform 0.20166666666666666 .
+_:b11_553d0908dfc8051 :l2ToUniform 0.2794935896700793 .
+_:b10_db0d06358326f900 :sumSq 0.45999999999999996 .
+_:b10_db0d06358326f900 :gini 0.54 .
+_:b10_db0d06358326f900 :effectiveStates 2.173913043478261 .
+_:b10_db0d06358326f900 :tvToUniform 0.26666666666666666 .
+_:b10_db0d06358326f900 :l2ToUniform 0.3559026084010437 .
+:MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 .
+_:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 .
+_:b7_c2cc40f0cc1f5fe0 :pB 0.34275 .
+_:b7_c2cc40f0cc1f5fe0 :pC 0.16175 .
+:MC1 :metrics _:b12_68993eb8d66fd65b .
+_:b12_68993eb8d66fd65b :t 2 .
+_:b12_68993eb8d66fd65b :pi _:b7_c2cc40f0cc1f5fe0 .
+_:b12_68993eb8d66fd65b :sumSq 0.3891608750000001 .
+_:b12_68993eb8d66fd65b :gini 0.6108391249999999 .
+_:b12_68993eb8d66fd65b :effectiveStates 2.569631389589202 .
+_:b12_68993eb8d66fd65b :tvToUniform 0.17158333333333337 .
+_:b12_68993eb8d66fd65b :l2ToUniform 0.23627852561472165 .
+:MC1 :pi3 _:b8_e166a0454ed742d7 .
+_:b8_e166a0454ed742d7 :pA 0.4711125000000001 .
+_:b8_e166a0454ed742d7 :pB 0.3546875 .
+_:b8_e166a0454ed742d7 :pC 0.17420000000000002 .
+:MC1 :metrics _:b13_e22750eba2c1966f .
+_:b13_e22750eba2c1966f :t 3 .
+_:b13_e22750eba2c1966f :pi _:b8_e166a0454ed742d7 .
+_:b13_e22750eba2c1966f :sumSq 0.3780958503125001 .
+_:b13_e22750eba2c1966f :gini 0.6219041496875 .
+_:b13_e22750eba2c1966f :effectiveStates 2.644831989490204 .
+_:b13_e22750eba2c1966f :tvToUniform 0.15913333333333338 .
+_:b13_e22750eba2c1966f :l2ToUniform 0.2115715410426617 .
+
+{ :MC1 :rowOk _:b1 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 0.80 ],
+    [ pe:var "ab"; pe:value 0.9500000000000001 ],
+    [ pe:var "b"; pe:value 0.15 ],
+    [ pe:var "c"; pe:value 0.05 ],
+    [ pe:var "r"; pe:value _:b1 ],
+    [ pe:var "sum"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :MC1 :row _:b1 . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { (0.80 0.15) math:sum 0.9500000000000001 . },
+    { (0.9500000000000001 0.05) math:sum "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:equalTo 1.0 . }.
+
+{ :MC1 :row _:b1 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b1 :pA 0.80 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b1 :pB 0.15 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b1 :pC 0.05 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ (0.80 0.15) math:sum 0.9500000000000001 . }
+  pe:builtin math:sum.
+
+{ (0.9500000000000001 0.05) math:sum "1"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ "1"^^xsd:decimal math:equalTo 1.0 . }
+  pe:builtin math:equalTo.
+
+{ :MC1 :rowOk _:b3 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 0.10 ],
+    [ pe:var "ab"; pe:value 0.7999999999999999 ],
+    [ pe:var "b"; pe:value 0.70 ],
+    [ pe:var "c"; pe:value 0.20 ],
+    [ pe:var "r"; pe:value _:b3 ],
+    [ pe:var "sum"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :MC1 :row _:b3 . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { (0.10 0.70) math:sum 0.7999999999999999 . },
+    { (0.7999999999999999 0.20) math:sum "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:equalTo 1.0 . }.
+
+{ :MC1 :row _:b3 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b3 :pA 0.10 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b3 :pB 0.70 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b3 :pC 0.20 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ (0.10 0.70) math:sum 0.7999999999999999 . }
+  pe:builtin math:sum.
+
+{ (0.7999999999999999 0.20) math:sum "1"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ :MC1 :rowOk _:b4 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 0.25 ],
+    [ pe:var "ab"; pe:value 0.5 ],
+    [ pe:var "b"; pe:value 0.25 ],
+    [ pe:var "c"; pe:value 0.50 ],
+    [ pe:var "r"; pe:value _:b4 ],
+    [ pe:var "sum"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :MC1 :row _:b4 . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { (0.25 0.25) math:sum 0.5 . },
+    { (0.5 0.50) math:sum "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:equalTo 1.0 . }.
+
+{ :MC1 :row _:b4 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b4 :pA 0.25 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b4 :pB 0.25 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b4 :pC 0.50 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ (0.25 0.25) math:sum 0.5 . }
+  pe:builtin math:sum.
+
+{ (0.5 0.50) math:sum "1"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ :MC1 :pi1 _:b6_990a776e920f7fc . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.60 ],
+    [ pe:var "pB"; pe:value 0.30 ],
+    [ pe:var "pC"; pe:value 0.10 ],
+    [ pe:var "pi"; pe:value _:b5 ],
+    [ pe:var "pi1A"; pe:value 0.535 ],
+    [ pe:var "pi1B"; pe:value 0.325 ],
+    [ pe:var "pi1C"; pe:value 0.14 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.51 ],
+    [ pe:var "s2"; pe:value 0.3 ],
+    [ pe:var "s3"; pe:value 0.09 ],
+    [ pe:var "tAA"; pe:value 0.48 ],
+    [ pe:var "tAB"; pe:value 0.09 ],
+    [ pe:var "tAC"; pe:value 0.03 ],
+    [ pe:var "tBA"; pe:value 0.03 ],
+    [ pe:var "tBB"; pe:value 0.21 ],
+    [ pe:var "tBC"; pe:value 0.06 ],
+    [ pe:var "tCA"; pe:value 0.025 ],
+    [ pe:var "tCB"; pe:value 0.025 ],
+    [ pe:var "tCC"; pe:value 0.05 ];
+  pe:uses
+    { :MC1 :pi0 _:b5 . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b5 :pA 0.60 . },
+    { _:b5 :pB 0.30 . },
+    { _:b5 :pC 0.10 . },
+    { (0.60 0.80) math:product 0.48 . },
+    { (0.30 0.10) math:product 0.03 . },
+    { (0.10 0.25) math:product 0.025 . },
+    { (0.48 0.03) math:sum 0.51 . },
+    { (0.51 0.025) math:sum 0.535 . },
+    { (0.60 0.15) math:product 0.09 . },
+    { (0.30 0.70) math:product 0.21 . },
+    { (0.10 0.25) math:product 0.025 . },
+    { (0.09 0.21) math:sum 0.3 . },
+    { (0.3 0.025) math:sum 0.325 . },
+    { (0.60 0.05) math:product 0.03 . },
+    { (0.30 0.20) math:product 0.06 . },
+    { (0.10 0.50) math:product 0.05 . },
+    { (0.03 0.06) math:sum 0.09 . },
+    { (0.09 0.05) math:sum 0.14 . }.
+
+{ :MC1 :pi0 _:b5 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b1 :from :A . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b3 :from :B . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b4 :from :C . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b5 :pA 0.60 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b5 :pB 0.30 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ _:b5 :pC 0.10 . }
+  pe:fact "topaz-markov-mill.n3".
+
+{ (0.60 0.80) math:product 0.48 . }
+  pe:builtin math:product.
+
+{ (0.30 0.10) math:product 0.03 . }
+  pe:builtin math:product.
+
+{ (0.10 0.25) math:product 0.025 . }
+  pe:builtin math:product.
+
+{ (0.48 0.03) math:sum 0.51 . }
+  pe:builtin math:sum.
+
+{ (0.51 0.025) math:sum 0.535 . }
+  pe:builtin math:sum.
+
+{ (0.60 0.15) math:product 0.09 . }
+  pe:builtin math:product.
+
+{ (0.30 0.70) math:product 0.21 . }
+  pe:builtin math:product.
+
+{ (0.09 0.21) math:sum 0.3 . }
+  pe:builtin math:sum.
+
+{ (0.3 0.025) math:sum 0.325 . }
+  pe:builtin math:sum.
+
+{ (0.60 0.05) math:product 0.03 . }
+  pe:builtin math:product.
+
+{ (0.30 0.20) math:product 0.06 . }
+  pe:builtin math:product.
+
+{ (0.10 0.50) math:product 0.05 . }
+  pe:builtin math:product.
+
+{ (0.03 0.06) math:sum 0.09 . }
+  pe:builtin math:sum.
+
+{ (0.09 0.05) math:sum 0.14 . }
+  pe:builtin math:sum.
+
+{ _:b6_990a776e920f7fc :pA 0.535 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.60 ],
+    [ pe:var "pB"; pe:value 0.30 ],
+    [ pe:var "pC"; pe:value 0.10 ],
+    [ pe:var "pi"; pe:value _:b5 ],
+    [ pe:var "pi1A"; pe:value 0.535 ],
+    [ pe:var "pi1B"; pe:value 0.325 ],
+    [ pe:var "pi1C"; pe:value 0.14 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.51 ],
+    [ pe:var "s2"; pe:value 0.3 ],
+    [ pe:var "s3"; pe:value 0.09 ],
+    [ pe:var "tAA"; pe:value 0.48 ],
+    [ pe:var "tAB"; pe:value 0.09 ],
+    [ pe:var "tAC"; pe:value 0.03 ],
+    [ pe:var "tBA"; pe:value 0.03 ],
+    [ pe:var "tBB"; pe:value 0.21 ],
+    [ pe:var "tBC"; pe:value 0.06 ],
+    [ pe:var "tCA"; pe:value 0.025 ],
+    [ pe:var "tCB"; pe:value 0.025 ],
+    [ pe:var "tCC"; pe:value 0.05 ];
+  pe:uses
+    { :MC1 :pi0 _:b5 . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b5 :pA 0.60 . },
+    { _:b5 :pB 0.30 . },
+    { _:b5 :pC 0.10 . },
+    { (0.60 0.80) math:product 0.48 . },
+    { (0.30 0.10) math:product 0.03 . },
+    { (0.10 0.25) math:product 0.025 . },
+    { (0.48 0.03) math:sum 0.51 . },
+    { (0.51 0.025) math:sum 0.535 . },
+    { (0.60 0.15) math:product 0.09 . },
+    { (0.30 0.70) math:product 0.21 . },
+    { (0.10 0.25) math:product 0.025 . },
+    { (0.09 0.21) math:sum 0.3 . },
+    { (0.3 0.025) math:sum 0.325 . },
+    { (0.60 0.05) math:product 0.03 . },
+    { (0.30 0.20) math:product 0.06 . },
+    { (0.10 0.50) math:product 0.05 . },
+    { (0.03 0.06) math:sum 0.09 . },
+    { (0.09 0.05) math:sum 0.14 . }.
+
+{ _:b6_990a776e920f7fc :pB 0.325 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.60 ],
+    [ pe:var "pB"; pe:value 0.30 ],
+    [ pe:var "pC"; pe:value 0.10 ],
+    [ pe:var "pi"; pe:value _:b5 ],
+    [ pe:var "pi1A"; pe:value 0.535 ],
+    [ pe:var "pi1B"; pe:value 0.325 ],
+    [ pe:var "pi1C"; pe:value 0.14 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.51 ],
+    [ pe:var "s2"; pe:value 0.3 ],
+    [ pe:var "s3"; pe:value 0.09 ],
+    [ pe:var "tAA"; pe:value 0.48 ],
+    [ pe:var "tAB"; pe:value 0.09 ],
+    [ pe:var "tAC"; pe:value 0.03 ],
+    [ pe:var "tBA"; pe:value 0.03 ],
+    [ pe:var "tBB"; pe:value 0.21 ],
+    [ pe:var "tBC"; pe:value 0.06 ],
+    [ pe:var "tCA"; pe:value 0.025 ],
+    [ pe:var "tCB"; pe:value 0.025 ],
+    [ pe:var "tCC"; pe:value 0.05 ];
+  pe:uses
+    { :MC1 :pi0 _:b5 . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b5 :pA 0.60 . },
+    { _:b5 :pB 0.30 . },
+    { _:b5 :pC 0.10 . },
+    { (0.60 0.80) math:product 0.48 . },
+    { (0.30 0.10) math:product 0.03 . },
+    { (0.10 0.25) math:product 0.025 . },
+    { (0.48 0.03) math:sum 0.51 . },
+    { (0.51 0.025) math:sum 0.535 . },
+    { (0.60 0.15) math:product 0.09 . },
+    { (0.30 0.70) math:product 0.21 . },
+    { (0.10 0.25) math:product 0.025 . },
+    { (0.09 0.21) math:sum 0.3 . },
+    { (0.3 0.025) math:sum 0.325 . },
+    { (0.60 0.05) math:product 0.03 . },
+    { (0.30 0.20) math:product 0.06 . },
+    { (0.10 0.50) math:product 0.05 . },
+    { (0.03 0.06) math:sum 0.09 . },
+    { (0.09 0.05) math:sum 0.14 . }.
+
+{ _:b6_990a776e920f7fc :pC 0.14 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.60 ],
+    [ pe:var "pB"; pe:value 0.30 ],
+    [ pe:var "pC"; pe:value 0.10 ],
+    [ pe:var "pi"; pe:value _:b5 ],
+    [ pe:var "pi1A"; pe:value 0.535 ],
+    [ pe:var "pi1B"; pe:value 0.325 ],
+    [ pe:var "pi1C"; pe:value 0.14 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.51 ],
+    [ pe:var "s2"; pe:value 0.3 ],
+    [ pe:var "s3"; pe:value 0.09 ],
+    [ pe:var "tAA"; pe:value 0.48 ],
+    [ pe:var "tAB"; pe:value 0.09 ],
+    [ pe:var "tAC"; pe:value 0.03 ],
+    [ pe:var "tBA"; pe:value 0.03 ],
+    [ pe:var "tBB"; pe:value 0.21 ],
+    [ pe:var "tBC"; pe:value 0.06 ],
+    [ pe:var "tCA"; pe:value 0.025 ],
+    [ pe:var "tCB"; pe:value 0.025 ],
+    [ pe:var "tCC"; pe:value 0.05 ];
+  pe:uses
+    { :MC1 :pi0 _:b5 . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b5 :pA 0.60 . },
+    { _:b5 :pB 0.30 . },
+    { _:b5 :pC 0.10 . },
+    { (0.60 0.80) math:product 0.48 . },
+    { (0.30 0.10) math:product 0.03 . },
+    { (0.10 0.25) math:product 0.025 . },
+    { (0.48 0.03) math:sum 0.51 . },
+    { (0.51 0.025) math:sum 0.535 . },
+    { (0.60 0.15) math:product 0.09 . },
+    { (0.30 0.70) math:product 0.21 . },
+    { (0.10 0.25) math:product 0.025 . },
+    { (0.09 0.21) math:sum 0.3 . },
+    { (0.3 0.025) math:sum 0.325 . },
+    { (0.60 0.05) math:product 0.03 . },
+    { (0.30 0.20) math:product 0.06 . },
+    { (0.10 0.50) math:product 0.05 . },
+    { (0.03 0.06) math:sum 0.09 . },
+    { (0.09 0.05) math:sum 0.14 . }.
+
+{ :MC1 :P2rowA _:b9_627aa526ca984d81 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AA_AA"; pe:value 0.6400000000000001 ],
+    [ pe:var "AA_AB"; pe:value 0.12 ],
+    [ pe:var "AA_AC"; pe:value 0.04000000000000001 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AB_BA"; pe:value 0.015 ],
+    [ pe:var "AB_BB"; pe:value 0.105 ],
+    [ pe:var "AB_BC"; pe:value 0.03 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "AC_CA"; pe:value 0.0125 ],
+    [ pe:var "AC_CB"; pe:value 0.0125 ],
+    [ pe:var "AC_CC"; pe:value 0.025 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "P2AA"; pe:value 0.6675000000000001 ],
+    [ pe:var "P2AB"; pe:value 0.2375 ],
+    [ pe:var "P2AC"; pe:value 0.095 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "sAA"; pe:value 0.6550000000000001 ],
+    [ pe:var "sAB"; pe:value 0.22499999999999998 ],
+    [ pe:var "sAC"; pe:value 0.07 ];
+  pe:uses
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { (0.80 0.80) math:product 0.6400000000000001 . },
+    { (0.15 0.10) math:product 0.015 . },
+    { (0.05 0.25) math:product 0.0125 . },
+    { (0.6400000000000001 0.015) math:sum 0.6550000000000001 . },
+    { (0.6550000000000001 0.0125) math:sum 0.6675000000000001 . },
+    { (0.80 0.15) math:product 0.12 . },
+    { (0.15 0.70) math:product 0.105 . },
+    { (0.05 0.25) math:product 0.0125 . },
+    { (0.12 0.105) math:sum 0.22499999999999998 . },
+    { (0.22499999999999998 0.0125) math:sum 0.2375 . },
+    { (0.80 0.05) math:product 0.04000000000000001 . },
+    { (0.15 0.20) math:product 0.03 . },
+    { (0.05 0.50) math:product 0.025 . },
+    { (0.04000000000000001 0.03) math:sum 0.07 . },
+    { (0.07 0.025) math:sum 0.095 . }.
+
+{ (0.80 0.80) math:product 0.6400000000000001 . }
+  pe:builtin math:product.
+
+{ (0.15 0.10) math:product 0.015 . }
+  pe:builtin math:product.
+
+{ (0.05 0.25) math:product 0.0125 . }
+  pe:builtin math:product.
+
+{ (0.6400000000000001 0.015) math:sum 0.6550000000000001 . }
+  pe:builtin math:sum.
+
+{ (0.6550000000000001 0.0125) math:sum 0.6675000000000001 . }
+  pe:builtin math:sum.
+
+{ (0.80 0.15) math:product 0.12 . }
+  pe:builtin math:product.
+
+{ (0.15 0.70) math:product 0.105 . }
+  pe:builtin math:product.
+
+{ (0.12 0.105) math:sum 0.22499999999999998 . }
+  pe:builtin math:sum.
+
+{ (0.22499999999999998 0.0125) math:sum 0.2375 . }
+  pe:builtin math:sum.
+
+{ (0.80 0.05) math:product 0.04000000000000001 . }
+  pe:builtin math:product.
+
+{ (0.15 0.20) math:product 0.03 . }
+  pe:builtin math:product.
+
+{ (0.05 0.50) math:product 0.025 . }
+  pe:builtin math:product.
+
+{ (0.04000000000000001 0.03) math:sum 0.07 . }
+  pe:builtin math:sum.
+
+{ (0.07 0.025) math:sum 0.095 . }
+  pe:builtin math:sum.
+
+{ _:b9_627aa526ca984d81 :pA 0.6675000000000001 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AA_AA"; pe:value 0.6400000000000001 ],
+    [ pe:var "AA_AB"; pe:value 0.12 ],
+    [ pe:var "AA_AC"; pe:value 0.04000000000000001 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AB_BA"; pe:value 0.015 ],
+    [ pe:var "AB_BB"; pe:value 0.105 ],
+    [ pe:var "AB_BC"; pe:value 0.03 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "AC_CA"; pe:value 0.0125 ],
+    [ pe:var "AC_CB"; pe:value 0.0125 ],
+    [ pe:var "AC_CC"; pe:value 0.025 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "P2AA"; pe:value 0.6675000000000001 ],
+    [ pe:var "P2AB"; pe:value 0.2375 ],
+    [ pe:var "P2AC"; pe:value 0.095 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "sAA"; pe:value 0.6550000000000001 ],
+    [ pe:var "sAB"; pe:value 0.22499999999999998 ],
+    [ pe:var "sAC"; pe:value 0.07 ];
+  pe:uses
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { (0.80 0.80) math:product 0.6400000000000001 . },
+    { (0.15 0.10) math:product 0.015 . },
+    { (0.05 0.25) math:product 0.0125 . },
+    { (0.6400000000000001 0.015) math:sum 0.6550000000000001 . },
+    { (0.6550000000000001 0.0125) math:sum 0.6675000000000001 . },
+    { (0.80 0.15) math:product 0.12 . },
+    { (0.15 0.70) math:product 0.105 . },
+    { (0.05 0.25) math:product 0.0125 . },
+    { (0.12 0.105) math:sum 0.22499999999999998 . },
+    { (0.22499999999999998 0.0125) math:sum 0.2375 . },
+    { (0.80 0.05) math:product 0.04000000000000001 . },
+    { (0.15 0.20) math:product 0.03 . },
+    { (0.05 0.50) math:product 0.025 . },
+    { (0.04000000000000001 0.03) math:sum 0.07 . },
+    { (0.07 0.025) math:sum 0.095 . }.
+
+{ _:b9_627aa526ca984d81 :pB 0.2375 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AA_AA"; pe:value 0.6400000000000001 ],
+    [ pe:var "AA_AB"; pe:value 0.12 ],
+    [ pe:var "AA_AC"; pe:value 0.04000000000000001 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AB_BA"; pe:value 0.015 ],
+    [ pe:var "AB_BB"; pe:value 0.105 ],
+    [ pe:var "AB_BC"; pe:value 0.03 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "AC_CA"; pe:value 0.0125 ],
+    [ pe:var "AC_CB"; pe:value 0.0125 ],
+    [ pe:var "AC_CC"; pe:value 0.025 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "P2AA"; pe:value 0.6675000000000001 ],
+    [ pe:var "P2AB"; pe:value 0.2375 ],
+    [ pe:var "P2AC"; pe:value 0.095 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "sAA"; pe:value 0.6550000000000001 ],
+    [ pe:var "sAB"; pe:value 0.22499999999999998 ],
+    [ pe:var "sAC"; pe:value 0.07 ];
+  pe:uses
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { (0.80 0.80) math:product 0.6400000000000001 . },
+    { (0.15 0.10) math:product 0.015 . },
+    { (0.05 0.25) math:product 0.0125 . },
+    { (0.6400000000000001 0.015) math:sum 0.6550000000000001 . },
+    { (0.6550000000000001 0.0125) math:sum 0.6675000000000001 . },
+    { (0.80 0.15) math:product 0.12 . },
+    { (0.15 0.70) math:product 0.105 . },
+    { (0.05 0.25) math:product 0.0125 . },
+    { (0.12 0.105) math:sum 0.22499999999999998 . },
+    { (0.22499999999999998 0.0125) math:sum 0.2375 . },
+    { (0.80 0.05) math:product 0.04000000000000001 . },
+    { (0.15 0.20) math:product 0.03 . },
+    { (0.05 0.50) math:product 0.025 . },
+    { (0.04000000000000001 0.03) math:sum 0.07 . },
+    { (0.07 0.025) math:sum 0.095 . }.
+
+{ _:b9_627aa526ca984d81 :pC 0.095 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AA_AA"; pe:value 0.6400000000000001 ],
+    [ pe:var "AA_AB"; pe:value 0.12 ],
+    [ pe:var "AA_AC"; pe:value 0.04000000000000001 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AB_BA"; pe:value 0.015 ],
+    [ pe:var "AB_BB"; pe:value 0.105 ],
+    [ pe:var "AB_BC"; pe:value 0.03 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "AC_CA"; pe:value 0.0125 ],
+    [ pe:var "AC_CB"; pe:value 0.0125 ],
+    [ pe:var "AC_CC"; pe:value 0.025 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "P2AA"; pe:value 0.6675000000000001 ],
+    [ pe:var "P2AB"; pe:value 0.2375 ],
+    [ pe:var "P2AC"; pe:value 0.095 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "sAA"; pe:value 0.6550000000000001 ],
+    [ pe:var "sAB"; pe:value 0.22499999999999998 ],
+    [ pe:var "sAC"; pe:value 0.07 ];
+  pe:uses
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { (0.80 0.80) math:product 0.6400000000000001 . },
+    { (0.15 0.10) math:product 0.015 . },
+    { (0.05 0.25) math:product 0.0125 . },
+    { (0.6400000000000001 0.015) math:sum 0.6550000000000001 . },
+    { (0.6550000000000001 0.0125) math:sum 0.6675000000000001 . },
+    { (0.80 0.15) math:product 0.12 . },
+    { (0.15 0.70) math:product 0.105 . },
+    { (0.05 0.25) math:product 0.0125 . },
+    { (0.12 0.105) math:sum 0.22499999999999998 . },
+    { (0.22499999999999998 0.0125) math:sum 0.2375 . },
+    { (0.80 0.05) math:product 0.04000000000000001 . },
+    { (0.15 0.20) math:product 0.03 . },
+    { (0.05 0.50) math:product 0.025 . },
+    { (0.04000000000000001 0.03) math:sum 0.07 . },
+    { (0.07 0.025) math:sum 0.095 . }.
+
+{ :MC1 :metrics _:b10_db0d06358326f900 . }
+  pe:rule 6;
+  pe:binding [ pe:var "pi"; pe:value _:b5 ];
+  pe:uses { :MC1 :pi0 _:b5 . }.
+
+{ _:b10_db0d06358326f900 :t 0 . }
+  pe:rule 6;
+  pe:binding [ pe:var "pi"; pe:value _:b5 ];
+  pe:uses { :MC1 :pi0 _:b5 . }.
+
+{ _:b10_db0d06358326f900 :pi _:b5 . }
+  pe:rule 6;
+  pe:binding [ pe:var "pi"; pe:value _:b5 ];
+  pe:uses { :MC1 :pi0 _:b5 . }.
+
+{ :MC1 :metrics _:b11_553d0908dfc8051 . }
+  pe:rule 7;
+  pe:binding [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ];
+  pe:uses { :MC1 :pi1 _:b6_990a776e920f7fc . }.
+
+{ _:b11_553d0908dfc8051 :t 1 . }
+  pe:rule 7;
+  pe:binding [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ];
+  pe:uses { :MC1 :pi1 _:b6_990a776e920f7fc . }.
+
+{ _:b11_553d0908dfc8051 :pi _:b6_990a776e920f7fc . }
+  pe:rule 7;
+  pe:binding [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ];
+  pe:uses { :MC1 :pi1 _:b6_990a776e920f7fc . }.
+
+{ _:b11_553d0908dfc8051 :sumSq 0.41145000000000004 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.535 ],
+    [ pe:var "a2"; pe:value 0.286225 ],
+    [ pe:var "ab2"; pe:value 0.39185000000000003 ],
+    [ pe:var "ada"; pe:value 0.20166666666666672 ],
+    [ pe:var "adb"; pe:value 0.008333333333333304 ],
+    [ pe:var "adc"; pe:value 0.1933333333333333 ],
+    [ pe:var "b"; pe:value 0.325 ],
+    [ pe:var "b2"; pe:value 0.10562500000000001 ],
+    [ pe:var "c"; pe:value 0.14 ],
+    [ pe:var "c2"; pe:value 0.019600000000000003 ],
+    [ pe:var "da"; pe:value 0.20166666666666672 ],
+    [ pe:var "da2"; pe:value 0.040669444444444466 ],
+    [ pe:var "db"; pe:value -0.008333333333333304 ],
+    [ pe:var "db2"; pe:value 0.00006944444444444396 ],
+    [ pe:var "dc"; pe:value -0.1933333333333333 ],
+    [ pe:var "dc2"; pe:value 0.03737777777777777 ],
+    [ pe:var "effN"; pe:value 2.4304289707133306 ],
+    [ pe:var "gini"; pe:value 0.5885499999999999 ],
+    [ pe:var "l2"; pe:value 0.2794935896700793 ],
+    [ pe:var "m"; pe:value _:b11_553d0908dfc8051 ],
+    [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ],
+    [ pe:var "s1"; pe:value 0.21000000000000002 ],
+    [ pe:var "s2"; pe:value 0.04073888888888891 ],
+    [ pe:var "s3"; pe:value 0.07811666666666667 ],
+    [ pe:var "sAbs"; pe:value 0.4033333333333333 ],
+    [ pe:var "sumSq"; pe:value 0.41145000000000004 ],
+    [ pe:var "tv"; pe:value 0.20166666666666666 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b11_553d0908dfc8051 . },
+    { _:b11_553d0908dfc8051 :pi _:b6_990a776e920f7fc . },
+    { _:b6_990a776e920f7fc :pA 0.535 . },
+    { _:b6_990a776e920f7fc :pB 0.325 . },
+    { _:b6_990a776e920f7fc :pC 0.14 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.535 2.0) math:exponentiation 0.286225 . },
+    { (0.325 2.0) math:exponentiation 0.10562500000000001 . },
+    { (0.14 2.0) math:exponentiation 0.019600000000000003 . },
+    { (0.286225 0.10562500000000001) math:sum 0.39185000000000003 . },
+    { (0.39185000000000003 0.019600000000000003) math:sum 0.41145000000000004 . },
+    { (1.0 0.41145000000000004) math:difference 0.5885499999999999 . },
+    { (1.0 0.41145000000000004) math:quotient 2.4304289707133306 . },
+    { (0.535 0.3333333333333333) math:difference 0.20166666666666672 . },
+    { 0.20166666666666672 math:absoluteValue 0.20166666666666672 . },
+    { (0.325 0.3333333333333333) math:difference -0.008333333333333304 . },
+    { -0.008333333333333304 math:absoluteValue 0.008333333333333304 . },
+    { (0.14 0.3333333333333333) math:difference -0.1933333333333333 . },
+    { -0.1933333333333333 math:absoluteValue 0.1933333333333333 . },
+    { (0.20166666666666672 0.008333333333333304) math:sum 0.21000000000000002 . },
+    { (0.21000000000000002 0.1933333333333333) math:sum 0.4033333333333333 . },
+    { (0.5 0.4033333333333333) math:product 0.20166666666666666 . },
+    { (0.20166666666666672 2.0) math:exponentiation 0.040669444444444466 . },
+    { (-0.008333333333333304 2.0) math:exponentiation 0.00006944444444444396 . },
+    { (-0.1933333333333333 2.0) math:exponentiation 0.03737777777777777 . },
+    { (0.040669444444444466 0.00006944444444444396) math:sum 0.04073888888888891 . },
+    { (0.04073888888888891 0.03737777777777777) math:sum 0.07811666666666667 . },
+    { (0.07811666666666667 0.5) math:exponentiation 0.2794935896700793 . }.
+
+{ (1.0 3.0) math:quotient 0.3333333333333333 . }
+  pe:builtin math:quotient.
+
+{ (0.535 2.0) math:exponentiation 0.286225 . }
+  pe:builtin math:exponentiation.
+
+{ (0.325 2.0) math:exponentiation 0.10562500000000001 . }
+  pe:builtin math:exponentiation.
+
+{ (0.14 2.0) math:exponentiation 0.019600000000000003 . }
+  pe:builtin math:exponentiation.
+
+{ (0.286225 0.10562500000000001) math:sum 0.39185000000000003 . }
+  pe:builtin math:sum.
+
+{ (0.39185000000000003 0.019600000000000003) math:sum 0.41145000000000004 . }
+  pe:builtin math:sum.
+
+{ (1.0 0.41145000000000004) math:difference 0.5885499999999999 . }
+  pe:builtin math:difference.
+
+{ (1.0 0.41145000000000004) math:quotient 2.4304289707133306 . }
+  pe:builtin math:quotient.
+
+{ (0.535 0.3333333333333333) math:difference 0.20166666666666672 . }
+  pe:builtin math:difference.
+
+{ 0.20166666666666672 math:absoluteValue 0.20166666666666672 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.325 0.3333333333333333) math:difference -0.008333333333333304 . }
+  pe:builtin math:difference.
+
+{ -0.008333333333333304 math:absoluteValue 0.008333333333333304 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.14 0.3333333333333333) math:difference -0.1933333333333333 . }
+  pe:builtin math:difference.
+
+{ -0.1933333333333333 math:absoluteValue 0.1933333333333333 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.20166666666666672 0.008333333333333304) math:sum 0.21000000000000002 . }
+  pe:builtin math:sum.
+
+{ (0.21000000000000002 0.1933333333333333) math:sum 0.4033333333333333 . }
+  pe:builtin math:sum.
+
+{ (0.5 0.4033333333333333) math:product 0.20166666666666666 . }
+  pe:builtin math:product.
+
+{ (0.20166666666666672 2.0) math:exponentiation 0.040669444444444466 . }
+  pe:builtin math:exponentiation.
+
+{ (-0.008333333333333304 2.0) math:exponentiation 0.00006944444444444396 . }
+  pe:builtin math:exponentiation.
+
+{ (-0.1933333333333333 2.0) math:exponentiation 0.03737777777777777 . }
+  pe:builtin math:exponentiation.
+
+{ (0.040669444444444466 0.00006944444444444396) math:sum 0.04073888888888891 . }
+  pe:builtin math:sum.
+
+{ (0.04073888888888891 0.03737777777777777) math:sum 0.07811666666666667 . }
+  pe:builtin math:sum.
+
+{ (0.07811666666666667 0.5) math:exponentiation 0.2794935896700793 . }
+  pe:builtin math:exponentiation.
+
+{ _:b11_553d0908dfc8051 :gini 0.5885499999999999 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.535 ],
+    [ pe:var "a2"; pe:value 0.286225 ],
+    [ pe:var "ab2"; pe:value 0.39185000000000003 ],
+    [ pe:var "ada"; pe:value 0.20166666666666672 ],
+    [ pe:var "adb"; pe:value 0.008333333333333304 ],
+    [ pe:var "adc"; pe:value 0.1933333333333333 ],
+    [ pe:var "b"; pe:value 0.325 ],
+    [ pe:var "b2"; pe:value 0.10562500000000001 ],
+    [ pe:var "c"; pe:value 0.14 ],
+    [ pe:var "c2"; pe:value 0.019600000000000003 ],
+    [ pe:var "da"; pe:value 0.20166666666666672 ],
+    [ pe:var "da2"; pe:value 0.040669444444444466 ],
+    [ pe:var "db"; pe:value -0.008333333333333304 ],
+    [ pe:var "db2"; pe:value 0.00006944444444444396 ],
+    [ pe:var "dc"; pe:value -0.1933333333333333 ],
+    [ pe:var "dc2"; pe:value 0.03737777777777777 ],
+    [ pe:var "effN"; pe:value 2.4304289707133306 ],
+    [ pe:var "gini"; pe:value 0.5885499999999999 ],
+    [ pe:var "l2"; pe:value 0.2794935896700793 ],
+    [ pe:var "m"; pe:value _:b11_553d0908dfc8051 ],
+    [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ],
+    [ pe:var "s1"; pe:value 0.21000000000000002 ],
+    [ pe:var "s2"; pe:value 0.04073888888888891 ],
+    [ pe:var "s3"; pe:value 0.07811666666666667 ],
+    [ pe:var "sAbs"; pe:value 0.4033333333333333 ],
+    [ pe:var "sumSq"; pe:value 0.41145000000000004 ],
+    [ pe:var "tv"; pe:value 0.20166666666666666 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b11_553d0908dfc8051 . },
+    { _:b11_553d0908dfc8051 :pi _:b6_990a776e920f7fc . },
+    { _:b6_990a776e920f7fc :pA 0.535 . },
+    { _:b6_990a776e920f7fc :pB 0.325 . },
+    { _:b6_990a776e920f7fc :pC 0.14 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.535 2.0) math:exponentiation 0.286225 . },
+    { (0.325 2.0) math:exponentiation 0.10562500000000001 . },
+    { (0.14 2.0) math:exponentiation 0.019600000000000003 . },
+    { (0.286225 0.10562500000000001) math:sum 0.39185000000000003 . },
+    { (0.39185000000000003 0.019600000000000003) math:sum 0.41145000000000004 . },
+    { (1.0 0.41145000000000004) math:difference 0.5885499999999999 . },
+    { (1.0 0.41145000000000004) math:quotient 2.4304289707133306 . },
+    { (0.535 0.3333333333333333) math:difference 0.20166666666666672 . },
+    { 0.20166666666666672 math:absoluteValue 0.20166666666666672 . },
+    { (0.325 0.3333333333333333) math:difference -0.008333333333333304 . },
+    { -0.008333333333333304 math:absoluteValue 0.008333333333333304 . },
+    { (0.14 0.3333333333333333) math:difference -0.1933333333333333 . },
+    { -0.1933333333333333 math:absoluteValue 0.1933333333333333 . },
+    { (0.20166666666666672 0.008333333333333304) math:sum 0.21000000000000002 . },
+    { (0.21000000000000002 0.1933333333333333) math:sum 0.4033333333333333 . },
+    { (0.5 0.4033333333333333) math:product 0.20166666666666666 . },
+    { (0.20166666666666672 2.0) math:exponentiation 0.040669444444444466 . },
+    { (-0.008333333333333304 2.0) math:exponentiation 0.00006944444444444396 . },
+    { (-0.1933333333333333 2.0) math:exponentiation 0.03737777777777777 . },
+    { (0.040669444444444466 0.00006944444444444396) math:sum 0.04073888888888891 . },
+    { (0.04073888888888891 0.03737777777777777) math:sum 0.07811666666666667 . },
+    { (0.07811666666666667 0.5) math:exponentiation 0.2794935896700793 . }.
+
+{ _:b11_553d0908dfc8051 :effectiveStates 2.4304289707133306 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.535 ],
+    [ pe:var "a2"; pe:value 0.286225 ],
+    [ pe:var "ab2"; pe:value 0.39185000000000003 ],
+    [ pe:var "ada"; pe:value 0.20166666666666672 ],
+    [ pe:var "adb"; pe:value 0.008333333333333304 ],
+    [ pe:var "adc"; pe:value 0.1933333333333333 ],
+    [ pe:var "b"; pe:value 0.325 ],
+    [ pe:var "b2"; pe:value 0.10562500000000001 ],
+    [ pe:var "c"; pe:value 0.14 ],
+    [ pe:var "c2"; pe:value 0.019600000000000003 ],
+    [ pe:var "da"; pe:value 0.20166666666666672 ],
+    [ pe:var "da2"; pe:value 0.040669444444444466 ],
+    [ pe:var "db"; pe:value -0.008333333333333304 ],
+    [ pe:var "db2"; pe:value 0.00006944444444444396 ],
+    [ pe:var "dc"; pe:value -0.1933333333333333 ],
+    [ pe:var "dc2"; pe:value 0.03737777777777777 ],
+    [ pe:var "effN"; pe:value 2.4304289707133306 ],
+    [ pe:var "gini"; pe:value 0.5885499999999999 ],
+    [ pe:var "l2"; pe:value 0.2794935896700793 ],
+    [ pe:var "m"; pe:value _:b11_553d0908dfc8051 ],
+    [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ],
+    [ pe:var "s1"; pe:value 0.21000000000000002 ],
+    [ pe:var "s2"; pe:value 0.04073888888888891 ],
+    [ pe:var "s3"; pe:value 0.07811666666666667 ],
+    [ pe:var "sAbs"; pe:value 0.4033333333333333 ],
+    [ pe:var "sumSq"; pe:value 0.41145000000000004 ],
+    [ pe:var "tv"; pe:value 0.20166666666666666 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b11_553d0908dfc8051 . },
+    { _:b11_553d0908dfc8051 :pi _:b6_990a776e920f7fc . },
+    { _:b6_990a776e920f7fc :pA 0.535 . },
+    { _:b6_990a776e920f7fc :pB 0.325 . },
+    { _:b6_990a776e920f7fc :pC 0.14 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.535 2.0) math:exponentiation 0.286225 . },
+    { (0.325 2.0) math:exponentiation 0.10562500000000001 . },
+    { (0.14 2.0) math:exponentiation 0.019600000000000003 . },
+    { (0.286225 0.10562500000000001) math:sum 0.39185000000000003 . },
+    { (0.39185000000000003 0.019600000000000003) math:sum 0.41145000000000004 . },
+    { (1.0 0.41145000000000004) math:difference 0.5885499999999999 . },
+    { (1.0 0.41145000000000004) math:quotient 2.4304289707133306 . },
+    { (0.535 0.3333333333333333) math:difference 0.20166666666666672 . },
+    { 0.20166666666666672 math:absoluteValue 0.20166666666666672 . },
+    { (0.325 0.3333333333333333) math:difference -0.008333333333333304 . },
+    { -0.008333333333333304 math:absoluteValue 0.008333333333333304 . },
+    { (0.14 0.3333333333333333) math:difference -0.1933333333333333 . },
+    { -0.1933333333333333 math:absoluteValue 0.1933333333333333 . },
+    { (0.20166666666666672 0.008333333333333304) math:sum 0.21000000000000002 . },
+    { (0.21000000000000002 0.1933333333333333) math:sum 0.4033333333333333 . },
+    { (0.5 0.4033333333333333) math:product 0.20166666666666666 . },
+    { (0.20166666666666672 2.0) math:exponentiation 0.040669444444444466 . },
+    { (-0.008333333333333304 2.0) math:exponentiation 0.00006944444444444396 . },
+    { (-0.1933333333333333 2.0) math:exponentiation 0.03737777777777777 . },
+    { (0.040669444444444466 0.00006944444444444396) math:sum 0.04073888888888891 . },
+    { (0.04073888888888891 0.03737777777777777) math:sum 0.07811666666666667 . },
+    { (0.07811666666666667 0.5) math:exponentiation 0.2794935896700793 . }.
+
+{ _:b11_553d0908dfc8051 :tvToUniform 0.20166666666666666 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.535 ],
+    [ pe:var "a2"; pe:value 0.286225 ],
+    [ pe:var "ab2"; pe:value 0.39185000000000003 ],
+    [ pe:var "ada"; pe:value 0.20166666666666672 ],
+    [ pe:var "adb"; pe:value 0.008333333333333304 ],
+    [ pe:var "adc"; pe:value 0.1933333333333333 ],
+    [ pe:var "b"; pe:value 0.325 ],
+    [ pe:var "b2"; pe:value 0.10562500000000001 ],
+    [ pe:var "c"; pe:value 0.14 ],
+    [ pe:var "c2"; pe:value 0.019600000000000003 ],
+    [ pe:var "da"; pe:value 0.20166666666666672 ],
+    [ pe:var "da2"; pe:value 0.040669444444444466 ],
+    [ pe:var "db"; pe:value -0.008333333333333304 ],
+    [ pe:var "db2"; pe:value 0.00006944444444444396 ],
+    [ pe:var "dc"; pe:value -0.1933333333333333 ],
+    [ pe:var "dc2"; pe:value 0.03737777777777777 ],
+    [ pe:var "effN"; pe:value 2.4304289707133306 ],
+    [ pe:var "gini"; pe:value 0.5885499999999999 ],
+    [ pe:var "l2"; pe:value 0.2794935896700793 ],
+    [ pe:var "m"; pe:value _:b11_553d0908dfc8051 ],
+    [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ],
+    [ pe:var "s1"; pe:value 0.21000000000000002 ],
+    [ pe:var "s2"; pe:value 0.04073888888888891 ],
+    [ pe:var "s3"; pe:value 0.07811666666666667 ],
+    [ pe:var "sAbs"; pe:value 0.4033333333333333 ],
+    [ pe:var "sumSq"; pe:value 0.41145000000000004 ],
+    [ pe:var "tv"; pe:value 0.20166666666666666 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b11_553d0908dfc8051 . },
+    { _:b11_553d0908dfc8051 :pi _:b6_990a776e920f7fc . },
+    { _:b6_990a776e920f7fc :pA 0.535 . },
+    { _:b6_990a776e920f7fc :pB 0.325 . },
+    { _:b6_990a776e920f7fc :pC 0.14 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.535 2.0) math:exponentiation 0.286225 . },
+    { (0.325 2.0) math:exponentiation 0.10562500000000001 . },
+    { (0.14 2.0) math:exponentiation 0.019600000000000003 . },
+    { (0.286225 0.10562500000000001) math:sum 0.39185000000000003 . },
+    { (0.39185000000000003 0.019600000000000003) math:sum 0.41145000000000004 . },
+    { (1.0 0.41145000000000004) math:difference 0.5885499999999999 . },
+    { (1.0 0.41145000000000004) math:quotient 2.4304289707133306 . },
+    { (0.535 0.3333333333333333) math:difference 0.20166666666666672 . },
+    { 0.20166666666666672 math:absoluteValue 0.20166666666666672 . },
+    { (0.325 0.3333333333333333) math:difference -0.008333333333333304 . },
+    { -0.008333333333333304 math:absoluteValue 0.008333333333333304 . },
+    { (0.14 0.3333333333333333) math:difference -0.1933333333333333 . },
+    { -0.1933333333333333 math:absoluteValue 0.1933333333333333 . },
+    { (0.20166666666666672 0.008333333333333304) math:sum 0.21000000000000002 . },
+    { (0.21000000000000002 0.1933333333333333) math:sum 0.4033333333333333 . },
+    { (0.5 0.4033333333333333) math:product 0.20166666666666666 . },
+    { (0.20166666666666672 2.0) math:exponentiation 0.040669444444444466 . },
+    { (-0.008333333333333304 2.0) math:exponentiation 0.00006944444444444396 . },
+    { (-0.1933333333333333 2.0) math:exponentiation 0.03737777777777777 . },
+    { (0.040669444444444466 0.00006944444444444396) math:sum 0.04073888888888891 . },
+    { (0.04073888888888891 0.03737777777777777) math:sum 0.07811666666666667 . },
+    { (0.07811666666666667 0.5) math:exponentiation 0.2794935896700793 . }.
+
+{ _:b11_553d0908dfc8051 :l2ToUniform 0.2794935896700793 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.535 ],
+    [ pe:var "a2"; pe:value 0.286225 ],
+    [ pe:var "ab2"; pe:value 0.39185000000000003 ],
+    [ pe:var "ada"; pe:value 0.20166666666666672 ],
+    [ pe:var "adb"; pe:value 0.008333333333333304 ],
+    [ pe:var "adc"; pe:value 0.1933333333333333 ],
+    [ pe:var "b"; pe:value 0.325 ],
+    [ pe:var "b2"; pe:value 0.10562500000000001 ],
+    [ pe:var "c"; pe:value 0.14 ],
+    [ pe:var "c2"; pe:value 0.019600000000000003 ],
+    [ pe:var "da"; pe:value 0.20166666666666672 ],
+    [ pe:var "da2"; pe:value 0.040669444444444466 ],
+    [ pe:var "db"; pe:value -0.008333333333333304 ],
+    [ pe:var "db2"; pe:value 0.00006944444444444396 ],
+    [ pe:var "dc"; pe:value -0.1933333333333333 ],
+    [ pe:var "dc2"; pe:value 0.03737777777777777 ],
+    [ pe:var "effN"; pe:value 2.4304289707133306 ],
+    [ pe:var "gini"; pe:value 0.5885499999999999 ],
+    [ pe:var "l2"; pe:value 0.2794935896700793 ],
+    [ pe:var "m"; pe:value _:b11_553d0908dfc8051 ],
+    [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ],
+    [ pe:var "s1"; pe:value 0.21000000000000002 ],
+    [ pe:var "s2"; pe:value 0.04073888888888891 ],
+    [ pe:var "s3"; pe:value 0.07811666666666667 ],
+    [ pe:var "sAbs"; pe:value 0.4033333333333333 ],
+    [ pe:var "sumSq"; pe:value 0.41145000000000004 ],
+    [ pe:var "tv"; pe:value 0.20166666666666666 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b11_553d0908dfc8051 . },
+    { _:b11_553d0908dfc8051 :pi _:b6_990a776e920f7fc . },
+    { _:b6_990a776e920f7fc :pA 0.535 . },
+    { _:b6_990a776e920f7fc :pB 0.325 . },
+    { _:b6_990a776e920f7fc :pC 0.14 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.535 2.0) math:exponentiation 0.286225 . },
+    { (0.325 2.0) math:exponentiation 0.10562500000000001 . },
+    { (0.14 2.0) math:exponentiation 0.019600000000000003 . },
+    { (0.286225 0.10562500000000001) math:sum 0.39185000000000003 . },
+    { (0.39185000000000003 0.019600000000000003) math:sum 0.41145000000000004 . },
+    { (1.0 0.41145000000000004) math:difference 0.5885499999999999 . },
+    { (1.0 0.41145000000000004) math:quotient 2.4304289707133306 . },
+    { (0.535 0.3333333333333333) math:difference 0.20166666666666672 . },
+    { 0.20166666666666672 math:absoluteValue 0.20166666666666672 . },
+    { (0.325 0.3333333333333333) math:difference -0.008333333333333304 . },
+    { -0.008333333333333304 math:absoluteValue 0.008333333333333304 . },
+    { (0.14 0.3333333333333333) math:difference -0.1933333333333333 . },
+    { -0.1933333333333333 math:absoluteValue 0.1933333333333333 . },
+    { (0.20166666666666672 0.008333333333333304) math:sum 0.21000000000000002 . },
+    { (0.21000000000000002 0.1933333333333333) math:sum 0.4033333333333333 . },
+    { (0.5 0.4033333333333333) math:product 0.20166666666666666 . },
+    { (0.20166666666666672 2.0) math:exponentiation 0.040669444444444466 . },
+    { (-0.008333333333333304 2.0) math:exponentiation 0.00006944444444444396 . },
+    { (-0.1933333333333333 2.0) math:exponentiation 0.03737777777777777 . },
+    { (0.040669444444444466 0.00006944444444444396) math:sum 0.04073888888888891 . },
+    { (0.04073888888888891 0.03737777777777777) math:sum 0.07811666666666667 . },
+    { (0.07811666666666667 0.5) math:exponentiation 0.2794935896700793 . }.
+
+{ _:b10_db0d06358326f900 :sumSq 0.45999999999999996 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.60 ],
+    [ pe:var "a2"; pe:value 0.36 ],
+    [ pe:var "ab2"; pe:value 0.44999999999999996 ],
+    [ pe:var "ada"; pe:value 0.26666666666666666 ],
+    [ pe:var "adb"; pe:value 0.033333333333333326 ],
+    [ pe:var "adc"; pe:value 0.2333333333333333 ],
+    [ pe:var "b"; pe:value 0.30 ],
+    [ pe:var "b2"; pe:value 0.09 ],
+    [ pe:var "c"; pe:value 0.10 ],
+    [ pe:var "c2"; pe:value 0.010000000000000002 ],
+    [ pe:var "da"; pe:value 0.26666666666666666 ],
+    [ pe:var "da2"; pe:value 0.07111111111111111 ],
+    [ pe:var "db"; pe:value -0.033333333333333326 ],
+    [ pe:var "db2"; pe:value 0.0011111111111111107 ],
+    [ pe:var "dc"; pe:value -0.2333333333333333 ],
+    [ pe:var "dc2"; pe:value 0.054444444444444434 ],
+    [ pe:var "effN"; pe:value 2.173913043478261 ],
+    [ pe:var "gini"; pe:value 0.54 ],
+    [ pe:var "l2"; pe:value 0.3559026084010437 ],
+    [ pe:var "m"; pe:value _:b10_db0d06358326f900 ],
+    [ pe:var "pi"; pe:value _:b5 ],
+    [ pe:var "s1"; pe:value 0.3 ],
+    [ pe:var "s2"; pe:value 0.07222222222222222 ],
+    [ pe:var "s3"; pe:value 0.12666666666666665 ],
+    [ pe:var "sAbs"; pe:value 0.5333333333333333 ],
+    [ pe:var "sumSq"; pe:value 0.45999999999999996 ],
+    [ pe:var "tv"; pe:value 0.26666666666666666 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b10_db0d06358326f900 . },
+    { _:b10_db0d06358326f900 :pi _:b5 . },
+    { _:b5 :pA 0.60 . },
+    { _:b5 :pB 0.30 . },
+    { _:b5 :pC 0.10 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.60 2.0) math:exponentiation 0.36 . },
+    { (0.30 2.0) math:exponentiation 0.09 . },
+    { (0.10 2.0) math:exponentiation 0.010000000000000002 . },
+    { (0.36 0.09) math:sum 0.44999999999999996 . },
+    { (0.44999999999999996 0.010000000000000002) math:sum 0.45999999999999996 . },
+    { (1.0 0.45999999999999996) math:difference 0.54 . },
+    { (1.0 0.45999999999999996) math:quotient 2.173913043478261 . },
+    { (0.60 0.3333333333333333) math:difference 0.26666666666666666 . },
+    { 0.26666666666666666 math:absoluteValue 0.26666666666666666 . },
+    { (0.30 0.3333333333333333) math:difference -0.033333333333333326 . },
+    { -0.033333333333333326 math:absoluteValue 0.033333333333333326 . },
+    { (0.10 0.3333333333333333) math:difference -0.2333333333333333 . },
+    { -0.2333333333333333 math:absoluteValue 0.2333333333333333 . },
+    { (0.26666666666666666 0.033333333333333326) math:sum 0.3 . },
+    { (0.3 0.2333333333333333) math:sum 0.5333333333333333 . },
+    { (0.5 0.5333333333333333) math:product 0.26666666666666666 . },
+    { (0.26666666666666666 2.0) math:exponentiation 0.07111111111111111 . },
+    { (-0.033333333333333326 2.0) math:exponentiation 0.0011111111111111107 . },
+    { (-0.2333333333333333 2.0) math:exponentiation 0.054444444444444434 . },
+    { (0.07111111111111111 0.0011111111111111107) math:sum 0.07222222222222222 . },
+    { (0.07222222222222222 0.054444444444444434) math:sum 0.12666666666666665 . },
+    { (0.12666666666666665 0.5) math:exponentiation 0.3559026084010437 . }.
+
+{ (0.60 2.0) math:exponentiation 0.36 . }
+  pe:builtin math:exponentiation.
+
+{ (0.30 2.0) math:exponentiation 0.09 . }
+  pe:builtin math:exponentiation.
+
+{ (0.10 2.0) math:exponentiation 0.010000000000000002 . }
+  pe:builtin math:exponentiation.
+
+{ (0.36 0.09) math:sum 0.44999999999999996 . }
+  pe:builtin math:sum.
+
+{ (0.44999999999999996 0.010000000000000002) math:sum 0.45999999999999996 . }
+  pe:builtin math:sum.
+
+{ (1.0 0.45999999999999996) math:difference 0.54 . }
+  pe:builtin math:difference.
+
+{ (1.0 0.45999999999999996) math:quotient 2.173913043478261 . }
+  pe:builtin math:quotient.
+
+{ (0.60 0.3333333333333333) math:difference 0.26666666666666666 . }
+  pe:builtin math:difference.
+
+{ 0.26666666666666666 math:absoluteValue 0.26666666666666666 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.30 0.3333333333333333) math:difference -0.033333333333333326 . }
+  pe:builtin math:difference.
+
+{ -0.033333333333333326 math:absoluteValue 0.033333333333333326 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.10 0.3333333333333333) math:difference -0.2333333333333333 . }
+  pe:builtin math:difference.
+
+{ -0.2333333333333333 math:absoluteValue 0.2333333333333333 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.26666666666666666 0.033333333333333326) math:sum 0.3 . }
+  pe:builtin math:sum.
+
+{ (0.3 0.2333333333333333) math:sum 0.5333333333333333 . }
+  pe:builtin math:sum.
+
+{ (0.5 0.5333333333333333) math:product 0.26666666666666666 . }
+  pe:builtin math:product.
+
+{ (0.26666666666666666 2.0) math:exponentiation 0.07111111111111111 . }
+  pe:builtin math:exponentiation.
+
+{ (-0.033333333333333326 2.0) math:exponentiation 0.0011111111111111107 . }
+  pe:builtin math:exponentiation.
+
+{ (-0.2333333333333333 2.0) math:exponentiation 0.054444444444444434 . }
+  pe:builtin math:exponentiation.
+
+{ (0.07111111111111111 0.0011111111111111107) math:sum 0.07222222222222222 . }
+  pe:builtin math:sum.
+
+{ (0.07222222222222222 0.054444444444444434) math:sum 0.12666666666666665 . }
+  pe:builtin math:sum.
+
+{ (0.12666666666666665 0.5) math:exponentiation 0.3559026084010437 . }
+  pe:builtin math:exponentiation.
+
+{ _:b10_db0d06358326f900 :gini 0.54 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.60 ],
+    [ pe:var "a2"; pe:value 0.36 ],
+    [ pe:var "ab2"; pe:value 0.44999999999999996 ],
+    [ pe:var "ada"; pe:value 0.26666666666666666 ],
+    [ pe:var "adb"; pe:value 0.033333333333333326 ],
+    [ pe:var "adc"; pe:value 0.2333333333333333 ],
+    [ pe:var "b"; pe:value 0.30 ],
+    [ pe:var "b2"; pe:value 0.09 ],
+    [ pe:var "c"; pe:value 0.10 ],
+    [ pe:var "c2"; pe:value 0.010000000000000002 ],
+    [ pe:var "da"; pe:value 0.26666666666666666 ],
+    [ pe:var "da2"; pe:value 0.07111111111111111 ],
+    [ pe:var "db"; pe:value -0.033333333333333326 ],
+    [ pe:var "db2"; pe:value 0.0011111111111111107 ],
+    [ pe:var "dc"; pe:value -0.2333333333333333 ],
+    [ pe:var "dc2"; pe:value 0.054444444444444434 ],
+    [ pe:var "effN"; pe:value 2.173913043478261 ],
+    [ pe:var "gini"; pe:value 0.54 ],
+    [ pe:var "l2"; pe:value 0.3559026084010437 ],
+    [ pe:var "m"; pe:value _:b10_db0d06358326f900 ],
+    [ pe:var "pi"; pe:value _:b5 ],
+    [ pe:var "s1"; pe:value 0.3 ],
+    [ pe:var "s2"; pe:value 0.07222222222222222 ],
+    [ pe:var "s3"; pe:value 0.12666666666666665 ],
+    [ pe:var "sAbs"; pe:value 0.5333333333333333 ],
+    [ pe:var "sumSq"; pe:value 0.45999999999999996 ],
+    [ pe:var "tv"; pe:value 0.26666666666666666 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b10_db0d06358326f900 . },
+    { _:b10_db0d06358326f900 :pi _:b5 . },
+    { _:b5 :pA 0.60 . },
+    { _:b5 :pB 0.30 . },
+    { _:b5 :pC 0.10 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.60 2.0) math:exponentiation 0.36 . },
+    { (0.30 2.0) math:exponentiation 0.09 . },
+    { (0.10 2.0) math:exponentiation 0.010000000000000002 . },
+    { (0.36 0.09) math:sum 0.44999999999999996 . },
+    { (0.44999999999999996 0.010000000000000002) math:sum 0.45999999999999996 . },
+    { (1.0 0.45999999999999996) math:difference 0.54 . },
+    { (1.0 0.45999999999999996) math:quotient 2.173913043478261 . },
+    { (0.60 0.3333333333333333) math:difference 0.26666666666666666 . },
+    { 0.26666666666666666 math:absoluteValue 0.26666666666666666 . },
+    { (0.30 0.3333333333333333) math:difference -0.033333333333333326 . },
+    { -0.033333333333333326 math:absoluteValue 0.033333333333333326 . },
+    { (0.10 0.3333333333333333) math:difference -0.2333333333333333 . },
+    { -0.2333333333333333 math:absoluteValue 0.2333333333333333 . },
+    { (0.26666666666666666 0.033333333333333326) math:sum 0.3 . },
+    { (0.3 0.2333333333333333) math:sum 0.5333333333333333 . },
+    { (0.5 0.5333333333333333) math:product 0.26666666666666666 . },
+    { (0.26666666666666666 2.0) math:exponentiation 0.07111111111111111 . },
+    { (-0.033333333333333326 2.0) math:exponentiation 0.0011111111111111107 . },
+    { (-0.2333333333333333 2.0) math:exponentiation 0.054444444444444434 . },
+    { (0.07111111111111111 0.0011111111111111107) math:sum 0.07222222222222222 . },
+    { (0.07222222222222222 0.054444444444444434) math:sum 0.12666666666666665 . },
+    { (0.12666666666666665 0.5) math:exponentiation 0.3559026084010437 . }.
+
+{ _:b10_db0d06358326f900 :effectiveStates 2.173913043478261 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.60 ],
+    [ pe:var "a2"; pe:value 0.36 ],
+    [ pe:var "ab2"; pe:value 0.44999999999999996 ],
+    [ pe:var "ada"; pe:value 0.26666666666666666 ],
+    [ pe:var "adb"; pe:value 0.033333333333333326 ],
+    [ pe:var "adc"; pe:value 0.2333333333333333 ],
+    [ pe:var "b"; pe:value 0.30 ],
+    [ pe:var "b2"; pe:value 0.09 ],
+    [ pe:var "c"; pe:value 0.10 ],
+    [ pe:var "c2"; pe:value 0.010000000000000002 ],
+    [ pe:var "da"; pe:value 0.26666666666666666 ],
+    [ pe:var "da2"; pe:value 0.07111111111111111 ],
+    [ pe:var "db"; pe:value -0.033333333333333326 ],
+    [ pe:var "db2"; pe:value 0.0011111111111111107 ],
+    [ pe:var "dc"; pe:value -0.2333333333333333 ],
+    [ pe:var "dc2"; pe:value 0.054444444444444434 ],
+    [ pe:var "effN"; pe:value 2.173913043478261 ],
+    [ pe:var "gini"; pe:value 0.54 ],
+    [ pe:var "l2"; pe:value 0.3559026084010437 ],
+    [ pe:var "m"; pe:value _:b10_db0d06358326f900 ],
+    [ pe:var "pi"; pe:value _:b5 ],
+    [ pe:var "s1"; pe:value 0.3 ],
+    [ pe:var "s2"; pe:value 0.07222222222222222 ],
+    [ pe:var "s3"; pe:value 0.12666666666666665 ],
+    [ pe:var "sAbs"; pe:value 0.5333333333333333 ],
+    [ pe:var "sumSq"; pe:value 0.45999999999999996 ],
+    [ pe:var "tv"; pe:value 0.26666666666666666 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b10_db0d06358326f900 . },
+    { _:b10_db0d06358326f900 :pi _:b5 . },
+    { _:b5 :pA 0.60 . },
+    { _:b5 :pB 0.30 . },
+    { _:b5 :pC 0.10 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.60 2.0) math:exponentiation 0.36 . },
+    { (0.30 2.0) math:exponentiation 0.09 . },
+    { (0.10 2.0) math:exponentiation 0.010000000000000002 . },
+    { (0.36 0.09) math:sum 0.44999999999999996 . },
+    { (0.44999999999999996 0.010000000000000002) math:sum 0.45999999999999996 . },
+    { (1.0 0.45999999999999996) math:difference 0.54 . },
+    { (1.0 0.45999999999999996) math:quotient 2.173913043478261 . },
+    { (0.60 0.3333333333333333) math:difference 0.26666666666666666 . },
+    { 0.26666666666666666 math:absoluteValue 0.26666666666666666 . },
+    { (0.30 0.3333333333333333) math:difference -0.033333333333333326 . },
+    { -0.033333333333333326 math:absoluteValue 0.033333333333333326 . },
+    { (0.10 0.3333333333333333) math:difference -0.2333333333333333 . },
+    { -0.2333333333333333 math:absoluteValue 0.2333333333333333 . },
+    { (0.26666666666666666 0.033333333333333326) math:sum 0.3 . },
+    { (0.3 0.2333333333333333) math:sum 0.5333333333333333 . },
+    { (0.5 0.5333333333333333) math:product 0.26666666666666666 . },
+    { (0.26666666666666666 2.0) math:exponentiation 0.07111111111111111 . },
+    { (-0.033333333333333326 2.0) math:exponentiation 0.0011111111111111107 . },
+    { (-0.2333333333333333 2.0) math:exponentiation 0.054444444444444434 . },
+    { (0.07111111111111111 0.0011111111111111107) math:sum 0.07222222222222222 . },
+    { (0.07222222222222222 0.054444444444444434) math:sum 0.12666666666666665 . },
+    { (0.12666666666666665 0.5) math:exponentiation 0.3559026084010437 . }.
+
+{ _:b10_db0d06358326f900 :tvToUniform 0.26666666666666666 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.60 ],
+    [ pe:var "a2"; pe:value 0.36 ],
+    [ pe:var "ab2"; pe:value 0.44999999999999996 ],
+    [ pe:var "ada"; pe:value 0.26666666666666666 ],
+    [ pe:var "adb"; pe:value 0.033333333333333326 ],
+    [ pe:var "adc"; pe:value 0.2333333333333333 ],
+    [ pe:var "b"; pe:value 0.30 ],
+    [ pe:var "b2"; pe:value 0.09 ],
+    [ pe:var "c"; pe:value 0.10 ],
+    [ pe:var "c2"; pe:value 0.010000000000000002 ],
+    [ pe:var "da"; pe:value 0.26666666666666666 ],
+    [ pe:var "da2"; pe:value 0.07111111111111111 ],
+    [ pe:var "db"; pe:value -0.033333333333333326 ],
+    [ pe:var "db2"; pe:value 0.0011111111111111107 ],
+    [ pe:var "dc"; pe:value -0.2333333333333333 ],
+    [ pe:var "dc2"; pe:value 0.054444444444444434 ],
+    [ pe:var "effN"; pe:value 2.173913043478261 ],
+    [ pe:var "gini"; pe:value 0.54 ],
+    [ pe:var "l2"; pe:value 0.3559026084010437 ],
+    [ pe:var "m"; pe:value _:b10_db0d06358326f900 ],
+    [ pe:var "pi"; pe:value _:b5 ],
+    [ pe:var "s1"; pe:value 0.3 ],
+    [ pe:var "s2"; pe:value 0.07222222222222222 ],
+    [ pe:var "s3"; pe:value 0.12666666666666665 ],
+    [ pe:var "sAbs"; pe:value 0.5333333333333333 ],
+    [ pe:var "sumSq"; pe:value 0.45999999999999996 ],
+    [ pe:var "tv"; pe:value 0.26666666666666666 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b10_db0d06358326f900 . },
+    { _:b10_db0d06358326f900 :pi _:b5 . },
+    { _:b5 :pA 0.60 . },
+    { _:b5 :pB 0.30 . },
+    { _:b5 :pC 0.10 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.60 2.0) math:exponentiation 0.36 . },
+    { (0.30 2.0) math:exponentiation 0.09 . },
+    { (0.10 2.0) math:exponentiation 0.010000000000000002 . },
+    { (0.36 0.09) math:sum 0.44999999999999996 . },
+    { (0.44999999999999996 0.010000000000000002) math:sum 0.45999999999999996 . },
+    { (1.0 0.45999999999999996) math:difference 0.54 . },
+    { (1.0 0.45999999999999996) math:quotient 2.173913043478261 . },
+    { (0.60 0.3333333333333333) math:difference 0.26666666666666666 . },
+    { 0.26666666666666666 math:absoluteValue 0.26666666666666666 . },
+    { (0.30 0.3333333333333333) math:difference -0.033333333333333326 . },
+    { -0.033333333333333326 math:absoluteValue 0.033333333333333326 . },
+    { (0.10 0.3333333333333333) math:difference -0.2333333333333333 . },
+    { -0.2333333333333333 math:absoluteValue 0.2333333333333333 . },
+    { (0.26666666666666666 0.033333333333333326) math:sum 0.3 . },
+    { (0.3 0.2333333333333333) math:sum 0.5333333333333333 . },
+    { (0.5 0.5333333333333333) math:product 0.26666666666666666 . },
+    { (0.26666666666666666 2.0) math:exponentiation 0.07111111111111111 . },
+    { (-0.033333333333333326 2.0) math:exponentiation 0.0011111111111111107 . },
+    { (-0.2333333333333333 2.0) math:exponentiation 0.054444444444444434 . },
+    { (0.07111111111111111 0.0011111111111111107) math:sum 0.07222222222222222 . },
+    { (0.07222222222222222 0.054444444444444434) math:sum 0.12666666666666665 . },
+    { (0.12666666666666665 0.5) math:exponentiation 0.3559026084010437 . }.
+
+{ _:b10_db0d06358326f900 :l2ToUniform 0.3559026084010437 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.60 ],
+    [ pe:var "a2"; pe:value 0.36 ],
+    [ pe:var "ab2"; pe:value 0.44999999999999996 ],
+    [ pe:var "ada"; pe:value 0.26666666666666666 ],
+    [ pe:var "adb"; pe:value 0.033333333333333326 ],
+    [ pe:var "adc"; pe:value 0.2333333333333333 ],
+    [ pe:var "b"; pe:value 0.30 ],
+    [ pe:var "b2"; pe:value 0.09 ],
+    [ pe:var "c"; pe:value 0.10 ],
+    [ pe:var "c2"; pe:value 0.010000000000000002 ],
+    [ pe:var "da"; pe:value 0.26666666666666666 ],
+    [ pe:var "da2"; pe:value 0.07111111111111111 ],
+    [ pe:var "db"; pe:value -0.033333333333333326 ],
+    [ pe:var "db2"; pe:value 0.0011111111111111107 ],
+    [ pe:var "dc"; pe:value -0.2333333333333333 ],
+    [ pe:var "dc2"; pe:value 0.054444444444444434 ],
+    [ pe:var "effN"; pe:value 2.173913043478261 ],
+    [ pe:var "gini"; pe:value 0.54 ],
+    [ pe:var "l2"; pe:value 0.3559026084010437 ],
+    [ pe:var "m"; pe:value _:b10_db0d06358326f900 ],
+    [ pe:var "pi"; pe:value _:b5 ],
+    [ pe:var "s1"; pe:value 0.3 ],
+    [ pe:var "s2"; pe:value 0.07222222222222222 ],
+    [ pe:var "s3"; pe:value 0.12666666666666665 ],
+    [ pe:var "sAbs"; pe:value 0.5333333333333333 ],
+    [ pe:var "sumSq"; pe:value 0.45999999999999996 ],
+    [ pe:var "tv"; pe:value 0.26666666666666666 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b10_db0d06358326f900 . },
+    { _:b10_db0d06358326f900 :pi _:b5 . },
+    { _:b5 :pA 0.60 . },
+    { _:b5 :pB 0.30 . },
+    { _:b5 :pC 0.10 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.60 2.0) math:exponentiation 0.36 . },
+    { (0.30 2.0) math:exponentiation 0.09 . },
+    { (0.10 2.0) math:exponentiation 0.010000000000000002 . },
+    { (0.36 0.09) math:sum 0.44999999999999996 . },
+    { (0.44999999999999996 0.010000000000000002) math:sum 0.45999999999999996 . },
+    { (1.0 0.45999999999999996) math:difference 0.54 . },
+    { (1.0 0.45999999999999996) math:quotient 2.173913043478261 . },
+    { (0.60 0.3333333333333333) math:difference 0.26666666666666666 . },
+    { 0.26666666666666666 math:absoluteValue 0.26666666666666666 . },
+    { (0.30 0.3333333333333333) math:difference -0.033333333333333326 . },
+    { -0.033333333333333326 math:absoluteValue 0.033333333333333326 . },
+    { (0.10 0.3333333333333333) math:difference -0.2333333333333333 . },
+    { -0.2333333333333333 math:absoluteValue 0.2333333333333333 . },
+    { (0.26666666666666666 0.033333333333333326) math:sum 0.3 . },
+    { (0.3 0.2333333333333333) math:sum 0.5333333333333333 . },
+    { (0.5 0.5333333333333333) math:product 0.26666666666666666 . },
+    { (0.26666666666666666 2.0) math:exponentiation 0.07111111111111111 . },
+    { (-0.033333333333333326 2.0) math:exponentiation 0.0011111111111111107 . },
+    { (-0.2333333333333333 2.0) math:exponentiation 0.054444444444444434 . },
+    { (0.07111111111111111 0.0011111111111111107) math:sum 0.07222222222222222 . },
+    { (0.07222222222222222 0.054444444444444434) math:sum 0.12666666666666665 . },
+    { (0.12666666666666665 0.5) math:exponentiation 0.3559026084010437 . }.
+
+{ :MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.535 ],
+    [ pe:var "pB"; pe:value 0.325 ],
+    [ pe:var "pC"; pe:value 0.14 ],
+    [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ],
+    [ pe:var "pi2A"; pe:value 0.49550000000000005 ],
+    [ pe:var "pi2B"; pe:value 0.34275 ],
+    [ pe:var "pi2C"; pe:value 0.16175 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.4605 ],
+    [ pe:var "s2"; pe:value 0.30774999999999997 ],
+    [ pe:var "s3"; pe:value 0.09175 ],
+    [ pe:var "tAA"; pe:value 0.42800000000000005 ],
+    [ pe:var "tAB"; pe:value 0.08025 ],
+    [ pe:var "tAC"; pe:value 0.026750000000000003 ],
+    [ pe:var "tBA"; pe:value 0.0325 ],
+    [ pe:var "tBB"; pe:value 0.22749999999999998 ],
+    [ pe:var "tBC"; pe:value 0.065 ],
+    [ pe:var "tCA"; pe:value 0.035 ],
+    [ pe:var "tCB"; pe:value 0.035 ],
+    [ pe:var "tCC"; pe:value 0.07 ];
+  pe:uses
+    { :MC1 :pi1 _:b6_990a776e920f7fc . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b6_990a776e920f7fc :pA 0.535 . },
+    { _:b6_990a776e920f7fc :pB 0.325 . },
+    { _:b6_990a776e920f7fc :pC 0.14 . },
+    { (0.535 0.80) math:product 0.42800000000000005 . },
+    { (0.325 0.10) math:product 0.0325 . },
+    { (0.14 0.25) math:product 0.035 . },
+    { (0.42800000000000005 0.0325) math:sum 0.4605 . },
+    { (0.4605 0.035) math:sum 0.49550000000000005 . },
+    { (0.535 0.15) math:product 0.08025 . },
+    { (0.325 0.70) math:product 0.22749999999999998 . },
+    { (0.14 0.25) math:product 0.035 . },
+    { (0.08025 0.22749999999999998) math:sum 0.30774999999999997 . },
+    { (0.30774999999999997 0.035) math:sum 0.34275 . },
+    { (0.535 0.05) math:product 0.026750000000000003 . },
+    { (0.325 0.20) math:product 0.065 . },
+    { (0.14 0.50) math:product 0.07 . },
+    { (0.026750000000000003 0.065) math:sum 0.09175 . },
+    { (0.09175 0.07) math:sum 0.16175 . }.
+
+{ (0.535 0.80) math:product 0.42800000000000005 . }
+  pe:builtin math:product.
+
+{ (0.325 0.10) math:product 0.0325 . }
+  pe:builtin math:product.
+
+{ (0.14 0.25) math:product 0.035 . }
+  pe:builtin math:product.
+
+{ (0.42800000000000005 0.0325) math:sum 0.4605 . }
+  pe:builtin math:sum.
+
+{ (0.4605 0.035) math:sum 0.49550000000000005 . }
+  pe:builtin math:sum.
+
+{ (0.535 0.15) math:product 0.08025 . }
+  pe:builtin math:product.
+
+{ (0.325 0.70) math:product 0.22749999999999998 . }
+  pe:builtin math:product.
+
+{ (0.08025 0.22749999999999998) math:sum 0.30774999999999997 . }
+  pe:builtin math:sum.
+
+{ (0.30774999999999997 0.035) math:sum 0.34275 . }
+  pe:builtin math:sum.
+
+{ (0.535 0.05) math:product 0.026750000000000003 . }
+  pe:builtin math:product.
+
+{ (0.325 0.20) math:product 0.065 . }
+  pe:builtin math:product.
+
+{ (0.14 0.50) math:product 0.07 . }
+  pe:builtin math:product.
+
+{ (0.026750000000000003 0.065) math:sum 0.09175 . }
+  pe:builtin math:sum.
+
+{ (0.09175 0.07) math:sum 0.16175 . }
+  pe:builtin math:sum.
+
+{ _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.535 ],
+    [ pe:var "pB"; pe:value 0.325 ],
+    [ pe:var "pC"; pe:value 0.14 ],
+    [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ],
+    [ pe:var "pi2A"; pe:value 0.49550000000000005 ],
+    [ pe:var "pi2B"; pe:value 0.34275 ],
+    [ pe:var "pi2C"; pe:value 0.16175 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.4605 ],
+    [ pe:var "s2"; pe:value 0.30774999999999997 ],
+    [ pe:var "s3"; pe:value 0.09175 ],
+    [ pe:var "tAA"; pe:value 0.42800000000000005 ],
+    [ pe:var "tAB"; pe:value 0.08025 ],
+    [ pe:var "tAC"; pe:value 0.026750000000000003 ],
+    [ pe:var "tBA"; pe:value 0.0325 ],
+    [ pe:var "tBB"; pe:value 0.22749999999999998 ],
+    [ pe:var "tBC"; pe:value 0.065 ],
+    [ pe:var "tCA"; pe:value 0.035 ],
+    [ pe:var "tCB"; pe:value 0.035 ],
+    [ pe:var "tCC"; pe:value 0.07 ];
+  pe:uses
+    { :MC1 :pi1 _:b6_990a776e920f7fc . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b6_990a776e920f7fc :pA 0.535 . },
+    { _:b6_990a776e920f7fc :pB 0.325 . },
+    { _:b6_990a776e920f7fc :pC 0.14 . },
+    { (0.535 0.80) math:product 0.42800000000000005 . },
+    { (0.325 0.10) math:product 0.0325 . },
+    { (0.14 0.25) math:product 0.035 . },
+    { (0.42800000000000005 0.0325) math:sum 0.4605 . },
+    { (0.4605 0.035) math:sum 0.49550000000000005 . },
+    { (0.535 0.15) math:product 0.08025 . },
+    { (0.325 0.70) math:product 0.22749999999999998 . },
+    { (0.14 0.25) math:product 0.035 . },
+    { (0.08025 0.22749999999999998) math:sum 0.30774999999999997 . },
+    { (0.30774999999999997 0.035) math:sum 0.34275 . },
+    { (0.535 0.05) math:product 0.026750000000000003 . },
+    { (0.325 0.20) math:product 0.065 . },
+    { (0.14 0.50) math:product 0.07 . },
+    { (0.026750000000000003 0.065) math:sum 0.09175 . },
+    { (0.09175 0.07) math:sum 0.16175 . }.
+
+{ _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.535 ],
+    [ pe:var "pB"; pe:value 0.325 ],
+    [ pe:var "pC"; pe:value 0.14 ],
+    [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ],
+    [ pe:var "pi2A"; pe:value 0.49550000000000005 ],
+    [ pe:var "pi2B"; pe:value 0.34275 ],
+    [ pe:var "pi2C"; pe:value 0.16175 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.4605 ],
+    [ pe:var "s2"; pe:value 0.30774999999999997 ],
+    [ pe:var "s3"; pe:value 0.09175 ],
+    [ pe:var "tAA"; pe:value 0.42800000000000005 ],
+    [ pe:var "tAB"; pe:value 0.08025 ],
+    [ pe:var "tAC"; pe:value 0.026750000000000003 ],
+    [ pe:var "tBA"; pe:value 0.0325 ],
+    [ pe:var "tBB"; pe:value 0.22749999999999998 ],
+    [ pe:var "tBC"; pe:value 0.065 ],
+    [ pe:var "tCA"; pe:value 0.035 ],
+    [ pe:var "tCB"; pe:value 0.035 ],
+    [ pe:var "tCC"; pe:value 0.07 ];
+  pe:uses
+    { :MC1 :pi1 _:b6_990a776e920f7fc . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b6_990a776e920f7fc :pA 0.535 . },
+    { _:b6_990a776e920f7fc :pB 0.325 . },
+    { _:b6_990a776e920f7fc :pC 0.14 . },
+    { (0.535 0.80) math:product 0.42800000000000005 . },
+    { (0.325 0.10) math:product 0.0325 . },
+    { (0.14 0.25) math:product 0.035 . },
+    { (0.42800000000000005 0.0325) math:sum 0.4605 . },
+    { (0.4605 0.035) math:sum 0.49550000000000005 . },
+    { (0.535 0.15) math:product 0.08025 . },
+    { (0.325 0.70) math:product 0.22749999999999998 . },
+    { (0.14 0.25) math:product 0.035 . },
+    { (0.08025 0.22749999999999998) math:sum 0.30774999999999997 . },
+    { (0.30774999999999997 0.035) math:sum 0.34275 . },
+    { (0.535 0.05) math:product 0.026750000000000003 . },
+    { (0.325 0.20) math:product 0.065 . },
+    { (0.14 0.50) math:product 0.07 . },
+    { (0.026750000000000003 0.065) math:sum 0.09175 . },
+    { (0.09175 0.07) math:sum 0.16175 . }.
+
+{ _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.535 ],
+    [ pe:var "pB"; pe:value 0.325 ],
+    [ pe:var "pC"; pe:value 0.14 ],
+    [ pe:var "pi"; pe:value _:b6_990a776e920f7fc ],
+    [ pe:var "pi2A"; pe:value 0.49550000000000005 ],
+    [ pe:var "pi2B"; pe:value 0.34275 ],
+    [ pe:var "pi2C"; pe:value 0.16175 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.4605 ],
+    [ pe:var "s2"; pe:value 0.30774999999999997 ],
+    [ pe:var "s3"; pe:value 0.09175 ],
+    [ pe:var "tAA"; pe:value 0.42800000000000005 ],
+    [ pe:var "tAB"; pe:value 0.08025 ],
+    [ pe:var "tAC"; pe:value 0.026750000000000003 ],
+    [ pe:var "tBA"; pe:value 0.0325 ],
+    [ pe:var "tBB"; pe:value 0.22749999999999998 ],
+    [ pe:var "tBC"; pe:value 0.065 ],
+    [ pe:var "tCA"; pe:value 0.035 ],
+    [ pe:var "tCB"; pe:value 0.035 ],
+    [ pe:var "tCC"; pe:value 0.07 ];
+  pe:uses
+    { :MC1 :pi1 _:b6_990a776e920f7fc . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b6_990a776e920f7fc :pA 0.535 . },
+    { _:b6_990a776e920f7fc :pB 0.325 . },
+    { _:b6_990a776e920f7fc :pC 0.14 . },
+    { (0.535 0.80) math:product 0.42800000000000005 . },
+    { (0.325 0.10) math:product 0.0325 . },
+    { (0.14 0.25) math:product 0.035 . },
+    { (0.42800000000000005 0.0325) math:sum 0.4605 . },
+    { (0.4605 0.035) math:sum 0.49550000000000005 . },
+    { (0.535 0.15) math:product 0.08025 . },
+    { (0.325 0.70) math:product 0.22749999999999998 . },
+    { (0.14 0.25) math:product 0.035 . },
+    { (0.08025 0.22749999999999998) math:sum 0.30774999999999997 . },
+    { (0.30774999999999997 0.035) math:sum 0.34275 . },
+    { (0.535 0.05) math:product 0.026750000000000003 . },
+    { (0.325 0.20) math:product 0.065 . },
+    { (0.14 0.50) math:product 0.07 . },
+    { (0.026750000000000003 0.065) math:sum 0.09175 . },
+    { (0.09175 0.07) math:sum 0.16175 . }.
+
+{ :MC1 :metrics _:b12_68993eb8d66fd65b . }
+  pe:rule 8;
+  pe:binding [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ];
+  pe:uses { :MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 . }.
+
+{ _:b12_68993eb8d66fd65b :t 2 . }
+  pe:rule 8;
+  pe:binding [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ];
+  pe:uses { :MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 . }.
+
+{ _:b12_68993eb8d66fd65b :pi _:b7_c2cc40f0cc1f5fe0 . }
+  pe:rule 8;
+  pe:binding [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ];
+  pe:uses { :MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 . }.
+
+{ _:b12_68993eb8d66fd65b :sumSq 0.3891608750000001 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.49550000000000005 ],
+    [ pe:var "a2"; pe:value 0.24552025000000005 ],
+    [ pe:var "ab2"; pe:value 0.36299781250000007 ],
+    [ pe:var "ada"; pe:value 0.16216666666666674 ],
+    [ pe:var "adb"; pe:value 0.009416666666666684 ],
+    [ pe:var "adc"; pe:value 0.1715833333333333 ],
+    [ pe:var "b"; pe:value 0.34275 ],
+    [ pe:var "b2"; pe:value 0.1174775625 ],
+    [ pe:var "c"; pe:value 0.16175 ],
+    [ pe:var "c2"; pe:value 0.0261630625 ],
+    [ pe:var "da"; pe:value 0.16216666666666674 ],
+    [ pe:var "da2"; pe:value 0.026298027777777802 ],
+    [ pe:var "db"; pe:value 0.009416666666666684 ],
+    [ pe:var "db2"; pe:value 0.00008867361111111145 ],
+    [ pe:var "dc"; pe:value -0.1715833333333333 ],
+    [ pe:var "dc2"; pe:value 0.02944084027777777 ],
+    [ pe:var "effN"; pe:value 2.569631389589202 ],
+    [ pe:var "gini"; pe:value 0.6108391249999999 ],
+    [ pe:var "l2"; pe:value 0.23627852561472165 ],
+    [ pe:var "m"; pe:value _:b12_68993eb8d66fd65b ],
+    [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ],
+    [ pe:var "s1"; pe:value 0.17158333333333342 ],
+    [ pe:var "s2"; pe:value 0.026386701388888913 ],
+    [ pe:var "s3"; pe:value 0.05582754166666668 ],
+    [ pe:var "sAbs"; pe:value 0.34316666666666673 ],
+    [ pe:var "sumSq"; pe:value 0.3891608750000001 ],
+    [ pe:var "tv"; pe:value 0.17158333333333337 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b12_68993eb8d66fd65b . },
+    { _:b12_68993eb8d66fd65b :pi _:b7_c2cc40f0cc1f5fe0 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.49550000000000005 2.0) math:exponentiation 0.24552025000000005 . },
+    { (0.34275 2.0) math:exponentiation 0.1174775625 . },
+    { (0.16175 2.0) math:exponentiation 0.0261630625 . },
+    { (0.24552025000000005 0.1174775625) math:sum 0.36299781250000007 . },
+    { (0.36299781250000007 0.0261630625) math:sum 0.3891608750000001 . },
+    { (1.0 0.3891608750000001) math:difference 0.6108391249999999 . },
+    { (1.0 0.3891608750000001) math:quotient 2.569631389589202 . },
+    { (0.49550000000000005 0.3333333333333333) math:difference 0.16216666666666674 . },
+    { 0.16216666666666674 math:absoluteValue 0.16216666666666674 . },
+    { (0.34275 0.3333333333333333) math:difference 0.009416666666666684 . },
+    { 0.009416666666666684 math:absoluteValue 0.009416666666666684 . },
+    { (0.16175 0.3333333333333333) math:difference -0.1715833333333333 . },
+    { -0.1715833333333333 math:absoluteValue 0.1715833333333333 . },
+    { (0.16216666666666674 0.009416666666666684) math:sum 0.17158333333333342 . },
+    { (0.17158333333333342 0.1715833333333333) math:sum 0.34316666666666673 . },
+    { (0.5 0.34316666666666673) math:product 0.17158333333333337 . },
+    { (0.16216666666666674 2.0) math:exponentiation 0.026298027777777802 . },
+    { (0.009416666666666684 2.0) math:exponentiation 0.00008867361111111145 . },
+    { (-0.1715833333333333 2.0) math:exponentiation 0.02944084027777777 . },
+    { (0.026298027777777802 0.00008867361111111145) math:sum 0.026386701388888913 . },
+    { (0.026386701388888913 0.02944084027777777) math:sum 0.05582754166666668 . },
+    { (0.05582754166666668 0.5) math:exponentiation 0.23627852561472165 . }.
+
+{ (0.49550000000000005 2.0) math:exponentiation 0.24552025000000005 . }
+  pe:builtin math:exponentiation.
+
+{ (0.34275 2.0) math:exponentiation 0.1174775625 . }
+  pe:builtin math:exponentiation.
+
+{ (0.16175 2.0) math:exponentiation 0.0261630625 . }
+  pe:builtin math:exponentiation.
+
+{ (0.24552025000000005 0.1174775625) math:sum 0.36299781250000007 . }
+  pe:builtin math:sum.
+
+{ (0.36299781250000007 0.0261630625) math:sum 0.3891608750000001 . }
+  pe:builtin math:sum.
+
+{ (1.0 0.3891608750000001) math:difference 0.6108391249999999 . }
+  pe:builtin math:difference.
+
+{ (1.0 0.3891608750000001) math:quotient 2.569631389589202 . }
+  pe:builtin math:quotient.
+
+{ (0.49550000000000005 0.3333333333333333) math:difference 0.16216666666666674 . }
+  pe:builtin math:difference.
+
+{ 0.16216666666666674 math:absoluteValue 0.16216666666666674 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.34275 0.3333333333333333) math:difference 0.009416666666666684 . }
+  pe:builtin math:difference.
+
+{ 0.009416666666666684 math:absoluteValue 0.009416666666666684 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.16175 0.3333333333333333) math:difference -0.1715833333333333 . }
+  pe:builtin math:difference.
+
+{ -0.1715833333333333 math:absoluteValue 0.1715833333333333 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.16216666666666674 0.009416666666666684) math:sum 0.17158333333333342 . }
+  pe:builtin math:sum.
+
+{ (0.17158333333333342 0.1715833333333333) math:sum 0.34316666666666673 . }
+  pe:builtin math:sum.
+
+{ (0.5 0.34316666666666673) math:product 0.17158333333333337 . }
+  pe:builtin math:product.
+
+{ (0.16216666666666674 2.0) math:exponentiation 0.026298027777777802 . }
+  pe:builtin math:exponentiation.
+
+{ (0.009416666666666684 2.0) math:exponentiation 0.00008867361111111145 . }
+  pe:builtin math:exponentiation.
+
+{ (-0.1715833333333333 2.0) math:exponentiation 0.02944084027777777 . }
+  pe:builtin math:exponentiation.
+
+{ (0.026298027777777802 0.00008867361111111145) math:sum 0.026386701388888913 . }
+  pe:builtin math:sum.
+
+{ (0.026386701388888913 0.02944084027777777) math:sum 0.05582754166666668 . }
+  pe:builtin math:sum.
+
+{ (0.05582754166666668 0.5) math:exponentiation 0.23627852561472165 . }
+  pe:builtin math:exponentiation.
+
+{ _:b12_68993eb8d66fd65b :gini 0.6108391249999999 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.49550000000000005 ],
+    [ pe:var "a2"; pe:value 0.24552025000000005 ],
+    [ pe:var "ab2"; pe:value 0.36299781250000007 ],
+    [ pe:var "ada"; pe:value 0.16216666666666674 ],
+    [ pe:var "adb"; pe:value 0.009416666666666684 ],
+    [ pe:var "adc"; pe:value 0.1715833333333333 ],
+    [ pe:var "b"; pe:value 0.34275 ],
+    [ pe:var "b2"; pe:value 0.1174775625 ],
+    [ pe:var "c"; pe:value 0.16175 ],
+    [ pe:var "c2"; pe:value 0.0261630625 ],
+    [ pe:var "da"; pe:value 0.16216666666666674 ],
+    [ pe:var "da2"; pe:value 0.026298027777777802 ],
+    [ pe:var "db"; pe:value 0.009416666666666684 ],
+    [ pe:var "db2"; pe:value 0.00008867361111111145 ],
+    [ pe:var "dc"; pe:value -0.1715833333333333 ],
+    [ pe:var "dc2"; pe:value 0.02944084027777777 ],
+    [ pe:var "effN"; pe:value 2.569631389589202 ],
+    [ pe:var "gini"; pe:value 0.6108391249999999 ],
+    [ pe:var "l2"; pe:value 0.23627852561472165 ],
+    [ pe:var "m"; pe:value _:b12_68993eb8d66fd65b ],
+    [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ],
+    [ pe:var "s1"; pe:value 0.17158333333333342 ],
+    [ pe:var "s2"; pe:value 0.026386701388888913 ],
+    [ pe:var "s3"; pe:value 0.05582754166666668 ],
+    [ pe:var "sAbs"; pe:value 0.34316666666666673 ],
+    [ pe:var "sumSq"; pe:value 0.3891608750000001 ],
+    [ pe:var "tv"; pe:value 0.17158333333333337 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b12_68993eb8d66fd65b . },
+    { _:b12_68993eb8d66fd65b :pi _:b7_c2cc40f0cc1f5fe0 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.49550000000000005 2.0) math:exponentiation 0.24552025000000005 . },
+    { (0.34275 2.0) math:exponentiation 0.1174775625 . },
+    { (0.16175 2.0) math:exponentiation 0.0261630625 . },
+    { (0.24552025000000005 0.1174775625) math:sum 0.36299781250000007 . },
+    { (0.36299781250000007 0.0261630625) math:sum 0.3891608750000001 . },
+    { (1.0 0.3891608750000001) math:difference 0.6108391249999999 . },
+    { (1.0 0.3891608750000001) math:quotient 2.569631389589202 . },
+    { (0.49550000000000005 0.3333333333333333) math:difference 0.16216666666666674 . },
+    { 0.16216666666666674 math:absoluteValue 0.16216666666666674 . },
+    { (0.34275 0.3333333333333333) math:difference 0.009416666666666684 . },
+    { 0.009416666666666684 math:absoluteValue 0.009416666666666684 . },
+    { (0.16175 0.3333333333333333) math:difference -0.1715833333333333 . },
+    { -0.1715833333333333 math:absoluteValue 0.1715833333333333 . },
+    { (0.16216666666666674 0.009416666666666684) math:sum 0.17158333333333342 . },
+    { (0.17158333333333342 0.1715833333333333) math:sum 0.34316666666666673 . },
+    { (0.5 0.34316666666666673) math:product 0.17158333333333337 . },
+    { (0.16216666666666674 2.0) math:exponentiation 0.026298027777777802 . },
+    { (0.009416666666666684 2.0) math:exponentiation 0.00008867361111111145 . },
+    { (-0.1715833333333333 2.0) math:exponentiation 0.02944084027777777 . },
+    { (0.026298027777777802 0.00008867361111111145) math:sum 0.026386701388888913 . },
+    { (0.026386701388888913 0.02944084027777777) math:sum 0.05582754166666668 . },
+    { (0.05582754166666668 0.5) math:exponentiation 0.23627852561472165 . }.
+
+{ _:b12_68993eb8d66fd65b :effectiveStates 2.569631389589202 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.49550000000000005 ],
+    [ pe:var "a2"; pe:value 0.24552025000000005 ],
+    [ pe:var "ab2"; pe:value 0.36299781250000007 ],
+    [ pe:var "ada"; pe:value 0.16216666666666674 ],
+    [ pe:var "adb"; pe:value 0.009416666666666684 ],
+    [ pe:var "adc"; pe:value 0.1715833333333333 ],
+    [ pe:var "b"; pe:value 0.34275 ],
+    [ pe:var "b2"; pe:value 0.1174775625 ],
+    [ pe:var "c"; pe:value 0.16175 ],
+    [ pe:var "c2"; pe:value 0.0261630625 ],
+    [ pe:var "da"; pe:value 0.16216666666666674 ],
+    [ pe:var "da2"; pe:value 0.026298027777777802 ],
+    [ pe:var "db"; pe:value 0.009416666666666684 ],
+    [ pe:var "db2"; pe:value 0.00008867361111111145 ],
+    [ pe:var "dc"; pe:value -0.1715833333333333 ],
+    [ pe:var "dc2"; pe:value 0.02944084027777777 ],
+    [ pe:var "effN"; pe:value 2.569631389589202 ],
+    [ pe:var "gini"; pe:value 0.6108391249999999 ],
+    [ pe:var "l2"; pe:value 0.23627852561472165 ],
+    [ pe:var "m"; pe:value _:b12_68993eb8d66fd65b ],
+    [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ],
+    [ pe:var "s1"; pe:value 0.17158333333333342 ],
+    [ pe:var "s2"; pe:value 0.026386701388888913 ],
+    [ pe:var "s3"; pe:value 0.05582754166666668 ],
+    [ pe:var "sAbs"; pe:value 0.34316666666666673 ],
+    [ pe:var "sumSq"; pe:value 0.3891608750000001 ],
+    [ pe:var "tv"; pe:value 0.17158333333333337 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b12_68993eb8d66fd65b . },
+    { _:b12_68993eb8d66fd65b :pi _:b7_c2cc40f0cc1f5fe0 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.49550000000000005 2.0) math:exponentiation 0.24552025000000005 . },
+    { (0.34275 2.0) math:exponentiation 0.1174775625 . },
+    { (0.16175 2.0) math:exponentiation 0.0261630625 . },
+    { (0.24552025000000005 0.1174775625) math:sum 0.36299781250000007 . },
+    { (0.36299781250000007 0.0261630625) math:sum 0.3891608750000001 . },
+    { (1.0 0.3891608750000001) math:difference 0.6108391249999999 . },
+    { (1.0 0.3891608750000001) math:quotient 2.569631389589202 . },
+    { (0.49550000000000005 0.3333333333333333) math:difference 0.16216666666666674 . },
+    { 0.16216666666666674 math:absoluteValue 0.16216666666666674 . },
+    { (0.34275 0.3333333333333333) math:difference 0.009416666666666684 . },
+    { 0.009416666666666684 math:absoluteValue 0.009416666666666684 . },
+    { (0.16175 0.3333333333333333) math:difference -0.1715833333333333 . },
+    { -0.1715833333333333 math:absoluteValue 0.1715833333333333 . },
+    { (0.16216666666666674 0.009416666666666684) math:sum 0.17158333333333342 . },
+    { (0.17158333333333342 0.1715833333333333) math:sum 0.34316666666666673 . },
+    { (0.5 0.34316666666666673) math:product 0.17158333333333337 . },
+    { (0.16216666666666674 2.0) math:exponentiation 0.026298027777777802 . },
+    { (0.009416666666666684 2.0) math:exponentiation 0.00008867361111111145 . },
+    { (-0.1715833333333333 2.0) math:exponentiation 0.02944084027777777 . },
+    { (0.026298027777777802 0.00008867361111111145) math:sum 0.026386701388888913 . },
+    { (0.026386701388888913 0.02944084027777777) math:sum 0.05582754166666668 . },
+    { (0.05582754166666668 0.5) math:exponentiation 0.23627852561472165 . }.
+
+{ _:b12_68993eb8d66fd65b :tvToUniform 0.17158333333333337 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.49550000000000005 ],
+    [ pe:var "a2"; pe:value 0.24552025000000005 ],
+    [ pe:var "ab2"; pe:value 0.36299781250000007 ],
+    [ pe:var "ada"; pe:value 0.16216666666666674 ],
+    [ pe:var "adb"; pe:value 0.009416666666666684 ],
+    [ pe:var "adc"; pe:value 0.1715833333333333 ],
+    [ pe:var "b"; pe:value 0.34275 ],
+    [ pe:var "b2"; pe:value 0.1174775625 ],
+    [ pe:var "c"; pe:value 0.16175 ],
+    [ pe:var "c2"; pe:value 0.0261630625 ],
+    [ pe:var "da"; pe:value 0.16216666666666674 ],
+    [ pe:var "da2"; pe:value 0.026298027777777802 ],
+    [ pe:var "db"; pe:value 0.009416666666666684 ],
+    [ pe:var "db2"; pe:value 0.00008867361111111145 ],
+    [ pe:var "dc"; pe:value -0.1715833333333333 ],
+    [ pe:var "dc2"; pe:value 0.02944084027777777 ],
+    [ pe:var "effN"; pe:value 2.569631389589202 ],
+    [ pe:var "gini"; pe:value 0.6108391249999999 ],
+    [ pe:var "l2"; pe:value 0.23627852561472165 ],
+    [ pe:var "m"; pe:value _:b12_68993eb8d66fd65b ],
+    [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ],
+    [ pe:var "s1"; pe:value 0.17158333333333342 ],
+    [ pe:var "s2"; pe:value 0.026386701388888913 ],
+    [ pe:var "s3"; pe:value 0.05582754166666668 ],
+    [ pe:var "sAbs"; pe:value 0.34316666666666673 ],
+    [ pe:var "sumSq"; pe:value 0.3891608750000001 ],
+    [ pe:var "tv"; pe:value 0.17158333333333337 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b12_68993eb8d66fd65b . },
+    { _:b12_68993eb8d66fd65b :pi _:b7_c2cc40f0cc1f5fe0 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.49550000000000005 2.0) math:exponentiation 0.24552025000000005 . },
+    { (0.34275 2.0) math:exponentiation 0.1174775625 . },
+    { (0.16175 2.0) math:exponentiation 0.0261630625 . },
+    { (0.24552025000000005 0.1174775625) math:sum 0.36299781250000007 . },
+    { (0.36299781250000007 0.0261630625) math:sum 0.3891608750000001 . },
+    { (1.0 0.3891608750000001) math:difference 0.6108391249999999 . },
+    { (1.0 0.3891608750000001) math:quotient 2.569631389589202 . },
+    { (0.49550000000000005 0.3333333333333333) math:difference 0.16216666666666674 . },
+    { 0.16216666666666674 math:absoluteValue 0.16216666666666674 . },
+    { (0.34275 0.3333333333333333) math:difference 0.009416666666666684 . },
+    { 0.009416666666666684 math:absoluteValue 0.009416666666666684 . },
+    { (0.16175 0.3333333333333333) math:difference -0.1715833333333333 . },
+    { -0.1715833333333333 math:absoluteValue 0.1715833333333333 . },
+    { (0.16216666666666674 0.009416666666666684) math:sum 0.17158333333333342 . },
+    { (0.17158333333333342 0.1715833333333333) math:sum 0.34316666666666673 . },
+    { (0.5 0.34316666666666673) math:product 0.17158333333333337 . },
+    { (0.16216666666666674 2.0) math:exponentiation 0.026298027777777802 . },
+    { (0.009416666666666684 2.0) math:exponentiation 0.00008867361111111145 . },
+    { (-0.1715833333333333 2.0) math:exponentiation 0.02944084027777777 . },
+    { (0.026298027777777802 0.00008867361111111145) math:sum 0.026386701388888913 . },
+    { (0.026386701388888913 0.02944084027777777) math:sum 0.05582754166666668 . },
+    { (0.05582754166666668 0.5) math:exponentiation 0.23627852561472165 . }.
+
+{ _:b12_68993eb8d66fd65b :l2ToUniform 0.23627852561472165 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.49550000000000005 ],
+    [ pe:var "a2"; pe:value 0.24552025000000005 ],
+    [ pe:var "ab2"; pe:value 0.36299781250000007 ],
+    [ pe:var "ada"; pe:value 0.16216666666666674 ],
+    [ pe:var "adb"; pe:value 0.009416666666666684 ],
+    [ pe:var "adc"; pe:value 0.1715833333333333 ],
+    [ pe:var "b"; pe:value 0.34275 ],
+    [ pe:var "b2"; pe:value 0.1174775625 ],
+    [ pe:var "c"; pe:value 0.16175 ],
+    [ pe:var "c2"; pe:value 0.0261630625 ],
+    [ pe:var "da"; pe:value 0.16216666666666674 ],
+    [ pe:var "da2"; pe:value 0.026298027777777802 ],
+    [ pe:var "db"; pe:value 0.009416666666666684 ],
+    [ pe:var "db2"; pe:value 0.00008867361111111145 ],
+    [ pe:var "dc"; pe:value -0.1715833333333333 ],
+    [ pe:var "dc2"; pe:value 0.02944084027777777 ],
+    [ pe:var "effN"; pe:value 2.569631389589202 ],
+    [ pe:var "gini"; pe:value 0.6108391249999999 ],
+    [ pe:var "l2"; pe:value 0.23627852561472165 ],
+    [ pe:var "m"; pe:value _:b12_68993eb8d66fd65b ],
+    [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ],
+    [ pe:var "s1"; pe:value 0.17158333333333342 ],
+    [ pe:var "s2"; pe:value 0.026386701388888913 ],
+    [ pe:var "s3"; pe:value 0.05582754166666668 ],
+    [ pe:var "sAbs"; pe:value 0.34316666666666673 ],
+    [ pe:var "sumSq"; pe:value 0.3891608750000001 ],
+    [ pe:var "tv"; pe:value 0.17158333333333337 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b12_68993eb8d66fd65b . },
+    { _:b12_68993eb8d66fd65b :pi _:b7_c2cc40f0cc1f5fe0 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.49550000000000005 2.0) math:exponentiation 0.24552025000000005 . },
+    { (0.34275 2.0) math:exponentiation 0.1174775625 . },
+    { (0.16175 2.0) math:exponentiation 0.0261630625 . },
+    { (0.24552025000000005 0.1174775625) math:sum 0.36299781250000007 . },
+    { (0.36299781250000007 0.0261630625) math:sum 0.3891608750000001 . },
+    { (1.0 0.3891608750000001) math:difference 0.6108391249999999 . },
+    { (1.0 0.3891608750000001) math:quotient 2.569631389589202 . },
+    { (0.49550000000000005 0.3333333333333333) math:difference 0.16216666666666674 . },
+    { 0.16216666666666674 math:absoluteValue 0.16216666666666674 . },
+    { (0.34275 0.3333333333333333) math:difference 0.009416666666666684 . },
+    { 0.009416666666666684 math:absoluteValue 0.009416666666666684 . },
+    { (0.16175 0.3333333333333333) math:difference -0.1715833333333333 . },
+    { -0.1715833333333333 math:absoluteValue 0.1715833333333333 . },
+    { (0.16216666666666674 0.009416666666666684) math:sum 0.17158333333333342 . },
+    { (0.17158333333333342 0.1715833333333333) math:sum 0.34316666666666673 . },
+    { (0.5 0.34316666666666673) math:product 0.17158333333333337 . },
+    { (0.16216666666666674 2.0) math:exponentiation 0.026298027777777802 . },
+    { (0.009416666666666684 2.0) math:exponentiation 0.00008867361111111145 . },
+    { (-0.1715833333333333 2.0) math:exponentiation 0.02944084027777777 . },
+    { (0.026298027777777802 0.00008867361111111145) math:sum 0.026386701388888913 . },
+    { (0.026386701388888913 0.02944084027777777) math:sum 0.05582754166666668 . },
+    { (0.05582754166666668 0.5) math:exponentiation 0.23627852561472165 . }.
+
+{ :MC1 :pi3 _:b8_e166a0454ed742d7 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.49550000000000005 ],
+    [ pe:var "pB"; pe:value 0.34275 ],
+    [ pe:var "pC"; pe:value 0.16175 ],
+    [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ],
+    [ pe:var "pi3A"; pe:value 0.4711125000000001 ],
+    [ pe:var "pi3B"; pe:value 0.3546875 ],
+    [ pe:var "pi3C"; pe:value 0.17420000000000002 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.4306750000000001 ],
+    [ pe:var "s2"; pe:value 0.31425 ],
+    [ pe:var "s3"; pe:value 0.093325 ],
+    [ pe:var "tAA"; pe:value 0.3964000000000001 ],
+    [ pe:var "tAB"; pe:value 0.074325 ],
+    [ pe:var "tAC"; pe:value 0.024775000000000005 ],
+    [ pe:var "tBA"; pe:value 0.034275 ],
+    [ pe:var "tBB"; pe:value 0.23992499999999997 ],
+    [ pe:var "tBC"; pe:value 0.06855 ],
+    [ pe:var "tCA"; pe:value 0.0404375 ],
+    [ pe:var "tCB"; pe:value 0.0404375 ],
+    [ pe:var "tCC"; pe:value 0.080875 ];
+  pe:uses
+    { :MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 . },
+    { (0.49550000000000005 0.80) math:product 0.3964000000000001 . },
+    { (0.34275 0.10) math:product 0.034275 . },
+    { (0.16175 0.25) math:product 0.0404375 . },
+    { (0.3964000000000001 0.034275) math:sum 0.4306750000000001 . },
+    { (0.4306750000000001 0.0404375) math:sum 0.4711125000000001 . },
+    { (0.49550000000000005 0.15) math:product 0.074325 . },
+    { (0.34275 0.70) math:product 0.23992499999999997 . },
+    { (0.16175 0.25) math:product 0.0404375 . },
+    { (0.074325 0.23992499999999997) math:sum 0.31425 . },
+    { (0.31425 0.0404375) math:sum 0.3546875 . },
+    { (0.49550000000000005 0.05) math:product 0.024775000000000005 . },
+    { (0.34275 0.20) math:product 0.06855 . },
+    { (0.16175 0.50) math:product 0.080875 . },
+    { (0.024775000000000005 0.06855) math:sum 0.093325 . },
+    { (0.093325 0.080875) math:sum 0.17420000000000002 . }.
+
+{ (0.49550000000000005 0.80) math:product 0.3964000000000001 . }
+  pe:builtin math:product.
+
+{ (0.34275 0.10) math:product 0.034275 . }
+  pe:builtin math:product.
+
+{ (0.16175 0.25) math:product 0.0404375 . }
+  pe:builtin math:product.
+
+{ (0.3964000000000001 0.034275) math:sum 0.4306750000000001 . }
+  pe:builtin math:sum.
+
+{ (0.4306750000000001 0.0404375) math:sum 0.4711125000000001 . }
+  pe:builtin math:sum.
+
+{ (0.49550000000000005 0.15) math:product 0.074325 . }
+  pe:builtin math:product.
+
+{ (0.34275 0.70) math:product 0.23992499999999997 . }
+  pe:builtin math:product.
+
+{ (0.074325 0.23992499999999997) math:sum 0.31425 . }
+  pe:builtin math:sum.
+
+{ (0.31425 0.0404375) math:sum 0.3546875 . }
+  pe:builtin math:sum.
+
+{ (0.49550000000000005 0.05) math:product 0.024775000000000005 . }
+  pe:builtin math:product.
+
+{ (0.34275 0.20) math:product 0.06855 . }
+  pe:builtin math:product.
+
+{ (0.16175 0.50) math:product 0.080875 . }
+  pe:builtin math:product.
+
+{ (0.024775000000000005 0.06855) math:sum 0.093325 . }
+  pe:builtin math:sum.
+
+{ (0.093325 0.080875) math:sum 0.17420000000000002 . }
+  pe:builtin math:sum.
+
+{ _:b8_e166a0454ed742d7 :pA 0.4711125000000001 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.49550000000000005 ],
+    [ pe:var "pB"; pe:value 0.34275 ],
+    [ pe:var "pC"; pe:value 0.16175 ],
+    [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ],
+    [ pe:var "pi3A"; pe:value 0.4711125000000001 ],
+    [ pe:var "pi3B"; pe:value 0.3546875 ],
+    [ pe:var "pi3C"; pe:value 0.17420000000000002 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.4306750000000001 ],
+    [ pe:var "s2"; pe:value 0.31425 ],
+    [ pe:var "s3"; pe:value 0.093325 ],
+    [ pe:var "tAA"; pe:value 0.3964000000000001 ],
+    [ pe:var "tAB"; pe:value 0.074325 ],
+    [ pe:var "tAC"; pe:value 0.024775000000000005 ],
+    [ pe:var "tBA"; pe:value 0.034275 ],
+    [ pe:var "tBB"; pe:value 0.23992499999999997 ],
+    [ pe:var "tBC"; pe:value 0.06855 ],
+    [ pe:var "tCA"; pe:value 0.0404375 ],
+    [ pe:var "tCB"; pe:value 0.0404375 ],
+    [ pe:var "tCC"; pe:value 0.080875 ];
+  pe:uses
+    { :MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 . },
+    { (0.49550000000000005 0.80) math:product 0.3964000000000001 . },
+    { (0.34275 0.10) math:product 0.034275 . },
+    { (0.16175 0.25) math:product 0.0404375 . },
+    { (0.3964000000000001 0.034275) math:sum 0.4306750000000001 . },
+    { (0.4306750000000001 0.0404375) math:sum 0.4711125000000001 . },
+    { (0.49550000000000005 0.15) math:product 0.074325 . },
+    { (0.34275 0.70) math:product 0.23992499999999997 . },
+    { (0.16175 0.25) math:product 0.0404375 . },
+    { (0.074325 0.23992499999999997) math:sum 0.31425 . },
+    { (0.31425 0.0404375) math:sum 0.3546875 . },
+    { (0.49550000000000005 0.05) math:product 0.024775000000000005 . },
+    { (0.34275 0.20) math:product 0.06855 . },
+    { (0.16175 0.50) math:product 0.080875 . },
+    { (0.024775000000000005 0.06855) math:sum 0.093325 . },
+    { (0.093325 0.080875) math:sum 0.17420000000000002 . }.
+
+{ _:b8_e166a0454ed742d7 :pB 0.3546875 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.49550000000000005 ],
+    [ pe:var "pB"; pe:value 0.34275 ],
+    [ pe:var "pC"; pe:value 0.16175 ],
+    [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ],
+    [ pe:var "pi3A"; pe:value 0.4711125000000001 ],
+    [ pe:var "pi3B"; pe:value 0.3546875 ],
+    [ pe:var "pi3C"; pe:value 0.17420000000000002 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.4306750000000001 ],
+    [ pe:var "s2"; pe:value 0.31425 ],
+    [ pe:var "s3"; pe:value 0.093325 ],
+    [ pe:var "tAA"; pe:value 0.3964000000000001 ],
+    [ pe:var "tAB"; pe:value 0.074325 ],
+    [ pe:var "tAC"; pe:value 0.024775000000000005 ],
+    [ pe:var "tBA"; pe:value 0.034275 ],
+    [ pe:var "tBB"; pe:value 0.23992499999999997 ],
+    [ pe:var "tBC"; pe:value 0.06855 ],
+    [ pe:var "tCA"; pe:value 0.0404375 ],
+    [ pe:var "tCB"; pe:value 0.0404375 ],
+    [ pe:var "tCC"; pe:value 0.080875 ];
+  pe:uses
+    { :MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 . },
+    { (0.49550000000000005 0.80) math:product 0.3964000000000001 . },
+    { (0.34275 0.10) math:product 0.034275 . },
+    { (0.16175 0.25) math:product 0.0404375 . },
+    { (0.3964000000000001 0.034275) math:sum 0.4306750000000001 . },
+    { (0.4306750000000001 0.0404375) math:sum 0.4711125000000001 . },
+    { (0.49550000000000005 0.15) math:product 0.074325 . },
+    { (0.34275 0.70) math:product 0.23992499999999997 . },
+    { (0.16175 0.25) math:product 0.0404375 . },
+    { (0.074325 0.23992499999999997) math:sum 0.31425 . },
+    { (0.31425 0.0404375) math:sum 0.3546875 . },
+    { (0.49550000000000005 0.05) math:product 0.024775000000000005 . },
+    { (0.34275 0.20) math:product 0.06855 . },
+    { (0.16175 0.50) math:product 0.080875 . },
+    { (0.024775000000000005 0.06855) math:sum 0.093325 . },
+    { (0.093325 0.080875) math:sum 0.17420000000000002 . }.
+
+{ _:b8_e166a0454ed742d7 :pC 0.17420000000000002 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "AA"; pe:value 0.80 ],
+    [ pe:var "AB"; pe:value 0.15 ],
+    [ pe:var "AC"; pe:value 0.05 ],
+    [ pe:var "BA"; pe:value 0.10 ],
+    [ pe:var "BB"; pe:value 0.70 ],
+    [ pe:var "BC"; pe:value 0.20 ],
+    [ pe:var "CA"; pe:value 0.25 ],
+    [ pe:var "CB"; pe:value 0.25 ],
+    [ pe:var "CC"; pe:value 0.50 ],
+    [ pe:var "pA"; pe:value 0.49550000000000005 ],
+    [ pe:var "pB"; pe:value 0.34275 ],
+    [ pe:var "pC"; pe:value 0.16175 ],
+    [ pe:var "pi"; pe:value _:b7_c2cc40f0cc1f5fe0 ],
+    [ pe:var "pi3A"; pe:value 0.4711125000000001 ],
+    [ pe:var "pi3B"; pe:value 0.3546875 ],
+    [ pe:var "pi3C"; pe:value 0.17420000000000002 ],
+    [ pe:var "rA"; pe:value _:b1 ],
+    [ pe:var "rB"; pe:value _:b3 ],
+    [ pe:var "rC"; pe:value _:b4 ],
+    [ pe:var "s1"; pe:value 0.4306750000000001 ],
+    [ pe:var "s2"; pe:value 0.31425 ],
+    [ pe:var "s3"; pe:value 0.093325 ],
+    [ pe:var "tAA"; pe:value 0.3964000000000001 ],
+    [ pe:var "tAB"; pe:value 0.074325 ],
+    [ pe:var "tAC"; pe:value 0.024775000000000005 ],
+    [ pe:var "tBA"; pe:value 0.034275 ],
+    [ pe:var "tBB"; pe:value 0.23992499999999997 ],
+    [ pe:var "tBC"; pe:value 0.06855 ],
+    [ pe:var "tCA"; pe:value 0.0404375 ],
+    [ pe:var "tCB"; pe:value 0.0404375 ],
+    [ pe:var "tCC"; pe:value 0.080875 ];
+  pe:uses
+    { :MC1 :pi2 _:b7_c2cc40f0cc1f5fe0 . },
+    { :MC1 :row _:b1 . },
+    { _:b1 :from :A . },
+    { _:b1 :pA 0.80 . },
+    { _:b1 :pB 0.15 . },
+    { _:b1 :pC 0.05 . },
+    { :MC1 :row _:b3 . },
+    { _:b3 :from :B . },
+    { _:b3 :pA 0.10 . },
+    { _:b3 :pB 0.70 . },
+    { _:b3 :pC 0.20 . },
+    { :MC1 :row _:b4 . },
+    { _:b4 :from :C . },
+    { _:b4 :pA 0.25 . },
+    { _:b4 :pB 0.25 . },
+    { _:b4 :pC 0.50 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pA 0.49550000000000005 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pB 0.34275 . },
+    { _:b7_c2cc40f0cc1f5fe0 :pC 0.16175 . },
+    { (0.49550000000000005 0.80) math:product 0.3964000000000001 . },
+    { (0.34275 0.10) math:product 0.034275 . },
+    { (0.16175 0.25) math:product 0.0404375 . },
+    { (0.3964000000000001 0.034275) math:sum 0.4306750000000001 . },
+    { (0.4306750000000001 0.0404375) math:sum 0.4711125000000001 . },
+    { (0.49550000000000005 0.15) math:product 0.074325 . },
+    { (0.34275 0.70) math:product 0.23992499999999997 . },
+    { (0.16175 0.25) math:product 0.0404375 . },
+    { (0.074325 0.23992499999999997) math:sum 0.31425 . },
+    { (0.31425 0.0404375) math:sum 0.3546875 . },
+    { (0.49550000000000005 0.05) math:product 0.024775000000000005 . },
+    { (0.34275 0.20) math:product 0.06855 . },
+    { (0.16175 0.50) math:product 0.080875 . },
+    { (0.024775000000000005 0.06855) math:sum 0.093325 . },
+    { (0.093325 0.080875) math:sum 0.17420000000000002 . }.
+
+{ :MC1 :metrics _:b13_e22750eba2c1966f . }
+  pe:rule 9;
+  pe:binding [ pe:var "pi"; pe:value _:b8_e166a0454ed742d7 ];
+  pe:uses { :MC1 :pi3 _:b8_e166a0454ed742d7 . }.
+
+{ _:b13_e22750eba2c1966f :t 3 . }
+  pe:rule 9;
+  pe:binding [ pe:var "pi"; pe:value _:b8_e166a0454ed742d7 ];
+  pe:uses { :MC1 :pi3 _:b8_e166a0454ed742d7 . }.
+
+{ _:b13_e22750eba2c1966f :pi _:b8_e166a0454ed742d7 . }
+  pe:rule 9;
+  pe:binding [ pe:var "pi"; pe:value _:b8_e166a0454ed742d7 ];
+  pe:uses { :MC1 :pi3 _:b8_e166a0454ed742d7 . }.
+
+{ _:b13_e22750eba2c1966f :sumSq 0.3780958503125001 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.4711125000000001 ],
+    [ pe:var "a2"; pe:value 0.2219469876562501 ],
+    [ pe:var "ab2"; pe:value 0.3477502103125001 ],
+    [ pe:var "ada"; pe:value 0.13777916666666679 ],
+    [ pe:var "adb"; pe:value 0.021354166666666674 ],
+    [ pe:var "adc"; pe:value 0.1591333333333333 ],
+    [ pe:var "b"; pe:value 0.3546875 ],
+    [ pe:var "b2"; pe:value 0.12580322265625 ],
+    [ pe:var "c"; pe:value 0.17420000000000002 ],
+    [ pe:var "c2"; pe:value 0.030345640000000007 ],
+    [ pe:var "da"; pe:value 0.13777916666666679 ],
+    [ pe:var "da2"; pe:value 0.018983098767361144 ],
+    [ pe:var "db"; pe:value 0.021354166666666674 ],
+    [ pe:var "db2"; pe:value 0.0004560004340277781 ],
+    [ pe:var "dc"; pe:value -0.1591333333333333 ],
+    [ pe:var "dc2"; pe:value 0.025323417777777767 ],
+    [ pe:var "effN"; pe:value 2.644831989490204 ],
+    [ pe:var "gini"; pe:value 0.6219041496875 ],
+    [ pe:var "l2"; pe:value 0.2115715410426617 ],
+    [ pe:var "m"; pe:value _:b13_e22750eba2c1966f ],
+    [ pe:var "pi"; pe:value _:b8_e166a0454ed742d7 ],
+    [ pe:var "s1"; pe:value 0.15913333333333346 ],
+    [ pe:var "s2"; pe:value 0.01943909920138892 ],
+    [ pe:var "s3"; pe:value 0.04476251697916669 ],
+    [ pe:var "sAbs"; pe:value 0.31826666666666675 ],
+    [ pe:var "sumSq"; pe:value 0.3780958503125001 ],
+    [ pe:var "tv"; pe:value 0.15913333333333338 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b13_e22750eba2c1966f . },
+    { _:b13_e22750eba2c1966f :pi _:b8_e166a0454ed742d7 . },
+    { _:b8_e166a0454ed742d7 :pA 0.4711125000000001 . },
+    { _:b8_e166a0454ed742d7 :pB 0.3546875 . },
+    { _:b8_e166a0454ed742d7 :pC 0.17420000000000002 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.4711125000000001 2.0) math:exponentiation 0.2219469876562501 . },
+    { (0.3546875 2.0) math:exponentiation 0.12580322265625 . },
+    { (0.17420000000000002 2.0) math:exponentiation 0.030345640000000007 . },
+    { (0.2219469876562501 0.12580322265625) math:sum 0.3477502103125001 . },
+    { (0.3477502103125001 0.030345640000000007) math:sum 0.3780958503125001 . },
+    { (1.0 0.3780958503125001) math:difference 0.6219041496875 . },
+    { (1.0 0.3780958503125001) math:quotient 2.644831989490204 . },
+    { (0.4711125000000001 0.3333333333333333) math:difference 0.13777916666666679 . },
+    { 0.13777916666666679 math:absoluteValue 0.13777916666666679 . },
+    { (0.3546875 0.3333333333333333) math:difference 0.021354166666666674 . },
+    { 0.021354166666666674 math:absoluteValue 0.021354166666666674 . },
+    { (0.17420000000000002 0.3333333333333333) math:difference -0.1591333333333333 . },
+    { -0.1591333333333333 math:absoluteValue 0.1591333333333333 . },
+    { (0.13777916666666679 0.021354166666666674) math:sum 0.15913333333333346 . },
+    { (0.15913333333333346 0.1591333333333333) math:sum 0.31826666666666675 . },
+    { (0.5 0.31826666666666675) math:product 0.15913333333333338 . },
+    { (0.13777916666666679 2.0) math:exponentiation 0.018983098767361144 . },
+    { (0.021354166666666674 2.0) math:exponentiation 0.0004560004340277781 . },
+    { (-0.1591333333333333 2.0) math:exponentiation 0.025323417777777767 . },
+    { (0.018983098767361144 0.0004560004340277781) math:sum 0.01943909920138892 . },
+    { (0.01943909920138892 0.025323417777777767) math:sum 0.04476251697916669 . },
+    { (0.04476251697916669 0.5) math:exponentiation 0.2115715410426617 . }.
+
+{ (0.4711125000000001 2.0) math:exponentiation 0.2219469876562501 . }
+  pe:builtin math:exponentiation.
+
+{ (0.3546875 2.0) math:exponentiation 0.12580322265625 . }
+  pe:builtin math:exponentiation.
+
+{ (0.17420000000000002 2.0) math:exponentiation 0.030345640000000007 . }
+  pe:builtin math:exponentiation.
+
+{ (0.2219469876562501 0.12580322265625) math:sum 0.3477502103125001 . }
+  pe:builtin math:sum.
+
+{ (0.3477502103125001 0.030345640000000007) math:sum 0.3780958503125001 . }
+  pe:builtin math:sum.
+
+{ (1.0 0.3780958503125001) math:difference 0.6219041496875 . }
+  pe:builtin math:difference.
+
+{ (1.0 0.3780958503125001) math:quotient 2.644831989490204 . }
+  pe:builtin math:quotient.
+
+{ (0.4711125000000001 0.3333333333333333) math:difference 0.13777916666666679 . }
+  pe:builtin math:difference.
+
+{ 0.13777916666666679 math:absoluteValue 0.13777916666666679 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.3546875 0.3333333333333333) math:difference 0.021354166666666674 . }
+  pe:builtin math:difference.
+
+{ 0.021354166666666674 math:absoluteValue 0.021354166666666674 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.17420000000000002 0.3333333333333333) math:difference -0.1591333333333333 . }
+  pe:builtin math:difference.
+
+{ -0.1591333333333333 math:absoluteValue 0.1591333333333333 . }
+  pe:builtin math:absoluteValue.
+
+{ (0.13777916666666679 0.021354166666666674) math:sum 0.15913333333333346 . }
+  pe:builtin math:sum.
+
+{ (0.15913333333333346 0.1591333333333333) math:sum 0.31826666666666675 . }
+  pe:builtin math:sum.
+
+{ (0.5 0.31826666666666675) math:product 0.15913333333333338 . }
+  pe:builtin math:product.
+
+{ (0.13777916666666679 2.0) math:exponentiation 0.018983098767361144 . }
+  pe:builtin math:exponentiation.
+
+{ (0.021354166666666674 2.0) math:exponentiation 0.0004560004340277781 . }
+  pe:builtin math:exponentiation.
+
+{ (-0.1591333333333333 2.0) math:exponentiation 0.025323417777777767 . }
+  pe:builtin math:exponentiation.
+
+{ (0.018983098767361144 0.0004560004340277781) math:sum 0.01943909920138892 . }
+  pe:builtin math:sum.
+
+{ (0.01943909920138892 0.025323417777777767) math:sum 0.04476251697916669 . }
+  pe:builtin math:sum.
+
+{ (0.04476251697916669 0.5) math:exponentiation 0.2115715410426617 . }
+  pe:builtin math:exponentiation.
+
+{ _:b13_e22750eba2c1966f :gini 0.6219041496875 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.4711125000000001 ],
+    [ pe:var "a2"; pe:value 0.2219469876562501 ],
+    [ pe:var "ab2"; pe:value 0.3477502103125001 ],
+    [ pe:var "ada"; pe:value 0.13777916666666679 ],
+    [ pe:var "adb"; pe:value 0.021354166666666674 ],
+    [ pe:var "adc"; pe:value 0.1591333333333333 ],
+    [ pe:var "b"; pe:value 0.3546875 ],
+    [ pe:var "b2"; pe:value 0.12580322265625 ],
+    [ pe:var "c"; pe:value 0.17420000000000002 ],
+    [ pe:var "c2"; pe:value 0.030345640000000007 ],
+    [ pe:var "da"; pe:value 0.13777916666666679 ],
+    [ pe:var "da2"; pe:value 0.018983098767361144 ],
+    [ pe:var "db"; pe:value 0.021354166666666674 ],
+    [ pe:var "db2"; pe:value 0.0004560004340277781 ],
+    [ pe:var "dc"; pe:value -0.1591333333333333 ],
+    [ pe:var "dc2"; pe:value 0.025323417777777767 ],
+    [ pe:var "effN"; pe:value 2.644831989490204 ],
+    [ pe:var "gini"; pe:value 0.6219041496875 ],
+    [ pe:var "l2"; pe:value 0.2115715410426617 ],
+    [ pe:var "m"; pe:value _:b13_e22750eba2c1966f ],
+    [ pe:var "pi"; pe:value _:b8_e166a0454ed742d7 ],
+    [ pe:var "s1"; pe:value 0.15913333333333346 ],
+    [ pe:var "s2"; pe:value 0.01943909920138892 ],
+    [ pe:var "s3"; pe:value 0.04476251697916669 ],
+    [ pe:var "sAbs"; pe:value 0.31826666666666675 ],
+    [ pe:var "sumSq"; pe:value 0.3780958503125001 ],
+    [ pe:var "tv"; pe:value 0.15913333333333338 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b13_e22750eba2c1966f . },
+    { _:b13_e22750eba2c1966f :pi _:b8_e166a0454ed742d7 . },
+    { _:b8_e166a0454ed742d7 :pA 0.4711125000000001 . },
+    { _:b8_e166a0454ed742d7 :pB 0.3546875 . },
+    { _:b8_e166a0454ed742d7 :pC 0.17420000000000002 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.4711125000000001 2.0) math:exponentiation 0.2219469876562501 . },
+    { (0.3546875 2.0) math:exponentiation 0.12580322265625 . },
+    { (0.17420000000000002 2.0) math:exponentiation 0.030345640000000007 . },
+    { (0.2219469876562501 0.12580322265625) math:sum 0.3477502103125001 . },
+    { (0.3477502103125001 0.030345640000000007) math:sum 0.3780958503125001 . },
+    { (1.0 0.3780958503125001) math:difference 0.6219041496875 . },
+    { (1.0 0.3780958503125001) math:quotient 2.644831989490204 . },
+    { (0.4711125000000001 0.3333333333333333) math:difference 0.13777916666666679 . },
+    { 0.13777916666666679 math:absoluteValue 0.13777916666666679 . },
+    { (0.3546875 0.3333333333333333) math:difference 0.021354166666666674 . },
+    { 0.021354166666666674 math:absoluteValue 0.021354166666666674 . },
+    { (0.17420000000000002 0.3333333333333333) math:difference -0.1591333333333333 . },
+    { -0.1591333333333333 math:absoluteValue 0.1591333333333333 . },
+    { (0.13777916666666679 0.021354166666666674) math:sum 0.15913333333333346 . },
+    { (0.15913333333333346 0.1591333333333333) math:sum 0.31826666666666675 . },
+    { (0.5 0.31826666666666675) math:product 0.15913333333333338 . },
+    { (0.13777916666666679 2.0) math:exponentiation 0.018983098767361144 . },
+    { (0.021354166666666674 2.0) math:exponentiation 0.0004560004340277781 . },
+    { (-0.1591333333333333 2.0) math:exponentiation 0.025323417777777767 . },
+    { (0.018983098767361144 0.0004560004340277781) math:sum 0.01943909920138892 . },
+    { (0.01943909920138892 0.025323417777777767) math:sum 0.04476251697916669 . },
+    { (0.04476251697916669 0.5) math:exponentiation 0.2115715410426617 . }.
+
+{ _:b13_e22750eba2c1966f :effectiveStates 2.644831989490204 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.4711125000000001 ],
+    [ pe:var "a2"; pe:value 0.2219469876562501 ],
+    [ pe:var "ab2"; pe:value 0.3477502103125001 ],
+    [ pe:var "ada"; pe:value 0.13777916666666679 ],
+    [ pe:var "adb"; pe:value 0.021354166666666674 ],
+    [ pe:var "adc"; pe:value 0.1591333333333333 ],
+    [ pe:var "b"; pe:value 0.3546875 ],
+    [ pe:var "b2"; pe:value 0.12580322265625 ],
+    [ pe:var "c"; pe:value 0.17420000000000002 ],
+    [ pe:var "c2"; pe:value 0.030345640000000007 ],
+    [ pe:var "da"; pe:value 0.13777916666666679 ],
+    [ pe:var "da2"; pe:value 0.018983098767361144 ],
+    [ pe:var "db"; pe:value 0.021354166666666674 ],
+    [ pe:var "db2"; pe:value 0.0004560004340277781 ],
+    [ pe:var "dc"; pe:value -0.1591333333333333 ],
+    [ pe:var "dc2"; pe:value 0.025323417777777767 ],
+    [ pe:var "effN"; pe:value 2.644831989490204 ],
+    [ pe:var "gini"; pe:value 0.6219041496875 ],
+    [ pe:var "l2"; pe:value 0.2115715410426617 ],
+    [ pe:var "m"; pe:value _:b13_e22750eba2c1966f ],
+    [ pe:var "pi"; pe:value _:b8_e166a0454ed742d7 ],
+    [ pe:var "s1"; pe:value 0.15913333333333346 ],
+    [ pe:var "s2"; pe:value 0.01943909920138892 ],
+    [ pe:var "s3"; pe:value 0.04476251697916669 ],
+    [ pe:var "sAbs"; pe:value 0.31826666666666675 ],
+    [ pe:var "sumSq"; pe:value 0.3780958503125001 ],
+    [ pe:var "tv"; pe:value 0.15913333333333338 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b13_e22750eba2c1966f . },
+    { _:b13_e22750eba2c1966f :pi _:b8_e166a0454ed742d7 . },
+    { _:b8_e166a0454ed742d7 :pA 0.4711125000000001 . },
+    { _:b8_e166a0454ed742d7 :pB 0.3546875 . },
+    { _:b8_e166a0454ed742d7 :pC 0.17420000000000002 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.4711125000000001 2.0) math:exponentiation 0.2219469876562501 . },
+    { (0.3546875 2.0) math:exponentiation 0.12580322265625 . },
+    { (0.17420000000000002 2.0) math:exponentiation 0.030345640000000007 . },
+    { (0.2219469876562501 0.12580322265625) math:sum 0.3477502103125001 . },
+    { (0.3477502103125001 0.030345640000000007) math:sum 0.3780958503125001 . },
+    { (1.0 0.3780958503125001) math:difference 0.6219041496875 . },
+    { (1.0 0.3780958503125001) math:quotient 2.644831989490204 . },
+    { (0.4711125000000001 0.3333333333333333) math:difference 0.13777916666666679 . },
+    { 0.13777916666666679 math:absoluteValue 0.13777916666666679 . },
+    { (0.3546875 0.3333333333333333) math:difference 0.021354166666666674 . },
+    { 0.021354166666666674 math:absoluteValue 0.021354166666666674 . },
+    { (0.17420000000000002 0.3333333333333333) math:difference -0.1591333333333333 . },
+    { -0.1591333333333333 math:absoluteValue 0.1591333333333333 . },
+    { (0.13777916666666679 0.021354166666666674) math:sum 0.15913333333333346 . },
+    { (0.15913333333333346 0.1591333333333333) math:sum 0.31826666666666675 . },
+    { (0.5 0.31826666666666675) math:product 0.15913333333333338 . },
+    { (0.13777916666666679 2.0) math:exponentiation 0.018983098767361144 . },
+    { (0.021354166666666674 2.0) math:exponentiation 0.0004560004340277781 . },
+    { (-0.1591333333333333 2.0) math:exponentiation 0.025323417777777767 . },
+    { (0.018983098767361144 0.0004560004340277781) math:sum 0.01943909920138892 . },
+    { (0.01943909920138892 0.025323417777777767) math:sum 0.04476251697916669 . },
+    { (0.04476251697916669 0.5) math:exponentiation 0.2115715410426617 . }.
+
+{ _:b13_e22750eba2c1966f :tvToUniform 0.15913333333333338 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.4711125000000001 ],
+    [ pe:var "a2"; pe:value 0.2219469876562501 ],
+    [ pe:var "ab2"; pe:value 0.3477502103125001 ],
+    [ pe:var "ada"; pe:value 0.13777916666666679 ],
+    [ pe:var "adb"; pe:value 0.021354166666666674 ],
+    [ pe:var "adc"; pe:value 0.1591333333333333 ],
+    [ pe:var "b"; pe:value 0.3546875 ],
+    [ pe:var "b2"; pe:value 0.12580322265625 ],
+    [ pe:var "c"; pe:value 0.17420000000000002 ],
+    [ pe:var "c2"; pe:value 0.030345640000000007 ],
+    [ pe:var "da"; pe:value 0.13777916666666679 ],
+    [ pe:var "da2"; pe:value 0.018983098767361144 ],
+    [ pe:var "db"; pe:value 0.021354166666666674 ],
+    [ pe:var "db2"; pe:value 0.0004560004340277781 ],
+    [ pe:var "dc"; pe:value -0.1591333333333333 ],
+    [ pe:var "dc2"; pe:value 0.025323417777777767 ],
+    [ pe:var "effN"; pe:value 2.644831989490204 ],
+    [ pe:var "gini"; pe:value 0.6219041496875 ],
+    [ pe:var "l2"; pe:value 0.2115715410426617 ],
+    [ pe:var "m"; pe:value _:b13_e22750eba2c1966f ],
+    [ pe:var "pi"; pe:value _:b8_e166a0454ed742d7 ],
+    [ pe:var "s1"; pe:value 0.15913333333333346 ],
+    [ pe:var "s2"; pe:value 0.01943909920138892 ],
+    [ pe:var "s3"; pe:value 0.04476251697916669 ],
+    [ pe:var "sAbs"; pe:value 0.31826666666666675 ],
+    [ pe:var "sumSq"; pe:value 0.3780958503125001 ],
+    [ pe:var "tv"; pe:value 0.15913333333333338 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b13_e22750eba2c1966f . },
+    { _:b13_e22750eba2c1966f :pi _:b8_e166a0454ed742d7 . },
+    { _:b8_e166a0454ed742d7 :pA 0.4711125000000001 . },
+    { _:b8_e166a0454ed742d7 :pB 0.3546875 . },
+    { _:b8_e166a0454ed742d7 :pC 0.17420000000000002 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.4711125000000001 2.0) math:exponentiation 0.2219469876562501 . },
+    { (0.3546875 2.0) math:exponentiation 0.12580322265625 . },
+    { (0.17420000000000002 2.0) math:exponentiation 0.030345640000000007 . },
+    { (0.2219469876562501 0.12580322265625) math:sum 0.3477502103125001 . },
+    { (0.3477502103125001 0.030345640000000007) math:sum 0.3780958503125001 . },
+    { (1.0 0.3780958503125001) math:difference 0.6219041496875 . },
+    { (1.0 0.3780958503125001) math:quotient 2.644831989490204 . },
+    { (0.4711125000000001 0.3333333333333333) math:difference 0.13777916666666679 . },
+    { 0.13777916666666679 math:absoluteValue 0.13777916666666679 . },
+    { (0.3546875 0.3333333333333333) math:difference 0.021354166666666674 . },
+    { 0.021354166666666674 math:absoluteValue 0.021354166666666674 . },
+    { (0.17420000000000002 0.3333333333333333) math:difference -0.1591333333333333 . },
+    { -0.1591333333333333 math:absoluteValue 0.1591333333333333 . },
+    { (0.13777916666666679 0.021354166666666674) math:sum 0.15913333333333346 . },
+    { (0.15913333333333346 0.1591333333333333) math:sum 0.31826666666666675 . },
+    { (0.5 0.31826666666666675) math:product 0.15913333333333338 . },
+    { (0.13777916666666679 2.0) math:exponentiation 0.018983098767361144 . },
+    { (0.021354166666666674 2.0) math:exponentiation 0.0004560004340277781 . },
+    { (-0.1591333333333333 2.0) math:exponentiation 0.025323417777777767 . },
+    { (0.018983098767361144 0.0004560004340277781) math:sum 0.01943909920138892 . },
+    { (0.01943909920138892 0.025323417777777767) math:sum 0.04476251697916669 . },
+    { (0.04476251697916669 0.5) math:exponentiation 0.2115715410426617 . }.
+
+{ _:b13_e22750eba2c1966f :l2ToUniform 0.2115715410426617 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value 0.4711125000000001 ],
+    [ pe:var "a2"; pe:value 0.2219469876562501 ],
+    [ pe:var "ab2"; pe:value 0.3477502103125001 ],
+    [ pe:var "ada"; pe:value 0.13777916666666679 ],
+    [ pe:var "adb"; pe:value 0.021354166666666674 ],
+    [ pe:var "adc"; pe:value 0.1591333333333333 ],
+    [ pe:var "b"; pe:value 0.3546875 ],
+    [ pe:var "b2"; pe:value 0.12580322265625 ],
+    [ pe:var "c"; pe:value 0.17420000000000002 ],
+    [ pe:var "c2"; pe:value 0.030345640000000007 ],
+    [ pe:var "da"; pe:value 0.13777916666666679 ],
+    [ pe:var "da2"; pe:value 0.018983098767361144 ],
+    [ pe:var "db"; pe:value 0.021354166666666674 ],
+    [ pe:var "db2"; pe:value 0.0004560004340277781 ],
+    [ pe:var "dc"; pe:value -0.1591333333333333 ],
+    [ pe:var "dc2"; pe:value 0.025323417777777767 ],
+    [ pe:var "effN"; pe:value 2.644831989490204 ],
+    [ pe:var "gini"; pe:value 0.6219041496875 ],
+    [ pe:var "l2"; pe:value 0.2115715410426617 ],
+    [ pe:var "m"; pe:value _:b13_e22750eba2c1966f ],
+    [ pe:var "pi"; pe:value _:b8_e166a0454ed742d7 ],
+    [ pe:var "s1"; pe:value 0.15913333333333346 ],
+    [ pe:var "s2"; pe:value 0.01943909920138892 ],
+    [ pe:var "s3"; pe:value 0.04476251697916669 ],
+    [ pe:var "sAbs"; pe:value 0.31826666666666675 ],
+    [ pe:var "sumSq"; pe:value 0.3780958503125001 ],
+    [ pe:var "tv"; pe:value 0.15913333333333338 ],
+    [ pe:var "u"; pe:value 0.3333333333333333 ];
+  pe:uses
+    { :MC1 :metrics _:b13_e22750eba2c1966f . },
+    { _:b13_e22750eba2c1966f :pi _:b8_e166a0454ed742d7 . },
+    { _:b8_e166a0454ed742d7 :pA 0.4711125000000001 . },
+    { _:b8_e166a0454ed742d7 :pB 0.3546875 . },
+    { _:b8_e166a0454ed742d7 :pC 0.17420000000000002 . },
+    { (1.0 3.0) math:quotient 0.3333333333333333 . },
+    { (0.4711125000000001 2.0) math:exponentiation 0.2219469876562501 . },
+    { (0.3546875 2.0) math:exponentiation 0.12580322265625 . },
+    { (0.17420000000000002 2.0) math:exponentiation 0.030345640000000007 . },
+    { (0.2219469876562501 0.12580322265625) math:sum 0.3477502103125001 . },
+    { (0.3477502103125001 0.030345640000000007) math:sum 0.3780958503125001 . },
+    { (1.0 0.3780958503125001) math:difference 0.6219041496875 . },
+    { (1.0 0.3780958503125001) math:quotient 2.644831989490204 . },
+    { (0.4711125000000001 0.3333333333333333) math:difference 0.13777916666666679 . },
+    { 0.13777916666666679 math:absoluteValue 0.13777916666666679 . },
+    { (0.3546875 0.3333333333333333) math:difference 0.021354166666666674 . },
+    { 0.021354166666666674 math:absoluteValue 0.021354166666666674 . },
+    { (0.17420000000000002 0.3333333333333333) math:difference -0.1591333333333333 . },
+    { -0.1591333333333333 math:absoluteValue 0.1591333333333333 . },
+    { (0.13777916666666679 0.021354166666666674) math:sum 0.15913333333333346 . },
+    { (0.15913333333333346 0.1591333333333333) math:sum 0.31826666666666675 . },
+    { (0.5 0.31826666666666675) math:product 0.15913333333333338 . },
+    { (0.13777916666666679 2.0) math:exponentiation 0.018983098767361144 . },
+    { (0.021354166666666674 2.0) math:exponentiation 0.0004560004340277781 . },
+    { (-0.1591333333333333 2.0) math:exponentiation 0.025323417777777767 . },
+    { (0.018983098767361144 0.0004560004340277781) math:sum 0.01943909920138892 . },
+    { (0.01943909920138892 0.025323417777777767) math:sum 0.04476251697916669 . },
+    { (0.04476251697916669 0.5) math:exponentiation 0.2115715410426617 . }.

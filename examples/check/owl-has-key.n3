@@ -1,0 +1,56 @@
+# checked with obligations: 9 steps, 7 verified, 2 trusted
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:alice owl:sameAs :alias .
+:alias owl:sameAs :alice .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/owl-has-key.n3";
+    pe:source "examples/owl-has-key.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 9;
+    pe:verified 7;
+    pe:trusted 2;
+    pe:builtinSteps 4;
+    pe:factSteps 3;
+    pe:ruleSteps 2;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 5; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 12; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 11; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 2; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            ({
+                ?P list:in (:givenName :birthDate) .
+            } {
+                :alice ?P ?Z .
+                :alias ?P ?Z .
+            }) log:forAllIn _:forAllIn .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            ({
+                ?P list:in (:givenName :birthDate) .
+            } {
+                :alias ?P ?Z .
+                :alice ?P ?Z .
+            }) log:forAllIn _:forAllIn .
+        }
+    ].

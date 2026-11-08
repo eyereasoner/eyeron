@@ -1,0 +1,56 @@
+@prefix : <http:/example.org/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/d983461b-11b7-4e52-89c1-328e91bf1de1#> .
+
+:s a :Success .
+{
+    skolem:bn_5 :value ?value .
+} <= {
+    :s :value ?value .
+} .
+skolem:bn_5 a :Success .
+
+{ :s a :Success . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "s"; pe:value :s ],
+    [ pe:var "value"; pe:value 1 ];
+  pe:uses { :s :value 1 . }.
+
+{ :s :value 1 . }
+  pe:fact "generated-skolem-rule.n3".
+
+{
+  {
+      skolem:bn_5 :value ?value .
+  } <= {
+      :s :value ?value .
+  } .
+}
+  pe:rule 2;
+  pe:binding [ pe:var "o"; pe:value skolem:bn_5 ];
+  pe:uses { :s :copy skolem:bn_5 . }.
+
+{ :s :copy skolem:bn_5 . }
+  pe:fact "generated-skolem-rule.n3".
+
+{ skolem:bn_5 a :Success . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "s"; pe:value skolem:bn_5 ],
+    [ pe:var "value"; pe:value 1 ];
+  pe:uses { skolem:bn_5 :value 1 . }.
+
+{ skolem:bn_5 :value 1 . }
+  pe:rule
+    {
+        {
+            skolem:bn_5 :value ?__backward_0_2_c53681955a70e64e__value .
+        } <= {
+            :s :value ?__backward_0_2_c53681955a70e64e__value .
+        } .
+    };
+  pe:binding [ pe:var "value"; pe:value 1 ];
+  pe:uses { :s :value 1 . }.

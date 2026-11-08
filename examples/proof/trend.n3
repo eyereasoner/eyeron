@@ -1,0 +1,331 @@
+@prefix : <http://example.org/arc/trend#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:answer :text "Upward 7-day trend detected." .
+:answer :slope 0.6666666666666666 .
+:answer :start 10.0 .
+:answer :end 14.0 .
+
+{ :answer :text "Upward 7-day trend detected." . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d12"; pe:value 0.8000000000000007 ],
+    [ pe:var "d23"; pe:value 0.6999999999999993 ],
+    [ pe:var "d34"; pe:value 0.5999999999999996 ],
+    [ pe:var "d45"; pe:value 0.8000000000000007 ],
+    [ pe:var "d56"; pe:value 0.5 ],
+    [ pe:var "d67"; pe:value 0.5999999999999996 ],
+    [ pe:var "m"; pe:value 0.6666666666666666 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "v1"; pe:value 10.0 ],
+    [ pe:var "v7"; pe:value 14.0 ];
+  pe:uses
+    { :day1 :value 10.0 . },
+    { :day7 :value 14.0 . },
+    { :config :steps 6 . },
+    { ((10.0 14.0) 6) :slope 0.6666666666666666 . },
+    { 0.6666666666666666 math:greaterThan 0 . },
+    { :day1 :next :day2 . },
+    { (:day1 :day2) :delta 0.8000000000000007 . },
+    { 0.8000000000000007 math:greaterThan 0 . },
+    { :day2 :next :day3 . },
+    { (:day2 :day3) :delta 0.6999999999999993 . },
+    { 0.6999999999999993 math:greaterThan 0 . },
+    { :day3 :next :day4 . },
+    { (:day3 :day4) :delta 0.5999999999999996 . },
+    { 0.5999999999999996 math:greaterThan 0 . },
+    { :day4 :next :day5 . },
+    { (:day4 :day5) :delta 0.8000000000000007 . },
+    { 0.8000000000000007 math:greaterThan 0 . },
+    { :day5 :next :day6 . },
+    { (:day5 :day6) :delta 0.5 . },
+    { 0.5 math:greaterThan 0 . },
+    { :day6 :next :day7 . },
+    { (:day6 :day7) :delta 0.5999999999999996 . },
+    { 0.5999999999999996 math:greaterThan 0 . }.
+
+{ :day1 :value 10.0 . }
+  pe:fact "trend.n3".
+
+{ :day7 :value 14.0 . }
+  pe:fact "trend.n3".
+
+{ :config :steps 6 . }
+  pe:fact "trend.n3".
+
+{ ((10.0 14.0) 6) :slope 0.6666666666666666 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "D"; pe:value "4"^^xsd:decimal ],
+    [ pe:var "End"; pe:value 14.0 ],
+    [ pe:var "M"; pe:value 0.6666666666666666 ],
+    [ pe:var "N"; pe:value 6 ],
+    [ pe:var "Start"; pe:value 10.0 ];
+  pe:uses
+    { (14.0 10.0) math:difference "4"^^xsd:decimal . },
+    { ("4"^^xsd:decimal 6) math:quotient 0.6666666666666666 . }.
+
+{ (14.0 10.0) math:difference "4"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ ("4"^^xsd:decimal 6) math:quotient 0.6666666666666666 . }
+  pe:builtin math:quotient.
+
+{ 0.6666666666666666 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :day1 :next :day2 . }
+  pe:fact "trend.n3".
+
+{ (:day1 :day2) :delta 0.8000000000000007 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :day1 ],
+    [ pe:var "B"; pe:value :day2 ],
+    [ pe:var "Delta"; pe:value 0.8000000000000007 ],
+    [ pe:var "vA"; pe:value 10.0 ],
+    [ pe:var "vB"; pe:value 10.8 ];
+  pe:uses
+    { :day1 :value 10.0 . },
+    { :day2 :value 10.8 . },
+    { (10.8 10.0) math:difference 0.8000000000000007 . }.
+
+{ :day2 :value 10.8 . }
+  pe:fact "trend.n3".
+
+{ (10.8 10.0) math:difference 0.8000000000000007 . }
+  pe:builtin math:difference.
+
+{ 0.8000000000000007 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :day2 :next :day3 . }
+  pe:fact "trend.n3".
+
+{ (:day2 :day3) :delta 0.6999999999999993 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :day2 ],
+    [ pe:var "B"; pe:value :day3 ],
+    [ pe:var "Delta"; pe:value 0.6999999999999993 ],
+    [ pe:var "vA"; pe:value 10.8 ],
+    [ pe:var "vB"; pe:value 11.5 ];
+  pe:uses
+    { :day2 :value 10.8 . },
+    { :day3 :value 11.5 . },
+    { (11.5 10.8) math:difference 0.6999999999999993 . }.
+
+{ :day3 :value 11.5 . }
+  pe:fact "trend.n3".
+
+{ (11.5 10.8) math:difference 0.6999999999999993 . }
+  pe:builtin math:difference.
+
+{ 0.6999999999999993 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :day3 :next :day4 . }
+  pe:fact "trend.n3".
+
+{ (:day3 :day4) :delta 0.5999999999999996 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :day3 ],
+    [ pe:var "B"; pe:value :day4 ],
+    [ pe:var "Delta"; pe:value 0.5999999999999996 ],
+    [ pe:var "vA"; pe:value 11.5 ],
+    [ pe:var "vB"; pe:value 12.1 ];
+  pe:uses
+    { :day3 :value 11.5 . },
+    { :day4 :value 12.1 . },
+    { (12.1 11.5) math:difference 0.5999999999999996 . }.
+
+{ :day4 :value 12.1 . }
+  pe:fact "trend.n3".
+
+{ (12.1 11.5) math:difference 0.5999999999999996 . }
+  pe:builtin math:difference.
+
+{ 0.5999999999999996 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :day4 :next :day5 . }
+  pe:fact "trend.n3".
+
+{ (:day4 :day5) :delta 0.8000000000000007 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :day4 ],
+    [ pe:var "B"; pe:value :day5 ],
+    [ pe:var "Delta"; pe:value 0.8000000000000007 ],
+    [ pe:var "vA"; pe:value 12.1 ],
+    [ pe:var "vB"; pe:value 12.9 ];
+  pe:uses
+    { :day4 :value 12.1 . },
+    { :day5 :value 12.9 . },
+    { (12.9 12.1) math:difference 0.8000000000000007 . }.
+
+{ :day5 :value 12.9 . }
+  pe:fact "trend.n3".
+
+{ (12.9 12.1) math:difference 0.8000000000000007 . }
+  pe:builtin math:difference.
+
+{ :day5 :next :day6 . }
+  pe:fact "trend.n3".
+
+{ (:day5 :day6) :delta 0.5 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :day5 ],
+    [ pe:var "B"; pe:value :day6 ],
+    [ pe:var "Delta"; pe:value 0.5 ],
+    [ pe:var "vA"; pe:value 12.9 ],
+    [ pe:var "vB"; pe:value 13.4 ];
+  pe:uses
+    { :day5 :value 12.9 . },
+    { :day6 :value 13.4 . },
+    { (13.4 12.9) math:difference 0.5 . }.
+
+{ :day6 :value 13.4 . }
+  pe:fact "trend.n3".
+
+{ (13.4 12.9) math:difference 0.5 . }
+  pe:builtin math:difference.
+
+{ 0.5 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :day6 :next :day7 . }
+  pe:fact "trend.n3".
+
+{ (:day6 :day7) :delta 0.5999999999999996 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :day6 ],
+    [ pe:var "B"; pe:value :day7 ],
+    [ pe:var "Delta"; pe:value 0.5999999999999996 ],
+    [ pe:var "vA"; pe:value 13.4 ],
+    [ pe:var "vB"; pe:value 14.0 ];
+  pe:uses
+    { :day6 :value 13.4 . },
+    { :day7 :value 14.0 . },
+    { (14.0 13.4) math:difference 0.5999999999999996 . }.
+
+{ (14.0 13.4) math:difference 0.5999999999999996 . }
+  pe:builtin math:difference.
+
+{ :answer :slope 0.6666666666666666 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d12"; pe:value 0.8000000000000007 ],
+    [ pe:var "d23"; pe:value 0.6999999999999993 ],
+    [ pe:var "d34"; pe:value 0.5999999999999996 ],
+    [ pe:var "d45"; pe:value 0.8000000000000007 ],
+    [ pe:var "d56"; pe:value 0.5 ],
+    [ pe:var "d67"; pe:value 0.5999999999999996 ],
+    [ pe:var "m"; pe:value 0.6666666666666666 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "v1"; pe:value 10.0 ],
+    [ pe:var "v7"; pe:value 14.0 ];
+  pe:uses
+    { :day1 :value 10.0 . },
+    { :day7 :value 14.0 . },
+    { :config :steps 6 . },
+    { ((10.0 14.0) 6) :slope 0.6666666666666666 . },
+    { 0.6666666666666666 math:greaterThan 0 . },
+    { :day1 :next :day2 . },
+    { (:day1 :day2) :delta 0.8000000000000007 . },
+    { 0.8000000000000007 math:greaterThan 0 . },
+    { :day2 :next :day3 . },
+    { (:day2 :day3) :delta 0.6999999999999993 . },
+    { 0.6999999999999993 math:greaterThan 0 . },
+    { :day3 :next :day4 . },
+    { (:day3 :day4) :delta 0.5999999999999996 . },
+    { 0.5999999999999996 math:greaterThan 0 . },
+    { :day4 :next :day5 . },
+    { (:day4 :day5) :delta 0.8000000000000007 . },
+    { 0.8000000000000007 math:greaterThan 0 . },
+    { :day5 :next :day6 . },
+    { (:day5 :day6) :delta 0.5 . },
+    { 0.5 math:greaterThan 0 . },
+    { :day6 :next :day7 . },
+    { (:day6 :day7) :delta 0.5999999999999996 . },
+    { 0.5999999999999996 math:greaterThan 0 . }.
+
+{ :answer :start 10.0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d12"; pe:value 0.8000000000000007 ],
+    [ pe:var "d23"; pe:value 0.6999999999999993 ],
+    [ pe:var "d34"; pe:value 0.5999999999999996 ],
+    [ pe:var "d45"; pe:value 0.8000000000000007 ],
+    [ pe:var "d56"; pe:value 0.5 ],
+    [ pe:var "d67"; pe:value 0.5999999999999996 ],
+    [ pe:var "m"; pe:value 0.6666666666666666 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "v1"; pe:value 10.0 ],
+    [ pe:var "v7"; pe:value 14.0 ];
+  pe:uses
+    { :day1 :value 10.0 . },
+    { :day7 :value 14.0 . },
+    { :config :steps 6 . },
+    { ((10.0 14.0) 6) :slope 0.6666666666666666 . },
+    { 0.6666666666666666 math:greaterThan 0 . },
+    { :day1 :next :day2 . },
+    { (:day1 :day2) :delta 0.8000000000000007 . },
+    { 0.8000000000000007 math:greaterThan 0 . },
+    { :day2 :next :day3 . },
+    { (:day2 :day3) :delta 0.6999999999999993 . },
+    { 0.6999999999999993 math:greaterThan 0 . },
+    { :day3 :next :day4 . },
+    { (:day3 :day4) :delta 0.5999999999999996 . },
+    { 0.5999999999999996 math:greaterThan 0 . },
+    { :day4 :next :day5 . },
+    { (:day4 :day5) :delta 0.8000000000000007 . },
+    { 0.8000000000000007 math:greaterThan 0 . },
+    { :day5 :next :day6 . },
+    { (:day5 :day6) :delta 0.5 . },
+    { 0.5 math:greaterThan 0 . },
+    { :day6 :next :day7 . },
+    { (:day6 :day7) :delta 0.5999999999999996 . },
+    { 0.5999999999999996 math:greaterThan 0 . }.
+
+{ :answer :end 14.0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "d12"; pe:value 0.8000000000000007 ],
+    [ pe:var "d23"; pe:value 0.6999999999999993 ],
+    [ pe:var "d34"; pe:value 0.5999999999999996 ],
+    [ pe:var "d45"; pe:value 0.8000000000000007 ],
+    [ pe:var "d56"; pe:value 0.5 ],
+    [ pe:var "d67"; pe:value 0.5999999999999996 ],
+    [ pe:var "m"; pe:value 0.6666666666666666 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "v1"; pe:value 10.0 ],
+    [ pe:var "v7"; pe:value 14.0 ];
+  pe:uses
+    { :day1 :value 10.0 . },
+    { :day7 :value 14.0 . },
+    { :config :steps 6 . },
+    { ((10.0 14.0) 6) :slope 0.6666666666666666 . },
+    { 0.6666666666666666 math:greaterThan 0 . },
+    { :day1 :next :day2 . },
+    { (:day1 :day2) :delta 0.8000000000000007 . },
+    { 0.8000000000000007 math:greaterThan 0 . },
+    { :day2 :next :day3 . },
+    { (:day2 :day3) :delta 0.6999999999999993 . },
+    { 0.6999999999999993 math:greaterThan 0 . },
+    { :day3 :next :day4 . },
+    { (:day3 :day4) :delta 0.5999999999999996 . },
+    { 0.5999999999999996 math:greaterThan 0 . },
+    { :day4 :next :day5 . },
+    { (:day4 :day5) :delta 0.8000000000000007 . },
+    { 0.8000000000000007 math:greaterThan 0 . },
+    { :day5 :next :day6 . },
+    { (:day5 :day6) :delta 0.5 . },
+    { 0.5 math:greaterThan 0 . },
+    { :day6 :next :day7 . },
+    { (:day6 :day7) :delta 0.5999999999999996 . },
+    { 0.5999999999999996 math:greaterThan 0 . }.

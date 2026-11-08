@@ -1,0 +1,162 @@
+@prefix : <http://example.org/act-gravity/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:run :can :SupportMediatorOnlyEntanglementWitness .
+:run :supportsConclusion :MediatorNonClassical .
+:run :rulesOut :PurelyClassicalMediatorModel .
+:run :supportsConclusion :GravityMediatorNonClassical .
+:contrastRun :cannot :SupportMediatorOnlyEntanglementWitness .
+:classicalGravityMediator :cannot :MediateEntanglementUnderWitnessConditions .
+:contrastRun :cannot :SupportMediatorNonClassicalConclusion .
+
+{ :run :can :SupportMediatorOnlyEntanglementWitness . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "M"; pe:value :gravityMediator ],
+    [ pe:var "R"; pe:value :run ];
+  pe:uses
+    { :run a :ExperimentRun . },
+    { :run :assumes :Locality . },
+    { :run :assumes :Interoperability . },
+    { :run :interactionPath :MediatorOnlyPath . },
+    { :run :usesMediator :gravityMediator . },
+    { :run :observed :EntanglementWitnessPassed . }.
+
+{ :run a :ExperimentRun . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :run :assumes :Locality . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :run :assumes :Interoperability . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :run :interactionPath :MediatorOnlyPath . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :gravityMediator ],
+    [ pe:var "R"; pe:value :run ];
+  pe:uses
+    { :run a :ExperimentRun . },
+    { :run :assumes :Locality . },
+    { :run :directCouplingStatus :NoDirectCoupling . },
+    { :run :usesMediator :gravityMediator . }.
+
+{ :run :directCouplingStatus :NoDirectCoupling . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :run :usesMediator :gravityMediator . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :run :observed :EntanglementWitnessPassed . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :run :supportsConclusion :MediatorNonClassical . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "M"; pe:value :gravityMediator ],
+    [ pe:var "R"; pe:value :run ];
+  pe:uses
+    { :run a :ExperimentRun . },
+    { :run :assumes :Locality . },
+    { :run :assumes :Interoperability . },
+    { :run :interactionPath :MediatorOnlyPath . },
+    { :run :usesMediator :gravityMediator . },
+    { :run :observed :EntanglementWitnessPassed . }.
+
+{ :run :rulesOut :PurelyClassicalMediatorModel . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "M"; pe:value :gravityMediator ],
+    [ pe:var "R"; pe:value :run ];
+  pe:uses
+    { :run :supportsConclusion :MediatorNonClassical . },
+    { :run :usesMediator :gravityMediator . },
+    { :gravityMediator a :NonClassicalMediator . }.
+
+{ :gravityMediator a :NonClassicalMediator . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "M"; pe:value :gravityMediator ],
+    [ pe:var "R"; pe:value :run ];
+  pe:uses
+    { :run a :ExperimentRun . },
+    { :run :assumes :Locality . },
+    { :run :assumes :Interoperability . },
+    { :run :interactionPath :MediatorOnlyPath . },
+    { :run :usesMediator :gravityMediator . },
+    { :run :observed :EntanglementWitnessPassed . }.
+
+{ :run :supportsConclusion :GravityMediatorNonClassical . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "M"; pe:value :gravityMediator ],
+    [ pe:var "R"; pe:value :run ];
+  pe:uses
+    { :run :usesMediator :gravityMediator . },
+    { :gravityMediator :couplingMode :Gravitational . },
+    { :gravityMediator a :NonClassicalMediator . }.
+
+{ :gravityMediator :couplingMode :Gravitational . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :contrastRun :cannot :SupportMediatorOnlyEntanglementWitness . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "M"; pe:value :classicalGravityMediator ],
+    [ pe:var "R"; pe:value :contrastRun ];
+  pe:uses
+    { :contrastRun a :ExperimentRun . },
+    { :contrastRun :assumes :Locality . },
+    { :contrastRun :assumes :Interoperability . },
+    { :contrastRun :interactionPath :MediatorOnlyPath . },
+    { :contrastRun :usesMediator :classicalGravityMediator . },
+    { :classicalGravityMediator :mediatorModel :PurelyClassical . }.
+
+{ :contrastRun a :ExperimentRun . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :contrastRun :assumes :Locality . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :contrastRun :assumes :Interoperability . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :contrastRun :interactionPath :MediatorOnlyPath . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :classicalGravityMediator ],
+    [ pe:var "R"; pe:value :contrastRun ];
+  pe:uses
+    { :contrastRun a :ExperimentRun . },
+    { :contrastRun :assumes :Locality . },
+    { :contrastRun :directCouplingStatus :NoDirectCoupling . },
+    { :contrastRun :usesMediator :classicalGravityMediator . }.
+
+{ :contrastRun :directCouplingStatus :NoDirectCoupling . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :contrastRun :usesMediator :classicalGravityMediator . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :classicalGravityMediator :mediatorModel :PurelyClassical . }
+  pe:fact "act-gravity-mediator-witness.n3".
+
+{ :classicalGravityMediator :cannot :MediateEntanglementUnderWitnessConditions . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "M"; pe:value :classicalGravityMediator ],
+    [ pe:var "R"; pe:value :contrastRun ];
+  pe:uses
+    { :contrastRun a :ExperimentRun . },
+    { :contrastRun :assumes :Locality . },
+    { :contrastRun :assumes :Interoperability . },
+    { :contrastRun :interactionPath :MediatorOnlyPath . },
+    { :contrastRun :usesMediator :classicalGravityMediator . },
+    { :classicalGravityMediator :mediatorModel :PurelyClassical . }.
+
+{ :contrastRun :cannot :SupportMediatorNonClassicalConclusion . }
+  pe:rule 8;
+  pe:binding [ pe:var "R"; pe:value :contrastRun ];
+  pe:uses { :contrastRun :cannot :SupportMediatorOnlyEntanglementWitness . }.

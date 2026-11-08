@@ -1,0 +1,66 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:Ghent owl:sameAs :Ghent .
+:Ghent owl:sameAs :Gent .
+:Gent owl:sameAs :Ghent .
+:Gent owl:sameAs :Gent .
+
+{ :Ghent owl:sameAs :Ghent . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value :birthplace ],
+    [ pe:var "S"; pe:value :alice ],
+    [ pe:var "X"; pe:value :Ghent ],
+    [ pe:var "Y"; pe:value :Ghent ];
+  pe:uses
+    { :birthplace a owl:FunctionalProperty . },
+    { :alice :birthplace :Ghent . },
+    { :alice :birthplace :Ghent . }.
+
+{ :birthplace a owl:FunctionalProperty . }
+  pe:fact "owl-functional-property.n3".
+
+{ :alice :birthplace :Ghent . }
+  pe:fact "owl-functional-property.n3".
+
+{ :Ghent owl:sameAs :Gent . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value :birthplace ],
+    [ pe:var "S"; pe:value :alice ],
+    [ pe:var "X"; pe:value :Ghent ],
+    [ pe:var "Y"; pe:value :Gent ];
+  pe:uses
+    { :birthplace a owl:FunctionalProperty . },
+    { :alice :birthplace :Ghent . },
+    { :alice :birthplace :Gent . }.
+
+{ :alice :birthplace :Gent . }
+  pe:fact "owl-functional-property.n3".
+
+{ :Gent owl:sameAs :Ghent . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value :birthplace ],
+    [ pe:var "S"; pe:value :alice ],
+    [ pe:var "X"; pe:value :Gent ],
+    [ pe:var "Y"; pe:value :Ghent ];
+  pe:uses
+    { :birthplace a owl:FunctionalProperty . },
+    { :alice :birthplace :Gent . },
+    { :alice :birthplace :Ghent . }.
+
+{ :Gent owl:sameAs :Gent . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value :birthplace ],
+    [ pe:var "S"; pe:value :alice ],
+    [ pe:var "X"; pe:value :Gent ],
+    [ pe:var "Y"; pe:value :Gent ];
+  pe:uses
+    { :birthplace a owl:FunctionalProperty . },
+    { :alice :birthplace :Gent . },
+    { :alice :birthplace :Gent . }.

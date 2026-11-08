@@ -1,0 +1,312 @@
+@prefix : <http://example.org/dpp#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+
+:ACME-X1000-SN123 :circularityHint :repairFriendly .
+:ACME-X1000-SN123 :containsCriticalRawMaterial true .
+:ACME-X1000-SN123 :lifecycleFootprint_gCO2e 52500 .
+:ACME-X1000-SN123 :totalMassG 105 .
+:ACME-X1000-SN123 :recycledMassG 14 .
+:ACME-X1000-SN123 :recycledContentPct 13 .
+:ACME-X1000-SN123 log:outputString "ACME X1000 SN123 | recycled=13% | lifecycle=52500 gCO2e | CRM=true | hint=http://example.org/dpp#repairFriendly\n" .
+
+{ :ACME-X1000-SN123 :circularityHint :repairFriendly . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "B"; pe:value :BatteryPack-01 ],
+    [ pe:var "Doc"; pe:value :Doc-SpareParts ],
+    [ pe:var "P"; pe:value :ACME-X1000-SN123 ],
+    [ pe:var "Passport"; pe:value :Passport-ACME-X1000-SN123 ];
+  pe:uses
+    { :ACME-X1000-SN123 :hasComponent :BatteryPack-01 . },
+    { :BatteryPack-01 :componentType :Battery . },
+    { :BatteryPack-01 :replaceable true . },
+    { :Passport-ACME-X1000-SN123 :describesProduct :ACME-X1000-SN123 . },
+    { :Passport-ACME-X1000-SN123 :hasDocument :Doc-SpareParts . },
+    { :Doc-SpareParts :docType :SparePartsCatalog . }.
+
+{ :ACME-X1000-SN123 :hasComponent :BatteryPack-01 . }
+  pe:fact "digital-product-passport.n3".
+
+{ :BatteryPack-01 :componentType :Battery . }
+  pe:fact "digital-product-passport.n3".
+
+{ :BatteryPack-01 :replaceable true . }
+  pe:fact "digital-product-passport.n3".
+
+{ :Passport-ACME-X1000-SN123 :describesProduct :ACME-X1000-SN123 . }
+  pe:fact "digital-product-passport.n3".
+
+{ :Passport-ACME-X1000-SN123 :hasDocument :Doc-SpareParts . }
+  pe:fact "digital-product-passport.n3".
+
+{ :Doc-SpareParts :docType :SparePartsCatalog . }
+  pe:fact "digital-product-passport.n3".
+
+{ :ACME-X1000-SN123 :containsCriticalRawMaterial true . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "C"; pe:value :BatteryPack-01 ],
+    [ pe:var "M"; pe:value :Lithium ],
+    [ pe:var "P"; pe:value :ACME-X1000-SN123 ];
+  pe:uses
+    { :ACME-X1000-SN123 :hasComponent :BatteryPack-01 . },
+    { :BatteryPack-01 :containsMaterial :Lithium . },
+    { :Lithium :criticalRawMaterial true . }.
+
+{ :BatteryPack-01 :containsMaterial :Lithium . }
+  pe:fact "digital-product-passport.n3".
+
+{ :Lithium :criticalRawMaterial true . }
+  pe:fact "digital-product-passport.n3".
+
+{ :ACME-X1000-SN123 :lifecycleFootprint_gCO2e 52500 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "P"; pe:value :ACME-X1000-SN123 ],
+    [ pe:var "a"; pe:value 32000 ],
+    [ pe:var "ab"; pe:value 34500 ],
+    [ pe:var "b"; pe:value 2500 ],
+    [ pe:var "c"; pe:value 18000 ],
+    [ pe:var "tot"; pe:value 52500 ];
+  pe:uses
+    { :ACME-X1000-SN123 :mfgFootprint_gCO2e 32000 . },
+    { :ACME-X1000-SN123 :transportFootprint_gCO2e 2500 . },
+    { :ACME-X1000-SN123 :usePhaseFootprint_gCO2e 18000 . },
+    { (32000 2500) math:sum 34500 . },
+    { (34500 18000) math:sum 52500 . }.
+
+{ :ACME-X1000-SN123 :mfgFootprint_gCO2e 32000 . }
+  pe:fact "digital-product-passport.n3".
+
+{ :ACME-X1000-SN123 :transportFootprint_gCO2e 2500 . }
+  pe:fact "digital-product-passport.n3".
+
+{ :ACME-X1000-SN123 :usePhaseFootprint_gCO2e 18000 . }
+  pe:fact "digital-product-passport.n3".
+
+{ (32000 2500) math:sum 34500 . }
+  pe:builtin math:sum.
+
+{ (34500 18000) math:sum 52500 . }
+  pe:builtin math:sum.
+
+{ :ACME-X1000-SN123 :totalMassG 105 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value (:BatteryPack-01 :Chassis-01 :Mainboard-01) ],
+    [ pe:var "P"; pe:value :ACME-X1000-SN123 ],
+    [ pe:var "mTot"; pe:value 105 ],
+    [ pe:var "rTot"; pe:value 14 ];
+  pe:uses
+    { :ACME-X1000-SN123 :componentList (:BatteryPack-01 :Chassis-01 :Mainboard-01) . },
+    { (:BatteryPack-01 :Chassis-01 :Mainboard-01) :sumMassG 105 . },
+    { (:BatteryPack-01 :Chassis-01 :Mainboard-01) :sumRecycledG 14 . }.
+
+{ :ACME-X1000-SN123 :componentList (:BatteryPack-01 :Chassis-01 :Mainboard-01) . }
+  pe:fact "digital-product-passport.n3".
+
+{ (:BatteryPack-01 :Chassis-01 :Mainboard-01) :sumMassG 105 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :BatteryPack-01 ],
+    [ pe:var "L"; pe:value (:BatteryPack-01 :Chassis-01 :Mainboard-01) ],
+    [ pe:var "Rest"; pe:value (:Chassis-01 :Mainboard-01) ],
+    [ pe:var "m"; pe:value 48 ],
+    [ pe:var "mRest"; pe:value 57 ],
+    [ pe:var "mTot"; pe:value 105 ];
+  pe:uses
+    { (:BatteryPack-01 :Chassis-01 :Mainboard-01) list:firstRest (:BatteryPack-01 (:Chassis-01 :Mainboard-01)) . },
+    { :BatteryPack-01 :massG 48 . },
+    { (:Chassis-01 :Mainboard-01) :sumMassG 57 . },
+    { (48 57) math:sum 105 . }.
+
+{ (:BatteryPack-01 :Chassis-01 :Mainboard-01) list:firstRest (:BatteryPack-01 (:Chassis-01 :Mainboard-01)) . }
+  pe:builtin list:firstRest.
+
+{ :BatteryPack-01 :massG 48 . }
+  pe:fact "digital-product-passport.n3".
+
+{ (:Chassis-01 :Mainboard-01) :sumMassG 57 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :Chassis-01 ],
+    [ pe:var "L"; pe:value (:Chassis-01 :Mainboard-01) ],
+    [ pe:var "Rest"; pe:value (:Mainboard-01) ],
+    [ pe:var "m"; pe:value 32 ],
+    [ pe:var "mRest"; pe:value 25 ],
+    [ pe:var "mTot"; pe:value 57 ];
+  pe:uses
+    { (:Chassis-01 :Mainboard-01) list:firstRest (:Chassis-01 (:Mainboard-01)) . },
+    { :Chassis-01 :massG 32 . },
+    { (:Mainboard-01) :sumMassG 25 . },
+    { (32 25) math:sum 57 . }.
+
+{ (:Chassis-01 :Mainboard-01) list:firstRest (:Chassis-01 (:Mainboard-01)) . }
+  pe:builtin list:firstRest.
+
+{ :Chassis-01 :massG 32 . }
+  pe:fact "digital-product-passport.n3".
+
+{ (:Mainboard-01) :sumMassG 25 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :Mainboard-01 ],
+    [ pe:var "L"; pe:value (:Mainboard-01) ],
+    [ pe:var "Rest"; pe:value () ],
+    [ pe:var "m"; pe:value 25 ],
+    [ pe:var "mRest"; pe:value 0 ],
+    [ pe:var "mTot"; pe:value 25 ];
+  pe:uses
+    { (:Mainboard-01) list:firstRest (:Mainboard-01 ()) . },
+    { :Mainboard-01 :massG 25 . },
+    { () :sumMassG 0 . },
+    { (25 0) math:sum 25 . }.
+
+{ (:Mainboard-01) list:firstRest (:Mainboard-01 ()) . }
+  pe:builtin list:firstRest.
+
+{ :Mainboard-01 :massG 25 . }
+  pe:fact "digital-product-passport.n3".
+
+{ () :sumMassG 0 . }
+  pe:rule 1.
+
+{ (25 0) math:sum 25 . }
+  pe:builtin math:sum.
+
+{ (32 25) math:sum 57 . }
+  pe:builtin math:sum.
+
+{ (48 57) math:sum 105 . }
+  pe:builtin math:sum.
+
+{ (:BatteryPack-01 :Chassis-01 :Mainboard-01) :sumRecycledG 14 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :BatteryPack-01 ],
+    [ pe:var "L"; pe:value (:BatteryPack-01 :Chassis-01 :Mainboard-01) ],
+    [ pe:var "Rest"; pe:value (:Chassis-01 :Mainboard-01) ],
+    [ pe:var "r"; pe:value 0 ],
+    [ pe:var "rRest"; pe:value 14 ],
+    [ pe:var "rTot"; pe:value 14 ];
+  pe:uses
+    { (:BatteryPack-01 :Chassis-01 :Mainboard-01) list:firstRest (:BatteryPack-01 (:Chassis-01 :Mainboard-01)) . },
+    { :BatteryPack-01 :recycledMassG 0 . },
+    { (:Chassis-01 :Mainboard-01) :sumRecycledG 14 . },
+    { (0 14) math:sum 14 . }.
+
+{ :BatteryPack-01 :recycledMassG 0 . }
+  pe:fact "digital-product-passport.n3".
+
+{ (:Chassis-01 :Mainboard-01) :sumRecycledG 14 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :Chassis-01 ],
+    [ pe:var "L"; pe:value (:Chassis-01 :Mainboard-01) ],
+    [ pe:var "Rest"; pe:value (:Mainboard-01) ],
+    [ pe:var "r"; pe:value 12 ],
+    [ pe:var "rRest"; pe:value 2 ],
+    [ pe:var "rTot"; pe:value 14 ];
+  pe:uses
+    { (:Chassis-01 :Mainboard-01) list:firstRest (:Chassis-01 (:Mainboard-01)) . },
+    { :Chassis-01 :recycledMassG 12 . },
+    { (:Mainboard-01) :sumRecycledG 2 . },
+    { (12 2) math:sum 14 . }.
+
+{ :Chassis-01 :recycledMassG 12 . }
+  pe:fact "digital-product-passport.n3".
+
+{ (:Mainboard-01) :sumRecycledG 2 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :Mainboard-01 ],
+    [ pe:var "L"; pe:value (:Mainboard-01) ],
+    [ pe:var "Rest"; pe:value () ],
+    [ pe:var "r"; pe:value 2 ],
+    [ pe:var "rRest"; pe:value 0 ],
+    [ pe:var "rTot"; pe:value 2 ];
+  pe:uses
+    { (:Mainboard-01) list:firstRest (:Mainboard-01 ()) . },
+    { :Mainboard-01 :recycledMassG 2 . },
+    { () :sumRecycledG 0 . },
+    { (2 0) math:sum 2 . }.
+
+{ :Mainboard-01 :recycledMassG 2 . }
+  pe:fact "digital-product-passport.n3".
+
+{ () :sumRecycledG 0 . }
+  pe:rule 2.
+
+{ (2 0) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ (12 2) math:sum 14 . }
+  pe:builtin math:sum.
+
+{ (0 14) math:sum 14 . }
+  pe:builtin math:sum.
+
+{ :ACME-X1000-SN123 :recycledMassG 14 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value (:BatteryPack-01 :Chassis-01 :Mainboard-01) ],
+    [ pe:var "P"; pe:value :ACME-X1000-SN123 ],
+    [ pe:var "mTot"; pe:value 105 ],
+    [ pe:var "rTot"; pe:value 14 ];
+  pe:uses
+    { :ACME-X1000-SN123 :componentList (:BatteryPack-01 :Chassis-01 :Mainboard-01) . },
+    { (:BatteryPack-01 :Chassis-01 :Mainboard-01) :sumMassG 105 . },
+    { (:BatteryPack-01 :Chassis-01 :Mainboard-01) :sumRecycledG 14 . }.
+
+{ :ACME-X1000-SN123 :recycledContentPct 13 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "P"; pe:value :ACME-X1000-SN123 ],
+    [ pe:var "mTot"; pe:value 105 ],
+    [ pe:var "pct"; pe:value 13 ],
+    [ pe:var "r100"; pe:value 1400 ],
+    [ pe:var "rTot"; pe:value 14 ];
+  pe:uses
+    { :ACME-X1000-SN123 :totalMassG 105 . },
+    { :ACME-X1000-SN123 :recycledMassG 14 . },
+    { (14 100) math:product 1400 . },
+    { (1400 105) math:integerQuotient 13 . }.
+
+{ (14 100) math:product 1400 . }
+  pe:builtin math:product.
+
+{ (1400 105) math:integerQuotient 13 . }
+  pe:builtin math:integerQuotient.
+
+{ :ACME-X1000-SN123 log:outputString "ACME X1000 SN123 | recycled=13% | lifecycle=52500 gCO2e | CRM=true | hint=http://example.org/dpp#repairFriendly\n" . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "P"; pe:value :ACME-X1000-SN123 ],
+    [ pe:var "co2"; pe:value 52500 ],
+    [ pe:var "crm"; pe:value true ],
+    [ pe:var "hint"; pe:value :repairFriendly ],
+    [ pe:var "line"; pe:value "ACME X1000 SN123 | recycled=13% | lifecycle=52500 gCO2e | CRM=true | hint=http://example.org/dpp#repairFriendly\n" ],
+    [ pe:var "model"; pe:value "ACME X1000" ],
+    [ pe:var "pct"; pe:value 13 ],
+    [ pe:var "sn"; pe:value "SN123" ];
+  pe:uses
+    { :ACME-X1000-SN123 :model "ACME X1000" . },
+    { :ACME-X1000-SN123 :serialNumber "SN123" . },
+    { :ACME-X1000-SN123 :recycledContentPct 13 . },
+    { :ACME-X1000-SN123 :lifecycleFootprint_gCO2e 52500 . },
+    { :ACME-X1000-SN123 :containsCriticalRawMaterial true . },
+    { :ACME-X1000-SN123 :circularityHint :repairFriendly . },
+    { ("%s %s | recycled=%s%% | lifecycle=%s gCO2e | CRM=%s | hint=%s\n" "ACME X1000" "SN123" 13 52500 true :repairFriendly) string:format "ACME X1000 SN123 | recycled=13% | lifecycle=52500 gCO2e | CRM=true | hint=http://example.org/dpp#repairFriendly\n" . }.
+
+{ :ACME-X1000-SN123 :model "ACME X1000" . }
+  pe:fact "digital-product-passport.n3".
+
+{ :ACME-X1000-SN123 :serialNumber "SN123" . }
+  pe:fact "digital-product-passport.n3".
+
+{ ("%s %s | recycled=%s%% | lifecycle=%s gCO2e | CRM=%s | hint=%s\n" "ACME X1000" "SN123" 13 52500 true :repairFriendly) string:format "ACME X1000 SN123 | recycled=13% | lifecycle=52500 gCO2e | CRM=true | hint=http://example.org/dpp#repairFriendly\n" . }
+  pe:builtin string:format.

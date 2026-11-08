@@ -1,0 +1,1679 @@
+@prefix : <http://example.org/stability#> .
+@prefix complex: <http://example.org/complex#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:Id :stableInWorld :W0 .
+:DampedDiag :stableInWorld :W0 .
+:Rotation :stableInWorld :W0 .
+:Id :stableInWorld :W1 .
+:DampedDiag :stableInWorld :W1 .
+:Rotation :stableInWorld :W1 .
+:Id :stableInWorld :W2 .
+:DampedDiag :stableInWorld :W2 .
+:Rotation :stableInWorld :W2 .
+:DampedDiag :dampedInWorld :W0 .
+:DampedDiag :dampedInWorld :W1 .
+:DampedDiag :dampedInWorld :W2 .
+:Rotation :dampedInWorld :W2 .
+
+{ :Id :stableInWorld :W0 . }
+  pe:rule 20;
+  pe:binding
+    [ pe:var "A"; pe:value :Id ],
+    [ pe:var "rho"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Id :spectralRadius "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:notGreaterThan 1.0 . }.
+
+{ :Id :spectralRadius "1"^^xsd:decimal . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "A"; pe:value :Id ],
+    [ pe:var "lam1i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "lam1r"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "lam2i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "lam2r"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "r1"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "r2"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Id :lambda1 ("1"^^xsd:decimal "0"^^xsd:decimal) . },
+    { :Id :lambda2 ("1"^^xsd:decimal "0"^^xsd:decimal) . },
+    { ("1"^^xsd:decimal "0"^^xsd:decimal) complex:abs "1"^^xsd:decimal . },
+    { ("1"^^xsd:decimal "0"^^xsd:decimal) complex:abs "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:notLessThan "1"^^xsd:decimal . }.
+
+{ :Id :lambda1 ("1"^^xsd:decimal "0"^^xsd:decimal) . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "A"; pe:value :Id ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 1 ],
+    [ pe:var "a12i"; pe:value 0 ],
+    [ pe:var "a12r"; pe:value 0 ],
+    [ pe:var "a21i"; pe:value 0 ],
+    [ pe:var "a21r"; pe:value 0 ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 1 ],
+    [ pe:var "det4i"; pe:value 0 ],
+    [ pe:var "det4r"; pe:value 4 ],
+    [ pe:var "deti"; pe:value 0 ],
+    [ pe:var "detr"; pe:value 1 ],
+    [ pe:var "disci"; pe:value 0 ],
+    [ pe:var "discr"; pe:value 0 ],
+    [ pe:var "lam1i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "lam1r"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "p_i"; pe:value 0 ],
+    [ pe:var "p_r"; pe:value 1 ],
+    [ pe:var "q_i"; pe:value 0 ],
+    [ pe:var "q_r"; pe:value 0 ],
+    [ pe:var "rooti"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "rootr"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "sum1i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "sum1r"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "tr2i"; pe:value 0 ],
+    [ pe:var "tr2r"; pe:value 4 ],
+    [ pe:var "tri"; pe:value 0 ],
+    [ pe:var "trr"; pe:value 2 ];
+  pe:uses
+    { :Id a :Matrix2x2 . },
+    { :Id :a11 (1 0) . },
+    { :Id :a12 (0 0) . },
+    { :Id :a21 (0 0) . },
+    { :Id :a22 (1 0) . },
+    { ((1 0) (1 0)) complex:sum (2 0) . },
+    { ((1 0) (1 0)) complex:product (1 0) . },
+    { ((0 0) (0 0)) complex:product (0 0) . },
+    { ((1 0) (0 0)) complex:difference (1 0) . },
+    { ((2 0) (2 0)) complex:product (4 0) . },
+    { ((4 0) (1 0)) complex:product (4 0) . },
+    { ((4 0) (4 0)) complex:difference (0 0) . },
+    { (0 0) complex:sqrt ("0"^^xsd:decimal "0"^^xsd:decimal) . },
+    { ((2 0) ("0"^^xsd:decimal "0"^^xsd:decimal)) complex:sum ("2"^^xsd:decimal "0"^^xsd:decimal) . },
+    { (("2"^^xsd:decimal "0"^^xsd:decimal) 0.5) complex:scale ("1"^^xsd:decimal "0"^^xsd:decimal) . }.
+
+{ :Id a :Matrix2x2 . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :Id :a11 (1 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :Id :a12 (0 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :Id :a21 (0 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :Id :a22 (1 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ ((1 0) (1 0)) complex:sum (2 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 1 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 1 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value 2 ];
+  pe:uses
+    { (1 1) math:sum 2 . },
+    { (0 0) math:sum 0 . }.
+
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ (0 0) math:sum 0 . }
+  pe:builtin math:sum.
+
+{ ((1 0) (1 0)) complex:product (1 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 1 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 1 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value 1 ],
+    [ pe:var "P1"; pe:value 1 ],
+    [ pe:var "P2"; pe:value 0 ],
+    [ pe:var "P3"; pe:value 0 ],
+    [ pe:var "P4"; pe:value 0 ];
+  pe:uses
+    { (1 1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:difference 1 . },
+    { (1 0) math:product 0 . },
+    { (0 1) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (1 1) math:product 1 . }
+  pe:builtin math:product.
+
+{ (0 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ (1 0) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (1 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ (0 1) math:product 0 . }
+  pe:builtin math:product.
+
+{ ((0 0) (0 0)) complex:product (0 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 0 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 0 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value 0 ],
+    [ pe:var "P1"; pe:value 0 ],
+    [ pe:var "P2"; pe:value 0 ],
+    [ pe:var "P3"; pe:value 0 ],
+    [ pe:var "P4"; pe:value 0 ];
+  pe:uses
+    { (0 0) math:product 0 . },
+    { (0 0) math:product 0 . },
+    { (0 0) math:difference 0 . },
+    { (0 0) math:product 0 . },
+    { (0 0) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (0 0) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ ((1 0) (0 0)) complex:difference (1 0) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 1 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 0 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value 1 ];
+  pe:uses
+    { (1 0) math:difference 1 . },
+    { (0 0) math:difference 0 . }.
+
+{ ((2 0) (2 0)) complex:product (4 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 2 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 2 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value 4 ],
+    [ pe:var "P1"; pe:value 4 ],
+    [ pe:var "P2"; pe:value 0 ],
+    [ pe:var "P3"; pe:value 0 ],
+    [ pe:var "P4"; pe:value 0 ];
+  pe:uses
+    { (2 2) math:product 4 . },
+    { (0 0) math:product 0 . },
+    { (4 0) math:difference 4 . },
+    { (2 0) math:product 0 . },
+    { (0 2) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (2 2) math:product 4 . }
+  pe:builtin math:product.
+
+{ (4 0) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ (2 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ (0 2) math:product 0 . }
+  pe:builtin math:product.
+
+{ ((4 0) (1 0)) complex:product (4 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 4 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 1 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value 4 ],
+    [ pe:var "P1"; pe:value 4 ],
+    [ pe:var "P2"; pe:value 0 ],
+    [ pe:var "P3"; pe:value 0 ],
+    [ pe:var "P4"; pe:value 0 ];
+  pe:uses
+    { (4 1) math:product 4 . },
+    { (0 0) math:product 0 . },
+    { (4 0) math:difference 4 . },
+    { (4 0) math:product 0 . },
+    { (0 1) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (4 1) math:product 4 . }
+  pe:builtin math:product.
+
+{ (4 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ ((4 0) (4 0)) complex:difference (0 0) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 4 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 4 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value 0 ];
+  pe:uses
+    { (4 4) math:difference 0 . },
+    { (0 0) math:difference 0 . }.
+
+{ (4 4) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ (0 0) complex:sqrt ("0"^^xsd:decimal "0"^^xsd:decimal) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "R"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "R2"; pe:value 0 ],
+    [ pe:var "Sgn"; pe:value 1 ],
+    [ pe:var "TmpU1"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "TmpU2"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "TmpV1"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "TmpV2"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "U"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "V"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Vabs"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "X"; pe:value 0 ],
+    [ pe:var "X2"; pe:value 0 ],
+    [ pe:var "Y"; pe:value 0 ],
+    [ pe:var "Y2"; pe:value 0 ];
+  pe:uses
+    { (0 2) math:exponentiation 0 . },
+    { (0 2) math:exponentiation 0 . },
+    { (0 0) math:sum 0 . },
+    { (0 0.5) math:exponentiation "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 0) math:sum "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 2) math:quotient "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 0.5) math:exponentiation "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 0) math:difference "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 2) math:quotient "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 0.5) math:exponentiation "0"^^xsd:decimal . },
+    { 0 complex:sign 1 . },
+    { (1 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . }.
+
+{ (0 2) math:exponentiation 0 . }
+  pe:builtin math:exponentiation.
+
+{ (0 0.5) math:exponentiation "0"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ ("0"^^xsd:decimal 0) math:sum "0"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ ("0"^^xsd:decimal 2) math:quotient "0"^^xsd:decimal . }
+  pe:builtin math:quotient.
+
+{ ("0"^^xsd:decimal 0.5) math:exponentiation "0"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ ("0"^^xsd:decimal 0) math:difference "0"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ 0 complex:sign 1 . }
+  pe:rule 6;
+  pe:binding [ pe:var "Y"; pe:value 0 ];
+  pe:uses { 0 math:notLessThan 0 . }.
+
+{ 0 math:notLessThan 0 . }
+  pe:builtin math:notLessThan.
+
+{ (1 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ((2 0) ("0"^^xsd:decimal "0"^^xsd:decimal)) complex:sum ("2"^^xsd:decimal "0"^^xsd:decimal) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 2 ],
+    [ pe:var "Bi"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Br"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value "2"^^xsd:decimal ];
+  pe:uses
+    { (2 "0"^^xsd:decimal) math:sum "2"^^xsd:decimal . },
+    { (0 "0"^^xsd:decimal) math:sum "0"^^xsd:decimal . }.
+
+{ (2 "0"^^xsd:decimal) math:sum "2"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ (0 "0"^^xsd:decimal) math:sum "0"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ (("2"^^xsd:decimal "0"^^xsd:decimal) 0.5) complex:scale ("1"^^xsd:decimal "0"^^xsd:decimal) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Ai"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ar"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "S"; pe:value 0.5 ];
+  pe:uses
+    { ("2"^^xsd:decimal 0.5) math:product "1"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 0.5) math:product "0"^^xsd:decimal . }.
+
+{ ("2"^^xsd:decimal 0.5) math:product "1"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ("0"^^xsd:decimal 0.5) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :Id :lambda2 ("1"^^xsd:decimal "0"^^xsd:decimal) . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "A"; pe:value :Id ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 1 ],
+    [ pe:var "a12i"; pe:value 0 ],
+    [ pe:var "a12r"; pe:value 0 ],
+    [ pe:var "a21i"; pe:value 0 ],
+    [ pe:var "a21r"; pe:value 0 ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 1 ],
+    [ pe:var "det4i"; pe:value 0 ],
+    [ pe:var "det4r"; pe:value 4 ],
+    [ pe:var "deti"; pe:value 0 ],
+    [ pe:var "detr"; pe:value 1 ],
+    [ pe:var "disci"; pe:value 0 ],
+    [ pe:var "discr"; pe:value 0 ],
+    [ pe:var "lam2i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "lam2r"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "p_i"; pe:value 0 ],
+    [ pe:var "p_r"; pe:value 1 ],
+    [ pe:var "q_i"; pe:value 0 ],
+    [ pe:var "q_r"; pe:value 0 ],
+    [ pe:var "rooti"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "rootr"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "sum2i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "sum2r"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "tr2i"; pe:value 0 ],
+    [ pe:var "tr2r"; pe:value 4 ],
+    [ pe:var "tri"; pe:value 0 ],
+    [ pe:var "trr"; pe:value 2 ];
+  pe:uses
+    { :Id a :Matrix2x2 . },
+    { :Id :a11 (1 0) . },
+    { :Id :a12 (0 0) . },
+    { :Id :a21 (0 0) . },
+    { :Id :a22 (1 0) . },
+    { ((1 0) (1 0)) complex:sum (2 0) . },
+    { ((1 0) (1 0)) complex:product (1 0) . },
+    { ((0 0) (0 0)) complex:product (0 0) . },
+    { ((1 0) (0 0)) complex:difference (1 0) . },
+    { ((2 0) (2 0)) complex:product (4 0) . },
+    { ((4 0) (1 0)) complex:product (4 0) . },
+    { ((4 0) (4 0)) complex:difference (0 0) . },
+    { (0 0) complex:sqrt ("0"^^xsd:decimal "0"^^xsd:decimal) . },
+    { ((2 0) ("0"^^xsd:decimal "0"^^xsd:decimal)) complex:difference ("2"^^xsd:decimal "0"^^xsd:decimal) . },
+    { (("2"^^xsd:decimal "0"^^xsd:decimal) 0.5) complex:scale ("1"^^xsd:decimal "0"^^xsd:decimal) . }.
+
+{ ((2 0) ("0"^^xsd:decimal "0"^^xsd:decimal)) complex:difference ("2"^^xsd:decimal "0"^^xsd:decimal) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 2 ],
+    [ pe:var "Bi"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Br"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value "2"^^xsd:decimal ];
+  pe:uses
+    { (2 "0"^^xsd:decimal) math:difference "2"^^xsd:decimal . },
+    { (0 "0"^^xsd:decimal) math:difference "0"^^xsd:decimal . }.
+
+{ (2 "0"^^xsd:decimal) math:difference "2"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ (0 "0"^^xsd:decimal) math:difference "0"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ ("1"^^xsd:decimal "0"^^xsd:decimal) complex:abs "1"^^xsd:decimal . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "R"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "R2"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "X"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "X2"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "Y"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Y2"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { ("1"^^xsd:decimal 2) math:exponentiation "1"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 2) math:exponentiation "0"^^xsd:decimal . },
+    { ("1"^^xsd:decimal "0"^^xsd:decimal) math:sum "1"^^xsd:decimal . },
+    { ("1"^^xsd:decimal 0.5) math:exponentiation "1"^^xsd:decimal . }.
+
+{ ("1"^^xsd:decimal 2) math:exponentiation "1"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ ("0"^^xsd:decimal 2) math:exponentiation "0"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ ("1"^^xsd:decimal "0"^^xsd:decimal) math:sum "1"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ ("1"^^xsd:decimal 0.5) math:exponentiation "1"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ "1"^^xsd:decimal math:notLessThan "1"^^xsd:decimal . }
+  pe:builtin math:notLessThan.
+
+{ "1"^^xsd:decimal math:notGreaterThan 1.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :DampedDiag :stableInWorld :W0 . }
+  pe:rule 20;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "rho"; pe:value 0.8000000000000006 ];
+  pe:uses
+    { :DampedDiag :spectralRadius 0.8000000000000006 . },
+    { 0.8000000000000006 math:notGreaterThan 1.0 . }.
+
+{ :DampedDiag :spectralRadius 0.8000000000000006 . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "lam1i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "lam1r"; pe:value 0.8000000000000006 ],
+    [ pe:var "lam2i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "lam2r"; pe:value 0.6999999999999994 ],
+    [ pe:var "r1"; pe:value 0.8000000000000006 ],
+    [ pe:var "r2"; pe:value 0.6999999999999994 ];
+  pe:uses
+    { :DampedDiag :lambda1 (0.8000000000000006 "0"^^xsd:decimal) . },
+    { :DampedDiag :lambda2 (0.6999999999999994 "0"^^xsd:decimal) . },
+    { (0.8000000000000006 "0"^^xsd:decimal) complex:abs 0.8000000000000006 . },
+    { (0.6999999999999994 "0"^^xsd:decimal) complex:abs 0.6999999999999994 . },
+    { 0.8000000000000006 math:notLessThan 0.6999999999999994 . }.
+
+{ :DampedDiag :lambda1 (0.8000000000000006 "0"^^xsd:decimal) . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 0.8 ],
+    [ pe:var "a12i"; pe:value 0 ],
+    [ pe:var "a12r"; pe:value 0 ],
+    [ pe:var "a21i"; pe:value 0 ],
+    [ pe:var "a21r"; pe:value 0 ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 0.7 ],
+    [ pe:var "det4i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "det4r"; pe:value 2.2399999999999998 ],
+    [ pe:var "deti"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "detr"; pe:value 0.5599999999999999 ],
+    [ pe:var "disci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "discr"; pe:value 0.010000000000000231 ],
+    [ pe:var "lam1i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "lam1r"; pe:value 0.8000000000000006 ],
+    [ pe:var "p_i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "p_r"; pe:value 0.5599999999999999 ],
+    [ pe:var "q_i"; pe:value 0 ],
+    [ pe:var "q_r"; pe:value 0 ],
+    [ pe:var "rooti"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "rootr"; pe:value 0.10000000000000116 ],
+    [ pe:var "sum1i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "sum1r"; pe:value 1.6000000000000012 ],
+    [ pe:var "tr2i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "tr2r"; pe:value 2.25 ],
+    [ pe:var "tri"; pe:value 0 ],
+    [ pe:var "trr"; pe:value 1.5 ];
+  pe:uses
+    { :DampedDiag a :Matrix2x2 . },
+    { :DampedDiag :a11 (0.8 0) . },
+    { :DampedDiag :a12 (0 0) . },
+    { :DampedDiag :a21 (0 0) . },
+    { :DampedDiag :a22 (0.7 0) . },
+    { ((0.8 0) (0.7 0)) complex:sum (1.5 0) . },
+    { ((0.8 0) (0.7 0)) complex:product (0.5599999999999999 "0"^^xsd:decimal) . },
+    { ((0 0) (0 0)) complex:product (0 0) . },
+    { ((0.5599999999999999 "0"^^xsd:decimal) (0 0)) complex:difference (0.5599999999999999 "0"^^xsd:decimal) . },
+    { ((1.5 0) (1.5 0)) complex:product (2.25 "0"^^xsd:decimal) . },
+    { ((4 0) (0.5599999999999999 "0"^^xsd:decimal)) complex:product (2.2399999999999998 "0"^^xsd:decimal) . },
+    { ((2.25 "0"^^xsd:decimal) (2.2399999999999998 "0"^^xsd:decimal)) complex:difference (0.010000000000000231 "0"^^xsd:decimal) . },
+    { (0.010000000000000231 "0"^^xsd:decimal) complex:sqrt (0.10000000000000116 "0"^^xsd:decimal) . },
+    { ((1.5 0) (0.10000000000000116 "0"^^xsd:decimal)) complex:sum (1.6000000000000012 "0"^^xsd:decimal) . },
+    { ((1.6000000000000012 "0"^^xsd:decimal) 0.5) complex:scale (0.8000000000000006 "0"^^xsd:decimal) . }.
+
+{ :DampedDiag a :Matrix2x2 . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :DampedDiag :a11 (0.8 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :DampedDiag :a12 (0 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :DampedDiag :a21 (0 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :DampedDiag :a22 (0.7 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ ((0.8 0) (0.7 0)) complex:sum (1.5 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 0.8 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 0.7 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value 1.5 ];
+  pe:uses
+    { (0.8 0.7) math:sum 1.5 . },
+    { (0 0) math:sum 0 . }.
+
+{ (0.8 0.7) math:sum 1.5 . }
+  pe:builtin math:sum.
+
+{ ((0.8 0) (0.7 0)) complex:product (0.5599999999999999 "0"^^xsd:decimal) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 0.8 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 0.7 ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value 0.5599999999999999 ],
+    [ pe:var "P1"; pe:value 0.5599999999999999 ],
+    [ pe:var "P2"; pe:value 0 ],
+    [ pe:var "P3"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "P4"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { (0.8 0.7) math:product 0.5599999999999999 . },
+    { (0 0) math:product 0 . },
+    { (0.5599999999999999 0) math:difference 0.5599999999999999 . },
+    { (0.8 0) math:product "0"^^xsd:decimal . },
+    { (0 0.7) math:product "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal "0"^^xsd:decimal) math:sum "0"^^xsd:decimal . }.
+
+{ (0.8 0.7) math:product 0.5599999999999999 . }
+  pe:builtin math:product.
+
+{ (0.5599999999999999 0) math:difference 0.5599999999999999 . }
+  pe:builtin math:difference.
+
+{ (0.8 0) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ (0 0.7) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ("0"^^xsd:decimal "0"^^xsd:decimal) math:sum "0"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ ((0.5599999999999999 "0"^^xsd:decimal) (0 0)) complex:difference (0.5599999999999999 "0"^^xsd:decimal) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Ai"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ar"; pe:value 0.5599999999999999 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 0 ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value 0.5599999999999999 ];
+  pe:uses
+    { (0.5599999999999999 0) math:difference 0.5599999999999999 . },
+    { ("0"^^xsd:decimal 0) math:difference "0"^^xsd:decimal . }.
+
+{ ((1.5 0) (1.5 0)) complex:product (2.25 "0"^^xsd:decimal) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 1.5 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 1.5 ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value 2.25 ],
+    [ pe:var "P1"; pe:value 2.25 ],
+    [ pe:var "P2"; pe:value 0 ],
+    [ pe:var "P3"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "P4"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { (1.5 1.5) math:product 2.25 . },
+    { (0 0) math:product 0 . },
+    { (2.25 0) math:difference 2.25 . },
+    { (1.5 0) math:product "0"^^xsd:decimal . },
+    { (0 1.5) math:product "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal "0"^^xsd:decimal) math:sum "0"^^xsd:decimal . }.
+
+{ (1.5 1.5) math:product 2.25 . }
+  pe:builtin math:product.
+
+{ (2.25 0) math:difference 2.25 . }
+  pe:builtin math:difference.
+
+{ (1.5 0) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ (0 1.5) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ((4 0) (0.5599999999999999 "0"^^xsd:decimal)) complex:product (2.2399999999999998 "0"^^xsd:decimal) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 4 ],
+    [ pe:var "Bi"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Br"; pe:value 0.5599999999999999 ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value 2.2399999999999998 ],
+    [ pe:var "P1"; pe:value 2.2399999999999998 ],
+    [ pe:var "P2"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "P3"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "P4"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { (4 0.5599999999999999) math:product 2.2399999999999998 . },
+    { (0 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . },
+    { (2.2399999999999998 "0"^^xsd:decimal) math:difference 2.2399999999999998 . },
+    { (4 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . },
+    { (0 0.5599999999999999) math:product "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal "0"^^xsd:decimal) math:sum "0"^^xsd:decimal . }.
+
+{ (4 0.5599999999999999) math:product 2.2399999999999998 . }
+  pe:builtin math:product.
+
+{ (0 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ (2.2399999999999998 "0"^^xsd:decimal) math:difference 2.2399999999999998 . }
+  pe:builtin math:difference.
+
+{ (4 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ (0 0.5599999999999999) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ((2.25 "0"^^xsd:decimal) (2.2399999999999998 "0"^^xsd:decimal)) complex:difference (0.010000000000000231 "0"^^xsd:decimal) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Ai"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ar"; pe:value 2.25 ],
+    [ pe:var "Bi"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Br"; pe:value 2.2399999999999998 ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value 0.010000000000000231 ];
+  pe:uses
+    { (2.25 2.2399999999999998) math:difference 0.010000000000000231 . },
+    { ("0"^^xsd:decimal "0"^^xsd:decimal) math:difference "0"^^xsd:decimal . }.
+
+{ (2.25 2.2399999999999998) math:difference 0.010000000000000231 . }
+  pe:builtin math:difference.
+
+{ ("0"^^xsd:decimal "0"^^xsd:decimal) math:difference "0"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ (0.010000000000000231 "0"^^xsd:decimal) complex:sqrt (0.10000000000000116 "0"^^xsd:decimal) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "R"; pe:value 0.010000000000000231 ],
+    [ pe:var "R2"; pe:value 0.00010000000000000461 ],
+    [ pe:var "Sgn"; pe:value 1 ],
+    [ pe:var "TmpU1"; pe:value 0.020000000000000462 ],
+    [ pe:var "TmpU2"; pe:value 0.010000000000000231 ],
+    [ pe:var "TmpV1"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "TmpV2"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "U"; pe:value 0.10000000000000116 ],
+    [ pe:var "V"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Vabs"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "X"; pe:value 0.010000000000000231 ],
+    [ pe:var "X2"; pe:value 0.00010000000000000461 ],
+    [ pe:var "Y"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Y2"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { (0.010000000000000231 2) math:exponentiation 0.00010000000000000461 . },
+    { ("0"^^xsd:decimal 2) math:exponentiation "0"^^xsd:decimal . },
+    { (0.00010000000000000461 "0"^^xsd:decimal) math:sum 0.00010000000000000461 . },
+    { (0.00010000000000000461 0.5) math:exponentiation 0.010000000000000231 . },
+    { (0.010000000000000231 0.010000000000000231) math:sum 0.020000000000000462 . },
+    { (0.020000000000000462 2) math:quotient 0.010000000000000231 . },
+    { (0.010000000000000231 0.5) math:exponentiation 0.10000000000000116 . },
+    { (0.010000000000000231 0.010000000000000231) math:difference "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 2) math:quotient "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 0.5) math:exponentiation "0"^^xsd:decimal . },
+    { "0"^^xsd:decimal complex:sign 1 . },
+    { (1 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . }.
+
+{ (0.010000000000000231 2) math:exponentiation 0.00010000000000000461 . }
+  pe:builtin math:exponentiation.
+
+{ (0.00010000000000000461 "0"^^xsd:decimal) math:sum 0.00010000000000000461 . }
+  pe:builtin math:sum.
+
+{ (0.00010000000000000461 0.5) math:exponentiation 0.010000000000000231 . }
+  pe:builtin math:exponentiation.
+
+{ (0.010000000000000231 0.010000000000000231) math:sum 0.020000000000000462 . }
+  pe:builtin math:sum.
+
+{ (0.020000000000000462 2) math:quotient 0.010000000000000231 . }
+  pe:builtin math:quotient.
+
+{ (0.010000000000000231 0.5) math:exponentiation 0.10000000000000116 . }
+  pe:builtin math:exponentiation.
+
+{ (0.010000000000000231 0.010000000000000231) math:difference "0"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ "0"^^xsd:decimal complex:sign 1 . }
+  pe:rule 6;
+  pe:binding [ pe:var "Y"; pe:value "0"^^xsd:decimal ];
+  pe:uses { "0"^^xsd:decimal math:notLessThan 0 . }.
+
+{ "0"^^xsd:decimal math:notLessThan 0 . }
+  pe:builtin math:notLessThan.
+
+{ ((1.5 0) (0.10000000000000116 "0"^^xsd:decimal)) complex:sum (1.6000000000000012 "0"^^xsd:decimal) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 1.5 ],
+    [ pe:var "Bi"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Br"; pe:value 0.10000000000000116 ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value 1.6000000000000012 ];
+  pe:uses
+    { (1.5 0.10000000000000116) math:sum 1.6000000000000012 . },
+    { (0 "0"^^xsd:decimal) math:sum "0"^^xsd:decimal . }.
+
+{ (1.5 0.10000000000000116) math:sum 1.6000000000000012 . }
+  pe:builtin math:sum.
+
+{ ((1.6000000000000012 "0"^^xsd:decimal) 0.5) complex:scale (0.8000000000000006 "0"^^xsd:decimal) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Ai"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ar"; pe:value 1.6000000000000012 ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value 0.8000000000000006 ],
+    [ pe:var "S"; pe:value 0.5 ];
+  pe:uses
+    { (1.6000000000000012 0.5) math:product 0.8000000000000006 . },
+    { ("0"^^xsd:decimal 0.5) math:product "0"^^xsd:decimal . }.
+
+{ (1.6000000000000012 0.5) math:product 0.8000000000000006 . }
+  pe:builtin math:product.
+
+{ :DampedDiag :lambda2 (0.6999999999999994 "0"^^xsd:decimal) . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 0.8 ],
+    [ pe:var "a12i"; pe:value 0 ],
+    [ pe:var "a12r"; pe:value 0 ],
+    [ pe:var "a21i"; pe:value 0 ],
+    [ pe:var "a21r"; pe:value 0 ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 0.7 ],
+    [ pe:var "det4i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "det4r"; pe:value 2.2399999999999998 ],
+    [ pe:var "deti"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "detr"; pe:value 0.5599999999999999 ],
+    [ pe:var "disci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "discr"; pe:value 0.010000000000000231 ],
+    [ pe:var "lam2i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "lam2r"; pe:value 0.6999999999999994 ],
+    [ pe:var "p_i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "p_r"; pe:value 0.5599999999999999 ],
+    [ pe:var "q_i"; pe:value 0 ],
+    [ pe:var "q_r"; pe:value 0 ],
+    [ pe:var "rooti"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "rootr"; pe:value 0.10000000000000116 ],
+    [ pe:var "sum2i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "sum2r"; pe:value 1.3999999999999988 ],
+    [ pe:var "tr2i"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "tr2r"; pe:value 2.25 ],
+    [ pe:var "tri"; pe:value 0 ],
+    [ pe:var "trr"; pe:value 1.5 ];
+  pe:uses
+    { :DampedDiag a :Matrix2x2 . },
+    { :DampedDiag :a11 (0.8 0) . },
+    { :DampedDiag :a12 (0 0) . },
+    { :DampedDiag :a21 (0 0) . },
+    { :DampedDiag :a22 (0.7 0) . },
+    { ((0.8 0) (0.7 0)) complex:sum (1.5 0) . },
+    { ((0.8 0) (0.7 0)) complex:product (0.5599999999999999 "0"^^xsd:decimal) . },
+    { ((0 0) (0 0)) complex:product (0 0) . },
+    { ((0.5599999999999999 "0"^^xsd:decimal) (0 0)) complex:difference (0.5599999999999999 "0"^^xsd:decimal) . },
+    { ((1.5 0) (1.5 0)) complex:product (2.25 "0"^^xsd:decimal) . },
+    { ((4 0) (0.5599999999999999 "0"^^xsd:decimal)) complex:product (2.2399999999999998 "0"^^xsd:decimal) . },
+    { ((2.25 "0"^^xsd:decimal) (2.2399999999999998 "0"^^xsd:decimal)) complex:difference (0.010000000000000231 "0"^^xsd:decimal) . },
+    { (0.010000000000000231 "0"^^xsd:decimal) complex:sqrt (0.10000000000000116 "0"^^xsd:decimal) . },
+    { ((1.5 0) (0.10000000000000116 "0"^^xsd:decimal)) complex:difference (1.3999999999999988 "0"^^xsd:decimal) . },
+    { ((1.3999999999999988 "0"^^xsd:decimal) 0.5) complex:scale (0.6999999999999994 "0"^^xsd:decimal) . }.
+
+{ ((1.5 0) (0.10000000000000116 "0"^^xsd:decimal)) complex:difference (1.3999999999999988 "0"^^xsd:decimal) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 1.5 ],
+    [ pe:var "Bi"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Br"; pe:value 0.10000000000000116 ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value 1.3999999999999988 ];
+  pe:uses
+    { (1.5 0.10000000000000116) math:difference 1.3999999999999988 . },
+    { (0 "0"^^xsd:decimal) math:difference "0"^^xsd:decimal . }.
+
+{ (1.5 0.10000000000000116) math:difference 1.3999999999999988 . }
+  pe:builtin math:difference.
+
+{ ((1.3999999999999988 "0"^^xsd:decimal) 0.5) complex:scale (0.6999999999999994 "0"^^xsd:decimal) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Ai"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ar"; pe:value 1.3999999999999988 ],
+    [ pe:var "Ci"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value 0.6999999999999994 ],
+    [ pe:var "S"; pe:value 0.5 ];
+  pe:uses
+    { (1.3999999999999988 0.5) math:product 0.6999999999999994 . },
+    { ("0"^^xsd:decimal 0.5) math:product "0"^^xsd:decimal . }.
+
+{ (1.3999999999999988 0.5) math:product 0.6999999999999994 . }
+  pe:builtin math:product.
+
+{ (0.8000000000000006 "0"^^xsd:decimal) complex:abs 0.8000000000000006 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "R"; pe:value 0.8000000000000006 ],
+    [ pe:var "R2"; pe:value 0.640000000000001 ],
+    [ pe:var "X"; pe:value 0.8000000000000006 ],
+    [ pe:var "X2"; pe:value 0.640000000000001 ],
+    [ pe:var "Y"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Y2"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { (0.8000000000000006 2) math:exponentiation 0.640000000000001 . },
+    { ("0"^^xsd:decimal 2) math:exponentiation "0"^^xsd:decimal . },
+    { (0.640000000000001 "0"^^xsd:decimal) math:sum 0.640000000000001 . },
+    { (0.640000000000001 0.5) math:exponentiation 0.8000000000000006 . }.
+
+{ (0.8000000000000006 2) math:exponentiation 0.640000000000001 . }
+  pe:builtin math:exponentiation.
+
+{ (0.640000000000001 "0"^^xsd:decimal) math:sum 0.640000000000001 . }
+  pe:builtin math:sum.
+
+{ (0.640000000000001 0.5) math:exponentiation 0.8000000000000006 . }
+  pe:builtin math:exponentiation.
+
+{ (0.6999999999999994 "0"^^xsd:decimal) complex:abs 0.6999999999999994 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "R"; pe:value 0.6999999999999994 ],
+    [ pe:var "R2"; pe:value 0.48999999999999916 ],
+    [ pe:var "X"; pe:value 0.6999999999999994 ],
+    [ pe:var "X2"; pe:value 0.48999999999999916 ],
+    [ pe:var "Y"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Y2"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { (0.6999999999999994 2) math:exponentiation 0.48999999999999916 . },
+    { ("0"^^xsd:decimal 2) math:exponentiation "0"^^xsd:decimal . },
+    { (0.48999999999999916 "0"^^xsd:decimal) math:sum 0.48999999999999916 . },
+    { (0.48999999999999916 0.5) math:exponentiation 0.6999999999999994 . }.
+
+{ (0.6999999999999994 2) math:exponentiation 0.48999999999999916 . }
+  pe:builtin math:exponentiation.
+
+{ (0.48999999999999916 "0"^^xsd:decimal) math:sum 0.48999999999999916 . }
+  pe:builtin math:sum.
+
+{ (0.48999999999999916 0.5) math:exponentiation 0.6999999999999994 . }
+  pe:builtin math:exponentiation.
+
+{ 0.8000000000000006 math:notLessThan 0.6999999999999994 . }
+  pe:builtin math:notLessThan.
+
+{ 0.8000000000000006 math:notGreaterThan 1.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :Rotation :stableInWorld :W0 . }
+  pe:rule 20;
+  pe:binding
+    [ pe:var "A"; pe:value :Rotation ],
+    [ pe:var "rho"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Rotation :spectralRadius "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:notGreaterThan 1.0 . }.
+
+{ :Rotation :spectralRadius "1"^^xsd:decimal . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "A"; pe:value :Rotation ],
+    [ pe:var "lam1i"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "lam1r"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "lam2i"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "lam2r"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "r1"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "r2"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Rotation :lambda1 ("0"^^xsd:decimal "1"^^xsd:decimal) . },
+    { :Rotation :lambda2 ("0"^^xsd:decimal "-1"^^xsd:decimal) . },
+    { ("0"^^xsd:decimal "1"^^xsd:decimal) complex:abs "1"^^xsd:decimal . },
+    { ("0"^^xsd:decimal "-1"^^xsd:decimal) complex:abs "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:notLessThan "1"^^xsd:decimal . }.
+
+{ :Rotation :lambda1 ("0"^^xsd:decimal "1"^^xsd:decimal) . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "A"; pe:value :Rotation ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 0 ],
+    [ pe:var "a12i"; pe:value 0 ],
+    [ pe:var "a12r"; pe:value 1 ],
+    [ pe:var "a21i"; pe:value 0 ],
+    [ pe:var "a21r"; pe:value -1 ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 0 ],
+    [ pe:var "det4i"; pe:value 0 ],
+    [ pe:var "det4r"; pe:value 4 ],
+    [ pe:var "deti"; pe:value 0 ],
+    [ pe:var "detr"; pe:value 1 ],
+    [ pe:var "disci"; pe:value 0 ],
+    [ pe:var "discr"; pe:value -4 ],
+    [ pe:var "lam1i"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "lam1r"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "p_i"; pe:value 0 ],
+    [ pe:var "p_r"; pe:value 0 ],
+    [ pe:var "q_i"; pe:value 0 ],
+    [ pe:var "q_r"; pe:value -1 ],
+    [ pe:var "rooti"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "rootr"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "sum1i"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "sum1r"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "tr2i"; pe:value 0 ],
+    [ pe:var "tr2r"; pe:value 0 ],
+    [ pe:var "tri"; pe:value 0 ],
+    [ pe:var "trr"; pe:value 0 ];
+  pe:uses
+    { :Rotation a :Matrix2x2 . },
+    { :Rotation :a11 (0 0) . },
+    { :Rotation :a12 (1 0) . },
+    { :Rotation :a21 (-1 0) . },
+    { :Rotation :a22 (0 0) . },
+    { ((0 0) (0 0)) complex:sum (0 0) . },
+    { ((0 0) (0 0)) complex:product (0 0) . },
+    { ((1 0) (-1 0)) complex:product (-1 0) . },
+    { ((0 0) (-1 0)) complex:difference (1 0) . },
+    { ((0 0) (0 0)) complex:product (0 0) . },
+    { ((4 0) (1 0)) complex:product (4 0) . },
+    { ((0 0) (4 0)) complex:difference (-4 0) . },
+    { (-4 0) complex:sqrt ("0"^^xsd:decimal "2"^^xsd:decimal) . },
+    { ((0 0) ("0"^^xsd:decimal "2"^^xsd:decimal)) complex:sum ("0"^^xsd:decimal "2"^^xsd:decimal) . },
+    { (("0"^^xsd:decimal "2"^^xsd:decimal) 0.5) complex:scale ("0"^^xsd:decimal "1"^^xsd:decimal) . }.
+
+{ :Rotation a :Matrix2x2 . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :Rotation :a11 (0 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :Rotation :a12 (1 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :Rotation :a21 (-1 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ :Rotation :a22 (0 0) . }
+  pe:fact "complex-matrix-stability-worlds.n3".
+
+{ ((0 0) (0 0)) complex:sum (0 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 0 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 0 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value 0 ];
+  pe:uses
+    { (0 0) math:sum 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ ((1 0) (-1 0)) complex:product (-1 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 1 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value -1 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value -1 ],
+    [ pe:var "P1"; pe:value -1 ],
+    [ pe:var "P2"; pe:value 0 ],
+    [ pe:var "P3"; pe:value 0 ],
+    [ pe:var "P4"; pe:value 0 ];
+  pe:uses
+    { (1 -1) math:product -1 . },
+    { (0 0) math:product 0 . },
+    { (-1 0) math:difference -1 . },
+    { (1 0) math:product 0 . },
+    { (0 -1) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (1 -1) math:product -1 . }
+  pe:builtin math:product.
+
+{ (-1 0) math:difference -1 . }
+  pe:builtin math:difference.
+
+{ (0 -1) math:product 0 . }
+  pe:builtin math:product.
+
+{ ((0 0) (-1 0)) complex:difference (1 0) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 0 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value -1 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value 1 ];
+  pe:uses
+    { (0 -1) math:difference 1 . },
+    { (0 0) math:difference 0 . }.
+
+{ (0 -1) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ ((0 0) (4 0)) complex:difference (-4 0) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 0 ],
+    [ pe:var "Bi"; pe:value 0 ],
+    [ pe:var "Br"; pe:value 4 ],
+    [ pe:var "Ci"; pe:value 0 ],
+    [ pe:var "Cr"; pe:value -4 ];
+  pe:uses
+    { (0 4) math:difference -4 . },
+    { (0 0) math:difference 0 . }.
+
+{ (0 4) math:difference -4 . }
+  pe:builtin math:difference.
+
+{ (-4 0) complex:sqrt ("0"^^xsd:decimal "2"^^xsd:decimal) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "R"; pe:value "4"^^xsd:decimal ],
+    [ pe:var "R2"; pe:value 16 ],
+    [ pe:var "Sgn"; pe:value 1 ],
+    [ pe:var "TmpU1"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "TmpU2"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "TmpV1"; pe:value "8"^^xsd:decimal ],
+    [ pe:var "TmpV2"; pe:value "4"^^xsd:decimal ],
+    [ pe:var "U"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "V"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "Vabs"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "X"; pe:value -4 ],
+    [ pe:var "X2"; pe:value 16 ],
+    [ pe:var "Y"; pe:value 0 ],
+    [ pe:var "Y2"; pe:value 0 ];
+  pe:uses
+    { (-4 2) math:exponentiation 16 . },
+    { (0 2) math:exponentiation 0 . },
+    { (16 0) math:sum 16 . },
+    { (16 0.5) math:exponentiation "4"^^xsd:decimal . },
+    { ("4"^^xsd:decimal -4) math:sum "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 2) math:quotient "0"^^xsd:decimal . },
+    { ("0"^^xsd:decimal 0.5) math:exponentiation "0"^^xsd:decimal . },
+    { ("4"^^xsd:decimal -4) math:difference "8"^^xsd:decimal . },
+    { ("8"^^xsd:decimal 2) math:quotient "4"^^xsd:decimal . },
+    { ("4"^^xsd:decimal 0.5) math:exponentiation "2"^^xsd:decimal . },
+    { 0 complex:sign 1 . },
+    { (1 "2"^^xsd:decimal) math:product "2"^^xsd:decimal . }.
+
+{ (-4 2) math:exponentiation 16 . }
+  pe:builtin math:exponentiation.
+
+{ (16 0) math:sum 16 . }
+  pe:builtin math:sum.
+
+{ (16 0.5) math:exponentiation "4"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ ("4"^^xsd:decimal -4) math:sum "0"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ ("4"^^xsd:decimal -4) math:difference "8"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ ("8"^^xsd:decimal 2) math:quotient "4"^^xsd:decimal . }
+  pe:builtin math:quotient.
+
+{ ("4"^^xsd:decimal 0.5) math:exponentiation "2"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ (1 "2"^^xsd:decimal) math:product "2"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ((0 0) ("0"^^xsd:decimal "2"^^xsd:decimal)) complex:sum ("0"^^xsd:decimal "2"^^xsd:decimal) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 0 ],
+    [ pe:var "Bi"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "Br"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ci"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { (0 "0"^^xsd:decimal) math:sum "0"^^xsd:decimal . },
+    { (0 "2"^^xsd:decimal) math:sum "2"^^xsd:decimal . }.
+
+{ (0 "2"^^xsd:decimal) math:sum "2"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ (("0"^^xsd:decimal "2"^^xsd:decimal) 0.5) complex:scale ("0"^^xsd:decimal "1"^^xsd:decimal) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Ai"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "Ar"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ci"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "S"; pe:value 0.5 ];
+  pe:uses
+    { ("0"^^xsd:decimal 0.5) math:product "0"^^xsd:decimal . },
+    { ("2"^^xsd:decimal 0.5) math:product "1"^^xsd:decimal . }.
+
+{ :Rotation :lambda2 ("0"^^xsd:decimal "-1"^^xsd:decimal) . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "A"; pe:value :Rotation ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 0 ],
+    [ pe:var "a12i"; pe:value 0 ],
+    [ pe:var "a12r"; pe:value 1 ],
+    [ pe:var "a21i"; pe:value 0 ],
+    [ pe:var "a21r"; pe:value -1 ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 0 ],
+    [ pe:var "det4i"; pe:value 0 ],
+    [ pe:var "det4r"; pe:value 4 ],
+    [ pe:var "deti"; pe:value 0 ],
+    [ pe:var "detr"; pe:value 1 ],
+    [ pe:var "disci"; pe:value 0 ],
+    [ pe:var "discr"; pe:value -4 ],
+    [ pe:var "lam2i"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "lam2r"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "p_i"; pe:value 0 ],
+    [ pe:var "p_r"; pe:value 0 ],
+    [ pe:var "q_i"; pe:value 0 ],
+    [ pe:var "q_r"; pe:value -1 ],
+    [ pe:var "rooti"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "rootr"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "sum2i"; pe:value "-2"^^xsd:decimal ],
+    [ pe:var "sum2r"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "tr2i"; pe:value 0 ],
+    [ pe:var "tr2r"; pe:value 0 ],
+    [ pe:var "tri"; pe:value 0 ],
+    [ pe:var "trr"; pe:value 0 ];
+  pe:uses
+    { :Rotation a :Matrix2x2 . },
+    { :Rotation :a11 (0 0) . },
+    { :Rotation :a12 (1 0) . },
+    { :Rotation :a21 (-1 0) . },
+    { :Rotation :a22 (0 0) . },
+    { ((0 0) (0 0)) complex:sum (0 0) . },
+    { ((0 0) (0 0)) complex:product (0 0) . },
+    { ((1 0) (-1 0)) complex:product (-1 0) . },
+    { ((0 0) (-1 0)) complex:difference (1 0) . },
+    { ((0 0) (0 0)) complex:product (0 0) . },
+    { ((4 0) (1 0)) complex:product (4 0) . },
+    { ((0 0) (4 0)) complex:difference (-4 0) . },
+    { (-4 0) complex:sqrt ("0"^^xsd:decimal "2"^^xsd:decimal) . },
+    { ((0 0) ("0"^^xsd:decimal "2"^^xsd:decimal)) complex:difference ("0"^^xsd:decimal "-2"^^xsd:decimal) . },
+    { (("0"^^xsd:decimal "-2"^^xsd:decimal) 0.5) complex:scale ("0"^^xsd:decimal "-1"^^xsd:decimal) . }.
+
+{ ((0 0) ("0"^^xsd:decimal "2"^^xsd:decimal)) complex:difference ("0"^^xsd:decimal "-2"^^xsd:decimal) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Ai"; pe:value 0 ],
+    [ pe:var "Ar"; pe:value 0 ],
+    [ pe:var "Bi"; pe:value "2"^^xsd:decimal ],
+    [ pe:var "Br"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ci"; pe:value "-2"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { (0 "0"^^xsd:decimal) math:difference "0"^^xsd:decimal . },
+    { (0 "2"^^xsd:decimal) math:difference "-2"^^xsd:decimal . }.
+
+{ (0 "2"^^xsd:decimal) math:difference "-2"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ (("0"^^xsd:decimal "-2"^^xsd:decimal) 0.5) complex:scale ("0"^^xsd:decimal "-1"^^xsd:decimal) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Ai"; pe:value "-2"^^xsd:decimal ],
+    [ pe:var "Ar"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Ci"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "Cr"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "S"; pe:value 0.5 ];
+  pe:uses
+    { ("0"^^xsd:decimal 0.5) math:product "0"^^xsd:decimal . },
+    { ("-2"^^xsd:decimal 0.5) math:product "-1"^^xsd:decimal . }.
+
+{ ("-2"^^xsd:decimal 0.5) math:product "-1"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ("0"^^xsd:decimal "1"^^xsd:decimal) complex:abs "1"^^xsd:decimal . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "R"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "R2"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "X"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "X2"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Y"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "Y2"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { ("0"^^xsd:decimal 2) math:exponentiation "0"^^xsd:decimal . },
+    { ("1"^^xsd:decimal 2) math:exponentiation "1"^^xsd:decimal . },
+    { ("0"^^xsd:decimal "1"^^xsd:decimal) math:sum "1"^^xsd:decimal . },
+    { ("1"^^xsd:decimal 0.5) math:exponentiation "1"^^xsd:decimal . }.
+
+{ ("0"^^xsd:decimal "1"^^xsd:decimal) math:sum "1"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ ("0"^^xsd:decimal "-1"^^xsd:decimal) complex:abs "1"^^xsd:decimal . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "R"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "R2"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "X"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "X2"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Y"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "Y2"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { ("0"^^xsd:decimal 2) math:exponentiation "0"^^xsd:decimal . },
+    { ("-1"^^xsd:decimal 2) math:exponentiation "1"^^xsd:decimal . },
+    { ("0"^^xsd:decimal "1"^^xsd:decimal) math:sum "1"^^xsd:decimal . },
+    { ("1"^^xsd:decimal 0.5) math:exponentiation "1"^^xsd:decimal . }.
+
+{ ("-1"^^xsd:decimal 2) math:exponentiation "1"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ :Id :stableInWorld :W1 . }
+  pe:rule 22;
+  pe:binding
+    [ pe:var "A"; pe:value :Id ],
+    [ pe:var "g"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Id :gershgorinRadius "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:notGreaterThan 1.0 . }.
+
+{ :Id :gershgorinRadius "1"^^xsd:decimal . }
+  pe:rule 15;
+  pe:binding
+    [ pe:var "A"; pe:value :Id ],
+    [ pe:var "a11abs"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 1 ],
+    [ pe:var "a12abs"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "a12i"; pe:value 0 ],
+    [ pe:var "a12r"; pe:value 0 ],
+    [ pe:var "a21abs"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "a21i"; pe:value 0 ],
+    [ pe:var "a21r"; pe:value 0 ],
+    [ pe:var "a22abs"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 1 ],
+    [ pe:var "g1"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "g2"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Id a :Matrix2x2 . },
+    { :Id :a11 (1 0) . },
+    { :Id :a12 (0 0) . },
+    { :Id :a21 (0 0) . },
+    { :Id :a22 (1 0) . },
+    { (1 0) complex:abs "1"^^xsd:decimal . },
+    { (1 0) complex:abs "1"^^xsd:decimal . },
+    { (0 0) complex:abs "0"^^xsd:decimal . },
+    { (0 0) complex:abs "0"^^xsd:decimal . },
+    { ("1"^^xsd:decimal "0"^^xsd:decimal) math:sum "1"^^xsd:decimal . },
+    { ("1"^^xsd:decimal "0"^^xsd:decimal) math:sum "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:notLessThan "1"^^xsd:decimal . }.
+
+{ (1 0) complex:abs "1"^^xsd:decimal . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "R"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "R2"; pe:value 1 ],
+    [ pe:var "X"; pe:value 1 ],
+    [ pe:var "X2"; pe:value 1 ],
+    [ pe:var "Y"; pe:value 0 ],
+    [ pe:var "Y2"; pe:value 0 ];
+  pe:uses
+    { (1 2) math:exponentiation 1 . },
+    { (0 2) math:exponentiation 0 . },
+    { (1 0) math:sum 1 . },
+    { (1 0.5) math:exponentiation "1"^^xsd:decimal . }.
+
+{ (1 2) math:exponentiation 1 . }
+  pe:builtin math:exponentiation.
+
+{ (1 0) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (1 0.5) math:exponentiation "1"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ (0 0) complex:abs "0"^^xsd:decimal . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "R"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "R2"; pe:value 0 ],
+    [ pe:var "X"; pe:value 0 ],
+    [ pe:var "X2"; pe:value 0 ],
+    [ pe:var "Y"; pe:value 0 ],
+    [ pe:var "Y2"; pe:value 0 ];
+  pe:uses
+    { (0 2) math:exponentiation 0 . },
+    { (0 2) math:exponentiation 0 . },
+    { (0 0) math:sum 0 . },
+    { (0 0.5) math:exponentiation "0"^^xsd:decimal . }.
+
+{ :DampedDiag :stableInWorld :W1 . }
+  pe:rule 22;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "g"; pe:value 0.8 ];
+  pe:uses
+    { :DampedDiag :gershgorinRadius 0.8 . },
+    { 0.8 math:notGreaterThan 1.0 . }.
+
+{ :DampedDiag :gershgorinRadius 0.8 . }
+  pe:rule 15;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "a11abs"; pe:value 0.8 ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 0.8 ],
+    [ pe:var "a12abs"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "a12i"; pe:value 0 ],
+    [ pe:var "a12r"; pe:value 0 ],
+    [ pe:var "a21abs"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "a21i"; pe:value 0 ],
+    [ pe:var "a21r"; pe:value 0 ],
+    [ pe:var "a22abs"; pe:value 0.7 ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 0.7 ],
+    [ pe:var "g1"; pe:value 0.8 ],
+    [ pe:var "g2"; pe:value 0.7 ];
+  pe:uses
+    { :DampedDiag a :Matrix2x2 . },
+    { :DampedDiag :a11 (0.8 0) . },
+    { :DampedDiag :a12 (0 0) . },
+    { :DampedDiag :a21 (0 0) . },
+    { :DampedDiag :a22 (0.7 0) . },
+    { (0.8 0) complex:abs 0.8 . },
+    { (0.7 0) complex:abs 0.7 . },
+    { (0 0) complex:abs "0"^^xsd:decimal . },
+    { (0 0) complex:abs "0"^^xsd:decimal . },
+    { (0.8 "0"^^xsd:decimal) math:sum 0.8 . },
+    { (0.7 "0"^^xsd:decimal) math:sum 0.7 . },
+    { 0.8 math:notLessThan 0.7 . }.
+
+{ (0.8 0) complex:abs 0.8 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "R"; pe:value 0.8 ],
+    [ pe:var "R2"; pe:value 0.6400000000000001 ],
+    [ pe:var "X"; pe:value 0.8 ],
+    [ pe:var "X2"; pe:value 0.6400000000000001 ],
+    [ pe:var "Y"; pe:value 0 ],
+    [ pe:var "Y2"; pe:value 0 ];
+  pe:uses
+    { (0.8 2) math:exponentiation 0.6400000000000001 . },
+    { (0 2) math:exponentiation 0 . },
+    { (0.6400000000000001 0) math:sum 0.6400000000000001 . },
+    { (0.6400000000000001 0.5) math:exponentiation 0.8 . }.
+
+{ (0.8 2) math:exponentiation 0.6400000000000001 . }
+  pe:builtin math:exponentiation.
+
+{ (0.6400000000000001 0) math:sum 0.6400000000000001 . }
+  pe:builtin math:sum.
+
+{ (0.6400000000000001 0.5) math:exponentiation 0.8 . }
+  pe:builtin math:exponentiation.
+
+{ (0.7 0) complex:abs 0.7 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "R"; pe:value 0.7 ],
+    [ pe:var "R2"; pe:value 0.48999999999999994 ],
+    [ pe:var "X"; pe:value 0.7 ],
+    [ pe:var "X2"; pe:value 0.48999999999999994 ],
+    [ pe:var "Y"; pe:value 0 ],
+    [ pe:var "Y2"; pe:value 0 ];
+  pe:uses
+    { (0.7 2) math:exponentiation 0.48999999999999994 . },
+    { (0 2) math:exponentiation 0 . },
+    { (0.48999999999999994 0) math:sum 0.48999999999999994 . },
+    { (0.48999999999999994 0.5) math:exponentiation 0.7 . }.
+
+{ (0.7 2) math:exponentiation 0.48999999999999994 . }
+  pe:builtin math:exponentiation.
+
+{ (0.48999999999999994 0) math:sum 0.48999999999999994 . }
+  pe:builtin math:sum.
+
+{ (0.48999999999999994 0.5) math:exponentiation 0.7 . }
+  pe:builtin math:exponentiation.
+
+{ (0.8 "0"^^xsd:decimal) math:sum 0.8 . }
+  pe:builtin math:sum.
+
+{ (0.7 "0"^^xsd:decimal) math:sum 0.7 . }
+  pe:builtin math:sum.
+
+{ 0.8 math:notLessThan 0.7 . }
+  pe:builtin math:notLessThan.
+
+{ 0.8 math:notGreaterThan 1.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :Rotation :stableInWorld :W1 . }
+  pe:rule 22;
+  pe:binding
+    [ pe:var "A"; pe:value :Rotation ],
+    [ pe:var "g"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Rotation :gershgorinRadius "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:notGreaterThan 1.0 . }.
+
+{ :Rotation :gershgorinRadius "1"^^xsd:decimal . }
+  pe:rule 15;
+  pe:binding
+    [ pe:var "A"; pe:value :Rotation ],
+    [ pe:var "a11abs"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 0 ],
+    [ pe:var "a12abs"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "a12i"; pe:value 0 ],
+    [ pe:var "a12r"; pe:value 1 ],
+    [ pe:var "a21abs"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "a21i"; pe:value 0 ],
+    [ pe:var "a21r"; pe:value -1 ],
+    [ pe:var "a22abs"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 0 ],
+    [ pe:var "g1"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "g2"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Rotation a :Matrix2x2 . },
+    { :Rotation :a11 (0 0) . },
+    { :Rotation :a12 (1 0) . },
+    { :Rotation :a21 (-1 0) . },
+    { :Rotation :a22 (0 0) . },
+    { (0 0) complex:abs "0"^^xsd:decimal . },
+    { (0 0) complex:abs "0"^^xsd:decimal . },
+    { (1 0) complex:abs "1"^^xsd:decimal . },
+    { (-1 0) complex:abs "1"^^xsd:decimal . },
+    { ("0"^^xsd:decimal "1"^^xsd:decimal) math:sum "1"^^xsd:decimal . },
+    { ("0"^^xsd:decimal "1"^^xsd:decimal) math:sum "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:notLessThan "1"^^xsd:decimal . }.
+
+{ (-1 0) complex:abs "1"^^xsd:decimal . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "R"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "R2"; pe:value 1 ],
+    [ pe:var "X"; pe:value -1 ],
+    [ pe:var "X2"; pe:value 1 ],
+    [ pe:var "Y"; pe:value 0 ],
+    [ pe:var "Y2"; pe:value 0 ];
+  pe:uses
+    { (-1 2) math:exponentiation 1 . },
+    { (0 2) math:exponentiation 0 . },
+    { (1 0) math:sum 1 . },
+    { (1 0.5) math:exponentiation "1"^^xsd:decimal . }.
+
+{ (-1 2) math:exponentiation 1 . }
+  pe:builtin math:exponentiation.
+
+{ :Id :stableInWorld :W2 . }
+  pe:rule 24;
+  pe:binding
+    [ pe:var "A"; pe:value :Id ],
+    [ pe:var "d"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Id :diagRadius "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:notGreaterThan 1.0 . }.
+
+{ :Id :diagRadius "1"^^xsd:decimal . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "A"; pe:value :Id ],
+    [ pe:var "a11abs"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 1 ],
+    [ pe:var "a22abs"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 1 ];
+  pe:uses
+    { :Id a :Matrix2x2 . },
+    { :Id :a11 (1 0) . },
+    { :Id :a22 (1 0) . },
+    { (1 0) complex:abs "1"^^xsd:decimal . },
+    { (1 0) complex:abs "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:notLessThan "1"^^xsd:decimal . }.
+
+{ :DampedDiag :stableInWorld :W2 . }
+  pe:rule 24;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "d"; pe:value 0.8 ];
+  pe:uses
+    { :DampedDiag :diagRadius 0.8 . },
+    { 0.8 math:notGreaterThan 1.0 . }.
+
+{ :DampedDiag :diagRadius 0.8 . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "a11abs"; pe:value 0.8 ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 0.8 ],
+    [ pe:var "a22abs"; pe:value 0.7 ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 0.7 ];
+  pe:uses
+    { :DampedDiag a :Matrix2x2 . },
+    { :DampedDiag :a11 (0.8 0) . },
+    { :DampedDiag :a22 (0.7 0) . },
+    { (0.8 0) complex:abs 0.8 . },
+    { (0.7 0) complex:abs 0.7 . },
+    { 0.8 math:notLessThan 0.7 . }.
+
+{ :Rotation :stableInWorld :W2 . }
+  pe:rule 24;
+  pe:binding
+    [ pe:var "A"; pe:value :Rotation ],
+    [ pe:var "d"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { :Rotation :diagRadius "0"^^xsd:decimal . },
+    { "0"^^xsd:decimal math:notGreaterThan 1.0 . }.
+
+{ :Rotation :diagRadius "0"^^xsd:decimal . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "A"; pe:value :Rotation ],
+    [ pe:var "a11abs"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "a11i"; pe:value 0 ],
+    [ pe:var "a11r"; pe:value 0 ],
+    [ pe:var "a22abs"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "a22i"; pe:value 0 ],
+    [ pe:var "a22r"; pe:value 0 ];
+  pe:uses
+    { :Rotation a :Matrix2x2 . },
+    { :Rotation :a11 (0 0) . },
+    { :Rotation :a22 (0 0) . },
+    { (0 0) complex:abs "0"^^xsd:decimal . },
+    { (0 0) complex:abs "0"^^xsd:decimal . },
+    { "0"^^xsd:decimal math:notLessThan "0"^^xsd:decimal . }.
+
+{ "0"^^xsd:decimal math:notLessThan "0"^^xsd:decimal . }
+  pe:builtin math:notLessThan.
+
+{ "0"^^xsd:decimal math:notGreaterThan 1.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :DampedDiag :dampedInWorld :W0 . }
+  pe:rule 21;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "rho"; pe:value 0.8000000000000006 ];
+  pe:uses
+    { :DampedDiag :spectralRadius 0.8000000000000006 . },
+    { 0.8000000000000006 math:notGreaterThan 0.9 . }.
+
+{ 0.8000000000000006 math:notGreaterThan 0.9 . }
+  pe:builtin math:notGreaterThan.
+
+{ :DampedDiag :dampedInWorld :W1 . }
+  pe:rule 23;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "g"; pe:value 0.8 ];
+  pe:uses
+    { :DampedDiag :gershgorinRadius 0.8 . },
+    { 0.8 math:notGreaterThan 0.9 . }.
+
+{ 0.8 math:notGreaterThan 0.9 . }
+  pe:builtin math:notGreaterThan.
+
+{ :DampedDiag :dampedInWorld :W2 . }
+  pe:rule 25;
+  pe:binding
+    [ pe:var "A"; pe:value :DampedDiag ],
+    [ pe:var "d"; pe:value 0.8 ];
+  pe:uses
+    { :DampedDiag :diagRadius 0.8 . },
+    { 0.8 math:notGreaterThan 0.9 . }.
+
+{ :Rotation :dampedInWorld :W2 . }
+  pe:rule 25;
+  pe:binding
+    [ pe:var "A"; pe:value :Rotation ],
+    [ pe:var "d"; pe:value "0"^^xsd:decimal ];
+  pe:uses
+    { :Rotation :diagRadius "0"^^xsd:decimal . },
+    { "0"^^xsd:decimal math:notGreaterThan 0.9 . }.
+
+{ "0"^^xsd:decimal math:notGreaterThan 0.9 . }
+  pe:builtin math:notGreaterThan.

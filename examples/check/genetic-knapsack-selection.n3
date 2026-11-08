@@ -1,0 +1,34 @@
+# checked: 17 steps, 17 verified, 0 trusted
+@prefix : <https://eyereasoner.github.io/eyeling/examples/genetic-knapsack-selection#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:Run :localSearchStopsAt :FinalLocal .
+:geneticKnapsackSelection log:outputString "# genetic-knapsack-selection\n\n## Source files\n\n- [N3 rules](../genetic-knapsack-selection.n3)\n- [Input TriG](../input/genetic-knapsack-selection.trig)\n\n## Answer\nfinal genome : 101000000101\nselected items : item01, item03, item10, item12\nweight : 50 / 50\nvalue : 101\nfitness : 999899\ngenerations evaluated : 5\nexhaustive optimum value : 104 at genome 001000011111\n\n## Explanation\nEach genome bit says whether the corresponding item is selected for the knapsack. Feasible candidates get fitness 1000000 minus value, so higher value means lower fitness; overweight candidates are penalized above every feasible candidate. The N3 source records the deterministic local-search result and validates that the final genome respects capacity and has no strictly better one-bit neighbor. For transparency, an exhaustive enumeration also records the global best feasible value, showing this is a local mutation search rather than a global-optimality claim." .
+:geneticKnapsackSelection :selects :FinalLocal .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/genetic-knapsack-selection.n3";
+    pe:source "examples/genetic-knapsack-selection.n3";
+    pe:source "examples/input/genetic-knapsack-selection.trig";
+    pe:verdict pe:checked;
+    pe:steps 17;
+    pe:verified 17;
+    pe:trusted 0;
+    pe:builtinSteps 3;
+    pe:factSteps 11;
+    pe:ruleSteps 3;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 14; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 17; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 17; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 32; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 20; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 3; pe:failed 0 ].

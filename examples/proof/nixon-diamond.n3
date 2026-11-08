@@ -1,0 +1,18 @@
+@prefix ex: <http://example.org/nixon#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:RichardNixon a ex:NonPacifist .
+ex:RichardNixon a ex:Quaker .
+ex:RichardNixon a ex:Republican .
+
+{ ex:RichardNixon a ex:NonPacifist . }
+  pe:rule 2;
+  pe:binding [ pe:var "x"; pe:value ex:RichardNixon ];
+  pe:uses { ex:RichardNixon a ex:Republican . }.
+
+{ ex:RichardNixon a ex:Republican . }
+  pe:fact "nixon-diamond.n3".
+
+{ ex:RichardNixon a ex:Quaker . }
+  pe:fact "nixon-diamond.n3".

@@ -1,0 +1,1794 @@
+@prefix : <http://example.org/isolation-breach/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:doorBeacon :can :PrepareInformationStates .
+:doorBeacon :can :LocalPermutation .
+:doorBeacon :can :LocalClone .
+:containmentPLC :can :PrepareInformationStates .
+:containmentPLC :can :LocalPermutation .
+:containmentPLC :can :LocalClone .
+:nursePager :can :PrepareInformationStates .
+:nursePager :can :LocalPermutation .
+:nursePager :can :LocalClone .
+:incidentBoard :can :PrepareInformationStates .
+:incidentBoard :can :LocalPermutation .
+:incidentBoard :can :LocalClone .
+:specimenSeal :cannot :UniversalClone .
+:specimenSeal :cannot :UnrestrictedParallelFanOut .
+(:doorBeacon :doorBeacon) :canCopy :BreachBit .
+(:doorBeacon :containmentPLC) :canCopy :BreachBit .
+(:doorBeacon :nursePager) :canCopy :BreachBit .
+(:doorBeacon :incidentBoard) :canCopy :BreachBit .
+(:containmentPLC :doorBeacon) :canCopy :BreachBit .
+(:nursePager :doorBeacon) :canCopy :BreachBit .
+(:incidentBoard :doorBeacon) :canCopy :BreachBit .
+(:containmentPLC :containmentPLC) :canCopy :BreachBit .
+(:containmentPLC :nursePager) :canCopy :BreachBit .
+(:containmentPLC :incidentBoard) :canCopy :BreachBit .
+(:nursePager :containmentPLC) :canCopy :BreachBit .
+(:incidentBoard :containmentPLC) :canCopy :BreachBit .
+(:nursePager :nursePager) :canCopy :BreachBit .
+(:nursePager :incidentBoard) :canCopy :BreachBit .
+(:incidentBoard :nursePager) :canCopy :BreachBit .
+(:incidentBoard :incidentBoard) :canCopy :BreachBit .
+:SerialNetwork a :PossibleTask .
+:ParallelNetwork a :PossibleTask .
+
+{ :doorBeacon :can :PrepareInformationStates . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :doorBeacon ],
+    [ pe:var "O"; pe:value :BreachRed ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :SafeGreen ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :doorBeacon :zeroState :SafeGreen . },
+    { :doorBeacon :oneState :BreachRed . }.
+
+{ :doorBeacon a :InformationMedium . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :doorBeacon :encodes :BreachBit . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :doorBeacon :zeroState :SafeGreen . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :doorBeacon :oneState :BreachRed . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :doorBeacon :can :LocalPermutation . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :doorBeacon ],
+    [ pe:var "O"; pe:value :BreachRed ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :SafeGreen ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :doorBeacon :zeroState :SafeGreen . },
+    { :doorBeacon :oneState :BreachRed . }.
+
+{ :doorBeacon :can :LocalClone . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :doorBeacon ],
+    [ pe:var "O"; pe:value :BreachRed ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :SafeGreen ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :doorBeacon :zeroState :SafeGreen . },
+    { :doorBeacon :oneState :BreachRed . }.
+
+{ :containmentPLC :can :PrepareInformationStates . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :containmentPLC ],
+    [ pe:var "O"; pe:value :VoltageHigh ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :VoltageLow ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :containmentPLC :zeroState :VoltageLow . },
+    { :containmentPLC :oneState :VoltageHigh . }.
+
+{ :containmentPLC a :InformationMedium . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :containmentPLC :encodes :BreachBit . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :containmentPLC :zeroState :VoltageLow . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :containmentPLC :oneState :VoltageHigh . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :containmentPLC :can :LocalPermutation . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :containmentPLC ],
+    [ pe:var "O"; pe:value :VoltageHigh ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :VoltageLow ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :containmentPLC :zeroState :VoltageLow . },
+    { :containmentPLC :oneState :VoltageHigh . }.
+
+{ :containmentPLC :can :LocalClone . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :containmentPLC ],
+    [ pe:var "O"; pe:value :VoltageHigh ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :VoltageLow ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :containmentPLC :zeroState :VoltageLow . },
+    { :containmentPLC :oneState :VoltageHigh . }.
+
+{ :nursePager :can :PrepareInformationStates . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :nursePager ],
+    [ pe:var "O"; pe:value :CodeBreach ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :CodeNormal ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :nursePager :zeroState :CodeNormal . },
+    { :nursePager :oneState :CodeBreach . }.
+
+{ :nursePager a :InformationMedium . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :nursePager :encodes :BreachBit . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :nursePager :zeroState :CodeNormal . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :nursePager :oneState :CodeBreach . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :nursePager :can :LocalPermutation . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :nursePager ],
+    [ pe:var "O"; pe:value :CodeBreach ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :CodeNormal ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :nursePager :zeroState :CodeNormal . },
+    { :nursePager :oneState :CodeBreach . }.
+
+{ :nursePager :can :LocalClone . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :nursePager ],
+    [ pe:var "O"; pe:value :CodeBreach ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :CodeNormal ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :nursePager :zeroState :CodeNormal . },
+    { :nursePager :oneState :CodeBreach . }.
+
+{ :incidentBoard :can :PrepareInformationStates . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :incidentBoard ],
+    [ pe:var "O"; pe:value :BoardBreach ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :BoardNormal ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :incidentBoard :zeroState :BoardNormal . },
+    { :incidentBoard :oneState :BoardBreach . }.
+
+{ :incidentBoard a :InformationMedium . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :incidentBoard :encodes :BreachBit . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :incidentBoard :zeroState :BoardNormal . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :incidentBoard :oneState :BoardBreach . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :incidentBoard :can :LocalPermutation . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :incidentBoard ],
+    [ pe:var "O"; pe:value :BoardBreach ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :BoardNormal ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :incidentBoard :zeroState :BoardNormal . },
+    { :incidentBoard :oneState :BoardBreach . }.
+
+{ :incidentBoard :can :LocalClone . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :incidentBoard ],
+    [ pe:var "O"; pe:value :BoardBreach ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :BoardNormal ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :incidentBoard :zeroState :BoardNormal . },
+    { :incidentBoard :oneState :BoardBreach . }.
+
+{ :specimenSeal :cannot :UniversalClone . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "M"; pe:value :specimenSeal ],
+    [ pe:var "V"; pe:value :SealVariable ];
+  pe:uses
+    { :specimenSeal a :SuperinformationMedium . },
+    { :specimenSeal :encodes :SealVariable . }.
+
+{ :specimenSeal a :SuperinformationMedium . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :specimenSeal :encodes :SealVariable . }
+  pe:fact "act-isolation-breach.n3".
+
+{ :specimenSeal :cannot :UnrestrictedParallelFanOut . }
+  pe:rule 8;
+  pe:binding [ pe:var "M"; pe:value :specimenSeal ];
+  pe:uses { :specimenSeal :cannot :UniversalClone . }.
+
+{ (:doorBeacon :doorBeacon) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :doorBeacon ],
+    [ pe:var "Task"; pe:value _:b9_aca6292e9274c721 ],
+    [ pe:var "To"; pe:value :doorBeacon ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_aca6292e9274c721 a :PossibleTask . },
+    { _:b9_aca6292e9274c721 :kind :Copy . },
+    { _:b9_aca6292e9274c721 :from :doorBeacon . },
+    { _:b9_aca6292e9274c721 :to :doorBeacon . },
+    { _:b9_aca6292e9274c721 :variable :BreachBit . }.
+
+{ _:b9_aca6292e9274c721 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_aca6292e9274c721 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_aca6292e9274c721 :from :doorBeacon . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_aca6292e9274c721 :to :doorBeacon . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_aca6292e9274c721 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ (:doorBeacon :containmentPLC) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :doorBeacon ],
+    [ pe:var "Task"; pe:value _:b9_6055d88164f1516e ],
+    [ pe:var "To"; pe:value :containmentPLC ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_6055d88164f1516e a :PossibleTask . },
+    { _:b9_6055d88164f1516e :kind :Copy . },
+    { _:b9_6055d88164f1516e :from :doorBeacon . },
+    { _:b9_6055d88164f1516e :to :containmentPLC . },
+    { _:b9_6055d88164f1516e :variable :BreachBit . }.
+
+{ _:b9_6055d88164f1516e a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_6055d88164f1516e :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_6055d88164f1516e :from :doorBeacon . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_6055d88164f1516e :to :containmentPLC . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_6055d88164f1516e :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ (:doorBeacon :nursePager) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :doorBeacon ],
+    [ pe:var "Task"; pe:value _:b9_660d497814a710cd ],
+    [ pe:var "To"; pe:value :nursePager ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_660d497814a710cd a :PossibleTask . },
+    { _:b9_660d497814a710cd :kind :Copy . },
+    { _:b9_660d497814a710cd :from :doorBeacon . },
+    { _:b9_660d497814a710cd :to :nursePager . },
+    { _:b9_660d497814a710cd :variable :BreachBit . }.
+
+{ _:b9_660d497814a710cd a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_660d497814a710cd :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_660d497814a710cd :from :doorBeacon . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_660d497814a710cd :to :nursePager . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_660d497814a710cd :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ (:doorBeacon :incidentBoard) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :doorBeacon ],
+    [ pe:var "Task"; pe:value _:b9_f1f5354d5f58c801 ],
+    [ pe:var "To"; pe:value :incidentBoard ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_f1f5354d5f58c801 a :PossibleTask . },
+    { _:b9_f1f5354d5f58c801 :kind :Copy . },
+    { _:b9_f1f5354d5f58c801 :from :doorBeacon . },
+    { _:b9_f1f5354d5f58c801 :to :incidentBoard . },
+    { _:b9_f1f5354d5f58c801 :variable :BreachBit . }.
+
+{ _:b9_f1f5354d5f58c801 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_f1f5354d5f58c801 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_f1f5354d5f58c801 :from :doorBeacon . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_f1f5354d5f58c801 :to :incidentBoard . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_f1f5354d5f58c801 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ (:containmentPLC :doorBeacon) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :containmentPLC ],
+    [ pe:var "Task"; pe:value _:b9_2c7502a35f7ec076 ],
+    [ pe:var "To"; pe:value :doorBeacon ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_2c7502a35f7ec076 a :PossibleTask . },
+    { _:b9_2c7502a35f7ec076 :kind :Copy . },
+    { _:b9_2c7502a35f7ec076 :from :containmentPLC . },
+    { _:b9_2c7502a35f7ec076 :to :doorBeacon . },
+    { _:b9_2c7502a35f7ec076 :variable :BreachBit . }.
+
+{ _:b9_2c7502a35f7ec076 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_2c7502a35f7ec076 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_2c7502a35f7ec076 :from :containmentPLC . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_2c7502a35f7ec076 :to :doorBeacon . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_2c7502a35f7ec076 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ (:nursePager :doorBeacon) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :nursePager ],
+    [ pe:var "Task"; pe:value _:b9_4383061b6fe51069 ],
+    [ pe:var "To"; pe:value :doorBeacon ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_4383061b6fe51069 a :PossibleTask . },
+    { _:b9_4383061b6fe51069 :kind :Copy . },
+    { _:b9_4383061b6fe51069 :from :nursePager . },
+    { _:b9_4383061b6fe51069 :to :doorBeacon . },
+    { _:b9_4383061b6fe51069 :variable :BreachBit . }.
+
+{ _:b9_4383061b6fe51069 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_4383061b6fe51069 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_4383061b6fe51069 :from :nursePager . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_4383061b6fe51069 :to :doorBeacon . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_4383061b6fe51069 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ (:incidentBoard :doorBeacon) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :incidentBoard ],
+    [ pe:var "Task"; pe:value _:b9_5220167810ec18c7 ],
+    [ pe:var "To"; pe:value :doorBeacon ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_5220167810ec18c7 a :PossibleTask . },
+    { _:b9_5220167810ec18c7 :kind :Copy . },
+    { _:b9_5220167810ec18c7 :from :incidentBoard . },
+    { _:b9_5220167810ec18c7 :to :doorBeacon . },
+    { _:b9_5220167810ec18c7 :variable :BreachBit . }.
+
+{ _:b9_5220167810ec18c7 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_5220167810ec18c7 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_5220167810ec18c7 :from :incidentBoard . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_5220167810ec18c7 :to :doorBeacon . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b9_5220167810ec18c7 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ (:containmentPLC :containmentPLC) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :containmentPLC ],
+    [ pe:var "Task"; pe:value _:b9_a03ad614843f0149 ],
+    [ pe:var "To"; pe:value :containmentPLC ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_a03ad614843f0149 a :PossibleTask . },
+    { _:b9_a03ad614843f0149 :kind :Copy . },
+    { _:b9_a03ad614843f0149 :from :containmentPLC . },
+    { _:b9_a03ad614843f0149 :to :containmentPLC . },
+    { _:b9_a03ad614843f0149 :variable :BreachBit . }.
+
+{ _:b9_a03ad614843f0149 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_a03ad614843f0149 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_a03ad614843f0149 :from :containmentPLC . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_a03ad614843f0149 :to :containmentPLC . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_a03ad614843f0149 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ (:containmentPLC :nursePager) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :containmentPLC ],
+    [ pe:var "Task"; pe:value _:b9_b6bccdd16af08c0e ],
+    [ pe:var "To"; pe:value :nursePager ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_b6bccdd16af08c0e a :PossibleTask . },
+    { _:b9_b6bccdd16af08c0e :kind :Copy . },
+    { _:b9_b6bccdd16af08c0e :from :containmentPLC . },
+    { _:b9_b6bccdd16af08c0e :to :nursePager . },
+    { _:b9_b6bccdd16af08c0e :variable :BreachBit . }.
+
+{ _:b9_b6bccdd16af08c0e a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_b6bccdd16af08c0e :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_b6bccdd16af08c0e :from :containmentPLC . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_b6bccdd16af08c0e :to :nursePager . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_b6bccdd16af08c0e :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ (:containmentPLC :incidentBoard) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :containmentPLC ],
+    [ pe:var "Task"; pe:value _:b9_7640d80fb31624a8 ],
+    [ pe:var "To"; pe:value :incidentBoard ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_7640d80fb31624a8 a :PossibleTask . },
+    { _:b9_7640d80fb31624a8 :kind :Copy . },
+    { _:b9_7640d80fb31624a8 :from :containmentPLC . },
+    { _:b9_7640d80fb31624a8 :to :incidentBoard . },
+    { _:b9_7640d80fb31624a8 :variable :BreachBit . }.
+
+{ _:b9_7640d80fb31624a8 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_7640d80fb31624a8 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_7640d80fb31624a8 :from :containmentPLC . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_7640d80fb31624a8 :to :incidentBoard . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_7640d80fb31624a8 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :containmentPLC ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ (:nursePager :containmentPLC) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :nursePager ],
+    [ pe:var "Task"; pe:value _:b9_6cb73c4c88207d26 ],
+    [ pe:var "To"; pe:value :containmentPLC ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_6cb73c4c88207d26 a :PossibleTask . },
+    { _:b9_6cb73c4c88207d26 :kind :Copy . },
+    { _:b9_6cb73c4c88207d26 :from :nursePager . },
+    { _:b9_6cb73c4c88207d26 :to :containmentPLC . },
+    { _:b9_6cb73c4c88207d26 :variable :BreachBit . }.
+
+{ _:b9_6cb73c4c88207d26 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_6cb73c4c88207d26 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_6cb73c4c88207d26 :from :nursePager . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_6cb73c4c88207d26 :to :containmentPLC . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_6cb73c4c88207d26 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ (:incidentBoard :containmentPLC) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :incidentBoard ],
+    [ pe:var "Task"; pe:value _:b9_f14081e2088527e0 ],
+    [ pe:var "To"; pe:value :containmentPLC ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_f14081e2088527e0 a :PossibleTask . },
+    { _:b9_f14081e2088527e0 :kind :Copy . },
+    { _:b9_f14081e2088527e0 :from :incidentBoard . },
+    { _:b9_f14081e2088527e0 :to :containmentPLC . },
+    { _:b9_f14081e2088527e0 :variable :BreachBit . }.
+
+{ _:b9_f14081e2088527e0 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_f14081e2088527e0 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_f14081e2088527e0 :from :incidentBoard . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_f14081e2088527e0 :to :containmentPLC . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ _:b9_f14081e2088527e0 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :containmentPLC ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :containmentPLC a :InformationMedium . },
+    { :containmentPLC :encodes :BreachBit . }.
+
+{ (:nursePager :nursePager) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :nursePager ],
+    [ pe:var "Task"; pe:value _:b9_f6d4899944b28585 ],
+    [ pe:var "To"; pe:value :nursePager ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_f6d4899944b28585 a :PossibleTask . },
+    { _:b9_f6d4899944b28585 :kind :Copy . },
+    { _:b9_f6d4899944b28585 :from :nursePager . },
+    { _:b9_f6d4899944b28585 :to :nursePager . },
+    { _:b9_f6d4899944b28585 :variable :BreachBit . }.
+
+{ _:b9_f6d4899944b28585 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_f6d4899944b28585 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_f6d4899944b28585 :from :nursePager . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_f6d4899944b28585 :to :nursePager . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_f6d4899944b28585 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ (:nursePager :incidentBoard) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :nursePager ],
+    [ pe:var "Task"; pe:value _:b9_9b35a9fbcb68eac9 ],
+    [ pe:var "To"; pe:value :incidentBoard ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_9b35a9fbcb68eac9 a :PossibleTask . },
+    { _:b9_9b35a9fbcb68eac9 :kind :Copy . },
+    { _:b9_9b35a9fbcb68eac9 :from :nursePager . },
+    { _:b9_9b35a9fbcb68eac9 :to :incidentBoard . },
+    { _:b9_9b35a9fbcb68eac9 :variable :BreachBit . }.
+
+{ _:b9_9b35a9fbcb68eac9 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_9b35a9fbcb68eac9 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_9b35a9fbcb68eac9 :from :nursePager . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_9b35a9fbcb68eac9 :to :incidentBoard . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_9b35a9fbcb68eac9 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :nursePager ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ (:incidentBoard :nursePager) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :incidentBoard ],
+    [ pe:var "Task"; pe:value _:b9_490aeabb4b367c83 ],
+    [ pe:var "To"; pe:value :nursePager ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_490aeabb4b367c83 a :PossibleTask . },
+    { _:b9_490aeabb4b367c83 :kind :Copy . },
+    { _:b9_490aeabb4b367c83 :from :incidentBoard . },
+    { _:b9_490aeabb4b367c83 :to :nursePager . },
+    { _:b9_490aeabb4b367c83 :variable :BreachBit . }.
+
+{ _:b9_490aeabb4b367c83 a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_490aeabb4b367c83 :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_490aeabb4b367c83 :from :incidentBoard . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_490aeabb4b367c83 :to :nursePager . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ _:b9_490aeabb4b367c83 :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :nursePager ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :nursePager a :InformationMedium . },
+    { :nursePager :encodes :BreachBit . }.
+
+{ (:incidentBoard :incidentBoard) :canCopy :BreachBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :incidentBoard ],
+    [ pe:var "Task"; pe:value _:b9_465e1668a648d02f ],
+    [ pe:var "To"; pe:value :incidentBoard ],
+    [ pe:var "Variable"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_465e1668a648d02f a :PossibleTask . },
+    { _:b9_465e1668a648d02f :kind :Copy . },
+    { _:b9_465e1668a648d02f :from :incidentBoard . },
+    { _:b9_465e1668a648d02f :to :incidentBoard . },
+    { _:b9_465e1668a648d02f :variable :BreachBit . }.
+
+{ _:b9_465e1668a648d02f a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_465e1668a648d02f :kind :Copy . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_465e1668a648d02f :from :incidentBoard . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_465e1668a648d02f :to :incidentBoard . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ _:b9_465e1668a648d02f :variable :BreachBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :incidentBoard ],
+    [ pe:var "B"; pe:value :incidentBoard ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . },
+    { :incidentBoard a :InformationMedium . },
+    { :incidentBoard :encodes :BreachBit . }.
+
+{ :SerialNetwork a :PossibleTask . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :SerialNetwork .
+        } => {
+            :SerialNetwork a :PossibleTask .
+        } .
+    };
+  pe:binding [ pe:var "Task"; pe:value _:b13_e0263202c02aa69 ];
+  pe:uses
+    { _:b13_e0263202c02aa69 a :PossibleTask . },
+    { _:b13_e0263202c02aa69 :kind :SerialNetwork . }.
+
+{ _:b13_e0263202c02aa69 a :PossibleTask . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "C"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_aca6292e9274c721 a :PossibleTask . },
+    { _:b9_aca6292e9274c721 :kind :Copy . },
+    { _:b9_aca6292e9274c721 :from :doorBeacon . },
+    { _:b9_aca6292e9274c721 :to :doorBeacon . },
+    { _:b9_aca6292e9274c721 :variable :BreachBit . },
+    { _:b10_aca6292e9274c721 a :PossibleTask . },
+    { _:b10_aca6292e9274c721 :kind :Measure . },
+    { _:b10_aca6292e9274c721 :from :doorBeacon . },
+    { _:b10_aca6292e9274c721 :to :doorBeacon . },
+    { _:b10_aca6292e9274c721 :variable :BreachBit . }.
+
+{ _:b10_aca6292e9274c721 a :PossibleTask . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon :distinguishes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ :doorBeacon :distinguishes :BreachBit . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :doorBeacon ],
+    [ pe:var "O"; pe:value :BreachRed ],
+    [ pe:var "V"; pe:value :BreachBit ],
+    [ pe:var "Z"; pe:value :SafeGreen ];
+  pe:uses
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . },
+    { :doorBeacon :zeroState :SafeGreen . },
+    { :doorBeacon :oneState :BreachRed . }.
+
+{ _:b10_aca6292e9274c721 :kind :Measure . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon :distinguishes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b10_aca6292e9274c721 :from :doorBeacon . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon :distinguishes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b10_aca6292e9274c721 :to :doorBeacon . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon :distinguishes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b10_aca6292e9274c721 :variable :BreachBit . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { :doorBeacon :distinguishes :BreachBit . },
+    { :doorBeacon a :InformationMedium . },
+    { :doorBeacon :encodes :BreachBit . }.
+
+{ _:b13_e0263202c02aa69 :kind :SerialNetwork . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "C"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_aca6292e9274c721 a :PossibleTask . },
+    { _:b9_aca6292e9274c721 :kind :Copy . },
+    { _:b9_aca6292e9274c721 :from :doorBeacon . },
+    { _:b9_aca6292e9274c721 :to :doorBeacon . },
+    { _:b9_aca6292e9274c721 :variable :BreachBit . },
+    { _:b10_aca6292e9274c721 a :PossibleTask . },
+    { _:b10_aca6292e9274c721 :kind :Measure . },
+    { _:b10_aca6292e9274c721 :from :doorBeacon . },
+    { _:b10_aca6292e9274c721 :to :doorBeacon . },
+    { _:b10_aca6292e9274c721 :variable :BreachBit . }.
+
+{ :ParallelNetwork a :PossibleTask . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :ParallelNetwork .
+        } => {
+            :ParallelNetwork a :PossibleTask .
+        } .
+    };
+  pe:binding [ pe:var "Task"; pe:value _:b16_e0263202c02aa69 ];
+  pe:uses
+    { _:b16_e0263202c02aa69 a :PossibleTask . },
+    { _:b16_e0263202c02aa69 :kind :ParallelNetwork . }.
+
+{ _:b16_e0263202c02aa69 a :PossibleTask . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "C"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_aca6292e9274c721 a :PossibleTask . },
+    { _:b9_aca6292e9274c721 :kind :Copy . },
+    { _:b9_aca6292e9274c721 :from :doorBeacon . },
+    { _:b9_aca6292e9274c721 :to :doorBeacon . },
+    { _:b9_aca6292e9274c721 :variable :BreachBit . },
+    { _:b9_aca6292e9274c721 a :PossibleTask . },
+    { _:b9_aca6292e9274c721 :kind :Copy . },
+    { _:b9_aca6292e9274c721 :from :doorBeacon . },
+    { _:b9_aca6292e9274c721 :to :doorBeacon . },
+    { _:b9_aca6292e9274c721 :variable :BreachBit . }.
+
+{ _:b16_e0263202c02aa69 :kind :ParallelNetwork . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "A"; pe:value :doorBeacon ],
+    [ pe:var "B"; pe:value :doorBeacon ],
+    [ pe:var "C"; pe:value :doorBeacon ],
+    [ pe:var "V"; pe:value :BreachBit ];
+  pe:uses
+    { _:b9_aca6292e9274c721 a :PossibleTask . },
+    { _:b9_aca6292e9274c721 :kind :Copy . },
+    { _:b9_aca6292e9274c721 :from :doorBeacon . },
+    { _:b9_aca6292e9274c721 :to :doorBeacon . },
+    { _:b9_aca6292e9274c721 :variable :BreachBit . },
+    { _:b9_aca6292e9274c721 a :PossibleTask . },
+    { _:b9_aca6292e9274c721 :kind :Copy . },
+    { _:b9_aca6292e9274c721 :from :doorBeacon . },
+    { _:b9_aca6292e9274c721 :to :doorBeacon . },
+    { _:b9_aca6292e9274c721 :variable :BreachBit . }.

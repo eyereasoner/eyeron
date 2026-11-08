@@ -1,0 +1,221 @@
+@prefix : <http://example.org/gdpr#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:john_doe a :GDPRCompliant .
+:jane_smith a :GDPRCompliant .
+
+{ :john_doe a :GDPRCompliant . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "P"; pe:value :marketing ],
+    [ pe:var "S"; pe:value :john_doe ];
+  pe:uses
+    { :john_doe a :DataSubject . },
+    { :john_doe :lawfulPurpose :marketing . },
+    { :john_doe :retentionOKFor :marketing . },
+    { :john_doe :minimizationOKFor :marketing . },
+    { :john_doe :processorOK true . },
+    { :john_doe :rightsOK true . }.
+
+{ :john_doe a :DataSubject . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :john_doe :lawfulPurpose :marketing . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "B"; pe:value :consent ],
+    [ pe:var "P"; pe:value :marketing ],
+    [ pe:var "Premise0_b7"; pe:value _:b1 ],
+    [ pe:var "S"; pe:value :john_doe ];
+  pe:uses
+    { :john_doe :hasProcessingPurpose :marketing . },
+    { :john_doe :hasLawfulBasis _:b1 . },
+    { _:b1 :purpose :marketing . },
+    { _:b1 :basis :consent . }.
+
+{ :john_doe :hasProcessingPurpose :marketing . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :john_doe :hasLawfulBasis _:b1 . }
+  pe:fact "gdpr-compliance.n3".
+
+{ _:b1 :purpose :marketing . }
+  pe:fact "gdpr-compliance.n3".
+
+{ _:b1 :basis :consent . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :john_doe :retentionOKFor :marketing . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "D"; pe:value 180 ],
+    [ pe:var "P"; pe:value :marketing ],
+    [ pe:var "Premise1_b8"; pe:value _:b4 ],
+    [ pe:var "S"; pe:value :john_doe ];
+  pe:uses
+    { :john_doe :hasRetention _:b4 . },
+    { _:b4 :purpose :marketing . },
+    { _:b4 :days 180 . },
+    { 180 math:notGreaterThan 730 . }.
+
+{ :john_doe :hasRetention _:b4 . }
+  pe:fact "gdpr-compliance.n3".
+
+{ _:b4 :purpose :marketing . }
+  pe:fact "gdpr-compliance.n3".
+
+{ _:b4 :days 180 . }
+  pe:fact "gdpr-compliance.n3".
+
+{ 180 math:notGreaterThan 730 . }
+  pe:builtin math:notGreaterThan.
+
+{ :john_doe :minimizationOKFor :marketing . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "P"; pe:value :marketing ],
+    [ pe:var "S"; pe:value :john_doe ];
+  pe:uses
+    { :john_doe :hasProcessingPurpose :marketing . },
+    { :john_doe :isMinimalFor :marketing . }.
+
+{ :john_doe :isMinimalFor :marketing . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :john_doe :processorOK true . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "P"; pe:value :dpo_corp ],
+    [ pe:var "S"; pe:value :john_doe ];
+  pe:uses
+    { :dpo_corp a :Processor . },
+    { :dpo_corp :signedDPA true . },
+    { :dpo_corp :processes :john_doe . }.
+
+{ :dpo_corp a :Processor . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :dpo_corp :signedDPA true . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :dpo_corp :processes :john_doe . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :john_doe :rightsOK true . }
+  pe:rule 5;
+  pe:binding [ pe:var "S"; pe:value :john_doe ];
+  pe:uses
+    { :john_doe :exercisedRight :access . },
+    { :john_doe :exercisedRight :rectify . }.
+
+{ :john_doe :exercisedRight :access . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :john_doe :exercisedRight :rectify . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :jane_smith a :GDPRCompliant . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "P"; pe:value :support ],
+    [ pe:var "S"; pe:value :jane_smith ];
+  pe:uses
+    { :jane_smith a :DataSubject . },
+    { :jane_smith :lawfulPurpose :support . },
+    { :jane_smith :retentionOKFor :support . },
+    { :jane_smith :minimizationOKFor :support . },
+    { :jane_smith :processorOK true . },
+    { :jane_smith :rightsOK true . }.
+
+{ :jane_smith a :DataSubject . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :jane_smith :lawfulPurpose :support . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "B"; pe:value :contract ],
+    [ pe:var "P"; pe:value :support ],
+    [ pe:var "Premise0_b7"; pe:value _:b3 ],
+    [ pe:var "S"; pe:value :jane_smith ];
+  pe:uses
+    { :jane_smith :hasProcessingPurpose :support . },
+    { :jane_smith :hasLawfulBasis _:b3 . },
+    { _:b3 :purpose :support . },
+    { _:b3 :basis :contract . }.
+
+{ :jane_smith :hasProcessingPurpose :support . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :jane_smith :hasLawfulBasis _:b3 . }
+  pe:fact "gdpr-compliance.n3".
+
+{ _:b3 :purpose :support . }
+  pe:fact "gdpr-compliance.n3".
+
+{ _:b3 :basis :contract . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :jane_smith :retentionOKFor :support . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "D"; pe:value 365 ],
+    [ pe:var "P"; pe:value :support ],
+    [ pe:var "Premise1_b8"; pe:value _:b6 ],
+    [ pe:var "S"; pe:value :jane_smith ];
+  pe:uses
+    { :jane_smith :hasRetention _:b6 . },
+    { _:b6 :purpose :support . },
+    { _:b6 :days 365 . },
+    { 365 math:notGreaterThan 730 . }.
+
+{ :jane_smith :hasRetention _:b6 . }
+  pe:fact "gdpr-compliance.n3".
+
+{ _:b6 :purpose :support . }
+  pe:fact "gdpr-compliance.n3".
+
+{ _:b6 :days 365 . }
+  pe:fact "gdpr-compliance.n3".
+
+{ 365 math:notGreaterThan 730 . }
+  pe:builtin math:notGreaterThan.
+
+{ :jane_smith :minimizationOKFor :support . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "P"; pe:value :support ],
+    [ pe:var "S"; pe:value :jane_smith ];
+  pe:uses
+    { :jane_smith :hasProcessingPurpose :support . },
+    { :jane_smith :isMinimalFor :support . }.
+
+{ :jane_smith :isMinimalFor :support . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :jane_smith :processorOK true . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "P"; pe:value :dpo_corp ],
+    [ pe:var "S"; pe:value :jane_smith ];
+  pe:uses
+    { :dpo_corp a :Processor . },
+    { :dpo_corp :signedDPA true . },
+    { :dpo_corp :processes :jane_smith . }.
+
+{ :dpo_corp :processes :jane_smith . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :jane_smith :rightsOK true . }
+  pe:rule 5;
+  pe:binding [ pe:var "S"; pe:value :jane_smith ];
+  pe:uses
+    { :jane_smith :exercisedRight :access . },
+    { :jane_smith :exercisedRight :rectify . }.
+
+{ :jane_smith :exercisedRight :access . }
+  pe:fact "gdpr-compliance.n3".
+
+{ :jane_smith :exercisedRight :rectify . }
+  pe:fact "gdpr-compliance.n3".

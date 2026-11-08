@@ -1,0 +1,51 @@
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:red a :PrimaryColour .
+:green a :PrimaryColour .
+:blue a :PrimaryColour .
+
+{ :red a :PrimaryColour . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :PrimaryColour ],
+    [ pe:var "L"; pe:value (:red :green :blue) ],
+    [ pe:var "X"; pe:value :red ];
+  pe:uses
+    { :PrimaryColour owl:oneOf (:red :green :blue) . },
+    { :red list:in (:red :green :blue) . }.
+
+{ :PrimaryColour owl:oneOf (:red :green :blue) . }
+  pe:fact "owl-one-of.n3".
+
+{ :red list:in (:red :green :blue) . }
+  pe:builtin list:in.
+
+{ :green a :PrimaryColour . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :PrimaryColour ],
+    [ pe:var "L"; pe:value (:red :green :blue) ],
+    [ pe:var "X"; pe:value :green ];
+  pe:uses
+    { :PrimaryColour owl:oneOf (:red :green :blue) . },
+    { :green list:in (:red :green :blue) . }.
+
+{ :green list:in (:red :green :blue) . }
+  pe:builtin list:in.
+
+{ :blue a :PrimaryColour . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :PrimaryColour ],
+    [ pe:var "L"; pe:value (:red :green :blue) ],
+    [ pe:var "X"; pe:value :blue ];
+  pe:uses
+    { :PrimaryColour owl:oneOf (:red :green :blue) . },
+    { :blue list:in (:red :green :blue) . }.
+
+{ :blue list:in (:red :green :blue) . }
+  pe:builtin list:in.

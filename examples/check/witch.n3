@@ -1,0 +1,34 @@
+# checked: 9 steps, 9 verified, 0 trusted
+@prefix : <https://eyereasoner.github.io/eye/reasoning/witch#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:DUCK a :ISMADEOFWOOD .
+:GIRL a :FLOATS .
+:DUCK a :BURNS .
+:GIRL a :ISMADEOFWOOD .
+:GIRL a :BURNS .
+:GIRL a :WITCH .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/witch.n3";
+    pe:source "examples/witch.n3";
+    pe:verdict pe:checked;
+    pe:steps 9;
+    pe:verified 9;
+    pe:trusted 0;
+    pe:factSteps 3;
+    pe:ruleSteps 6;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 14; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 15; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 6; pe:failed 0 ].

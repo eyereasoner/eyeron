@@ -1,0 +1,35 @@
+# checked: 9 steps, 9 verified, 0 trusted
+@prefix : <urn:example:> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+("Huey" "Dewey" "Louie") :iterate (0 "Huey") .
+"Dewey" :hasIndex 1 .
+("Huey" "Dewey" "Louie") :iterate (1 "Dewey") .
+("Huey" "Dewey" "Louie") :iterate (2 "Louie") .
+:test :is true .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/list-iterate.n3";
+    pe:source "examples/list-iterate.n3";
+    pe:verdict pe:checked;
+    pe:steps 9;
+    pe:verified 9;
+    pe:trusted 0;
+    pe:builtinSteps 3;
+    pe:factSteps 1;
+    pe:ruleSteps 5;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 23; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 14; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 5; pe:failed 0 ].

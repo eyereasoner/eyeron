@@ -1,0 +1,107 @@
+@prefix : <http://example.org/#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:angers :path :nantes .
+:lemans :path :nantes .
+:chartres :path :nantes .
+:paris :path :nantes .
+
+{ :angers :path :nantes . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :angers ],
+    [ pe:var "B"; pe:value :nantes ];
+  pe:uses { :angers :oneway :nantes . }.
+
+{ :angers :oneway :nantes . }
+  pe:fact "road-paths.n3".
+
+{ :lemans :path :nantes . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :lemans ],
+    [ pe:var "B"; pe:value :angers ],
+    [ pe:var "C"; pe:value :nantes ];
+  pe:uses
+    { :lemans :path :angers . },
+    { :angers :path :nantes . }.
+
+{ :lemans :path :angers . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :lemans ],
+    [ pe:var "B"; pe:value :angers ];
+  pe:uses { :lemans :oneway :angers . }.
+
+{ :lemans :oneway :angers . }
+  pe:fact "road-paths.n3".
+
+{ :chartres :path :nantes . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :chartres ],
+    [ pe:var "B"; pe:value :angers ],
+    [ pe:var "C"; pe:value :nantes ];
+  pe:uses
+    { :chartres :path :angers . },
+    { :angers :path :nantes . }.
+
+{ :chartres :path :angers . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :chartres ],
+    [ pe:var "B"; pe:value :lemans ],
+    [ pe:var "C"; pe:value :angers ];
+  pe:uses
+    { :chartres :path :lemans . },
+    { :lemans :path :angers . }.
+
+{ :chartres :path :lemans . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :chartres ],
+    [ pe:var "B"; pe:value :lemans ];
+  pe:uses { :chartres :oneway :lemans . }.
+
+{ :chartres :oneway :lemans . }
+  pe:fact "road-paths.n3".
+
+{ :paris :path :nantes . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :paris ],
+    [ pe:var "B"; pe:value :angers ],
+    [ pe:var "C"; pe:value :nantes ];
+  pe:uses
+    { :paris :path :angers . },
+    { :angers :path :nantes . }.
+
+{ :paris :path :angers . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :paris ],
+    [ pe:var "B"; pe:value :lemans ],
+    [ pe:var "C"; pe:value :angers ];
+  pe:uses
+    { :paris :path :lemans . },
+    { :lemans :path :angers . }.
+
+{ :paris :path :lemans . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :paris ],
+    [ pe:var "B"; pe:value :chartres ],
+    [ pe:var "C"; pe:value :lemans ];
+  pe:uses
+    { :paris :path :chartres . },
+    { :chartres :path :lemans . }.
+
+{ :paris :path :chartres . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :paris ],
+    [ pe:var "B"; pe:value :chartres ];
+  pe:uses { :paris :oneway :chartres . }.
+
+{ :paris :oneway :chartres . }
+  pe:fact "road-paths.n3".

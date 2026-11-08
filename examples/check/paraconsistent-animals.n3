@@ -1,0 +1,637 @@
+# checked with obligations: 63 steps, 57 verified, 6 trusted
+@prefix : <http://example.org/paraconsistent#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:mythic :canFlyStatus :Both .
+:tweety :canFlyStatus :Both .
+:batsy :hasWingsStatus :Both .
+:mythic :inconsistent :canFly .
+:mythic :needsReview :canFly .
+:mythic :canFlySafely :Undecided .
+:mythic :movesBySafely :Unknown .
+:mythic :migratesSafely :Undecided .
+:tweety :inconsistent :canFly .
+:tweety :needsReview :canFly .
+:tweety :canFlySafely :Undecided .
+:tweety :movesBySafely :Unknown .
+:tweety :migratesSafely :Undecided .
+:batsy :inconsistent :hasWings .
+:batsy :needsReview :hasWings .
+:batsy :hasWingsSafely :Undecided .
+:falco :canFlyStatus :TrueOnly .
+:batsy :canFlyStatus :TrueOnly .
+:opus :canFlyStatus :FalseOnly .
+:tweety :hasWingsStatus :TrueOnly .
+:falco :hasWingsStatus :TrueOnly .
+:mythic :hasWingsStatus :TrueOnly .
+:nemo :hasWingsStatus :FalseOnly .
+:falco :canFlySafely true .
+:falco :movesBySafely :Flying .
+:falco :migratesSafely true .
+:batsy :canFlySafely true .
+:batsy :movesBySafely :Flying .
+:batsy :migratesSafely true .
+:opus :canFlySafely false .
+:opus :movesBySafely :Walking .
+:opus :migratesSafely false .
+:tweety :hasWingsSafely true .
+:falco :hasWingsSafely true .
+:mythic :hasWingsSafely true .
+:nemo :hasWingsSafely false .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/paraconsistent-animals.n3";
+    pe:source "examples/paraconsistent-animals.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 63;
+    pe:verified 57;
+    pe:trusted 6;
+    pe:builtinSteps 26;
+    pe:factSteps 1;
+    pe:ruleSteps 36;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 37; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 63; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 63; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 102; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 26; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 99; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 36; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :mythic a :Bird .
+                } => {
+                    :mythic :canFly true .
+                    :mythic :hasWings true .
+                } .
+                {
+                    :mythic a :Penguin .
+                } => {
+                    :mythic :canFly false .
+                } .
+                {
+                    :mythic a :Mammal .
+                } => {
+                    :mythic :hasWings false .
+                } .
+                {
+                    :mythic a :Bat .
+                } => {
+                    :mythic :hasWings true .
+                    :mythic :canFly true .
+                } .
+                {
+                    :mythic a :Fish .
+                } => {
+                    :mythic :canSwim true .
+                    :mythic :hasWings false .
+                } .
+            } log:conclusion {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :mythic a :Bird .
+                } => {
+                    :mythic :canFly true .
+                    :mythic :hasWings true .
+                } .
+                {
+                    :mythic a :Penguin .
+                } => {
+                    :mythic :canFly false .
+                } .
+                {
+                    :mythic a :Mammal .
+                } => {
+                    :mythic :hasWings false .
+                } .
+                {
+                    :mythic a :Bat .
+                } => {
+                    :mythic :hasWings true .
+                    :mythic :canFly true .
+                } .
+                {
+                    :mythic a :Fish .
+                } => {
+                    :mythic :canSwim true .
+                    :mythic :hasWings false .
+                } .
+                :tweety :canFly true .
+                :tweety :hasWings true .
+                :tweety :canFly false .
+                :falco :canFly true .
+                :falco :hasWings true .
+                :opus :canFly false .
+                :batsy :hasWings false .
+                :batsy :hasWings true .
+                :batsy :canFly true .
+                :nemo :canSwim true .
+                :nemo :hasWings false .
+                :mythic :canFly true .
+                :mythic :hasWings true .
+            } .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :tweety a :Bird .
+                } => {
+                    :tweety :canFly true .
+                    :tweety :hasWings true .
+                } .
+                {
+                    :tweety a :Penguin .
+                } => {
+                    :tweety :canFly false .
+                } .
+                {
+                    :tweety a :Mammal .
+                } => {
+                    :tweety :hasWings false .
+                } .
+                {
+                    :tweety a :Bat .
+                } => {
+                    :tweety :hasWings true .
+                    :tweety :canFly true .
+                } .
+                {
+                    :tweety a :Fish .
+                } => {
+                    :tweety :canSwim true .
+                    :tweety :hasWings false .
+                } .
+            } log:conclusion {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :tweety a :Bird .
+                } => {
+                    :tweety :canFly true .
+                    :tweety :hasWings true .
+                } .
+                {
+                    :tweety a :Penguin .
+                } => {
+                    :tweety :canFly false .
+                } .
+                {
+                    :tweety a :Mammal .
+                } => {
+                    :tweety :hasWings false .
+                } .
+                {
+                    :tweety a :Bat .
+                } => {
+                    :tweety :hasWings true .
+                    :tweety :canFly true .
+                } .
+                {
+                    :tweety a :Fish .
+                } => {
+                    :tweety :canSwim true .
+                    :tweety :hasWings false .
+                } .
+                :tweety :canFly true .
+                :tweety :hasWings true .
+                :tweety :canFly false .
+                :falco :canFly true .
+                :falco :hasWings true .
+                :opus :canFly false .
+                :batsy :hasWings false .
+                :batsy :hasWings true .
+                :batsy :canFly true .
+                :nemo :canSwim true .
+                :nemo :hasWings false .
+                :mythic :canFly true .
+                :mythic :hasWings true .
+            } .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :batsy a :Bird .
+                } => {
+                    :batsy :canFly true .
+                    :batsy :hasWings true .
+                } .
+                {
+                    :batsy a :Penguin .
+                } => {
+                    :batsy :canFly false .
+                } .
+                {
+                    :batsy a :Mammal .
+                } => {
+                    :batsy :hasWings false .
+                } .
+                {
+                    :batsy a :Bat .
+                } => {
+                    :batsy :hasWings true .
+                    :batsy :canFly true .
+                } .
+                {
+                    :batsy a :Fish .
+                } => {
+                    :batsy :canSwim true .
+                    :batsy :hasWings false .
+                } .
+            } log:conclusion {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :batsy a :Bird .
+                } => {
+                    :batsy :canFly true .
+                    :batsy :hasWings true .
+                } .
+                {
+                    :batsy a :Penguin .
+                } => {
+                    :batsy :canFly false .
+                } .
+                {
+                    :batsy a :Mammal .
+                } => {
+                    :batsy :hasWings false .
+                } .
+                {
+                    :batsy a :Bat .
+                } => {
+                    :batsy :hasWings true .
+                    :batsy :canFly true .
+                } .
+                {
+                    :batsy a :Fish .
+                } => {
+                    :batsy :canSwim true .
+                    :batsy :hasWings false .
+                } .
+                :tweety :canFly true .
+                :tweety :hasWings true .
+                :tweety :canFly false .
+                :falco :canFly true .
+                :falco :hasWings true .
+                :opus :canFly false .
+                :batsy :hasWings false .
+                :batsy :hasWings true .
+                :batsy :canFly true .
+                :nemo :canSwim true .
+                :nemo :hasWings false .
+                :mythic :canFly true .
+                :mythic :hasWings true .
+            } .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :falco a :Bird .
+                } => {
+                    :falco :canFly true .
+                    :falco :hasWings true .
+                } .
+                {
+                    :falco a :Penguin .
+                } => {
+                    :falco :canFly false .
+                } .
+                {
+                    :falco a :Mammal .
+                } => {
+                    :falco :hasWings false .
+                } .
+                {
+                    :falco a :Bat .
+                } => {
+                    :falco :hasWings true .
+                    :falco :canFly true .
+                } .
+                {
+                    :falco a :Fish .
+                } => {
+                    :falco :canSwim true .
+                    :falco :hasWings false .
+                } .
+            } log:conclusion {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :falco a :Bird .
+                } => {
+                    :falco :canFly true .
+                    :falco :hasWings true .
+                } .
+                {
+                    :falco a :Penguin .
+                } => {
+                    :falco :canFly false .
+                } .
+                {
+                    :falco a :Mammal .
+                } => {
+                    :falco :hasWings false .
+                } .
+                {
+                    :falco a :Bat .
+                } => {
+                    :falco :hasWings true .
+                    :falco :canFly true .
+                } .
+                {
+                    :falco a :Fish .
+                } => {
+                    :falco :canSwim true .
+                    :falco :hasWings false .
+                } .
+                :tweety :canFly true .
+                :tweety :hasWings true .
+                :tweety :canFly false .
+                :falco :canFly true .
+                :falco :hasWings true .
+                :opus :canFly false .
+                :batsy :hasWings false .
+                :batsy :hasWings true .
+                :batsy :canFly true .
+                :nemo :canSwim true .
+                :nemo :hasWings false .
+                :mythic :canFly true .
+                :mythic :hasWings true .
+            } .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :opus a :Bird .
+                } => {
+                    :opus :canFly true .
+                    :opus :hasWings true .
+                } .
+                {
+                    :opus a :Penguin .
+                } => {
+                    :opus :canFly false .
+                } .
+                {
+                    :opus a :Mammal .
+                } => {
+                    :opus :hasWings false .
+                } .
+                {
+                    :opus a :Bat .
+                } => {
+                    :opus :hasWings true .
+                    :opus :canFly true .
+                } .
+                {
+                    :opus a :Fish .
+                } => {
+                    :opus :canSwim true .
+                    :opus :hasWings false .
+                } .
+            } log:conclusion {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :opus a :Bird .
+                } => {
+                    :opus :canFly true .
+                    :opus :hasWings true .
+                } .
+                {
+                    :opus a :Penguin .
+                } => {
+                    :opus :canFly false .
+                } .
+                {
+                    :opus a :Mammal .
+                } => {
+                    :opus :hasWings false .
+                } .
+                {
+                    :opus a :Bat .
+                } => {
+                    :opus :hasWings true .
+                    :opus :canFly true .
+                } .
+                {
+                    :opus a :Fish .
+                } => {
+                    :opus :canSwim true .
+                    :opus :hasWings false .
+                } .
+                :tweety :canFly true .
+                :tweety :hasWings true .
+                :tweety :canFly false .
+                :falco :canFly true .
+                :falco :hasWings true .
+                :opus :canFly false .
+                :batsy :hasWings false .
+                :batsy :hasWings true .
+                :batsy :canFly true .
+                :nemo :canSwim true .
+                :nemo :hasWings false .
+                :mythic :canFly true .
+                :mythic :hasWings true .
+            } .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :nemo a :Bird .
+                } => {
+                    :nemo :canFly true .
+                    :nemo :hasWings true .
+                } .
+                {
+                    :nemo a :Penguin .
+                } => {
+                    :nemo :canFly false .
+                } .
+                {
+                    :nemo a :Mammal .
+                } => {
+                    :nemo :hasWings false .
+                } .
+                {
+                    :nemo a :Bat .
+                } => {
+                    :nemo :hasWings true .
+                    :nemo :canFly true .
+                } .
+                {
+                    :nemo a :Fish .
+                } => {
+                    :nemo :canSwim true .
+                    :nemo :hasWings false .
+                } .
+            } log:conclusion {
+                :tweety a :Bird .
+                :tweety a :Penguin .
+                :falco a :Bird .
+                :opus a :Penguin .
+                :batsy a :Mammal .
+                :batsy a :Bat .
+                :nemo a :Fish .
+                :mythic a :Bird .
+                :mythic :canFly false .
+                {
+                    :nemo a :Bird .
+                } => {
+                    :nemo :canFly true .
+                    :nemo :hasWings true .
+                } .
+                {
+                    :nemo a :Penguin .
+                } => {
+                    :nemo :canFly false .
+                } .
+                {
+                    :nemo a :Mammal .
+                } => {
+                    :nemo :hasWings false .
+                } .
+                {
+                    :nemo a :Bat .
+                } => {
+                    :nemo :hasWings true .
+                    :nemo :canFly true .
+                } .
+                {
+                    :nemo a :Fish .
+                } => {
+                    :nemo :canSwim true .
+                    :nemo :hasWings false .
+                } .
+                :tweety :canFly true .
+                :tweety :hasWings true .
+                :tweety :canFly false .
+                :falco :canFly true .
+                :falco :hasWings true .
+                :opus :canFly false .
+                :batsy :hasWings false .
+                :batsy :hasWings true .
+                :batsy :canFly true .
+                :nemo :canSwim true .
+                :nemo :hasWings false .
+                :mythic :canFly true .
+                :mythic :hasWings true .
+            } .
+        }
+    ].

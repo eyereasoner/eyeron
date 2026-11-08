@@ -1,0 +1,93 @@
+@prefix ex: <https://example.org/leisure#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:APP-LEIS-01 ex:eligible true .
+ex:APP-LEIS-01 ex:status ex:Approved .
+_:v_134e1665e812dc4 a ex:LeisureVoucher .
+ex:APP-LEIS-01 ex:issuedVoucher _:v_134e1665e812dc4 .
+
+{ ex:APP-LEIS-01 ex:eligible true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "age"; pe:value 19 ],
+    [ pe:var "app"; pe:value ex:APP-LEIS-01 ],
+    [ pe:var "inc"; pe:value 20000 ],
+    [ pe:var "m"; pe:value 45 ],
+    [ pe:var "p"; pe:value ex:Liam ],
+    [ pe:var "s"; pe:value 4 ],
+    [ pe:var "weekMin"; pe:value 180 ];
+  pe:uses
+    { ex:APP-LEIS-01 ex:appliesFor ex:SportsVoucher . },
+    { ex:APP-LEIS-01 ex:hasApplicant ex:Liam . },
+    { ex:Liam ex:hasAge 19 . },
+    { ex:Liam ex:commitsSessionsPerWeek 4 . },
+    { ex:Liam ex:minutesPerSession 45 . },
+    { ex:Liam ex:householdIncome 20000 . },
+    { 12 math:notGreaterThan 19 . },
+    { 19 math:lessThan 30 . },
+    { 3 math:notGreaterThan 4 . },
+    { (4 45) math:product 180 . },
+    { 180 math:notLessThan 150 . },
+    { 20000 math:lessThan 30000 . }.
+
+{ ex:APP-LEIS-01 ex:appliesFor ex:SportsVoucher . }
+  pe:fact "leisure-sports-voucher.n3".
+
+{ ex:APP-LEIS-01 ex:hasApplicant ex:Liam . }
+  pe:fact "leisure-sports-voucher.n3".
+
+{ ex:Liam ex:hasAge 19 . }
+  pe:fact "leisure-sports-voucher.n3".
+
+{ ex:Liam ex:commitsSessionsPerWeek 4 . }
+  pe:fact "leisure-sports-voucher.n3".
+
+{ ex:Liam ex:minutesPerSession 45 . }
+  pe:fact "leisure-sports-voucher.n3".
+
+{ ex:Liam ex:householdIncome 20000 . }
+  pe:fact "leisure-sports-voucher.n3".
+
+{ 12 math:notGreaterThan 19 . }
+  pe:builtin math:notGreaterThan.
+
+{ 19 math:lessThan 30 . }
+  pe:builtin math:lessThan.
+
+{ 3 math:notGreaterThan 4 . }
+  pe:builtin math:notGreaterThan.
+
+{ (4 45) math:product 180 . }
+  pe:builtin math:product.
+
+{ 180 math:notLessThan 150 . }
+  pe:builtin math:notLessThan.
+
+{ 20000 math:lessThan 30000 . }
+  pe:builtin math:lessThan.
+
+{ ex:APP-LEIS-01 ex:status ex:Approved . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-LEIS-01 ];
+  pe:uses
+    { ex:APP-LEIS-01 ex:eligible true . },
+    { ex:APP-LEIS-01 ex:status ex:Submitted . }.
+
+{ ex:APP-LEIS-01 ex:status ex:Submitted . }
+  pe:fact "leisure-sports-voucher.n3".
+
+{ _:v_134e1665e812dc4 a ex:LeisureVoucher . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-LEIS-01 ];
+  pe:uses
+    { ex:APP-LEIS-01 ex:eligible true . },
+    { ex:APP-LEIS-01 ex:status ex:Submitted . }.
+
+{ ex:APP-LEIS-01 ex:issuedVoucher _:v_134e1665e812dc4 . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-LEIS-01 ];
+  pe:uses
+    { ex:APP-LEIS-01 ex:eligible true . },
+    { ex:APP-LEIS-01 ex:status ex:Submitted . }.

@@ -1,0 +1,47 @@
+# checked: 69 steps, 69 verified, 0 trusted
+@prefix : <http://example.org/#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:result :sameClassBecauseOfSharedMember (:a :b :b) .
+:result :sameClassBecauseOfSharedMember (:b :a :b) .
+:result :sameClassBecauseOfSharedMember (:b :a :a) .
+:result :sameClassBecauseOfSharedMember (:c :b :b) .
+:result :sameClassBecauseOfSharedMember (:a :c :b) .
+:result :sameClassBecauseOfSharedMember (:b :c :b) .
+:result :sameClassBecauseOfSharedMember (:b :c :a) .
+:result :sameClassBecauseOfSharedMember (:b :c :c) .
+:result :sameClassBecauseOfSharedMember (:a :b :a) .
+:result :sameClassBecauseOfSharedMember (:a :c :a) .
+:result :sameClassBecauseOfSharedMember (:c :b :c) .
+:result :sameClassBecauseOfSharedMember (:c :b :a) .
+:result :sameClassBecauseOfSharedMember (:b :a :c) .
+:result :sameClassBecauseOfSharedMember (:a :b :c) .
+:result :sameClassBecauseOfSharedMember (:c :a :a) .
+:result :sameClassBecauseOfSharedMember (:a :c :c) .
+:result :sameClassBecauseOfSharedMember (:c :a :c) .
+:result :sameClassBecauseOfSharedMember (:c :a :b) .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/equivalence-classes-overlap-implies-same-class.n3";
+    pe:source "examples/equivalence-classes-overlap-implies-same-class.n3";
+    pe:verdict pe:checked;
+    pe:steps 69;
+    pe:verified 69;
+    pe:trusted 0;
+    pe:builtinSteps 6;
+    pe:factSteps 5;
+    pe:ruleSteps 58;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 63; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 69; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 69; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 150; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 87; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 208; pe:failed 0 ].

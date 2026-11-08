@@ -1,0 +1,46 @@
+# checked: 79 steps, 79 verified, 0 trusted
+@prefix : <http://example.org/farming#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:LowInputDry :status "under" .
+:BalancedLoam :status "balanced" .
+:HighInputRisk :status "over" .
+:SandyOverFertil :status "over" .
+:LowInputDry :deficitN "45"^^xsd:decimal .
+:BalancedLoam :deficitN "11"^^xsd:decimal .
+:HighInputRisk :deficitN 0.0 .
+:SandyOverFertil :deficitN 0.0 .
+:HighInputRisk :surplusN "20"^^xsd:decimal .
+:SandyOverFertil :surplusN "18"^^xsd:decimal .
+:LowInputDry :surplusN 0.0 .
+:BalancedLoam :surplusN 0.0 .
+:HighInputRisk :leachIndex "5"^^xsd:decimal .
+:SandyOverFertil :leachIndex 7.2 .
+:LowInputDry :leachIndex "0"^^xsd:decimal .
+:BalancedLoam :leachIndex "0"^^xsd:decimal .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/field-nitrogen-balance.n3";
+    pe:source "examples/field-nitrogen-balance.n3";
+    pe:verdict pe:checked;
+    pe:steps 79;
+    pe:verified 79;
+    pe:trusted 0;
+    pe:builtinSteps 35;
+    pe:factSteps 20;
+    pe:ruleSteps 24;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 44; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 79; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 79; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 122; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 35; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 95; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 130; pe:failed 0 ].

@@ -1,0 +1,43 @@
+# checked: 34 steps, 34 verified, 0 trusted
+@prefix : <https://eyereasoner.github.io/eyeling/examples/school-placement-audit#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:Ada :auditFlag :walkingLimitExceeded .
+:Bjorn :auditFlag :walkingLimitExceeded .
+:Davi :auditFlag :walkingLimitExceeded .
+:Ada :auditFlag :assignmentDiffersFromAuditedBest .
+:Audit :result "fail" .
+:Audit :affectedChildren "Ada, Björn, Davi" .
+:Audit :largestHiddenDetour "Ada, 3000 m" .
+:Audit :recommendedAssignments "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga" .
+:Bjorn :auditFlag :assignmentDiffersFromAuditedBest .
+:Davi :auditFlag :assignmentDiffersFromAuditedBest .
+:schoolPlacementAudit log:outputString "# school-placement-audit\n\n## Source files\n\n- [N3 rules](../school-placement-audit.n3)\n- [Input TriG](../input/school-placement-audit.trig)\n\n## Answer\naudit result : fail\nchildren affected by straight-line rule : Ada, Björn, Davi\nlargest hidden detour : Ada, 3000 m\nrecommended assignments : Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga\nexplanation requested : yes\n\n## Explanation\nThe support-tool rule chooses the school with the smallest straight-line distance, using preference rank only as a tie-breaker. The independent audit recomputes each candidate with walking-route distance plus 600 m per preference step. Any provisional assignment that is not the audited best, or that requires more than 2500 m of walking, is flagged. Ada and Björn look close to Centrum on a map, but their walking routes cross barriers and exceed the walking limit; Davi is also better served by the first-preference Haga route. This illustrates why a decision-support label is not enough: route geometry, preferences, and audit records must be inspectable." .
+:schoolPlacementAudit :reports :Audit .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/school-placement-audit.n3";
+    pe:source "examples/school-placement-audit.n3";
+    pe:source "examples/input/school-placement-audit.trig";
+    pe:verdict pe:checked;
+    pe:steps 34;
+    pe:verified 34;
+    pe:trusted 0;
+    pe:builtinSteps 9;
+    pe:factSteps 13;
+    pe:ruleSteps 12;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 25; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 34; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 34; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 78; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 46; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 12; pe:failed 0 ].

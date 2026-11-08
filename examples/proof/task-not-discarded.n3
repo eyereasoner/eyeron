@@ -1,0 +1,91 @@
+@prefix : <http://example.org/test#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:task1 a :NotDiscardedTask .
+:task2 a :NotDiscardedTask .
+
+{ :task1 a :NotDiscardedTask . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Graph"; pe:value {
+        :task1 a :CompositeTask .
+        :task2 a :CompositeTask .
+    } ],
+    [ pe:var "Task"; pe:value :task1 ];
+  pe:uses
+    { :task1 a :CompositeTask . },
+    {
+        :tasks :graph {
+            :task1 a :CompositeTask .
+            :task2 a :CompositeTask .
+        } .
+    },
+    {
+        {
+            :task1 a :CompositeTask .
+            :task2 a :CompositeTask .
+        } log:notIncludes {
+            :task1 a :DiscardedTask .
+        } .
+    }.
+
+{ :task1 a :CompositeTask . }
+  pe:fact "task-not-discarded.n3".
+
+{
+  :tasks :graph {
+      :task1 a :CompositeTask .
+      :task2 a :CompositeTask .
+  } .
+}
+  pe:fact "task-not-discarded.n3".
+
+{
+  {
+      :task1 a :CompositeTask .
+      :task2 a :CompositeTask .
+  } log:notIncludes {
+      :task1 a :DiscardedTask .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :task2 a :NotDiscardedTask . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Graph"; pe:value {
+        :task1 a :CompositeTask .
+        :task2 a :CompositeTask .
+    } ],
+    [ pe:var "Task"; pe:value :task2 ];
+  pe:uses
+    { :task2 a :CompositeTask . },
+    {
+        :tasks :graph {
+            :task1 a :CompositeTask .
+            :task2 a :CompositeTask .
+        } .
+    },
+    {
+        {
+            :task1 a :CompositeTask .
+            :task2 a :CompositeTask .
+        } log:notIncludes {
+            :task2 a :DiscardedTask .
+        } .
+    }.
+
+{ :task2 a :CompositeTask . }
+  pe:fact "task-not-discarded.n3".
+
+{
+  {
+      :task1 a :CompositeTask .
+      :task2 a :CompositeTask .
+  } log:notIncludes {
+      :task2 a :DiscardedTask .
+  } .
+}
+  pe:builtin log:notIncludes.

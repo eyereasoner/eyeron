@@ -1,0 +1,84 @@
+# checked: 162 steps, 162 verified, 0 trusted
+@prefix : <http://example.org/reals#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:sqrt2Seq :term (1 1.5) .
+:sqrt2Seq :error (0 1) .
+:sqrt2Seq :delta (1 0.5) .
+:sqrt2Seq log:outputString "n=0  x=1.0  delta=seed  err=1\n" .
+:sqrt2Seq :term (2 1.4166666666666665) .
+:sqrt2Seq :error (1 0.25) .
+:sqrt2Seq :delta (2 0.08333333333333348) .
+:sqrt2Seq log:outputString "n=1  x=1.5  delta=0.5  err=0.25\n" .
+:sqrt2Seq :term (3 1.4142156862745097) .
+:sqrt2Seq :error (2 0.006944444444444198) .
+:sqrt2Seq :delta (3 0.002450980392156854) .
+:sqrt2Seq log:outputString "n=2  x=1.4166666666666665  delta=0.08333333333333348  err=0.006944444444444198\n" .
+:sqrt2Seq :term (4 1.4142135623746899) .
+:sqrt2Seq :error (3 0.000006007304882427178) .
+:sqrt2Seq :delta (4 0.0000021238998197947723) .
+:sqrt2Seq log:outputString "n=3  x=1.4142156862745097  delta=0.002450980392156854  err=0.000006007304882427178\n" .
+:sqrt2Seq :term (5 1.414213562373095) .
+:sqrt2Seq :error (4 4.510614104447086e-12) .
+:sqrt2Seq :delta (5 1.5949463971764999e-12) .
+:sqrt2Seq log:outputString "n=4  x=1.4142135623746899  delta=0.0000021238998197947723  err=4.510614104447086e-12\n" .
+:sqrt2Seq :cauchyStep (4 true) .
+:sqrt2Seq :term (6 1.414213562373095) .
+:sqrt2Seq :error (5 4.440892098500626e-16) .
+:sqrt2Seq :delta (6 0) .
+:sqrt2Seq log:outputString "n=5  x=1.414213562373095  delta=1.5949463971764999e-12  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (5 true) .
+:sqrt2Seq :term (7 1.414213562373095) .
+:sqrt2Seq :error (6 4.440892098500626e-16) .
+:sqrt2Seq :delta (7 0) .
+:sqrt2Seq log:outputString "n=6  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (6 true) .
+:sqrt2Seq :term (8 1.414213562373095) .
+:sqrt2Seq :error (7 4.440892098500626e-16) .
+:sqrt2Seq :delta (8 0) .
+:sqrt2Seq log:outputString "n=7  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (7 true) .
+:sqrt2Seq :term (9 1.414213562373095) .
+:sqrt2Seq :error (8 4.440892098500626e-16) .
+:sqrt2Seq :delta (9 0) .
+:sqrt2Seq log:outputString "n=8  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (8 true) .
+:sqrt2Seq :term (10 1.414213562373095) .
+:sqrt2Seq :error (9 4.440892098500626e-16) .
+:sqrt2Seq :delta (10 0) .
+:sqrt2Seq log:outputString "n=9  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (9 true) .
+:sqrt2Seq :error (10 4.440892098500626e-16) .
+:sqrt2Real :approx 1.414213562373095 .
+:sqrt2Seq log:outputString "n=10  x=1.414213562373095  delta=0  err=4.440892098500626e-16\n" .
+:sqrt2Seq :cauchyStep (10 true) .
+:sqrt2Real log:outputString "Approximation (at limit): sqrt2 ≈ 1.414213562373095\n" .
+:sqrt2Seq :boundedCauchyTail true .
+:sqrt2Seq log:outputString "Tail check: for i,j in (4..10), all |x_i - x_j| < 0.0001 (finite check)\n" .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/sqrt2-cauchy.n3";
+    pe:source "examples/sqrt2-cauchy.n3";
+    pe:verdict pe:checked;
+    pe:steps 162;
+    pe:verified 162;
+    pe:trusted 0;
+    pe:builtinSteps 105;
+    pe:factSteps 4;
+    pe:ruleSteps 53;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 57; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 162; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 162; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 312; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 105; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 1; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 215; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 53; pe:failed 0 ].

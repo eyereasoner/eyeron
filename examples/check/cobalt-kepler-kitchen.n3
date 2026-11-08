@@ -1,0 +1,213 @@
+# checked with obligations: 208 steps, 186 verified, 22 trusted
+@prefix : <http://example.org/cobalt-kepler#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:Transfer1 :transferSemiMajorAxis "24582"^^xsd:decimal .
+:Transfer1 :v1 7.546053290107541 .
+:Transfer1 :v2 3.074666284127684 .
+:Transfer1 :vTransferAtR1 9.882849072493745 .
+:Transfer1 :vTransferAtR2 1.640734833209758 .
+:Transfer1 :deltaV1 2.3367957823862033 .
+:Transfer1 :deltaV2 1.4339314509179262 .
+:Transfer1 :deltaVTotal 3.7707272333041297 .
+:Transfer1 :timeOfFlight 19178.15420570903 .
+_:b1 :periapsis "6993"^^xsd:decimal .
+_:b1 :apoapsis 7006.999999999999 .
+_:b1 :period 5828.516637686015 .
+_:b1 :specificEnergy -28.471460128571426 .
+_:b1 :angularMomentum 52822.34661955968 .
+_:b1 :stateAtM _:b4_92d41c9ac8dec5fc .
+_:b4_92d41c9ac8dec5fc :M 1.0 .
+_:b4_92d41c9ac8dec5fc :E 1.0008419256335213 .
+_:b4_92d41c9ac8dec5fc :nu -2.2873045281884816 .
+_:b4_92d41c9ac8dec5fc :r 6996.222844390736 .
+_:b4_92d41c9ac8dec5fc :x -4594.807855276618 .
+_:b4_92d41c9ac8dec5fc :y -5275.87669126782 .
+_:b2 :periapsis 26294.4 .
+_:b2 :apoapsis 26825.6 .
+_:b2 :period 43077.75744086394 .
+_:b2 :specificEnergy -7.503773377259035 .
+_:b2 :angularMomentum 102887.16660222781 .
+_:b2 :stateAtM _:b4_eafbcd3fa87ee5e5 .
+_:b4_eafbcd3fa87ee5e5 :M 0.3 .
+_:b4_eafbcd3fa87ee5e5 :E 0.3029834341902831 .
+_:b4_eafbcd3fa87ee5e5 :nu 0.6416326023742479 .
+_:b4_eafbcd3fa87ee5e5 :r 26306.497927630408 .
+_:b4_eafbcd3fa87ee5e5 :x 21074.653903376588 .
+_:b4_eafbcd3fa87ee5e5 :y 15744.54813798468 .
+_:b3 :periapsis 42159.7836 .
+_:b3 :apoapsis 42168.2164 .
+_:b3 :period 86163.57055057827 .
+_:b3 :specificEnergy -4.7267863793757705 .
+_:b3 :angularMomentum 129640.22855575853 .
+_:b3 :stateAtM _:b4_f63e0f312aca1e0f .
+_:b4_f63e0f312aca1e0f :M 2.0 .
+_:b4_f63e0f312aca1e0f :E 2.00009092595867 .
+_:b4_f63e0f312aca1e0f :nu 2.0000000098093915 .
+_:b4_f63e0f312aca1e0f :r 42165.754990121 .
+_:b4_f63e0f312aca1e0f :x -17547.1459258647 .
+_:b4_f63e0f312aca1e0f :y 38341.21234055235 .
+:OrbitSet :avgPeriod 45023.28154304274 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/cobalt-kepler-kitchen.n3";
+    pe:source "examples/cobalt-kepler-kitchen.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 208;
+    pe:verified 186;
+    pe:trusted 22;
+    pe:builtinSteps 148;
+    pe:factSteps 14;
+    pe:ruleSteps 46;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 60; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 208; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 208; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 2031; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 148; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 254; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 21; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 1; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 46; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1 :stateAtM _:b4_92d41c9ac8dec5fc .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_92d41c9ac8dec5fc :M 1.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_92d41c9ac8dec5fc :E 1.0008419256335213 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_92d41c9ac8dec5fc :nu -2.2873045281884816 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_92d41c9ac8dec5fc :r 6996.222844390736 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_92d41c9ac8dec5fc :x -4594.807855276618 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_92d41c9ac8dec5fc :y -5275.87669126782 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2 :stateAtM _:b4_eafbcd3fa87ee5e5 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_eafbcd3fa87ee5e5 :M 0.3 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_eafbcd3fa87ee5e5 :E 0.3029834341902831 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_eafbcd3fa87ee5e5 :nu 0.6416326023742479 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_eafbcd3fa87ee5e5 :r 26306.497927630408 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_eafbcd3fa87ee5e5 :x 21074.653903376588 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_eafbcd3fa87ee5e5 :y 15744.54813798468 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3 :stateAtM _:b4_f63e0f312aca1e0f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_f63e0f312aca1e0f :M 2.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_f63e0f312aca1e0f :E 2.00009092595867 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_f63e0f312aca1e0f :nu 2.0000000098093915 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_f63e0f312aca1e0f :r 42165.754990121 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_f63e0f312aca1e0f :x -17547.1459258647 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_f63e0f312aca1e0f :y 38341.21234055235 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?T {
+                (_:b1 _:b2 _:b3) list:member ?orb .
+                ?orb :period ?T .
+            } (5828.516637686015 43077.75744086394 86163.57055057827)) log:collectAllIn ?_:avgScope .
+        }
+    ].

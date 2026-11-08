@@ -1,0 +1,56 @@
+# checked: 519 steps, 519 verified, 0 trusted
+@prefix : <http://example.org/#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+2024 :easter (31 3) .
+2025 :easter (20 4) .
+2026 :easter (5 4) .
+2027 :easter (28 3) .
+2028 :easter (16 4) .
+2029 :easter (1 4) .
+2030 :easter (21 4) .
+2031 :easter (13 4) .
+2032 :easter (28 3) .
+2033 :easter (17 4) .
+2034 :easter (9 4) .
+2035 :easter (25 3) .
+2036 :easter (13 4) .
+2037 :easter (5 4) .
+2038 :easter (25 4) .
+2039 :easter (10 4) .
+2040 :easter (1 4) .
+2041 :easter (21 4) .
+2042 :easter (6 4) .
+2043 :easter (29 3) .
+2044 :easter (17 4) .
+2045 :easter (9 4) .
+2046 :easter (25 3) .
+2047 :easter (14 4) .
+2048 :easter (5 4) .
+2049 :easter (18 4) .
+2050 :easter (10 4) .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/easter.n3";
+    pe:source "examples/easter.n3";
+    pe:verdict pe:checked;
+    pe:steps 519;
+    pe:verified 519;
+    pe:trusted 0;
+    pe:builtinSteps 492;
+    pe:ruleSteps 27;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 27; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 519; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 519; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 972; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 492; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 546; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 972; pe:failed 0 ].

@@ -1,0 +1,91 @@
+@prefix ex: <https://example.org/health#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:APP-HYP-01 ex:eligible true .
+ex:APP-HYP-01 ex:status ex:Approved .
+_:pay_cba340144672eeb9 a ex:HealthcarePayment .
+ex:APP-HYP-01 ex:issuedPayment _:pay_cba340144672eeb9 .
+
+{ ex:APP-HYP-01 ex:eligible true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "age"; pe:value 52 ],
+    [ pe:var "app"; pe:value ex:APP-HYP-01 ],
+    [ pe:var "avg"; pe:value 143.33333333333334 ],
+    [ pe:var "p"; pe:value ex:Dana ],
+    [ pe:var "r1"; pe:value 150 ],
+    [ pe:var "r2"; pe:value 142 ],
+    [ pe:var "r3"; pe:value 138 ],
+    [ pe:var "s12"; pe:value 292 ],
+    [ pe:var "sum3"; pe:value 430 ];
+  pe:uses
+    { ex:APP-HYP-01 ex:appliesFor ex:HypertensionCoPayAid . },
+    { ex:APP-HYP-01 ex:hasApplicant ex:Dana . },
+    { ex:Dana ex:hasAge 52 . },
+    { ex:Dana ex:bpS1 150 . },
+    { ex:Dana ex:bpS2 142 . },
+    { ex:Dana ex:bpS3 138 . },
+    { 40 math:notGreaterThan 52 . },
+    { (150 142) math:sum 292 . },
+    { (292 138) math:sum 430 . },
+    { (430 3) math:quotient 143.33333333333334 . },
+    { 143.33333333333334 math:notLessThan 140 . }.
+
+{ ex:APP-HYP-01 ex:appliesFor ex:HypertensionCoPayAid . }
+  pe:fact "health-hypertension-copay-aid.n3".
+
+{ ex:APP-HYP-01 ex:hasApplicant ex:Dana . }
+  pe:fact "health-hypertension-copay-aid.n3".
+
+{ ex:Dana ex:hasAge 52 . }
+  pe:fact "health-hypertension-copay-aid.n3".
+
+{ ex:Dana ex:bpS1 150 . }
+  pe:fact "health-hypertension-copay-aid.n3".
+
+{ ex:Dana ex:bpS2 142 . }
+  pe:fact "health-hypertension-copay-aid.n3".
+
+{ ex:Dana ex:bpS3 138 . }
+  pe:fact "health-hypertension-copay-aid.n3".
+
+{ 40 math:notGreaterThan 52 . }
+  pe:builtin math:notGreaterThan.
+
+{ (150 142) math:sum 292 . }
+  pe:builtin math:sum.
+
+{ (292 138) math:sum 430 . }
+  pe:builtin math:sum.
+
+{ (430 3) math:quotient 143.33333333333334 . }
+  pe:builtin math:quotient.
+
+{ 143.33333333333334 math:notLessThan 140 . }
+  pe:builtin math:notLessThan.
+
+{ ex:APP-HYP-01 ex:status ex:Approved . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-HYP-01 ];
+  pe:uses
+    { ex:APP-HYP-01 ex:eligible true . },
+    { ex:APP-HYP-01 ex:status ex:Submitted . }.
+
+{ ex:APP-HYP-01 ex:status ex:Submitted . }
+  pe:fact "health-hypertension-copay-aid.n3".
+
+{ _:pay_cba340144672eeb9 a ex:HealthcarePayment . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-HYP-01 ];
+  pe:uses
+    { ex:APP-HYP-01 ex:eligible true . },
+    { ex:APP-HYP-01 ex:status ex:Submitted . }.
+
+{ ex:APP-HYP-01 ex:issuedPayment _:pay_cba340144672eeb9 . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-HYP-01 ];
+  pe:uses
+    { ex:APP-HYP-01 ex:eligible true . },
+    { ex:APP-HYP-01 ex:status ex:Submitted . }.

@@ -1,0 +1,1662 @@
+@prefix : <http://example.org/ebike-thermal#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:result :summary ("cooling-symbol" "exp(-1/4)" "cooling-lower" 0.7788007830 "cooling-upper" 0.7788007831 "warning-limit-C" 35.0 "hard-limit-C" 45.0 "warning-recovery-step" 8 "warning-recovery-time-s" "40"^^xsd:decimal "decision" :ThermallySafeForThisAssistPlan) .
+:result :temperatureTrace (0 :Turbo "33"^^xsd:decimal "33"^^xsd:decimal) .
+:result :temperatureTrace (1 :Turbo 36.030406264 36.0304062648) .
+:result :temperatureTrace (2 :Turbo 38.3904890352113 38.39048903693738) .
+:result :temperatureTrace (3 :Tour 40.22852334537548 40.2285233480588) .
+:result :temperatureTrace (4 :Tour 39.259985905312206 39.259985908924826) .
+:result :temperatureTrace (5 :Eco 38.50568818862611 38.50568819286562) .
+:result :temperatureTrace (6 :Eco 36.71824053625586 36.71824054090817) .
+:result :temperatureTrace (7 :Eco 35.326174905018405 35.326174909813446) .
+:result :temperatureTrace (8 :Coast 34.24203310142329 34.242033106190284) .
+:result :temperatureTrace (9 :Coast 32.197702615900376 32.19770262053712) .
+:result :temperatureTrace (10 :Coast 30.605576433064357 30.605576437395232) .
+:result :temperatureTrace (11 :Coast 29.36562731523687 29.365627319170315) .
+:result :coolingStep 3 .
+:result :coolingStep 4 .
+:result :coolingStep 5 .
+:result :coolingStep 6 .
+:result :coolingStep 7 .
+:result :coolingStep 8 .
+:result :coolingStep 9 .
+:result :coolingStep 10 .
+:result :coolingStep 11 .
+
+{ :result :summary ("cooling-symbol" "exp(-1/4)" "cooling-lower" 0.7788007830 "cooling-upper" 0.7788007831 "warning-limit-C" 35.0 "hard-limit-C" 45.0 "warning-recovery-step" 8 "warning-recovery-time-s" "40"^^xsd:decimal "decision" :ThermallySafeForThisAssistPlan) . }
+  pe:rule
+    {
+        {
+            :ride :exactCoolingSymbol ?sym .
+            :ride :coolingLower ?aLo .
+            :ride :coolingUpper ?aHi .
+            :ride :warningLimit ?warn .
+            :ride :hardLimit ?hard .
+            :ride :firstRecoveredWarningAt ?k .
+            :ride :firstRecoveredWarningTime ?t .
+            :ride :rideDecision ?decision .
+        } => {
+            :result :summary ("cooling-symbol" ?sym "cooling-lower" ?aLo "cooling-upper" ?aHi "warning-limit-C" ?warn "hard-limit-C" ?hard "warning-recovery-step" ?k "warning-recovery-time-s" ?t "decision" ?decision) .
+        } .
+    };
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decision"; pe:value :ThermallySafeForThisAssistPlan ],
+    [ pe:var "hard"; pe:value 45.0 ],
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "sym"; pe:value "exp(-1/4)" ],
+    [ pe:var "t"; pe:value "40"^^xsd:decimal ],
+    [ pe:var "warn"; pe:value 35.0 ];
+  pe:uses
+    { :ride :exactCoolingSymbol "exp(-1/4)" . },
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :warningLimit 35.0 . },
+    { :ride :hardLimit 45.0 . },
+    { :ride :firstRecoveredWarningAt 8 . },
+    { :ride :firstRecoveredWarningTime "40"^^xsd:decimal . },
+    { :ride :rideDecision :ThermallySafeForThisAssistPlan . }.
+
+{ :ride :exactCoolingSymbol "exp(-1/4)" . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :coolingLower 0.7788007830 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :coolingUpper 0.7788007831 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :warningLimit 35.0 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :hardLimit 45.0 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :firstRecoveredWarningAt 8 . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "km1"; pe:value 7 ],
+    [ pe:var "lim"; pe:value 35.0 ],
+    [ pe:var "prevHi"; pe:value 35.326174909813446 ],
+    [ pe:var "prevLo"; pe:value 35.326174905018405 ];
+  pe:uses
+    { :ride :belowWarningAt 8 . },
+    { 8 math:greaterThan 0 . },
+    { (8 1) math:difference 7 . },
+    { :ride :motorTemperatureEnvelopeAt (7 35.326174905018405 35.326174909813446) . },
+    { :ride :warningLimit 35.0 . },
+    { 35.326174909813446 math:notLessThan 35.0 . }.
+
+{ :ride :belowWarningAt 8 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "lim"; pe:value 35.0 ],
+    [ pe:var "tHi"; pe:value 34.242033106190284 ],
+    [ pe:var "tLo"; pe:value 34.24203310142329 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (8 34.24203310142329 34.242033106190284) . },
+    { :ride :warningLimit 35.0 . },
+    { 34.242033106190284 math:lessThan 35.0 . }.
+
+{ :ride :motorTemperatureEnvelopeAt (8 34.24203310142329 34.242033106190284) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 9.242033106190286 ],
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "lo"; pe:value 9.242033101423285 ],
+    [ pe:var "tHi"; pe:value 34.242033106190284 ],
+    [ pe:var "tLo"; pe:value 34.24203310142329 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (8 9.242033101423285 9.242033106190286) . },
+    { (25.0 9.242033101423285) math:sum 34.24203310142329 . },
+    { (25.0 9.242033106190286) math:sum 34.242033106190284 . }.
+
+{ :ride :ambient 25.0 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :excessEnvelopeAt (8 9.242033101423285 9.242033106190286) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 8.042033106190287 ],
+    [ pe:var "decayedLo"; pe:value 8.042033101423286 ],
+    [ pe:var "gHi"; pe:value 1.2 ],
+    [ pe:var "gLo"; pe:value 1.2 ],
+    [ pe:var "hi"; pe:value 10.32617490981345 ],
+    [ pe:var "hi1"; pe:value 9.242033106190286 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "k1"; pe:value 8 ],
+    [ pe:var "lo"; pe:value 10.326174905018407 ],
+    [ pe:var "lo1"; pe:value 9.242033101423285 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Eco ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (7 :Eco) . },
+    { :Eco :heatingLower 1.2 . },
+    { :Eco :heatingUpper 1.2 . },
+    { :ride :excessEnvelopeAt (7 10.326174905018407 10.32617490981345) . },
+    { 7 math:lessThan 12 . },
+    { (7 1) math:sum 8 . },
+    { (0.7788007830 10.326174905018407) math:product 8.042033101423286 . },
+    { (0.7788007831 10.32617490981345) math:product 8.042033106190287 . },
+    { (8.042033101423286 1.2) math:sum 9.242033101423285 . },
+    { (8.042033106190287 1.2) math:sum 9.242033106190286 . }.
+
+{ :ride :maxStep 12 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :assistAt (7 :Eco) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :Eco :heatingLower 1.2 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :Eco :heatingUpper 1.2 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :excessEnvelopeAt (7 10.326174905018407 10.32617490981345) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 9.12617490981345 ],
+    [ pe:var "decayedLo"; pe:value 9.126174905018408 ],
+    [ pe:var "gHi"; pe:value 1.2 ],
+    [ pe:var "gLo"; pe:value 1.2 ],
+    [ pe:var "hi"; pe:value 11.71824054090817 ],
+    [ pe:var "hi1"; pe:value 10.32617490981345 ],
+    [ pe:var "k"; pe:value 6 ],
+    [ pe:var "k1"; pe:value 7 ],
+    [ pe:var "lo"; pe:value 11.718240536255864 ],
+    [ pe:var "lo1"; pe:value 10.326174905018407 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Eco ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (6 :Eco) . },
+    { :Eco :heatingLower 1.2 . },
+    { :Eco :heatingUpper 1.2 . },
+    { :ride :excessEnvelopeAt (6 11.718240536255864 11.71824054090817) . },
+    { 6 math:lessThan 12 . },
+    { (6 1) math:sum 7 . },
+    { (0.7788007830 11.718240536255864) math:product 9.126174905018408 . },
+    { (0.7788007831 11.71824054090817) math:product 9.12617490981345 . },
+    { (9.126174905018408 1.2) math:sum 10.326174905018407 . },
+    { (9.12617490981345 1.2) math:sum 10.32617490981345 . }.
+
+{ :ride :assistAt (6 :Eco) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :excessEnvelopeAt (6 11.718240536255864 11.71824054090817) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 10.51824054090817 ],
+    [ pe:var "decayedLo"; pe:value 10.518240536255865 ],
+    [ pe:var "gHi"; pe:value 1.2 ],
+    [ pe:var "gLo"; pe:value 1.2 ],
+    [ pe:var "hi"; pe:value 13.505688192865621 ],
+    [ pe:var "hi1"; pe:value 11.71824054090817 ],
+    [ pe:var "k"; pe:value 5 ],
+    [ pe:var "k1"; pe:value 6 ],
+    [ pe:var "lo"; pe:value 13.505688188626108 ],
+    [ pe:var "lo1"; pe:value 11.718240536255864 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Eco ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (5 :Eco) . },
+    { :Eco :heatingLower 1.2 . },
+    { :Eco :heatingUpper 1.2 . },
+    { :ride :excessEnvelopeAt (5 13.505688188626108 13.505688192865621) . },
+    { 5 math:lessThan 12 . },
+    { (5 1) math:sum 6 . },
+    { (0.7788007830 13.505688188626108) math:product 10.518240536255865 . },
+    { (0.7788007831 13.505688192865621) math:product 10.51824054090817 . },
+    { (10.518240536255865 1.2) math:sum 11.718240536255864 . },
+    { (10.51824054090817 1.2) math:sum 11.71824054090817 . }.
+
+{ :ride :assistAt (5 :Eco) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :excessEnvelopeAt (5 13.505688188626108 13.505688192865621) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 11.105688192865621 ],
+    [ pe:var "decayedLo"; pe:value 11.105688188626107 ],
+    [ pe:var "gHi"; pe:value 2.4 ],
+    [ pe:var "gLo"; pe:value 2.4 ],
+    [ pe:var "hi"; pe:value 14.259985908924827 ],
+    [ pe:var "hi1"; pe:value 13.505688192865621 ],
+    [ pe:var "k"; pe:value 4 ],
+    [ pe:var "k1"; pe:value 5 ],
+    [ pe:var "lo"; pe:value 14.259985905312202 ],
+    [ pe:var "lo1"; pe:value 13.505688188626108 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Tour ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (4 :Tour) . },
+    { :Tour :heatingLower 2.4 . },
+    { :Tour :heatingUpper 2.4 . },
+    { :ride :excessEnvelopeAt (4 14.259985905312202 14.259985908924827) . },
+    { 4 math:lessThan 12 . },
+    { (4 1) math:sum 5 . },
+    { (0.7788007830 14.259985905312202) math:product 11.105688188626107 . },
+    { (0.7788007831 14.259985908924827) math:product 11.105688192865621 . },
+    { (11.105688188626107 2.4) math:sum 13.505688188626108 . },
+    { (11.105688192865621 2.4) math:sum 13.505688192865621 . }.
+
+{ :ride :assistAt (4 :Tour) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :Tour :heatingLower 2.4 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :Tour :heatingUpper 2.4 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :excessEnvelopeAt (4 14.259985905312202 14.259985908924827) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 11.859985908924827 ],
+    [ pe:var "decayedLo"; pe:value 11.859985905312202 ],
+    [ pe:var "gHi"; pe:value 2.4 ],
+    [ pe:var "gLo"; pe:value 2.4 ],
+    [ pe:var "hi"; pe:value 15.2285233480588 ],
+    [ pe:var "hi1"; pe:value 14.259985908924827 ],
+    [ pe:var "k"; pe:value 3 ],
+    [ pe:var "k1"; pe:value 4 ],
+    [ pe:var "lo"; pe:value 15.228523345375478 ],
+    [ pe:var "lo1"; pe:value 14.259985905312202 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Tour ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (3 :Tour) . },
+    { :Tour :heatingLower 2.4 . },
+    { :Tour :heatingUpper 2.4 . },
+    { :ride :excessEnvelopeAt (3 15.228523345375478 15.2285233480588) . },
+    { 3 math:lessThan 12 . },
+    { (3 1) math:sum 4 . },
+    { (0.7788007830 15.228523345375478) math:product 11.859985905312202 . },
+    { (0.7788007831 15.2285233480588) math:product 11.859985908924827 . },
+    { (11.859985905312202 2.4) math:sum 14.259985905312202 . },
+    { (11.859985908924827 2.4) math:sum 14.259985908924827 . }.
+
+{ :ride :assistAt (3 :Tour) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :excessEnvelopeAt (3 15.228523345375478 15.2285233480588) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 10.4285233480588 ],
+    [ pe:var "decayedLo"; pe:value 10.428523345375478 ],
+    [ pe:var "gHi"; pe:value 4.8 ],
+    [ pe:var "gLo"; pe:value 4.8 ],
+    [ pe:var "hi"; pe:value 13.390489036937385 ],
+    [ pe:var "hi1"; pe:value 15.2285233480588 ],
+    [ pe:var "k"; pe:value 2 ],
+    [ pe:var "k1"; pe:value 3 ],
+    [ pe:var "lo"; pe:value 13.390489035211303 ],
+    [ pe:var "lo1"; pe:value 15.228523345375478 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Turbo ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (2 :Turbo) . },
+    { :Turbo :heatingLower 4.8 . },
+    { :Turbo :heatingUpper 4.8 . },
+    { :ride :excessEnvelopeAt (2 13.390489035211303 13.390489036937385) . },
+    { 2 math:lessThan 12 . },
+    { (2 1) math:sum 3 . },
+    { (0.7788007830 13.390489035211303) math:product 10.428523345375478 . },
+    { (0.7788007831 13.390489036937385) math:product 10.4285233480588 . },
+    { (10.428523345375478 4.8) math:sum 15.228523345375478 . },
+    { (10.4285233480588 4.8) math:sum 15.2285233480588 . }.
+
+{ :ride :assistAt (2 :Turbo) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :Turbo :heatingLower 4.8 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :Turbo :heatingUpper 4.8 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :excessEnvelopeAt (2 13.390489035211303 13.390489036937385) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 8.590489036937386 ],
+    [ pe:var "decayedLo"; pe:value 8.590489035211304 ],
+    [ pe:var "gHi"; pe:value 4.8 ],
+    [ pe:var "gLo"; pe:value 4.8 ],
+    [ pe:var "hi"; pe:value 11.0304062648 ],
+    [ pe:var "hi1"; pe:value 13.390489036937385 ],
+    [ pe:var "k"; pe:value 1 ],
+    [ pe:var "k1"; pe:value 2 ],
+    [ pe:var "lo"; pe:value 11.030406264 ],
+    [ pe:var "lo1"; pe:value 13.390489035211303 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Turbo ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (1 :Turbo) . },
+    { :Turbo :heatingLower 4.8 . },
+    { :Turbo :heatingUpper 4.8 . },
+    { :ride :excessEnvelopeAt (1 11.030406264 11.0304062648) . },
+    { 1 math:lessThan 12 . },
+    { (1 1) math:sum 2 . },
+    { (0.7788007830 11.030406264) math:product 8.590489035211304 . },
+    { (0.7788007831 11.0304062648) math:product 8.590489036937386 . },
+    { (8.590489035211304 4.8) math:sum 13.390489035211303 . },
+    { (8.590489036937386 4.8) math:sum 13.390489036937385 . }.
+
+{ :ride :assistAt (1 :Turbo) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :excessEnvelopeAt (1 11.030406264 11.0304062648) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 6.2304062648 ],
+    [ pe:var "decayedLo"; pe:value 6.230406264 ],
+    [ pe:var "gHi"; pe:value 4.8 ],
+    [ pe:var "gLo"; pe:value 4.8 ],
+    [ pe:var "hi"; pe:value "8"^^xsd:decimal ],
+    [ pe:var "hi1"; pe:value 11.0304062648 ],
+    [ pe:var "k"; pe:value 0 ],
+    [ pe:var "k1"; pe:value 1 ],
+    [ pe:var "lo"; pe:value "8"^^xsd:decimal ],
+    [ pe:var "lo1"; pe:value 11.030406264 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Turbo ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (0 :Turbo) . },
+    { :Turbo :heatingLower 4.8 . },
+    { :Turbo :heatingUpper 4.8 . },
+    { :ride :excessEnvelopeAt (0 "8"^^xsd:decimal "8"^^xsd:decimal) . },
+    { 0 math:lessThan 12 . },
+    { (0 1) math:sum 1 . },
+    { (0.7788007830 "8"^^xsd:decimal) math:product 6.230406264 . },
+    { (0.7788007831 "8"^^xsd:decimal) math:product 6.2304062648 . },
+    { (6.230406264 4.8) math:sum 11.030406264 . },
+    { (6.2304062648 4.8) math:sum 11.0304062648 . }.
+
+{ :ride :assistAt (0 :Turbo) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :ride :excessEnvelopeAt (0 "8"^^xsd:decimal "8"^^xsd:decimal) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "e0"; pe:value "8"^^xsd:decimal ],
+    [ pe:var "t0"; pe:value 33.0 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :initialMotorTemperature 33.0 . },
+    { (33.0 25.0) math:difference "8"^^xsd:decimal . }.
+
+{ :ride :initialMotorTemperature 33.0 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ (33.0 25.0) math:difference "8"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ 0 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (0 1) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (0.7788007830 "8"^^xsd:decimal) math:product 6.230406264 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 "8"^^xsd:decimal) math:product 6.2304062648 . }
+  pe:builtin math:product.
+
+{ (6.230406264 4.8) math:sum 11.030406264 . }
+  pe:builtin math:sum.
+
+{ (6.2304062648 4.8) math:sum 11.0304062648 . }
+  pe:builtin math:sum.
+
+{ 1 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ (0.7788007830 11.030406264) math:product 8.590489035211304 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 11.0304062648) math:product 8.590489036937386 . }
+  pe:builtin math:product.
+
+{ (8.590489035211304 4.8) math:sum 13.390489035211303 . }
+  pe:builtin math:sum.
+
+{ (8.590489036937386 4.8) math:sum 13.390489036937385 . }
+  pe:builtin math:sum.
+
+{ 2 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (2 1) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ (0.7788007830 13.390489035211303) math:product 10.428523345375478 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 13.390489036937385) math:product 10.4285233480588 . }
+  pe:builtin math:product.
+
+{ (10.428523345375478 4.8) math:sum 15.228523345375478 . }
+  pe:builtin math:sum.
+
+{ (10.4285233480588 4.8) math:sum 15.2285233480588 . }
+  pe:builtin math:sum.
+
+{ 3 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (3 1) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ (0.7788007830 15.228523345375478) math:product 11.859985905312202 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 15.2285233480588) math:product 11.859985908924827 . }
+  pe:builtin math:product.
+
+{ (11.859985905312202 2.4) math:sum 14.259985905312202 . }
+  pe:builtin math:sum.
+
+{ (11.859985908924827 2.4) math:sum 14.259985908924827 . }
+  pe:builtin math:sum.
+
+{ 4 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (4 1) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ (0.7788007830 14.259985905312202) math:product 11.105688188626107 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 14.259985908924827) math:product 11.105688192865621 . }
+  pe:builtin math:product.
+
+{ (11.105688188626107 2.4) math:sum 13.505688188626108 . }
+  pe:builtin math:sum.
+
+{ (11.105688192865621 2.4) math:sum 13.505688192865621 . }
+  pe:builtin math:sum.
+
+{ 5 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (5 1) math:sum 6 . }
+  pe:builtin math:sum.
+
+{ (0.7788007830 13.505688188626108) math:product 10.518240536255865 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 13.505688192865621) math:product 10.51824054090817 . }
+  pe:builtin math:product.
+
+{ (10.518240536255865 1.2) math:sum 11.718240536255864 . }
+  pe:builtin math:sum.
+
+{ (10.51824054090817 1.2) math:sum 11.71824054090817 . }
+  pe:builtin math:sum.
+
+{ 6 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (6 1) math:sum 7 . }
+  pe:builtin math:sum.
+
+{ (0.7788007830 11.718240536255864) math:product 9.126174905018408 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 11.71824054090817) math:product 9.12617490981345 . }
+  pe:builtin math:product.
+
+{ (9.126174905018408 1.2) math:sum 10.326174905018407 . }
+  pe:builtin math:sum.
+
+{ (9.12617490981345 1.2) math:sum 10.32617490981345 . }
+  pe:builtin math:sum.
+
+{ 7 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (7 1) math:sum 8 . }
+  pe:builtin math:sum.
+
+{ (0.7788007830 10.326174905018407) math:product 8.042033101423286 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 10.32617490981345) math:product 8.042033106190287 . }
+  pe:builtin math:product.
+
+{ (8.042033101423286 1.2) math:sum 9.242033101423285 . }
+  pe:builtin math:sum.
+
+{ (8.042033106190287 1.2) math:sum 9.242033106190286 . }
+  pe:builtin math:sum.
+
+{ (25.0 9.242033101423285) math:sum 34.24203310142329 . }
+  pe:builtin math:sum.
+
+{ (25.0 9.242033106190286) math:sum 34.242033106190284 . }
+  pe:builtin math:sum.
+
+{ 34.242033106190284 math:lessThan 35.0 . }
+  pe:builtin math:lessThan.
+
+{ 8 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (8 1) math:difference 7 . }
+  pe:builtin math:difference.
+
+{ :ride :motorTemperatureEnvelopeAt (7 35.326174905018405 35.326174909813446) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 10.32617490981345 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "lo"; pe:value 10.326174905018407 ],
+    [ pe:var "tHi"; pe:value 35.326174909813446 ],
+    [ pe:var "tLo"; pe:value 35.326174905018405 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (7 10.326174905018407 10.32617490981345) . },
+    { (25.0 10.326174905018407) math:sum 35.326174905018405 . },
+    { (25.0 10.32617490981345) math:sum 35.326174909813446 . }.
+
+{ (25.0 10.326174905018407) math:sum 35.326174905018405 . }
+  pe:builtin math:sum.
+
+{ (25.0 10.32617490981345) math:sum 35.326174909813446 . }
+  pe:builtin math:sum.
+
+{ 35.326174909813446 math:notLessThan 35.0 . }
+  pe:builtin math:notLessThan.
+
+{ :ride :firstRecoveredWarningTime "40"^^xsd:decimal . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "t"; pe:value "40"^^xsd:decimal ],
+    [ pe:var "ts"; pe:value 5.0 ];
+  pe:uses
+    { :ride :firstRecoveredWarningAt 8 . },
+    { :ride :samplePeriod 5.0 . },
+    { (8 5.0) math:product "40"^^xsd:decimal . }.
+
+{ :ride :samplePeriod 5.0 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ (8 5.0) math:product "40"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :ride :rideDecision :ThermallySafeForThisAssistPlan . }
+  pe:rule 10;
+  pe:uses
+    { :ride :belowHardLimitAt 0 . },
+    { :ride :belowHardLimitAt 1 . },
+    { :ride :belowHardLimitAt 2 . },
+    { :ride :belowHardLimitAt 3 . },
+    { :ride :upperEnvelopeDecreasesAt 3 . },
+    { :ride :upperEnvelopeDecreasesAt 4 . },
+    { :ride :upperEnvelopeDecreasesAt 5 . },
+    { :ride :upperEnvelopeDecreasesAt 6 . },
+    { :ride :upperEnvelopeDecreasesAt 7 . },
+    { :ride :upperEnvelopeDecreasesAt 8 . },
+    { :ride :upperEnvelopeDecreasesAt 9 . },
+    { :ride :upperEnvelopeDecreasesAt 10 . },
+    { :ride :upperEnvelopeDecreasesAt 11 . },
+    { :ride :firstRecoveredWarningAt 8 . }.
+
+{ :ride :belowHardLimitAt 0 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "k"; pe:value 0 ],
+    [ pe:var "lim"; pe:value 45.0 ],
+    [ pe:var "tHi"; pe:value "33"^^xsd:decimal ],
+    [ pe:var "tLo"; pe:value "33"^^xsd:decimal ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (0 "33"^^xsd:decimal "33"^^xsd:decimal) . },
+    { :ride :hardLimit 45.0 . },
+    { "33"^^xsd:decimal math:lessThan 45.0 . }.
+
+{ :ride :motorTemperatureEnvelopeAt (0 "33"^^xsd:decimal "33"^^xsd:decimal) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value "8"^^xsd:decimal ],
+    [ pe:var "k"; pe:value 0 ],
+    [ pe:var "lo"; pe:value "8"^^xsd:decimal ],
+    [ pe:var "tHi"; pe:value "33"^^xsd:decimal ],
+    [ pe:var "tLo"; pe:value "33"^^xsd:decimal ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (0 "8"^^xsd:decimal "8"^^xsd:decimal) . },
+    { (25.0 "8"^^xsd:decimal) math:sum "33"^^xsd:decimal . },
+    { (25.0 "8"^^xsd:decimal) math:sum "33"^^xsd:decimal . }.
+
+{ (25.0 "8"^^xsd:decimal) math:sum "33"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ "33"^^xsd:decimal math:lessThan 45.0 . }
+  pe:builtin math:lessThan.
+
+{ :ride :belowHardLimitAt 1 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "k"; pe:value 1 ],
+    [ pe:var "lim"; pe:value 45.0 ],
+    [ pe:var "tHi"; pe:value 36.0304062648 ],
+    [ pe:var "tLo"; pe:value 36.030406264 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (1 36.030406264 36.0304062648) . },
+    { :ride :hardLimit 45.0 . },
+    { 36.0304062648 math:lessThan 45.0 . }.
+
+{ :ride :motorTemperatureEnvelopeAt (1 36.030406264 36.0304062648) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 11.0304062648 ],
+    [ pe:var "k"; pe:value 1 ],
+    [ pe:var "lo"; pe:value 11.030406264 ],
+    [ pe:var "tHi"; pe:value 36.0304062648 ],
+    [ pe:var "tLo"; pe:value 36.030406264 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (1 11.030406264 11.0304062648) . },
+    { (25.0 11.030406264) math:sum 36.030406264 . },
+    { (25.0 11.0304062648) math:sum 36.0304062648 . }.
+
+{ (25.0 11.030406264) math:sum 36.030406264 . }
+  pe:builtin math:sum.
+
+{ (25.0 11.0304062648) math:sum 36.0304062648 . }
+  pe:builtin math:sum.
+
+{ 36.0304062648 math:lessThan 45.0 . }
+  pe:builtin math:lessThan.
+
+{ :ride :belowHardLimitAt 2 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "k"; pe:value 2 ],
+    [ pe:var "lim"; pe:value 45.0 ],
+    [ pe:var "tHi"; pe:value 38.39048903693738 ],
+    [ pe:var "tLo"; pe:value 38.3904890352113 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (2 38.3904890352113 38.39048903693738) . },
+    { :ride :hardLimit 45.0 . },
+    { 38.39048903693738 math:lessThan 45.0 . }.
+
+{ :ride :motorTemperatureEnvelopeAt (2 38.3904890352113 38.39048903693738) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 13.390489036937385 ],
+    [ pe:var "k"; pe:value 2 ],
+    [ pe:var "lo"; pe:value 13.390489035211303 ],
+    [ pe:var "tHi"; pe:value 38.39048903693738 ],
+    [ pe:var "tLo"; pe:value 38.3904890352113 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (2 13.390489035211303 13.390489036937385) . },
+    { (25.0 13.390489035211303) math:sum 38.3904890352113 . },
+    { (25.0 13.390489036937385) math:sum 38.39048903693738 . }.
+
+{ (25.0 13.390489035211303) math:sum 38.3904890352113 . }
+  pe:builtin math:sum.
+
+{ (25.0 13.390489036937385) math:sum 38.39048903693738 . }
+  pe:builtin math:sum.
+
+{ 38.39048903693738 math:lessThan 45.0 . }
+  pe:builtin math:lessThan.
+
+{ :ride :belowHardLimitAt 3 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "k"; pe:value 3 ],
+    [ pe:var "lim"; pe:value 45.0 ],
+    [ pe:var "tHi"; pe:value 40.2285233480588 ],
+    [ pe:var "tLo"; pe:value 40.22852334537548 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (3 40.22852334537548 40.2285233480588) . },
+    { :ride :hardLimit 45.0 . },
+    { 40.2285233480588 math:lessThan 45.0 . }.
+
+{ :ride :motorTemperatureEnvelopeAt (3 40.22852334537548 40.2285233480588) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 15.2285233480588 ],
+    [ pe:var "k"; pe:value 3 ],
+    [ pe:var "lo"; pe:value 15.228523345375478 ],
+    [ pe:var "tHi"; pe:value 40.2285233480588 ],
+    [ pe:var "tLo"; pe:value 40.22852334537548 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (3 15.228523345375478 15.2285233480588) . },
+    { (25.0 15.228523345375478) math:sum 40.22852334537548 . },
+    { (25.0 15.2285233480588) math:sum 40.2285233480588 . }.
+
+{ (25.0 15.228523345375478) math:sum 40.22852334537548 . }
+  pe:builtin math:sum.
+
+{ (25.0 15.2285233480588) math:sum 40.2285233480588 . }
+  pe:builtin math:sum.
+
+{ 40.2285233480588 math:lessThan 45.0 . }
+  pe:builtin math:lessThan.
+
+{ :ride :upperEnvelopeDecreasesAt 3 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "k"; pe:value 3 ],
+    [ pe:var "k1"; pe:value 4 ],
+    [ pe:var "tHi"; pe:value 40.2285233480588 ],
+    [ pe:var "tHi1"; pe:value 39.259985908924826 ],
+    [ pe:var "tLo"; pe:value 40.22852334537548 ],
+    [ pe:var "tLo1"; pe:value 39.259985905312206 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (3 40.22852334537548 40.2285233480588) . },
+    { (3 1) math:sum 4 . },
+    { :ride :motorTemperatureEnvelopeAt (4 39.259985905312206 39.259985908924826) . },
+    { 39.259985908924826 math:lessThan 40.2285233480588 . }.
+
+{ :ride :motorTemperatureEnvelopeAt (4 39.259985905312206 39.259985908924826) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 14.259985908924827 ],
+    [ pe:var "k"; pe:value 4 ],
+    [ pe:var "lo"; pe:value 14.259985905312202 ],
+    [ pe:var "tHi"; pe:value 39.259985908924826 ],
+    [ pe:var "tLo"; pe:value 39.259985905312206 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (4 14.259985905312202 14.259985908924827) . },
+    { (25.0 14.259985905312202) math:sum 39.259985905312206 . },
+    { (25.0 14.259985908924827) math:sum 39.259985908924826 . }.
+
+{ (25.0 14.259985905312202) math:sum 39.259985905312206 . }
+  pe:builtin math:sum.
+
+{ (25.0 14.259985908924827) math:sum 39.259985908924826 . }
+  pe:builtin math:sum.
+
+{ 39.259985908924826 math:lessThan 40.2285233480588 . }
+  pe:builtin math:lessThan.
+
+{ :ride :upperEnvelopeDecreasesAt 4 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "k"; pe:value 4 ],
+    [ pe:var "k1"; pe:value 5 ],
+    [ pe:var "tHi"; pe:value 39.259985908924826 ],
+    [ pe:var "tHi1"; pe:value 38.50568819286562 ],
+    [ pe:var "tLo"; pe:value 39.259985905312206 ],
+    [ pe:var "tLo1"; pe:value 38.50568818862611 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (4 39.259985905312206 39.259985908924826) . },
+    { (4 1) math:sum 5 . },
+    { :ride :motorTemperatureEnvelopeAt (5 38.50568818862611 38.50568819286562) . },
+    { 38.50568819286562 math:lessThan 39.259985908924826 . }.
+
+{ :ride :motorTemperatureEnvelopeAt (5 38.50568818862611 38.50568819286562) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 13.505688192865621 ],
+    [ pe:var "k"; pe:value 5 ],
+    [ pe:var "lo"; pe:value 13.505688188626108 ],
+    [ pe:var "tHi"; pe:value 38.50568819286562 ],
+    [ pe:var "tLo"; pe:value 38.50568818862611 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (5 13.505688188626108 13.505688192865621) . },
+    { (25.0 13.505688188626108) math:sum 38.50568818862611 . },
+    { (25.0 13.505688192865621) math:sum 38.50568819286562 . }.
+
+{ (25.0 13.505688188626108) math:sum 38.50568818862611 . }
+  pe:builtin math:sum.
+
+{ (25.0 13.505688192865621) math:sum 38.50568819286562 . }
+  pe:builtin math:sum.
+
+{ 38.50568819286562 math:lessThan 39.259985908924826 . }
+  pe:builtin math:lessThan.
+
+{ :ride :upperEnvelopeDecreasesAt 5 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "k"; pe:value 5 ],
+    [ pe:var "k1"; pe:value 6 ],
+    [ pe:var "tHi"; pe:value 38.50568819286562 ],
+    [ pe:var "tHi1"; pe:value 36.71824054090817 ],
+    [ pe:var "tLo"; pe:value 38.50568818862611 ],
+    [ pe:var "tLo1"; pe:value 36.71824053625586 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (5 38.50568818862611 38.50568819286562) . },
+    { (5 1) math:sum 6 . },
+    { :ride :motorTemperatureEnvelopeAt (6 36.71824053625586 36.71824054090817) . },
+    { 36.71824054090817 math:lessThan 38.50568819286562 . }.
+
+{ :ride :motorTemperatureEnvelopeAt (6 36.71824053625586 36.71824054090817) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 11.71824054090817 ],
+    [ pe:var "k"; pe:value 6 ],
+    [ pe:var "lo"; pe:value 11.718240536255864 ],
+    [ pe:var "tHi"; pe:value 36.71824054090817 ],
+    [ pe:var "tLo"; pe:value 36.71824053625586 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (6 11.718240536255864 11.71824054090817) . },
+    { (25.0 11.718240536255864) math:sum 36.71824053625586 . },
+    { (25.0 11.71824054090817) math:sum 36.71824054090817 . }.
+
+{ (25.0 11.718240536255864) math:sum 36.71824053625586 . }
+  pe:builtin math:sum.
+
+{ (25.0 11.71824054090817) math:sum 36.71824054090817 . }
+  pe:builtin math:sum.
+
+{ 36.71824054090817 math:lessThan 38.50568819286562 . }
+  pe:builtin math:lessThan.
+
+{ :ride :upperEnvelopeDecreasesAt 6 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "k"; pe:value 6 ],
+    [ pe:var "k1"; pe:value 7 ],
+    [ pe:var "tHi"; pe:value 36.71824054090817 ],
+    [ pe:var "tHi1"; pe:value 35.326174909813446 ],
+    [ pe:var "tLo"; pe:value 36.71824053625586 ],
+    [ pe:var "tLo1"; pe:value 35.326174905018405 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (6 36.71824053625586 36.71824054090817) . },
+    { (6 1) math:sum 7 . },
+    { :ride :motorTemperatureEnvelopeAt (7 35.326174905018405 35.326174909813446) . },
+    { 35.326174909813446 math:lessThan 36.71824054090817 . }.
+
+{ 35.326174909813446 math:lessThan 36.71824054090817 . }
+  pe:builtin math:lessThan.
+
+{ :ride :upperEnvelopeDecreasesAt 7 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "k1"; pe:value 8 ],
+    [ pe:var "tHi"; pe:value 35.326174909813446 ],
+    [ pe:var "tHi1"; pe:value 34.242033106190284 ],
+    [ pe:var "tLo"; pe:value 35.326174905018405 ],
+    [ pe:var "tLo1"; pe:value 34.24203310142329 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (7 35.326174905018405 35.326174909813446) . },
+    { (7 1) math:sum 8 . },
+    { :ride :motorTemperatureEnvelopeAt (8 34.24203310142329 34.242033106190284) . },
+    { 34.242033106190284 math:lessThan 35.326174909813446 . }.
+
+{ 34.242033106190284 math:lessThan 35.326174909813446 . }
+  pe:builtin math:lessThan.
+
+{ :ride :upperEnvelopeDecreasesAt 8 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "k1"; pe:value 9 ],
+    [ pe:var "tHi"; pe:value 34.242033106190284 ],
+    [ pe:var "tHi1"; pe:value 32.19770262053712 ],
+    [ pe:var "tLo"; pe:value 34.24203310142329 ],
+    [ pe:var "tLo1"; pe:value 32.197702615900376 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (8 34.24203310142329 34.242033106190284) . },
+    { (8 1) math:sum 9 . },
+    { :ride :motorTemperatureEnvelopeAt (9 32.197702615900376 32.19770262053712) . },
+    { 32.19770262053712 math:lessThan 34.242033106190284 . }.
+
+{ (8 1) math:sum 9 . }
+  pe:builtin math:sum.
+
+{ :ride :motorTemperatureEnvelopeAt (9 32.197702615900376 32.19770262053712) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 7.19770262053712 ],
+    [ pe:var "k"; pe:value 9 ],
+    [ pe:var "lo"; pe:value 7.197702615900373 ],
+    [ pe:var "tHi"; pe:value 32.19770262053712 ],
+    [ pe:var "tLo"; pe:value 32.197702615900376 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (9 7.197702615900373 7.19770262053712) . },
+    { (25.0 7.197702615900373) math:sum 32.197702615900376 . },
+    { (25.0 7.19770262053712) math:sum 32.19770262053712 . }.
+
+{ :ride :excessEnvelopeAt (9 7.197702615900373 7.19770262053712) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 7.19770262053712 ],
+    [ pe:var "decayedLo"; pe:value 7.197702615900373 ],
+    [ pe:var "gHi"; pe:value 0.0 ],
+    [ pe:var "gLo"; pe:value 0.0 ],
+    [ pe:var "hi"; pe:value 9.242033106190286 ],
+    [ pe:var "hi1"; pe:value 7.19770262053712 ],
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "k1"; pe:value 9 ],
+    [ pe:var "lo"; pe:value 9.242033101423285 ],
+    [ pe:var "lo1"; pe:value 7.197702615900373 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Coast ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (8 :Coast) . },
+    { :Coast :heatingLower 0.0 . },
+    { :Coast :heatingUpper 0.0 . },
+    { :ride :excessEnvelopeAt (8 9.242033101423285 9.242033106190286) . },
+    { 8 math:lessThan 12 . },
+    { (8 1) math:sum 9 . },
+    { (0.7788007830 9.242033101423285) math:product 7.197702615900373 . },
+    { (0.7788007831 9.242033106190286) math:product 7.19770262053712 . },
+    { (7.197702615900373 0.0) math:sum 7.197702615900373 . },
+    { (7.19770262053712 0.0) math:sum 7.19770262053712 . }.
+
+{ :ride :assistAt (8 :Coast) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :Coast :heatingLower 0.0 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ :Coast :heatingUpper 0.0 . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ 8 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (0.7788007830 9.242033101423285) math:product 7.197702615900373 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 9.242033106190286) math:product 7.19770262053712 . }
+  pe:builtin math:product.
+
+{ (7.197702615900373 0.0) math:sum 7.197702615900373 . }
+  pe:builtin math:sum.
+
+{ (7.19770262053712 0.0) math:sum 7.19770262053712 . }
+  pe:builtin math:sum.
+
+{ (25.0 7.197702615900373) math:sum 32.197702615900376 . }
+  pe:builtin math:sum.
+
+{ (25.0 7.19770262053712) math:sum 32.19770262053712 . }
+  pe:builtin math:sum.
+
+{ 32.19770262053712 math:lessThan 34.242033106190284 . }
+  pe:builtin math:lessThan.
+
+{ :ride :upperEnvelopeDecreasesAt 9 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "k"; pe:value 9 ],
+    [ pe:var "k1"; pe:value 10 ],
+    [ pe:var "tHi"; pe:value 32.19770262053712 ],
+    [ pe:var "tHi1"; pe:value 30.605576437395232 ],
+    [ pe:var "tLo"; pe:value 32.197702615900376 ],
+    [ pe:var "tLo1"; pe:value 30.605576433064357 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (9 32.197702615900376 32.19770262053712) . },
+    { (9 1) math:sum 10 . },
+    { :ride :motorTemperatureEnvelopeAt (10 30.605576433064357 30.605576437395232) . },
+    { 30.605576437395232 math:lessThan 32.19770262053712 . }.
+
+{ (9 1) math:sum 10 . }
+  pe:builtin math:sum.
+
+{ :ride :motorTemperatureEnvelopeAt (10 30.605576433064357 30.605576437395232) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 5.605576437395231 ],
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "lo"; pe:value 5.605576433064359 ],
+    [ pe:var "tHi"; pe:value 30.605576437395232 ],
+    [ pe:var "tLo"; pe:value 30.605576433064357 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (10 5.605576433064359 5.605576437395231) . },
+    { (25.0 5.605576433064359) math:sum 30.605576433064357 . },
+    { (25.0 5.605576437395231) math:sum 30.605576437395232 . }.
+
+{ :ride :excessEnvelopeAt (10 5.605576433064359 5.605576437395231) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 5.605576437395231 ],
+    [ pe:var "decayedLo"; pe:value 5.605576433064359 ],
+    [ pe:var "gHi"; pe:value 0.0 ],
+    [ pe:var "gLo"; pe:value 0.0 ],
+    [ pe:var "hi"; pe:value 7.19770262053712 ],
+    [ pe:var "hi1"; pe:value 5.605576437395231 ],
+    [ pe:var "k"; pe:value 9 ],
+    [ pe:var "k1"; pe:value 10 ],
+    [ pe:var "lo"; pe:value 7.197702615900373 ],
+    [ pe:var "lo1"; pe:value 5.605576433064359 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Coast ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (9 :Coast) . },
+    { :Coast :heatingLower 0.0 . },
+    { :Coast :heatingUpper 0.0 . },
+    { :ride :excessEnvelopeAt (9 7.197702615900373 7.19770262053712) . },
+    { 9 math:lessThan 12 . },
+    { (9 1) math:sum 10 . },
+    { (0.7788007830 7.197702615900373) math:product 5.605576433064359 . },
+    { (0.7788007831 7.19770262053712) math:product 5.605576437395231 . },
+    { (5.605576433064359 0.0) math:sum 5.605576433064359 . },
+    { (5.605576437395231 0.0) math:sum 5.605576437395231 . }.
+
+{ :ride :assistAt (9 :Coast) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ 9 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (0.7788007830 7.197702615900373) math:product 5.605576433064359 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 7.19770262053712) math:product 5.605576437395231 . }
+  pe:builtin math:product.
+
+{ (5.605576433064359 0.0) math:sum 5.605576433064359 . }
+  pe:builtin math:sum.
+
+{ (5.605576437395231 0.0) math:sum 5.605576437395231 . }
+  pe:builtin math:sum.
+
+{ (25.0 5.605576433064359) math:sum 30.605576433064357 . }
+  pe:builtin math:sum.
+
+{ (25.0 5.605576437395231) math:sum 30.605576437395232 . }
+  pe:builtin math:sum.
+
+{ 30.605576437395232 math:lessThan 32.19770262053712 . }
+  pe:builtin math:lessThan.
+
+{ :ride :upperEnvelopeDecreasesAt 10 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "k1"; pe:value 11 ],
+    [ pe:var "tHi"; pe:value 30.605576437395232 ],
+    [ pe:var "tHi1"; pe:value 29.365627319170315 ],
+    [ pe:var "tLo"; pe:value 30.605576433064357 ],
+    [ pe:var "tLo1"; pe:value 29.36562731523687 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (10 30.605576433064357 30.605576437395232) . },
+    { (10 1) math:sum 11 . },
+    { :ride :motorTemperatureEnvelopeAt (11 29.36562731523687 29.365627319170315) . },
+    { 29.365627319170315 math:lessThan 30.605576437395232 . }.
+
+{ (10 1) math:sum 11 . }
+  pe:builtin math:sum.
+
+{ :ride :motorTemperatureEnvelopeAt (11 29.36562731523687 29.365627319170315) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 4.365627319170314 ],
+    [ pe:var "k"; pe:value 11 ],
+    [ pe:var "lo"; pe:value 4.365627315236869 ],
+    [ pe:var "tHi"; pe:value 29.365627319170315 ],
+    [ pe:var "tLo"; pe:value 29.36562731523687 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (11 4.365627315236869 4.365627319170314) . },
+    { (25.0 4.365627315236869) math:sum 29.36562731523687 . },
+    { (25.0 4.365627319170314) math:sum 29.365627319170315 . }.
+
+{ :ride :excessEnvelopeAt (11 4.365627315236869 4.365627319170314) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 4.365627319170314 ],
+    [ pe:var "decayedLo"; pe:value 4.365627315236869 ],
+    [ pe:var "gHi"; pe:value 0.0 ],
+    [ pe:var "gLo"; pe:value 0.0 ],
+    [ pe:var "hi"; pe:value 5.605576437395231 ],
+    [ pe:var "hi1"; pe:value 4.365627319170314 ],
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "k1"; pe:value 11 ],
+    [ pe:var "lo"; pe:value 5.605576433064359 ],
+    [ pe:var "lo1"; pe:value 4.365627315236869 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Coast ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (10 :Coast) . },
+    { :Coast :heatingLower 0.0 . },
+    { :Coast :heatingUpper 0.0 . },
+    { :ride :excessEnvelopeAt (10 5.605576433064359 5.605576437395231) . },
+    { 10 math:lessThan 12 . },
+    { (10 1) math:sum 11 . },
+    { (0.7788007830 5.605576433064359) math:product 4.365627315236869 . },
+    { (0.7788007831 5.605576437395231) math:product 4.365627319170314 . },
+    { (4.365627315236869 0.0) math:sum 4.365627315236869 . },
+    { (4.365627319170314 0.0) math:sum 4.365627319170314 . }.
+
+{ :ride :assistAt (10 :Coast) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ 10 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (0.7788007830 5.605576433064359) math:product 4.365627315236869 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 5.605576437395231) math:product 4.365627319170314 . }
+  pe:builtin math:product.
+
+{ (4.365627315236869 0.0) math:sum 4.365627315236869 . }
+  pe:builtin math:sum.
+
+{ (4.365627319170314 0.0) math:sum 4.365627319170314 . }
+  pe:builtin math:sum.
+
+{ (25.0 4.365627315236869) math:sum 29.36562731523687 . }
+  pe:builtin math:sum.
+
+{ (25.0 4.365627319170314) math:sum 29.365627319170315 . }
+  pe:builtin math:sum.
+
+{ 29.365627319170315 math:lessThan 30.605576437395232 . }
+  pe:builtin math:lessThan.
+
+{ :ride :upperEnvelopeDecreasesAt 11 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "k"; pe:value 11 ],
+    [ pe:var "k1"; pe:value 12 ],
+    [ pe:var "tHi"; pe:value 29.365627319170315 ],
+    [ pe:var "tHi1"; pe:value 28.399953974892593 ],
+    [ pe:var "tLo"; pe:value 29.36562731523687 ],
+    [ pe:var "tLo1"; pe:value 28.399953971392662 ];
+  pe:uses
+    { :ride :motorTemperatureEnvelopeAt (11 29.36562731523687 29.365627319170315) . },
+    { (11 1) math:sum 12 . },
+    { :ride :motorTemperatureEnvelopeAt (12 28.399953971392662 28.399953974892593) . },
+    { 28.399953974892593 math:lessThan 29.365627319170315 . }.
+
+{ (11 1) math:sum 12 . }
+  pe:builtin math:sum.
+
+{ :ride :motorTemperatureEnvelopeAt (12 28.399953971392662 28.399953974892593) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "amb"; pe:value 25.0 ],
+    [ pe:var "hi"; pe:value 3.399953974892594 ],
+    [ pe:var "k"; pe:value 12 ],
+    [ pe:var "lo"; pe:value 3.399953971392662 ],
+    [ pe:var "tHi"; pe:value 28.399953974892593 ],
+    [ pe:var "tLo"; pe:value 28.399953971392662 ];
+  pe:uses
+    { :ride :ambient 25.0 . },
+    { :ride :excessEnvelopeAt (12 3.399953971392662 3.399953974892594) . },
+    { (25.0 3.399953971392662) math:sum 28.399953971392662 . },
+    { (25.0 3.399953974892594) math:sum 28.399953974892593 . }.
+
+{ :ride :excessEnvelopeAt (12 3.399953971392662 3.399953974892594) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7788007831 ],
+    [ pe:var "aLo"; pe:value 0.7788007830 ],
+    [ pe:var "decayedHi"; pe:value 3.399953974892594 ],
+    [ pe:var "decayedLo"; pe:value 3.399953971392662 ],
+    [ pe:var "gHi"; pe:value 0.0 ],
+    [ pe:var "gLo"; pe:value 0.0 ],
+    [ pe:var "hi"; pe:value 4.365627319170314 ],
+    [ pe:var "hi1"; pe:value 3.399953974892594 ],
+    [ pe:var "k"; pe:value 11 ],
+    [ pe:var "k1"; pe:value 12 ],
+    [ pe:var "lo"; pe:value 4.365627315236869 ],
+    [ pe:var "lo1"; pe:value 3.399953971392662 ],
+    [ pe:var "max"; pe:value 12 ],
+    [ pe:var "mode"; pe:value :Coast ];
+  pe:uses
+    { :ride :coolingLower 0.7788007830 . },
+    { :ride :coolingUpper 0.7788007831 . },
+    { :ride :maxStep 12 . },
+    { :ride :assistAt (11 :Coast) . },
+    { :Coast :heatingLower 0.0 . },
+    { :Coast :heatingUpper 0.0 . },
+    { :ride :excessEnvelopeAt (11 4.365627315236869 4.365627319170314) . },
+    { 11 math:lessThan 12 . },
+    { (11 1) math:sum 12 . },
+    { (0.7788007830 4.365627315236869) math:product 3.399953971392662 . },
+    { (0.7788007831 4.365627319170314) math:product 3.399953974892594 . },
+    { (3.399953971392662 0.0) math:sum 3.399953971392662 . },
+    { (3.399953974892594 0.0) math:sum 3.399953974892594 . }.
+
+{ :ride :assistAt (11 :Coast) . }
+  pe:fact "decimal-ebike-motor-thermal-envelope.n3".
+
+{ 11 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (0.7788007830 4.365627315236869) math:product 3.399953971392662 . }
+  pe:builtin math:product.
+
+{ (0.7788007831 4.365627319170314) math:product 3.399953974892594 . }
+  pe:builtin math:product.
+
+{ (3.399953971392662 0.0) math:sum 3.399953971392662 . }
+  pe:builtin math:sum.
+
+{ (3.399953974892594 0.0) math:sum 3.399953974892594 . }
+  pe:builtin math:sum.
+
+{ (25.0 3.399953971392662) math:sum 28.399953971392662 . }
+  pe:builtin math:sum.
+
+{ (25.0 3.399953974892594) math:sum 28.399953974892593 . }
+  pe:builtin math:sum.
+
+{ 28.399953974892593 math:lessThan 29.365627319170315 . }
+  pe:builtin math:lessThan.
+
+{ :result :temperatureTrace (0 :Turbo "33"^^xsd:decimal "33"^^xsd:decimal) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 0 ],
+    [ pe:var "mode"; pe:value :Turbo ],
+    [ pe:var "tHi"; pe:value "33"^^xsd:decimal ],
+    [ pe:var "tLo"; pe:value "33"^^xsd:decimal ];
+  pe:uses
+    { :ride :assistAt (0 :Turbo) . },
+    { :ride :motorTemperatureEnvelopeAt (0 "33"^^xsd:decimal "33"^^xsd:decimal) . }.
+
+{ :result :temperatureTrace (1 :Turbo 36.030406264 36.0304062648) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 1 ],
+    [ pe:var "mode"; pe:value :Turbo ],
+    [ pe:var "tHi"; pe:value 36.0304062648 ],
+    [ pe:var "tLo"; pe:value 36.030406264 ];
+  pe:uses
+    { :ride :assistAt (1 :Turbo) . },
+    { :ride :motorTemperatureEnvelopeAt (1 36.030406264 36.0304062648) . }.
+
+{ :result :temperatureTrace (2 :Turbo 38.3904890352113 38.39048903693738) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 2 ],
+    [ pe:var "mode"; pe:value :Turbo ],
+    [ pe:var "tHi"; pe:value 38.39048903693738 ],
+    [ pe:var "tLo"; pe:value 38.3904890352113 ];
+  pe:uses
+    { :ride :assistAt (2 :Turbo) . },
+    { :ride :motorTemperatureEnvelopeAt (2 38.3904890352113 38.39048903693738) . }.
+
+{ :result :temperatureTrace (3 :Tour 40.22852334537548 40.2285233480588) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 3 ],
+    [ pe:var "mode"; pe:value :Tour ],
+    [ pe:var "tHi"; pe:value 40.2285233480588 ],
+    [ pe:var "tLo"; pe:value 40.22852334537548 ];
+  pe:uses
+    { :ride :assistAt (3 :Tour) . },
+    { :ride :motorTemperatureEnvelopeAt (3 40.22852334537548 40.2285233480588) . }.
+
+{ :result :temperatureTrace (4 :Tour 39.259985905312206 39.259985908924826) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 4 ],
+    [ pe:var "mode"; pe:value :Tour ],
+    [ pe:var "tHi"; pe:value 39.259985908924826 ],
+    [ pe:var "tLo"; pe:value 39.259985905312206 ];
+  pe:uses
+    { :ride :assistAt (4 :Tour) . },
+    { :ride :motorTemperatureEnvelopeAt (4 39.259985905312206 39.259985908924826) . }.
+
+{ :result :temperatureTrace (5 :Eco 38.50568818862611 38.50568819286562) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 5 ],
+    [ pe:var "mode"; pe:value :Eco ],
+    [ pe:var "tHi"; pe:value 38.50568819286562 ],
+    [ pe:var "tLo"; pe:value 38.50568818862611 ];
+  pe:uses
+    { :ride :assistAt (5 :Eco) . },
+    { :ride :motorTemperatureEnvelopeAt (5 38.50568818862611 38.50568819286562) . }.
+
+{ :result :temperatureTrace (6 :Eco 36.71824053625586 36.71824054090817) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 6 ],
+    [ pe:var "mode"; pe:value :Eco ],
+    [ pe:var "tHi"; pe:value 36.71824054090817 ],
+    [ pe:var "tLo"; pe:value 36.71824053625586 ];
+  pe:uses
+    { :ride :assistAt (6 :Eco) . },
+    { :ride :motorTemperatureEnvelopeAt (6 36.71824053625586 36.71824054090817) . }.
+
+{ :result :temperatureTrace (7 :Eco 35.326174905018405 35.326174909813446) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "mode"; pe:value :Eco ],
+    [ pe:var "tHi"; pe:value 35.326174909813446 ],
+    [ pe:var "tLo"; pe:value 35.326174905018405 ];
+  pe:uses
+    { :ride :assistAt (7 :Eco) . },
+    { :ride :motorTemperatureEnvelopeAt (7 35.326174905018405 35.326174909813446) . }.
+
+{ :result :temperatureTrace (8 :Coast 34.24203310142329 34.242033106190284) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "mode"; pe:value :Coast ],
+    [ pe:var "tHi"; pe:value 34.242033106190284 ],
+    [ pe:var "tLo"; pe:value 34.24203310142329 ];
+  pe:uses
+    { :ride :assistAt (8 :Coast) . },
+    { :ride :motorTemperatureEnvelopeAt (8 34.24203310142329 34.242033106190284) . }.
+
+{ :result :temperatureTrace (9 :Coast 32.197702615900376 32.19770262053712) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 9 ],
+    [ pe:var "mode"; pe:value :Coast ],
+    [ pe:var "tHi"; pe:value 32.19770262053712 ],
+    [ pe:var "tLo"; pe:value 32.197702615900376 ];
+  pe:uses
+    { :ride :assistAt (9 :Coast) . },
+    { :ride :motorTemperatureEnvelopeAt (9 32.197702615900376 32.19770262053712) . }.
+
+{ :result :temperatureTrace (10 :Coast 30.605576433064357 30.605576437395232) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "mode"; pe:value :Coast ],
+    [ pe:var "tHi"; pe:value 30.605576437395232 ],
+    [ pe:var "tLo"; pe:value 30.605576433064357 ];
+  pe:uses
+    { :ride :assistAt (10 :Coast) . },
+    { :ride :motorTemperatureEnvelopeAt (10 30.605576433064357 30.605576437395232) . }.
+
+{ :result :temperatureTrace (11 :Coast 29.36562731523687 29.365627319170315) . }
+  pe:rule
+    {
+        {
+            :ride :assistAt (?k ?mode) .
+            :ride :motorTemperatureEnvelopeAt (?k ?tLo ?tHi) .
+        } => {
+            :result :temperatureTrace (?k ?mode ?tLo ?tHi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "k"; pe:value 11 ],
+    [ pe:var "mode"; pe:value :Coast ],
+    [ pe:var "tHi"; pe:value 29.365627319170315 ],
+    [ pe:var "tLo"; pe:value 29.36562731523687 ];
+  pe:uses
+    { :ride :assistAt (11 :Coast) . },
+    { :ride :motorTemperatureEnvelopeAt (11 29.36562731523687 29.365627319170315) . }.
+
+{ :result :coolingStep 3 . }
+  pe:rule
+    {
+        {
+            :ride :upperEnvelopeDecreasesAt ?k .
+        } => {
+            :result :coolingStep ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 3 ];
+  pe:uses { :ride :upperEnvelopeDecreasesAt 3 . }.
+
+{ :result :coolingStep 4 . }
+  pe:rule
+    {
+        {
+            :ride :upperEnvelopeDecreasesAt ?k .
+        } => {
+            :result :coolingStep ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 4 ];
+  pe:uses { :ride :upperEnvelopeDecreasesAt 4 . }.
+
+{ :result :coolingStep 5 . }
+  pe:rule
+    {
+        {
+            :ride :upperEnvelopeDecreasesAt ?k .
+        } => {
+            :result :coolingStep ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 5 ];
+  pe:uses { :ride :upperEnvelopeDecreasesAt 5 . }.
+
+{ :result :coolingStep 6 . }
+  pe:rule
+    {
+        {
+            :ride :upperEnvelopeDecreasesAt ?k .
+        } => {
+            :result :coolingStep ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 6 ];
+  pe:uses { :ride :upperEnvelopeDecreasesAt 6 . }.
+
+{ :result :coolingStep 7 . }
+  pe:rule
+    {
+        {
+            :ride :upperEnvelopeDecreasesAt ?k .
+        } => {
+            :result :coolingStep ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 7 ];
+  pe:uses { :ride :upperEnvelopeDecreasesAt 7 . }.
+
+{ :result :coolingStep 8 . }
+  pe:rule
+    {
+        {
+            :ride :upperEnvelopeDecreasesAt ?k .
+        } => {
+            :result :coolingStep ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 8 ];
+  pe:uses { :ride :upperEnvelopeDecreasesAt 8 . }.
+
+{ :result :coolingStep 9 . }
+  pe:rule
+    {
+        {
+            :ride :upperEnvelopeDecreasesAt ?k .
+        } => {
+            :result :coolingStep ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 9 ];
+  pe:uses { :ride :upperEnvelopeDecreasesAt 9 . }.
+
+{ :result :coolingStep 10 . }
+  pe:rule
+    {
+        {
+            :ride :upperEnvelopeDecreasesAt ?k .
+        } => {
+            :result :coolingStep ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 10 ];
+  pe:uses { :ride :upperEnvelopeDecreasesAt 10 . }.
+
+{ :result :coolingStep 11 . }
+  pe:rule
+    {
+        {
+            :ride :upperEnvelopeDecreasesAt ?k .
+        } => {
+            :result :coolingStep ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 11 ];
+  pe:uses { :ride :upperEnvelopeDecreasesAt 11 . }.

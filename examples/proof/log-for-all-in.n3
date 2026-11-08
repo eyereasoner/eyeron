@@ -1,0 +1,31 @@
+@prefix : <http://example.org/#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:result :is true .
+
+{ :result :is true . }
+  pe:rule 1;
+  pe:binding [ pe:var "c"; pe:value :c ];
+  pe:uses
+    { :c a :CompositeTask . },
+    {
+        ({
+            :c :subTask ?s .
+        } {
+            ?s :state :Completed .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{ :c a :CompositeTask . }
+  pe:fact "log-for-all-in.n3".
+
+{
+  ({
+      :c :subTask ?s .
+  } {
+      ?s :state :Completed .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.

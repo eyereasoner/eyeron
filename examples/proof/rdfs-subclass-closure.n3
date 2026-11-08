@@ -1,0 +1,72 @@
+@prefix : <http://example.org/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:milo a :Mammal .
+:Cat rdfs:subClassOf :Animal .
+:pet rdfs:range :Mammal .
+:milo a :Animal .
+:pet rdfs:range :Animal .
+
+{ :milo a :Mammal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Cat ],
+    [ pe:var "D"; pe:value :Mammal ],
+    [ pe:var "X"; pe:value :milo ];
+  pe:uses
+    { :Cat rdfs:subClassOf :Mammal . },
+    { :milo a :Cat . }.
+
+{ :Cat rdfs:subClassOf :Mammal . }
+  pe:fact "rdfs-subclass-closure.n3".
+
+{ :milo a :Cat . }
+  pe:fact "rdfs-subclass-closure.n3".
+
+{ :Cat rdfs:subClassOf :Animal . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :Cat ],
+    [ pe:var "D"; pe:value :Mammal ],
+    [ pe:var "E"; pe:value :Animal ];
+  pe:uses
+    { :Cat rdfs:subClassOf :Mammal . },
+    { :Mammal rdfs:subClassOf :Animal . }.
+
+{ :Mammal rdfs:subClassOf :Animal . }
+  pe:fact "rdfs-subclass-closure.n3".
+
+{ :pet rdfs:range :Mammal . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :Cat ],
+    [ pe:var "D"; pe:value :Mammal ],
+    [ pe:var "P"; pe:value :pet ];
+  pe:uses
+    { :Cat rdfs:subClassOf :Mammal . },
+    { :pet rdfs:range :Cat . }.
+
+{ :pet rdfs:range :Cat . }
+  pe:fact "rdfs-subclass-closure.n3".
+
+{ :milo a :Animal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Mammal ],
+    [ pe:var "D"; pe:value :Animal ],
+    [ pe:var "X"; pe:value :milo ];
+  pe:uses
+    { :Mammal rdfs:subClassOf :Animal . },
+    { :milo a :Mammal . }.
+
+{ :pet rdfs:range :Animal . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :Mammal ],
+    [ pe:var "D"; pe:value :Animal ],
+    [ pe:var "P"; pe:value :pet ];
+  pe:uses
+    { :Mammal rdfs:subClassOf :Animal . },
+    { :pet rdfs:range :Mammal . }.

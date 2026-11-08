@@ -1,0 +1,947 @@
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:sequence :padovan (0 0) .
+:sequence :padovan (1 1) .
+:sequence :padovan (2 1) .
+:sequence :padovan (3 1) .
+:sequence :padovan (4 2) .
+:sequence :padovan (5 2) .
+:sequence :padovan (6 3) .
+:sequence :padovan (7 4) .
+:sequence :padovan (8 5) .
+:sequence :padovan (9 7) .
+:sequence :padovan (10 9) .
+
+{ :sequence :padovan (0 0) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 0 ],
+    [ pe:var "Result"; pe:value 0 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 0 . },
+    { 0 :padovan 0 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 0 . }
+  pe:builtin list:member.
+
+{ 0 :padovan 0 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 0 ],
+    [ pe:var "Result"; pe:value 0 ];
+  pe:uses { (0 0 1 1) :padovanTail 0 . }.
+
+{ (0 0 1 1) :padovanTail 0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ].
+
+{ :sequence :padovan (1 1) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 1 ],
+    [ pe:var "Result"; pe:value 1 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 1 . },
+    { 1 :padovan 1 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 1 . }
+  pe:builtin list:member.
+
+{ 1 :padovan 1 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 1 ],
+    [ pe:var "Result"; pe:value 1 ];
+  pe:uses { (1 0 1 1) :padovanTail 1 . }.
+
+{ (1 0 1 1) :padovanTail 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ].
+
+{ :sequence :padovan (2 1) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 1 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 2 . },
+    { 2 :padovan 1 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 2 . }
+  pe:builtin list:member.
+
+{ 2 :padovan 1 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 1 ];
+  pe:uses { (2 0 1 1) :padovanTail 1 . }.
+
+{ (2 0 1 1) :padovanTail 1 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ].
+
+{ :sequence :padovan (3 1) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 1 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 3 . },
+    { 3 :padovan 1 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 3 . }
+  pe:builtin list:member.
+
+{ 3 :padovan 1 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 1 ];
+  pe:uses { (3 0 1 1) :padovanTail 1 . }.
+
+{ (3 0 1 1) :padovanTail 1 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Next"; pe:value 1 ],
+    [ pe:var "Previous"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 1 ];
+  pe:uses
+    { 3 math:greaterThan 2 . },
+    { (3 1) math:difference 2 . },
+    { (0 1) math:sum 1 . },
+    { (2 1 1 1) :padovanTail 1 . }.
+
+{ 3 math:greaterThan 2 . }
+  pe:builtin math:greaterThan.
+
+{ (3 1) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (0 1) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (2 1 1 1) :padovanTail 1 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ].
+
+{ :sequence :padovan (4 2) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Result"; pe:value 2 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 4 . },
+    { 4 :padovan 2 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 4 . }
+  pe:builtin list:member.
+
+{ 4 :padovan 2 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Result"; pe:value 2 ];
+  pe:uses { (4 0 1 1) :padovanTail 2 . }.
+
+{ (4 0 1 1) :padovanTail 2 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Next"; pe:value 1 ],
+    [ pe:var "Previous"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 2 ];
+  pe:uses
+    { 4 math:greaterThan 2 . },
+    { (4 1) math:difference 3 . },
+    { (0 1) math:sum 1 . },
+    { (3 1 1 1) :padovanTail 2 . }.
+
+{ 4 math:greaterThan 2 . }
+  pe:builtin math:greaterThan.
+
+{ (4 1) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (3 1 1 1) :padovanTail 2 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 2 ];
+  pe:uses
+    { 3 math:greaterThan 2 . },
+    { (3 1) math:difference 2 . },
+    { (1 1) math:sum 2 . },
+    { (2 1 1 2) :padovanTail 2 . }.
+
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ (2 1 1 2) :padovanTail 2 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 2 ].
+
+{ :sequence :padovan (5 2) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 5 ],
+    [ pe:var "Result"; pe:value 2 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 5 . },
+    { 5 :padovan 2 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 5 . }
+  pe:builtin list:member.
+
+{ 5 :padovan 2 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 5 ],
+    [ pe:var "Result"; pe:value 2 ];
+  pe:uses { (5 0 1 1) :padovanTail 2 . }.
+
+{ (5 0 1 1) :padovanTail 2 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 5 ],
+    [ pe:var "Next"; pe:value 1 ],
+    [ pe:var "Previous"; pe:value 4 ],
+    [ pe:var "Result"; pe:value 2 ];
+  pe:uses
+    { 5 math:greaterThan 2 . },
+    { (5 1) math:difference 4 . },
+    { (0 1) math:sum 1 . },
+    { (4 1 1 1) :padovanTail 2 . }.
+
+{ 5 math:greaterThan 2 . }
+  pe:builtin math:greaterThan.
+
+{ (5 1) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ (4 1 1 1) :padovanTail 2 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 2 ];
+  pe:uses
+    { 4 math:greaterThan 2 . },
+    { (4 1) math:difference 3 . },
+    { (1 1) math:sum 2 . },
+    { (3 1 1 2) :padovanTail 2 . }.
+
+{ (3 1 1 2) :padovanTail 2 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 2 ];
+  pe:uses
+    { 3 math:greaterThan 2 . },
+    { (3 1) math:difference 2 . },
+    { (1 1) math:sum 2 . },
+    { (2 1 2 2) :padovanTail 2 . }.
+
+{ (2 1 2 2) :padovanTail 2 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 2 ].
+
+{ :sequence :padovan (6 3) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 6 ],
+    [ pe:var "Result"; pe:value 3 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 6 . },
+    { 6 :padovan 3 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 6 . }
+  pe:builtin list:member.
+
+{ 6 :padovan 3 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 6 ],
+    [ pe:var "Result"; pe:value 3 ];
+  pe:uses { (6 0 1 1) :padovanTail 3 . }.
+
+{ (6 0 1 1) :padovanTail 3 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 6 ],
+    [ pe:var "Next"; pe:value 1 ],
+    [ pe:var "Previous"; pe:value 5 ],
+    [ pe:var "Result"; pe:value 3 ];
+  pe:uses
+    { 6 math:greaterThan 2 . },
+    { (6 1) math:difference 5 . },
+    { (0 1) math:sum 1 . },
+    { (5 1 1 1) :padovanTail 3 . }.
+
+{ 6 math:greaterThan 2 . }
+  pe:builtin math:greaterThan.
+
+{ (6 1) math:difference 5 . }
+  pe:builtin math:difference.
+
+{ (5 1 1 1) :padovanTail 3 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 5 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 4 ],
+    [ pe:var "Result"; pe:value 3 ];
+  pe:uses
+    { 5 math:greaterThan 2 . },
+    { (5 1) math:difference 4 . },
+    { (1 1) math:sum 2 . },
+    { (4 1 1 2) :padovanTail 3 . }.
+
+{ (4 1 1 2) :padovanTail 3 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 3 ];
+  pe:uses
+    { 4 math:greaterThan 2 . },
+    { (4 1) math:difference 3 . },
+    { (1 1) math:sum 2 . },
+    { (3 1 2 2) :padovanTail 3 . }.
+
+{ (3 1 2 2) :padovanTail 3 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Next"; pe:value 3 ],
+    [ pe:var "Previous"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 3 ];
+  pe:uses
+    { 3 math:greaterThan 2 . },
+    { (3 1) math:difference 2 . },
+    { (1 2) math:sum 3 . },
+    { (2 2 2 3) :padovanTail 3 . }.
+
+{ (1 2) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ (2 2 2 3) :padovanTail 3 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 3 ].
+
+{ :sequence :padovan (7 4) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 7 ],
+    [ pe:var "Result"; pe:value 4 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 7 . },
+    { 7 :padovan 4 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 7 . }
+  pe:builtin list:member.
+
+{ 7 :padovan 4 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 7 ],
+    [ pe:var "Result"; pe:value 4 ];
+  pe:uses { (7 0 1 1) :padovanTail 4 . }.
+
+{ (7 0 1 1) :padovanTail 4 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 7 ],
+    [ pe:var "Next"; pe:value 1 ],
+    [ pe:var "Previous"; pe:value 6 ],
+    [ pe:var "Result"; pe:value 4 ];
+  pe:uses
+    { 7 math:greaterThan 2 . },
+    { (7 1) math:difference 6 . },
+    { (0 1) math:sum 1 . },
+    { (6 1 1 1) :padovanTail 4 . }.
+
+{ 7 math:greaterThan 2 . }
+  pe:builtin math:greaterThan.
+
+{ (7 1) math:difference 6 . }
+  pe:builtin math:difference.
+
+{ (6 1 1 1) :padovanTail 4 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 6 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 5 ],
+    [ pe:var "Result"; pe:value 4 ];
+  pe:uses
+    { 6 math:greaterThan 2 . },
+    { (6 1) math:difference 5 . },
+    { (1 1) math:sum 2 . },
+    { (5 1 1 2) :padovanTail 4 . }.
+
+{ (5 1 1 2) :padovanTail 4 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 5 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 4 ],
+    [ pe:var "Result"; pe:value 4 ];
+  pe:uses
+    { 5 math:greaterThan 2 . },
+    { (5 1) math:difference 4 . },
+    { (1 1) math:sum 2 . },
+    { (4 1 2 2) :padovanTail 4 . }.
+
+{ (4 1 2 2) :padovanTail 4 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Next"; pe:value 3 ],
+    [ pe:var "Previous"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 4 ];
+  pe:uses
+    { 4 math:greaterThan 2 . },
+    { (4 1) math:difference 3 . },
+    { (1 2) math:sum 3 . },
+    { (3 2 2 3) :padovanTail 4 . }.
+
+{ (3 2 2 3) :padovanTail 4 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Next"; pe:value 4 ],
+    [ pe:var "Previous"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 4 ];
+  pe:uses
+    { 3 math:greaterThan 2 . },
+    { (3 1) math:difference 2 . },
+    { (2 2) math:sum 4 . },
+    { (2 2 3 4) :padovanTail 4 . }.
+
+{ (2 2) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ (2 2 3 4) :padovanTail 4 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "B"; pe:value 3 ],
+    [ pe:var "C"; pe:value 4 ].
+
+{ :sequence :padovan (8 5) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 8 ],
+    [ pe:var "Result"; pe:value 5 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 8 . },
+    { 8 :padovan 5 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 8 . }
+  pe:builtin list:member.
+
+{ 8 :padovan 5 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 8 ],
+    [ pe:var "Result"; pe:value 5 ];
+  pe:uses { (8 0 1 1) :padovanTail 5 . }.
+
+{ (8 0 1 1) :padovanTail 5 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 8 ],
+    [ pe:var "Next"; pe:value 1 ],
+    [ pe:var "Previous"; pe:value 7 ],
+    [ pe:var "Result"; pe:value 5 ];
+  pe:uses
+    { 8 math:greaterThan 2 . },
+    { (8 1) math:difference 7 . },
+    { (0 1) math:sum 1 . },
+    { (7 1 1 1) :padovanTail 5 . }.
+
+{ 8 math:greaterThan 2 . }
+  pe:builtin math:greaterThan.
+
+{ (8 1) math:difference 7 . }
+  pe:builtin math:difference.
+
+{ (7 1 1 1) :padovanTail 5 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 7 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 6 ],
+    [ pe:var "Result"; pe:value 5 ];
+  pe:uses
+    { 7 math:greaterThan 2 . },
+    { (7 1) math:difference 6 . },
+    { (1 1) math:sum 2 . },
+    { (6 1 1 2) :padovanTail 5 . }.
+
+{ (6 1 1 2) :padovanTail 5 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 6 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 5 ],
+    [ pe:var "Result"; pe:value 5 ];
+  pe:uses
+    { 6 math:greaterThan 2 . },
+    { (6 1) math:difference 5 . },
+    { (1 1) math:sum 2 . },
+    { (5 1 2 2) :padovanTail 5 . }.
+
+{ (5 1 2 2) :padovanTail 5 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 5 ],
+    [ pe:var "Next"; pe:value 3 ],
+    [ pe:var "Previous"; pe:value 4 ],
+    [ pe:var "Result"; pe:value 5 ];
+  pe:uses
+    { 5 math:greaterThan 2 . },
+    { (5 1) math:difference 4 . },
+    { (1 2) math:sum 3 . },
+    { (4 2 2 3) :padovanTail 5 . }.
+
+{ (4 2 2 3) :padovanTail 5 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Next"; pe:value 4 ],
+    [ pe:var "Previous"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 5 ];
+  pe:uses
+    { 4 math:greaterThan 2 . },
+    { (4 1) math:difference 3 . },
+    { (2 2) math:sum 4 . },
+    { (3 2 3 4) :padovanTail 5 . }.
+
+{ (3 2 3 4) :padovanTail 5 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "B"; pe:value 3 ],
+    [ pe:var "C"; pe:value 4 ],
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Next"; pe:value 5 ],
+    [ pe:var "Previous"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 5 ];
+  pe:uses
+    { 3 math:greaterThan 2 . },
+    { (3 1) math:difference 2 . },
+    { (2 3) math:sum 5 . },
+    { (2 3 4 5) :padovanTail 5 . }.
+
+{ (2 3) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ (2 3 4 5) :padovanTail 5 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 3 ],
+    [ pe:var "B"; pe:value 4 ],
+    [ pe:var "C"; pe:value 5 ].
+
+{ :sequence :padovan (9 7) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 9 ],
+    [ pe:var "Result"; pe:value 7 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 9 . },
+    { 9 :padovan 7 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 9 . }
+  pe:builtin list:member.
+
+{ 9 :padovan 7 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 9 ],
+    [ pe:var "Result"; pe:value 7 ];
+  pe:uses { (9 0 1 1) :padovanTail 7 . }.
+
+{ (9 0 1 1) :padovanTail 7 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 9 ],
+    [ pe:var "Next"; pe:value 1 ],
+    [ pe:var "Previous"; pe:value 8 ],
+    [ pe:var "Result"; pe:value 7 ];
+  pe:uses
+    { 9 math:greaterThan 2 . },
+    { (9 1) math:difference 8 . },
+    { (0 1) math:sum 1 . },
+    { (8 1 1 1) :padovanTail 7 . }.
+
+{ 9 math:greaterThan 2 . }
+  pe:builtin math:greaterThan.
+
+{ (9 1) math:difference 8 . }
+  pe:builtin math:difference.
+
+{ (8 1 1 1) :padovanTail 7 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 8 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 7 ],
+    [ pe:var "Result"; pe:value 7 ];
+  pe:uses
+    { 8 math:greaterThan 2 . },
+    { (8 1) math:difference 7 . },
+    { (1 1) math:sum 2 . },
+    { (7 1 1 2) :padovanTail 7 . }.
+
+{ (7 1 1 2) :padovanTail 7 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 7 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 6 ],
+    [ pe:var "Result"; pe:value 7 ];
+  pe:uses
+    { 7 math:greaterThan 2 . },
+    { (7 1) math:difference 6 . },
+    { (1 1) math:sum 2 . },
+    { (6 1 2 2) :padovanTail 7 . }.
+
+{ (6 1 2 2) :padovanTail 7 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 6 ],
+    [ pe:var "Next"; pe:value 3 ],
+    [ pe:var "Previous"; pe:value 5 ],
+    [ pe:var "Result"; pe:value 7 ];
+  pe:uses
+    { 6 math:greaterThan 2 . },
+    { (6 1) math:difference 5 . },
+    { (1 2) math:sum 3 . },
+    { (5 2 2 3) :padovanTail 7 . }.
+
+{ (5 2 2 3) :padovanTail 7 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "N"; pe:value 5 ],
+    [ pe:var "Next"; pe:value 4 ],
+    [ pe:var "Previous"; pe:value 4 ],
+    [ pe:var "Result"; pe:value 7 ];
+  pe:uses
+    { 5 math:greaterThan 2 . },
+    { (5 1) math:difference 4 . },
+    { (2 2) math:sum 4 . },
+    { (4 2 3 4) :padovanTail 7 . }.
+
+{ (4 2 3 4) :padovanTail 7 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "B"; pe:value 3 ],
+    [ pe:var "C"; pe:value 4 ],
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Next"; pe:value 5 ],
+    [ pe:var "Previous"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 7 ];
+  pe:uses
+    { 4 math:greaterThan 2 . },
+    { (4 1) math:difference 3 . },
+    { (2 3) math:sum 5 . },
+    { (3 3 4 5) :padovanTail 7 . }.
+
+{ (3 3 4 5) :padovanTail 7 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 3 ],
+    [ pe:var "B"; pe:value 4 ],
+    [ pe:var "C"; pe:value 5 ],
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Next"; pe:value 7 ],
+    [ pe:var "Previous"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 7 ];
+  pe:uses
+    { 3 math:greaterThan 2 . },
+    { (3 1) math:difference 2 . },
+    { (3 4) math:sum 7 . },
+    { (2 4 5 7) :padovanTail 7 . }.
+
+{ (3 4) math:sum 7 . }
+  pe:builtin math:sum.
+
+{ (2 4 5 7) :padovanTail 7 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 4 ],
+    [ pe:var "B"; pe:value 5 ],
+    [ pe:var "C"; pe:value 7 ].
+
+{ :sequence :padovan (10 9) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "N"; pe:value 10 ],
+    [ pe:var "Result"; pe:value 9 ];
+  pe:uses
+    { (0 1 2 3 4 5 6 7 8 9 10) list:member 10 . },
+    { 10 :padovan 9 . }.
+
+{ (0 1 2 3 4 5 6 7 8 9 10) list:member 10 . }
+  pe:builtin list:member.
+
+{ 10 :padovan 9 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "N"; pe:value 10 ],
+    [ pe:var "Result"; pe:value 9 ];
+  pe:uses { (10 0 1 1) :padovanTail 9 . }.
+
+{ (10 0 1 1) :padovanTail 9 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 10 ],
+    [ pe:var "Next"; pe:value 1 ],
+    [ pe:var "Previous"; pe:value 9 ],
+    [ pe:var "Result"; pe:value 9 ];
+  pe:uses
+    { 10 math:greaterThan 2 . },
+    { (10 1) math:difference 9 . },
+    { (0 1) math:sum 1 . },
+    { (9 1 1 1) :padovanTail 9 . }.
+
+{ 10 math:greaterThan 2 . }
+  pe:builtin math:greaterThan.
+
+{ (10 1) math:difference 9 . }
+  pe:builtin math:difference.
+
+{ (9 1 1 1) :padovanTail 9 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "N"; pe:value 9 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 8 ],
+    [ pe:var "Result"; pe:value 9 ];
+  pe:uses
+    { 9 math:greaterThan 2 . },
+    { (9 1) math:difference 8 . },
+    { (1 1) math:sum 2 . },
+    { (8 1 1 2) :padovanTail 9 . }.
+
+{ (8 1 1 2) :padovanTail 9 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 8 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Previous"; pe:value 7 ],
+    [ pe:var "Result"; pe:value 9 ];
+  pe:uses
+    { 8 math:greaterThan 2 . },
+    { (8 1) math:difference 7 . },
+    { (1 1) math:sum 2 . },
+    { (7 1 2 2) :padovanTail 9 . }.
+
+{ (7 1 2 2) :padovanTail 9 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "N"; pe:value 7 ],
+    [ pe:var "Next"; pe:value 3 ],
+    [ pe:var "Previous"; pe:value 6 ],
+    [ pe:var "Result"; pe:value 9 ];
+  pe:uses
+    { 7 math:greaterThan 2 . },
+    { (7 1) math:difference 6 . },
+    { (1 2) math:sum 3 . },
+    { (6 2 2 3) :padovanTail 9 . }.
+
+{ (6 2 2 3) :padovanTail 9 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "N"; pe:value 6 ],
+    [ pe:var "Next"; pe:value 4 ],
+    [ pe:var "Previous"; pe:value 5 ],
+    [ pe:var "Result"; pe:value 9 ];
+  pe:uses
+    { 6 math:greaterThan 2 . },
+    { (6 1) math:difference 5 . },
+    { (2 2) math:sum 4 . },
+    { (5 2 3 4) :padovanTail 9 . }.
+
+{ (5 2 3 4) :padovanTail 9 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "B"; pe:value 3 ],
+    [ pe:var "C"; pe:value 4 ],
+    [ pe:var "N"; pe:value 5 ],
+    [ pe:var "Next"; pe:value 5 ],
+    [ pe:var "Previous"; pe:value 4 ],
+    [ pe:var "Result"; pe:value 9 ];
+  pe:uses
+    { 5 math:greaterThan 2 . },
+    { (5 1) math:difference 4 . },
+    { (2 3) math:sum 5 . },
+    { (4 3 4 5) :padovanTail 9 . }.
+
+{ (4 3 4 5) :padovanTail 9 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 3 ],
+    [ pe:var "B"; pe:value 4 ],
+    [ pe:var "C"; pe:value 5 ],
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Next"; pe:value 7 ],
+    [ pe:var "Previous"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 9 ];
+  pe:uses
+    { 4 math:greaterThan 2 . },
+    { (4 1) math:difference 3 . },
+    { (3 4) math:sum 7 . },
+    { (3 4 5 7) :padovanTail 9 . }.
+
+{ (3 4 5 7) :padovanTail 9 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 4 ],
+    [ pe:var "B"; pe:value 5 ],
+    [ pe:var "C"; pe:value 7 ],
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Next"; pe:value 9 ],
+    [ pe:var "Previous"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 9 ];
+  pe:uses
+    { 3 math:greaterThan 2 . },
+    { (3 1) math:difference 2 . },
+    { (4 5) math:sum 9 . },
+    { (2 5 7 9) :padovanTail 9 . }.
+
+{ (4 5) math:sum 9 . }
+  pe:builtin math:sum.
+
+{ (2 5 7 9) :padovanTail 9 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 5 ],
+    [ pe:var "B"; pe:value 7 ],
+    [ pe:var "C"; pe:value 9 ].

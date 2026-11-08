@@ -1,0 +1,203 @@
+@prefix : <http://eulersharp.sourceforge.net/2007/07test/graph#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:test :is {
+    :i42 :cycle (:i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9) .
+} .
+:test :is {
+    :i42 :cycle (:i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72) .
+} .
+:test :is {
+    :i42 :cycle (:i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87) .
+} .
+:test :is {
+    :i42 :cycle (:i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81) .
+} .
+:test :is {
+    :i42 :cycle (:i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75) .
+} .
+
+{
+  :test :is {
+      :i42 :cycle (:i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9) .
+  } .
+}
+  pe:rule 2;
+  pe:binding [ pe:var "C"; pe:value (:i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9) ];
+  pe:uses { :i42 :cycle (:i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9) . }.
+
+{ :i42 :cycle (:i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9 :i9) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "D0"; pe:value :i9 ],
+    [ pe:var "D1"; pe:value :i9 ],
+    [ pe:var "D2"; pe:value :i9 ],
+    [ pe:var "D3"; pe:value :i9 ],
+    [ pe:var "D4"; pe:value :i9 ],
+    [ pe:var "D5"; pe:value :i9 ],
+    [ pe:var "D6"; pe:value :i9 ],
+    [ pe:var "D7"; pe:value :i9 ],
+    [ pe:var "D8"; pe:value :i9 ],
+    [ pe:var "D9"; pe:value :i9 ];
+  pe:uses
+    { :i9 :i42 :i9 . },
+    { :i9 :i42 :i9 . },
+    { :i9 :i42 :i9 . },
+    { :i9 :i42 :i9 . },
+    { :i9 :i42 :i9 . },
+    { :i9 :i42 :i9 . },
+    { :i9 :i42 :i9 . },
+    { :i9 :i42 :i9 . },
+    { :i9 :i42 :i9 . },
+    { :i9 :i42 :i9 . }.
+
+{ :i9 :i42 :i9 . }
+  pe:fact "basic-monadic.n3".
+
+{
+  :test :is {
+      :i42 :cycle (:i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72) .
+  } .
+}
+  pe:rule 2;
+  pe:binding [ pe:var "C"; pe:value (:i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72) ];
+  pe:uses { :i42 :cycle (:i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72) . }.
+
+{ :i42 :cycle (:i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "D0"; pe:value :i72 ],
+    [ pe:var "D1"; pe:value :i75 ],
+    [ pe:var "D2"; pe:value :i72 ],
+    [ pe:var "D3"; pe:value :i75 ],
+    [ pe:var "D4"; pe:value :i72 ],
+    [ pe:var "D5"; pe:value :i75 ],
+    [ pe:var "D6"; pe:value :i72 ],
+    [ pe:var "D7"; pe:value :i75 ],
+    [ pe:var "D8"; pe:value :i72 ],
+    [ pe:var "D9"; pe:value :i75 ];
+  pe:uses
+    { :i72 :i42 :i75 . },
+    { :i75 :i42 :i72 . },
+    { :i72 :i42 :i75 . },
+    { :i75 :i42 :i72 . },
+    { :i72 :i42 :i75 . },
+    { :i75 :i42 :i72 . },
+    { :i72 :i42 :i75 . },
+    { :i75 :i42 :i72 . },
+    { :i72 :i42 :i75 . },
+    { :i75 :i42 :i72 . }.
+
+{ :i72 :i42 :i75 . }
+  pe:fact "basic-monadic.n3".
+
+{ :i75 :i42 :i72 . }
+  pe:fact "basic-monadic.n3".
+
+{
+  :test :is {
+      :i42 :cycle (:i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87) .
+  } .
+}
+  pe:rule 2;
+  pe:binding [ pe:var "C"; pe:value (:i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87) ];
+  pe:uses { :i42 :cycle (:i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87) . }.
+
+{ :i42 :cycle (:i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87 :i87) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "D0"; pe:value :i87 ],
+    [ pe:var "D1"; pe:value :i87 ],
+    [ pe:var "D2"; pe:value :i87 ],
+    [ pe:var "D3"; pe:value :i87 ],
+    [ pe:var "D4"; pe:value :i87 ],
+    [ pe:var "D5"; pe:value :i87 ],
+    [ pe:var "D6"; pe:value :i87 ],
+    [ pe:var "D7"; pe:value :i87 ],
+    [ pe:var "D8"; pe:value :i87 ],
+    [ pe:var "D9"; pe:value :i87 ];
+  pe:uses
+    { :i87 :i42 :i87 . },
+    { :i87 :i42 :i87 . },
+    { :i87 :i42 :i87 . },
+    { :i87 :i42 :i87 . },
+    { :i87 :i42 :i87 . },
+    { :i87 :i42 :i87 . },
+    { :i87 :i42 :i87 . },
+    { :i87 :i42 :i87 . },
+    { :i87 :i42 :i87 . },
+    { :i87 :i42 :i87 . }.
+
+{ :i87 :i42 :i87 . }
+  pe:fact "basic-monadic.n3".
+
+{
+  :test :is {
+      :i42 :cycle (:i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81) .
+  } .
+}
+  pe:rule 2;
+  pe:binding [ pe:var "C"; pe:value (:i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81) ];
+  pe:uses { :i42 :cycle (:i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81) . }.
+
+{ :i42 :cycle (:i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81 :i81) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "D0"; pe:value :i81 ],
+    [ pe:var "D1"; pe:value :i81 ],
+    [ pe:var "D2"; pe:value :i81 ],
+    [ pe:var "D3"; pe:value :i81 ],
+    [ pe:var "D4"; pe:value :i81 ],
+    [ pe:var "D5"; pe:value :i81 ],
+    [ pe:var "D6"; pe:value :i81 ],
+    [ pe:var "D7"; pe:value :i81 ],
+    [ pe:var "D8"; pe:value :i81 ],
+    [ pe:var "D9"; pe:value :i81 ];
+  pe:uses
+    { :i81 :i42 :i81 . },
+    { :i81 :i42 :i81 . },
+    { :i81 :i42 :i81 . },
+    { :i81 :i42 :i81 . },
+    { :i81 :i42 :i81 . },
+    { :i81 :i42 :i81 . },
+    { :i81 :i42 :i81 . },
+    { :i81 :i42 :i81 . },
+    { :i81 :i42 :i81 . },
+    { :i81 :i42 :i81 . }.
+
+{ :i81 :i42 :i81 . }
+  pe:fact "basic-monadic.n3".
+
+{
+  :test :is {
+      :i42 :cycle (:i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75) .
+  } .
+}
+  pe:rule 2;
+  pe:binding [ pe:var "C"; pe:value (:i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75) ];
+  pe:uses { :i42 :cycle (:i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75) . }.
+
+{ :i42 :cycle (:i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75 :i72 :i75) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "D0"; pe:value :i75 ],
+    [ pe:var "D1"; pe:value :i72 ],
+    [ pe:var "D2"; pe:value :i75 ],
+    [ pe:var "D3"; pe:value :i72 ],
+    [ pe:var "D4"; pe:value :i75 ],
+    [ pe:var "D5"; pe:value :i72 ],
+    [ pe:var "D6"; pe:value :i75 ],
+    [ pe:var "D7"; pe:value :i72 ],
+    [ pe:var "D8"; pe:value :i75 ],
+    [ pe:var "D9"; pe:value :i72 ];
+  pe:uses
+    { :i75 :i42 :i72 . },
+    { :i72 :i42 :i75 . },
+    { :i75 :i42 :i72 . },
+    { :i72 :i42 :i75 . },
+    { :i75 :i42 :i72 . },
+    { :i72 :i42 :i75 . },
+    { :i75 :i42 :i72 . },
+    { :i72 :i42 :i75 . },
+    { :i75 :i42 :i72 . },
+    { :i72 :i42 :i75 . }.

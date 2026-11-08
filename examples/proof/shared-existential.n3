@@ -1,0 +1,21 @@
+@prefix : <http://example.org/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:bob :beloved _:__q1 .
+:liz :beloved _:__q1 .
+
+{ :bob :beloved _:__q1 . }
+  pe:rule 2;
+  pe:binding [ pe:var "beloved"; pe:value _:__q1 ];
+  pe:uses { :bob :loves _:__q1 . }.
+
+{ :bob :loves _:__q1 . }
+  pe:rule 1.
+
+{ :liz :beloved _:__q1 . }
+  pe:rule 3;
+  pe:binding [ pe:var "beloved"; pe:value _:__q1 ];
+  pe:uses { :liz :loves _:__q1 . }.
+
+{ :liz :loves _:__q1 . }
+  pe:rule 1.

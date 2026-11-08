@@ -1,0 +1,3408 @@
+@prefix : <http://example.org/kronecker#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:result :interval (0 1.0 2.0) .
+:result :width (0 "1"^^xsd:decimal) .
+:result :eps (0 "1"^^xsd:decimal) .
+:result :midpoint (0 1.5 0.5) .
+:result :interval (1 1.0 1.5) .
+:result :width (1 0.5) .
+:result :eps (1 0.5) .
+:result :midpoint (1 1.25 0.25) .
+:result :interval (2 1.25 1.5) .
+:result :width (2 0.25) .
+:result :eps (2 0.25) .
+:result :midpoint (2 1.375 0.125) .
+:result :interval (3 1.375 1.5) .
+:result :width (3 0.125) .
+:result :eps (3 0.125) .
+:result :midpoint (3 1.4375 0.0625) .
+:result :interval (4 1.375 1.4375) .
+:result :width (4 0.0625) .
+:result :eps (4 0.0625) .
+:result :midpoint (4 1.40625 0.03125) .
+:result :interval (5 1.40625 1.4375) .
+:result :width (5 0.03125) .
+:result :eps (5 0.03125) .
+:result :midpoint (5 1.421875 0.015625) .
+:result :interval (6 1.40625 1.421875) .
+:result :width (6 0.015625) .
+:result :eps (6 0.015625) .
+:result :midpoint (6 1.4140625 0.0078125) .
+:result :interval (7 1.4140625 1.421875) .
+:result :width (7 0.0078125) .
+:result :eps (7 0.0078125) .
+:result :midpoint (7 1.41796875 0.00390625) .
+:result :interval (8 1.4140625 1.41796875) .
+:result :width (8 0.00390625) .
+:result :eps (8 0.00390625) .
+:result :midpoint (8 1.416015625 0.001953125) .
+:result :interval (9 1.4140625 1.416015625) .
+:result :width (9 0.001953125) .
+:result :eps (9 0.001953125) .
+:result :midpoint (9 1.4150390625 0.0009765625) .
+:result :interval (10 1.4140625 1.4150390625) .
+:result :width (10 0.0009765625) .
+:result :eps (10 0.0009765625) .
+:result :midpoint (10 1.41455078125 0.00048828125) .
+:result :interval (11 1.4140625 1.41455078125) .
+:result :width (11 0.00048828125) .
+:result :eps (11 0.00048828125) .
+:result :midpoint (11 1.414306640625 0.000244140625) .
+:result :interval (12 1.4140625 1.414306640625) .
+:result :width (12 0.000244140625) .
+:result :eps (12 0.000244140625) .
+:result :midpoint (12 1.4141845703125 0.0001220703125) .
+:result :containsSqrt2 (0 true) .
+:result :containsSqrt2 (1 true) .
+:result :containsSqrt2 (2 true) .
+:result :containsSqrt2 (3 true) .
+:result :containsSqrt2 (4 true) .
+:result :containsSqrt2 (5 true) .
+:result :containsSqrt2 (6 true) .
+:result :containsSqrt2 (7 true) .
+:result :containsSqrt2 (8 true) .
+:result :containsSqrt2 (9 true) .
+:result :containsSqrt2 (10 true) .
+:result :containsSqrt2 (11 true) .
+:result :containsSqrt2 (12 true) .
+
+{ :result :interval (0 1.0 2.0) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "M"; pe:value 1.5 ],
+    [ pe:var "U"; pe:value 2.0 ],
+    [ pe:var "W"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "eps"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "errBound"; pe:value 0.5 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "s"; pe:value "3"^^xsd:decimal ];
+  pe:uses
+    { :sqrt2 :bounds (0 1.0 2.0) . },
+    { :bisectSqrt2 :width (0 "1"^^xsd:decimal) . },
+    { :bisectSqrt2 :epsilon (0 "1"^^xsd:decimal) . },
+    { (1.0 2.0) math:sum "3"^^xsd:decimal . },
+    { ("3"^^xsd:decimal 2) math:quotient 1.5 . },
+    { ("1"^^xsd:decimal 2) math:quotient 0.5 . }.
+
+{ :sqrt2 :bounds (0 1.0 2.0) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "U"; pe:value 2.0 ],
+    [ pe:var "n"; pe:value 0 ];
+  pe:uses { :bisectSqrt2 :interval (0 1.0 2.0) . }.
+
+{ :bisectSqrt2 :interval (0 1.0 2.0) . }
+  pe:fact "sqrt2-computable-real.n3".
+
+{ :bisectSqrt2 :width (0 "1"^^xsd:decimal) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "U"; pe:value 2.0 ],
+    [ pe:var "W"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "n"; pe:value 0 ];
+  pe:uses
+    { :bisectSqrt2 :interval (0 1.0 2.0) . },
+    { (2.0 1.0) math:difference "1"^^xsd:decimal . }.
+
+{ (2.0 1.0) math:difference "1"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (0 "1"^^xsd:decimal) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "U"; pe:value 2.0 ],
+    [ pe:var "eps"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "pow2"; pe:value 1 ];
+  pe:uses
+    { :bisectSqrt2 :interval (0 1.0 2.0) . },
+    { (2 0) math:exponentiation 1 . },
+    { (1.0 1) math:quotient "1"^^xsd:decimal . }.
+
+{ (2 0) math:exponentiation 1 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 1) math:quotient "1"^^xsd:decimal . }
+  pe:builtin math:quotient.
+
+{ (1.0 2.0) math:sum "3"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ ("3"^^xsd:decimal 2) math:quotient 1.5 . }
+  pe:builtin math:quotient.
+
+{ ("1"^^xsd:decimal 2) math:quotient 0.5 . }
+  pe:builtin math:quotient.
+
+{ :result :width (0 "1"^^xsd:decimal) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "M"; pe:value 1.5 ],
+    [ pe:var "U"; pe:value 2.0 ],
+    [ pe:var "W"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "eps"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "errBound"; pe:value 0.5 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "s"; pe:value "3"^^xsd:decimal ];
+  pe:uses
+    { :sqrt2 :bounds (0 1.0 2.0) . },
+    { :bisectSqrt2 :width (0 "1"^^xsd:decimal) . },
+    { :bisectSqrt2 :epsilon (0 "1"^^xsd:decimal) . },
+    { (1.0 2.0) math:sum "3"^^xsd:decimal . },
+    { ("3"^^xsd:decimal 2) math:quotient 1.5 . },
+    { ("1"^^xsd:decimal 2) math:quotient 0.5 . }.
+
+{ :result :eps (0 "1"^^xsd:decimal) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "M"; pe:value 1.5 ],
+    [ pe:var "U"; pe:value 2.0 ],
+    [ pe:var "W"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "eps"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "errBound"; pe:value 0.5 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "s"; pe:value "3"^^xsd:decimal ];
+  pe:uses
+    { :sqrt2 :bounds (0 1.0 2.0) . },
+    { :bisectSqrt2 :width (0 "1"^^xsd:decimal) . },
+    { :bisectSqrt2 :epsilon (0 "1"^^xsd:decimal) . },
+    { (1.0 2.0) math:sum "3"^^xsd:decimal . },
+    { ("3"^^xsd:decimal 2) math:quotient 1.5 . },
+    { ("1"^^xsd:decimal 2) math:quotient 0.5 . }.
+
+{ :result :midpoint (0 1.5 0.5) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "M"; pe:value 1.5 ],
+    [ pe:var "U"; pe:value 2.0 ],
+    [ pe:var "W"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "eps"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "errBound"; pe:value 0.5 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "s"; pe:value "3"^^xsd:decimal ];
+  pe:uses
+    { :sqrt2 :bounds (0 1.0 2.0) . },
+    { :bisectSqrt2 :width (0 "1"^^xsd:decimal) . },
+    { :bisectSqrt2 :epsilon (0 "1"^^xsd:decimal) . },
+    { (1.0 2.0) math:sum "3"^^xsd:decimal . },
+    { ("3"^^xsd:decimal 2) math:quotient 1.5 . },
+    { ("1"^^xsd:decimal 2) math:quotient 0.5 . }.
+
+{ :result :interval (1 1.0 1.5) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "M"; pe:value 1.25 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.5 ],
+    [ pe:var "eps"; pe:value 0.5 ],
+    [ pe:var "errBound"; pe:value 0.25 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "s"; pe:value 2.5 ];
+  pe:uses
+    { :sqrt2 :bounds (1 1.0 1.5) . },
+    { :bisectSqrt2 :width (1 0.5) . },
+    { :bisectSqrt2 :epsilon (1 0.5) . },
+    { (1.0 1.5) math:sum 2.5 . },
+    { (2.5 2) math:quotient 1.25 . },
+    { (0.5 2) math:quotient 0.25 . }.
+
+{ :sqrt2 :bounds (1 1.0 1.5) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 1 ];
+  pe:uses { :bisectSqrt2 :interval (1 1.0 1.5) . }.
+
+{ :bisectSqrt2 :interval (1 1.0 1.5) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "M"; pe:value 1.5 ],
+    [ pe:var "M2"; pe:value 2.25 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 2.0 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "n1"; pe:value 1 ],
+    [ pe:var "s"; pe:value "3"^^xsd:decimal ];
+  pe:uses
+    { :bisectSqrt2 :interval (0 1.0 2.0) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 0 math:lessThan 12 . },
+    { (0 1) math:sum 1 . },
+    { (1.0 2.0) math:sum "3"^^xsd:decimal . },
+    { ("3"^^xsd:decimal 2) math:quotient 1.5 . },
+    { (1.5 1.5) math:product 2.25 . },
+    { 2.25 math:notLessThan 2 . }.
+
+{ :bisectSqrt2 :maxN 12 . }
+  pe:fact "sqrt2-computable-real.n3".
+
+{ 0 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (0 1) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (1.5 1.5) math:product 2.25 . }
+  pe:builtin math:product.
+
+{ 2.25 math:notLessThan 2 . }
+  pe:builtin math:notLessThan.
+
+{ :bisectSqrt2 :width (1 0.5) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.5 ],
+    [ pe:var "n"; pe:value 1 ];
+  pe:uses
+    { :bisectSqrt2 :interval (1 1.0 1.5) . },
+    { (1.5 1.0) math:difference 0.5 . }.
+
+{ (1.5 1.0) math:difference 0.5 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (1 0.5) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "eps"; pe:value 0.5 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "pow2"; pe:value 2 ];
+  pe:uses
+    { :bisectSqrt2 :interval (1 1.0 1.5) . },
+    { (2 1) math:exponentiation 2 . },
+    { (1.0 2) math:quotient 0.5 . }.
+
+{ (2 1) math:exponentiation 2 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 2) math:quotient 0.5 . }
+  pe:builtin math:quotient.
+
+{ (1.0 1.5) math:sum 2.5 . }
+  pe:builtin math:sum.
+
+{ (2.5 2) math:quotient 1.25 . }
+  pe:builtin math:quotient.
+
+{ (0.5 2) math:quotient 0.25 . }
+  pe:builtin math:quotient.
+
+{ :result :width (1 0.5) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "M"; pe:value 1.25 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.5 ],
+    [ pe:var "eps"; pe:value 0.5 ],
+    [ pe:var "errBound"; pe:value 0.25 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "s"; pe:value 2.5 ];
+  pe:uses
+    { :sqrt2 :bounds (1 1.0 1.5) . },
+    { :bisectSqrt2 :width (1 0.5) . },
+    { :bisectSqrt2 :epsilon (1 0.5) . },
+    { (1.0 1.5) math:sum 2.5 . },
+    { (2.5 2) math:quotient 1.25 . },
+    { (0.5 2) math:quotient 0.25 . }.
+
+{ :result :eps (1 0.5) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "M"; pe:value 1.25 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.5 ],
+    [ pe:var "eps"; pe:value 0.5 ],
+    [ pe:var "errBound"; pe:value 0.25 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "s"; pe:value 2.5 ];
+  pe:uses
+    { :sqrt2 :bounds (1 1.0 1.5) . },
+    { :bisectSqrt2 :width (1 0.5) . },
+    { :bisectSqrt2 :epsilon (1 0.5) . },
+    { (1.0 1.5) math:sum 2.5 . },
+    { (2.5 2) math:quotient 1.25 . },
+    { (0.5 2) math:quotient 0.25 . }.
+
+{ :result :midpoint (1 1.25 0.25) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "M"; pe:value 1.25 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.5 ],
+    [ pe:var "eps"; pe:value 0.5 ],
+    [ pe:var "errBound"; pe:value 0.25 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "s"; pe:value 2.5 ];
+  pe:uses
+    { :sqrt2 :bounds (1 1.0 1.5) . },
+    { :bisectSqrt2 :width (1 0.5) . },
+    { :bisectSqrt2 :epsilon (1 0.5) . },
+    { (1.0 1.5) math:sum 2.5 . },
+    { (2.5 2) math:quotient 1.25 . },
+    { (0.5 2) math:quotient 0.25 . }.
+
+{ :result :interval (2 1.25 1.5) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.25 ],
+    [ pe:var "M"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.25 ],
+    [ pe:var "eps"; pe:value 0.25 ],
+    [ pe:var "errBound"; pe:value 0.125 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "s"; pe:value 2.75 ];
+  pe:uses
+    { :sqrt2 :bounds (2 1.25 1.5) . },
+    { :bisectSqrt2 :width (2 0.25) . },
+    { :bisectSqrt2 :epsilon (2 0.25) . },
+    { (1.25 1.5) math:sum 2.75 . },
+    { (2.75 2) math:quotient 1.375 . },
+    { (0.25 2) math:quotient 0.125 . }.
+
+{ :sqrt2 :bounds (2 1.25 1.5) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.25 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 2 ];
+  pe:uses { :bisectSqrt2 :interval (2 1.25 1.5) . }.
+
+{ :bisectSqrt2 :interval (2 1.25 1.5) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "M"; pe:value 1.25 ],
+    [ pe:var "M2"; pe:value 1.5625 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "n1"; pe:value 2 ],
+    [ pe:var "s"; pe:value 2.5 ];
+  pe:uses
+    { :bisectSqrt2 :interval (1 1.0 1.5) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 1 math:lessThan 12 . },
+    { (1 1) math:sum 2 . },
+    { (1.0 1.5) math:sum 2.5 . },
+    { (2.5 2) math:quotient 1.25 . },
+    { (1.25 1.25) math:product 1.5625 . },
+    { 1.5625 math:lessThan 2 . }.
+
+{ 1 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ (1.25 1.25) math:product 1.5625 . }
+  pe:builtin math:product.
+
+{ 1.5625 math:lessThan 2 . }
+  pe:builtin math:lessThan.
+
+{ :bisectSqrt2 :width (2 0.25) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.25 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.25 ],
+    [ pe:var "n"; pe:value 2 ];
+  pe:uses
+    { :bisectSqrt2 :interval (2 1.25 1.5) . },
+    { (1.5 1.25) math:difference 0.25 . }.
+
+{ (1.5 1.25) math:difference 0.25 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (2 0.25) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.25 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "eps"; pe:value 0.25 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "pow2"; pe:value 4 ];
+  pe:uses
+    { :bisectSqrt2 :interval (2 1.25 1.5) . },
+    { (2 2) math:exponentiation 4 . },
+    { (1.0 4) math:quotient 0.25 . }.
+
+{ (2 2) math:exponentiation 4 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 4) math:quotient 0.25 . }
+  pe:builtin math:quotient.
+
+{ (1.25 1.5) math:sum 2.75 . }
+  pe:builtin math:sum.
+
+{ (2.75 2) math:quotient 1.375 . }
+  pe:builtin math:quotient.
+
+{ (0.25 2) math:quotient 0.125 . }
+  pe:builtin math:quotient.
+
+{ :result :width (2 0.25) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.25 ],
+    [ pe:var "M"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.25 ],
+    [ pe:var "eps"; pe:value 0.25 ],
+    [ pe:var "errBound"; pe:value 0.125 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "s"; pe:value 2.75 ];
+  pe:uses
+    { :sqrt2 :bounds (2 1.25 1.5) . },
+    { :bisectSqrt2 :width (2 0.25) . },
+    { :bisectSqrt2 :epsilon (2 0.25) . },
+    { (1.25 1.5) math:sum 2.75 . },
+    { (2.75 2) math:quotient 1.375 . },
+    { (0.25 2) math:quotient 0.125 . }.
+
+{ :result :eps (2 0.25) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.25 ],
+    [ pe:var "M"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.25 ],
+    [ pe:var "eps"; pe:value 0.25 ],
+    [ pe:var "errBound"; pe:value 0.125 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "s"; pe:value 2.75 ];
+  pe:uses
+    { :sqrt2 :bounds (2 1.25 1.5) . },
+    { :bisectSqrt2 :width (2 0.25) . },
+    { :bisectSqrt2 :epsilon (2 0.25) . },
+    { (1.25 1.5) math:sum 2.75 . },
+    { (2.75 2) math:quotient 1.375 . },
+    { (0.25 2) math:quotient 0.125 . }.
+
+{ :result :midpoint (2 1.375 0.125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.25 ],
+    [ pe:var "M"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.25 ],
+    [ pe:var "eps"; pe:value 0.25 ],
+    [ pe:var "errBound"; pe:value 0.125 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "s"; pe:value 2.75 ];
+  pe:uses
+    { :sqrt2 :bounds (2 1.25 1.5) . },
+    { :bisectSqrt2 :width (2 0.25) . },
+    { :bisectSqrt2 :epsilon (2 0.25) . },
+    { (1.25 1.5) math:sum 2.75 . },
+    { (2.75 2) math:quotient 1.375 . },
+    { (0.25 2) math:quotient 0.125 . }.
+
+{ :result :interval (3 1.375 1.5) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "M"; pe:value 1.4375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.125 ],
+    [ pe:var "eps"; pe:value 0.125 ],
+    [ pe:var "errBound"; pe:value 0.0625 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "s"; pe:value 2.875 ];
+  pe:uses
+    { :sqrt2 :bounds (3 1.375 1.5) . },
+    { :bisectSqrt2 :width (3 0.125) . },
+    { :bisectSqrt2 :epsilon (3 0.125) . },
+    { (1.375 1.5) math:sum 2.875 . },
+    { (2.875 2) math:quotient 1.4375 . },
+    { (0.125 2) math:quotient 0.0625 . }.
+
+{ :sqrt2 :bounds (3 1.375 1.5) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 3 ];
+  pe:uses { :bisectSqrt2 :interval (3 1.375 1.5) . }.
+
+{ :bisectSqrt2 :interval (3 1.375 1.5) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "L"; pe:value 1.25 ],
+    [ pe:var "M"; pe:value 1.375 ],
+    [ pe:var "M2"; pe:value 1.890625 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "n1"; pe:value 3 ],
+    [ pe:var "s"; pe:value 2.75 ];
+  pe:uses
+    { :bisectSqrt2 :interval (2 1.25 1.5) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 2 math:lessThan 12 . },
+    { (2 1) math:sum 3 . },
+    { (1.25 1.5) math:sum 2.75 . },
+    { (2.75 2) math:quotient 1.375 . },
+    { (1.375 1.375) math:product 1.890625 . },
+    { 1.890625 math:lessThan 2 . }.
+
+{ 2 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (2 1) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ (1.375 1.375) math:product 1.890625 . }
+  pe:builtin math:product.
+
+{ 1.890625 math:lessThan 2 . }
+  pe:builtin math:lessThan.
+
+{ :bisectSqrt2 :width (3 0.125) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.125 ],
+    [ pe:var "n"; pe:value 3 ];
+  pe:uses
+    { :bisectSqrt2 :interval (3 1.375 1.5) . },
+    { (1.5 1.375) math:difference 0.125 . }.
+
+{ (1.5 1.375) math:difference 0.125 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (3 0.125) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "eps"; pe:value 0.125 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "pow2"; pe:value 8 ];
+  pe:uses
+    { :bisectSqrt2 :interval (3 1.375 1.5) . },
+    { (2 3) math:exponentiation 8 . },
+    { (1.0 8) math:quotient 0.125 . }.
+
+{ (2 3) math:exponentiation 8 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 8) math:quotient 0.125 . }
+  pe:builtin math:quotient.
+
+{ (1.375 1.5) math:sum 2.875 . }
+  pe:builtin math:sum.
+
+{ (2.875 2) math:quotient 1.4375 . }
+  pe:builtin math:quotient.
+
+{ (0.125 2) math:quotient 0.0625 . }
+  pe:builtin math:quotient.
+
+{ :result :width (3 0.125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "M"; pe:value 1.4375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.125 ],
+    [ pe:var "eps"; pe:value 0.125 ],
+    [ pe:var "errBound"; pe:value 0.0625 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "s"; pe:value 2.875 ];
+  pe:uses
+    { :sqrt2 :bounds (3 1.375 1.5) . },
+    { :bisectSqrt2 :width (3 0.125) . },
+    { :bisectSqrt2 :epsilon (3 0.125) . },
+    { (1.375 1.5) math:sum 2.875 . },
+    { (2.875 2) math:quotient 1.4375 . },
+    { (0.125 2) math:quotient 0.0625 . }.
+
+{ :result :eps (3 0.125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "M"; pe:value 1.4375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.125 ],
+    [ pe:var "eps"; pe:value 0.125 ],
+    [ pe:var "errBound"; pe:value 0.0625 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "s"; pe:value 2.875 ];
+  pe:uses
+    { :sqrt2 :bounds (3 1.375 1.5) . },
+    { :bisectSqrt2 :width (3 0.125) . },
+    { :bisectSqrt2 :epsilon (3 0.125) . },
+    { (1.375 1.5) math:sum 2.875 . },
+    { (2.875 2) math:quotient 1.4375 . },
+    { (0.125 2) math:quotient 0.0625 . }.
+
+{ :result :midpoint (3 1.4375 0.0625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "M"; pe:value 1.4375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "W"; pe:value 0.125 ],
+    [ pe:var "eps"; pe:value 0.125 ],
+    [ pe:var "errBound"; pe:value 0.0625 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "s"; pe:value 2.875 ];
+  pe:uses
+    { :sqrt2 :bounds (3 1.375 1.5) . },
+    { :bisectSqrt2 :width (3 0.125) . },
+    { :bisectSqrt2 :epsilon (3 0.125) . },
+    { (1.375 1.5) math:sum 2.875 . },
+    { (2.875 2) math:quotient 1.4375 . },
+    { (0.125 2) math:quotient 0.0625 . }.
+
+{ :result :interval (4 1.375 1.4375) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "M"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "W"; pe:value 0.0625 ],
+    [ pe:var "eps"; pe:value 0.0625 ],
+    [ pe:var "errBound"; pe:value 0.03125 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "s"; pe:value 2.8125 ];
+  pe:uses
+    { :sqrt2 :bounds (4 1.375 1.4375) . },
+    { :bisectSqrt2 :width (4 0.0625) . },
+    { :bisectSqrt2 :epsilon (4 0.0625) . },
+    { (1.375 1.4375) math:sum 2.8125 . },
+    { (2.8125 2) math:quotient 1.40625 . },
+    { (0.0625 2) math:quotient 0.03125 . }.
+
+{ :sqrt2 :bounds (4 1.375 1.4375) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "n"; pe:value 4 ];
+  pe:uses { :bisectSqrt2 :interval (4 1.375 1.4375) . }.
+
+{ :bisectSqrt2 :interval (4 1.375 1.4375) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "M"; pe:value 1.4375 ],
+    [ pe:var "M2"; pe:value 2.06640625 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "n1"; pe:value 4 ],
+    [ pe:var "s"; pe:value 2.875 ];
+  pe:uses
+    { :bisectSqrt2 :interval (3 1.375 1.5) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 3 math:lessThan 12 . },
+    { (3 1) math:sum 4 . },
+    { (1.375 1.5) math:sum 2.875 . },
+    { (2.875 2) math:quotient 1.4375 . },
+    { (1.4375 1.4375) math:product 2.06640625 . },
+    { 2.06640625 math:notLessThan 2 . }.
+
+{ 3 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (3 1) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ (1.4375 1.4375) math:product 2.06640625 . }
+  pe:builtin math:product.
+
+{ 2.06640625 math:notLessThan 2 . }
+  pe:builtin math:notLessThan.
+
+{ :bisectSqrt2 :width (4 0.0625) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "W"; pe:value 0.0625 ],
+    [ pe:var "n"; pe:value 4 ];
+  pe:uses
+    { :bisectSqrt2 :interval (4 1.375 1.4375) . },
+    { (1.4375 1.375) math:difference 0.0625 . }.
+
+{ (1.4375 1.375) math:difference 0.0625 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (4 0.0625) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "eps"; pe:value 0.0625 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "pow2"; pe:value 16 ];
+  pe:uses
+    { :bisectSqrt2 :interval (4 1.375 1.4375) . },
+    { (2 4) math:exponentiation 16 . },
+    { (1.0 16) math:quotient 0.0625 . }.
+
+{ (2 4) math:exponentiation 16 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 16) math:quotient 0.0625 . }
+  pe:builtin math:quotient.
+
+{ (1.375 1.4375) math:sum 2.8125 . }
+  pe:builtin math:sum.
+
+{ (2.8125 2) math:quotient 1.40625 . }
+  pe:builtin math:quotient.
+
+{ (0.0625 2) math:quotient 0.03125 . }
+  pe:builtin math:quotient.
+
+{ :result :width (4 0.0625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "M"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "W"; pe:value 0.0625 ],
+    [ pe:var "eps"; pe:value 0.0625 ],
+    [ pe:var "errBound"; pe:value 0.03125 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "s"; pe:value 2.8125 ];
+  pe:uses
+    { :sqrt2 :bounds (4 1.375 1.4375) . },
+    { :bisectSqrt2 :width (4 0.0625) . },
+    { :bisectSqrt2 :epsilon (4 0.0625) . },
+    { (1.375 1.4375) math:sum 2.8125 . },
+    { (2.8125 2) math:quotient 1.40625 . },
+    { (0.0625 2) math:quotient 0.03125 . }.
+
+{ :result :eps (4 0.0625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "M"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "W"; pe:value 0.0625 ],
+    [ pe:var "eps"; pe:value 0.0625 ],
+    [ pe:var "errBound"; pe:value 0.03125 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "s"; pe:value 2.8125 ];
+  pe:uses
+    { :sqrt2 :bounds (4 1.375 1.4375) . },
+    { :bisectSqrt2 :width (4 0.0625) . },
+    { :bisectSqrt2 :epsilon (4 0.0625) . },
+    { (1.375 1.4375) math:sum 2.8125 . },
+    { (2.8125 2) math:quotient 1.40625 . },
+    { (0.0625 2) math:quotient 0.03125 . }.
+
+{ :result :midpoint (4 1.40625 0.03125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "M"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "W"; pe:value 0.0625 ],
+    [ pe:var "eps"; pe:value 0.0625 ],
+    [ pe:var "errBound"; pe:value 0.03125 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "s"; pe:value 2.8125 ];
+  pe:uses
+    { :sqrt2 :bounds (4 1.375 1.4375) . },
+    { :bisectSqrt2 :width (4 0.0625) . },
+    { :bisectSqrt2 :epsilon (4 0.0625) . },
+    { (1.375 1.4375) math:sum 2.8125 . },
+    { (2.8125 2) math:quotient 1.40625 . },
+    { (0.0625 2) math:quotient 0.03125 . }.
+
+{ :result :interval (5 1.40625 1.4375) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "M"; pe:value 1.421875 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "W"; pe:value 0.03125 ],
+    [ pe:var "eps"; pe:value 0.03125 ],
+    [ pe:var "errBound"; pe:value 0.015625 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "s"; pe:value 2.84375 ];
+  pe:uses
+    { :sqrt2 :bounds (5 1.40625 1.4375) . },
+    { :bisectSqrt2 :width (5 0.03125) . },
+    { :bisectSqrt2 :epsilon (5 0.03125) . },
+    { (1.40625 1.4375) math:sum 2.84375 . },
+    { (2.84375 2) math:quotient 1.421875 . },
+    { (0.03125 2) math:quotient 0.015625 . }.
+
+{ :sqrt2 :bounds (5 1.40625 1.4375) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "n"; pe:value 5 ];
+  pe:uses { :bisectSqrt2 :interval (5 1.40625 1.4375) . }.
+
+{ :bisectSqrt2 :interval (5 1.40625 1.4375) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "M"; pe:value 1.40625 ],
+    [ pe:var "M2"; pe:value 1.9775390625 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "n1"; pe:value 5 ],
+    [ pe:var "s"; pe:value 2.8125 ];
+  pe:uses
+    { :bisectSqrt2 :interval (4 1.375 1.4375) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 4 math:lessThan 12 . },
+    { (4 1) math:sum 5 . },
+    { (1.375 1.4375) math:sum 2.8125 . },
+    { (2.8125 2) math:quotient 1.40625 . },
+    { (1.40625 1.40625) math:product 1.9775390625 . },
+    { 1.9775390625 math:lessThan 2 . }.
+
+{ 4 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (4 1) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ (1.40625 1.40625) math:product 1.9775390625 . }
+  pe:builtin math:product.
+
+{ 1.9775390625 math:lessThan 2 . }
+  pe:builtin math:lessThan.
+
+{ :bisectSqrt2 :width (5 0.03125) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "W"; pe:value 0.03125 ],
+    [ pe:var "n"; pe:value 5 ];
+  pe:uses
+    { :bisectSqrt2 :interval (5 1.40625 1.4375) . },
+    { (1.4375 1.40625) math:difference 0.03125 . }.
+
+{ (1.4375 1.40625) math:difference 0.03125 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (5 0.03125) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "eps"; pe:value 0.03125 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "pow2"; pe:value 32 ];
+  pe:uses
+    { :bisectSqrt2 :interval (5 1.40625 1.4375) . },
+    { (2 5) math:exponentiation 32 . },
+    { (1.0 32) math:quotient 0.03125 . }.
+
+{ (2 5) math:exponentiation 32 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 32) math:quotient 0.03125 . }
+  pe:builtin math:quotient.
+
+{ (1.40625 1.4375) math:sum 2.84375 . }
+  pe:builtin math:sum.
+
+{ (2.84375 2) math:quotient 1.421875 . }
+  pe:builtin math:quotient.
+
+{ (0.03125 2) math:quotient 0.015625 . }
+  pe:builtin math:quotient.
+
+{ :result :width (5 0.03125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "M"; pe:value 1.421875 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "W"; pe:value 0.03125 ],
+    [ pe:var "eps"; pe:value 0.03125 ],
+    [ pe:var "errBound"; pe:value 0.015625 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "s"; pe:value 2.84375 ];
+  pe:uses
+    { :sqrt2 :bounds (5 1.40625 1.4375) . },
+    { :bisectSqrt2 :width (5 0.03125) . },
+    { :bisectSqrt2 :epsilon (5 0.03125) . },
+    { (1.40625 1.4375) math:sum 2.84375 . },
+    { (2.84375 2) math:quotient 1.421875 . },
+    { (0.03125 2) math:quotient 0.015625 . }.
+
+{ :result :eps (5 0.03125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "M"; pe:value 1.421875 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "W"; pe:value 0.03125 ],
+    [ pe:var "eps"; pe:value 0.03125 ],
+    [ pe:var "errBound"; pe:value 0.015625 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "s"; pe:value 2.84375 ];
+  pe:uses
+    { :sqrt2 :bounds (5 1.40625 1.4375) . },
+    { :bisectSqrt2 :width (5 0.03125) . },
+    { :bisectSqrt2 :epsilon (5 0.03125) . },
+    { (1.40625 1.4375) math:sum 2.84375 . },
+    { (2.84375 2) math:quotient 1.421875 . },
+    { (0.03125 2) math:quotient 0.015625 . }.
+
+{ :result :midpoint (5 1.421875 0.015625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "M"; pe:value 1.421875 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "W"; pe:value 0.03125 ],
+    [ pe:var "eps"; pe:value 0.03125 ],
+    [ pe:var "errBound"; pe:value 0.015625 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "s"; pe:value 2.84375 ];
+  pe:uses
+    { :sqrt2 :bounds (5 1.40625 1.4375) . },
+    { :bisectSqrt2 :width (5 0.03125) . },
+    { :bisectSqrt2 :epsilon (5 0.03125) . },
+    { (1.40625 1.4375) math:sum 2.84375 . },
+    { (2.84375 2) math:quotient 1.421875 . },
+    { (0.03125 2) math:quotient 0.015625 . }.
+
+{ :result :interval (6 1.40625 1.421875) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "M"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "W"; pe:value 0.015625 ],
+    [ pe:var "eps"; pe:value 0.015625 ],
+    [ pe:var "errBound"; pe:value 0.0078125 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "s"; pe:value 2.828125 ];
+  pe:uses
+    { :sqrt2 :bounds (6 1.40625 1.421875) . },
+    { :bisectSqrt2 :width (6 0.015625) . },
+    { :bisectSqrt2 :epsilon (6 0.015625) . },
+    { (1.40625 1.421875) math:sum 2.828125 . },
+    { (2.828125 2) math:quotient 1.4140625 . },
+    { (0.015625 2) math:quotient 0.0078125 . }.
+
+{ :sqrt2 :bounds (6 1.40625 1.421875) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "n"; pe:value 6 ];
+  pe:uses { :bisectSqrt2 :interval (6 1.40625 1.421875) . }.
+
+{ :bisectSqrt2 :interval (6 1.40625 1.421875) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "M"; pe:value 1.421875 ],
+    [ pe:var "M2"; pe:value 2.021728515625 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "n1"; pe:value 6 ],
+    [ pe:var "s"; pe:value 2.84375 ];
+  pe:uses
+    { :bisectSqrt2 :interval (5 1.40625 1.4375) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 5 math:lessThan 12 . },
+    { (5 1) math:sum 6 . },
+    { (1.40625 1.4375) math:sum 2.84375 . },
+    { (2.84375 2) math:quotient 1.421875 . },
+    { (1.421875 1.421875) math:product 2.021728515625 . },
+    { 2.021728515625 math:notLessThan 2 . }.
+
+{ 5 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (5 1) math:sum 6 . }
+  pe:builtin math:sum.
+
+{ (1.421875 1.421875) math:product 2.021728515625 . }
+  pe:builtin math:product.
+
+{ 2.021728515625 math:notLessThan 2 . }
+  pe:builtin math:notLessThan.
+
+{ :bisectSqrt2 :width (6 0.015625) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "W"; pe:value 0.015625 ],
+    [ pe:var "n"; pe:value 6 ];
+  pe:uses
+    { :bisectSqrt2 :interval (6 1.40625 1.421875) . },
+    { (1.421875 1.40625) math:difference 0.015625 . }.
+
+{ (1.421875 1.40625) math:difference 0.015625 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (6 0.015625) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "eps"; pe:value 0.015625 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "pow2"; pe:value 64 ];
+  pe:uses
+    { :bisectSqrt2 :interval (6 1.40625 1.421875) . },
+    { (2 6) math:exponentiation 64 . },
+    { (1.0 64) math:quotient 0.015625 . }.
+
+{ (2 6) math:exponentiation 64 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 64) math:quotient 0.015625 . }
+  pe:builtin math:quotient.
+
+{ (1.40625 1.421875) math:sum 2.828125 . }
+  pe:builtin math:sum.
+
+{ (2.828125 2) math:quotient 1.4140625 . }
+  pe:builtin math:quotient.
+
+{ (0.015625 2) math:quotient 0.0078125 . }
+  pe:builtin math:quotient.
+
+{ :result :width (6 0.015625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "M"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "W"; pe:value 0.015625 ],
+    [ pe:var "eps"; pe:value 0.015625 ],
+    [ pe:var "errBound"; pe:value 0.0078125 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "s"; pe:value 2.828125 ];
+  pe:uses
+    { :sqrt2 :bounds (6 1.40625 1.421875) . },
+    { :bisectSqrt2 :width (6 0.015625) . },
+    { :bisectSqrt2 :epsilon (6 0.015625) . },
+    { (1.40625 1.421875) math:sum 2.828125 . },
+    { (2.828125 2) math:quotient 1.4140625 . },
+    { (0.015625 2) math:quotient 0.0078125 . }.
+
+{ :result :eps (6 0.015625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "M"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "W"; pe:value 0.015625 ],
+    [ pe:var "eps"; pe:value 0.015625 ],
+    [ pe:var "errBound"; pe:value 0.0078125 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "s"; pe:value 2.828125 ];
+  pe:uses
+    { :sqrt2 :bounds (6 1.40625 1.421875) . },
+    { :bisectSqrt2 :width (6 0.015625) . },
+    { :bisectSqrt2 :epsilon (6 0.015625) . },
+    { (1.40625 1.421875) math:sum 2.828125 . },
+    { (2.828125 2) math:quotient 1.4140625 . },
+    { (0.015625 2) math:quotient 0.0078125 . }.
+
+{ :result :midpoint (6 1.4140625 0.0078125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "M"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "W"; pe:value 0.015625 ],
+    [ pe:var "eps"; pe:value 0.015625 ],
+    [ pe:var "errBound"; pe:value 0.0078125 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "s"; pe:value 2.828125 ];
+  pe:uses
+    { :sqrt2 :bounds (6 1.40625 1.421875) . },
+    { :bisectSqrt2 :width (6 0.015625) . },
+    { :bisectSqrt2 :epsilon (6 0.015625) . },
+    { (1.40625 1.421875) math:sum 2.828125 . },
+    { (2.828125 2) math:quotient 1.4140625 . },
+    { (0.015625 2) math:quotient 0.0078125 . }.
+
+{ :result :interval (7 1.4140625 1.421875) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.41796875 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "W"; pe:value 0.0078125 ],
+    [ pe:var "eps"; pe:value 0.0078125 ],
+    [ pe:var "errBound"; pe:value 0.00390625 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "s"; pe:value 2.8359375 ];
+  pe:uses
+    { :sqrt2 :bounds (7 1.4140625 1.421875) . },
+    { :bisectSqrt2 :width (7 0.0078125) . },
+    { :bisectSqrt2 :epsilon (7 0.0078125) . },
+    { (1.4140625 1.421875) math:sum 2.8359375 . },
+    { (2.8359375 2) math:quotient 1.41796875 . },
+    { (0.0078125 2) math:quotient 0.00390625 . }.
+
+{ :sqrt2 :bounds (7 1.4140625 1.421875) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "n"; pe:value 7 ];
+  pe:uses { :bisectSqrt2 :interval (7 1.4140625 1.421875) . }.
+
+{ :bisectSqrt2 :interval (7 1.4140625 1.421875) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "M"; pe:value 1.4140625 ],
+    [ pe:var "M2"; pe:value 1.99957275390625 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "n1"; pe:value 7 ],
+    [ pe:var "s"; pe:value 2.828125 ];
+  pe:uses
+    { :bisectSqrt2 :interval (6 1.40625 1.421875) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 6 math:lessThan 12 . },
+    { (6 1) math:sum 7 . },
+    { (1.40625 1.421875) math:sum 2.828125 . },
+    { (2.828125 2) math:quotient 1.4140625 . },
+    { (1.4140625 1.4140625) math:product 1.99957275390625 . },
+    { 1.99957275390625 math:lessThan 2 . }.
+
+{ 6 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (6 1) math:sum 7 . }
+  pe:builtin math:sum.
+
+{ (1.4140625 1.4140625) math:product 1.99957275390625 . }
+  pe:builtin math:product.
+
+{ 1.99957275390625 math:lessThan 2 . }
+  pe:builtin math:lessThan.
+
+{ :bisectSqrt2 :width (7 0.0078125) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "W"; pe:value 0.0078125 ],
+    [ pe:var "n"; pe:value 7 ];
+  pe:uses
+    { :bisectSqrt2 :interval (7 1.4140625 1.421875) . },
+    { (1.421875 1.4140625) math:difference 0.0078125 . }.
+
+{ (1.421875 1.4140625) math:difference 0.0078125 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (7 0.0078125) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "eps"; pe:value 0.0078125 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "pow2"; pe:value 128 ];
+  pe:uses
+    { :bisectSqrt2 :interval (7 1.4140625 1.421875) . },
+    { (2 7) math:exponentiation 128 . },
+    { (1.0 128) math:quotient 0.0078125 . }.
+
+{ (2 7) math:exponentiation 128 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 128) math:quotient 0.0078125 . }
+  pe:builtin math:quotient.
+
+{ (1.4140625 1.421875) math:sum 2.8359375 . }
+  pe:builtin math:sum.
+
+{ (2.8359375 2) math:quotient 1.41796875 . }
+  pe:builtin math:quotient.
+
+{ (0.0078125 2) math:quotient 0.00390625 . }
+  pe:builtin math:quotient.
+
+{ :result :width (7 0.0078125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.41796875 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "W"; pe:value 0.0078125 ],
+    [ pe:var "eps"; pe:value 0.0078125 ],
+    [ pe:var "errBound"; pe:value 0.00390625 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "s"; pe:value 2.8359375 ];
+  pe:uses
+    { :sqrt2 :bounds (7 1.4140625 1.421875) . },
+    { :bisectSqrt2 :width (7 0.0078125) . },
+    { :bisectSqrt2 :epsilon (7 0.0078125) . },
+    { (1.4140625 1.421875) math:sum 2.8359375 . },
+    { (2.8359375 2) math:quotient 1.41796875 . },
+    { (0.0078125 2) math:quotient 0.00390625 . }.
+
+{ :result :eps (7 0.0078125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.41796875 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "W"; pe:value 0.0078125 ],
+    [ pe:var "eps"; pe:value 0.0078125 ],
+    [ pe:var "errBound"; pe:value 0.00390625 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "s"; pe:value 2.8359375 ];
+  pe:uses
+    { :sqrt2 :bounds (7 1.4140625 1.421875) . },
+    { :bisectSqrt2 :width (7 0.0078125) . },
+    { :bisectSqrt2 :epsilon (7 0.0078125) . },
+    { (1.4140625 1.421875) math:sum 2.8359375 . },
+    { (2.8359375 2) math:quotient 1.41796875 . },
+    { (0.0078125 2) math:quotient 0.00390625 . }.
+
+{ :result :midpoint (7 1.41796875 0.00390625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.41796875 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "W"; pe:value 0.0078125 ],
+    [ pe:var "eps"; pe:value 0.0078125 ],
+    [ pe:var "errBound"; pe:value 0.00390625 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "s"; pe:value 2.8359375 ];
+  pe:uses
+    { :sqrt2 :bounds (7 1.4140625 1.421875) . },
+    { :bisectSqrt2 :width (7 0.0078125) . },
+    { :bisectSqrt2 :epsilon (7 0.0078125) . },
+    { (1.4140625 1.421875) math:sum 2.8359375 . },
+    { (2.8359375 2) math:quotient 1.41796875 . },
+    { (0.0078125 2) math:quotient 0.00390625 . }.
+
+{ :result :interval (8 1.4140625 1.41796875) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.416015625 ],
+    [ pe:var "U"; pe:value 1.41796875 ],
+    [ pe:var "W"; pe:value 0.00390625 ],
+    [ pe:var "eps"; pe:value 0.00390625 ],
+    [ pe:var "errBound"; pe:value 0.001953125 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "s"; pe:value 2.83203125 ];
+  pe:uses
+    { :sqrt2 :bounds (8 1.4140625 1.41796875) . },
+    { :bisectSqrt2 :width (8 0.00390625) . },
+    { :bisectSqrt2 :epsilon (8 0.00390625) . },
+    { (1.4140625 1.41796875) math:sum 2.83203125 . },
+    { (2.83203125 2) math:quotient 1.416015625 . },
+    { (0.00390625 2) math:quotient 0.001953125 . }.
+
+{ :sqrt2 :bounds (8 1.4140625 1.41796875) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.41796875 ],
+    [ pe:var "n"; pe:value 8 ];
+  pe:uses { :bisectSqrt2 :interval (8 1.4140625 1.41796875) . }.
+
+{ :bisectSqrt2 :interval (8 1.4140625 1.41796875) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.41796875 ],
+    [ pe:var "M2"; pe:value 2.0106353759765625 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "n1"; pe:value 8 ],
+    [ pe:var "s"; pe:value 2.8359375 ];
+  pe:uses
+    { :bisectSqrt2 :interval (7 1.4140625 1.421875) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 7 math:lessThan 12 . },
+    { (7 1) math:sum 8 . },
+    { (1.4140625 1.421875) math:sum 2.8359375 . },
+    { (2.8359375 2) math:quotient 1.41796875 . },
+    { (1.41796875 1.41796875) math:product 2.0106353759765625 . },
+    { 2.0106353759765625 math:notLessThan 2 . }.
+
+{ 7 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (7 1) math:sum 8 . }
+  pe:builtin math:sum.
+
+{ (1.41796875 1.41796875) math:product 2.0106353759765625 . }
+  pe:builtin math:product.
+
+{ 2.0106353759765625 math:notLessThan 2 . }
+  pe:builtin math:notLessThan.
+
+{ :bisectSqrt2 :width (8 0.00390625) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.41796875 ],
+    [ pe:var "W"; pe:value 0.00390625 ],
+    [ pe:var "n"; pe:value 8 ];
+  pe:uses
+    { :bisectSqrt2 :interval (8 1.4140625 1.41796875) . },
+    { (1.41796875 1.4140625) math:difference 0.00390625 . }.
+
+{ (1.41796875 1.4140625) math:difference 0.00390625 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (8 0.00390625) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.41796875 ],
+    [ pe:var "eps"; pe:value 0.00390625 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pow2"; pe:value 256 ];
+  pe:uses
+    { :bisectSqrt2 :interval (8 1.4140625 1.41796875) . },
+    { (2 8) math:exponentiation 256 . },
+    { (1.0 256) math:quotient 0.00390625 . }.
+
+{ (2 8) math:exponentiation 256 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 256) math:quotient 0.00390625 . }
+  pe:builtin math:quotient.
+
+{ (1.4140625 1.41796875) math:sum 2.83203125 . }
+  pe:builtin math:sum.
+
+{ (2.83203125 2) math:quotient 1.416015625 . }
+  pe:builtin math:quotient.
+
+{ (0.00390625 2) math:quotient 0.001953125 . }
+  pe:builtin math:quotient.
+
+{ :result :width (8 0.00390625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.416015625 ],
+    [ pe:var "U"; pe:value 1.41796875 ],
+    [ pe:var "W"; pe:value 0.00390625 ],
+    [ pe:var "eps"; pe:value 0.00390625 ],
+    [ pe:var "errBound"; pe:value 0.001953125 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "s"; pe:value 2.83203125 ];
+  pe:uses
+    { :sqrt2 :bounds (8 1.4140625 1.41796875) . },
+    { :bisectSqrt2 :width (8 0.00390625) . },
+    { :bisectSqrt2 :epsilon (8 0.00390625) . },
+    { (1.4140625 1.41796875) math:sum 2.83203125 . },
+    { (2.83203125 2) math:quotient 1.416015625 . },
+    { (0.00390625 2) math:quotient 0.001953125 . }.
+
+{ :result :eps (8 0.00390625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.416015625 ],
+    [ pe:var "U"; pe:value 1.41796875 ],
+    [ pe:var "W"; pe:value 0.00390625 ],
+    [ pe:var "eps"; pe:value 0.00390625 ],
+    [ pe:var "errBound"; pe:value 0.001953125 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "s"; pe:value 2.83203125 ];
+  pe:uses
+    { :sqrt2 :bounds (8 1.4140625 1.41796875) . },
+    { :bisectSqrt2 :width (8 0.00390625) . },
+    { :bisectSqrt2 :epsilon (8 0.00390625) . },
+    { (1.4140625 1.41796875) math:sum 2.83203125 . },
+    { (2.83203125 2) math:quotient 1.416015625 . },
+    { (0.00390625 2) math:quotient 0.001953125 . }.
+
+{ :result :midpoint (8 1.416015625 0.001953125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.416015625 ],
+    [ pe:var "U"; pe:value 1.41796875 ],
+    [ pe:var "W"; pe:value 0.00390625 ],
+    [ pe:var "eps"; pe:value 0.00390625 ],
+    [ pe:var "errBound"; pe:value 0.001953125 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "s"; pe:value 2.83203125 ];
+  pe:uses
+    { :sqrt2 :bounds (8 1.4140625 1.41796875) . },
+    { :bisectSqrt2 :width (8 0.00390625) . },
+    { :bisectSqrt2 :epsilon (8 0.00390625) . },
+    { (1.4140625 1.41796875) math:sum 2.83203125 . },
+    { (2.83203125 2) math:quotient 1.416015625 . },
+    { (0.00390625 2) math:quotient 0.001953125 . }.
+
+{ :result :interval (9 1.4140625 1.416015625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.4150390625 ],
+    [ pe:var "U"; pe:value 1.416015625 ],
+    [ pe:var "W"; pe:value 0.001953125 ],
+    [ pe:var "eps"; pe:value 0.001953125 ],
+    [ pe:var "errBound"; pe:value 0.0009765625 ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "s"; pe:value 2.830078125 ];
+  pe:uses
+    { :sqrt2 :bounds (9 1.4140625 1.416015625) . },
+    { :bisectSqrt2 :width (9 0.001953125) . },
+    { :bisectSqrt2 :epsilon (9 0.001953125) . },
+    { (1.4140625 1.416015625) math:sum 2.830078125 . },
+    { (2.830078125 2) math:quotient 1.4150390625 . },
+    { (0.001953125 2) math:quotient 0.0009765625 . }.
+
+{ :sqrt2 :bounds (9 1.4140625 1.416015625) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.416015625 ],
+    [ pe:var "n"; pe:value 9 ];
+  pe:uses { :bisectSqrt2 :interval (9 1.4140625 1.416015625) . }.
+
+{ :bisectSqrt2 :interval (9 1.4140625 1.416015625) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.416015625 ],
+    [ pe:var "M2"; pe:value 2.0051002502441406 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.41796875 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "n1"; pe:value 9 ],
+    [ pe:var "s"; pe:value 2.83203125 ];
+  pe:uses
+    { :bisectSqrt2 :interval (8 1.4140625 1.41796875) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 8 math:lessThan 12 . },
+    { (8 1) math:sum 9 . },
+    { (1.4140625 1.41796875) math:sum 2.83203125 . },
+    { (2.83203125 2) math:quotient 1.416015625 . },
+    { (1.416015625 1.416015625) math:product 2.0051002502441406 . },
+    { 2.0051002502441406 math:notLessThan 2 . }.
+
+{ 8 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (8 1) math:sum 9 . }
+  pe:builtin math:sum.
+
+{ (1.416015625 1.416015625) math:product 2.0051002502441406 . }
+  pe:builtin math:product.
+
+{ 2.0051002502441406 math:notLessThan 2 . }
+  pe:builtin math:notLessThan.
+
+{ :bisectSqrt2 :width (9 0.001953125) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.416015625 ],
+    [ pe:var "W"; pe:value 0.001953125 ],
+    [ pe:var "n"; pe:value 9 ];
+  pe:uses
+    { :bisectSqrt2 :interval (9 1.4140625 1.416015625) . },
+    { (1.416015625 1.4140625) math:difference 0.001953125 . }.
+
+{ (1.416015625 1.4140625) math:difference 0.001953125 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (9 0.001953125) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.416015625 ],
+    [ pe:var "eps"; pe:value 0.001953125 ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "pow2"; pe:value 512 ];
+  pe:uses
+    { :bisectSqrt2 :interval (9 1.4140625 1.416015625) . },
+    { (2 9) math:exponentiation 512 . },
+    { (1.0 512) math:quotient 0.001953125 . }.
+
+{ (2 9) math:exponentiation 512 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 512) math:quotient 0.001953125 . }
+  pe:builtin math:quotient.
+
+{ (1.4140625 1.416015625) math:sum 2.830078125 . }
+  pe:builtin math:sum.
+
+{ (2.830078125 2) math:quotient 1.4150390625 . }
+  pe:builtin math:quotient.
+
+{ (0.001953125 2) math:quotient 0.0009765625 . }
+  pe:builtin math:quotient.
+
+{ :result :width (9 0.001953125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.4150390625 ],
+    [ pe:var "U"; pe:value 1.416015625 ],
+    [ pe:var "W"; pe:value 0.001953125 ],
+    [ pe:var "eps"; pe:value 0.001953125 ],
+    [ pe:var "errBound"; pe:value 0.0009765625 ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "s"; pe:value 2.830078125 ];
+  pe:uses
+    { :sqrt2 :bounds (9 1.4140625 1.416015625) . },
+    { :bisectSqrt2 :width (9 0.001953125) . },
+    { :bisectSqrt2 :epsilon (9 0.001953125) . },
+    { (1.4140625 1.416015625) math:sum 2.830078125 . },
+    { (2.830078125 2) math:quotient 1.4150390625 . },
+    { (0.001953125 2) math:quotient 0.0009765625 . }.
+
+{ :result :eps (9 0.001953125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.4150390625 ],
+    [ pe:var "U"; pe:value 1.416015625 ],
+    [ pe:var "W"; pe:value 0.001953125 ],
+    [ pe:var "eps"; pe:value 0.001953125 ],
+    [ pe:var "errBound"; pe:value 0.0009765625 ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "s"; pe:value 2.830078125 ];
+  pe:uses
+    { :sqrt2 :bounds (9 1.4140625 1.416015625) . },
+    { :bisectSqrt2 :width (9 0.001953125) . },
+    { :bisectSqrt2 :epsilon (9 0.001953125) . },
+    { (1.4140625 1.416015625) math:sum 2.830078125 . },
+    { (2.830078125 2) math:quotient 1.4150390625 . },
+    { (0.001953125 2) math:quotient 0.0009765625 . }.
+
+{ :result :midpoint (9 1.4150390625 0.0009765625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.4150390625 ],
+    [ pe:var "U"; pe:value 1.416015625 ],
+    [ pe:var "W"; pe:value 0.001953125 ],
+    [ pe:var "eps"; pe:value 0.001953125 ],
+    [ pe:var "errBound"; pe:value 0.0009765625 ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "s"; pe:value 2.830078125 ];
+  pe:uses
+    { :sqrt2 :bounds (9 1.4140625 1.416015625) . },
+    { :bisectSqrt2 :width (9 0.001953125) . },
+    { :bisectSqrt2 :epsilon (9 0.001953125) . },
+    { (1.4140625 1.416015625) math:sum 2.830078125 . },
+    { (2.830078125 2) math:quotient 1.4150390625 . },
+    { (0.001953125 2) math:quotient 0.0009765625 . }.
+
+{ :result :interval (10 1.4140625 1.4150390625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.41455078125 ],
+    [ pe:var "U"; pe:value 1.4150390625 ],
+    [ pe:var "W"; pe:value 0.0009765625 ],
+    [ pe:var "eps"; pe:value 0.0009765625 ],
+    [ pe:var "errBound"; pe:value 0.00048828125 ],
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "s"; pe:value 2.8291015625 ];
+  pe:uses
+    { :sqrt2 :bounds (10 1.4140625 1.4150390625) . },
+    { :bisectSqrt2 :width (10 0.0009765625) . },
+    { :bisectSqrt2 :epsilon (10 0.0009765625) . },
+    { (1.4140625 1.4150390625) math:sum 2.8291015625 . },
+    { (2.8291015625 2) math:quotient 1.41455078125 . },
+    { (0.0009765625 2) math:quotient 0.00048828125 . }.
+
+{ :sqrt2 :bounds (10 1.4140625 1.4150390625) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.4150390625 ],
+    [ pe:var "n"; pe:value 10 ];
+  pe:uses { :bisectSqrt2 :interval (10 1.4140625 1.4150390625) . }.
+
+{ :bisectSqrt2 :interval (10 1.4140625 1.4150390625) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.4150390625 ],
+    [ pe:var "M2"; pe:value 2.002335548400879 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.416015625 ],
+    [ pe:var "n"; pe:value 9 ],
+    [ pe:var "n1"; pe:value 10 ],
+    [ pe:var "s"; pe:value 2.830078125 ];
+  pe:uses
+    { :bisectSqrt2 :interval (9 1.4140625 1.416015625) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 9 math:lessThan 12 . },
+    { (9 1) math:sum 10 . },
+    { (1.4140625 1.416015625) math:sum 2.830078125 . },
+    { (2.830078125 2) math:quotient 1.4150390625 . },
+    { (1.4150390625 1.4150390625) math:product 2.002335548400879 . },
+    { 2.002335548400879 math:notLessThan 2 . }.
+
+{ 9 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (9 1) math:sum 10 . }
+  pe:builtin math:sum.
+
+{ (1.4150390625 1.4150390625) math:product 2.002335548400879 . }
+  pe:builtin math:product.
+
+{ 2.002335548400879 math:notLessThan 2 . }
+  pe:builtin math:notLessThan.
+
+{ :bisectSqrt2 :width (10 0.0009765625) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.4150390625 ],
+    [ pe:var "W"; pe:value 0.0009765625 ],
+    [ pe:var "n"; pe:value 10 ];
+  pe:uses
+    { :bisectSqrt2 :interval (10 1.4140625 1.4150390625) . },
+    { (1.4150390625 1.4140625) math:difference 0.0009765625 . }.
+
+{ (1.4150390625 1.4140625) math:difference 0.0009765625 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (10 0.0009765625) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.4150390625 ],
+    [ pe:var "eps"; pe:value 0.0009765625 ],
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "pow2"; pe:value 1024 ];
+  pe:uses
+    { :bisectSqrt2 :interval (10 1.4140625 1.4150390625) . },
+    { (2 10) math:exponentiation 1024 . },
+    { (1.0 1024) math:quotient 0.0009765625 . }.
+
+{ (2 10) math:exponentiation 1024 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 1024) math:quotient 0.0009765625 . }
+  pe:builtin math:quotient.
+
+{ (1.4140625 1.4150390625) math:sum 2.8291015625 . }
+  pe:builtin math:sum.
+
+{ (2.8291015625 2) math:quotient 1.41455078125 . }
+  pe:builtin math:quotient.
+
+{ (0.0009765625 2) math:quotient 0.00048828125 . }
+  pe:builtin math:quotient.
+
+{ :result :width (10 0.0009765625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.41455078125 ],
+    [ pe:var "U"; pe:value 1.4150390625 ],
+    [ pe:var "W"; pe:value 0.0009765625 ],
+    [ pe:var "eps"; pe:value 0.0009765625 ],
+    [ pe:var "errBound"; pe:value 0.00048828125 ],
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "s"; pe:value 2.8291015625 ];
+  pe:uses
+    { :sqrt2 :bounds (10 1.4140625 1.4150390625) . },
+    { :bisectSqrt2 :width (10 0.0009765625) . },
+    { :bisectSqrt2 :epsilon (10 0.0009765625) . },
+    { (1.4140625 1.4150390625) math:sum 2.8291015625 . },
+    { (2.8291015625 2) math:quotient 1.41455078125 . },
+    { (0.0009765625 2) math:quotient 0.00048828125 . }.
+
+{ :result :eps (10 0.0009765625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.41455078125 ],
+    [ pe:var "U"; pe:value 1.4150390625 ],
+    [ pe:var "W"; pe:value 0.0009765625 ],
+    [ pe:var "eps"; pe:value 0.0009765625 ],
+    [ pe:var "errBound"; pe:value 0.00048828125 ],
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "s"; pe:value 2.8291015625 ];
+  pe:uses
+    { :sqrt2 :bounds (10 1.4140625 1.4150390625) . },
+    { :bisectSqrt2 :width (10 0.0009765625) . },
+    { :bisectSqrt2 :epsilon (10 0.0009765625) . },
+    { (1.4140625 1.4150390625) math:sum 2.8291015625 . },
+    { (2.8291015625 2) math:quotient 1.41455078125 . },
+    { (0.0009765625 2) math:quotient 0.00048828125 . }.
+
+{ :result :midpoint (10 1.41455078125 0.00048828125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.41455078125 ],
+    [ pe:var "U"; pe:value 1.4150390625 ],
+    [ pe:var "W"; pe:value 0.0009765625 ],
+    [ pe:var "eps"; pe:value 0.0009765625 ],
+    [ pe:var "errBound"; pe:value 0.00048828125 ],
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "s"; pe:value 2.8291015625 ];
+  pe:uses
+    { :sqrt2 :bounds (10 1.4140625 1.4150390625) . },
+    { :bisectSqrt2 :width (10 0.0009765625) . },
+    { :bisectSqrt2 :epsilon (10 0.0009765625) . },
+    { (1.4140625 1.4150390625) math:sum 2.8291015625 . },
+    { (2.8291015625 2) math:quotient 1.41455078125 . },
+    { (0.0009765625 2) math:quotient 0.00048828125 . }.
+
+{ :result :interval (11 1.4140625 1.41455078125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.414306640625 ],
+    [ pe:var "U"; pe:value 1.41455078125 ],
+    [ pe:var "W"; pe:value 0.00048828125 ],
+    [ pe:var "eps"; pe:value 0.00048828125 ],
+    [ pe:var "errBound"; pe:value 0.000244140625 ],
+    [ pe:var "n"; pe:value 11 ],
+    [ pe:var "s"; pe:value 2.82861328125 ];
+  pe:uses
+    { :sqrt2 :bounds (11 1.4140625 1.41455078125) . },
+    { :bisectSqrt2 :width (11 0.00048828125) . },
+    { :bisectSqrt2 :epsilon (11 0.00048828125) . },
+    { (1.4140625 1.41455078125) math:sum 2.82861328125 . },
+    { (2.82861328125 2) math:quotient 1.414306640625 . },
+    { (0.00048828125 2) math:quotient 0.000244140625 . }.
+
+{ :sqrt2 :bounds (11 1.4140625 1.41455078125) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.41455078125 ],
+    [ pe:var "n"; pe:value 11 ];
+  pe:uses { :bisectSqrt2 :interval (11 1.4140625 1.41455078125) . }.
+
+{ :bisectSqrt2 :interval (11 1.4140625 1.41455078125) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.41455078125 ],
+    [ pe:var "M2"; pe:value 2.0009539127349854 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.4150390625 ],
+    [ pe:var "n"; pe:value 10 ],
+    [ pe:var "n1"; pe:value 11 ],
+    [ pe:var "s"; pe:value 2.8291015625 ];
+  pe:uses
+    { :bisectSqrt2 :interval (10 1.4140625 1.4150390625) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 10 math:lessThan 12 . },
+    { (10 1) math:sum 11 . },
+    { (1.4140625 1.4150390625) math:sum 2.8291015625 . },
+    { (2.8291015625 2) math:quotient 1.41455078125 . },
+    { (1.41455078125 1.41455078125) math:product 2.0009539127349854 . },
+    { 2.0009539127349854 math:notLessThan 2 . }.
+
+{ 10 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (10 1) math:sum 11 . }
+  pe:builtin math:sum.
+
+{ (1.41455078125 1.41455078125) math:product 2.0009539127349854 . }
+  pe:builtin math:product.
+
+{ 2.0009539127349854 math:notLessThan 2 . }
+  pe:builtin math:notLessThan.
+
+{ :bisectSqrt2 :width (11 0.00048828125) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.41455078125 ],
+    [ pe:var "W"; pe:value 0.00048828125 ],
+    [ pe:var "n"; pe:value 11 ];
+  pe:uses
+    { :bisectSqrt2 :interval (11 1.4140625 1.41455078125) . },
+    { (1.41455078125 1.4140625) math:difference 0.00048828125 . }.
+
+{ (1.41455078125 1.4140625) math:difference 0.00048828125 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (11 0.00048828125) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.41455078125 ],
+    [ pe:var "eps"; pe:value 0.00048828125 ],
+    [ pe:var "n"; pe:value 11 ],
+    [ pe:var "pow2"; pe:value 2048 ];
+  pe:uses
+    { :bisectSqrt2 :interval (11 1.4140625 1.41455078125) . },
+    { (2 11) math:exponentiation 2048 . },
+    { (1.0 2048) math:quotient 0.00048828125 . }.
+
+{ (2 11) math:exponentiation 2048 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 2048) math:quotient 0.00048828125 . }
+  pe:builtin math:quotient.
+
+{ (1.4140625 1.41455078125) math:sum 2.82861328125 . }
+  pe:builtin math:sum.
+
+{ (2.82861328125 2) math:quotient 1.414306640625 . }
+  pe:builtin math:quotient.
+
+{ (0.00048828125 2) math:quotient 0.000244140625 . }
+  pe:builtin math:quotient.
+
+{ :result :width (11 0.00048828125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.414306640625 ],
+    [ pe:var "U"; pe:value 1.41455078125 ],
+    [ pe:var "W"; pe:value 0.00048828125 ],
+    [ pe:var "eps"; pe:value 0.00048828125 ],
+    [ pe:var "errBound"; pe:value 0.000244140625 ],
+    [ pe:var "n"; pe:value 11 ],
+    [ pe:var "s"; pe:value 2.82861328125 ];
+  pe:uses
+    { :sqrt2 :bounds (11 1.4140625 1.41455078125) . },
+    { :bisectSqrt2 :width (11 0.00048828125) . },
+    { :bisectSqrt2 :epsilon (11 0.00048828125) . },
+    { (1.4140625 1.41455078125) math:sum 2.82861328125 . },
+    { (2.82861328125 2) math:quotient 1.414306640625 . },
+    { (0.00048828125 2) math:quotient 0.000244140625 . }.
+
+{ :result :eps (11 0.00048828125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.414306640625 ],
+    [ pe:var "U"; pe:value 1.41455078125 ],
+    [ pe:var "W"; pe:value 0.00048828125 ],
+    [ pe:var "eps"; pe:value 0.00048828125 ],
+    [ pe:var "errBound"; pe:value 0.000244140625 ],
+    [ pe:var "n"; pe:value 11 ],
+    [ pe:var "s"; pe:value 2.82861328125 ];
+  pe:uses
+    { :sqrt2 :bounds (11 1.4140625 1.41455078125) . },
+    { :bisectSqrt2 :width (11 0.00048828125) . },
+    { :bisectSqrt2 :epsilon (11 0.00048828125) . },
+    { (1.4140625 1.41455078125) math:sum 2.82861328125 . },
+    { (2.82861328125 2) math:quotient 1.414306640625 . },
+    { (0.00048828125 2) math:quotient 0.000244140625 . }.
+
+{ :result :midpoint (11 1.414306640625 0.000244140625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.414306640625 ],
+    [ pe:var "U"; pe:value 1.41455078125 ],
+    [ pe:var "W"; pe:value 0.00048828125 ],
+    [ pe:var "eps"; pe:value 0.00048828125 ],
+    [ pe:var "errBound"; pe:value 0.000244140625 ],
+    [ pe:var "n"; pe:value 11 ],
+    [ pe:var "s"; pe:value 2.82861328125 ];
+  pe:uses
+    { :sqrt2 :bounds (11 1.4140625 1.41455078125) . },
+    { :bisectSqrt2 :width (11 0.00048828125) . },
+    { :bisectSqrt2 :epsilon (11 0.00048828125) . },
+    { (1.4140625 1.41455078125) math:sum 2.82861328125 . },
+    { (2.82861328125 2) math:quotient 1.414306640625 . },
+    { (0.00048828125 2) math:quotient 0.000244140625 . }.
+
+{ :result :interval (12 1.4140625 1.414306640625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.4141845703125 ],
+    [ pe:var "U"; pe:value 1.414306640625 ],
+    [ pe:var "W"; pe:value 0.000244140625 ],
+    [ pe:var "eps"; pe:value 0.000244140625 ],
+    [ pe:var "errBound"; pe:value 0.0001220703125 ],
+    [ pe:var "n"; pe:value 12 ],
+    [ pe:var "s"; pe:value 2.828369140625 ];
+  pe:uses
+    { :sqrt2 :bounds (12 1.4140625 1.414306640625) . },
+    { :bisectSqrt2 :width (12 0.000244140625) . },
+    { :bisectSqrt2 :epsilon (12 0.000244140625) . },
+    { (1.4140625 1.414306640625) math:sum 2.828369140625 . },
+    { (2.828369140625 2) math:quotient 1.4141845703125 . },
+    { (0.000244140625 2) math:quotient 0.0001220703125 . }.
+
+{ :sqrt2 :bounds (12 1.4140625 1.414306640625) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.414306640625 ],
+    [ pe:var "n"; pe:value 12 ];
+  pe:uses { :bisectSqrt2 :interval (12 1.4140625 1.414306640625) . }.
+
+{ :bisectSqrt2 :interval (12 1.4140625 1.414306640625) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.414306640625 ],
+    [ pe:var "M2"; pe:value 2.000263273715973 ],
+    [ pe:var "N"; pe:value 12 ],
+    [ pe:var "U"; pe:value 1.41455078125 ],
+    [ pe:var "n"; pe:value 11 ],
+    [ pe:var "n1"; pe:value 12 ],
+    [ pe:var "s"; pe:value 2.82861328125 ];
+  pe:uses
+    { :bisectSqrt2 :interval (11 1.4140625 1.41455078125) . },
+    { :bisectSqrt2 :maxN 12 . },
+    { 11 math:lessThan 12 . },
+    { (11 1) math:sum 12 . },
+    { (1.4140625 1.41455078125) math:sum 2.82861328125 . },
+    { (2.82861328125 2) math:quotient 1.414306640625 . },
+    { (1.414306640625 1.414306640625) math:product 2.000263273715973 . },
+    { 2.000263273715973 math:notLessThan 2 . }.
+
+{ 11 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (11 1) math:sum 12 . }
+  pe:builtin math:sum.
+
+{ (1.414306640625 1.414306640625) math:product 2.000263273715973 . }
+  pe:builtin math:product.
+
+{ 2.000263273715973 math:notLessThan 2 . }
+  pe:builtin math:notLessThan.
+
+{ :bisectSqrt2 :width (12 0.000244140625) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.414306640625 ],
+    [ pe:var "W"; pe:value 0.000244140625 ],
+    [ pe:var "n"; pe:value 12 ];
+  pe:uses
+    { :bisectSqrt2 :interval (12 1.4140625 1.414306640625) . },
+    { (1.414306640625 1.4140625) math:difference 0.000244140625 . }.
+
+{ (1.414306640625 1.4140625) math:difference 0.000244140625 . }
+  pe:builtin math:difference.
+
+{ :bisectSqrt2 :epsilon (12 0.000244140625) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.414306640625 ],
+    [ pe:var "eps"; pe:value 0.000244140625 ],
+    [ pe:var "n"; pe:value 12 ],
+    [ pe:var "pow2"; pe:value 4096 ];
+  pe:uses
+    { :bisectSqrt2 :interval (12 1.4140625 1.414306640625) . },
+    { (2 12) math:exponentiation 4096 . },
+    { (1.0 4096) math:quotient 0.000244140625 . }.
+
+{ (2 12) math:exponentiation 4096 . }
+  pe:builtin math:exponentiation.
+
+{ (1.0 4096) math:quotient 0.000244140625 . }
+  pe:builtin math:quotient.
+
+{ (1.4140625 1.414306640625) math:sum 2.828369140625 . }
+  pe:builtin math:sum.
+
+{ (2.828369140625 2) math:quotient 1.4141845703125 . }
+  pe:builtin math:quotient.
+
+{ (0.000244140625 2) math:quotient 0.0001220703125 . }
+  pe:builtin math:quotient.
+
+{ :result :width (12 0.000244140625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.4141845703125 ],
+    [ pe:var "U"; pe:value 1.414306640625 ],
+    [ pe:var "W"; pe:value 0.000244140625 ],
+    [ pe:var "eps"; pe:value 0.000244140625 ],
+    [ pe:var "errBound"; pe:value 0.0001220703125 ],
+    [ pe:var "n"; pe:value 12 ],
+    [ pe:var "s"; pe:value 2.828369140625 ];
+  pe:uses
+    { :sqrt2 :bounds (12 1.4140625 1.414306640625) . },
+    { :bisectSqrt2 :width (12 0.000244140625) . },
+    { :bisectSqrt2 :epsilon (12 0.000244140625) . },
+    { (1.4140625 1.414306640625) math:sum 2.828369140625 . },
+    { (2.828369140625 2) math:quotient 1.4141845703125 . },
+    { (0.000244140625 2) math:quotient 0.0001220703125 . }.
+
+{ :result :eps (12 0.000244140625) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.4141845703125 ],
+    [ pe:var "U"; pe:value 1.414306640625 ],
+    [ pe:var "W"; pe:value 0.000244140625 ],
+    [ pe:var "eps"; pe:value 0.000244140625 ],
+    [ pe:var "errBound"; pe:value 0.0001220703125 ],
+    [ pe:var "n"; pe:value 12 ],
+    [ pe:var "s"; pe:value 2.828369140625 ];
+  pe:uses
+    { :sqrt2 :bounds (12 1.4140625 1.414306640625) . },
+    { :bisectSqrt2 :width (12 0.000244140625) . },
+    { :bisectSqrt2 :epsilon (12 0.000244140625) . },
+    { (1.4140625 1.414306640625) math:sum 2.828369140625 . },
+    { (2.828369140625 2) math:quotient 1.4141845703125 . },
+    { (0.000244140625 2) math:quotient 0.0001220703125 . }.
+
+{ :result :midpoint (12 1.4141845703125 0.0001220703125) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :bounds (?n ?L ?U) .
+            :bisectSqrt2 :width (?n ?W) .
+            :bisectSqrt2 :epsilon (?n ?eps) .
+            (?L ?U) math:sum ?s .
+            (?s 2) math:quotient ?M .
+            (?W 2) math:quotient ?errBound .
+        } => {
+            :result :interval (?n ?L ?U) .
+            :result :width (?n ?W) .
+            :result :eps (?n ?eps) .
+            :result :midpoint (?n ?M ?errBound) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "M"; pe:value 1.4141845703125 ],
+    [ pe:var "U"; pe:value 1.414306640625 ],
+    [ pe:var "W"; pe:value 0.000244140625 ],
+    [ pe:var "eps"; pe:value 0.000244140625 ],
+    [ pe:var "errBound"; pe:value 0.0001220703125 ],
+    [ pe:var "n"; pe:value 12 ],
+    [ pe:var "s"; pe:value 2.828369140625 ];
+  pe:uses
+    { :sqrt2 :bounds (12 1.4140625 1.414306640625) . },
+    { :bisectSqrt2 :width (12 0.000244140625) . },
+    { :bisectSqrt2 :epsilon (12 0.000244140625) . },
+    { (1.4140625 1.414306640625) math:sum 2.828369140625 . },
+    { (2.828369140625 2) math:quotient 1.4141845703125 . },
+    { (0.000244140625 2) math:quotient 0.0001220703125 . }.
+
+{ :result :containsSqrt2 (0 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 0 ];
+  pe:uses
+    { :sqrt2 :lowerOk (0 true) . },
+    { :sqrt2 :upperOk (0 true) . }.
+
+{ :sqrt2 :lowerOk (0 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "L2"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "U"; pe:value 2.0 ],
+    [ pe:var "n"; pe:value 0 ];
+  pe:uses
+    { :sqrt2 :bounds (0 1.0 2.0) . },
+    { (1.0 1.0) math:product "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:lessThan 2 . }.
+
+{ (1.0 1.0) math:product "1"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ "1"^^xsd:decimal math:lessThan 2 . }
+  pe:builtin math:lessThan.
+
+{ :sqrt2 :upperOk (0 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "U"; pe:value 2.0 ],
+    [ pe:var "U2"; pe:value "4"^^xsd:decimal ],
+    [ pe:var "n"; pe:value 0 ];
+  pe:uses
+    { :sqrt2 :bounds (0 1.0 2.0) . },
+    { (2.0 2.0) math:product "4"^^xsd:decimal . },
+    { "4"^^xsd:decimal math:notLessThan 2 . }.
+
+{ (2.0 2.0) math:product "4"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ "4"^^xsd:decimal math:notLessThan 2 . }
+  pe:builtin math:notLessThan.
+
+{ :result :containsSqrt2 (1 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 1 ];
+  pe:uses
+    { :sqrt2 :lowerOk (1 true) . },
+    { :sqrt2 :upperOk (1 true) . }.
+
+{ :sqrt2 :lowerOk (1 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "L2"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 1 ];
+  pe:uses
+    { :sqrt2 :bounds (1 1.0 1.5) . },
+    { (1.0 1.0) math:product "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (1 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.0 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "U2"; pe:value 2.25 ],
+    [ pe:var "n"; pe:value 1 ];
+  pe:uses
+    { :sqrt2 :bounds (1 1.0 1.5) . },
+    { (1.5 1.5) math:product 2.25 . },
+    { 2.25 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (2 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 2 ];
+  pe:uses
+    { :sqrt2 :lowerOk (2 true) . },
+    { :sqrt2 :upperOk (2 true) . }.
+
+{ :sqrt2 :lowerOk (2 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.25 ],
+    [ pe:var "L2"; pe:value 1.5625 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 2 ];
+  pe:uses
+    { :sqrt2 :bounds (2 1.25 1.5) . },
+    { (1.25 1.25) math:product 1.5625 . },
+    { 1.5625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (2 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.25 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "U2"; pe:value 2.25 ],
+    [ pe:var "n"; pe:value 2 ];
+  pe:uses
+    { :sqrt2 :bounds (2 1.25 1.5) . },
+    { (1.5 1.5) math:product 2.25 . },
+    { 2.25 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (3 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 3 ];
+  pe:uses
+    { :sqrt2 :lowerOk (3 true) . },
+    { :sqrt2 :upperOk (3 true) . }.
+
+{ :sqrt2 :lowerOk (3 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "L2"; pe:value 1.890625 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 3 ];
+  pe:uses
+    { :sqrt2 :bounds (3 1.375 1.5) . },
+    { (1.375 1.375) math:product 1.890625 . },
+    { 1.890625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (3 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "U2"; pe:value 2.25 ],
+    [ pe:var "n"; pe:value 3 ];
+  pe:uses
+    { :sqrt2 :bounds (3 1.375 1.5) . },
+    { (1.5 1.5) math:product 2.25 . },
+    { 2.25 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (4 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 4 ];
+  pe:uses
+    { :sqrt2 :lowerOk (4 true) . },
+    { :sqrt2 :upperOk (4 true) . }.
+
+{ :sqrt2 :lowerOk (4 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "L2"; pe:value 1.890625 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "n"; pe:value 4 ];
+  pe:uses
+    { :sqrt2 :bounds (4 1.375 1.4375) . },
+    { (1.375 1.375) math:product 1.890625 . },
+    { 1.890625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (4 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.375 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "U2"; pe:value 2.06640625 ],
+    [ pe:var "n"; pe:value 4 ];
+  pe:uses
+    { :sqrt2 :bounds (4 1.375 1.4375) . },
+    { (1.4375 1.4375) math:product 2.06640625 . },
+    { 2.06640625 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (5 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 5 ];
+  pe:uses
+    { :sqrt2 :lowerOk (5 true) . },
+    { :sqrt2 :upperOk (5 true) . }.
+
+{ :sqrt2 :lowerOk (5 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "L2"; pe:value 1.9775390625 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "n"; pe:value 5 ];
+  pe:uses
+    { :sqrt2 :bounds (5 1.40625 1.4375) . },
+    { (1.40625 1.40625) math:product 1.9775390625 . },
+    { 1.9775390625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (5 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.4375 ],
+    [ pe:var "U2"; pe:value 2.06640625 ],
+    [ pe:var "n"; pe:value 5 ];
+  pe:uses
+    { :sqrt2 :bounds (5 1.40625 1.4375) . },
+    { (1.4375 1.4375) math:product 2.06640625 . },
+    { 2.06640625 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (6 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 6 ];
+  pe:uses
+    { :sqrt2 :lowerOk (6 true) . },
+    { :sqrt2 :upperOk (6 true) . }.
+
+{ :sqrt2 :lowerOk (6 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "L2"; pe:value 1.9775390625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "n"; pe:value 6 ];
+  pe:uses
+    { :sqrt2 :bounds (6 1.40625 1.421875) . },
+    { (1.40625 1.40625) math:product 1.9775390625 . },
+    { 1.9775390625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (6 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.40625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "U2"; pe:value 2.021728515625 ],
+    [ pe:var "n"; pe:value 6 ];
+  pe:uses
+    { :sqrt2 :bounds (6 1.40625 1.421875) . },
+    { (1.421875 1.421875) math:product 2.021728515625 . },
+    { 2.021728515625 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (7 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 7 ];
+  pe:uses
+    { :sqrt2 :lowerOk (7 true) . },
+    { :sqrt2 :upperOk (7 true) . }.
+
+{ :sqrt2 :lowerOk (7 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "L2"; pe:value 1.99957275390625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "n"; pe:value 7 ];
+  pe:uses
+    { :sqrt2 :bounds (7 1.4140625 1.421875) . },
+    { (1.4140625 1.4140625) math:product 1.99957275390625 . },
+    { 1.99957275390625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (7 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.421875 ],
+    [ pe:var "U2"; pe:value 2.021728515625 ],
+    [ pe:var "n"; pe:value 7 ];
+  pe:uses
+    { :sqrt2 :bounds (7 1.4140625 1.421875) . },
+    { (1.421875 1.421875) math:product 2.021728515625 . },
+    { 2.021728515625 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (8 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 8 ];
+  pe:uses
+    { :sqrt2 :lowerOk (8 true) . },
+    { :sqrt2 :upperOk (8 true) . }.
+
+{ :sqrt2 :lowerOk (8 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "L2"; pe:value 1.99957275390625 ],
+    [ pe:var "U"; pe:value 1.41796875 ],
+    [ pe:var "n"; pe:value 8 ];
+  pe:uses
+    { :sqrt2 :bounds (8 1.4140625 1.41796875) . },
+    { (1.4140625 1.4140625) math:product 1.99957275390625 . },
+    { 1.99957275390625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (8 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.41796875 ],
+    [ pe:var "U2"; pe:value 2.0106353759765625 ],
+    [ pe:var "n"; pe:value 8 ];
+  pe:uses
+    { :sqrt2 :bounds (8 1.4140625 1.41796875) . },
+    { (1.41796875 1.41796875) math:product 2.0106353759765625 . },
+    { 2.0106353759765625 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (9 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 9 ];
+  pe:uses
+    { :sqrt2 :lowerOk (9 true) . },
+    { :sqrt2 :upperOk (9 true) . }.
+
+{ :sqrt2 :lowerOk (9 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "L2"; pe:value 1.99957275390625 ],
+    [ pe:var "U"; pe:value 1.416015625 ],
+    [ pe:var "n"; pe:value 9 ];
+  pe:uses
+    { :sqrt2 :bounds (9 1.4140625 1.416015625) . },
+    { (1.4140625 1.4140625) math:product 1.99957275390625 . },
+    { 1.99957275390625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (9 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.416015625 ],
+    [ pe:var "U2"; pe:value 2.0051002502441406 ],
+    [ pe:var "n"; pe:value 9 ];
+  pe:uses
+    { :sqrt2 :bounds (9 1.4140625 1.416015625) . },
+    { (1.416015625 1.416015625) math:product 2.0051002502441406 . },
+    { 2.0051002502441406 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (10 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 10 ];
+  pe:uses
+    { :sqrt2 :lowerOk (10 true) . },
+    { :sqrt2 :upperOk (10 true) . }.
+
+{ :sqrt2 :lowerOk (10 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "L2"; pe:value 1.99957275390625 ],
+    [ pe:var "U"; pe:value 1.4150390625 ],
+    [ pe:var "n"; pe:value 10 ];
+  pe:uses
+    { :sqrt2 :bounds (10 1.4140625 1.4150390625) . },
+    { (1.4140625 1.4140625) math:product 1.99957275390625 . },
+    { 1.99957275390625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (10 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.4150390625 ],
+    [ pe:var "U2"; pe:value 2.002335548400879 ],
+    [ pe:var "n"; pe:value 10 ];
+  pe:uses
+    { :sqrt2 :bounds (10 1.4140625 1.4150390625) . },
+    { (1.4150390625 1.4150390625) math:product 2.002335548400879 . },
+    { 2.002335548400879 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (11 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 11 ];
+  pe:uses
+    { :sqrt2 :lowerOk (11 true) . },
+    { :sqrt2 :upperOk (11 true) . }.
+
+{ :sqrt2 :lowerOk (11 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "L2"; pe:value 1.99957275390625 ],
+    [ pe:var "U"; pe:value 1.41455078125 ],
+    [ pe:var "n"; pe:value 11 ];
+  pe:uses
+    { :sqrt2 :bounds (11 1.4140625 1.41455078125) . },
+    { (1.4140625 1.4140625) math:product 1.99957275390625 . },
+    { 1.99957275390625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (11 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.41455078125 ],
+    [ pe:var "U2"; pe:value 2.0009539127349854 ],
+    [ pe:var "n"; pe:value 11 ];
+  pe:uses
+    { :sqrt2 :bounds (11 1.4140625 1.41455078125) . },
+    { (1.41455078125 1.41455078125) math:product 2.0009539127349854 . },
+    { 2.0009539127349854 math:notLessThan 2 . }.
+
+{ :result :containsSqrt2 (12 true) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :lowerOk (?n true) .
+            :sqrt2 :upperOk (?n true) .
+        } => {
+            :result :containsSqrt2 (?n true) .
+        } .
+    };
+  pe:binding [ pe:var "n"; pe:value 12 ];
+  pe:uses
+    { :sqrt2 :lowerOk (12 true) . },
+    { :sqrt2 :upperOk (12 true) . }.
+
+{ :sqrt2 :lowerOk (12 true) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "L2"; pe:value 1.99957275390625 ],
+    [ pe:var "U"; pe:value 1.414306640625 ],
+    [ pe:var "n"; pe:value 12 ];
+  pe:uses
+    { :sqrt2 :bounds (12 1.4140625 1.414306640625) . },
+    { (1.4140625 1.4140625) math:product 1.99957275390625 . },
+    { 1.99957275390625 math:lessThan 2 . }.
+
+{ :sqrt2 :upperOk (12 true) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4140625 ],
+    [ pe:var "U"; pe:value 1.414306640625 ],
+    [ pe:var "U2"; pe:value 2.000263273715973 ],
+    [ pe:var "n"; pe:value 12 ];
+  pe:uses
+    { :sqrt2 :bounds (12 1.4140625 1.414306640625) . },
+    { (1.414306640625 1.414306640625) math:product 2.000263273715973 . },
+    { 2.000263273715973 math:notLessThan 2 . }.

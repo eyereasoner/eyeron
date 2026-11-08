@@ -1,0 +1,336 @@
+@prefix : <http://example.org/policy#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:dept_head :auth true .
+:mgr_alice :auth true .
+:alice :auth true .
+:bob :auth false .
+:eve :auth false .
+
+{ :dept_head :auth true . }
+  pe:rule
+    {
+        {
+            ?P :allow :read_secret_data .
+        } => {
+            ?P :auth true .
+        } .
+    };
+  pe:binding [ pe:var "P"; pe:value :dept_head ];
+  pe:uses { :dept_head :allow :read_secret_data . }.
+
+{ :dept_head :allow :read_secret_data . }
+  pe:rule 3;
+  pe:binding [ pe:var "U"; pe:value :dept_head ];
+  pe:uses
+    { :dept_head :trusted true . },
+    { :dept_head :hasRole :employee . },
+    { :dept_head :clearance :secret . },
+    { :work_hours :is true . }.
+
+{ :dept_head :trusted true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ],
+    [ pe:var "X"; pe:value :dept_head ];
+  pe:uses
+    { :admin :delegates :dept_head . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :dept_head :revoked true .
+        } .
+    }.
+
+{ :admin :delegates :dept_head . }
+  pe:fact "trust-policy.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :dept_head :revoked true .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :dept_head :hasRole :employee . }
+  pe:fact "trust-policy.n3".
+
+{ :dept_head :clearance :secret . }
+  pe:fact "trust-policy.n3".
+
+{ :work_hours :is true . }
+  pe:fact "trust-policy.n3".
+
+{ :mgr_alice :auth true . }
+  pe:rule
+    {
+        {
+            ?P :allow :read_secret_data .
+        } => {
+            ?P :auth true .
+        } .
+    };
+  pe:binding [ pe:var "P"; pe:value :mgr_alice ];
+  pe:uses { :mgr_alice :allow :read_secret_data . }.
+
+{ :mgr_alice :allow :read_secret_data . }
+  pe:rule 3;
+  pe:binding [ pe:var "U"; pe:value :mgr_alice ];
+  pe:uses
+    { :mgr_alice :trusted true . },
+    { :mgr_alice :hasRole :employee . },
+    { :mgr_alice :clearance :secret . },
+    { :work_hours :is true . }.
+
+{ :mgr_alice :trusted true . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ],
+    [ pe:var "X"; pe:value :mgr_alice ],
+    [ pe:var "Y"; pe:value :dept_head ];
+  pe:uses
+    { :dept_head :delegates :mgr_alice . },
+    { :dept_head :trusted true . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :mgr_alice :revoked true .
+        } .
+    }.
+
+{ :dept_head :delegates :mgr_alice . }
+  pe:fact "trust-policy.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :mgr_alice :revoked true .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :mgr_alice :hasRole :employee . }
+  pe:fact "trust-policy.n3".
+
+{ :mgr_alice :clearance :secret . }
+  pe:fact "trust-policy.n3".
+
+{ :alice :auth true . }
+  pe:rule
+    {
+        {
+            ?P :allow :read_secret_data .
+        } => {
+            ?P :auth true .
+        } .
+    };
+  pe:binding [ pe:var "P"; pe:value :alice ];
+  pe:uses { :alice :allow :read_secret_data . }.
+
+{ :alice :allow :read_secret_data . }
+  pe:rule 3;
+  pe:binding [ pe:var "U"; pe:value :alice ];
+  pe:uses
+    { :alice :trusted true . },
+    { :alice :hasRole :employee . },
+    { :alice :clearance :secret . },
+    { :work_hours :is true . }.
+
+{ :alice :trusted true . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ],
+    [ pe:var "X"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :mgr_alice ];
+  pe:uses
+    { :mgr_alice :delegates :alice . },
+    { :mgr_alice :trusted true . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :alice :revoked true .
+        } .
+    }.
+
+{ :mgr_alice :delegates :alice . }
+  pe:fact "trust-policy.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :alice :revoked true .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :alice :hasRole :employee . }
+  pe:fact "trust-policy.n3".
+
+{ :alice :clearance :secret . }
+  pe:fact "trust-policy.n3".
+
+{ :bob :auth false . }
+  pe:rule
+    {
+        {
+            ?P :hasRole ?R .
+            ?SCOPE log:notIncludes {
+                ?P :allow :read_secret_data .
+            } .
+        } => {
+            ?P :auth false .
+        } .
+    };
+  pe:binding
+    [ pe:var "P"; pe:value :bob ],
+    [ pe:var "R"; pe:value :employee ],
+    [ pe:var "SCOPE"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ];
+  pe:uses
+    { :bob :hasRole :employee . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :bob :allow :read_secret_data .
+        } .
+    }.
+
+{ :bob :hasRole :employee . }
+  pe:fact "trust-policy.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :bob :allow :read_secret_data .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :eve :auth false . }
+  pe:rule
+    {
+        {
+            ?P :hasRole ?R .
+            ?SCOPE log:notIncludes {
+                ?P :allow :read_secret_data .
+            } .
+        } => {
+            ?P :auth false .
+        } .
+    };
+  pe:binding
+    [ pe:var "P"; pe:value :eve ],
+    [ pe:var "R"; pe:value :contractor ],
+    [ pe:var "SCOPE"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ];
+  pe:uses
+    { :eve :hasRole :contractor . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :eve :allow :read_secret_data .
+        } .
+    }.
+
+{ :eve :hasRole :contractor . }
+  pe:fact "trust-policy.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :eve :allow :read_secret_data .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :vendor_mgr :trusted true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ],
+    [ pe:var "X"; pe:value :vendor_mgr ];
+  pe:uses
+    { :admin :delegates :vendor_mgr . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :vendor_mgr :revoked true .
+        } .
+    }.
+
+{ :admin :delegates :vendor_mgr . }
+  pe:fact "trust-policy.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :vendor_mgr :revoked true .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :vendor_eve :trusted true . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ],
+    [ pe:var "X"; pe:value :vendor_eve ],
+    [ pe:var "Y"; pe:value :vendor_mgr ];
+  pe:uses
+    { :vendor_mgr :delegates :vendor_eve . },
+    { :vendor_mgr :trusted true . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :vendor_eve :revoked true .
+        } .
+    }.
+
+{ :vendor_mgr :delegates :vendor_eve . }
+  pe:fact "trust-policy.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :vendor_eve :revoked true .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+:trusted pe:derived
+    { :dept_head :trusted true . },
+    { :vendor_mgr :trusted true . },
+    { :mgr_alice :trusted true . },
+    { :vendor_eve :trusted true . },
+    { :alice :trusted true . }.
+
+:allow pe:derived
+    { :dept_head :allow :read_secret_data . },
+    { :mgr_alice :allow :read_secret_data . },
+    { :alice :allow :read_secret_data . }.

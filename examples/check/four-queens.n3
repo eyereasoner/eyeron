@@ -1,0 +1,32 @@
+# checked: 86 steps, 86 verified, 0 trusted
+@prefix : <https://eyereasoner.github.io/eyepl/examples/four-queens#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:query :solution (3 1 4 2) .
+:query :solution (2 4 1 3) .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/four-queens.n3";
+    pe:source "examples/four-queens.n3";
+    pe:verdict pe:checked;
+    pe:steps 86;
+    pe:verified 86;
+    pe:trusted 0;
+    pe:builtinSteps 46;
+    pe:factSteps 8;
+    pe:ruleSteps 32;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 40; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 86; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 86; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 144; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 46; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 88; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 32; pe:failed 0 ].

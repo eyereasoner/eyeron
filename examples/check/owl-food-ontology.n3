@@ -1,0 +1,44 @@
+# checked: 30 steps, 30 verified, 0 trusted
+@prefix food: <http://www.w3.org/2002/03owlt/miscellaneous/consistent002#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+_:g a food:SweetFruit .
+_:cnd a food:Dessert .
+_:pwlcs a food:PastaWithWhiteSauce .
+_:m a food:ConsumableThing .
+_:pwlcs a food:Pasta .
+_:cnd a food:EdibleThing .
+_:g a food:EdibleThing .
+_:g a food:ConsumableThing .
+_:cnd a food:ConsumableThing .
+_:pwlcs a food:EdibleThing .
+_:pwlcs a food:ConsumableThing .
+_:g a food:Grape .
+_:cnd a food:CheeseNutsDessert .
+_:pwlcs a food:PastaWithLightCreamSauce .
+_:ct a food:ConsumableThing .
+_:m a food:Meal .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/owl-food-ontology.n3";
+    pe:source "examples/owl-food-ontology.n3";
+    pe:verdict pe:checked;
+    pe:steps 30;
+    pe:verified 30;
+    pe:trusted 0;
+    pe:factSteps 14;
+    pe:ruleSteps 16;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 64; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 46; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 64; pe:failed 0 ].

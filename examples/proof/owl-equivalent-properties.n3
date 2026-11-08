@@ -1,0 +1,181 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:alice :hasChild :bob .
+:hasChild owl:equivalentProperty :parent .
+:parent owl:equivalentProperty :child .
+:parent owl:equivalentProperty :parent .
+:hasChild owl:equivalentProperty :hasChild .
+:parent rdfs:subPropertyOf :hasChild .
+:hasChild rdfs:subPropertyOf :parent .
+:alice :child :bob .
+:child owl:equivalentProperty :hasChild .
+:child owl:equivalentProperty :child .
+:hasChild rdfs:subPropertyOf :child .
+:child rdfs:subPropertyOf :hasChild .
+:child owl:equivalentProperty :parent .
+:parent rdfs:subPropertyOf :child .
+:child rdfs:subPropertyOf :parent .
+:parent rdfs:subPropertyOf :parent .
+:hasChild rdfs:subPropertyOf :hasChild .
+:child rdfs:subPropertyOf :child .
+
+{ :alice :hasChild :bob . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :bob ],
+    [ pe:var "P"; pe:value :parent ],
+    [ pe:var "Q"; pe:value :hasChild ],
+    [ pe:var "S"; pe:value :alice ];
+  pe:uses
+    { :parent owl:equivalentProperty :hasChild . },
+    { :alice :parent :bob . }.
+
+{ :parent owl:equivalentProperty :hasChild . }
+  pe:fact "owl-equivalent-properties.n3".
+
+{ :alice :parent :bob . }
+  pe:fact "owl-equivalent-properties.n3".
+
+{ :hasChild owl:equivalentProperty :parent . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "P"; pe:value :parent ],
+    [ pe:var "Q"; pe:value :hasChild ];
+  pe:uses { :parent owl:equivalentProperty :hasChild . }.
+
+{ :parent owl:equivalentProperty :child . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "P"; pe:value :parent ],
+    [ pe:var "Q"; pe:value :hasChild ],
+    [ pe:var "R"; pe:value :child ];
+  pe:uses
+    { :parent owl:equivalentProperty :hasChild . },
+    { :hasChild owl:equivalentProperty :child . }.
+
+{ :hasChild owl:equivalentProperty :child . }
+  pe:fact "owl-equivalent-properties.n3".
+
+{ :parent owl:equivalentProperty :parent . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "P"; pe:value :parent ],
+    [ pe:var "Q"; pe:value :hasChild ],
+    [ pe:var "R"; pe:value :parent ];
+  pe:uses
+    { :parent owl:equivalentProperty :hasChild . },
+    { :hasChild owl:equivalentProperty :parent . }.
+
+{ :hasChild owl:equivalentProperty :hasChild . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "P"; pe:value :hasChild ],
+    [ pe:var "Q"; pe:value :parent ],
+    [ pe:var "R"; pe:value :hasChild ];
+  pe:uses
+    { :hasChild owl:equivalentProperty :parent . },
+    { :parent owl:equivalentProperty :hasChild . }.
+
+{ :parent rdfs:subPropertyOf :hasChild . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "P"; pe:value :parent ],
+    [ pe:var "Q"; pe:value :hasChild ];
+  pe:uses { :parent owl:equivalentProperty :hasChild . }.
+
+{ :hasChild rdfs:subPropertyOf :parent . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "P"; pe:value :parent ],
+    [ pe:var "Q"; pe:value :hasChild ];
+  pe:uses { :parent owl:equivalentProperty :hasChild . }.
+
+{ :alice :child :bob . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :bob ],
+    [ pe:var "P"; pe:value :hasChild ],
+    [ pe:var "Q"; pe:value :child ],
+    [ pe:var "S"; pe:value :alice ];
+  pe:uses
+    { :hasChild owl:equivalentProperty :child . },
+    { :alice :hasChild :bob . }.
+
+{ :child owl:equivalentProperty :hasChild . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "P"; pe:value :hasChild ],
+    [ pe:var "Q"; pe:value :child ];
+  pe:uses { :hasChild owl:equivalentProperty :child . }.
+
+{ :child owl:equivalentProperty :child . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "P"; pe:value :child ],
+    [ pe:var "Q"; pe:value :hasChild ],
+    [ pe:var "R"; pe:value :child ];
+  pe:uses
+    { :child owl:equivalentProperty :hasChild . },
+    { :hasChild owl:equivalentProperty :child . }.
+
+{ :hasChild rdfs:subPropertyOf :child . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "P"; pe:value :hasChild ],
+    [ pe:var "Q"; pe:value :child ];
+  pe:uses { :hasChild owl:equivalentProperty :child . }.
+
+{ :child rdfs:subPropertyOf :hasChild . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "P"; pe:value :hasChild ],
+    [ pe:var "Q"; pe:value :child ];
+  pe:uses { :hasChild owl:equivalentProperty :child . }.
+
+{ :child owl:equivalentProperty :parent . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "P"; pe:value :child ],
+    [ pe:var "Q"; pe:value :hasChild ],
+    [ pe:var "R"; pe:value :parent ];
+  pe:uses
+    { :child owl:equivalentProperty :hasChild . },
+    { :hasChild owl:equivalentProperty :parent . }.
+
+{ :parent rdfs:subPropertyOf :child . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "P"; pe:value :parent ],
+    [ pe:var "Q"; pe:value :child ];
+  pe:uses { :parent owl:equivalentProperty :child . }.
+
+{ :child rdfs:subPropertyOf :parent . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "P"; pe:value :parent ],
+    [ pe:var "Q"; pe:value :child ];
+  pe:uses { :parent owl:equivalentProperty :child . }.
+
+{ :parent rdfs:subPropertyOf :parent . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "P"; pe:value :parent ],
+    [ pe:var "Q"; pe:value :parent ];
+  pe:uses { :parent owl:equivalentProperty :parent . }.
+
+{ :hasChild rdfs:subPropertyOf :hasChild . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "P"; pe:value :hasChild ],
+    [ pe:var "Q"; pe:value :hasChild ];
+  pe:uses { :hasChild owl:equivalentProperty :hasChild . }.
+
+{ :child rdfs:subPropertyOf :child . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "P"; pe:value :child ],
+    [ pe:var "Q"; pe:value :child ];
+  pe:uses { :child owl:equivalentProperty :child . }.

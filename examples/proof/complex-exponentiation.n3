@@ -1,0 +1,162 @@
+@prefix complex: <http://eyereasoner.github.io/eye/complex#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation ("-1"^^xsd:decimal 1.2246467991473532e-16) .
+(("-1"^^xsd:decimal 1.2246467991473532e-16) (1 0)) complex:sum ("0"^^xsd:decimal 1.2246467991473532e-16) .
+
+{ ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation ("-1"^^xsd:decimal 1.2246467991473532e-16) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 2.718281828459045 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 0 ],
+    [ pe:var "D"; pe:value 3.141592653589793 ],
+    [ pe:var "E"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "F"; pe:value 1.2246467991473532e-16 ],
+    [ pe:var "R"; pe:value 2.718281828459045 ],
+    [ pe:var "T"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Z1"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "Z10"; pe:value 1.2246467991473532e-16 ],
+    [ pe:var "Z2"; pe:value -3.141592653589793 ],
+    [ pe:var "Z3"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Z4"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "Z5"; pe:value 1 ],
+    [ pe:var "Z6"; pe:value 3.141592653589793 ],
+    [ pe:var "Z7"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Z8"; pe:value 3.141592653589793 ],
+    [ pe:var "Z9"; pe:value "-1"^^xsd:decimal ];
+  pe:uses
+    { (2.718281828459045 0) complex:polar (2.718281828459045 "0"^^xsd:decimal) . },
+    { (2.718281828459045 0) math:exponentiation "1"^^xsd:decimal . },
+    { 3.141592653589793 math:negation -3.141592653589793 . },
+    { (-3.141592653589793 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . },
+    { (2.718281828459045 "0"^^xsd:decimal) math:exponentiation "1"^^xsd:decimal . },
+    { (2.718281828459045 1) math:exponentiation 2.718281828459045 . },
+    { (3.141592653589793 1) math:product 3.141592653589793 . },
+    { (0 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . },
+    { (3.141592653589793 "0"^^xsd:decimal) math:sum 3.141592653589793 . },
+    { 3.141592653589793 math:cos "-1"^^xsd:decimal . },
+    { ("1"^^xsd:decimal "1"^^xsd:decimal "-1"^^xsd:decimal) math:product "-1"^^xsd:decimal . },
+    { 3.141592653589793 math:sin 1.2246467991473532e-16 . },
+    { ("1"^^xsd:decimal "1"^^xsd:decimal 1.2246467991473532e-16) math:product 1.2246467991473532e-16 . }.
+
+{ (2.718281828459045 0) complex:polar (2.718281828459045 "0"^^xsd:decimal) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "R"; pe:value 2.718281828459045 ],
+    [ pe:var "T"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Tp"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "X"; pe:value 2.718281828459045 ],
+    [ pe:var "Y"; pe:value 0 ],
+    [ pe:var "Z1"; pe:value 7.3890560989306495 ],
+    [ pe:var "Z2"; pe:value 0 ],
+    [ pe:var "Z3"; pe:value 7.3890560989306495 ],
+    [ pe:var "Z4"; pe:value 2.718281828459045 ],
+    [ pe:var "Z5"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { (2.718281828459045 2) math:exponentiation 7.3890560989306495 . },
+    { (0 2) math:exponentiation 0 . },
+    { (7.3890560989306495 0) math:sum 7.3890560989306495 . },
+    { (7.3890560989306495 0.5) math:exponentiation 2.718281828459045 . },
+    { 2.718281828459045 math:absoluteValue 2.718281828459045 . },
+    { (2.718281828459045 2.718281828459045) math:quotient "1"^^xsd:decimal . },
+    { "1"^^xsd:decimal math:acos "0"^^xsd:decimal . },
+    { (2.718281828459045 0 "0"^^xsd:decimal) complex:dial "0"^^xsd:decimal . }.
+
+{ (2.718281828459045 2) math:exponentiation 7.3890560989306495 . }
+  pe:builtin math:exponentiation.
+
+{ (0 2) math:exponentiation 0 . }
+  pe:builtin math:exponentiation.
+
+{ (7.3890560989306495 0) math:sum 7.3890560989306495 . }
+  pe:builtin math:sum.
+
+{ (7.3890560989306495 0.5) math:exponentiation 2.718281828459045 . }
+  pe:builtin math:exponentiation.
+
+{ 2.718281828459045 math:absoluteValue 2.718281828459045 . }
+  pe:builtin math:absoluteValue.
+
+{ (2.718281828459045 2.718281828459045) math:quotient "1"^^xsd:decimal . }
+  pe:builtin math:quotient.
+
+{ "1"^^xsd:decimal math:acos "0"^^xsd:decimal . }
+  pe:builtin math:acos.
+
+{ (2.718281828459045 0 "0"^^xsd:decimal) complex:dial "0"^^xsd:decimal . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "T"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "Tp"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "X"; pe:value 2.718281828459045 ],
+    [ pe:var "Y"; pe:value 0 ];
+  pe:uses
+    { 2.718281828459045 math:notLessThan 0 . },
+    { 0 math:notLessThan 0 . },
+    { (0 "0"^^xsd:decimal) math:sum "0"^^xsd:decimal . }.
+
+{ 2.718281828459045 math:notLessThan 0 . }
+  pe:builtin math:notLessThan.
+
+{ 0 math:notLessThan 0 . }
+  pe:builtin math:notLessThan.
+
+{ (0 "0"^^xsd:decimal) math:sum "0"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ (2.718281828459045 0) math:exponentiation "1"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ 3.141592653589793 math:negation -3.141592653589793 . }
+  pe:builtin math:negation.
+
+{ (-3.141592653589793 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ (2.718281828459045 "0"^^xsd:decimal) math:exponentiation "1"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ (2.718281828459045 1) math:exponentiation 2.718281828459045 . }
+  pe:builtin math:exponentiation.
+
+{ (3.141592653589793 1) math:product 3.141592653589793 . }
+  pe:builtin math:product.
+
+{ (0 "0"^^xsd:decimal) math:product "0"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ (3.141592653589793 "0"^^xsd:decimal) math:sum 3.141592653589793 . }
+  pe:builtin math:sum.
+
+{ 3.141592653589793 math:cos "-1"^^xsd:decimal . }
+  pe:builtin math:cos.
+
+{ ("1"^^xsd:decimal "1"^^xsd:decimal "-1"^^xsd:decimal) math:product "-1"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ 3.141592653589793 math:sin 1.2246467991473532e-16 . }
+  pe:builtin math:sin.
+
+{ ("1"^^xsd:decimal "1"^^xsd:decimal 1.2246467991473532e-16) math:product 1.2246467991473532e-16 . }
+  pe:builtin math:product.
+
+{ (("-1"^^xsd:decimal 1.2246467991473532e-16) (1 0)) complex:sum ("0"^^xsd:decimal 1.2246467991473532e-16) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "B"; pe:value 1.2246467991473532e-16 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value "0"^^xsd:decimal ],
+    [ pe:var "F"; pe:value 1.2246467991473532e-16 ];
+  pe:uses
+    { ("-1"^^xsd:decimal 1) math:sum "0"^^xsd:decimal . },
+    { (1.2246467991473532e-16 0) math:sum 1.2246467991473532e-16 . }.
+
+{ ("-1"^^xsd:decimal 1) math:sum "0"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ (1.2246467991473532e-16 0) math:sum 1.2246467991473532e-16 . }
+  pe:builtin math:sum.

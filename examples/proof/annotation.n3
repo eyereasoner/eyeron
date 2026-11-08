@@ -1,0 +1,27 @@
+@prefix : <https://eyereasoner.github.io/eyeling/examples/annotation#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:t log:nameOf {
+    :a :name "Alice" .
+} .
+:t :statedBy :bob .
+:t :recorded "2021-07-07"^^xsd:date .
+:t :recorded "2021-07-07" .
+
+{
+  :t log:nameOf {
+      :a :name "Alice" .
+  } .
+}
+  pe:fact "annotation.n3".
+
+{ :t :statedBy :bob . }
+  pe:fact "annotation.n3".
+
+{ :t :recorded "2021-07-07"^^xsd:date . }
+  pe:fact "annotation.n3".
+
+{ :t :recorded "2021-07-07" . }
+  pe:fact "<unknown>".

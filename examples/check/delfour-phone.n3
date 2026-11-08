@@ -1,0 +1,294 @@
+# checked with obligations: 44 steps, 7 verified, 37 trusted
+@prefix : <https://example.org/person#> .
+@prefix ins: <https://example.org/insight#> .
+@prefix need: <https://example.org/need#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix profile: <https://example.org/profile/> .
+@prefix vocab: <https://example.org/vocab/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:me need:needsLowSugar true .
+_:ins_3b8612157ed1ad3c a ins:Insight .
+_:ins_3b8612157ed1ad3c ins:metric "sugar_g_per_serving" .
+_:ins_3b8612157ed1ad3c ins:threshold 10.0 .
+_:ins_3b8612157ed1ad3c ins:suggestionPolicy "lower_metric_first_higher_price_ok" .
+_:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" .
+_:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" .
+_:ins_3b8612157ed1ad3c ins:retailer "Delfour" .
+_:ins_3b8612157ed1ad3c ins:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime .
+_:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime .
+_:pol_a3a8310003b7487f a odrl:Policy .
+_:pol_a3a8310003b7487f odrl:profile profile:Delfour-Insight-Policy .
+_:pol_a3a8310003b7487f odrl:permission _:b2_a3a8310003b7487f .
+_:b2_a3a8310003b7487f a odrl:Permission .
+_:b2_a3a8310003b7487f odrl:action odrl:use .
+_:b2_a3a8310003b7487f odrl:target _:ins_3b8612157ed1ad3c .
+_:b2_a3a8310003b7487f odrl:constraint _:b3_a3a8310003b7487f .
+_:b3_a3a8310003b7487f a odrl:Constraint .
+_:b3_a3a8310003b7487f odrl:leftOperand odrl:purpose .
+_:b3_a3a8310003b7487f odrl:operator odrl:eq .
+_:b3_a3a8310003b7487f odrl:rightOperand vocab:shopping_assist .
+_:pol_a3a8310003b7487f odrl:prohibition _:b4_a3a8310003b7487f .
+_:b4_a3a8310003b7487f a odrl:Prohibition .
+_:b4_a3a8310003b7487f odrl:action odrl:distribute .
+_:b4_a3a8310003b7487f odrl:target _:ins_3b8612157ed1ad3c .
+_:b4_a3a8310003b7487f odrl:constraint _:b5_a3a8310003b7487f .
+_:b5_a3a8310003b7487f a odrl:Constraint .
+_:b5_a3a8310003b7487f odrl:leftOperand odrl:purpose .
+_:b5_a3a8310003b7487f odrl:operator odrl:eq .
+_:b5_a3a8310003b7487f odrl:rightOperand vocab:marketing .
+_:pol_a3a8310003b7487f odrl:duty _:b6_a3a8310003b7487f .
+_:b6_a3a8310003b7487f a odrl:Duty .
+_:b6_a3a8310003b7487f odrl:action odrl:delete .
+_:b6_a3a8310003b7487f odrl:constraint _:b7_a3a8310003b7487f .
+_:b7_a3a8310003b7487f a odrl:Constraint .
+_:b7_a3a8310003b7487f odrl:leftOperand odrl:dateTime .
+_:b7_a3a8310003b7487f odrl:operator odrl:eq .
+_:b7_a3a8310003b7487f odrl:rightOperand "2025-10-04T18:51:53Z"^^xsd:dateTime .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/delfour-phone.n3";
+    pe:source "examples/delfour-phone.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 44;
+    pe:verified 7;
+    pe:trusted 37;
+    pe:factSteps 6;
+    pe:ruleSteps 38;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 44; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 44; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 44; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 233; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 82; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 43; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 38; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:ins_3b8612157ed1ad3c a ins:Insight .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:ins_3b8612157ed1ad3c ins:metric "sugar_g_per_serving" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:ins_3b8612157ed1ad3c ins:threshold 10.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:ins_3b8612157ed1ad3c ins:suggestionPolicy "lower_metric_first_higher_price_ok" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:ins_3b8612157ed1ad3c ins:scopeDevice "self-scanner" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:ins_3b8612157ed1ad3c ins:scopeEvent "pick_up_scanner" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:ins_3b8612157ed1ad3c ins:retailer "Delfour" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:ins_3b8612157ed1ad3c ins:createdAt "2025-10-04T16:51:53Z"^^xsd:dateTime .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:ins_3b8612157ed1ad3c ins:expiresAt "2025-10-04T18:51:53Z"^^xsd:dateTime .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:pol_a3a8310003b7487f a odrl:Policy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:pol_a3a8310003b7487f odrl:profile profile:Delfour-Insight-Policy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:pol_a3a8310003b7487f odrl:permission _:b2_a3a8310003b7487f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_a3a8310003b7487f a odrl:Permission .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_a3a8310003b7487f odrl:action odrl:use .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_a3a8310003b7487f odrl:target _:ins_3b8612157ed1ad3c .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_a3a8310003b7487f odrl:constraint _:b3_a3a8310003b7487f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_a3a8310003b7487f a odrl:Constraint .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_a3a8310003b7487f odrl:leftOperand odrl:purpose .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_a3a8310003b7487f odrl:operator odrl:eq .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_a3a8310003b7487f odrl:rightOperand vocab:shopping_assist .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:pol_a3a8310003b7487f odrl:prohibition _:b4_a3a8310003b7487f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_a3a8310003b7487f a odrl:Prohibition .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_a3a8310003b7487f odrl:action odrl:distribute .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_a3a8310003b7487f odrl:target _:ins_3b8612157ed1ad3c .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_a3a8310003b7487f odrl:constraint _:b5_a3a8310003b7487f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b5_a3a8310003b7487f a odrl:Constraint .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b5_a3a8310003b7487f odrl:leftOperand odrl:purpose .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b5_a3a8310003b7487f odrl:operator odrl:eq .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b5_a3a8310003b7487f odrl:rightOperand vocab:marketing .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:pol_a3a8310003b7487f odrl:duty _:b6_a3a8310003b7487f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_a3a8310003b7487f a odrl:Duty .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_a3a8310003b7487f odrl:action odrl:delete .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_a3a8310003b7487f odrl:constraint _:b7_a3a8310003b7487f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_a3a8310003b7487f a odrl:Constraint .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_a3a8310003b7487f odrl:leftOperand odrl:dateTime .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_a3a8310003b7487f odrl:operator odrl:eq .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_a3a8310003b7487f odrl:rightOperand "2025-10-04T18:51:53Z"^^xsd:dateTime .
+        }
+    ].

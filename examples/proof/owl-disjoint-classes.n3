@@ -1,0 +1,27 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:milo owl:differentFrom :fido .
+
+{ :milo owl:differentFrom :fido . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Cat ],
+    [ pe:var "B"; pe:value :Dog ],
+    [ pe:var "X"; pe:value :milo ],
+    [ pe:var "Y"; pe:value :fido ];
+  pe:uses
+    { :Cat owl:disjointWith :Dog . },
+    { :milo a :Cat . },
+    { :fido a :Dog . }.
+
+{ :Cat owl:disjointWith :Dog . }
+  pe:fact "owl-disjoint-classes.n3".
+
+{ :milo a :Cat . }
+  pe:fact "owl-disjoint-classes.n3".
+
+{ :fido a :Dog . }
+  pe:fact "owl-disjoint-classes.n3".

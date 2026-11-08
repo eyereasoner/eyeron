@@ -1,0 +1,475 @@
+@prefix : <http://eulersharp.sourceforge.net/2005/11swap/zebra#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:german :eats :fish .
+:solution :house (1 :yellow :norwegian :cats :water :dunhill) .
+:solution :house (2 :blue :dane :horse :tea :blends) .
+:solution :house (3 :red :brit :birds :milk :pallmall) .
+:solution :house (4 :green :german :fish :coffee :prince) .
+:solution :house (5 :white :swede :dogs :beer :bluemasters) .
+
+{ :german :eats :fish . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Beer"; pe:value 5 ],
+    [ pe:var "Birds"; pe:value 3 ],
+    [ pe:var "Blends"; pe:value 2 ],
+    [ pe:var "CatDelta"; pe:value 1 ],
+    [ pe:var "Cats"; pe:value 1 ],
+    [ pe:var "Dane"; pe:value 2 ],
+    [ pe:var "Fish"; pe:value 4 ],
+    [ pe:var "German"; pe:value 4 ],
+    [ pe:var "Green"; pe:value 4 ],
+    [ pe:var "Horse"; pe:value 2 ],
+    [ pe:var "HorseDelta"; pe:value 1 ],
+    [ pe:var "Owner"; pe:value :german ],
+    [ pe:var "Red"; pe:value 3 ],
+    [ pe:var "Swede"; pe:value 5 ],
+    [ pe:var "Water"; pe:value 1 ],
+    [ pe:var "WaterDelta"; pe:value 1 ],
+    [ pe:var "White"; pe:value 5 ],
+    [ pe:var "Yellow"; pe:value 1 ];
+  pe:uses
+    { (1 2 3 4) list:member 4 . },
+    { (4 1) math:sum 5 . },
+    { 4 log:notEqualTo 2 . },
+    { 4 log:notEqualTo 3 . },
+    { 5 log:notEqualTo 2 . },
+    { (1 2 3 4 5) list:member 3 . },
+    { 3 log:notEqualTo 1 . },
+    { 3 log:notEqualTo 2 . },
+    { 3 log:notEqualTo 4 . },
+    { 3 log:notEqualTo 5 . },
+    { (1 2 3 4 5) list:member 1 . },
+    { 1 log:notEqualTo 2 . },
+    { 1 log:notEqualTo 4 . },
+    { 1 log:notEqualTo 5 . },
+    { 1 log:notEqualTo 3 . },
+    { (1 2 3 4 5) list:member 2 . },
+    { 2 log:notEqualTo 1 . },
+    { 2 log:notEqualTo 3 . },
+    { 2 log:notEqualTo 3 . },
+    { 2 log:notEqualTo 4 . },
+    { (1 2 3 4 5) list:member 5 . },
+    { 5 log:notEqualTo 1 . },
+    { 5 log:notEqualTo 3 . },
+    { 5 log:notEqualTo 2 . },
+    { (1 2 3 4 5) list:member 4 . },
+    { 4 log:notEqualTo 1 . },
+    { 4 log:notEqualTo 3 . },
+    { 4 log:notEqualTo 2 . },
+    { 4 log:notEqualTo 5 . },
+    { 4 log:notEqualTo 1 . },
+    { (1 2 3 4 5) list:member 2 . },
+    { (2 1) math:difference 1 . },
+    { 1 math:absoluteValue 1 . },
+    { 2 log:notEqualTo 5 . },
+    { (1 2 3 4 5) list:member 3 . },
+    { 3 log:notEqualTo 1 . },
+    { 3 log:notEqualTo 4 . },
+    { 3 log:notEqualTo 2 . },
+    { 3 log:notEqualTo 5 . },
+    { (1 2 3 4 5) list:member 5 . },
+    { 5 log:notEqualTo 1 . },
+    { 5 log:notEqualTo 4 . },
+    { 5 log:notEqualTo 3 . },
+    { 5 log:notEqualTo 3 . },
+    { 5 log:notEqualTo 4 . },
+    { 5 log:notEqualTo 2 . },
+    { (1 2 3 4 5) list:member 2 . },
+    { 2 log:notEqualTo 1 . },
+    { 2 log:notEqualTo 4 . },
+    { 2 log:notEqualTo 3 . },
+    { 2 log:notEqualTo 5 . },
+    { (1 2 3 4 5) list:member 1 . },
+    { 1 log:notEqualTo 2 . },
+    { 1 log:notEqualTo 5 . },
+    { 1 log:notEqualTo 3 . },
+    { (2 1) math:difference 1 . },
+    { 1 math:absoluteValue 1 . },
+    { (1 2 3 4 5) list:member 1 . },
+    { 1 log:notEqualTo 3 . },
+    { 1 log:notEqualTo 4 . },
+    { 1 log:notEqualTo 2 . },
+    { 1 log:notEqualTo 5 . },
+    { (2 1) math:difference 1 . },
+    { 1 math:absoluteValue 1 . },
+    { (1 2 3 4 5) list:member 4 . },
+    { 4 log:notEqualTo 2 . },
+    { 4 log:notEqualTo 5 . },
+    { 4 log:notEqualTo 3 . },
+    { 4 log:notEqualTo 1 . },
+    { ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (4 :german) . }.
+
+{ (1 2 3 4) list:member 4 . }
+  pe:builtin list:member.
+
+{ (4 1) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ 4 log:notEqualTo 2 . }
+  pe:builtin log:notEqualTo.
+
+{ 4 log:notEqualTo 3 . }
+  pe:builtin log:notEqualTo.
+
+{ 5 log:notEqualTo 2 . }
+  pe:builtin log:notEqualTo.
+
+{ (1 2 3 4 5) list:member 3 . }
+  pe:builtin list:member.
+
+{ 3 log:notEqualTo 1 . }
+  pe:builtin log:notEqualTo.
+
+{ 3 log:notEqualTo 2 . }
+  pe:builtin log:notEqualTo.
+
+{ 3 log:notEqualTo 4 . }
+  pe:builtin log:notEqualTo.
+
+{ 3 log:notEqualTo 5 . }
+  pe:builtin log:notEqualTo.
+
+{ (1 2 3 4 5) list:member 1 . }
+  pe:builtin list:member.
+
+{ 1 log:notEqualTo 2 . }
+  pe:builtin log:notEqualTo.
+
+{ 1 log:notEqualTo 4 . }
+  pe:builtin log:notEqualTo.
+
+{ 1 log:notEqualTo 5 . }
+  pe:builtin log:notEqualTo.
+
+{ 1 log:notEqualTo 3 . }
+  pe:builtin log:notEqualTo.
+
+{ (1 2 3 4 5) list:member 2 . }
+  pe:builtin list:member.
+
+{ 2 log:notEqualTo 1 . }
+  pe:builtin log:notEqualTo.
+
+{ 2 log:notEqualTo 3 . }
+  pe:builtin log:notEqualTo.
+
+{ 2 log:notEqualTo 4 . }
+  pe:builtin log:notEqualTo.
+
+{ (1 2 3 4 5) list:member 5 . }
+  pe:builtin list:member.
+
+{ 5 log:notEqualTo 1 . }
+  pe:builtin log:notEqualTo.
+
+{ 5 log:notEqualTo 3 . }
+  pe:builtin log:notEqualTo.
+
+{ (1 2 3 4 5) list:member 4 . }
+  pe:builtin list:member.
+
+{ 4 log:notEqualTo 1 . }
+  pe:builtin log:notEqualTo.
+
+{ 4 log:notEqualTo 5 . }
+  pe:builtin log:notEqualTo.
+
+{ (2 1) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ 1 math:absoluteValue 1 . }
+  pe:builtin math:absoluteValue.
+
+{ 2 log:notEqualTo 5 . }
+  pe:builtin log:notEqualTo.
+
+{ 5 log:notEqualTo 4 . }
+  pe:builtin log:notEqualTo.
+
+{ ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (4 :german) . }
+  pe:builtin list:member.
+
+{ :solution :house (1 :yellow :norwegian :cats :water :dunhill) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Cigar"; pe:value :dunhill ],
+    [ pe:var "Cigars"; pe:value ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) ],
+    [ pe:var "Colour"; pe:value :yellow ],
+    [ pe:var "Colours"; pe:value ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ],
+    [ pe:var "Drink"; pe:value :water ],
+    [ pe:var "Drinks"; pe:value ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ],
+    [ pe:var "Nationalities"; pe:value ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ],
+    [ pe:var "Nationality"; pe:value :norwegian ],
+    [ pe:var "Pet"; pe:value :cats ],
+    [ pe:var "Pets"; pe:value ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ],
+    [ pe:var "Position"; pe:value 1 ];
+  pe:uses
+    { :solution :positions (((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends))) . },
+    { (1 2 3 4 5) list:member 1 . },
+    { ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) list:member (1 :yellow) . },
+    { ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (1 :norwegian) . },
+    { ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) list:member (1 :cats) . },
+    { ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) list:member (1 :water) . },
+    { ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) list:member (1 :dunhill) . }.
+
+{ :solution :positions (((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends))) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Beer"; pe:value 5 ],
+    [ pe:var "Birds"; pe:value 3 ],
+    [ pe:var "Blends"; pe:value 2 ],
+    [ pe:var "CatDelta"; pe:value 1 ],
+    [ pe:var "Cats"; pe:value 1 ],
+    [ pe:var "Dane"; pe:value 2 ],
+    [ pe:var "Fish"; pe:value 4 ],
+    [ pe:var "German"; pe:value 4 ],
+    [ pe:var "Green"; pe:value 4 ],
+    [ pe:var "Horse"; pe:value 2 ],
+    [ pe:var "HorseDelta"; pe:value 1 ],
+    [ pe:var "Owner"; pe:value :german ],
+    [ pe:var "Red"; pe:value 3 ],
+    [ pe:var "Swede"; pe:value 5 ],
+    [ pe:var "Water"; pe:value 1 ],
+    [ pe:var "WaterDelta"; pe:value 1 ],
+    [ pe:var "White"; pe:value 5 ],
+    [ pe:var "Yellow"; pe:value 1 ];
+  pe:uses
+    { (1 2 3 4) list:member 4 . },
+    { (4 1) math:sum 5 . },
+    { 4 log:notEqualTo 2 . },
+    { 4 log:notEqualTo 3 . },
+    { 5 log:notEqualTo 2 . },
+    { (1 2 3 4 5) list:member 3 . },
+    { 3 log:notEqualTo 1 . },
+    { 3 log:notEqualTo 2 . },
+    { 3 log:notEqualTo 4 . },
+    { 3 log:notEqualTo 5 . },
+    { (1 2 3 4 5) list:member 1 . },
+    { 1 log:notEqualTo 2 . },
+    { 1 log:notEqualTo 4 . },
+    { 1 log:notEqualTo 5 . },
+    { 1 log:notEqualTo 3 . },
+    { (1 2 3 4 5) list:member 2 . },
+    { 2 log:notEqualTo 1 . },
+    { 2 log:notEqualTo 3 . },
+    { 2 log:notEqualTo 3 . },
+    { 2 log:notEqualTo 4 . },
+    { (1 2 3 4 5) list:member 5 . },
+    { 5 log:notEqualTo 1 . },
+    { 5 log:notEqualTo 3 . },
+    { 5 log:notEqualTo 2 . },
+    { (1 2 3 4 5) list:member 4 . },
+    { 4 log:notEqualTo 1 . },
+    { 4 log:notEqualTo 3 . },
+    { 4 log:notEqualTo 2 . },
+    { 4 log:notEqualTo 5 . },
+    { 4 log:notEqualTo 1 . },
+    { (1 2 3 4 5) list:member 2 . },
+    { (2 1) math:difference 1 . },
+    { 1 math:absoluteValue 1 . },
+    { 2 log:notEqualTo 5 . },
+    { (1 2 3 4 5) list:member 3 . },
+    { 3 log:notEqualTo 1 . },
+    { 3 log:notEqualTo 4 . },
+    { 3 log:notEqualTo 2 . },
+    { 3 log:notEqualTo 5 . },
+    { (1 2 3 4 5) list:member 5 . },
+    { 5 log:notEqualTo 1 . },
+    { 5 log:notEqualTo 4 . },
+    { 5 log:notEqualTo 3 . },
+    { 5 log:notEqualTo 3 . },
+    { 5 log:notEqualTo 4 . },
+    { 5 log:notEqualTo 2 . },
+    { (1 2 3 4 5) list:member 2 . },
+    { 2 log:notEqualTo 1 . },
+    { 2 log:notEqualTo 4 . },
+    { 2 log:notEqualTo 3 . },
+    { 2 log:notEqualTo 5 . },
+    { (1 2 3 4 5) list:member 1 . },
+    { 1 log:notEqualTo 2 . },
+    { 1 log:notEqualTo 5 . },
+    { 1 log:notEqualTo 3 . },
+    { (2 1) math:difference 1 . },
+    { 1 math:absoluteValue 1 . },
+    { (1 2 3 4 5) list:member 1 . },
+    { 1 log:notEqualTo 3 . },
+    { 1 log:notEqualTo 4 . },
+    { 1 log:notEqualTo 2 . },
+    { 1 log:notEqualTo 5 . },
+    { (2 1) math:difference 1 . },
+    { 1 math:absoluteValue 1 . },
+    { (1 2 3 4 5) list:member 4 . },
+    { 4 log:notEqualTo 2 . },
+    { 4 log:notEqualTo 5 . },
+    { 4 log:notEqualTo 3 . },
+    { 4 log:notEqualTo 1 . },
+    { ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (4 :german) . }.
+
+{ ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) list:member (1 :yellow) . }
+  pe:builtin list:member.
+
+{ ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (1 :norwegian) . }
+  pe:builtin list:member.
+
+{ ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) list:member (1 :cats) . }
+  pe:builtin list:member.
+
+{ ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) list:member (1 :water) . }
+  pe:builtin list:member.
+
+{ ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) list:member (1 :dunhill) . }
+  pe:builtin list:member.
+
+{ :solution :house (2 :blue :dane :horse :tea :blends) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Cigar"; pe:value :blends ],
+    [ pe:var "Cigars"; pe:value ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) ],
+    [ pe:var "Colour"; pe:value :blue ],
+    [ pe:var "Colours"; pe:value ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ],
+    [ pe:var "Drink"; pe:value :tea ],
+    [ pe:var "Drinks"; pe:value ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ],
+    [ pe:var "Nationalities"; pe:value ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ],
+    [ pe:var "Nationality"; pe:value :dane ],
+    [ pe:var "Pet"; pe:value :horse ],
+    [ pe:var "Pets"; pe:value ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ],
+    [ pe:var "Position"; pe:value 2 ];
+  pe:uses
+    { :solution :positions (((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends))) . },
+    { (1 2 3 4 5) list:member 2 . },
+    { ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) list:member (2 :blue) . },
+    { ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (2 :dane) . },
+    { ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) list:member (2 :horse) . },
+    { ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) list:member (2 :tea) . },
+    { ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) list:member (2 :blends) . }.
+
+{ ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) list:member (2 :blue) . }
+  pe:builtin list:member.
+
+{ ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (2 :dane) . }
+  pe:builtin list:member.
+
+{ ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) list:member (2 :horse) . }
+  pe:builtin list:member.
+
+{ ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) list:member (2 :tea) . }
+  pe:builtin list:member.
+
+{ ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) list:member (2 :blends) . }
+  pe:builtin list:member.
+
+{ :solution :house (3 :red :brit :birds :milk :pallmall) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Cigar"; pe:value :pallmall ],
+    [ pe:var "Cigars"; pe:value ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) ],
+    [ pe:var "Colour"; pe:value :red ],
+    [ pe:var "Colours"; pe:value ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ],
+    [ pe:var "Drink"; pe:value :milk ],
+    [ pe:var "Drinks"; pe:value ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ],
+    [ pe:var "Nationalities"; pe:value ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ],
+    [ pe:var "Nationality"; pe:value :brit ],
+    [ pe:var "Pet"; pe:value :birds ],
+    [ pe:var "Pets"; pe:value ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ],
+    [ pe:var "Position"; pe:value 3 ];
+  pe:uses
+    { :solution :positions (((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends))) . },
+    { (1 2 3 4 5) list:member 3 . },
+    { ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) list:member (3 :red) . },
+    { ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (3 :brit) . },
+    { ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) list:member (3 :birds) . },
+    { ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) list:member (3 :milk) . },
+    { ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) list:member (3 :pallmall) . }.
+
+{ ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) list:member (3 :red) . }
+  pe:builtin list:member.
+
+{ ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (3 :brit) . }
+  pe:builtin list:member.
+
+{ ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) list:member (3 :birds) . }
+  pe:builtin list:member.
+
+{ ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) list:member (3 :milk) . }
+  pe:builtin list:member.
+
+{ ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) list:member (3 :pallmall) . }
+  pe:builtin list:member.
+
+{ :solution :house (4 :green :german :fish :coffee :prince) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Cigar"; pe:value :prince ],
+    [ pe:var "Cigars"; pe:value ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) ],
+    [ pe:var "Colour"; pe:value :green ],
+    [ pe:var "Colours"; pe:value ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ],
+    [ pe:var "Drink"; pe:value :coffee ],
+    [ pe:var "Drinks"; pe:value ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ],
+    [ pe:var "Nationalities"; pe:value ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ],
+    [ pe:var "Nationality"; pe:value :german ],
+    [ pe:var "Pet"; pe:value :fish ],
+    [ pe:var "Pets"; pe:value ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ],
+    [ pe:var "Position"; pe:value 4 ];
+  pe:uses
+    { :solution :positions (((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends))) . },
+    { (1 2 3 4 5) list:member 4 . },
+    { ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) list:member (4 :green) . },
+    { ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (4 :german) . },
+    { ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) list:member (4 :fish) . },
+    { ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) list:member (4 :coffee) . },
+    { ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) list:member (4 :prince) . }.
+
+{ ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) list:member (4 :green) . }
+  pe:builtin list:member.
+
+{ ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) list:member (4 :fish) . }
+  pe:builtin list:member.
+
+{ ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) list:member (4 :coffee) . }
+  pe:builtin list:member.
+
+{ ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) list:member (4 :prince) . }
+  pe:builtin list:member.
+
+{ :solution :house (5 :white :swede :dogs :beer :bluemasters) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Cigar"; pe:value :bluemasters ],
+    [ pe:var "Cigars"; pe:value ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) ],
+    [ pe:var "Colour"; pe:value :white ],
+    [ pe:var "Colours"; pe:value ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ],
+    [ pe:var "Drink"; pe:value :beer ],
+    [ pe:var "Drinks"; pe:value ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ],
+    [ pe:var "Nationalities"; pe:value ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ],
+    [ pe:var "Nationality"; pe:value :swede ],
+    [ pe:var "Pet"; pe:value :dogs ],
+    [ pe:var "Pets"; pe:value ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ],
+    [ pe:var "Position"; pe:value 5 ];
+  pe:uses
+    { :solution :positions (((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends))) . },
+    { (1 2 3 4 5) list:member 5 . },
+    { ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) list:member (5 :white) . },
+    { ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (5 :swede) . },
+    { ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) list:member (5 :dogs) . },
+    { ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) list:member (5 :beer) . },
+    { ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) list:member (5 :bluemasters) . }.
+
+{ ((1 :yellow) (2 :blue) (3 :red) (4 :green) (5 :white)) list:member (5 :white) . }
+  pe:builtin list:member.
+
+{ ((1 :norwegian) (3 :brit) (5 :swede) (2 :dane) (4 :german)) list:member (5 :swede) . }
+  pe:builtin list:member.
+
+{ ((2 :horse) (5 :dogs) (3 :birds) (1 :cats) (4 :fish)) list:member (5 :dogs) . }
+  pe:builtin list:member.
+
+{ ((3 :milk) (4 :coffee) (2 :tea) (5 :beer) (1 :water)) list:member (5 :beer) . }
+  pe:builtin list:member.
+
+{ ((1 :dunhill) (4 :prince) (3 :pallmall) (5 :bluemasters) (2 :blends)) list:member (5 :bluemasters) . }
+  pe:builtin list:member.

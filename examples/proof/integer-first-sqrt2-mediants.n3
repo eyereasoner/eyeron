@@ -1,0 +1,2940 @@
+@prefix : <http://example.org/integer-first#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:result :boundsQ (0 1 1 2 1) .
+:result :gapTo2 (0 1 2) .
+:result :widthQ (0 1 1) .
+:result :fareyAdjacent (0 true) .
+:result :boundsQ (1 1 1 3 2) .
+:result :gapTo2 (1 1 1) .
+:result :widthQ (1 1 2) .
+:result :fareyAdjacent (1 true) .
+:result :boundsQ (2 4 3 3 2) .
+:result :gapTo2 (2 2 1) .
+:result :widthQ (2 1 6) .
+:result :fareyAdjacent (2 true) .
+:result :boundsQ (3 7 5 3 2) .
+:result :gapTo2 (3 1 1) .
+:result :widthQ (3 1 10) .
+:result :fareyAdjacent (3 true) .
+:result :boundsQ (4 7 5 10 7) .
+:result :gapTo2 (4 1 2) .
+:result :widthQ (4 1 35) .
+:result :fareyAdjacent (4 true) .
+:result :boundsQ (5 7 5 17 12) .
+:result :gapTo2 (5 1 1) .
+:result :widthQ (5 1 60) .
+:result :fareyAdjacent (5 true) .
+:result :boundsQ (6 24 17 17 12) .
+:result :gapTo2 (6 2 1) .
+:result :widthQ (6 1 204) .
+:result :fareyAdjacent (6 true) .
+:result :boundsQ (7 41 29 17 12) .
+:result :gapTo2 (7 1 1) .
+:result :widthQ (7 1 348) .
+:result :fareyAdjacent (7 true) .
+:result :boundsQ (8 41 29 58 41) .
+:result :gapTo2 (8 1 2) .
+:result :widthQ (8 1 1189) .
+:result :fareyAdjacent (8 true) .
+:result :decimalBounds (0 1 2) .
+:result :midpoint (0 1.5) .
+:result :decimalBounds (1 1 1.5) .
+:result :midpoint (1 1.25) .
+:result :decimalBounds (2 1.3333333333333333 1.5) .
+:result :midpoint (2 1.4166666666666665) .
+:result :decimalBounds (3 1.4 1.5) .
+:result :midpoint (3 1.45) .
+:result :decimalBounds (4 1.4 1.4285714285714286) .
+:result :midpoint (4 1.4142857142857141) .
+:result :decimalBounds (5 1.4 1.4166666666666667) .
+:result :midpoint (5 1.4083333333333332) .
+:result :decimalBounds (6 1.411764705882353 1.4166666666666667) .
+:result :midpoint (6 1.4142156862745099) .
+:result :decimalBounds (7 1.4137931034482758 1.4166666666666667) .
+:result :midpoint (7 1.4152298850574714) .
+:result :decimalBounds (8 1.4137931034482758 1.4146341463414633) .
+:result :midpoint (8 1.4142136248948696) .
+
+{ :result :boundsQ (0 1 1 2 1) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 2 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 1 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 1 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (0 1 1 2 1) . },
+    { :sqrt2 :integerCertificate (0 1 2) . },
+    { :sqrt2 :widthExact (0 1 1) . },
+    { :sqrt2 :fareyAdjacent (0 true) . }.
+
+{ :mediantRefiner :bounds (0 1 1 2 1) . }
+  pe:fact "integer-first-sqrt2-mediants.n3".
+
+{ :sqrt2 :integerCertificate (0 1 2) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pL2"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 2 ],
+    [ pe:var "pU2"; pe:value 4 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qL2"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 1 ],
+    [ pe:var "qU2"; pe:value 1 ],
+    [ pe:var "twoQL2"; pe:value 2 ],
+    [ pe:var "twoQU2"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 2 ];
+  pe:uses
+    { :mediantRefiner :bounds (0 1 1 2 1) . },
+    { (1 1) math:product 1 . },
+    { (1 1) math:product 1 . },
+    { (2 1) math:product 2 . },
+    { (2 1) math:difference 1 . },
+    { 1 math:greaterThan 0 . },
+    { (2 2) math:product 4 . },
+    { (1 1) math:product 1 . },
+    { (2 1) math:product 2 . },
+    { (4 2) math:difference 2 . },
+    { 2 math:greaterThan 0 . }.
+
+{ (1 1) math:product 1 . }
+  pe:builtin math:product.
+
+{ (2 1) math:product 2 . }
+  pe:builtin math:product.
+
+{ (2 1) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ 1 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (2 2) math:product 4 . }
+  pe:builtin math:product.
+
+{ (4 2) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ 2 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :sqrt2 :widthExact (0 1 1) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 2 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 2 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 1 ],
+    [ pe:var "right"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (0 1 1 2 1) . },
+    { (2 1) math:product 2 . },
+    { (1 1) math:product 1 . },
+    { (2 1) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (1 1) math:product 1 . }.
+
+{ 1 math:equalTo 1 . }
+  pe:builtin math:equalTo.
+
+{ :sqrt2 :fareyAdjacent (0 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 2 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 2 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 1 ],
+    [ pe:var "right"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (0 1 1 2 1) . },
+    { (2 1) math:product 2 . },
+    { (1 1) math:product 1 . },
+    { (2 1) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (1 1) math:product 1 . }.
+
+{ :result :gapTo2 (0 1 2) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 2 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 1 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 1 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (0 1 1 2 1) . },
+    { :sqrt2 :integerCertificate (0 1 2) . },
+    { :sqrt2 :widthExact (0 1 1) . },
+    { :sqrt2 :fareyAdjacent (0 true) . }.
+
+{ :result :widthQ (0 1 1) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 2 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 1 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 1 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (0 1 1 2 1) . },
+    { :sqrt2 :integerCertificate (0 1 2) . },
+    { :sqrt2 :widthExact (0 1 1) . },
+    { :sqrt2 :fareyAdjacent (0 true) . }.
+
+{ :result :fareyAdjacent (0 true) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 2 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 1 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 1 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (0 1 1 2 1) . },
+    { :sqrt2 :integerCertificate (0 1 2) . },
+    { :sqrt2 :widthExact (0 1 1) . },
+    { :sqrt2 :fareyAdjacent (0 true) . }.
+
+{ :result :boundsQ (1 1 1 3 2) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 2 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (1 1 1 3 2) . },
+    { :sqrt2 :integerCertificate (1 1 1) . },
+    { :sqrt2 :widthExact (1 1 2) . },
+    { :sqrt2 :fareyAdjacent (1 true) . }.
+
+{ :mediantRefiner :bounds (1 1 1 3 2) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "n1"; pe:value 1 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pM"; pe:value 3 ],
+    [ pe:var "pM2"; pe:value 9 ],
+    [ pe:var "pU"; pe:value 2 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qM"; pe:value 2 ],
+    [ pe:var "qM2"; pe:value 4 ],
+    [ pe:var "qU"; pe:value 1 ],
+    [ pe:var "twoQM2"; pe:value 8 ];
+  pe:uses
+    { :mediantRefiner :bounds (0 1 1 2 1) . },
+    { :mediantRefiner :maxStep 8 . },
+    { 0 math:lessThan 8 . },
+    { (0 8) :successor 1 . },
+    { (1 2) math:sum 3 . },
+    { (1 1) math:sum 2 . },
+    { (3 3) math:product 9 . },
+    { (2 2) math:product 4 . },
+    { (2 4) math:product 8 . },
+    { 9 math:greaterThan 8 . }.
+
+{ :mediantRefiner :maxStep 8 . }
+  pe:fact "integer-first-sqrt2-mediants.n3".
+
+{ 0 math:lessThan 8 . }
+  pe:builtin math:lessThan.
+
+{ (0 8) :successor 1 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "n1"; pe:value 1 ];
+  pe:uses
+    { 0 math:lessThan 8 . },
+    { (0 1) math:sum 1 . }.
+
+{ (0 1) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (1 2) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ (3 3) math:product 9 . }
+  pe:builtin math:product.
+
+{ (2 4) math:product 8 . }
+  pe:builtin math:product.
+
+{ 9 math:greaterThan 8 . }
+  pe:builtin math:greaterThan.
+
+{ :sqrt2 :integerCertificate (1 1 1) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pL2"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "pU2"; pe:value 9 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qL2"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "qU2"; pe:value 4 ],
+    [ pe:var "twoQL2"; pe:value 2 ],
+    [ pe:var "twoQU2"; pe:value 8 ],
+    [ pe:var "upperGap"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (1 1 1 3 2) . },
+    { (1 1) math:product 1 . },
+    { (1 1) math:product 1 . },
+    { (2 1) math:product 2 . },
+    { (2 1) math:difference 1 . },
+    { 1 math:greaterThan 0 . },
+    { (3 3) math:product 9 . },
+    { (2 2) math:product 4 . },
+    { (2 4) math:product 8 . },
+    { (9 8) math:difference 1 . },
+    { 1 math:greaterThan 0 . }.
+
+{ (9 8) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ :sqrt2 :widthExact (1 1 2) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 3 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "right"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 2 ];
+  pe:uses
+    { :mediantRefiner :bounds (1 1 1 3 2) . },
+    { (3 1) math:product 3 . },
+    { (1 2) math:product 2 . },
+    { (3 2) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (1 2) math:product 2 . }.
+
+{ (3 1) math:product 3 . }
+  pe:builtin math:product.
+
+{ (1 2) math:product 2 . }
+  pe:builtin math:product.
+
+{ (3 2) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ :sqrt2 :fareyAdjacent (1 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 3 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "right"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 2 ];
+  pe:uses
+    { :mediantRefiner :bounds (1 1 1 3 2) . },
+    { (3 1) math:product 3 . },
+    { (1 2) math:product 2 . },
+    { (3 2) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (1 2) math:product 2 . }.
+
+{ :result :gapTo2 (1 1 1) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 2 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (1 1 1 3 2) . },
+    { :sqrt2 :integerCertificate (1 1 1) . },
+    { :sqrt2 :widthExact (1 1 2) . },
+    { :sqrt2 :fareyAdjacent (1 true) . }.
+
+{ :result :widthQ (1 1 2) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 2 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (1 1 1 3 2) . },
+    { :sqrt2 :integerCertificate (1 1 1) . },
+    { :sqrt2 :widthExact (1 1 2) . },
+    { :sqrt2 :fareyAdjacent (1 true) . }.
+
+{ :result :fareyAdjacent (1 true) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 2 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (1 1 1 3 2) . },
+    { :sqrt2 :integerCertificate (1 1 1) . },
+    { :sqrt2 :widthExact (1 1 2) . },
+    { :sqrt2 :fareyAdjacent (1 true) . }.
+
+{ :result :boundsQ (2 4 3 3 2) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 2 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "pL"; pe:value 4 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 3 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 6 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (2 4 3 3 2) . },
+    { :sqrt2 :integerCertificate (2 2 1) . },
+    { :sqrt2 :widthExact (2 1 6) . },
+    { :sqrt2 :fareyAdjacent (2 true) . }.
+
+{ :mediantRefiner :bounds (2 4 3 3 2) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "n1"; pe:value 2 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pM"; pe:value 4 ],
+    [ pe:var "pM2"; pe:value 16 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qM"; pe:value 3 ],
+    [ pe:var "qM2"; pe:value 9 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "twoQM2"; pe:value 18 ];
+  pe:uses
+    { :mediantRefiner :bounds (1 1 1 3 2) . },
+    { :mediantRefiner :maxStep 8 . },
+    { 1 math:lessThan 8 . },
+    { (1 8) :successor 2 . },
+    { (1 3) math:sum 4 . },
+    { (1 2) math:sum 3 . },
+    { (4 4) math:product 16 . },
+    { (3 3) math:product 9 . },
+    { (2 9) math:product 18 . },
+    { 16 math:lessThan 18 . }.
+
+{ 1 math:lessThan 8 . }
+  pe:builtin math:lessThan.
+
+{ (1 8) :successor 2 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "n1"; pe:value 2 ];
+  pe:uses
+    { 1 math:lessThan 8 . },
+    { (1 1) math:sum 2 . }.
+
+{ (1 3) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ (4 4) math:product 16 . }
+  pe:builtin math:product.
+
+{ (2 9) math:product 18 . }
+  pe:builtin math:product.
+
+{ 16 math:lessThan 18 . }
+  pe:builtin math:lessThan.
+
+{ :sqrt2 :integerCertificate (2 2 1) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 2 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "pL"; pe:value 4 ],
+    [ pe:var "pL2"; pe:value 16 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "pU2"; pe:value 9 ],
+    [ pe:var "qL"; pe:value 3 ],
+    [ pe:var "qL2"; pe:value 9 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "qU2"; pe:value 4 ],
+    [ pe:var "twoQL2"; pe:value 18 ],
+    [ pe:var "twoQU2"; pe:value 8 ],
+    [ pe:var "upperGap"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (2 4 3 3 2) . },
+    { (4 4) math:product 16 . },
+    { (3 3) math:product 9 . },
+    { (2 9) math:product 18 . },
+    { (18 16) math:difference 2 . },
+    { 2 math:greaterThan 0 . },
+    { (3 3) math:product 9 . },
+    { (2 2) math:product 4 . },
+    { (2 4) math:product 8 . },
+    { (9 8) math:difference 1 . },
+    { 1 math:greaterThan 0 . }.
+
+{ (18 16) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ :sqrt2 :widthExact (2 1 6) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 9 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "pL"; pe:value 4 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 3 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "right"; pe:value 8 ],
+    [ pe:var "widthDen"; pe:value 6 ];
+  pe:uses
+    { :mediantRefiner :bounds (2 4 3 3 2) . },
+    { (3 3) math:product 9 . },
+    { (4 2) math:product 8 . },
+    { (9 8) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (3 2) math:product 6 . }.
+
+{ (4 2) math:product 8 . }
+  pe:builtin math:product.
+
+{ (3 2) math:product 6 . }
+  pe:builtin math:product.
+
+{ :sqrt2 :fareyAdjacent (2 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 9 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "pL"; pe:value 4 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 3 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "right"; pe:value 8 ],
+    [ pe:var "widthDen"; pe:value 6 ];
+  pe:uses
+    { :mediantRefiner :bounds (2 4 3 3 2) . },
+    { (3 3) math:product 9 . },
+    { (4 2) math:product 8 . },
+    { (9 8) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (3 2) math:product 6 . }.
+
+{ :result :gapTo2 (2 2 1) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 2 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "pL"; pe:value 4 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 3 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 6 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (2 4 3 3 2) . },
+    { :sqrt2 :integerCertificate (2 2 1) . },
+    { :sqrt2 :widthExact (2 1 6) . },
+    { :sqrt2 :fareyAdjacent (2 true) . }.
+
+{ :result :widthQ (2 1 6) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 2 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "pL"; pe:value 4 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 3 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 6 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (2 4 3 3 2) . },
+    { :sqrt2 :integerCertificate (2 2 1) . },
+    { :sqrt2 :widthExact (2 1 6) . },
+    { :sqrt2 :fareyAdjacent (2 true) . }.
+
+{ :result :fareyAdjacent (2 true) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 2 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "pL"; pe:value 4 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 3 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 6 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (2 4 3 3 2) . },
+    { :sqrt2 :integerCertificate (2 2 1) . },
+    { :sqrt2 :widthExact (2 1 6) . },
+    { :sqrt2 :fareyAdjacent (2 true) . }.
+
+{ :result :boundsQ (3 7 5 3 2) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 10 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (3 7 5 3 2) . },
+    { :sqrt2 :integerCertificate (3 1 1) . },
+    { :sqrt2 :widthExact (3 1 10) . },
+    { :sqrt2 :fareyAdjacent (3 true) . }.
+
+{ :mediantRefiner :bounds (3 7 5 3 2) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "n1"; pe:value 3 ],
+    [ pe:var "pL"; pe:value 4 ],
+    [ pe:var "pM"; pe:value 7 ],
+    [ pe:var "pM2"; pe:value 49 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 3 ],
+    [ pe:var "qM"; pe:value 5 ],
+    [ pe:var "qM2"; pe:value 25 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "twoQM2"; pe:value 50 ];
+  pe:uses
+    { :mediantRefiner :bounds (2 4 3 3 2) . },
+    { :mediantRefiner :maxStep 8 . },
+    { 2 math:lessThan 8 . },
+    { (2 8) :successor 3 . },
+    { (4 3) math:sum 7 . },
+    { (3 2) math:sum 5 . },
+    { (7 7) math:product 49 . },
+    { (5 5) math:product 25 . },
+    { (2 25) math:product 50 . },
+    { 49 math:lessThan 50 . }.
+
+{ 2 math:lessThan 8 . }
+  pe:builtin math:lessThan.
+
+{ (2 8) :successor 3 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "n1"; pe:value 3 ];
+  pe:uses
+    { 2 math:lessThan 8 . },
+    { (2 1) math:sum 3 . }.
+
+{ (2 1) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ (4 3) math:sum 7 . }
+  pe:builtin math:sum.
+
+{ (3 2) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ (7 7) math:product 49 . }
+  pe:builtin math:product.
+
+{ (5 5) math:product 25 . }
+  pe:builtin math:product.
+
+{ (2 25) math:product 50 . }
+  pe:builtin math:product.
+
+{ 49 math:lessThan 50 . }
+  pe:builtin math:lessThan.
+
+{ :sqrt2 :integerCertificate (3 1 1) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pL2"; pe:value 49 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "pU2"; pe:value 9 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qL2"; pe:value 25 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "qU2"; pe:value 4 ],
+    [ pe:var "twoQL2"; pe:value 50 ],
+    [ pe:var "twoQU2"; pe:value 8 ],
+    [ pe:var "upperGap"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (3 7 5 3 2) . },
+    { (7 7) math:product 49 . },
+    { (5 5) math:product 25 . },
+    { (2 25) math:product 50 . },
+    { (50 49) math:difference 1 . },
+    { 1 math:greaterThan 0 . },
+    { (3 3) math:product 9 . },
+    { (2 2) math:product 4 . },
+    { (2 4) math:product 8 . },
+    { (9 8) math:difference 1 . },
+    { 1 math:greaterThan 0 . }.
+
+{ (50 49) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ :sqrt2 :widthExact (3 1 10) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 15 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "right"; pe:value 14 ],
+    [ pe:var "widthDen"; pe:value 10 ];
+  pe:uses
+    { :mediantRefiner :bounds (3 7 5 3 2) . },
+    { (3 5) math:product 15 . },
+    { (7 2) math:product 14 . },
+    { (15 14) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (5 2) math:product 10 . }.
+
+{ (3 5) math:product 15 . }
+  pe:builtin math:product.
+
+{ (7 2) math:product 14 . }
+  pe:builtin math:product.
+
+{ (15 14) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (5 2) math:product 10 . }
+  pe:builtin math:product.
+
+{ :sqrt2 :fareyAdjacent (3 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 15 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "right"; pe:value 14 ],
+    [ pe:var "widthDen"; pe:value 10 ];
+  pe:uses
+    { :mediantRefiner :bounds (3 7 5 3 2) . },
+    { (3 5) math:product 15 . },
+    { (7 2) math:product 14 . },
+    { (15 14) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (5 2) math:product 10 . }.
+
+{ :result :gapTo2 (3 1 1) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 10 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (3 7 5 3 2) . },
+    { :sqrt2 :integerCertificate (3 1 1) . },
+    { :sqrt2 :widthExact (3 1 10) . },
+    { :sqrt2 :fareyAdjacent (3 true) . }.
+
+{ :result :widthQ (3 1 10) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 10 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (3 7 5 3 2) . },
+    { :sqrt2 :integerCertificate (3 1 1) . },
+    { :sqrt2 :widthExact (3 1 10) . },
+    { :sqrt2 :fareyAdjacent (3 true) . }.
+
+{ :result :fareyAdjacent (3 true) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 10 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (3 7 5 3 2) . },
+    { :sqrt2 :integerCertificate (3 1 1) . },
+    { :sqrt2 :widthExact (3 1 10) . },
+    { :sqrt2 :fareyAdjacent (3 true) . }.
+
+{ :result :boundsQ (4 7 5 10 7) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 10 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 7 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 35 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (4 7 5 10 7) . },
+    { :sqrt2 :integerCertificate (4 1 2) . },
+    { :sqrt2 :widthExact (4 1 35) . },
+    { :sqrt2 :fareyAdjacent (4 true) . }.
+
+{ :mediantRefiner :bounds (4 7 5 10 7) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "n1"; pe:value 4 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pM"; pe:value 10 ],
+    [ pe:var "pM2"; pe:value 100 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qM"; pe:value 7 ],
+    [ pe:var "qM2"; pe:value 49 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "twoQM2"; pe:value 98 ];
+  pe:uses
+    { :mediantRefiner :bounds (3 7 5 3 2) . },
+    { :mediantRefiner :maxStep 8 . },
+    { 3 math:lessThan 8 . },
+    { (3 8) :successor 4 . },
+    { (7 3) math:sum 10 . },
+    { (5 2) math:sum 7 . },
+    { (10 10) math:product 100 . },
+    { (7 7) math:product 49 . },
+    { (2 49) math:product 98 . },
+    { 100 math:greaterThan 98 . }.
+
+{ 3 math:lessThan 8 . }
+  pe:builtin math:lessThan.
+
+{ (3 8) :successor 4 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "n1"; pe:value 4 ];
+  pe:uses
+    { 3 math:lessThan 8 . },
+    { (3 1) math:sum 4 . }.
+
+{ (3 1) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ (7 3) math:sum 10 . }
+  pe:builtin math:sum.
+
+{ (5 2) math:sum 7 . }
+  pe:builtin math:sum.
+
+{ (10 10) math:product 100 . }
+  pe:builtin math:product.
+
+{ (2 49) math:product 98 . }
+  pe:builtin math:product.
+
+{ 100 math:greaterThan 98 . }
+  pe:builtin math:greaterThan.
+
+{ :sqrt2 :integerCertificate (4 1 2) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pL2"; pe:value 49 ],
+    [ pe:var "pU"; pe:value 10 ],
+    [ pe:var "pU2"; pe:value 100 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qL2"; pe:value 25 ],
+    [ pe:var "qU"; pe:value 7 ],
+    [ pe:var "qU2"; pe:value 49 ],
+    [ pe:var "twoQL2"; pe:value 50 ],
+    [ pe:var "twoQU2"; pe:value 98 ],
+    [ pe:var "upperGap"; pe:value 2 ];
+  pe:uses
+    { :mediantRefiner :bounds (4 7 5 10 7) . },
+    { (7 7) math:product 49 . },
+    { (5 5) math:product 25 . },
+    { (2 25) math:product 50 . },
+    { (50 49) math:difference 1 . },
+    { 1 math:greaterThan 0 . },
+    { (10 10) math:product 100 . },
+    { (7 7) math:product 49 . },
+    { (2 49) math:product 98 . },
+    { (100 98) math:difference 2 . },
+    { 2 math:greaterThan 0 . }.
+
+{ (100 98) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ :sqrt2 :widthExact (4 1 35) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 50 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 10 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 7 ],
+    [ pe:var "right"; pe:value 49 ],
+    [ pe:var "widthDen"; pe:value 35 ];
+  pe:uses
+    { :mediantRefiner :bounds (4 7 5 10 7) . },
+    { (10 5) math:product 50 . },
+    { (7 7) math:product 49 . },
+    { (50 49) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (5 7) math:product 35 . }.
+
+{ (10 5) math:product 50 . }
+  pe:builtin math:product.
+
+{ (5 7) math:product 35 . }
+  pe:builtin math:product.
+
+{ :sqrt2 :fareyAdjacent (4 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 50 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 10 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 7 ],
+    [ pe:var "right"; pe:value 49 ],
+    [ pe:var "widthDen"; pe:value 35 ];
+  pe:uses
+    { :mediantRefiner :bounds (4 7 5 10 7) . },
+    { (10 5) math:product 50 . },
+    { (7 7) math:product 49 . },
+    { (50 49) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (5 7) math:product 35 . }.
+
+{ :result :gapTo2 (4 1 2) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 10 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 7 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 35 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (4 7 5 10 7) . },
+    { :sqrt2 :integerCertificate (4 1 2) . },
+    { :sqrt2 :widthExact (4 1 35) . },
+    { :sqrt2 :fareyAdjacent (4 true) . }.
+
+{ :result :widthQ (4 1 35) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 10 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 7 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 35 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (4 7 5 10 7) . },
+    { :sqrt2 :integerCertificate (4 1 2) . },
+    { :sqrt2 :widthExact (4 1 35) . },
+    { :sqrt2 :fareyAdjacent (4 true) . }.
+
+{ :result :fareyAdjacent (4 true) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 10 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 7 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 35 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (4 7 5 10 7) . },
+    { :sqrt2 :integerCertificate (4 1 2) . },
+    { :sqrt2 :widthExact (4 1 35) . },
+    { :sqrt2 :fareyAdjacent (4 true) . }.
+
+{ :result :boundsQ (5 7 5 17 12) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 60 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (5 7 5 17 12) . },
+    { :sqrt2 :integerCertificate (5 1 1) . },
+    { :sqrt2 :widthExact (5 1 60) . },
+    { :sqrt2 :fareyAdjacent (5 true) . }.
+
+{ :mediantRefiner :bounds (5 7 5 17 12) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "n1"; pe:value 5 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pM"; pe:value 17 ],
+    [ pe:var "pM2"; pe:value 289 ],
+    [ pe:var "pU"; pe:value 10 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qM"; pe:value 12 ],
+    [ pe:var "qM2"; pe:value 144 ],
+    [ pe:var "qU"; pe:value 7 ],
+    [ pe:var "twoQM2"; pe:value 288 ];
+  pe:uses
+    { :mediantRefiner :bounds (4 7 5 10 7) . },
+    { :mediantRefiner :maxStep 8 . },
+    { 4 math:lessThan 8 . },
+    { (4 8) :successor 5 . },
+    { (7 10) math:sum 17 . },
+    { (5 7) math:sum 12 . },
+    { (17 17) math:product 289 . },
+    { (12 12) math:product 144 . },
+    { (2 144) math:product 288 . },
+    { 289 math:greaterThan 288 . }.
+
+{ 4 math:lessThan 8 . }
+  pe:builtin math:lessThan.
+
+{ (4 8) :successor 5 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "n1"; pe:value 5 ];
+  pe:uses
+    { 4 math:lessThan 8 . },
+    { (4 1) math:sum 5 . }.
+
+{ (4 1) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ (7 10) math:sum 17 . }
+  pe:builtin math:sum.
+
+{ (5 7) math:sum 12 . }
+  pe:builtin math:sum.
+
+{ (17 17) math:product 289 . }
+  pe:builtin math:product.
+
+{ (12 12) math:product 144 . }
+  pe:builtin math:product.
+
+{ (2 144) math:product 288 . }
+  pe:builtin math:product.
+
+{ 289 math:greaterThan 288 . }
+  pe:builtin math:greaterThan.
+
+{ :sqrt2 :integerCertificate (5 1 1) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pL2"; pe:value 49 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "pU2"; pe:value 289 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qL2"; pe:value 25 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "qU2"; pe:value 144 ],
+    [ pe:var "twoQL2"; pe:value 50 ],
+    [ pe:var "twoQU2"; pe:value 288 ],
+    [ pe:var "upperGap"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (5 7 5 17 12) . },
+    { (7 7) math:product 49 . },
+    { (5 5) math:product 25 . },
+    { (2 25) math:product 50 . },
+    { (50 49) math:difference 1 . },
+    { 1 math:greaterThan 0 . },
+    { (17 17) math:product 289 . },
+    { (12 12) math:product 144 . },
+    { (2 144) math:product 288 . },
+    { (289 288) math:difference 1 . },
+    { 1 math:greaterThan 0 . }.
+
+{ (289 288) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ :sqrt2 :widthExact (5 1 60) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 85 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "right"; pe:value 84 ],
+    [ pe:var "widthDen"; pe:value 60 ];
+  pe:uses
+    { :mediantRefiner :bounds (5 7 5 17 12) . },
+    { (17 5) math:product 85 . },
+    { (7 12) math:product 84 . },
+    { (85 84) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (5 12) math:product 60 . }.
+
+{ (17 5) math:product 85 . }
+  pe:builtin math:product.
+
+{ (7 12) math:product 84 . }
+  pe:builtin math:product.
+
+{ (85 84) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (5 12) math:product 60 . }
+  pe:builtin math:product.
+
+{ :sqrt2 :fareyAdjacent (5 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 85 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "right"; pe:value 84 ],
+    [ pe:var "widthDen"; pe:value 60 ];
+  pe:uses
+    { :mediantRefiner :bounds (5 7 5 17 12) . },
+    { (17 5) math:product 85 . },
+    { (7 12) math:product 84 . },
+    { (85 84) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (5 12) math:product 60 . }.
+
+{ :result :gapTo2 (5 1 1) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 60 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (5 7 5 17 12) . },
+    { :sqrt2 :integerCertificate (5 1 1) . },
+    { :sqrt2 :widthExact (5 1 60) . },
+    { :sqrt2 :fareyAdjacent (5 true) . }.
+
+{ :result :widthQ (5 1 60) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 60 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (5 7 5 17 12) . },
+    { :sqrt2 :integerCertificate (5 1 1) . },
+    { :sqrt2 :widthExact (5 1 60) . },
+    { :sqrt2 :fareyAdjacent (5 true) . }.
+
+{ :result :fareyAdjacent (5 true) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 60 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (5 7 5 17 12) . },
+    { :sqrt2 :integerCertificate (5 1 1) . },
+    { :sqrt2 :widthExact (5 1 60) . },
+    { :sqrt2 :fareyAdjacent (5 true) . }.
+
+{ :result :boundsQ (6 24 17 17 12) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 2 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "pL"; pe:value 24 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 17 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 204 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (6 24 17 17 12) . },
+    { :sqrt2 :integerCertificate (6 2 1) . },
+    { :sqrt2 :widthExact (6 1 204) . },
+    { :sqrt2 :fareyAdjacent (6 true) . }.
+
+{ :mediantRefiner :bounds (6 24 17 17 12) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "n1"; pe:value 6 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pM"; pe:value 24 ],
+    [ pe:var "pM2"; pe:value 576 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qM"; pe:value 17 ],
+    [ pe:var "qM2"; pe:value 289 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "twoQM2"; pe:value 578 ];
+  pe:uses
+    { :mediantRefiner :bounds (5 7 5 17 12) . },
+    { :mediantRefiner :maxStep 8 . },
+    { 5 math:lessThan 8 . },
+    { (5 8) :successor 6 . },
+    { (7 17) math:sum 24 . },
+    { (5 12) math:sum 17 . },
+    { (24 24) math:product 576 . },
+    { (17 17) math:product 289 . },
+    { (2 289) math:product 578 . },
+    { 576 math:lessThan 578 . }.
+
+{ 5 math:lessThan 8 . }
+  pe:builtin math:lessThan.
+
+{ (5 8) :successor 6 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "n1"; pe:value 6 ];
+  pe:uses
+    { 5 math:lessThan 8 . },
+    { (5 1) math:sum 6 . }.
+
+{ (5 1) math:sum 6 . }
+  pe:builtin math:sum.
+
+{ (7 17) math:sum 24 . }
+  pe:builtin math:sum.
+
+{ (5 12) math:sum 17 . }
+  pe:builtin math:sum.
+
+{ (24 24) math:product 576 . }
+  pe:builtin math:product.
+
+{ (2 289) math:product 578 . }
+  pe:builtin math:product.
+
+{ 576 math:lessThan 578 . }
+  pe:builtin math:lessThan.
+
+{ :sqrt2 :integerCertificate (6 2 1) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 2 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "pL"; pe:value 24 ],
+    [ pe:var "pL2"; pe:value 576 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "pU2"; pe:value 289 ],
+    [ pe:var "qL"; pe:value 17 ],
+    [ pe:var "qL2"; pe:value 289 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "qU2"; pe:value 144 ],
+    [ pe:var "twoQL2"; pe:value 578 ],
+    [ pe:var "twoQU2"; pe:value 288 ],
+    [ pe:var "upperGap"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (6 24 17 17 12) . },
+    { (24 24) math:product 576 . },
+    { (17 17) math:product 289 . },
+    { (2 289) math:product 578 . },
+    { (578 576) math:difference 2 . },
+    { 2 math:greaterThan 0 . },
+    { (17 17) math:product 289 . },
+    { (12 12) math:product 144 . },
+    { (2 144) math:product 288 . },
+    { (289 288) math:difference 1 . },
+    { 1 math:greaterThan 0 . }.
+
+{ (578 576) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ :sqrt2 :widthExact (6 1 204) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 289 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "pL"; pe:value 24 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 17 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "right"; pe:value 288 ],
+    [ pe:var "widthDen"; pe:value 204 ];
+  pe:uses
+    { :mediantRefiner :bounds (6 24 17 17 12) . },
+    { (17 17) math:product 289 . },
+    { (24 12) math:product 288 . },
+    { (289 288) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (17 12) math:product 204 . }.
+
+{ (24 12) math:product 288 . }
+  pe:builtin math:product.
+
+{ (17 12) math:product 204 . }
+  pe:builtin math:product.
+
+{ :sqrt2 :fareyAdjacent (6 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 289 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "pL"; pe:value 24 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 17 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "right"; pe:value 288 ],
+    [ pe:var "widthDen"; pe:value 204 ];
+  pe:uses
+    { :mediantRefiner :bounds (6 24 17 17 12) . },
+    { (17 17) math:product 289 . },
+    { (24 12) math:product 288 . },
+    { (289 288) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (17 12) math:product 204 . }.
+
+{ :result :gapTo2 (6 2 1) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 2 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "pL"; pe:value 24 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 17 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 204 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (6 24 17 17 12) . },
+    { :sqrt2 :integerCertificate (6 2 1) . },
+    { :sqrt2 :widthExact (6 1 204) . },
+    { :sqrt2 :fareyAdjacent (6 true) . }.
+
+{ :result :widthQ (6 1 204) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 2 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "pL"; pe:value 24 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 17 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 204 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (6 24 17 17 12) . },
+    { :sqrt2 :integerCertificate (6 2 1) . },
+    { :sqrt2 :widthExact (6 1 204) . },
+    { :sqrt2 :fareyAdjacent (6 true) . }.
+
+{ :result :fareyAdjacent (6 true) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 2 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "pL"; pe:value 24 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 17 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 204 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (6 24 17 17 12) . },
+    { :sqrt2 :integerCertificate (6 2 1) . },
+    { :sqrt2 :widthExact (6 1 204) . },
+    { :sqrt2 :fareyAdjacent (6 true) . }.
+
+{ :result :boundsQ (7 41 29 17 12) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 348 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (7 41 29 17 12) . },
+    { :sqrt2 :integerCertificate (7 1 1) . },
+    { :sqrt2 :widthExact (7 1 348) . },
+    { :sqrt2 :fareyAdjacent (7 true) . }.
+
+{ :mediantRefiner :bounds (7 41 29 17 12) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "n1"; pe:value 7 ],
+    [ pe:var "pL"; pe:value 24 ],
+    [ pe:var "pM"; pe:value 41 ],
+    [ pe:var "pM2"; pe:value 1681 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 17 ],
+    [ pe:var "qM"; pe:value 29 ],
+    [ pe:var "qM2"; pe:value 841 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "twoQM2"; pe:value 1682 ];
+  pe:uses
+    { :mediantRefiner :bounds (6 24 17 17 12) . },
+    { :mediantRefiner :maxStep 8 . },
+    { 6 math:lessThan 8 . },
+    { (6 8) :successor 7 . },
+    { (24 17) math:sum 41 . },
+    { (17 12) math:sum 29 . },
+    { (41 41) math:product 1681 . },
+    { (29 29) math:product 841 . },
+    { (2 841) math:product 1682 . },
+    { 1681 math:lessThan 1682 . }.
+
+{ 6 math:lessThan 8 . }
+  pe:builtin math:lessThan.
+
+{ (6 8) :successor 7 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "n1"; pe:value 7 ];
+  pe:uses
+    { 6 math:lessThan 8 . },
+    { (6 1) math:sum 7 . }.
+
+{ (6 1) math:sum 7 . }
+  pe:builtin math:sum.
+
+{ (24 17) math:sum 41 . }
+  pe:builtin math:sum.
+
+{ (17 12) math:sum 29 . }
+  pe:builtin math:sum.
+
+{ (41 41) math:product 1681 . }
+  pe:builtin math:product.
+
+{ (29 29) math:product 841 . }
+  pe:builtin math:product.
+
+{ (2 841) math:product 1682 . }
+  pe:builtin math:product.
+
+{ 1681 math:lessThan 1682 . }
+  pe:builtin math:lessThan.
+
+{ :sqrt2 :integerCertificate (7 1 1) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pL2"; pe:value 1681 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "pU2"; pe:value 289 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qL2"; pe:value 841 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "qU2"; pe:value 144 ],
+    [ pe:var "twoQL2"; pe:value 1682 ],
+    [ pe:var "twoQU2"; pe:value 288 ],
+    [ pe:var "upperGap"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (7 41 29 17 12) . },
+    { (41 41) math:product 1681 . },
+    { (29 29) math:product 841 . },
+    { (2 841) math:product 1682 . },
+    { (1682 1681) math:difference 1 . },
+    { 1 math:greaterThan 0 . },
+    { (17 17) math:product 289 . },
+    { (12 12) math:product 144 . },
+    { (2 144) math:product 288 . },
+    { (289 288) math:difference 1 . },
+    { 1 math:greaterThan 0 . }.
+
+{ (1682 1681) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ :sqrt2 :widthExact (7 1 348) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 493 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "right"; pe:value 492 ],
+    [ pe:var "widthDen"; pe:value 348 ];
+  pe:uses
+    { :mediantRefiner :bounds (7 41 29 17 12) . },
+    { (17 29) math:product 493 . },
+    { (41 12) math:product 492 . },
+    { (493 492) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (29 12) math:product 348 . }.
+
+{ (17 29) math:product 493 . }
+  pe:builtin math:product.
+
+{ (41 12) math:product 492 . }
+  pe:builtin math:product.
+
+{ (493 492) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (29 12) math:product 348 . }
+  pe:builtin math:product.
+
+{ :sqrt2 :fareyAdjacent (7 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 493 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "right"; pe:value 492 ],
+    [ pe:var "widthDen"; pe:value 348 ];
+  pe:uses
+    { :mediantRefiner :bounds (7 41 29 17 12) . },
+    { (17 29) math:product 493 . },
+    { (41 12) math:product 492 . },
+    { (493 492) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (29 12) math:product 348 . }.
+
+{ :result :gapTo2 (7 1 1) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 348 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (7 41 29 17 12) . },
+    { :sqrt2 :integerCertificate (7 1 1) . },
+    { :sqrt2 :widthExact (7 1 348) . },
+    { :sqrt2 :fareyAdjacent (7 true) . }.
+
+{ :result :widthQ (7 1 348) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 348 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (7 41 29 17 12) . },
+    { :sqrt2 :integerCertificate (7 1 1) . },
+    { :sqrt2 :widthExact (7 1 348) . },
+    { :sqrt2 :fareyAdjacent (7 true) . }.
+
+{ :result :fareyAdjacent (7 true) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "upperGap"; pe:value 1 ],
+    [ pe:var "widthDen"; pe:value 348 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (7 41 29 17 12) . },
+    { :sqrt2 :integerCertificate (7 1 1) . },
+    { :sqrt2 :widthExact (7 1 348) . },
+    { :sqrt2 :fareyAdjacent (7 true) . }.
+
+{ :result :boundsQ (8 41 29 58 41) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 58 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 41 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 1189 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (8 41 29 58 41) . },
+    { :sqrt2 :integerCertificate (8 1 2) . },
+    { :sqrt2 :widthExact (8 1 1189) . },
+    { :sqrt2 :fareyAdjacent (8 true) . }.
+
+{ :mediantRefiner :bounds (8 41 29 58 41) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "n1"; pe:value 8 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pM"; pe:value 58 ],
+    [ pe:var "pM2"; pe:value 3364 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qM"; pe:value 41 ],
+    [ pe:var "qM2"; pe:value 1681 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "twoQM2"; pe:value 3362 ];
+  pe:uses
+    { :mediantRefiner :bounds (7 41 29 17 12) . },
+    { :mediantRefiner :maxStep 8 . },
+    { 7 math:lessThan 8 . },
+    { (7 8) :successor 8 . },
+    { (41 17) math:sum 58 . },
+    { (29 12) math:sum 41 . },
+    { (58 58) math:product 3364 . },
+    { (41 41) math:product 1681 . },
+    { (2 1681) math:product 3362 . },
+    { 3364 math:greaterThan 3362 . }.
+
+{ 7 math:lessThan 8 . }
+  pe:builtin math:lessThan.
+
+{ (7 8) :successor 8 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "max"; pe:value 8 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "n1"; pe:value 8 ];
+  pe:uses
+    { 7 math:lessThan 8 . },
+    { (7 1) math:sum 8 . }.
+
+{ (7 1) math:sum 8 . }
+  pe:builtin math:sum.
+
+{ (41 17) math:sum 58 . }
+  pe:builtin math:sum.
+
+{ (29 12) math:sum 41 . }
+  pe:builtin math:sum.
+
+{ (58 58) math:product 3364 . }
+  pe:builtin math:product.
+
+{ (2 1681) math:product 3362 . }
+  pe:builtin math:product.
+
+{ 3364 math:greaterThan 3362 . }
+  pe:builtin math:greaterThan.
+
+{ :sqrt2 :integerCertificate (8 1 2) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pL2"; pe:value 1681 ],
+    [ pe:var "pU"; pe:value 58 ],
+    [ pe:var "pU2"; pe:value 3364 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qL2"; pe:value 841 ],
+    [ pe:var "qU"; pe:value 41 ],
+    [ pe:var "qU2"; pe:value 1681 ],
+    [ pe:var "twoQL2"; pe:value 1682 ],
+    [ pe:var "twoQU2"; pe:value 3362 ],
+    [ pe:var "upperGap"; pe:value 2 ];
+  pe:uses
+    { :mediantRefiner :bounds (8 41 29 58 41) . },
+    { (41 41) math:product 1681 . },
+    { (29 29) math:product 841 . },
+    { (2 841) math:product 1682 . },
+    { (1682 1681) math:difference 1 . },
+    { 1 math:greaterThan 0 . },
+    { (58 58) math:product 3364 . },
+    { (41 41) math:product 1681 . },
+    { (2 1681) math:product 3362 . },
+    { (3364 3362) math:difference 2 . },
+    { 2 math:greaterThan 0 . }.
+
+{ (3364 3362) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ :sqrt2 :widthExact (8 1 1189) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 1682 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 58 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 41 ],
+    [ pe:var "right"; pe:value 1681 ],
+    [ pe:var "widthDen"; pe:value 1189 ];
+  pe:uses
+    { :mediantRefiner :bounds (8 41 29 58 41) . },
+    { (58 29) math:product 1682 . },
+    { (41 41) math:product 1681 . },
+    { (1682 1681) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (29 41) math:product 1189 . }.
+
+{ (58 29) math:product 1682 . }
+  pe:builtin math:product.
+
+{ (29 41) math:product 1189 . }
+  pe:builtin math:product.
+
+{ :sqrt2 :fareyAdjacent (8 true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "det"; pe:value 1 ],
+    [ pe:var "left"; pe:value 1682 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 58 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 41 ],
+    [ pe:var "right"; pe:value 1681 ],
+    [ pe:var "widthDen"; pe:value 1189 ];
+  pe:uses
+    { :mediantRefiner :bounds (8 41 29 58 41) . },
+    { (58 29) math:product 1682 . },
+    { (41 41) math:product 1681 . },
+    { (1682 1681) math:difference 1 . },
+    { 1 math:equalTo 1 . },
+    { (29 41) math:product 1189 . }.
+
+{ :result :gapTo2 (8 1 2) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 58 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 41 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 1189 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (8 41 29 58 41) . },
+    { :sqrt2 :integerCertificate (8 1 2) . },
+    { :sqrt2 :widthExact (8 1 1189) . },
+    { :sqrt2 :fareyAdjacent (8 true) . }.
+
+{ :result :widthQ (8 1 1189) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 58 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 41 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 1189 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (8 41 29 58 41) . },
+    { :sqrt2 :integerCertificate (8 1 2) . },
+    { :sqrt2 :widthExact (8 1 1189) . },
+    { :sqrt2 :fareyAdjacent (8 true) . }.
+
+{ :result :fareyAdjacent (8 true) . }
+  pe:rule
+    {
+        {
+            :mediantRefiner :bounds (?n ?pL ?qL ?pU ?qU) .
+            :sqrt2 :integerCertificate (?n ?lowerGap ?upperGap) .
+            :sqrt2 :widthExact (?n ?widthNum ?widthDen) .
+            :sqrt2 :fareyAdjacent (?n true) .
+        } => {
+            :result :boundsQ (?n ?pL ?qL ?pU ?qU) .
+            :result :gapTo2 (?n ?lowerGap ?upperGap) .
+            :result :widthQ (?n ?widthNum ?widthDen) .
+            :result :fareyAdjacent (?n true) .
+        } .
+    };
+  pe:binding
+    [ pe:var "lowerGap"; pe:value 1 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 58 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 41 ],
+    [ pe:var "upperGap"; pe:value 2 ],
+    [ pe:var "widthDen"; pe:value 1189 ],
+    [ pe:var "widthNum"; pe:value 1 ];
+  pe:uses
+    { :mediantRefiner :bounds (8 41 29 58 41) . },
+    { :sqrt2 :integerCertificate (8 1 2) . },
+    { :sqrt2 :widthExact (8 1 1189) . },
+    { :sqrt2 :fareyAdjacent (8 true) . }.
+
+{ :result :decimalBounds (0 1 2) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1 ],
+    [ pe:var "U"; pe:value 2 ],
+    [ pe:var "mid"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 0 ];
+  pe:uses { :sqrt2 :decimalBounds (0 1 2 1.5) . }.
+
+{ :sqrt2 :decimalBounds (0 1 2 1.5) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value 1 ],
+    [ pe:var "U"; pe:value 2 ],
+    [ pe:var "mid"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 0 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 2 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 1 ],
+    [ pe:var "sum"; pe:value 3 ];
+  pe:uses
+    { :mediantRefiner :bounds (0 1 1 2 1) . },
+    { (1 1) math:quotient 1 . },
+    { (2 1) math:quotient 2 . },
+    { (1 2) math:sum 3 . },
+    { (3 2) math:quotient 1.5 . }.
+
+{ (1 1) math:quotient 1 . }
+  pe:builtin math:quotient.
+
+{ (2 1) math:quotient 2 . }
+  pe:builtin math:quotient.
+
+{ (3 2) math:quotient 1.5 . }
+  pe:builtin math:quotient.
+
+{ :result :midpoint (0 1.5) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1 ],
+    [ pe:var "U"; pe:value 2 ],
+    [ pe:var "mid"; pe:value 1.5 ],
+    [ pe:var "n"; pe:value 0 ];
+  pe:uses { :sqrt2 :decimalBounds (0 1 2 1.5) . }.
+
+{ :result :decimalBounds (1 1 1.5) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "mid"; pe:value 1.25 ],
+    [ pe:var "n"; pe:value 1 ];
+  pe:uses { :sqrt2 :decimalBounds (1 1 1.5 1.25) . }.
+
+{ :sqrt2 :decimalBounds (1 1 1.5 1.25) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value 1 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "mid"; pe:value 1.25 ],
+    [ pe:var "n"; pe:value 1 ],
+    [ pe:var "pL"; pe:value 1 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 1 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "sum"; pe:value 2.5 ];
+  pe:uses
+    { :mediantRefiner :bounds (1 1 1 3 2) . },
+    { (1 1) math:quotient 1 . },
+    { (3 2) math:quotient 1.5 . },
+    { (1 1.5) math:sum 2.5 . },
+    { (2.5 2) math:quotient 1.25 . }.
+
+{ (1 1.5) math:sum 2.5 . }
+  pe:builtin math:sum.
+
+{ (2.5 2) math:quotient 1.25 . }
+  pe:builtin math:quotient.
+
+{ :result :midpoint (1 1.25) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "mid"; pe:value 1.25 ],
+    [ pe:var "n"; pe:value 1 ];
+  pe:uses { :sqrt2 :decimalBounds (1 1 1.5 1.25) . }.
+
+{ :result :decimalBounds (2 1.3333333333333333 1.5) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.3333333333333333 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "mid"; pe:value 1.4166666666666665 ],
+    [ pe:var "n"; pe:value 2 ];
+  pe:uses { :sqrt2 :decimalBounds (2 1.3333333333333333 1.5 1.4166666666666665) . }.
+
+{ :sqrt2 :decimalBounds (2 1.3333333333333333 1.5 1.4166666666666665) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value 1.3333333333333333 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "mid"; pe:value 1.4166666666666665 ],
+    [ pe:var "n"; pe:value 2 ],
+    [ pe:var "pL"; pe:value 4 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 3 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "sum"; pe:value 2.833333333333333 ];
+  pe:uses
+    { :mediantRefiner :bounds (2 4 3 3 2) . },
+    { (4 3) math:quotient 1.3333333333333333 . },
+    { (3 2) math:quotient 1.5 . },
+    { (1.3333333333333333 1.5) math:sum 2.833333333333333 . },
+    { (2.833333333333333 2) math:quotient 1.4166666666666665 . }.
+
+{ (4 3) math:quotient 1.3333333333333333 . }
+  pe:builtin math:quotient.
+
+{ (1.3333333333333333 1.5) math:sum 2.833333333333333 . }
+  pe:builtin math:sum.
+
+{ (2.833333333333333 2) math:quotient 1.4166666666666665 . }
+  pe:builtin math:quotient.
+
+{ :result :midpoint (2 1.4166666666666665) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.3333333333333333 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "mid"; pe:value 1.4166666666666665 ],
+    [ pe:var "n"; pe:value 2 ];
+  pe:uses { :sqrt2 :decimalBounds (2 1.3333333333333333 1.5 1.4166666666666665) . }.
+
+{ :result :decimalBounds (3 1.4 1.5) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "mid"; pe:value 1.45 ],
+    [ pe:var "n"; pe:value 3 ];
+  pe:uses { :sqrt2 :decimalBounds (3 1.4 1.5 1.45) . }.
+
+{ :sqrt2 :decimalBounds (3 1.4 1.5 1.45) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "mid"; pe:value 1.45 ],
+    [ pe:var "n"; pe:value 3 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 3 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 2 ],
+    [ pe:var "sum"; pe:value 2.9 ];
+  pe:uses
+    { :mediantRefiner :bounds (3 7 5 3 2) . },
+    { (7 5) math:quotient 1.4 . },
+    { (3 2) math:quotient 1.5 . },
+    { (1.4 1.5) math:sum 2.9 . },
+    { (2.9 2) math:quotient 1.45 . }.
+
+{ (7 5) math:quotient 1.4 . }
+  pe:builtin math:quotient.
+
+{ (1.4 1.5) math:sum 2.9 . }
+  pe:builtin math:sum.
+
+{ (2.9 2) math:quotient 1.45 . }
+  pe:builtin math:quotient.
+
+{ :result :midpoint (3 1.45) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4 ],
+    [ pe:var "U"; pe:value 1.5 ],
+    [ pe:var "mid"; pe:value 1.45 ],
+    [ pe:var "n"; pe:value 3 ];
+  pe:uses { :sqrt2 :decimalBounds (3 1.4 1.5 1.45) . }.
+
+{ :result :decimalBounds (4 1.4 1.4285714285714286) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4 ],
+    [ pe:var "U"; pe:value 1.4285714285714286 ],
+    [ pe:var "mid"; pe:value 1.4142857142857141 ],
+    [ pe:var "n"; pe:value 4 ];
+  pe:uses { :sqrt2 :decimalBounds (4 1.4 1.4285714285714286 1.4142857142857141) . }.
+
+{ :sqrt2 :decimalBounds (4 1.4 1.4285714285714286 1.4142857142857141) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4 ],
+    [ pe:var "U"; pe:value 1.4285714285714286 ],
+    [ pe:var "mid"; pe:value 1.4142857142857141 ],
+    [ pe:var "n"; pe:value 4 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 10 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 7 ],
+    [ pe:var "sum"; pe:value 2.8285714285714283 ];
+  pe:uses
+    { :mediantRefiner :bounds (4 7 5 10 7) . },
+    { (7 5) math:quotient 1.4 . },
+    { (10 7) math:quotient 1.4285714285714286 . },
+    { (1.4 1.4285714285714286) math:sum 2.8285714285714283 . },
+    { (2.8285714285714283 2) math:quotient 1.4142857142857141 . }.
+
+{ (10 7) math:quotient 1.4285714285714286 . }
+  pe:builtin math:quotient.
+
+{ (1.4 1.4285714285714286) math:sum 2.8285714285714283 . }
+  pe:builtin math:sum.
+
+{ (2.8285714285714283 2) math:quotient 1.4142857142857141 . }
+  pe:builtin math:quotient.
+
+{ :result :midpoint (4 1.4142857142857141) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4 ],
+    [ pe:var "U"; pe:value 1.4285714285714286 ],
+    [ pe:var "mid"; pe:value 1.4142857142857141 ],
+    [ pe:var "n"; pe:value 4 ];
+  pe:uses { :sqrt2 :decimalBounds (4 1.4 1.4285714285714286 1.4142857142857141) . }.
+
+{ :result :decimalBounds (5 1.4 1.4166666666666667) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4 ],
+    [ pe:var "U"; pe:value 1.4166666666666667 ],
+    [ pe:var "mid"; pe:value 1.4083333333333332 ],
+    [ pe:var "n"; pe:value 5 ];
+  pe:uses { :sqrt2 :decimalBounds (5 1.4 1.4166666666666667 1.4083333333333332) . }.
+
+{ :sqrt2 :decimalBounds (5 1.4 1.4166666666666667 1.4083333333333332) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4 ],
+    [ pe:var "U"; pe:value 1.4166666666666667 ],
+    [ pe:var "mid"; pe:value 1.4083333333333332 ],
+    [ pe:var "n"; pe:value 5 ],
+    [ pe:var "pL"; pe:value 7 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 5 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "sum"; pe:value 2.8166666666666664 ];
+  pe:uses
+    { :mediantRefiner :bounds (5 7 5 17 12) . },
+    { (7 5) math:quotient 1.4 . },
+    { (17 12) math:quotient 1.4166666666666667 . },
+    { (1.4 1.4166666666666667) math:sum 2.8166666666666664 . },
+    { (2.8166666666666664 2) math:quotient 1.4083333333333332 . }.
+
+{ (17 12) math:quotient 1.4166666666666667 . }
+  pe:builtin math:quotient.
+
+{ (1.4 1.4166666666666667) math:sum 2.8166666666666664 . }
+  pe:builtin math:sum.
+
+{ (2.8166666666666664 2) math:quotient 1.4083333333333332 . }
+  pe:builtin math:quotient.
+
+{ :result :midpoint (5 1.4083333333333332) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4 ],
+    [ pe:var "U"; pe:value 1.4166666666666667 ],
+    [ pe:var "mid"; pe:value 1.4083333333333332 ],
+    [ pe:var "n"; pe:value 5 ];
+  pe:uses { :sqrt2 :decimalBounds (5 1.4 1.4166666666666667 1.4083333333333332) . }.
+
+{ :result :decimalBounds (6 1.411764705882353 1.4166666666666667) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.411764705882353 ],
+    [ pe:var "U"; pe:value 1.4166666666666667 ],
+    [ pe:var "mid"; pe:value 1.4142156862745099 ],
+    [ pe:var "n"; pe:value 6 ];
+  pe:uses { :sqrt2 :decimalBounds (6 1.411764705882353 1.4166666666666667 1.4142156862745099) . }.
+
+{ :sqrt2 :decimalBounds (6 1.411764705882353 1.4166666666666667 1.4142156862745099) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value 1.411764705882353 ],
+    [ pe:var "U"; pe:value 1.4166666666666667 ],
+    [ pe:var "mid"; pe:value 1.4142156862745099 ],
+    [ pe:var "n"; pe:value 6 ],
+    [ pe:var "pL"; pe:value 24 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 17 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "sum"; pe:value 2.8284313725490198 ];
+  pe:uses
+    { :mediantRefiner :bounds (6 24 17 17 12) . },
+    { (24 17) math:quotient 1.411764705882353 . },
+    { (17 12) math:quotient 1.4166666666666667 . },
+    { (1.411764705882353 1.4166666666666667) math:sum 2.8284313725490198 . },
+    { (2.8284313725490198 2) math:quotient 1.4142156862745099 . }.
+
+{ (24 17) math:quotient 1.411764705882353 . }
+  pe:builtin math:quotient.
+
+{ (1.411764705882353 1.4166666666666667) math:sum 2.8284313725490198 . }
+  pe:builtin math:sum.
+
+{ (2.8284313725490198 2) math:quotient 1.4142156862745099 . }
+  pe:builtin math:quotient.
+
+{ :result :midpoint (6 1.4142156862745099) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.411764705882353 ],
+    [ pe:var "U"; pe:value 1.4166666666666667 ],
+    [ pe:var "mid"; pe:value 1.4142156862745099 ],
+    [ pe:var "n"; pe:value 6 ];
+  pe:uses { :sqrt2 :decimalBounds (6 1.411764705882353 1.4166666666666667 1.4142156862745099) . }.
+
+{ :result :decimalBounds (7 1.4137931034482758 1.4166666666666667) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4137931034482758 ],
+    [ pe:var "U"; pe:value 1.4166666666666667 ],
+    [ pe:var "mid"; pe:value 1.4152298850574714 ],
+    [ pe:var "n"; pe:value 7 ];
+  pe:uses { :sqrt2 :decimalBounds (7 1.4137931034482758 1.4166666666666667 1.4152298850574714) . }.
+
+{ :sqrt2 :decimalBounds (7 1.4137931034482758 1.4166666666666667 1.4152298850574714) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4137931034482758 ],
+    [ pe:var "U"; pe:value 1.4166666666666667 ],
+    [ pe:var "mid"; pe:value 1.4152298850574714 ],
+    [ pe:var "n"; pe:value 7 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 17 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 12 ],
+    [ pe:var "sum"; pe:value 2.8304597701149428 ];
+  pe:uses
+    { :mediantRefiner :bounds (7 41 29 17 12) . },
+    { (41 29) math:quotient 1.4137931034482758 . },
+    { (17 12) math:quotient 1.4166666666666667 . },
+    { (1.4137931034482758 1.4166666666666667) math:sum 2.8304597701149428 . },
+    { (2.8304597701149428 2) math:quotient 1.4152298850574714 . }.
+
+{ (41 29) math:quotient 1.4137931034482758 . }
+  pe:builtin math:quotient.
+
+{ (1.4137931034482758 1.4166666666666667) math:sum 2.8304597701149428 . }
+  pe:builtin math:sum.
+
+{ (2.8304597701149428 2) math:quotient 1.4152298850574714 . }
+  pe:builtin math:quotient.
+
+{ :result :midpoint (7 1.4152298850574714) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4137931034482758 ],
+    [ pe:var "U"; pe:value 1.4166666666666667 ],
+    [ pe:var "mid"; pe:value 1.4152298850574714 ],
+    [ pe:var "n"; pe:value 7 ];
+  pe:uses { :sqrt2 :decimalBounds (7 1.4137931034482758 1.4166666666666667 1.4152298850574714) . }.
+
+{ :result :decimalBounds (8 1.4137931034482758 1.4146341463414633) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4137931034482758 ],
+    [ pe:var "U"; pe:value 1.4146341463414633 ],
+    [ pe:var "mid"; pe:value 1.4142136248948696 ],
+    [ pe:var "n"; pe:value 8 ];
+  pe:uses { :sqrt2 :decimalBounds (8 1.4137931034482758 1.4146341463414633 1.4142136248948696) . }.
+
+{ :sqrt2 :decimalBounds (8 1.4137931034482758 1.4146341463414633 1.4142136248948696) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "L"; pe:value 1.4137931034482758 ],
+    [ pe:var "U"; pe:value 1.4146341463414633 ],
+    [ pe:var "mid"; pe:value 1.4142136248948696 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pL"; pe:value 41 ],
+    [ pe:var "pU"; pe:value 58 ],
+    [ pe:var "qL"; pe:value 29 ],
+    [ pe:var "qU"; pe:value 41 ],
+    [ pe:var "sum"; pe:value 2.828427249789739 ];
+  pe:uses
+    { :mediantRefiner :bounds (8 41 29 58 41) . },
+    { (41 29) math:quotient 1.4137931034482758 . },
+    { (58 41) math:quotient 1.4146341463414633 . },
+    { (1.4137931034482758 1.4146341463414633) math:sum 2.828427249789739 . },
+    { (2.828427249789739 2) math:quotient 1.4142136248948696 . }.
+
+{ (58 41) math:quotient 1.4146341463414633 . }
+  pe:builtin math:quotient.
+
+{ (1.4137931034482758 1.4146341463414633) math:sum 2.828427249789739 . }
+  pe:builtin math:sum.
+
+{ (2.828427249789739 2) math:quotient 1.4142136248948696 . }
+  pe:builtin math:quotient.
+
+{ :result :midpoint (8 1.4142136248948696) . }
+  pe:rule
+    {
+        {
+            :sqrt2 :decimalBounds (?n ?L ?U ?mid) .
+        } => {
+            :result :decimalBounds (?n ?L ?U) .
+            :result :midpoint (?n ?mid) .
+        } .
+    };
+  pe:binding
+    [ pe:var "L"; pe:value 1.4137931034482758 ],
+    [ pe:var "U"; pe:value 1.4146341463414633 ],
+    [ pe:var "mid"; pe:value 1.4142136248948696 ],
+    [ pe:var "n"; pe:value 8 ];
+  pe:uses { :sqrt2 :decimalBounds (8 1.4137931034482758 1.4146341463414633 1.4142136248948696) . }.

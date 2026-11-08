@@ -17,7 +17,7 @@ user-facing text direct.
   - `reasoner.rs`: forward agenda, backward rules, built-ins, indexes, and
     proof capture.
   - `proof_writer.rs`, `proof_check.rs`, `proof_check_n3.rs`: N3 proof
-    output, the generic validity conditions C1–C9, and the N3 proof reader
+    output, the generic validity conditions C1–C10, and the N3 proof reader
     and step checker.
   - `printing.rs`, `rdf_compat.rs`, `error.rs`, `sudoku.rs`, `w3c_rdf.rs`.
   - `main.rs`: CLI. `lib.rs`: library API. `wasm.rs`: browser bindings.
@@ -25,23 +25,24 @@ user-facing text direct.
 - `playground.html`: hand-written browser playground; `pkg/` holds the
   committed wasm build it loads.
 - `_config.yml`, `_layouts/default.html`, `assets/docs.css`: GitHub Pages
-  renders the Markdown documents with one masthead (Guide, Playground,
-  Specification, Repository), the same nav the playground shows.
+  renders the Markdown documents with one masthead (Playground,
+  Specification, Repository; the logo links home), the same nav the
+  playground shows.
 - `examples/*.n3`: runnable examples. `examples/output/` holds output goldens
   (`.n3` or `.md`), `examples/input/` companion inputs loaded with the
-  example of the same stem (`.n3`, else `.trig`), and `examples/deck/`
-  Markdown walkthroughs. Proofs are not stored: the proof-checking suite
-  generates each example's proof and checks it.
+  example of the same stem (`.n3`, else `.trig`), `examples/proof/` and
+  `examples/check/` each example's proof and its N3 check report, and
+  `examples/deck/` Markdown walkthroughs.
 - `tests/`: integration tests. `examples.rs`, `proof_checking.rs`, and
   `w3c_rdf.rs` are custom harnesses (`harness = false`); `regressions.rs` and
   `quantification.rs` hold focused behavior tests; `proof_validation.rs`
   holds forged proofs the checker must reject; `notation3tests/` and
   `w3c_rdf/rdf-tests/` are vendored conformance suites.
 - `reports/w3c-rdf-earl.ttl`: EARL report, rewritten by the W3C RDF suite.
-- `README.md` (short entry point), `GUIDE.md` (CLI, formats, playground,
-  APIs, development), `SPEC.md` (RFC-style specification: language,
-  evaluation, built-ins, and the C1–C9 proof contract), and `docs/images/`
-  (the guide's illustrations).
+- `README.md` (the guide: running, N3, proofs, formats, playground, CLI,
+  APIs, development; Pages serves it as the site root), `SPEC.md`
+  (RFC-style specification: language, evaluation, built-ins, and the
+  C1–C10 proof contract), and `docs/images/` (the README's illustrations).
 - `scripts/test-all`, `release`, `deny.toml`, `.github/workflows/`: full test
   run, releases, dependency policy, CI, Pages, and GitHub releases.
 
@@ -101,19 +102,22 @@ parts rather than flooding the terminal.
   is the reference. Reformatting is whitespace and comments only, so every
   golden must stay unchanged.
 - Every example has an output golden, and `tests/proof_checking.rs`
-  generates the proof of every example that derives anything and checks it
-  under C1–C9. When adding an example, add it to `bundledExamplesN3` in
+  generates the proof of every example that derives anything, checks it
+  under C1–C10, and compares the proof and its check report with their
+  goldens (`age` reads the clock and keeps none). When adding an example, add it to `bundledExamplesN3` in
   `playground.html`; a companion input goes in `examples/input/` and in
   `bundledCompanionInputs`. `tests/playground.rs` checks both lists.
 - Ordinary test runs only read goldens. After an intentional output change,
   `EYERON_UPDATE_GOLDENS=1 cargo test --release --test examples` rewrites the
   output (`.n3`) goldens that no longer match, exactly as the harness
-  produces them (with no base IRI). Review the diff: no output golden should
-  change unless intended, and `cargo test --release --test proof_checking`
-  must still pass.
+  produces them (with no base IRI), and
+  `EYERON_UPDATE_GOLDENS=1 cargo test --release --test proof_checking` does
+  the same for the proof and check goldens. Review the diff: no golden should
+  change unless intended. `kaprekar-6174` and `deep-taxonomy-100000` have
+  very large proofs; inspect focused parts of their diffs.
 
 - Query examples return their answers directly. `-p` explains them and `-c`
-  verifies that explanation under C1–C9, so an example never prints a
+  verifies that explanation under C1–C10, so an example never prints a
   hand-written Answer/Reason/Check report.
 
 ## Implementation and verification
@@ -123,7 +127,7 @@ that say why. Prefer small, direct changes over new machinery, and fix the
 code that produces a wrong result rather than patching its output.
 
 Proof checking must stay sound: a forged proof must never report `checked`.
-The conditions C1–C9 are defined in `SPEC.md` Section 9; proof checking
+The conditions C1–C10 are defined in `SPEC.md` Section 9; proof checking
 does not require compatibility with sibling engines. Matching
 against a recorded step is one-way, so only the rule's variables bind. An
 existential witness must be a fresh blank node tied to one firing, and its
@@ -132,7 +136,11 @@ obligation that evidence independent of the firing contradicts (C6). Built-ins
 are re-decided with closed arguments, including tests on quoted graphs; only
 those that read outside the proof, and tests over the current graph, are
 obligations, and the latter must not be contradicted by the proof's own
-evidence (C6). Query answers are output, never premises, and a proof claims
+evidence (C6). A search certificate settles a current-graph test instead
+(C9) when it lists every derived fact of the predicates the test depends on,
+those listings are closed under the forward rules, and the rules the test
+reaches are stratified. A test's clause-local variables stay unbound in the
+step that records it (C10). Query answers are output, never premises, and a proof claims
 exactly what the run outputs. For every new check, add a forged proof to
 `tests/proof_validation.rs` and confirm that all packaged proofs still check.
 
@@ -177,4 +185,4 @@ an annotated `v*` tag, and pushes the branch and tag. Review the working tree
 first because it stages everything. A push to `main` deploys GitHub Pages and
 runs CI; a `v*` tag creates the GitHub release from the tag's message and
 publishes the crate through `.github/workflows/publish-crates.yml`, only
-through crates.io trusted publishing. See the guide for existing-tag dispatch.
+through crates.io trusted publishing. See the README for existing-tag dispatch.

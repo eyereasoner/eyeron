@@ -1,0 +1,22 @@
+@prefix : <http://example.org/socrates#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:result :is :Post .
+:test :is true .
+
+{ :result :is :Post . }
+  pe:rule 3;
+  pe:binding [ pe:var "What"; pe:value :Post ];
+  pe:uses { :Pillar :to :Post . }.
+
+{ :Pillar :to :Post . }
+  pe:rule 1;
+  pe:binding [ pe:var "What"; pe:value :Post ];
+  pe:uses { :Post :to :Pillar . }.
+
+{ :Post :to :Pillar . }
+  pe:fact "pillar.n3".
+
+{ :test :is true . }
+  pe:rule 4;
+  pe:uses { :result :is :Post . }.

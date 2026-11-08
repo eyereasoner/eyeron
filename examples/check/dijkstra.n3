@@ -1,0 +1,1323 @@
+# checked with obligations: 344 steps, 246 verified, 98 trusted
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+(:b :a) :edge 4 .
+(:c :a) :edge 2 .
+(:c :b) :edge 1 .
+(:d :b) :edge 5 .
+(:d :c) :edge 8 .
+(:e :c) :edge 10 .
+(:e :d) :edge 2 .
+(:f :d) :edge 6 .
+(:f :e) :edge 3 .
+(:a :f) :path ((:a :c :b :d :e :f) 13) .
+(:a :f) :path ((:a :c :b :d :f) 14) .
+(:a :f) :path ((:a :b :d :e :f) 14) .
+(:a :f) :path ((:a :b :d :f) 15) .
+(:a :f) :path ((:a :c :e :f) 15) .
+(:a :f) :path ((:a :c :d :e :f) 15) .
+(:a :f) :path ((:a :c :d :f) 16) .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/dijkstra.n3";
+    pe:source "examples/dijkstra.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 344;
+    pe:verified 246;
+    pe:trusted 98;
+    pe:builtinSteps 207;
+    pe:factSteps 9;
+    pe:ruleSteps 128;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 137; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 344; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 344; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 851; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 207; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 98; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 360; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 98; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 128; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_1_3_a1ed6110520a38cf__L4 {
+                ?__backward_1_3_a1ed6110520a38cf__L4 list:firstRest (?__backward_1_3_a1ed6110520a38cf__NewCost ?__backward_1_3_a1ed6110520a38cf__L5) .
+                ?__backward_1_3_a1ed6110520a38cf__L5 list:firstRest (?__backward_1_3_a1ed6110520a38cf__Neighbor ?__backward_1_3_a1ed6110520a38cf__L6) .
+                ?__backward_1_3_a1ed6110520a38cf__L6 list:firstRest (:a ()) .
+                (:a ?__backward_1_3_a1ed6110520a38cf__Neighbor) :edge ?__backward_1_3_a1ed6110520a38cf__Weight .
+                () list:notMember ?__backward_1_3_a1ed6110520a38cf__Neighbor .
+                (0 ?__backward_1_3_a1ed6110520a38cf__Weight) math:sum ?__backward_1_3_a1ed6110520a38cf__NewCost .
+            } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_a1ed6110520a38cf__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_2_3_bdd373995faa2298__L4 {
+                ?__backward_2_3_bdd373995faa2298__L4 list:firstRest (?__backward_2_3_bdd373995faa2298__NewCost ?__backward_2_3_bdd373995faa2298__L5) .
+                ?__backward_2_3_bdd373995faa2298__L5 list:firstRest (?__backward_2_3_bdd373995faa2298__Neighbor ?__backward_2_3_bdd373995faa2298__L6) .
+                ?__backward_2_3_bdd373995faa2298__L6 list:firstRest (:c (:a)) .
+                (:c ?__backward_2_3_bdd373995faa2298__Neighbor) :edge ?__backward_2_3_bdd373995faa2298__Weight .
+                (:a) list:notMember ?__backward_2_3_bdd373995faa2298__Neighbor .
+                (2 ?__backward_2_3_bdd373995faa2298__Weight) math:sum ?__backward_2_3_bdd373995faa2298__NewCost .
+            } ((10 :d :c :a) (12 :e :c :a) (3 :b :c :a))) log:collectAllIn ?__backward_2_3_bdd373995faa2298__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_3_3_d5bea67222a945b4__L4 {
+                ?__backward_3_3_d5bea67222a945b4__L4 list:firstRest (?__backward_3_3_d5bea67222a945b4__NewCost ?__backward_3_3_d5bea67222a945b4__L5) .
+                ?__backward_3_3_d5bea67222a945b4__L5 list:firstRest (?__backward_3_3_d5bea67222a945b4__Neighbor ?__backward_3_3_d5bea67222a945b4__L6) .
+                ?__backward_3_3_d5bea67222a945b4__L6 list:firstRest (:b (:c :a)) .
+                (:b ?__backward_3_3_d5bea67222a945b4__Neighbor) :edge ?__backward_3_3_d5bea67222a945b4__Weight .
+                (:c :a) list:notMember ?__backward_3_3_d5bea67222a945b4__Neighbor .
+                (3 ?__backward_3_3_d5bea67222a945b4__Weight) math:sum ?__backward_3_3_d5bea67222a945b4__NewCost .
+            } ((8 :d :b :c :a))) log:collectAllIn ?__backward_3_3_d5bea67222a945b4__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_4_3_16de210b0a396d6c__L4 {
+                ?__backward_4_3_16de210b0a396d6c__L4 list:firstRest (?__backward_4_3_16de210b0a396d6c__NewCost ?__backward_4_3_16de210b0a396d6c__L5) .
+                ?__backward_4_3_16de210b0a396d6c__L5 list:firstRest (?__backward_4_3_16de210b0a396d6c__Neighbor ?__backward_4_3_16de210b0a396d6c__L6) .
+                ?__backward_4_3_16de210b0a396d6c__L6 list:firstRest (:b (:a)) .
+                (:b ?__backward_4_3_16de210b0a396d6c__Neighbor) :edge ?__backward_4_3_16de210b0a396d6c__Weight .
+                (:b :c :a) list:notMember ?__backward_4_3_16de210b0a396d6c__Neighbor .
+                (4 ?__backward_4_3_16de210b0a396d6c__Weight) math:sum ?__backward_4_3_16de210b0a396d6c__NewCost .
+            } ((9 :d :b :a))) log:collectAllIn ?__backward_4_3_16de210b0a396d6c__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_5_3_a707388dfff3a114__L4 {
+                ?__backward_5_3_a707388dfff3a114__L4 list:firstRest (?__backward_5_3_a707388dfff3a114__NewCost ?__backward_5_3_a707388dfff3a114__L5) .
+                ?__backward_5_3_a707388dfff3a114__L5 list:firstRest (?__backward_5_3_a707388dfff3a114__Neighbor ?__backward_5_3_a707388dfff3a114__L6) .
+                ?__backward_5_3_a707388dfff3a114__L6 list:firstRest (:d (:b :c :a)) .
+                (:d ?__backward_5_3_a707388dfff3a114__Neighbor) :edge ?__backward_5_3_a707388dfff3a114__Weight .
+                (:b :b :c :a) list:notMember ?__backward_5_3_a707388dfff3a114__Neighbor .
+                (8 ?__backward_5_3_a707388dfff3a114__Weight) math:sum ?__backward_5_3_a707388dfff3a114__NewCost .
+            } ((10 :e :d :b :c :a) (14 :f :d :b :c :a))) log:collectAllIn ?__backward_5_3_a707388dfff3a114__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_6_3_82f38430c3a4fe27__L4 {
+                ?__backward_6_3_82f38430c3a4fe27__L4 list:firstRest (?__backward_6_3_82f38430c3a4fe27__NewCost ?__backward_6_3_82f38430c3a4fe27__L5) .
+                ?__backward_6_3_82f38430c3a4fe27__L5 list:firstRest (?__backward_6_3_82f38430c3a4fe27__Neighbor ?__backward_6_3_82f38430c3a4fe27__L6) .
+                ?__backward_6_3_82f38430c3a4fe27__L6 list:firstRest (:d (:b :a)) .
+                (:d ?__backward_6_3_82f38430c3a4fe27__Neighbor) :edge ?__backward_6_3_82f38430c3a4fe27__Weight .
+                (:d :b :b :c :a) list:notMember ?__backward_6_3_82f38430c3a4fe27__Neighbor .
+                (9 ?__backward_6_3_82f38430c3a4fe27__Weight) math:sum ?__backward_6_3_82f38430c3a4fe27__NewCost .
+            } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_6_3_82f38430c3a4fe27__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_7_3_5231c89bbb661806__L4 {
+                ?__backward_7_3_5231c89bbb661806__L4 list:firstRest (?__backward_7_3_5231c89bbb661806__NewCost ?__backward_7_3_5231c89bbb661806__L5) .
+                ?__backward_7_3_5231c89bbb661806__L5 list:firstRest (?__backward_7_3_5231c89bbb661806__Neighbor ?__backward_7_3_5231c89bbb661806__L6) .
+                ?__backward_7_3_5231c89bbb661806__L6 list:firstRest (:d (:c :a)) .
+                (:d ?__backward_7_3_5231c89bbb661806__Neighbor) :edge ?__backward_7_3_5231c89bbb661806__Weight .
+                (:d :d :b :b :c :a) list:notMember ?__backward_7_3_5231c89bbb661806__Neighbor .
+                (10 ?__backward_7_3_5231c89bbb661806__Weight) math:sum ?__backward_7_3_5231c89bbb661806__NewCost .
+            } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_7_3_5231c89bbb661806__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_8_3_ee29cb5501e55ed8__L4 {
+                ?__backward_8_3_ee29cb5501e55ed8__L4 list:firstRest (?__backward_8_3_ee29cb5501e55ed8__NewCost ?__backward_8_3_ee29cb5501e55ed8__L5) .
+                ?__backward_8_3_ee29cb5501e55ed8__L5 list:firstRest (?__backward_8_3_ee29cb5501e55ed8__Neighbor ?__backward_8_3_ee29cb5501e55ed8__L6) .
+                ?__backward_8_3_ee29cb5501e55ed8__L6 list:firstRest (:e (:d :b :c :a)) .
+                (:e ?__backward_8_3_ee29cb5501e55ed8__Neighbor) :edge ?__backward_8_3_ee29cb5501e55ed8__Weight .
+                (:d :d :d :b :b :c :a) list:notMember ?__backward_8_3_ee29cb5501e55ed8__Neighbor .
+                (10 ?__backward_8_3_ee29cb5501e55ed8__Weight) math:sum ?__backward_8_3_ee29cb5501e55ed8__NewCost .
+            } ((13 :f :e :d :b :c :a))) log:collectAllIn ?__backward_8_3_ee29cb5501e55ed8__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_9_3_104ce5f4555ea9c3__L4 {
+                ?__backward_9_3_104ce5f4555ea9c3__L4 list:firstRest (?__backward_9_3_104ce5f4555ea9c3__NewCost ?__backward_9_3_104ce5f4555ea9c3__L5) .
+                ?__backward_9_3_104ce5f4555ea9c3__L5 list:firstRest (?__backward_9_3_104ce5f4555ea9c3__Neighbor ?__backward_9_3_104ce5f4555ea9c3__L6) .
+                ?__backward_9_3_104ce5f4555ea9c3__L6 list:firstRest (:e (:d :b :a)) .
+                (:e ?__backward_9_3_104ce5f4555ea9c3__Neighbor) :edge ?__backward_9_3_104ce5f4555ea9c3__Weight .
+                (:e :d :d :d :b :b :c :a) list:notMember ?__backward_9_3_104ce5f4555ea9c3__Neighbor .
+                (11 ?__backward_9_3_104ce5f4555ea9c3__Weight) math:sum ?__backward_9_3_104ce5f4555ea9c3__NewCost .
+            } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_9_3_104ce5f4555ea9c3__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_10_3_9e6014a014ad3c79__L4 {
+                ?__backward_10_3_9e6014a014ad3c79__L4 list:firstRest (?__backward_10_3_9e6014a014ad3c79__NewCost ?__backward_10_3_9e6014a014ad3c79__L5) .
+                ?__backward_10_3_9e6014a014ad3c79__L5 list:firstRest (?__backward_10_3_9e6014a014ad3c79__Neighbor ?__backward_10_3_9e6014a014ad3c79__L6) .
+                ?__backward_10_3_9e6014a014ad3c79__L6 list:firstRest (:e (:c :a)) .
+                (:e ?__backward_10_3_9e6014a014ad3c79__Neighbor) :edge ?__backward_10_3_9e6014a014ad3c79__Weight .
+                (:e :e :d :d :d :b :b :c :a) list:notMember ?__backward_10_3_9e6014a014ad3c79__Neighbor .
+                (12 ?__backward_10_3_9e6014a014ad3c79__Weight) math:sum ?__backward_10_3_9e6014a014ad3c79__NewCost .
+            } ((15 :f :e :c :a))) log:collectAllIn ?__backward_10_3_9e6014a014ad3c79__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_11_3_49a0fa7300877402__L4 {
+                ?__backward_11_3_49a0fa7300877402__L4 list:firstRest (?__backward_11_3_49a0fa7300877402__NewCost ?__backward_11_3_49a0fa7300877402__L5) .
+                ?__backward_11_3_49a0fa7300877402__L5 list:firstRest (?__backward_11_3_49a0fa7300877402__Neighbor ?__backward_11_3_49a0fa7300877402__L6) .
+                ?__backward_11_3_49a0fa7300877402__L6 list:firstRest (:e (:d :c :a)) .
+                (:e ?__backward_11_3_49a0fa7300877402__Neighbor) :edge ?__backward_11_3_49a0fa7300877402__Weight .
+                (:e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_11_3_49a0fa7300877402__Neighbor .
+                (12 ?__backward_11_3_49a0fa7300877402__Weight) math:sum ?__backward_11_3_49a0fa7300877402__NewCost .
+            } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_11_3_49a0fa7300877402__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_1_3_a3b844da63bec2f1__L4 {
+                ?__backward_1_3_a3b844da63bec2f1__L4 list:firstRest (?__backward_1_3_a3b844da63bec2f1__NewCost ?__backward_1_3_a3b844da63bec2f1__L5) .
+                ?__backward_1_3_a3b844da63bec2f1__L5 list:firstRest (?__backward_1_3_a3b844da63bec2f1__Neighbor ?__backward_1_3_a3b844da63bec2f1__L6) .
+                ?__backward_1_3_a3b844da63bec2f1__L6 list:firstRest (:a ()) .
+                (:a ?__backward_1_3_a3b844da63bec2f1__Neighbor) :edge ?__backward_1_3_a3b844da63bec2f1__Weight .
+                () list:notMember ?__backward_1_3_a3b844da63bec2f1__Neighbor .
+                (0 ?__backward_1_3_a3b844da63bec2f1__Weight) math:sum ?__backward_1_3_a3b844da63bec2f1__NewCost .
+            } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_a3b844da63bec2f1__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_2_3_5f88d788bae21a90__L4 {
+                ?__backward_2_3_5f88d788bae21a90__L4 list:firstRest (?__backward_2_3_5f88d788bae21a90__NewCost ?__backward_2_3_5f88d788bae21a90__L5) .
+                ?__backward_2_3_5f88d788bae21a90__L5 list:firstRest (?__backward_2_3_5f88d788bae21a90__Neighbor ?__backward_2_3_5f88d788bae21a90__L6) .
+                ?__backward_2_3_5f88d788bae21a90__L6 list:firstRest (:c (:a)) .
+                (:c ?__backward_2_3_5f88d788bae21a90__Neighbor) :edge ?__backward_2_3_5f88d788bae21a90__Weight .
+                (:a) list:notMember ?__backward_2_3_5f88d788bae21a90__Neighbor .
+                (2 ?__backward_2_3_5f88d788bae21a90__Weight) math:sum ?__backward_2_3_5f88d788bae21a90__NewCost .
+            } ((10 :d :c :a) (12 :e :c :a) (3 :b :c :a))) log:collectAllIn ?__backward_2_3_5f88d788bae21a90__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_3_3_63c2ce5ed0a0d0cc__L4 {
+                ?__backward_3_3_63c2ce5ed0a0d0cc__L4 list:firstRest (?__backward_3_3_63c2ce5ed0a0d0cc__NewCost ?__backward_3_3_63c2ce5ed0a0d0cc__L5) .
+                ?__backward_3_3_63c2ce5ed0a0d0cc__L5 list:firstRest (?__backward_3_3_63c2ce5ed0a0d0cc__Neighbor ?__backward_3_3_63c2ce5ed0a0d0cc__L6) .
+                ?__backward_3_3_63c2ce5ed0a0d0cc__L6 list:firstRest (:b (:c :a)) .
+                (:b ?__backward_3_3_63c2ce5ed0a0d0cc__Neighbor) :edge ?__backward_3_3_63c2ce5ed0a0d0cc__Weight .
+                (:c :a) list:notMember ?__backward_3_3_63c2ce5ed0a0d0cc__Neighbor .
+                (3 ?__backward_3_3_63c2ce5ed0a0d0cc__Weight) math:sum ?__backward_3_3_63c2ce5ed0a0d0cc__NewCost .
+            } ((8 :d :b :c :a))) log:collectAllIn ?__backward_3_3_63c2ce5ed0a0d0cc__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_4_3_40964c420be43634__L4 {
+                ?__backward_4_3_40964c420be43634__L4 list:firstRest (?__backward_4_3_40964c420be43634__NewCost ?__backward_4_3_40964c420be43634__L5) .
+                ?__backward_4_3_40964c420be43634__L5 list:firstRest (?__backward_4_3_40964c420be43634__Neighbor ?__backward_4_3_40964c420be43634__L6) .
+                ?__backward_4_3_40964c420be43634__L6 list:firstRest (:b (:a)) .
+                (:b ?__backward_4_3_40964c420be43634__Neighbor) :edge ?__backward_4_3_40964c420be43634__Weight .
+                (:b :c :a) list:notMember ?__backward_4_3_40964c420be43634__Neighbor .
+                (4 ?__backward_4_3_40964c420be43634__Weight) math:sum ?__backward_4_3_40964c420be43634__NewCost .
+            } ((9 :d :b :a))) log:collectAllIn ?__backward_4_3_40964c420be43634__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_5_3_4b04d66ddc69f36c__L4 {
+                ?__backward_5_3_4b04d66ddc69f36c__L4 list:firstRest (?__backward_5_3_4b04d66ddc69f36c__NewCost ?__backward_5_3_4b04d66ddc69f36c__L5) .
+                ?__backward_5_3_4b04d66ddc69f36c__L5 list:firstRest (?__backward_5_3_4b04d66ddc69f36c__Neighbor ?__backward_5_3_4b04d66ddc69f36c__L6) .
+                ?__backward_5_3_4b04d66ddc69f36c__L6 list:firstRest (:d (:b :c :a)) .
+                (:d ?__backward_5_3_4b04d66ddc69f36c__Neighbor) :edge ?__backward_5_3_4b04d66ddc69f36c__Weight .
+                (:b :b :c :a) list:notMember ?__backward_5_3_4b04d66ddc69f36c__Neighbor .
+                (8 ?__backward_5_3_4b04d66ddc69f36c__Weight) math:sum ?__backward_5_3_4b04d66ddc69f36c__NewCost .
+            } ((10 :e :d :b :c :a) (14 :f :d :b :c :a))) log:collectAllIn ?__backward_5_3_4b04d66ddc69f36c__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_6_3_b81e56f3cd6cf5d9__L4 {
+                ?__backward_6_3_b81e56f3cd6cf5d9__L4 list:firstRest (?__backward_6_3_b81e56f3cd6cf5d9__NewCost ?__backward_6_3_b81e56f3cd6cf5d9__L5) .
+                ?__backward_6_3_b81e56f3cd6cf5d9__L5 list:firstRest (?__backward_6_3_b81e56f3cd6cf5d9__Neighbor ?__backward_6_3_b81e56f3cd6cf5d9__L6) .
+                ?__backward_6_3_b81e56f3cd6cf5d9__L6 list:firstRest (:d (:b :a)) .
+                (:d ?__backward_6_3_b81e56f3cd6cf5d9__Neighbor) :edge ?__backward_6_3_b81e56f3cd6cf5d9__Weight .
+                (:d :b :b :c :a) list:notMember ?__backward_6_3_b81e56f3cd6cf5d9__Neighbor .
+                (9 ?__backward_6_3_b81e56f3cd6cf5d9__Weight) math:sum ?__backward_6_3_b81e56f3cd6cf5d9__NewCost .
+            } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_6_3_b81e56f3cd6cf5d9__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_7_3_593b25a06d1cd382__L4 {
+                ?__backward_7_3_593b25a06d1cd382__L4 list:firstRest (?__backward_7_3_593b25a06d1cd382__NewCost ?__backward_7_3_593b25a06d1cd382__L5) .
+                ?__backward_7_3_593b25a06d1cd382__L5 list:firstRest (?__backward_7_3_593b25a06d1cd382__Neighbor ?__backward_7_3_593b25a06d1cd382__L6) .
+                ?__backward_7_3_593b25a06d1cd382__L6 list:firstRest (:d (:c :a)) .
+                (:d ?__backward_7_3_593b25a06d1cd382__Neighbor) :edge ?__backward_7_3_593b25a06d1cd382__Weight .
+                (:d :d :b :b :c :a) list:notMember ?__backward_7_3_593b25a06d1cd382__Neighbor .
+                (10 ?__backward_7_3_593b25a06d1cd382__Weight) math:sum ?__backward_7_3_593b25a06d1cd382__NewCost .
+            } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_7_3_593b25a06d1cd382__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_8_3_152dca2a9dabef50__L4 {
+                ?__backward_8_3_152dca2a9dabef50__L4 list:firstRest (?__backward_8_3_152dca2a9dabef50__NewCost ?__backward_8_3_152dca2a9dabef50__L5) .
+                ?__backward_8_3_152dca2a9dabef50__L5 list:firstRest (?__backward_8_3_152dca2a9dabef50__Neighbor ?__backward_8_3_152dca2a9dabef50__L6) .
+                ?__backward_8_3_152dca2a9dabef50__L6 list:firstRest (:e (:d :b :c :a)) .
+                (:e ?__backward_8_3_152dca2a9dabef50__Neighbor) :edge ?__backward_8_3_152dca2a9dabef50__Weight .
+                (:d :d :d :b :b :c :a) list:notMember ?__backward_8_3_152dca2a9dabef50__Neighbor .
+                (10 ?__backward_8_3_152dca2a9dabef50__Weight) math:sum ?__backward_8_3_152dca2a9dabef50__NewCost .
+            } ((13 :f :e :d :b :c :a))) log:collectAllIn ?__backward_8_3_152dca2a9dabef50__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_9_3_6ce7b7f9c2142745__L4 {
+                ?__backward_9_3_6ce7b7f9c2142745__L4 list:firstRest (?__backward_9_3_6ce7b7f9c2142745__NewCost ?__backward_9_3_6ce7b7f9c2142745__L5) .
+                ?__backward_9_3_6ce7b7f9c2142745__L5 list:firstRest (?__backward_9_3_6ce7b7f9c2142745__Neighbor ?__backward_9_3_6ce7b7f9c2142745__L6) .
+                ?__backward_9_3_6ce7b7f9c2142745__L6 list:firstRest (:e (:d :b :a)) .
+                (:e ?__backward_9_3_6ce7b7f9c2142745__Neighbor) :edge ?__backward_9_3_6ce7b7f9c2142745__Weight .
+                (:e :d :d :d :b :b :c :a) list:notMember ?__backward_9_3_6ce7b7f9c2142745__Neighbor .
+                (11 ?__backward_9_3_6ce7b7f9c2142745__Weight) math:sum ?__backward_9_3_6ce7b7f9c2142745__NewCost .
+            } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_9_3_6ce7b7f9c2142745__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_10_3_ecf615487f6bfd7f__L4 {
+                ?__backward_10_3_ecf615487f6bfd7f__L4 list:firstRest (?__backward_10_3_ecf615487f6bfd7f__NewCost ?__backward_10_3_ecf615487f6bfd7f__L5) .
+                ?__backward_10_3_ecf615487f6bfd7f__L5 list:firstRest (?__backward_10_3_ecf615487f6bfd7f__Neighbor ?__backward_10_3_ecf615487f6bfd7f__L6) .
+                ?__backward_10_3_ecf615487f6bfd7f__L6 list:firstRest (:e (:c :a)) .
+                (:e ?__backward_10_3_ecf615487f6bfd7f__Neighbor) :edge ?__backward_10_3_ecf615487f6bfd7f__Weight .
+                (:e :e :d :d :d :b :b :c :a) list:notMember ?__backward_10_3_ecf615487f6bfd7f__Neighbor .
+                (12 ?__backward_10_3_ecf615487f6bfd7f__Weight) math:sum ?__backward_10_3_ecf615487f6bfd7f__NewCost .
+            } ((15 :f :e :c :a))) log:collectAllIn ?__backward_10_3_ecf615487f6bfd7f__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_11_3_c1fd7a52664fa29e__L4 {
+                ?__backward_11_3_c1fd7a52664fa29e__L4 list:firstRest (?__backward_11_3_c1fd7a52664fa29e__NewCost ?__backward_11_3_c1fd7a52664fa29e__L5) .
+                ?__backward_11_3_c1fd7a52664fa29e__L5 list:firstRest (?__backward_11_3_c1fd7a52664fa29e__Neighbor ?__backward_11_3_c1fd7a52664fa29e__L6) .
+                ?__backward_11_3_c1fd7a52664fa29e__L6 list:firstRest (:e (:d :c :a)) .
+                (:e ?__backward_11_3_c1fd7a52664fa29e__Neighbor) :edge ?__backward_11_3_c1fd7a52664fa29e__Weight .
+                (:e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_11_3_c1fd7a52664fa29e__Neighbor .
+                (12 ?__backward_11_3_c1fd7a52664fa29e__Weight) math:sum ?__backward_11_3_c1fd7a52664fa29e__NewCost .
+            } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_11_3_c1fd7a52664fa29e__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_12_3_9ad402bca7f82d9d__L4 {
+                ?__backward_12_3_9ad402bca7f82d9d__L4 list:firstRest (?__backward_12_3_9ad402bca7f82d9d__NewCost ?__backward_12_3_9ad402bca7f82d9d__L5) .
+                ?__backward_12_3_9ad402bca7f82d9d__L5 list:firstRest (?__backward_12_3_9ad402bca7f82d9d__Neighbor ?__backward_12_3_9ad402bca7f82d9d__L6) .
+                ?__backward_12_3_9ad402bca7f82d9d__L6 list:firstRest (:f (:e :d :b :c :a)) .
+                (:f ?__backward_12_3_9ad402bca7f82d9d__Neighbor) :edge ?__backward_12_3_9ad402bca7f82d9d__Weight .
+                (:e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_12_3_9ad402bca7f82d9d__Neighbor .
+                (13 ?__backward_12_3_9ad402bca7f82d9d__Weight) math:sum ?__backward_12_3_9ad402bca7f82d9d__NewCost .
+            } ()) log:collectAllIn ?__backward_12_3_9ad402bca7f82d9d__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_1_3_a3de4b243b0a13f__L4 {
+                ?__backward_1_3_a3de4b243b0a13f__L4 list:firstRest (?__backward_1_3_a3de4b243b0a13f__NewCost ?__backward_1_3_a3de4b243b0a13f__L5) .
+                ?__backward_1_3_a3de4b243b0a13f__L5 list:firstRest (?__backward_1_3_a3de4b243b0a13f__Neighbor ?__backward_1_3_a3de4b243b0a13f__L6) .
+                ?__backward_1_3_a3de4b243b0a13f__L6 list:firstRest (:a ()) .
+                (:a ?__backward_1_3_a3de4b243b0a13f__Neighbor) :edge ?__backward_1_3_a3de4b243b0a13f__Weight .
+                () list:notMember ?__backward_1_3_a3de4b243b0a13f__Neighbor .
+                (0 ?__backward_1_3_a3de4b243b0a13f__Weight) math:sum ?__backward_1_3_a3de4b243b0a13f__NewCost .
+            } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_a3de4b243b0a13f__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_2_3_5222b1d38306c99a__L4 {
+                ?__backward_2_3_5222b1d38306c99a__L4 list:firstRest (?__backward_2_3_5222b1d38306c99a__NewCost ?__backward_2_3_5222b1d38306c99a__L5) .
+                ?__backward_2_3_5222b1d38306c99a__L5 list:firstRest (?__backward_2_3_5222b1d38306c99a__Neighbor ?__backward_2_3_5222b1d38306c99a__L6) .
+                ?__backward_2_3_5222b1d38306c99a__L6 list:firstRest (:c (:a)) .
+                (:c ?__backward_2_3_5222b1d38306c99a__Neighbor) :edge ?__backward_2_3_5222b1d38306c99a__Weight .
+                (:a) list:notMember ?__backward_2_3_5222b1d38306c99a__Neighbor .
+                (2 ?__backward_2_3_5222b1d38306c99a__Weight) math:sum ?__backward_2_3_5222b1d38306c99a__NewCost .
+            } ((10 :d :c :a) (12 :e :c :a) (3 :b :c :a))) log:collectAllIn ?__backward_2_3_5222b1d38306c99a__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_3_3_f5003fedf9cdb30e__L4 {
+                ?__backward_3_3_f5003fedf9cdb30e__L4 list:firstRest (?__backward_3_3_f5003fedf9cdb30e__NewCost ?__backward_3_3_f5003fedf9cdb30e__L5) .
+                ?__backward_3_3_f5003fedf9cdb30e__L5 list:firstRest (?__backward_3_3_f5003fedf9cdb30e__Neighbor ?__backward_3_3_f5003fedf9cdb30e__L6) .
+                ?__backward_3_3_f5003fedf9cdb30e__L6 list:firstRest (:b (:c :a)) .
+                (:b ?__backward_3_3_f5003fedf9cdb30e__Neighbor) :edge ?__backward_3_3_f5003fedf9cdb30e__Weight .
+                (:c :a) list:notMember ?__backward_3_3_f5003fedf9cdb30e__Neighbor .
+                (3 ?__backward_3_3_f5003fedf9cdb30e__Weight) math:sum ?__backward_3_3_f5003fedf9cdb30e__NewCost .
+            } ((8 :d :b :c :a))) log:collectAllIn ?__backward_3_3_f5003fedf9cdb30e__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_4_3_492115faf78abd6__L4 {
+                ?__backward_4_3_492115faf78abd6__L4 list:firstRest (?__backward_4_3_492115faf78abd6__NewCost ?__backward_4_3_492115faf78abd6__L5) .
+                ?__backward_4_3_492115faf78abd6__L5 list:firstRest (?__backward_4_3_492115faf78abd6__Neighbor ?__backward_4_3_492115faf78abd6__L6) .
+                ?__backward_4_3_492115faf78abd6__L6 list:firstRest (:b (:a)) .
+                (:b ?__backward_4_3_492115faf78abd6__Neighbor) :edge ?__backward_4_3_492115faf78abd6__Weight .
+                (:b :c :a) list:notMember ?__backward_4_3_492115faf78abd6__Neighbor .
+                (4 ?__backward_4_3_492115faf78abd6__Weight) math:sum ?__backward_4_3_492115faf78abd6__NewCost .
+            } ((9 :d :b :a))) log:collectAllIn ?__backward_4_3_492115faf78abd6__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_5_3_ddc7fba4ee181c2e__L4 {
+                ?__backward_5_3_ddc7fba4ee181c2e__L4 list:firstRest (?__backward_5_3_ddc7fba4ee181c2e__NewCost ?__backward_5_3_ddc7fba4ee181c2e__L5) .
+                ?__backward_5_3_ddc7fba4ee181c2e__L5 list:firstRest (?__backward_5_3_ddc7fba4ee181c2e__Neighbor ?__backward_5_3_ddc7fba4ee181c2e__L6) .
+                ?__backward_5_3_ddc7fba4ee181c2e__L6 list:firstRest (:d (:b :c :a)) .
+                (:d ?__backward_5_3_ddc7fba4ee181c2e__Neighbor) :edge ?__backward_5_3_ddc7fba4ee181c2e__Weight .
+                (:b :b :c :a) list:notMember ?__backward_5_3_ddc7fba4ee181c2e__Neighbor .
+                (8 ?__backward_5_3_ddc7fba4ee181c2e__Weight) math:sum ?__backward_5_3_ddc7fba4ee181c2e__NewCost .
+            } ((10 :e :d :b :c :a) (14 :f :d :b :c :a))) log:collectAllIn ?__backward_5_3_ddc7fba4ee181c2e__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_6_3_c1607d77b749b4a7__L4 {
+                ?__backward_6_3_c1607d77b749b4a7__L4 list:firstRest (?__backward_6_3_c1607d77b749b4a7__NewCost ?__backward_6_3_c1607d77b749b4a7__L5) .
+                ?__backward_6_3_c1607d77b749b4a7__L5 list:firstRest (?__backward_6_3_c1607d77b749b4a7__Neighbor ?__backward_6_3_c1607d77b749b4a7__L6) .
+                ?__backward_6_3_c1607d77b749b4a7__L6 list:firstRest (:d (:b :a)) .
+                (:d ?__backward_6_3_c1607d77b749b4a7__Neighbor) :edge ?__backward_6_3_c1607d77b749b4a7__Weight .
+                (:d :b :b :c :a) list:notMember ?__backward_6_3_c1607d77b749b4a7__Neighbor .
+                (9 ?__backward_6_3_c1607d77b749b4a7__Weight) math:sum ?__backward_6_3_c1607d77b749b4a7__NewCost .
+            } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_6_3_c1607d77b749b4a7__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_7_3_5f6b84807660a690__L4 {
+                ?__backward_7_3_5f6b84807660a690__L4 list:firstRest (?__backward_7_3_5f6b84807660a690__NewCost ?__backward_7_3_5f6b84807660a690__L5) .
+                ?__backward_7_3_5f6b84807660a690__L5 list:firstRest (?__backward_7_3_5f6b84807660a690__Neighbor ?__backward_7_3_5f6b84807660a690__L6) .
+                ?__backward_7_3_5f6b84807660a690__L6 list:firstRest (:d (:c :a)) .
+                (:d ?__backward_7_3_5f6b84807660a690__Neighbor) :edge ?__backward_7_3_5f6b84807660a690__Weight .
+                (:d :d :b :b :c :a) list:notMember ?__backward_7_3_5f6b84807660a690__Neighbor .
+                (10 ?__backward_7_3_5f6b84807660a690__Weight) math:sum ?__backward_7_3_5f6b84807660a690__NewCost .
+            } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_7_3_5f6b84807660a690__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_8_3_ec615653e176705a__L4 {
+                ?__backward_8_3_ec615653e176705a__L4 list:firstRest (?__backward_8_3_ec615653e176705a__NewCost ?__backward_8_3_ec615653e176705a__L5) .
+                ?__backward_8_3_ec615653e176705a__L5 list:firstRest (?__backward_8_3_ec615653e176705a__Neighbor ?__backward_8_3_ec615653e176705a__L6) .
+                ?__backward_8_3_ec615653e176705a__L6 list:firstRest (:e (:d :b :c :a)) .
+                (:e ?__backward_8_3_ec615653e176705a__Neighbor) :edge ?__backward_8_3_ec615653e176705a__Weight .
+                (:d :d :d :b :b :c :a) list:notMember ?__backward_8_3_ec615653e176705a__Neighbor .
+                (10 ?__backward_8_3_ec615653e176705a__Weight) math:sum ?__backward_8_3_ec615653e176705a__NewCost .
+            } ((13 :f :e :d :b :c :a))) log:collectAllIn ?__backward_8_3_ec615653e176705a__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_9_3_df05a5f1f0b532ab__L4 {
+                ?__backward_9_3_df05a5f1f0b532ab__L4 list:firstRest (?__backward_9_3_df05a5f1f0b532ab__NewCost ?__backward_9_3_df05a5f1f0b532ab__L5) .
+                ?__backward_9_3_df05a5f1f0b532ab__L5 list:firstRest (?__backward_9_3_df05a5f1f0b532ab__Neighbor ?__backward_9_3_df05a5f1f0b532ab__L6) .
+                ?__backward_9_3_df05a5f1f0b532ab__L6 list:firstRest (:e (:d :b :a)) .
+                (:e ?__backward_9_3_df05a5f1f0b532ab__Neighbor) :edge ?__backward_9_3_df05a5f1f0b532ab__Weight .
+                (:e :d :d :d :b :b :c :a) list:notMember ?__backward_9_3_df05a5f1f0b532ab__Neighbor .
+                (11 ?__backward_9_3_df05a5f1f0b532ab__Weight) math:sum ?__backward_9_3_df05a5f1f0b532ab__NewCost .
+            } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_9_3_df05a5f1f0b532ab__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_10_3_82324c481a143ac9__L4 {
+                ?__backward_10_3_82324c481a143ac9__L4 list:firstRest (?__backward_10_3_82324c481a143ac9__NewCost ?__backward_10_3_82324c481a143ac9__L5) .
+                ?__backward_10_3_82324c481a143ac9__L5 list:firstRest (?__backward_10_3_82324c481a143ac9__Neighbor ?__backward_10_3_82324c481a143ac9__L6) .
+                ?__backward_10_3_82324c481a143ac9__L6 list:firstRest (:e (:c :a)) .
+                (:e ?__backward_10_3_82324c481a143ac9__Neighbor) :edge ?__backward_10_3_82324c481a143ac9__Weight .
+                (:e :e :d :d :d :b :b :c :a) list:notMember ?__backward_10_3_82324c481a143ac9__Neighbor .
+                (12 ?__backward_10_3_82324c481a143ac9__Weight) math:sum ?__backward_10_3_82324c481a143ac9__NewCost .
+            } ((15 :f :e :c :a))) log:collectAllIn ?__backward_10_3_82324c481a143ac9__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_11_3_4ecfa71134b5a904__L4 {
+                ?__backward_11_3_4ecfa71134b5a904__L4 list:firstRest (?__backward_11_3_4ecfa71134b5a904__NewCost ?__backward_11_3_4ecfa71134b5a904__L5) .
+                ?__backward_11_3_4ecfa71134b5a904__L5 list:firstRest (?__backward_11_3_4ecfa71134b5a904__Neighbor ?__backward_11_3_4ecfa71134b5a904__L6) .
+                ?__backward_11_3_4ecfa71134b5a904__L6 list:firstRest (:e (:d :c :a)) .
+                (:e ?__backward_11_3_4ecfa71134b5a904__Neighbor) :edge ?__backward_11_3_4ecfa71134b5a904__Weight .
+                (:e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_11_3_4ecfa71134b5a904__Neighbor .
+                (12 ?__backward_11_3_4ecfa71134b5a904__Weight) math:sum ?__backward_11_3_4ecfa71134b5a904__NewCost .
+            } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_11_3_4ecfa71134b5a904__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_12_3_7e224a11328785e3__L4 {
+                ?__backward_12_3_7e224a11328785e3__L4 list:firstRest (?__backward_12_3_7e224a11328785e3__NewCost ?__backward_12_3_7e224a11328785e3__L5) .
+                ?__backward_12_3_7e224a11328785e3__L5 list:firstRest (?__backward_12_3_7e224a11328785e3__Neighbor ?__backward_12_3_7e224a11328785e3__L6) .
+                ?__backward_12_3_7e224a11328785e3__L6 list:firstRest (:f (:e :d :b :c :a)) .
+                (:f ?__backward_12_3_7e224a11328785e3__Neighbor) :edge ?__backward_12_3_7e224a11328785e3__Weight .
+                (:e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_12_3_7e224a11328785e3__Neighbor .
+                (13 ?__backward_12_3_7e224a11328785e3__Weight) math:sum ?__backward_12_3_7e224a11328785e3__NewCost .
+            } ()) log:collectAllIn ?__backward_12_3_7e224a11328785e3__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_13_3_5feb2afc7fabbade__L4 {
+                ?__backward_13_3_5feb2afc7fabbade__L4 list:firstRest (?__backward_13_3_5feb2afc7fabbade__NewCost ?__backward_13_3_5feb2afc7fabbade__L5) .
+                ?__backward_13_3_5feb2afc7fabbade__L5 list:firstRest (?__backward_13_3_5feb2afc7fabbade__Neighbor ?__backward_13_3_5feb2afc7fabbade__L6) .
+                ?__backward_13_3_5feb2afc7fabbade__L6 list:firstRest (:f (:d :b :c :a)) .
+                (:f ?__backward_13_3_5feb2afc7fabbade__Neighbor) :edge ?__backward_13_3_5feb2afc7fabbade__Weight .
+                (:f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_13_3_5feb2afc7fabbade__Neighbor .
+                (14 ?__backward_13_3_5feb2afc7fabbade__Weight) math:sum ?__backward_13_3_5feb2afc7fabbade__NewCost .
+            } ()) log:collectAllIn ?__backward_13_3_5feb2afc7fabbade__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_1_3_c8f2dd3a1bf068c9__L4 {
+                ?__backward_1_3_c8f2dd3a1bf068c9__L4 list:firstRest (?__backward_1_3_c8f2dd3a1bf068c9__NewCost ?__backward_1_3_c8f2dd3a1bf068c9__L5) .
+                ?__backward_1_3_c8f2dd3a1bf068c9__L5 list:firstRest (?__backward_1_3_c8f2dd3a1bf068c9__Neighbor ?__backward_1_3_c8f2dd3a1bf068c9__L6) .
+                ?__backward_1_3_c8f2dd3a1bf068c9__L6 list:firstRest (:a ()) .
+                (:a ?__backward_1_3_c8f2dd3a1bf068c9__Neighbor) :edge ?__backward_1_3_c8f2dd3a1bf068c9__Weight .
+                () list:notMember ?__backward_1_3_c8f2dd3a1bf068c9__Neighbor .
+                (0 ?__backward_1_3_c8f2dd3a1bf068c9__Weight) math:sum ?__backward_1_3_c8f2dd3a1bf068c9__NewCost .
+            } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_c8f2dd3a1bf068c9__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_2_3_2947205d9f699e4a__L4 {
+                ?__backward_2_3_2947205d9f699e4a__L4 list:firstRest (?__backward_2_3_2947205d9f699e4a__NewCost ?__backward_2_3_2947205d9f699e4a__L5) .
+                ?__backward_2_3_2947205d9f699e4a__L5 list:firstRest (?__backward_2_3_2947205d9f699e4a__Neighbor ?__backward_2_3_2947205d9f699e4a__L6) .
+                ?__backward_2_3_2947205d9f699e4a__L6 list:firstRest (:c (:a)) .
+                (:c ?__backward_2_3_2947205d9f699e4a__Neighbor) :edge ?__backward_2_3_2947205d9f699e4a__Weight .
+                (:a) list:notMember ?__backward_2_3_2947205d9f699e4a__Neighbor .
+                (2 ?__backward_2_3_2947205d9f699e4a__Weight) math:sum ?__backward_2_3_2947205d9f699e4a__NewCost .
+            } ((10 :d :c :a) (12 :e :c :a) (3 :b :c :a))) log:collectAllIn ?__backward_2_3_2947205d9f699e4a__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_3_3_115703bfd38f7bf6__L4 {
+                ?__backward_3_3_115703bfd38f7bf6__L4 list:firstRest (?__backward_3_3_115703bfd38f7bf6__NewCost ?__backward_3_3_115703bfd38f7bf6__L5) .
+                ?__backward_3_3_115703bfd38f7bf6__L5 list:firstRest (?__backward_3_3_115703bfd38f7bf6__Neighbor ?__backward_3_3_115703bfd38f7bf6__L6) .
+                ?__backward_3_3_115703bfd38f7bf6__L6 list:firstRest (:b (:c :a)) .
+                (:b ?__backward_3_3_115703bfd38f7bf6__Neighbor) :edge ?__backward_3_3_115703bfd38f7bf6__Weight .
+                (:c :a) list:notMember ?__backward_3_3_115703bfd38f7bf6__Neighbor .
+                (3 ?__backward_3_3_115703bfd38f7bf6__Weight) math:sum ?__backward_3_3_115703bfd38f7bf6__NewCost .
+            } ((8 :d :b :c :a))) log:collectAllIn ?__backward_3_3_115703bfd38f7bf6__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_4_3_10056257d82200ce__L4 {
+                ?__backward_4_3_10056257d82200ce__L4 list:firstRest (?__backward_4_3_10056257d82200ce__NewCost ?__backward_4_3_10056257d82200ce__L5) .
+                ?__backward_4_3_10056257d82200ce__L5 list:firstRest (?__backward_4_3_10056257d82200ce__Neighbor ?__backward_4_3_10056257d82200ce__L6) .
+                ?__backward_4_3_10056257d82200ce__L6 list:firstRest (:b (:a)) .
+                (:b ?__backward_4_3_10056257d82200ce__Neighbor) :edge ?__backward_4_3_10056257d82200ce__Weight .
+                (:b :c :a) list:notMember ?__backward_4_3_10056257d82200ce__Neighbor .
+                (4 ?__backward_4_3_10056257d82200ce__Weight) math:sum ?__backward_4_3_10056257d82200ce__NewCost .
+            } ((9 :d :b :a))) log:collectAllIn ?__backward_4_3_10056257d82200ce__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_5_3_ec1a99147f427656__L4 {
+                ?__backward_5_3_ec1a99147f427656__L4 list:firstRest (?__backward_5_3_ec1a99147f427656__NewCost ?__backward_5_3_ec1a99147f427656__L5) .
+                ?__backward_5_3_ec1a99147f427656__L5 list:firstRest (?__backward_5_3_ec1a99147f427656__Neighbor ?__backward_5_3_ec1a99147f427656__L6) .
+                ?__backward_5_3_ec1a99147f427656__L6 list:firstRest (:d (:b :c :a)) .
+                (:d ?__backward_5_3_ec1a99147f427656__Neighbor) :edge ?__backward_5_3_ec1a99147f427656__Weight .
+                (:b :b :c :a) list:notMember ?__backward_5_3_ec1a99147f427656__Neighbor .
+                (8 ?__backward_5_3_ec1a99147f427656__Weight) math:sum ?__backward_5_3_ec1a99147f427656__NewCost .
+            } ((10 :e :d :b :c :a) (14 :f :d :b :c :a))) log:collectAllIn ?__backward_5_3_ec1a99147f427656__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_6_3_980d5587b24f2fc1__L4 {
+                ?__backward_6_3_980d5587b24f2fc1__L4 list:firstRest (?__backward_6_3_980d5587b24f2fc1__NewCost ?__backward_6_3_980d5587b24f2fc1__L5) .
+                ?__backward_6_3_980d5587b24f2fc1__L5 list:firstRest (?__backward_6_3_980d5587b24f2fc1__Neighbor ?__backward_6_3_980d5587b24f2fc1__L6) .
+                ?__backward_6_3_980d5587b24f2fc1__L6 list:firstRest (:d (:b :a)) .
+                (:d ?__backward_6_3_980d5587b24f2fc1__Neighbor) :edge ?__backward_6_3_980d5587b24f2fc1__Weight .
+                (:d :b :b :c :a) list:notMember ?__backward_6_3_980d5587b24f2fc1__Neighbor .
+                (9 ?__backward_6_3_980d5587b24f2fc1__Weight) math:sum ?__backward_6_3_980d5587b24f2fc1__NewCost .
+            } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_6_3_980d5587b24f2fc1__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_7_3_20b263f6f3dd4788__L4 {
+                ?__backward_7_3_20b263f6f3dd4788__L4 list:firstRest (?__backward_7_3_20b263f6f3dd4788__NewCost ?__backward_7_3_20b263f6f3dd4788__L5) .
+                ?__backward_7_3_20b263f6f3dd4788__L5 list:firstRest (?__backward_7_3_20b263f6f3dd4788__Neighbor ?__backward_7_3_20b263f6f3dd4788__L6) .
+                ?__backward_7_3_20b263f6f3dd4788__L6 list:firstRest (:d (:c :a)) .
+                (:d ?__backward_7_3_20b263f6f3dd4788__Neighbor) :edge ?__backward_7_3_20b263f6f3dd4788__Weight .
+                (:d :d :b :b :c :a) list:notMember ?__backward_7_3_20b263f6f3dd4788__Neighbor .
+                (10 ?__backward_7_3_20b263f6f3dd4788__Weight) math:sum ?__backward_7_3_20b263f6f3dd4788__NewCost .
+            } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_7_3_20b263f6f3dd4788__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_8_3_8137dd44be12f48a__L4 {
+                ?__backward_8_3_8137dd44be12f48a__L4 list:firstRest (?__backward_8_3_8137dd44be12f48a__NewCost ?__backward_8_3_8137dd44be12f48a__L5) .
+                ?__backward_8_3_8137dd44be12f48a__L5 list:firstRest (?__backward_8_3_8137dd44be12f48a__Neighbor ?__backward_8_3_8137dd44be12f48a__L6) .
+                ?__backward_8_3_8137dd44be12f48a__L6 list:firstRest (:e (:d :b :c :a)) .
+                (:e ?__backward_8_3_8137dd44be12f48a__Neighbor) :edge ?__backward_8_3_8137dd44be12f48a__Weight .
+                (:d :d :d :b :b :c :a) list:notMember ?__backward_8_3_8137dd44be12f48a__Neighbor .
+                (10 ?__backward_8_3_8137dd44be12f48a__Weight) math:sum ?__backward_8_3_8137dd44be12f48a__NewCost .
+            } ((13 :f :e :d :b :c :a))) log:collectAllIn ?__backward_8_3_8137dd44be12f48a__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_9_3_bbc8b4a8bc70ac6d__L4 {
+                ?__backward_9_3_bbc8b4a8bc70ac6d__L4 list:firstRest (?__backward_9_3_bbc8b4a8bc70ac6d__NewCost ?__backward_9_3_bbc8b4a8bc70ac6d__L5) .
+                ?__backward_9_3_bbc8b4a8bc70ac6d__L5 list:firstRest (?__backward_9_3_bbc8b4a8bc70ac6d__Neighbor ?__backward_9_3_bbc8b4a8bc70ac6d__L6) .
+                ?__backward_9_3_bbc8b4a8bc70ac6d__L6 list:firstRest (:e (:d :b :a)) .
+                (:e ?__backward_9_3_bbc8b4a8bc70ac6d__Neighbor) :edge ?__backward_9_3_bbc8b4a8bc70ac6d__Weight .
+                (:e :d :d :d :b :b :c :a) list:notMember ?__backward_9_3_bbc8b4a8bc70ac6d__Neighbor .
+                (11 ?__backward_9_3_bbc8b4a8bc70ac6d__Weight) math:sum ?__backward_9_3_bbc8b4a8bc70ac6d__NewCost .
+            } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_9_3_bbc8b4a8bc70ac6d__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_10_3_27d2e62230d3b61b__L4 {
+                ?__backward_10_3_27d2e62230d3b61b__L4 list:firstRest (?__backward_10_3_27d2e62230d3b61b__NewCost ?__backward_10_3_27d2e62230d3b61b__L5) .
+                ?__backward_10_3_27d2e62230d3b61b__L5 list:firstRest (?__backward_10_3_27d2e62230d3b61b__Neighbor ?__backward_10_3_27d2e62230d3b61b__L6) .
+                ?__backward_10_3_27d2e62230d3b61b__L6 list:firstRest (:e (:c :a)) .
+                (:e ?__backward_10_3_27d2e62230d3b61b__Neighbor) :edge ?__backward_10_3_27d2e62230d3b61b__Weight .
+                (:e :e :d :d :d :b :b :c :a) list:notMember ?__backward_10_3_27d2e62230d3b61b__Neighbor .
+                (12 ?__backward_10_3_27d2e62230d3b61b__Weight) math:sum ?__backward_10_3_27d2e62230d3b61b__NewCost .
+            } ((15 :f :e :c :a))) log:collectAllIn ?__backward_10_3_27d2e62230d3b61b__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_11_3_148f80af77026294__L4 {
+                ?__backward_11_3_148f80af77026294__L4 list:firstRest (?__backward_11_3_148f80af77026294__NewCost ?__backward_11_3_148f80af77026294__L5) .
+                ?__backward_11_3_148f80af77026294__L5 list:firstRest (?__backward_11_3_148f80af77026294__Neighbor ?__backward_11_3_148f80af77026294__L6) .
+                ?__backward_11_3_148f80af77026294__L6 list:firstRest (:e (:d :c :a)) .
+                (:e ?__backward_11_3_148f80af77026294__Neighbor) :edge ?__backward_11_3_148f80af77026294__Weight .
+                (:e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_11_3_148f80af77026294__Neighbor .
+                (12 ?__backward_11_3_148f80af77026294__Weight) math:sum ?__backward_11_3_148f80af77026294__NewCost .
+            } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_11_3_148f80af77026294__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_12_3_765556609a859735__L4 {
+                ?__backward_12_3_765556609a859735__L4 list:firstRest (?__backward_12_3_765556609a859735__NewCost ?__backward_12_3_765556609a859735__L5) .
+                ?__backward_12_3_765556609a859735__L5 list:firstRest (?__backward_12_3_765556609a859735__Neighbor ?__backward_12_3_765556609a859735__L6) .
+                ?__backward_12_3_765556609a859735__L6 list:firstRest (:f (:e :d :b :c :a)) .
+                (:f ?__backward_12_3_765556609a859735__Neighbor) :edge ?__backward_12_3_765556609a859735__Weight .
+                (:e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_12_3_765556609a859735__Neighbor .
+                (13 ?__backward_12_3_765556609a859735__Weight) math:sum ?__backward_12_3_765556609a859735__NewCost .
+            } ()) log:collectAllIn ?__backward_12_3_765556609a859735__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_13_3_2e7a9240fdfd5886__L4 {
+                ?__backward_13_3_2e7a9240fdfd5886__L4 list:firstRest (?__backward_13_3_2e7a9240fdfd5886__NewCost ?__backward_13_3_2e7a9240fdfd5886__L5) .
+                ?__backward_13_3_2e7a9240fdfd5886__L5 list:firstRest (?__backward_13_3_2e7a9240fdfd5886__Neighbor ?__backward_13_3_2e7a9240fdfd5886__L6) .
+                ?__backward_13_3_2e7a9240fdfd5886__L6 list:firstRest (:f (:d :b :c :a)) .
+                (:f ?__backward_13_3_2e7a9240fdfd5886__Neighbor) :edge ?__backward_13_3_2e7a9240fdfd5886__Weight .
+                (:f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_13_3_2e7a9240fdfd5886__Neighbor .
+                (14 ?__backward_13_3_2e7a9240fdfd5886__Weight) math:sum ?__backward_13_3_2e7a9240fdfd5886__NewCost .
+            } ()) log:collectAllIn ?__backward_13_3_2e7a9240fdfd5886__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_14_3_7f4e3c4cf8bd6d05__L4 {
+                ?__backward_14_3_7f4e3c4cf8bd6d05__L4 list:firstRest (?__backward_14_3_7f4e3c4cf8bd6d05__NewCost ?__backward_14_3_7f4e3c4cf8bd6d05__L5) .
+                ?__backward_14_3_7f4e3c4cf8bd6d05__L5 list:firstRest (?__backward_14_3_7f4e3c4cf8bd6d05__Neighbor ?__backward_14_3_7f4e3c4cf8bd6d05__L6) .
+                ?__backward_14_3_7f4e3c4cf8bd6d05__L6 list:firstRest (:f (:e :d :b :a)) .
+                (:f ?__backward_14_3_7f4e3c4cf8bd6d05__Neighbor) :edge ?__backward_14_3_7f4e3c4cf8bd6d05__Weight .
+                (:f :f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_14_3_7f4e3c4cf8bd6d05__Neighbor .
+                (14 ?__backward_14_3_7f4e3c4cf8bd6d05__Weight) math:sum ?__backward_14_3_7f4e3c4cf8bd6d05__NewCost .
+            } ()) log:collectAllIn ?__backward_14_3_7f4e3c4cf8bd6d05__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_1_3_77ea491e71f15d97__L4 {
+                ?__backward_1_3_77ea491e71f15d97__L4 list:firstRest (?__backward_1_3_77ea491e71f15d97__NewCost ?__backward_1_3_77ea491e71f15d97__L5) .
+                ?__backward_1_3_77ea491e71f15d97__L5 list:firstRest (?__backward_1_3_77ea491e71f15d97__Neighbor ?__backward_1_3_77ea491e71f15d97__L6) .
+                ?__backward_1_3_77ea491e71f15d97__L6 list:firstRest (:a ()) .
+                (:a ?__backward_1_3_77ea491e71f15d97__Neighbor) :edge ?__backward_1_3_77ea491e71f15d97__Weight .
+                () list:notMember ?__backward_1_3_77ea491e71f15d97__Neighbor .
+                (0 ?__backward_1_3_77ea491e71f15d97__Weight) math:sum ?__backward_1_3_77ea491e71f15d97__NewCost .
+            } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_77ea491e71f15d97__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_2_3_28a1abd779105f2c__L4 {
+                ?__backward_2_3_28a1abd779105f2c__L4 list:firstRest (?__backward_2_3_28a1abd779105f2c__NewCost ?__backward_2_3_28a1abd779105f2c__L5) .
+                ?__backward_2_3_28a1abd779105f2c__L5 list:firstRest (?__backward_2_3_28a1abd779105f2c__Neighbor ?__backward_2_3_28a1abd779105f2c__L6) .
+                ?__backward_2_3_28a1abd779105f2c__L6 list:firstRest (:c (:a)) .
+                (:c ?__backward_2_3_28a1abd779105f2c__Neighbor) :edge ?__backward_2_3_28a1abd779105f2c__Weight .
+                (:a) list:notMember ?__backward_2_3_28a1abd779105f2c__Neighbor .
+                (2 ?__backward_2_3_28a1abd779105f2c__Weight) math:sum ?__backward_2_3_28a1abd779105f2c__NewCost .
+            } ((10 :d :c :a) (12 :e :c :a) (3 :b :c :a))) log:collectAllIn ?__backward_2_3_28a1abd779105f2c__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_3_3_827f88bdc1a5b558__L4 {
+                ?__backward_3_3_827f88bdc1a5b558__L4 list:firstRest (?__backward_3_3_827f88bdc1a5b558__NewCost ?__backward_3_3_827f88bdc1a5b558__L5) .
+                ?__backward_3_3_827f88bdc1a5b558__L5 list:firstRest (?__backward_3_3_827f88bdc1a5b558__Neighbor ?__backward_3_3_827f88bdc1a5b558__L6) .
+                ?__backward_3_3_827f88bdc1a5b558__L6 list:firstRest (:b (:c :a)) .
+                (:b ?__backward_3_3_827f88bdc1a5b558__Neighbor) :edge ?__backward_3_3_827f88bdc1a5b558__Weight .
+                (:c :a) list:notMember ?__backward_3_3_827f88bdc1a5b558__Neighbor .
+                (3 ?__backward_3_3_827f88bdc1a5b558__Weight) math:sum ?__backward_3_3_827f88bdc1a5b558__NewCost .
+            } ((8 :d :b :c :a))) log:collectAllIn ?__backward_3_3_827f88bdc1a5b558__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_4_3_5b4cf02fbcf160b0__L4 {
+                ?__backward_4_3_5b4cf02fbcf160b0__L4 list:firstRest (?__backward_4_3_5b4cf02fbcf160b0__NewCost ?__backward_4_3_5b4cf02fbcf160b0__L5) .
+                ?__backward_4_3_5b4cf02fbcf160b0__L5 list:firstRest (?__backward_4_3_5b4cf02fbcf160b0__Neighbor ?__backward_4_3_5b4cf02fbcf160b0__L6) .
+                ?__backward_4_3_5b4cf02fbcf160b0__L6 list:firstRest (:b (:a)) .
+                (:b ?__backward_4_3_5b4cf02fbcf160b0__Neighbor) :edge ?__backward_4_3_5b4cf02fbcf160b0__Weight .
+                (:b :c :a) list:notMember ?__backward_4_3_5b4cf02fbcf160b0__Neighbor .
+                (4 ?__backward_4_3_5b4cf02fbcf160b0__Weight) math:sum ?__backward_4_3_5b4cf02fbcf160b0__NewCost .
+            } ((9 :d :b :a))) log:collectAllIn ?__backward_4_3_5b4cf02fbcf160b0__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_5_3_251124af82a7e338__L4 {
+                ?__backward_5_3_251124af82a7e338__L4 list:firstRest (?__backward_5_3_251124af82a7e338__NewCost ?__backward_5_3_251124af82a7e338__L5) .
+                ?__backward_5_3_251124af82a7e338__L5 list:firstRest (?__backward_5_3_251124af82a7e338__Neighbor ?__backward_5_3_251124af82a7e338__L6) .
+                ?__backward_5_3_251124af82a7e338__L6 list:firstRest (:d (:b :c :a)) .
+                (:d ?__backward_5_3_251124af82a7e338__Neighbor) :edge ?__backward_5_3_251124af82a7e338__Weight .
+                (:b :b :c :a) list:notMember ?__backward_5_3_251124af82a7e338__Neighbor .
+                (8 ?__backward_5_3_251124af82a7e338__Weight) math:sum ?__backward_5_3_251124af82a7e338__NewCost .
+            } ((10 :e :d :b :c :a) (14 :f :d :b :c :a))) log:collectAllIn ?__backward_5_3_251124af82a7e338__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_6_3_f9f7a3862a62680f__L4 {
+                ?__backward_6_3_f9f7a3862a62680f__L4 list:firstRest (?__backward_6_3_f9f7a3862a62680f__NewCost ?__backward_6_3_f9f7a3862a62680f__L5) .
+                ?__backward_6_3_f9f7a3862a62680f__L5 list:firstRest (?__backward_6_3_f9f7a3862a62680f__Neighbor ?__backward_6_3_f9f7a3862a62680f__L6) .
+                ?__backward_6_3_f9f7a3862a62680f__L6 list:firstRest (:d (:b :a)) .
+                (:d ?__backward_6_3_f9f7a3862a62680f__Neighbor) :edge ?__backward_6_3_f9f7a3862a62680f__Weight .
+                (:d :b :b :c :a) list:notMember ?__backward_6_3_f9f7a3862a62680f__Neighbor .
+                (9 ?__backward_6_3_f9f7a3862a62680f__Weight) math:sum ?__backward_6_3_f9f7a3862a62680f__NewCost .
+            } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_6_3_f9f7a3862a62680f__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_7_3_c405bc40a7b2ac2a__L4 {
+                ?__backward_7_3_c405bc40a7b2ac2a__L4 list:firstRest (?__backward_7_3_c405bc40a7b2ac2a__NewCost ?__backward_7_3_c405bc40a7b2ac2a__L5) .
+                ?__backward_7_3_c405bc40a7b2ac2a__L5 list:firstRest (?__backward_7_3_c405bc40a7b2ac2a__Neighbor ?__backward_7_3_c405bc40a7b2ac2a__L6) .
+                ?__backward_7_3_c405bc40a7b2ac2a__L6 list:firstRest (:d (:c :a)) .
+                (:d ?__backward_7_3_c405bc40a7b2ac2a__Neighbor) :edge ?__backward_7_3_c405bc40a7b2ac2a__Weight .
+                (:d :d :b :b :c :a) list:notMember ?__backward_7_3_c405bc40a7b2ac2a__Neighbor .
+                (10 ?__backward_7_3_c405bc40a7b2ac2a__Weight) math:sum ?__backward_7_3_c405bc40a7b2ac2a__NewCost .
+            } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_7_3_c405bc40a7b2ac2a__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_8_3_6b112516228aa6c__L4 {
+                ?__backward_8_3_6b112516228aa6c__L4 list:firstRest (?__backward_8_3_6b112516228aa6c__NewCost ?__backward_8_3_6b112516228aa6c__L5) .
+                ?__backward_8_3_6b112516228aa6c__L5 list:firstRest (?__backward_8_3_6b112516228aa6c__Neighbor ?__backward_8_3_6b112516228aa6c__L6) .
+                ?__backward_8_3_6b112516228aa6c__L6 list:firstRest (:e (:d :b :c :a)) .
+                (:e ?__backward_8_3_6b112516228aa6c__Neighbor) :edge ?__backward_8_3_6b112516228aa6c__Weight .
+                (:d :d :d :b :b :c :a) list:notMember ?__backward_8_3_6b112516228aa6c__Neighbor .
+                (10 ?__backward_8_3_6b112516228aa6c__Weight) math:sum ?__backward_8_3_6b112516228aa6c__NewCost .
+            } ((13 :f :e :d :b :c :a))) log:collectAllIn ?__backward_8_3_6b112516228aa6c__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_9_3_ecb5c54f489a0a6b__L4 {
+                ?__backward_9_3_ecb5c54f489a0a6b__L4 list:firstRest (?__backward_9_3_ecb5c54f489a0a6b__NewCost ?__backward_9_3_ecb5c54f489a0a6b__L5) .
+                ?__backward_9_3_ecb5c54f489a0a6b__L5 list:firstRest (?__backward_9_3_ecb5c54f489a0a6b__Neighbor ?__backward_9_3_ecb5c54f489a0a6b__L6) .
+                ?__backward_9_3_ecb5c54f489a0a6b__L6 list:firstRest (:e (:d :b :a)) .
+                (:e ?__backward_9_3_ecb5c54f489a0a6b__Neighbor) :edge ?__backward_9_3_ecb5c54f489a0a6b__Weight .
+                (:e :d :d :d :b :b :c :a) list:notMember ?__backward_9_3_ecb5c54f489a0a6b__Neighbor .
+                (11 ?__backward_9_3_ecb5c54f489a0a6b__Weight) math:sum ?__backward_9_3_ecb5c54f489a0a6b__NewCost .
+            } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_9_3_ecb5c54f489a0a6b__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_10_3_7cc63530c3a568c9__L4 {
+                ?__backward_10_3_7cc63530c3a568c9__L4 list:firstRest (?__backward_10_3_7cc63530c3a568c9__NewCost ?__backward_10_3_7cc63530c3a568c9__L5) .
+                ?__backward_10_3_7cc63530c3a568c9__L5 list:firstRest (?__backward_10_3_7cc63530c3a568c9__Neighbor ?__backward_10_3_7cc63530c3a568c9__L6) .
+                ?__backward_10_3_7cc63530c3a568c9__L6 list:firstRest (:e (:c :a)) .
+                (:e ?__backward_10_3_7cc63530c3a568c9__Neighbor) :edge ?__backward_10_3_7cc63530c3a568c9__Weight .
+                (:e :e :d :d :d :b :b :c :a) list:notMember ?__backward_10_3_7cc63530c3a568c9__Neighbor .
+                (12 ?__backward_10_3_7cc63530c3a568c9__Weight) math:sum ?__backward_10_3_7cc63530c3a568c9__NewCost .
+            } ((15 :f :e :c :a))) log:collectAllIn ?__backward_10_3_7cc63530c3a568c9__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_11_3_982a0b88cd7be146__L4 {
+                ?__backward_11_3_982a0b88cd7be146__L4 list:firstRest (?__backward_11_3_982a0b88cd7be146__NewCost ?__backward_11_3_982a0b88cd7be146__L5) .
+                ?__backward_11_3_982a0b88cd7be146__L5 list:firstRest (?__backward_11_3_982a0b88cd7be146__Neighbor ?__backward_11_3_982a0b88cd7be146__L6) .
+                ?__backward_11_3_982a0b88cd7be146__L6 list:firstRest (:e (:d :c :a)) .
+                (:e ?__backward_11_3_982a0b88cd7be146__Neighbor) :edge ?__backward_11_3_982a0b88cd7be146__Weight .
+                (:e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_11_3_982a0b88cd7be146__Neighbor .
+                (12 ?__backward_11_3_982a0b88cd7be146__Weight) math:sum ?__backward_11_3_982a0b88cd7be146__NewCost .
+            } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_11_3_982a0b88cd7be146__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_12_3_18d249ee5a4f1653__L4 {
+                ?__backward_12_3_18d249ee5a4f1653__L4 list:firstRest (?__backward_12_3_18d249ee5a4f1653__NewCost ?__backward_12_3_18d249ee5a4f1653__L5) .
+                ?__backward_12_3_18d249ee5a4f1653__L5 list:firstRest (?__backward_12_3_18d249ee5a4f1653__Neighbor ?__backward_12_3_18d249ee5a4f1653__L6) .
+                ?__backward_12_3_18d249ee5a4f1653__L6 list:firstRest (:f (:e :d :b :c :a)) .
+                (:f ?__backward_12_3_18d249ee5a4f1653__Neighbor) :edge ?__backward_12_3_18d249ee5a4f1653__Weight .
+                (:e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_12_3_18d249ee5a4f1653__Neighbor .
+                (13 ?__backward_12_3_18d249ee5a4f1653__Weight) math:sum ?__backward_12_3_18d249ee5a4f1653__NewCost .
+            } ()) log:collectAllIn ?__backward_12_3_18d249ee5a4f1653__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_13_3_53ddee2ef63a48e8__L4 {
+                ?__backward_13_3_53ddee2ef63a48e8__L4 list:firstRest (?__backward_13_3_53ddee2ef63a48e8__NewCost ?__backward_13_3_53ddee2ef63a48e8__L5) .
+                ?__backward_13_3_53ddee2ef63a48e8__L5 list:firstRest (?__backward_13_3_53ddee2ef63a48e8__Neighbor ?__backward_13_3_53ddee2ef63a48e8__L6) .
+                ?__backward_13_3_53ddee2ef63a48e8__L6 list:firstRest (:f (:d :b :c :a)) .
+                (:f ?__backward_13_3_53ddee2ef63a48e8__Neighbor) :edge ?__backward_13_3_53ddee2ef63a48e8__Weight .
+                (:f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_13_3_53ddee2ef63a48e8__Neighbor .
+                (14 ?__backward_13_3_53ddee2ef63a48e8__Weight) math:sum ?__backward_13_3_53ddee2ef63a48e8__NewCost .
+            } ()) log:collectAllIn ?__backward_13_3_53ddee2ef63a48e8__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_14_3_eb9430f128769263__L4 {
+                ?__backward_14_3_eb9430f128769263__L4 list:firstRest (?__backward_14_3_eb9430f128769263__NewCost ?__backward_14_3_eb9430f128769263__L5) .
+                ?__backward_14_3_eb9430f128769263__L5 list:firstRest (?__backward_14_3_eb9430f128769263__Neighbor ?__backward_14_3_eb9430f128769263__L6) .
+                ?__backward_14_3_eb9430f128769263__L6 list:firstRest (:f (:e :d :b :a)) .
+                (:f ?__backward_14_3_eb9430f128769263__Neighbor) :edge ?__backward_14_3_eb9430f128769263__Weight .
+                (:f :f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_14_3_eb9430f128769263__Neighbor .
+                (14 ?__backward_14_3_eb9430f128769263__Weight) math:sum ?__backward_14_3_eb9430f128769263__NewCost .
+            } ()) log:collectAllIn ?__backward_14_3_eb9430f128769263__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_15_3_28e1a46750f2396c__L4 {
+                ?__backward_15_3_28e1a46750f2396c__L4 list:firstRest (?__backward_15_3_28e1a46750f2396c__NewCost ?__backward_15_3_28e1a46750f2396c__L5) .
+                ?__backward_15_3_28e1a46750f2396c__L5 list:firstRest (?__backward_15_3_28e1a46750f2396c__Neighbor ?__backward_15_3_28e1a46750f2396c__L6) .
+                ?__backward_15_3_28e1a46750f2396c__L6 list:firstRest (:f (:d :b :a)) .
+                (:f ?__backward_15_3_28e1a46750f2396c__Neighbor) :edge ?__backward_15_3_28e1a46750f2396c__Weight .
+                (:f :f :f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_15_3_28e1a46750f2396c__Neighbor .
+                (15 ?__backward_15_3_28e1a46750f2396c__Weight) math:sum ?__backward_15_3_28e1a46750f2396c__NewCost .
+            } ()) log:collectAllIn ?__backward_15_3_28e1a46750f2396c__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_1_3_3afc7f013ea44df9__L4 {
+                ?__backward_1_3_3afc7f013ea44df9__L4 list:firstRest (?__backward_1_3_3afc7f013ea44df9__NewCost ?__backward_1_3_3afc7f013ea44df9__L5) .
+                ?__backward_1_3_3afc7f013ea44df9__L5 list:firstRest (?__backward_1_3_3afc7f013ea44df9__Neighbor ?__backward_1_3_3afc7f013ea44df9__L6) .
+                ?__backward_1_3_3afc7f013ea44df9__L6 list:firstRest (:a ()) .
+                (:a ?__backward_1_3_3afc7f013ea44df9__Neighbor) :edge ?__backward_1_3_3afc7f013ea44df9__Weight .
+                () list:notMember ?__backward_1_3_3afc7f013ea44df9__Neighbor .
+                (0 ?__backward_1_3_3afc7f013ea44df9__Weight) math:sum ?__backward_1_3_3afc7f013ea44df9__NewCost .
+            } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_3afc7f013ea44df9__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_2_3_a77a8d3332507d88__L4 {
+                ?__backward_2_3_a77a8d3332507d88__L4 list:firstRest (?__backward_2_3_a77a8d3332507d88__NewCost ?__backward_2_3_a77a8d3332507d88__L5) .
+                ?__backward_2_3_a77a8d3332507d88__L5 list:firstRest (?__backward_2_3_a77a8d3332507d88__Neighbor ?__backward_2_3_a77a8d3332507d88__L6) .
+                ?__backward_2_3_a77a8d3332507d88__L6 list:firstRest (:c (:a)) .
+                (:c ?__backward_2_3_a77a8d3332507d88__Neighbor) :edge ?__backward_2_3_a77a8d3332507d88__Weight .
+                (:a) list:notMember ?__backward_2_3_a77a8d3332507d88__Neighbor .
+                (2 ?__backward_2_3_a77a8d3332507d88__Weight) math:sum ?__backward_2_3_a77a8d3332507d88__NewCost .
+            } ((10 :d :c :a) (12 :e :c :a) (3 :b :c :a))) log:collectAllIn ?__backward_2_3_a77a8d3332507d88__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_3_3_1dfd15c42c1a855c__L4 {
+                ?__backward_3_3_1dfd15c42c1a855c__L4 list:firstRest (?__backward_3_3_1dfd15c42c1a855c__NewCost ?__backward_3_3_1dfd15c42c1a855c__L5) .
+                ?__backward_3_3_1dfd15c42c1a855c__L5 list:firstRest (?__backward_3_3_1dfd15c42c1a855c__Neighbor ?__backward_3_3_1dfd15c42c1a855c__L6) .
+                ?__backward_3_3_1dfd15c42c1a855c__L6 list:firstRest (:b (:c :a)) .
+                (:b ?__backward_3_3_1dfd15c42c1a855c__Neighbor) :edge ?__backward_3_3_1dfd15c42c1a855c__Weight .
+                (:c :a) list:notMember ?__backward_3_3_1dfd15c42c1a855c__Neighbor .
+                (3 ?__backward_3_3_1dfd15c42c1a855c__Weight) math:sum ?__backward_3_3_1dfd15c42c1a855c__NewCost .
+            } ((8 :d :b :c :a))) log:collectAllIn ?__backward_3_3_1dfd15c42c1a855c__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_4_3_a6d3e447ef701724__L4 {
+                ?__backward_4_3_a6d3e447ef701724__L4 list:firstRest (?__backward_4_3_a6d3e447ef701724__NewCost ?__backward_4_3_a6d3e447ef701724__L5) .
+                ?__backward_4_3_a6d3e447ef701724__L5 list:firstRest (?__backward_4_3_a6d3e447ef701724__Neighbor ?__backward_4_3_a6d3e447ef701724__L6) .
+                ?__backward_4_3_a6d3e447ef701724__L6 list:firstRest (:b (:a)) .
+                (:b ?__backward_4_3_a6d3e447ef701724__Neighbor) :edge ?__backward_4_3_a6d3e447ef701724__Weight .
+                (:b :c :a) list:notMember ?__backward_4_3_a6d3e447ef701724__Neighbor .
+                (4 ?__backward_4_3_a6d3e447ef701724__Weight) math:sum ?__backward_4_3_a6d3e447ef701724__NewCost .
+            } ((9 :d :b :a))) log:collectAllIn ?__backward_4_3_a6d3e447ef701724__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_5_3_44afb58d2fec997c__L4 {
+                ?__backward_5_3_44afb58d2fec997c__L4 list:firstRest (?__backward_5_3_44afb58d2fec997c__NewCost ?__backward_5_3_44afb58d2fec997c__L5) .
+                ?__backward_5_3_44afb58d2fec997c__L5 list:firstRest (?__backward_5_3_44afb58d2fec997c__Neighbor ?__backward_5_3_44afb58d2fec997c__L6) .
+                ?__backward_5_3_44afb58d2fec997c__L6 list:firstRest (:d (:b :c :a)) .
+                (:d ?__backward_5_3_44afb58d2fec997c__Neighbor) :edge ?__backward_5_3_44afb58d2fec997c__Weight .
+                (:b :b :c :a) list:notMember ?__backward_5_3_44afb58d2fec997c__Neighbor .
+                (8 ?__backward_5_3_44afb58d2fec997c__Weight) math:sum ?__backward_5_3_44afb58d2fec997c__NewCost .
+            } ((10 :e :d :b :c :a) (14 :f :d :b :c :a))) log:collectAllIn ?__backward_5_3_44afb58d2fec997c__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_6_3_48041a69b25306a1__L4 {
+                ?__backward_6_3_48041a69b25306a1__L4 list:firstRest (?__backward_6_3_48041a69b25306a1__NewCost ?__backward_6_3_48041a69b25306a1__L5) .
+                ?__backward_6_3_48041a69b25306a1__L5 list:firstRest (?__backward_6_3_48041a69b25306a1__Neighbor ?__backward_6_3_48041a69b25306a1__L6) .
+                ?__backward_6_3_48041a69b25306a1__L6 list:firstRest (:d (:b :a)) .
+                (:d ?__backward_6_3_48041a69b25306a1__Neighbor) :edge ?__backward_6_3_48041a69b25306a1__Weight .
+                (:d :b :b :c :a) list:notMember ?__backward_6_3_48041a69b25306a1__Neighbor .
+                (9 ?__backward_6_3_48041a69b25306a1__Weight) math:sum ?__backward_6_3_48041a69b25306a1__NewCost .
+            } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_6_3_48041a69b25306a1__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_7_3_d2447ff99fa506__L4 {
+                ?__backward_7_3_d2447ff99fa506__L4 list:firstRest (?__backward_7_3_d2447ff99fa506__NewCost ?__backward_7_3_d2447ff99fa506__L5) .
+                ?__backward_7_3_d2447ff99fa506__L5 list:firstRest (?__backward_7_3_d2447ff99fa506__Neighbor ?__backward_7_3_d2447ff99fa506__L6) .
+                ?__backward_7_3_d2447ff99fa506__L6 list:firstRest (:d (:c :a)) .
+                (:d ?__backward_7_3_d2447ff99fa506__Neighbor) :edge ?__backward_7_3_d2447ff99fa506__Weight .
+                (:d :d :b :b :c :a) list:notMember ?__backward_7_3_d2447ff99fa506__Neighbor .
+                (10 ?__backward_7_3_d2447ff99fa506__Weight) math:sum ?__backward_7_3_d2447ff99fa506__NewCost .
+            } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_7_3_d2447ff99fa506__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_8_3_edaf9e60543e1548__L4 {
+                ?__backward_8_3_edaf9e60543e1548__L4 list:firstRest (?__backward_8_3_edaf9e60543e1548__NewCost ?__backward_8_3_edaf9e60543e1548__L5) .
+                ?__backward_8_3_edaf9e60543e1548__L5 list:firstRest (?__backward_8_3_edaf9e60543e1548__Neighbor ?__backward_8_3_edaf9e60543e1548__L6) .
+                ?__backward_8_3_edaf9e60543e1548__L6 list:firstRest (:e (:d :b :c :a)) .
+                (:e ?__backward_8_3_edaf9e60543e1548__Neighbor) :edge ?__backward_8_3_edaf9e60543e1548__Weight .
+                (:d :d :d :b :b :c :a) list:notMember ?__backward_8_3_edaf9e60543e1548__Neighbor .
+                (10 ?__backward_8_3_edaf9e60543e1548__Weight) math:sum ?__backward_8_3_edaf9e60543e1548__NewCost .
+            } ((13 :f :e :d :b :c :a))) log:collectAllIn ?__backward_8_3_edaf9e60543e1548__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_9_3_6e18c4f0f0001c5__L4 {
+                ?__backward_9_3_6e18c4f0f0001c5__L4 list:firstRest (?__backward_9_3_6e18c4f0f0001c5__NewCost ?__backward_9_3_6e18c4f0f0001c5__L5) .
+                ?__backward_9_3_6e18c4f0f0001c5__L5 list:firstRest (?__backward_9_3_6e18c4f0f0001c5__Neighbor ?__backward_9_3_6e18c4f0f0001c5__L6) .
+                ?__backward_9_3_6e18c4f0f0001c5__L6 list:firstRest (:e (:d :b :a)) .
+                (:e ?__backward_9_3_6e18c4f0f0001c5__Neighbor) :edge ?__backward_9_3_6e18c4f0f0001c5__Weight .
+                (:e :d :d :d :b :b :c :a) list:notMember ?__backward_9_3_6e18c4f0f0001c5__Neighbor .
+                (11 ?__backward_9_3_6e18c4f0f0001c5__Weight) math:sum ?__backward_9_3_6e18c4f0f0001c5__NewCost .
+            } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_9_3_6e18c4f0f0001c5__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_10_3_931d728ed5ac810b__L4 {
+                ?__backward_10_3_931d728ed5ac810b__L4 list:firstRest (?__backward_10_3_931d728ed5ac810b__NewCost ?__backward_10_3_931d728ed5ac810b__L5) .
+                ?__backward_10_3_931d728ed5ac810b__L5 list:firstRest (?__backward_10_3_931d728ed5ac810b__Neighbor ?__backward_10_3_931d728ed5ac810b__L6) .
+                ?__backward_10_3_931d728ed5ac810b__L6 list:firstRest (:e (:c :a)) .
+                (:e ?__backward_10_3_931d728ed5ac810b__Neighbor) :edge ?__backward_10_3_931d728ed5ac810b__Weight .
+                (:e :e :d :d :d :b :b :c :a) list:notMember ?__backward_10_3_931d728ed5ac810b__Neighbor .
+                (12 ?__backward_10_3_931d728ed5ac810b__Weight) math:sum ?__backward_10_3_931d728ed5ac810b__NewCost .
+            } ((15 :f :e :c :a))) log:collectAllIn ?__backward_10_3_931d728ed5ac810b__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_11_3_8f8e2a11f934736a__L4 {
+                ?__backward_11_3_8f8e2a11f934736a__L4 list:firstRest (?__backward_11_3_8f8e2a11f934736a__NewCost ?__backward_11_3_8f8e2a11f934736a__L5) .
+                ?__backward_11_3_8f8e2a11f934736a__L5 list:firstRest (?__backward_11_3_8f8e2a11f934736a__Neighbor ?__backward_11_3_8f8e2a11f934736a__L6) .
+                ?__backward_11_3_8f8e2a11f934736a__L6 list:firstRest (:e (:d :c :a)) .
+                (:e ?__backward_11_3_8f8e2a11f934736a__Neighbor) :edge ?__backward_11_3_8f8e2a11f934736a__Weight .
+                (:e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_11_3_8f8e2a11f934736a__Neighbor .
+                (12 ?__backward_11_3_8f8e2a11f934736a__Weight) math:sum ?__backward_11_3_8f8e2a11f934736a__NewCost .
+            } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_11_3_8f8e2a11f934736a__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_12_3_2557f0d5e251907d__L4 {
+                ?__backward_12_3_2557f0d5e251907d__L4 list:firstRest (?__backward_12_3_2557f0d5e251907d__NewCost ?__backward_12_3_2557f0d5e251907d__L5) .
+                ?__backward_12_3_2557f0d5e251907d__L5 list:firstRest (?__backward_12_3_2557f0d5e251907d__Neighbor ?__backward_12_3_2557f0d5e251907d__L6) .
+                ?__backward_12_3_2557f0d5e251907d__L6 list:firstRest (:f (:e :d :b :c :a)) .
+                (:f ?__backward_12_3_2557f0d5e251907d__Neighbor) :edge ?__backward_12_3_2557f0d5e251907d__Weight .
+                (:e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_12_3_2557f0d5e251907d__Neighbor .
+                (13 ?__backward_12_3_2557f0d5e251907d__Weight) math:sum ?__backward_12_3_2557f0d5e251907d__NewCost .
+            } ()) log:collectAllIn ?__backward_12_3_2557f0d5e251907d__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_13_3_b2da057eb9fdad2c__L4 {
+                ?__backward_13_3_b2da057eb9fdad2c__L4 list:firstRest (?__backward_13_3_b2da057eb9fdad2c__NewCost ?__backward_13_3_b2da057eb9fdad2c__L5) .
+                ?__backward_13_3_b2da057eb9fdad2c__L5 list:firstRest (?__backward_13_3_b2da057eb9fdad2c__Neighbor ?__backward_13_3_b2da057eb9fdad2c__L6) .
+                ?__backward_13_3_b2da057eb9fdad2c__L6 list:firstRest (:f (:d :b :c :a)) .
+                (:f ?__backward_13_3_b2da057eb9fdad2c__Neighbor) :edge ?__backward_13_3_b2da057eb9fdad2c__Weight .
+                (:f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_13_3_b2da057eb9fdad2c__Neighbor .
+                (14 ?__backward_13_3_b2da057eb9fdad2c__Weight) math:sum ?__backward_13_3_b2da057eb9fdad2c__NewCost .
+            } ()) log:collectAllIn ?__backward_13_3_b2da057eb9fdad2c__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_14_3_e06ec5aa69fa300d__L4 {
+                ?__backward_14_3_e06ec5aa69fa300d__L4 list:firstRest (?__backward_14_3_e06ec5aa69fa300d__NewCost ?__backward_14_3_e06ec5aa69fa300d__L5) .
+                ?__backward_14_3_e06ec5aa69fa300d__L5 list:firstRest (?__backward_14_3_e06ec5aa69fa300d__Neighbor ?__backward_14_3_e06ec5aa69fa300d__L6) .
+                ?__backward_14_3_e06ec5aa69fa300d__L6 list:firstRest (:f (:e :d :b :a)) .
+                (:f ?__backward_14_3_e06ec5aa69fa300d__Neighbor) :edge ?__backward_14_3_e06ec5aa69fa300d__Weight .
+                (:f :f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_14_3_e06ec5aa69fa300d__Neighbor .
+                (14 ?__backward_14_3_e06ec5aa69fa300d__Weight) math:sum ?__backward_14_3_e06ec5aa69fa300d__NewCost .
+            } ()) log:collectAllIn ?__backward_14_3_e06ec5aa69fa300d__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_15_3_f12999631e97ba48__L4 {
+                ?__backward_15_3_f12999631e97ba48__L4 list:firstRest (?__backward_15_3_f12999631e97ba48__NewCost ?__backward_15_3_f12999631e97ba48__L5) .
+                ?__backward_15_3_f12999631e97ba48__L5 list:firstRest (?__backward_15_3_f12999631e97ba48__Neighbor ?__backward_15_3_f12999631e97ba48__L6) .
+                ?__backward_15_3_f12999631e97ba48__L6 list:firstRest (:f (:d :b :a)) .
+                (:f ?__backward_15_3_f12999631e97ba48__Neighbor) :edge ?__backward_15_3_f12999631e97ba48__Weight .
+                (:f :f :f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_15_3_f12999631e97ba48__Neighbor .
+                (15 ?__backward_15_3_f12999631e97ba48__Weight) math:sum ?__backward_15_3_f12999631e97ba48__NewCost .
+            } ()) log:collectAllIn ?__backward_15_3_f12999631e97ba48__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_16_3_b4e89b878ba90be9__L4 {
+                ?__backward_16_3_b4e89b878ba90be9__L4 list:firstRest (?__backward_16_3_b4e89b878ba90be9__NewCost ?__backward_16_3_b4e89b878ba90be9__L5) .
+                ?__backward_16_3_b4e89b878ba90be9__L5 list:firstRest (?__backward_16_3_b4e89b878ba90be9__Neighbor ?__backward_16_3_b4e89b878ba90be9__L6) .
+                ?__backward_16_3_b4e89b878ba90be9__L6 list:firstRest (:f (:e :c :a)) .
+                (:f ?__backward_16_3_b4e89b878ba90be9__Neighbor) :edge ?__backward_16_3_b4e89b878ba90be9__Weight .
+                (:f :f :f :f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_16_3_b4e89b878ba90be9__Neighbor .
+                (15 ?__backward_16_3_b4e89b878ba90be9__Weight) math:sum ?__backward_16_3_b4e89b878ba90be9__NewCost .
+            } ()) log:collectAllIn ?__backward_16_3_b4e89b878ba90be9__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_1_3_52a3be002c25fe1d__L4 {
+                ?__backward_1_3_52a3be002c25fe1d__L4 list:firstRest (?__backward_1_3_52a3be002c25fe1d__NewCost ?__backward_1_3_52a3be002c25fe1d__L5) .
+                ?__backward_1_3_52a3be002c25fe1d__L5 list:firstRest (?__backward_1_3_52a3be002c25fe1d__Neighbor ?__backward_1_3_52a3be002c25fe1d__L6) .
+                ?__backward_1_3_52a3be002c25fe1d__L6 list:firstRest (:a ()) .
+                (:a ?__backward_1_3_52a3be002c25fe1d__Neighbor) :edge ?__backward_1_3_52a3be002c25fe1d__Weight .
+                () list:notMember ?__backward_1_3_52a3be002c25fe1d__Neighbor .
+                (0 ?__backward_1_3_52a3be002c25fe1d__Weight) math:sum ?__backward_1_3_52a3be002c25fe1d__NewCost .
+            } ((4 :b :a) (2 :c :a))) log:collectAllIn ?__backward_1_3_52a3be002c25fe1d__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_2_3_548f46c081b6f96a__L4 {
+                ?__backward_2_3_548f46c081b6f96a__L4 list:firstRest (?__backward_2_3_548f46c081b6f96a__NewCost ?__backward_2_3_548f46c081b6f96a__L5) .
+                ?__backward_2_3_548f46c081b6f96a__L5 list:firstRest (?__backward_2_3_548f46c081b6f96a__Neighbor ?__backward_2_3_548f46c081b6f96a__L6) .
+                ?__backward_2_3_548f46c081b6f96a__L6 list:firstRest (:c (:a)) .
+                (:c ?__backward_2_3_548f46c081b6f96a__Neighbor) :edge ?__backward_2_3_548f46c081b6f96a__Weight .
+                (:a) list:notMember ?__backward_2_3_548f46c081b6f96a__Neighbor .
+                (2 ?__backward_2_3_548f46c081b6f96a__Weight) math:sum ?__backward_2_3_548f46c081b6f96a__NewCost .
+            } ((10 :d :c :a) (12 :e :c :a) (3 :b :c :a))) log:collectAllIn ?__backward_2_3_548f46c081b6f96a__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_3_3_1798b85230b22736__L4 {
+                ?__backward_3_3_1798b85230b22736__L4 list:firstRest (?__backward_3_3_1798b85230b22736__NewCost ?__backward_3_3_1798b85230b22736__L5) .
+                ?__backward_3_3_1798b85230b22736__L5 list:firstRest (?__backward_3_3_1798b85230b22736__Neighbor ?__backward_3_3_1798b85230b22736__L6) .
+                ?__backward_3_3_1798b85230b22736__L6 list:firstRest (:b (:c :a)) .
+                (:b ?__backward_3_3_1798b85230b22736__Neighbor) :edge ?__backward_3_3_1798b85230b22736__Weight .
+                (:c :a) list:notMember ?__backward_3_3_1798b85230b22736__Neighbor .
+                (3 ?__backward_3_3_1798b85230b22736__Weight) math:sum ?__backward_3_3_1798b85230b22736__NewCost .
+            } ((8 :d :b :c :a))) log:collectAllIn ?__backward_3_3_1798b85230b22736__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_4_3_d2ca456603fc22ce__L4 {
+                ?__backward_4_3_d2ca456603fc22ce__L4 list:firstRest (?__backward_4_3_d2ca456603fc22ce__NewCost ?__backward_4_3_d2ca456603fc22ce__L5) .
+                ?__backward_4_3_d2ca456603fc22ce__L5 list:firstRest (?__backward_4_3_d2ca456603fc22ce__Neighbor ?__backward_4_3_d2ca456603fc22ce__L6) .
+                ?__backward_4_3_d2ca456603fc22ce__L6 list:firstRest (:b (:a)) .
+                (:b ?__backward_4_3_d2ca456603fc22ce__Neighbor) :edge ?__backward_4_3_d2ca456603fc22ce__Weight .
+                (:b :c :a) list:notMember ?__backward_4_3_d2ca456603fc22ce__Neighbor .
+                (4 ?__backward_4_3_d2ca456603fc22ce__Weight) math:sum ?__backward_4_3_d2ca456603fc22ce__NewCost .
+            } ((9 :d :b :a))) log:collectAllIn ?__backward_4_3_d2ca456603fc22ce__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_5_3_39c5a4d0e5e6d016__L4 {
+                ?__backward_5_3_39c5a4d0e5e6d016__L4 list:firstRest (?__backward_5_3_39c5a4d0e5e6d016__NewCost ?__backward_5_3_39c5a4d0e5e6d016__L5) .
+                ?__backward_5_3_39c5a4d0e5e6d016__L5 list:firstRest (?__backward_5_3_39c5a4d0e5e6d016__Neighbor ?__backward_5_3_39c5a4d0e5e6d016__L6) .
+                ?__backward_5_3_39c5a4d0e5e6d016__L6 list:firstRest (:d (:b :c :a)) .
+                (:d ?__backward_5_3_39c5a4d0e5e6d016__Neighbor) :edge ?__backward_5_3_39c5a4d0e5e6d016__Weight .
+                (:b :b :c :a) list:notMember ?__backward_5_3_39c5a4d0e5e6d016__Neighbor .
+                (8 ?__backward_5_3_39c5a4d0e5e6d016__Weight) math:sum ?__backward_5_3_39c5a4d0e5e6d016__NewCost .
+            } ((10 :e :d :b :c :a) (14 :f :d :b :c :a))) log:collectAllIn ?__backward_5_3_39c5a4d0e5e6d016__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_6_3_f7baf9fe40dc1c35__L4 {
+                ?__backward_6_3_f7baf9fe40dc1c35__L4 list:firstRest (?__backward_6_3_f7baf9fe40dc1c35__NewCost ?__backward_6_3_f7baf9fe40dc1c35__L5) .
+                ?__backward_6_3_f7baf9fe40dc1c35__L5 list:firstRest (?__backward_6_3_f7baf9fe40dc1c35__Neighbor ?__backward_6_3_f7baf9fe40dc1c35__L6) .
+                ?__backward_6_3_f7baf9fe40dc1c35__L6 list:firstRest (:d (:b :a)) .
+                (:d ?__backward_6_3_f7baf9fe40dc1c35__Neighbor) :edge ?__backward_6_3_f7baf9fe40dc1c35__Weight .
+                (:d :b :b :c :a) list:notMember ?__backward_6_3_f7baf9fe40dc1c35__Neighbor .
+                (9 ?__backward_6_3_f7baf9fe40dc1c35__Weight) math:sum ?__backward_6_3_f7baf9fe40dc1c35__NewCost .
+            } ((11 :e :d :b :a) (15 :f :d :b :a))) log:collectAllIn ?__backward_6_3_f7baf9fe40dc1c35__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_7_3_1578ba9ba0748a14__L4 {
+                ?__backward_7_3_1578ba9ba0748a14__L4 list:firstRest (?__backward_7_3_1578ba9ba0748a14__NewCost ?__backward_7_3_1578ba9ba0748a14__L5) .
+                ?__backward_7_3_1578ba9ba0748a14__L5 list:firstRest (?__backward_7_3_1578ba9ba0748a14__Neighbor ?__backward_7_3_1578ba9ba0748a14__L6) .
+                ?__backward_7_3_1578ba9ba0748a14__L6 list:firstRest (:d (:c :a)) .
+                (:d ?__backward_7_3_1578ba9ba0748a14__Neighbor) :edge ?__backward_7_3_1578ba9ba0748a14__Weight .
+                (:d :d :b :b :c :a) list:notMember ?__backward_7_3_1578ba9ba0748a14__Neighbor .
+                (10 ?__backward_7_3_1578ba9ba0748a14__Weight) math:sum ?__backward_7_3_1578ba9ba0748a14__NewCost .
+            } ((12 :e :d :c :a) (16 :f :d :c :a))) log:collectAllIn ?__backward_7_3_1578ba9ba0748a14__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_8_3_59eeb099483180aa__L4 {
+                ?__backward_8_3_59eeb099483180aa__L4 list:firstRest (?__backward_8_3_59eeb099483180aa__NewCost ?__backward_8_3_59eeb099483180aa__L5) .
+                ?__backward_8_3_59eeb099483180aa__L5 list:firstRest (?__backward_8_3_59eeb099483180aa__Neighbor ?__backward_8_3_59eeb099483180aa__L6) .
+                ?__backward_8_3_59eeb099483180aa__L6 list:firstRest (:e (:d :b :c :a)) .
+                (:e ?__backward_8_3_59eeb099483180aa__Neighbor) :edge ?__backward_8_3_59eeb099483180aa__Weight .
+                (:d :d :d :b :b :c :a) list:notMember ?__backward_8_3_59eeb099483180aa__Neighbor .
+                (10 ?__backward_8_3_59eeb099483180aa__Weight) math:sum ?__backward_8_3_59eeb099483180aa__NewCost .
+            } ((13 :f :e :d :b :c :a))) log:collectAllIn ?__backward_8_3_59eeb099483180aa__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_9_3_b48de5e59b4648b1__L4 {
+                ?__backward_9_3_b48de5e59b4648b1__L4 list:firstRest (?__backward_9_3_b48de5e59b4648b1__NewCost ?__backward_9_3_b48de5e59b4648b1__L5) .
+                ?__backward_9_3_b48de5e59b4648b1__L5 list:firstRest (?__backward_9_3_b48de5e59b4648b1__Neighbor ?__backward_9_3_b48de5e59b4648b1__L6) .
+                ?__backward_9_3_b48de5e59b4648b1__L6 list:firstRest (:e (:d :b :a)) .
+                (:e ?__backward_9_3_b48de5e59b4648b1__Neighbor) :edge ?__backward_9_3_b48de5e59b4648b1__Weight .
+                (:e :d :d :d :b :b :c :a) list:notMember ?__backward_9_3_b48de5e59b4648b1__Neighbor .
+                (11 ?__backward_9_3_b48de5e59b4648b1__Weight) math:sum ?__backward_9_3_b48de5e59b4648b1__NewCost .
+            } ((14 :f :e :d :b :a))) log:collectAllIn ?__backward_9_3_b48de5e59b4648b1__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_10_3_c5001683f5d51d9b__L4 {
+                ?__backward_10_3_c5001683f5d51d9b__L4 list:firstRest (?__backward_10_3_c5001683f5d51d9b__NewCost ?__backward_10_3_c5001683f5d51d9b__L5) .
+                ?__backward_10_3_c5001683f5d51d9b__L5 list:firstRest (?__backward_10_3_c5001683f5d51d9b__Neighbor ?__backward_10_3_c5001683f5d51d9b__L6) .
+                ?__backward_10_3_c5001683f5d51d9b__L6 list:firstRest (:e (:c :a)) .
+                (:e ?__backward_10_3_c5001683f5d51d9b__Neighbor) :edge ?__backward_10_3_c5001683f5d51d9b__Weight .
+                (:e :e :d :d :d :b :b :c :a) list:notMember ?__backward_10_3_c5001683f5d51d9b__Neighbor .
+                (12 ?__backward_10_3_c5001683f5d51d9b__Weight) math:sum ?__backward_10_3_c5001683f5d51d9b__NewCost .
+            } ((15 :f :e :c :a))) log:collectAllIn ?__backward_10_3_c5001683f5d51d9b__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_11_3_e16327b8f17c6fd0__L4 {
+                ?__backward_11_3_e16327b8f17c6fd0__L4 list:firstRest (?__backward_11_3_e16327b8f17c6fd0__NewCost ?__backward_11_3_e16327b8f17c6fd0__L5) .
+                ?__backward_11_3_e16327b8f17c6fd0__L5 list:firstRest (?__backward_11_3_e16327b8f17c6fd0__Neighbor ?__backward_11_3_e16327b8f17c6fd0__L6) .
+                ?__backward_11_3_e16327b8f17c6fd0__L6 list:firstRest (:e (:d :c :a)) .
+                (:e ?__backward_11_3_e16327b8f17c6fd0__Neighbor) :edge ?__backward_11_3_e16327b8f17c6fd0__Weight .
+                (:e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_11_3_e16327b8f17c6fd0__Neighbor .
+                (12 ?__backward_11_3_e16327b8f17c6fd0__Weight) math:sum ?__backward_11_3_e16327b8f17c6fd0__NewCost .
+            } ((15 :f :e :d :c :a))) log:collectAllIn ?__backward_11_3_e16327b8f17c6fd0__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_12_3_c79b1a09a9f76d59__L4 {
+                ?__backward_12_3_c79b1a09a9f76d59__L4 list:firstRest (?__backward_12_3_c79b1a09a9f76d59__NewCost ?__backward_12_3_c79b1a09a9f76d59__L5) .
+                ?__backward_12_3_c79b1a09a9f76d59__L5 list:firstRest (?__backward_12_3_c79b1a09a9f76d59__Neighbor ?__backward_12_3_c79b1a09a9f76d59__L6) .
+                ?__backward_12_3_c79b1a09a9f76d59__L6 list:firstRest (:f (:e :d :b :c :a)) .
+                (:f ?__backward_12_3_c79b1a09a9f76d59__Neighbor) :edge ?__backward_12_3_c79b1a09a9f76d59__Weight .
+                (:e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_12_3_c79b1a09a9f76d59__Neighbor .
+                (13 ?__backward_12_3_c79b1a09a9f76d59__Weight) math:sum ?__backward_12_3_c79b1a09a9f76d59__NewCost .
+            } ()) log:collectAllIn ?__backward_12_3_c79b1a09a9f76d59__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_13_3_150cadb739584786__L4 {
+                ?__backward_13_3_150cadb739584786__L4 list:firstRest (?__backward_13_3_150cadb739584786__NewCost ?__backward_13_3_150cadb739584786__L5) .
+                ?__backward_13_3_150cadb739584786__L5 list:firstRest (?__backward_13_3_150cadb739584786__Neighbor ?__backward_13_3_150cadb739584786__L6) .
+                ?__backward_13_3_150cadb739584786__L6 list:firstRest (:f (:d :b :c :a)) .
+                (:f ?__backward_13_3_150cadb739584786__Neighbor) :edge ?__backward_13_3_150cadb739584786__Weight .
+                (:f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_13_3_150cadb739584786__Neighbor .
+                (14 ?__backward_13_3_150cadb739584786__Weight) math:sum ?__backward_13_3_150cadb739584786__NewCost .
+            } ()) log:collectAllIn ?__backward_13_3_150cadb739584786__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_14_3_61c71621c37ce5e9__L4 {
+                ?__backward_14_3_61c71621c37ce5e9__L4 list:firstRest (?__backward_14_3_61c71621c37ce5e9__NewCost ?__backward_14_3_61c71621c37ce5e9__L5) .
+                ?__backward_14_3_61c71621c37ce5e9__L5 list:firstRest (?__backward_14_3_61c71621c37ce5e9__Neighbor ?__backward_14_3_61c71621c37ce5e9__L6) .
+                ?__backward_14_3_61c71621c37ce5e9__L6 list:firstRest (:f (:e :d :b :a)) .
+                (:f ?__backward_14_3_61c71621c37ce5e9__Neighbor) :edge ?__backward_14_3_61c71621c37ce5e9__Weight .
+                (:f :f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_14_3_61c71621c37ce5e9__Neighbor .
+                (14 ?__backward_14_3_61c71621c37ce5e9__Weight) math:sum ?__backward_14_3_61c71621c37ce5e9__NewCost .
+            } ()) log:collectAllIn ?__backward_14_3_61c71621c37ce5e9__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_15_3_7c1f42af36fb0faa__L4 {
+                ?__backward_15_3_7c1f42af36fb0faa__L4 list:firstRest (?__backward_15_3_7c1f42af36fb0faa__NewCost ?__backward_15_3_7c1f42af36fb0faa__L5) .
+                ?__backward_15_3_7c1f42af36fb0faa__L5 list:firstRest (?__backward_15_3_7c1f42af36fb0faa__Neighbor ?__backward_15_3_7c1f42af36fb0faa__L6) .
+                ?__backward_15_3_7c1f42af36fb0faa__L6 list:firstRest (:f (:d :b :a)) .
+                (:f ?__backward_15_3_7c1f42af36fb0faa__Neighbor) :edge ?__backward_15_3_7c1f42af36fb0faa__Weight .
+                (:f :f :f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_15_3_7c1f42af36fb0faa__Neighbor .
+                (15 ?__backward_15_3_7c1f42af36fb0faa__Weight) math:sum ?__backward_15_3_7c1f42af36fb0faa__NewCost .
+            } ()) log:collectAllIn ?__backward_15_3_7c1f42af36fb0faa__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_16_3_70ffc5d990bfc94d__L4 {
+                ?__backward_16_3_70ffc5d990bfc94d__L4 list:firstRest (?__backward_16_3_70ffc5d990bfc94d__NewCost ?__backward_16_3_70ffc5d990bfc94d__L5) .
+                ?__backward_16_3_70ffc5d990bfc94d__L5 list:firstRest (?__backward_16_3_70ffc5d990bfc94d__Neighbor ?__backward_16_3_70ffc5d990bfc94d__L6) .
+                ?__backward_16_3_70ffc5d990bfc94d__L6 list:firstRest (:f (:e :c :a)) .
+                (:f ?__backward_16_3_70ffc5d990bfc94d__Neighbor) :edge ?__backward_16_3_70ffc5d990bfc94d__Weight .
+                (:f :f :f :f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_16_3_70ffc5d990bfc94d__Neighbor .
+                (15 ?__backward_16_3_70ffc5d990bfc94d__Weight) math:sum ?__backward_16_3_70ffc5d990bfc94d__NewCost .
+            } ()) log:collectAllIn ?__backward_16_3_70ffc5d990bfc94d__SCOPE .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?__backward_17_3_19418bd32fb98422__L4 {
+                ?__backward_17_3_19418bd32fb98422__L4 list:firstRest (?__backward_17_3_19418bd32fb98422__NewCost ?__backward_17_3_19418bd32fb98422__L5) .
+                ?__backward_17_3_19418bd32fb98422__L5 list:firstRest (?__backward_17_3_19418bd32fb98422__Neighbor ?__backward_17_3_19418bd32fb98422__L6) .
+                ?__backward_17_3_19418bd32fb98422__L6 list:firstRest (:f (:e :d :c :a)) .
+                (:f ?__backward_17_3_19418bd32fb98422__Neighbor) :edge ?__backward_17_3_19418bd32fb98422__Weight .
+                (:f :f :f :f :f :e :e :e :e :d :d :d :b :b :c :a) list:notMember ?__backward_17_3_19418bd32fb98422__Neighbor .
+                (15 ?__backward_17_3_19418bd32fb98422__Weight) math:sum ?__backward_17_3_19418bd32fb98422__NewCost .
+            } ()) log:collectAllIn ?__backward_17_3_19418bd32fb98422__SCOPE .
+        }
+    ].

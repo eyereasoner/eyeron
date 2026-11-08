@@ -1,0 +1,1738 @@
+@prefix : <http://example.org/docking-abort/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:abortLamp :can :LocalPermutation .
+:abortLamp :can :LocalClone .
+:flightPLC :can :LocalPermutation .
+:flightPLC :can :LocalClone .
+:radioFrame :can :LocalPermutation .
+:radioFrame :can :LocalClone .
+:auditDisplay :can :LocalPermutation .
+:auditDisplay :can :LocalClone .
+:quantumSeal :cannot :UniversalClone .
+:quantumSeal :cannot :UnrestrictedAuditFanOut .
+(:abortLamp :abortLamp) :canCopy :AbortBit .
+(:abortLamp :flightPLC) :canCopy :AbortBit .
+(:abortLamp :radioFrame) :canCopy :AbortBit .
+(:abortLamp :auditDisplay) :canCopy :AbortBit .
+(:flightPLC :abortLamp) :canCopy :AbortBit .
+(:radioFrame :abortLamp) :canCopy :AbortBit .
+(:auditDisplay :abortLamp) :canCopy :AbortBit .
+(:flightPLC :flightPLC) :canCopy :AbortBit .
+(:flightPLC :radioFrame) :canCopy :AbortBit .
+(:flightPLC :auditDisplay) :canCopy :AbortBit .
+(:radioFrame :flightPLC) :canCopy :AbortBit .
+(:auditDisplay :flightPLC) :canCopy :AbortBit .
+(:radioFrame :radioFrame) :canCopy :AbortBit .
+(:radioFrame :auditDisplay) :canCopy :AbortBit .
+(:auditDisplay :radioFrame) :canCopy :AbortBit .
+(:auditDisplay :auditDisplay) :canCopy :AbortBit .
+:SerialNetwork a :PossibleTask .
+:ParallelNetwork a :PossibleTask .
+
+{ :abortLamp :can :LocalPermutation . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :abortLamp ],
+    [ pe:var "O"; pe:value :Red ],
+    [ pe:var "V"; pe:value :AbortBit ],
+    [ pe:var "Z"; pe:value :Green ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :abortLamp :zeroState :Green . },
+    { :abortLamp :oneState :Red . }.
+
+{ :abortLamp a :InformationMedium . }
+  pe:fact "act-docking-abort.n3".
+
+{ :abortLamp :encodes :AbortBit . }
+  pe:fact "act-docking-abort.n3".
+
+{ :abortLamp :zeroState :Green . }
+  pe:fact "act-docking-abort.n3".
+
+{ :abortLamp :oneState :Red . }
+  pe:fact "act-docking-abort.n3".
+
+{ :abortLamp :can :LocalClone . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :abortLamp ],
+    [ pe:var "O"; pe:value :Red ],
+    [ pe:var "V"; pe:value :AbortBit ],
+    [ pe:var "Z"; pe:value :Green ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :abortLamp :zeroState :Green . },
+    { :abortLamp :oneState :Red . }.
+
+{ :flightPLC :can :LocalPermutation . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :flightPLC ],
+    [ pe:var "O"; pe:value :HighVoltage ],
+    [ pe:var "V"; pe:value :AbortBit ],
+    [ pe:var "Z"; pe:value :LowVoltage ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :flightPLC :zeroState :LowVoltage . },
+    { :flightPLC :oneState :HighVoltage . }.
+
+{ :flightPLC a :InformationMedium . }
+  pe:fact "act-docking-abort.n3".
+
+{ :flightPLC :encodes :AbortBit . }
+  pe:fact "act-docking-abort.n3".
+
+{ :flightPLC :zeroState :LowVoltage . }
+  pe:fact "act-docking-abort.n3".
+
+{ :flightPLC :oneState :HighVoltage . }
+  pe:fact "act-docking-abort.n3".
+
+{ :flightPLC :can :LocalClone . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :flightPLC ],
+    [ pe:var "O"; pe:value :HighVoltage ],
+    [ pe:var "V"; pe:value :AbortBit ],
+    [ pe:var "Z"; pe:value :LowVoltage ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :flightPLC :zeroState :LowVoltage . },
+    { :flightPLC :oneState :HighVoltage . }.
+
+{ :radioFrame :can :LocalPermutation . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :radioFrame ],
+    [ pe:var "O"; pe:value :Frame1 ],
+    [ pe:var "V"; pe:value :AbortBit ],
+    [ pe:var "Z"; pe:value :Frame0 ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :radioFrame :zeroState :Frame0 . },
+    { :radioFrame :oneState :Frame1 . }.
+
+{ :radioFrame a :InformationMedium . }
+  pe:fact "act-docking-abort.n3".
+
+{ :radioFrame :encodes :AbortBit . }
+  pe:fact "act-docking-abort.n3".
+
+{ :radioFrame :zeroState :Frame0 . }
+  pe:fact "act-docking-abort.n3".
+
+{ :radioFrame :oneState :Frame1 . }
+  pe:fact "act-docking-abort.n3".
+
+{ :radioFrame :can :LocalClone . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :radioFrame ],
+    [ pe:var "O"; pe:value :Frame1 ],
+    [ pe:var "V"; pe:value :AbortBit ],
+    [ pe:var "Z"; pe:value :Frame0 ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :radioFrame :zeroState :Frame0 . },
+    { :radioFrame :oneState :Frame1 . }.
+
+{ :auditDisplay :can :LocalPermutation . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :auditDisplay ],
+    [ pe:var "O"; pe:value :DisplayABORT ],
+    [ pe:var "V"; pe:value :AbortBit ],
+    [ pe:var "Z"; pe:value :DisplayOK ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :auditDisplay :zeroState :DisplayOK . },
+    { :auditDisplay :oneState :DisplayABORT . }.
+
+{ :auditDisplay a :InformationMedium . }
+  pe:fact "act-docking-abort.n3".
+
+{ :auditDisplay :encodes :AbortBit . }
+  pe:fact "act-docking-abort.n3".
+
+{ :auditDisplay :zeroState :DisplayOK . }
+  pe:fact "act-docking-abort.n3".
+
+{ :auditDisplay :oneState :DisplayABORT . }
+  pe:fact "act-docking-abort.n3".
+
+{ :auditDisplay :can :LocalClone . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :auditDisplay ],
+    [ pe:var "O"; pe:value :DisplayABORT ],
+    [ pe:var "V"; pe:value :AbortBit ],
+    [ pe:var "Z"; pe:value :DisplayOK ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :auditDisplay :zeroState :DisplayOK . },
+    { :auditDisplay :oneState :DisplayABORT . }.
+
+{ :quantumSeal :cannot :UniversalClone . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "M"; pe:value :quantumSeal ],
+    [ pe:var "V"; pe:value :SealVariable ];
+  pe:uses
+    { :quantumSeal a :SuperinformationMedium . },
+    { :quantumSeal :encodes :SealVariable . }.
+
+{ :quantumSeal a :SuperinformationMedium . }
+  pe:fact "act-docking-abort.n3".
+
+{ :quantumSeal :encodes :SealVariable . }
+  pe:fact "act-docking-abort.n3".
+
+{ :quantumSeal :cannot :UnrestrictedAuditFanOut . }
+  pe:rule 7;
+  pe:binding [ pe:var "M"; pe:value :quantumSeal ];
+  pe:uses { :quantumSeal :cannot :UniversalClone . }.
+
+{ (:abortLamp :abortLamp) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :abortLamp ],
+    [ pe:var "Task"; pe:value _:b3_8fad4d18d00ca2a ],
+    [ pe:var "To"; pe:value :abortLamp ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_8fad4d18d00ca2a a :PossibleTask . },
+    { _:b3_8fad4d18d00ca2a :kind :Copy . },
+    { _:b3_8fad4d18d00ca2a :from :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :to :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :variable :AbortBit . }.
+
+{ _:b3_8fad4d18d00ca2a a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_8fad4d18d00ca2a :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_8fad4d18d00ca2a :from :abortLamp . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_8fad4d18d00ca2a :to :abortLamp . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_8fad4d18d00ca2a :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ (:abortLamp :flightPLC) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :abortLamp ],
+    [ pe:var "Task"; pe:value _:b3_f9ef094762372be7 ],
+    [ pe:var "To"; pe:value :flightPLC ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_f9ef094762372be7 a :PossibleTask . },
+    { _:b3_f9ef094762372be7 :kind :Copy . },
+    { _:b3_f9ef094762372be7 :from :abortLamp . },
+    { _:b3_f9ef094762372be7 :to :flightPLC . },
+    { _:b3_f9ef094762372be7 :variable :AbortBit . }.
+
+{ _:b3_f9ef094762372be7 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_f9ef094762372be7 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_f9ef094762372be7 :from :abortLamp . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_f9ef094762372be7 :to :flightPLC . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_f9ef094762372be7 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ (:abortLamp :radioFrame) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :abortLamp ],
+    [ pe:var "Task"; pe:value _:b3_d1f505dc42c30fa0 ],
+    [ pe:var "To"; pe:value :radioFrame ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_d1f505dc42c30fa0 a :PossibleTask . },
+    { _:b3_d1f505dc42c30fa0 :kind :Copy . },
+    { _:b3_d1f505dc42c30fa0 :from :abortLamp . },
+    { _:b3_d1f505dc42c30fa0 :to :radioFrame . },
+    { _:b3_d1f505dc42c30fa0 :variable :AbortBit . }.
+
+{ _:b3_d1f505dc42c30fa0 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_d1f505dc42c30fa0 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_d1f505dc42c30fa0 :from :abortLamp . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_d1f505dc42c30fa0 :to :radioFrame . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_d1f505dc42c30fa0 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ (:abortLamp :auditDisplay) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :abortLamp ],
+    [ pe:var "Task"; pe:value _:b3_13f264403a90e9e9 ],
+    [ pe:var "To"; pe:value :auditDisplay ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_13f264403a90e9e9 a :PossibleTask . },
+    { _:b3_13f264403a90e9e9 :kind :Copy . },
+    { _:b3_13f264403a90e9e9 :from :abortLamp . },
+    { _:b3_13f264403a90e9e9 :to :auditDisplay . },
+    { _:b3_13f264403a90e9e9 :variable :AbortBit . }.
+
+{ _:b3_13f264403a90e9e9 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_13f264403a90e9e9 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_13f264403a90e9e9 :from :abortLamp . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_13f264403a90e9e9 :to :auditDisplay . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_13f264403a90e9e9 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ (:flightPLC :abortLamp) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :flightPLC ],
+    [ pe:var "Task"; pe:value _:b3_aa0636fd2a1e7ba3 ],
+    [ pe:var "To"; pe:value :abortLamp ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_aa0636fd2a1e7ba3 a :PossibleTask . },
+    { _:b3_aa0636fd2a1e7ba3 :kind :Copy . },
+    { _:b3_aa0636fd2a1e7ba3 :from :flightPLC . },
+    { _:b3_aa0636fd2a1e7ba3 :to :abortLamp . },
+    { _:b3_aa0636fd2a1e7ba3 :variable :AbortBit . }.
+
+{ _:b3_aa0636fd2a1e7ba3 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_aa0636fd2a1e7ba3 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_aa0636fd2a1e7ba3 :from :flightPLC . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_aa0636fd2a1e7ba3 :to :abortLamp . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_aa0636fd2a1e7ba3 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ (:radioFrame :abortLamp) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :radioFrame ],
+    [ pe:var "Task"; pe:value _:b3_7092dc697917114e ],
+    [ pe:var "To"; pe:value :abortLamp ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_7092dc697917114e a :PossibleTask . },
+    { _:b3_7092dc697917114e :kind :Copy . },
+    { _:b3_7092dc697917114e :from :radioFrame . },
+    { _:b3_7092dc697917114e :to :abortLamp . },
+    { _:b3_7092dc697917114e :variable :AbortBit . }.
+
+{ _:b3_7092dc697917114e a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_7092dc697917114e :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_7092dc697917114e :from :radioFrame . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_7092dc697917114e :to :abortLamp . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_7092dc697917114e :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ (:auditDisplay :abortLamp) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :auditDisplay ],
+    [ pe:var "Task"; pe:value _:b3_8b3d44e80490bb93 ],
+    [ pe:var "To"; pe:value :abortLamp ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_8b3d44e80490bb93 a :PossibleTask . },
+    { _:b3_8b3d44e80490bb93 :kind :Copy . },
+    { _:b3_8b3d44e80490bb93 :from :auditDisplay . },
+    { _:b3_8b3d44e80490bb93 :to :abortLamp . },
+    { _:b3_8b3d44e80490bb93 :variable :AbortBit . }.
+
+{ _:b3_8b3d44e80490bb93 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_8b3d44e80490bb93 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_8b3d44e80490bb93 :from :auditDisplay . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_8b3d44e80490bb93 :to :abortLamp . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b3_8b3d44e80490bb93 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ (:flightPLC :flightPLC) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :flightPLC ],
+    [ pe:var "Task"; pe:value _:b3_238279bd3708fd52 ],
+    [ pe:var "To"; pe:value :flightPLC ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_238279bd3708fd52 a :PossibleTask . },
+    { _:b3_238279bd3708fd52 :kind :Copy . },
+    { _:b3_238279bd3708fd52 :from :flightPLC . },
+    { _:b3_238279bd3708fd52 :to :flightPLC . },
+    { _:b3_238279bd3708fd52 :variable :AbortBit . }.
+
+{ _:b3_238279bd3708fd52 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_238279bd3708fd52 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_238279bd3708fd52 :from :flightPLC . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_238279bd3708fd52 :to :flightPLC . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_238279bd3708fd52 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ (:flightPLC :radioFrame) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :flightPLC ],
+    [ pe:var "Task"; pe:value _:b3_b08463d91645a877 ],
+    [ pe:var "To"; pe:value :radioFrame ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_b08463d91645a877 a :PossibleTask . },
+    { _:b3_b08463d91645a877 :kind :Copy . },
+    { _:b3_b08463d91645a877 :from :flightPLC . },
+    { _:b3_b08463d91645a877 :to :radioFrame . },
+    { _:b3_b08463d91645a877 :variable :AbortBit . }.
+
+{ _:b3_b08463d91645a877 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_b08463d91645a877 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_b08463d91645a877 :from :flightPLC . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_b08463d91645a877 :to :radioFrame . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_b08463d91645a877 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ (:flightPLC :auditDisplay) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :flightPLC ],
+    [ pe:var "Task"; pe:value _:b3_863183e04f10abe2 ],
+    [ pe:var "To"; pe:value :auditDisplay ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_863183e04f10abe2 a :PossibleTask . },
+    { _:b3_863183e04f10abe2 :kind :Copy . },
+    { _:b3_863183e04f10abe2 :from :flightPLC . },
+    { _:b3_863183e04f10abe2 :to :auditDisplay . },
+    { _:b3_863183e04f10abe2 :variable :AbortBit . }.
+
+{ _:b3_863183e04f10abe2 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_863183e04f10abe2 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_863183e04f10abe2 :from :flightPLC . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_863183e04f10abe2 :to :auditDisplay . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_863183e04f10abe2 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :flightPLC ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ (:radioFrame :flightPLC) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :radioFrame ],
+    [ pe:var "Task"; pe:value _:b3_1af9fe4cfe200b43 ],
+    [ pe:var "To"; pe:value :flightPLC ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_1af9fe4cfe200b43 a :PossibleTask . },
+    { _:b3_1af9fe4cfe200b43 :kind :Copy . },
+    { _:b3_1af9fe4cfe200b43 :from :radioFrame . },
+    { _:b3_1af9fe4cfe200b43 :to :flightPLC . },
+    { _:b3_1af9fe4cfe200b43 :variable :AbortBit . }.
+
+{ _:b3_1af9fe4cfe200b43 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_1af9fe4cfe200b43 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_1af9fe4cfe200b43 :from :radioFrame . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_1af9fe4cfe200b43 :to :flightPLC . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_1af9fe4cfe200b43 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ (:auditDisplay :flightPLC) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :auditDisplay ],
+    [ pe:var "Task"; pe:value _:b3_346101c50f84b8a2 ],
+    [ pe:var "To"; pe:value :flightPLC ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_346101c50f84b8a2 a :PossibleTask . },
+    { _:b3_346101c50f84b8a2 :kind :Copy . },
+    { _:b3_346101c50f84b8a2 :from :auditDisplay . },
+    { _:b3_346101c50f84b8a2 :to :flightPLC . },
+    { _:b3_346101c50f84b8a2 :variable :AbortBit . }.
+
+{ _:b3_346101c50f84b8a2 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_346101c50f84b8a2 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_346101c50f84b8a2 :from :auditDisplay . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_346101c50f84b8a2 :to :flightPLC . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ _:b3_346101c50f84b8a2 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :flightPLC ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :flightPLC a :InformationMedium . },
+    { :flightPLC :encodes :AbortBit . }.
+
+{ (:radioFrame :radioFrame) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :radioFrame ],
+    [ pe:var "Task"; pe:value _:b3_43365b9db011f564 ],
+    [ pe:var "To"; pe:value :radioFrame ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_43365b9db011f564 a :PossibleTask . },
+    { _:b3_43365b9db011f564 :kind :Copy . },
+    { _:b3_43365b9db011f564 :from :radioFrame . },
+    { _:b3_43365b9db011f564 :to :radioFrame . },
+    { _:b3_43365b9db011f564 :variable :AbortBit . }.
+
+{ _:b3_43365b9db011f564 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_43365b9db011f564 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_43365b9db011f564 :from :radioFrame . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_43365b9db011f564 :to :radioFrame . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_43365b9db011f564 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ (:radioFrame :auditDisplay) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :radioFrame ],
+    [ pe:var "Task"; pe:value _:b3_d756edc4965470fd ],
+    [ pe:var "To"; pe:value :auditDisplay ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_d756edc4965470fd a :PossibleTask . },
+    { _:b3_d756edc4965470fd :kind :Copy . },
+    { _:b3_d756edc4965470fd :from :radioFrame . },
+    { _:b3_d756edc4965470fd :to :auditDisplay . },
+    { _:b3_d756edc4965470fd :variable :AbortBit . }.
+
+{ _:b3_d756edc4965470fd a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_d756edc4965470fd :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_d756edc4965470fd :from :radioFrame . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_d756edc4965470fd :to :auditDisplay . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_d756edc4965470fd :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :radioFrame ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ (:auditDisplay :radioFrame) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :auditDisplay ],
+    [ pe:var "Task"; pe:value _:b3_ce7e2f3fe9b16467 ],
+    [ pe:var "To"; pe:value :radioFrame ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_ce7e2f3fe9b16467 a :PossibleTask . },
+    { _:b3_ce7e2f3fe9b16467 :kind :Copy . },
+    { _:b3_ce7e2f3fe9b16467 :from :auditDisplay . },
+    { _:b3_ce7e2f3fe9b16467 :to :radioFrame . },
+    { _:b3_ce7e2f3fe9b16467 :variable :AbortBit . }.
+
+{ _:b3_ce7e2f3fe9b16467 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_ce7e2f3fe9b16467 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_ce7e2f3fe9b16467 :from :auditDisplay . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_ce7e2f3fe9b16467 :to :radioFrame . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ _:b3_ce7e2f3fe9b16467 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :radioFrame ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :radioFrame a :InformationMedium . },
+    { :radioFrame :encodes :AbortBit . }.
+
+{ (:auditDisplay :auditDisplay) :canCopy :AbortBit . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :Copy .
+            ?Task :from ?From .
+            ?Task :to ?To .
+            ?Task :variable ?Variable .
+        } => {
+            (?From ?To) :canCopy ?Variable .
+        } .
+    };
+  pe:binding
+    [ pe:var "From"; pe:value :auditDisplay ],
+    [ pe:var "Task"; pe:value _:b3_59abc45c537a01b2 ],
+    [ pe:var "To"; pe:value :auditDisplay ],
+    [ pe:var "Variable"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_59abc45c537a01b2 a :PossibleTask . },
+    { _:b3_59abc45c537a01b2 :kind :Copy . },
+    { _:b3_59abc45c537a01b2 :from :auditDisplay . },
+    { _:b3_59abc45c537a01b2 :to :auditDisplay . },
+    { _:b3_59abc45c537a01b2 :variable :AbortBit . }.
+
+{ _:b3_59abc45c537a01b2 a :PossibleTask . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_59abc45c537a01b2 :kind :Copy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_59abc45c537a01b2 :from :auditDisplay . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_59abc45c537a01b2 :to :auditDisplay . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ _:b3_59abc45c537a01b2 :variable :AbortBit . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :auditDisplay ],
+    [ pe:var "B"; pe:value :auditDisplay ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . },
+    { :auditDisplay a :InformationMedium . },
+    { :auditDisplay :encodes :AbortBit . }.
+
+{ :SerialNetwork a :PossibleTask . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :SerialNetwork .
+        } => {
+            :SerialNetwork a :PossibleTask .
+        } .
+    };
+  pe:binding [ pe:var "Task"; pe:value _:b7_145b3fbe5c3c9d00 ];
+  pe:uses
+    { _:b7_145b3fbe5c3c9d00 a :PossibleTask . },
+    { _:b7_145b3fbe5c3c9d00 :kind :SerialNetwork . }.
+
+{ _:b7_145b3fbe5c3c9d00 a :PossibleTask . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "C"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_8fad4d18d00ca2a a :PossibleTask . },
+    { _:b3_8fad4d18d00ca2a :kind :Copy . },
+    { _:b3_8fad4d18d00ca2a :from :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :to :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :variable :AbortBit . },
+    { _:b4_8fad4d18d00ca2a a :PossibleTask . },
+    { _:b4_8fad4d18d00ca2a :kind :Measure . },
+    { _:b4_8fad4d18d00ca2a :from :abortLamp . },
+    { _:b4_8fad4d18d00ca2a :to :abortLamp . },
+    { _:b4_8fad4d18d00ca2a :variable :AbortBit . }.
+
+{ _:b4_8fad4d18d00ca2a a :PossibleTask . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp :distinguishes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ :abortLamp :distinguishes :AbortBit . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :abortLamp ],
+    [ pe:var "O"; pe:value :Red ],
+    [ pe:var "V"; pe:value :AbortBit ],
+    [ pe:var "Z"; pe:value :Green ];
+  pe:uses
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . },
+    { :abortLamp :zeroState :Green . },
+    { :abortLamp :oneState :Red . }.
+
+{ _:b4_8fad4d18d00ca2a :kind :Measure . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp :distinguishes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b4_8fad4d18d00ca2a :from :abortLamp . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp :distinguishes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b4_8fad4d18d00ca2a :to :abortLamp . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp :distinguishes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b4_8fad4d18d00ca2a :variable :AbortBit . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { :abortLamp :distinguishes :AbortBit . },
+    { :abortLamp a :InformationMedium . },
+    { :abortLamp :encodes :AbortBit . }.
+
+{ _:b7_145b3fbe5c3c9d00 :kind :SerialNetwork . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "C"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_8fad4d18d00ca2a a :PossibleTask . },
+    { _:b3_8fad4d18d00ca2a :kind :Copy . },
+    { _:b3_8fad4d18d00ca2a :from :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :to :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :variable :AbortBit . },
+    { _:b4_8fad4d18d00ca2a a :PossibleTask . },
+    { _:b4_8fad4d18d00ca2a :kind :Measure . },
+    { _:b4_8fad4d18d00ca2a :from :abortLamp . },
+    { _:b4_8fad4d18d00ca2a :to :abortLamp . },
+    { _:b4_8fad4d18d00ca2a :variable :AbortBit . }.
+
+{ :ParallelNetwork a :PossibleTask . }
+  pe:rule
+    {
+        {
+            ?Task a :PossibleTask .
+            ?Task :kind :ParallelNetwork .
+        } => {
+            :ParallelNetwork a :PossibleTask .
+        } .
+    };
+  pe:binding [ pe:var "Task"; pe:value _:b10_145b3fbe5c3c9d00 ];
+  pe:uses
+    { _:b10_145b3fbe5c3c9d00 a :PossibleTask . },
+    { _:b10_145b3fbe5c3c9d00 :kind :ParallelNetwork . }.
+
+{ _:b10_145b3fbe5c3c9d00 a :PossibleTask . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "C"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_8fad4d18d00ca2a a :PossibleTask . },
+    { _:b3_8fad4d18d00ca2a :kind :Copy . },
+    { _:b3_8fad4d18d00ca2a :from :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :to :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :variable :AbortBit . },
+    { _:b3_8fad4d18d00ca2a a :PossibleTask . },
+    { _:b3_8fad4d18d00ca2a :kind :Copy . },
+    { _:b3_8fad4d18d00ca2a :from :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :to :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :variable :AbortBit . }.
+
+{ _:b10_145b3fbe5c3c9d00 :kind :ParallelNetwork . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :abortLamp ],
+    [ pe:var "B"; pe:value :abortLamp ],
+    [ pe:var "C"; pe:value :abortLamp ],
+    [ pe:var "V"; pe:value :AbortBit ];
+  pe:uses
+    { _:b3_8fad4d18d00ca2a a :PossibleTask . },
+    { _:b3_8fad4d18d00ca2a :kind :Copy . },
+    { _:b3_8fad4d18d00ca2a :from :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :to :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :variable :AbortBit . },
+    { _:b3_8fad4d18d00ca2a a :PossibleTask . },
+    { _:b3_8fad4d18d00ca2a :kind :Copy . },
+    { _:b3_8fad4d18d00ca2a :from :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :to :abortLamp . },
+    { _:b3_8fad4d18d00ca2a :variable :AbortBit . }.

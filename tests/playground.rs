@@ -49,3 +49,24 @@ fn playground_html_is_packaged_for_browser_wasm() {
         "playground bundledCompanionInputs must list every examples/input companion"
     );
 }
+
+#[test]
+fn every_navigation_lists_the_same_pages_and_the_logo_leads_home() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let labels = |path: &str| {
+        let html = fs::read_to_string(root.join(path)).unwrap();
+        let nav = html.split("<nav").nth(1).and_then(|tail| tail.split("</nav>").next()).unwrap().to_string();
+        let labels = nav.split("</a>").filter_map(|part| part.rsplit('>').next()).map(str::trim)
+            .filter(|label| !label.is_empty()).map(str::to_string).collect::<Vec<_>>();
+        (html, labels)
+    };
+    // The README is the guide, served as the site root, so no nav names a
+    // separate guide; each page's logo leads back to it.
+    assert!(!root.join("GUIDE.md").exists());
+    let (layout, layout_labels) = labels("_layouts/default.html");
+    let (playground, playground_labels) = labels("playground.html");
+    assert_eq!(layout_labels, ["Playground", "Specification", "Repository ↗"]);
+    assert_eq!(playground_labels, layout_labels);
+    assert!(layout.contains(r#"<a class="brand" href="{{ '/' | relative_url }}">"#));
+    assert!(playground.contains(r#"<a class="home" href="./" aria-label="Eyeron home"><img class="logo""#));
+}

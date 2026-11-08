@@ -1,0 +1,20 @@
+@prefix : <http://example.org/#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:result :uniqueIdentity :e .
+
+{ :result :uniqueIdentity :e . }
+  pe:rule
+    {
+        {
+            ?e2 log:equalTo :e .
+        } => {
+            :result :uniqueIdentity ?e2 .
+        } .
+    };
+  pe:binding [ pe:var "e2"; pe:value :e ];
+  pe:uses { :e log:equalTo :e . }.
+
+{ :e log:equalTo :e . }
+  pe:builtin log:equalTo.

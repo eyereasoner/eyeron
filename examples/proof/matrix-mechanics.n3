@@ -1,0 +1,599 @@
+@prefix : <http://example.org/#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:H :trace 3 .
+:H :det 2 .
+:C :a11 0 .
+:C :a12 -1 .
+:C :a21 1 .
+:C :a22 0 .
+:C :nonzero "yes" .
+
+{ :H :trace 3 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "h11"; pe:value 1 ],
+    [ pe:var "h22"; pe:value 2 ],
+    [ pe:var "tr"; pe:value 3 ];
+  pe:uses
+    { :H :a11 1 . },
+    { :H :a22 2 . },
+    { (1 2) math:sum 3 . }.
+
+{ :H :a11 1 . }
+  pe:fact "matrix-mechanics.n3".
+
+{ :H :a22 2 . }
+  pe:fact "matrix-mechanics.n3".
+
+{ (1 2) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ :H :det 2 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "det"; pe:value 2 ],
+    [ pe:var "h11"; pe:value 1 ],
+    [ pe:var "h12"; pe:value 0 ],
+    [ pe:var "h21"; pe:value 0 ],
+    [ pe:var "h22"; pe:value 2 ],
+    [ pe:var "p1"; pe:value 2 ],
+    [ pe:var "p2"; pe:value 0 ];
+  pe:uses
+    { :H :a11 1 . },
+    { :H :a12 0 . },
+    { :H :a21 0 . },
+    { :H :a22 2 . },
+    { (1 2) math:product 2 . },
+    { (0 0) math:product 0 . },
+    { (2 0) math:difference 2 . }.
+
+{ :H :a12 0 . }
+  pe:fact "matrix-mechanics.n3".
+
+{ :H :a21 0 . }
+  pe:fact "matrix-mechanics.n3".
+
+{ (1 2) math:product 2 . }
+  pe:builtin math:product.
+
+{ (0 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ (2 0) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ :C :a11 0 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "c11"; pe:value 0 ],
+    [ pe:var "c12"; pe:value -1 ],
+    [ pe:var "c21"; pe:value 1 ],
+    [ pe:var "c22"; pe:value 0 ],
+    [ pe:var "hx11"; pe:value 0 ],
+    [ pe:var "hx12"; pe:value 1 ],
+    [ pe:var "hx21"; pe:value 2 ],
+    [ pe:var "hx22"; pe:value 0 ],
+    [ pe:var "xh11"; pe:value 0 ],
+    [ pe:var "xh12"; pe:value 2 ],
+    [ pe:var "xh21"; pe:value 1 ],
+    [ pe:var "xh22"; pe:value 0 ];
+  pe:uses
+    { :HX :a11 0 . },
+    { :HX :a12 1 . },
+    { :HX :a21 2 . },
+    { :HX :a22 0 . },
+    { :XH :a11 0 . },
+    { :XH :a12 2 . },
+    { :XH :a21 1 . },
+    { :XH :a22 0 . },
+    { (0 0) math:difference 0 . },
+    { (1 2) math:difference -1 . },
+    { (2 1) math:difference 1 . },
+    { (0 0) math:difference 0 . }.
+
+{ :HX :a11 0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "h11"; pe:value 1 ],
+    [ pe:var "h12"; pe:value 0 ],
+    [ pe:var "h21"; pe:value 0 ],
+    [ pe:var "h22"; pe:value 2 ],
+    [ pe:var "hx11"; pe:value 0 ],
+    [ pe:var "hx11a"; pe:value 0 ],
+    [ pe:var "hx11b"; pe:value 0 ],
+    [ pe:var "hx12"; pe:value 1 ],
+    [ pe:var "hx12a"; pe:value 1 ],
+    [ pe:var "hx12b"; pe:value 0 ],
+    [ pe:var "hx21"; pe:value 2 ],
+    [ pe:var "hx21a"; pe:value 0 ],
+    [ pe:var "hx21b"; pe:value 2 ],
+    [ pe:var "hx22"; pe:value 0 ],
+    [ pe:var "hx22a"; pe:value 0 ],
+    [ pe:var "hx22b"; pe:value 0 ],
+    [ pe:var "x11"; pe:value 0 ],
+    [ pe:var "x12"; pe:value 1 ],
+    [ pe:var "x21"; pe:value 1 ],
+    [ pe:var "x22"; pe:value 0 ];
+  pe:uses
+    { :H :a11 1 . },
+    { :H :a12 0 . },
+    { :H :a21 0 . },
+    { :H :a22 2 . },
+    { :X :a11 0 . },
+    { :X :a12 1 . },
+    { :X :a21 1 . },
+    { :X :a22 0 . },
+    { (1 0) math:product 0 . },
+    { (0 1) math:product 0 . },
+    { (0 0) math:sum 0 . },
+    { (1 1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . },
+    { (0 0) math:product 0 . },
+    { (2 1) math:product 2 . },
+    { (0 2) math:sum 2 . },
+    { (0 1) math:product 0 . },
+    { (2 0) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ :X :a11 0 . }
+  pe:fact "matrix-mechanics.n3".
+
+{ :X :a12 1 . }
+  pe:fact "matrix-mechanics.n3".
+
+{ :X :a21 1 . }
+  pe:fact "matrix-mechanics.n3".
+
+{ :X :a22 0 . }
+  pe:fact "matrix-mechanics.n3".
+
+{ (1 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ (0 1) math:product 0 . }
+  pe:builtin math:product.
+
+{ (0 0) math:sum 0 . }
+  pe:builtin math:sum.
+
+{ (1 1) math:product 1 . }
+  pe:builtin math:product.
+
+{ (1 0) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (2 1) math:product 2 . }
+  pe:builtin math:product.
+
+{ (0 2) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ (2 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ :HX :a12 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "h11"; pe:value 1 ],
+    [ pe:var "h12"; pe:value 0 ],
+    [ pe:var "h21"; pe:value 0 ],
+    [ pe:var "h22"; pe:value 2 ],
+    [ pe:var "hx11"; pe:value 0 ],
+    [ pe:var "hx11a"; pe:value 0 ],
+    [ pe:var "hx11b"; pe:value 0 ],
+    [ pe:var "hx12"; pe:value 1 ],
+    [ pe:var "hx12a"; pe:value 1 ],
+    [ pe:var "hx12b"; pe:value 0 ],
+    [ pe:var "hx21"; pe:value 2 ],
+    [ pe:var "hx21a"; pe:value 0 ],
+    [ pe:var "hx21b"; pe:value 2 ],
+    [ pe:var "hx22"; pe:value 0 ],
+    [ pe:var "hx22a"; pe:value 0 ],
+    [ pe:var "hx22b"; pe:value 0 ],
+    [ pe:var "x11"; pe:value 0 ],
+    [ pe:var "x12"; pe:value 1 ],
+    [ pe:var "x21"; pe:value 1 ],
+    [ pe:var "x22"; pe:value 0 ];
+  pe:uses
+    { :H :a11 1 . },
+    { :H :a12 0 . },
+    { :H :a21 0 . },
+    { :H :a22 2 . },
+    { :X :a11 0 . },
+    { :X :a12 1 . },
+    { :X :a21 1 . },
+    { :X :a22 0 . },
+    { (1 0) math:product 0 . },
+    { (0 1) math:product 0 . },
+    { (0 0) math:sum 0 . },
+    { (1 1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . },
+    { (0 0) math:product 0 . },
+    { (2 1) math:product 2 . },
+    { (0 2) math:sum 2 . },
+    { (0 1) math:product 0 . },
+    { (2 0) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ :HX :a21 2 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "h11"; pe:value 1 ],
+    [ pe:var "h12"; pe:value 0 ],
+    [ pe:var "h21"; pe:value 0 ],
+    [ pe:var "h22"; pe:value 2 ],
+    [ pe:var "hx11"; pe:value 0 ],
+    [ pe:var "hx11a"; pe:value 0 ],
+    [ pe:var "hx11b"; pe:value 0 ],
+    [ pe:var "hx12"; pe:value 1 ],
+    [ pe:var "hx12a"; pe:value 1 ],
+    [ pe:var "hx12b"; pe:value 0 ],
+    [ pe:var "hx21"; pe:value 2 ],
+    [ pe:var "hx21a"; pe:value 0 ],
+    [ pe:var "hx21b"; pe:value 2 ],
+    [ pe:var "hx22"; pe:value 0 ],
+    [ pe:var "hx22a"; pe:value 0 ],
+    [ pe:var "hx22b"; pe:value 0 ],
+    [ pe:var "x11"; pe:value 0 ],
+    [ pe:var "x12"; pe:value 1 ],
+    [ pe:var "x21"; pe:value 1 ],
+    [ pe:var "x22"; pe:value 0 ];
+  pe:uses
+    { :H :a11 1 . },
+    { :H :a12 0 . },
+    { :H :a21 0 . },
+    { :H :a22 2 . },
+    { :X :a11 0 . },
+    { :X :a12 1 . },
+    { :X :a21 1 . },
+    { :X :a22 0 . },
+    { (1 0) math:product 0 . },
+    { (0 1) math:product 0 . },
+    { (0 0) math:sum 0 . },
+    { (1 1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . },
+    { (0 0) math:product 0 . },
+    { (2 1) math:product 2 . },
+    { (0 2) math:sum 2 . },
+    { (0 1) math:product 0 . },
+    { (2 0) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ :HX :a22 0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "h11"; pe:value 1 ],
+    [ pe:var "h12"; pe:value 0 ],
+    [ pe:var "h21"; pe:value 0 ],
+    [ pe:var "h22"; pe:value 2 ],
+    [ pe:var "hx11"; pe:value 0 ],
+    [ pe:var "hx11a"; pe:value 0 ],
+    [ pe:var "hx11b"; pe:value 0 ],
+    [ pe:var "hx12"; pe:value 1 ],
+    [ pe:var "hx12a"; pe:value 1 ],
+    [ pe:var "hx12b"; pe:value 0 ],
+    [ pe:var "hx21"; pe:value 2 ],
+    [ pe:var "hx21a"; pe:value 0 ],
+    [ pe:var "hx21b"; pe:value 2 ],
+    [ pe:var "hx22"; pe:value 0 ],
+    [ pe:var "hx22a"; pe:value 0 ],
+    [ pe:var "hx22b"; pe:value 0 ],
+    [ pe:var "x11"; pe:value 0 ],
+    [ pe:var "x12"; pe:value 1 ],
+    [ pe:var "x21"; pe:value 1 ],
+    [ pe:var "x22"; pe:value 0 ];
+  pe:uses
+    { :H :a11 1 . },
+    { :H :a12 0 . },
+    { :H :a21 0 . },
+    { :H :a22 2 . },
+    { :X :a11 0 . },
+    { :X :a12 1 . },
+    { :X :a21 1 . },
+    { :X :a22 0 . },
+    { (1 0) math:product 0 . },
+    { (0 1) math:product 0 . },
+    { (0 0) math:sum 0 . },
+    { (1 1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . },
+    { (0 0) math:product 0 . },
+    { (2 1) math:product 2 . },
+    { (0 2) math:sum 2 . },
+    { (0 1) math:product 0 . },
+    { (2 0) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ :XH :a11 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "h11"; pe:value 1 ],
+    [ pe:var "h12"; pe:value 0 ],
+    [ pe:var "h21"; pe:value 0 ],
+    [ pe:var "h22"; pe:value 2 ],
+    [ pe:var "x11"; pe:value 0 ],
+    [ pe:var "x12"; pe:value 1 ],
+    [ pe:var "x21"; pe:value 1 ],
+    [ pe:var "x22"; pe:value 0 ],
+    [ pe:var "xh11"; pe:value 0 ],
+    [ pe:var "xh11a"; pe:value 0 ],
+    [ pe:var "xh11b"; pe:value 0 ],
+    [ pe:var "xh12"; pe:value 2 ],
+    [ pe:var "xh12a"; pe:value 0 ],
+    [ pe:var "xh12b"; pe:value 2 ],
+    [ pe:var "xh21"; pe:value 1 ],
+    [ pe:var "xh21a"; pe:value 1 ],
+    [ pe:var "xh21b"; pe:value 0 ],
+    [ pe:var "xh22"; pe:value 0 ],
+    [ pe:var "xh22a"; pe:value 0 ],
+    [ pe:var "xh22b"; pe:value 0 ];
+  pe:uses
+    { :X :a11 0 . },
+    { :X :a12 1 . },
+    { :X :a21 1 . },
+    { :X :a22 0 . },
+    { :H :a11 1 . },
+    { :H :a12 0 . },
+    { :H :a21 0 . },
+    { :H :a22 2 . },
+    { (0 1) math:product 0 . },
+    { (1 0) math:product 0 . },
+    { (0 0) math:sum 0 . },
+    { (0 0) math:product 0 . },
+    { (1 2) math:product 2 . },
+    { (0 2) math:sum 2 . },
+    { (1 1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . },
+    { (1 0) math:product 0 . },
+    { (0 2) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (0 2) math:product 0 . }
+  pe:builtin math:product.
+
+{ :XH :a12 2 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "h11"; pe:value 1 ],
+    [ pe:var "h12"; pe:value 0 ],
+    [ pe:var "h21"; pe:value 0 ],
+    [ pe:var "h22"; pe:value 2 ],
+    [ pe:var "x11"; pe:value 0 ],
+    [ pe:var "x12"; pe:value 1 ],
+    [ pe:var "x21"; pe:value 1 ],
+    [ pe:var "x22"; pe:value 0 ],
+    [ pe:var "xh11"; pe:value 0 ],
+    [ pe:var "xh11a"; pe:value 0 ],
+    [ pe:var "xh11b"; pe:value 0 ],
+    [ pe:var "xh12"; pe:value 2 ],
+    [ pe:var "xh12a"; pe:value 0 ],
+    [ pe:var "xh12b"; pe:value 2 ],
+    [ pe:var "xh21"; pe:value 1 ],
+    [ pe:var "xh21a"; pe:value 1 ],
+    [ pe:var "xh21b"; pe:value 0 ],
+    [ pe:var "xh22"; pe:value 0 ],
+    [ pe:var "xh22a"; pe:value 0 ],
+    [ pe:var "xh22b"; pe:value 0 ];
+  pe:uses
+    { :X :a11 0 . },
+    { :X :a12 1 . },
+    { :X :a21 1 . },
+    { :X :a22 0 . },
+    { :H :a11 1 . },
+    { :H :a12 0 . },
+    { :H :a21 0 . },
+    { :H :a22 2 . },
+    { (0 1) math:product 0 . },
+    { (1 0) math:product 0 . },
+    { (0 0) math:sum 0 . },
+    { (0 0) math:product 0 . },
+    { (1 2) math:product 2 . },
+    { (0 2) math:sum 2 . },
+    { (1 1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . },
+    { (1 0) math:product 0 . },
+    { (0 2) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ :XH :a21 1 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "h11"; pe:value 1 ],
+    [ pe:var "h12"; pe:value 0 ],
+    [ pe:var "h21"; pe:value 0 ],
+    [ pe:var "h22"; pe:value 2 ],
+    [ pe:var "x11"; pe:value 0 ],
+    [ pe:var "x12"; pe:value 1 ],
+    [ pe:var "x21"; pe:value 1 ],
+    [ pe:var "x22"; pe:value 0 ],
+    [ pe:var "xh11"; pe:value 0 ],
+    [ pe:var "xh11a"; pe:value 0 ],
+    [ pe:var "xh11b"; pe:value 0 ],
+    [ pe:var "xh12"; pe:value 2 ],
+    [ pe:var "xh12a"; pe:value 0 ],
+    [ pe:var "xh12b"; pe:value 2 ],
+    [ pe:var "xh21"; pe:value 1 ],
+    [ pe:var "xh21a"; pe:value 1 ],
+    [ pe:var "xh21b"; pe:value 0 ],
+    [ pe:var "xh22"; pe:value 0 ],
+    [ pe:var "xh22a"; pe:value 0 ],
+    [ pe:var "xh22b"; pe:value 0 ];
+  pe:uses
+    { :X :a11 0 . },
+    { :X :a12 1 . },
+    { :X :a21 1 . },
+    { :X :a22 0 . },
+    { :H :a11 1 . },
+    { :H :a12 0 . },
+    { :H :a21 0 . },
+    { :H :a22 2 . },
+    { (0 1) math:product 0 . },
+    { (1 0) math:product 0 . },
+    { (0 0) math:sum 0 . },
+    { (0 0) math:product 0 . },
+    { (1 2) math:product 2 . },
+    { (0 2) math:sum 2 . },
+    { (1 1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . },
+    { (1 0) math:product 0 . },
+    { (0 2) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ :XH :a22 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "h11"; pe:value 1 ],
+    [ pe:var "h12"; pe:value 0 ],
+    [ pe:var "h21"; pe:value 0 ],
+    [ pe:var "h22"; pe:value 2 ],
+    [ pe:var "x11"; pe:value 0 ],
+    [ pe:var "x12"; pe:value 1 ],
+    [ pe:var "x21"; pe:value 1 ],
+    [ pe:var "x22"; pe:value 0 ],
+    [ pe:var "xh11"; pe:value 0 ],
+    [ pe:var "xh11a"; pe:value 0 ],
+    [ pe:var "xh11b"; pe:value 0 ],
+    [ pe:var "xh12"; pe:value 2 ],
+    [ pe:var "xh12a"; pe:value 0 ],
+    [ pe:var "xh12b"; pe:value 2 ],
+    [ pe:var "xh21"; pe:value 1 ],
+    [ pe:var "xh21a"; pe:value 1 ],
+    [ pe:var "xh21b"; pe:value 0 ],
+    [ pe:var "xh22"; pe:value 0 ],
+    [ pe:var "xh22a"; pe:value 0 ],
+    [ pe:var "xh22b"; pe:value 0 ];
+  pe:uses
+    { :X :a11 0 . },
+    { :X :a12 1 . },
+    { :X :a21 1 . },
+    { :X :a22 0 . },
+    { :H :a11 1 . },
+    { :H :a12 0 . },
+    { :H :a21 0 . },
+    { :H :a22 2 . },
+    { (0 1) math:product 0 . },
+    { (1 0) math:product 0 . },
+    { (0 0) math:sum 0 . },
+    { (0 0) math:product 0 . },
+    { (1 2) math:product 2 . },
+    { (0 2) math:sum 2 . },
+    { (1 1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . },
+    { (1 0) math:product 0 . },
+    { (0 2) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (0 0) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ (1 2) math:difference -1 . }
+  pe:builtin math:difference.
+
+{ (2 1) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ :C :a12 -1 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "c11"; pe:value 0 ],
+    [ pe:var "c12"; pe:value -1 ],
+    [ pe:var "c21"; pe:value 1 ],
+    [ pe:var "c22"; pe:value 0 ],
+    [ pe:var "hx11"; pe:value 0 ],
+    [ pe:var "hx12"; pe:value 1 ],
+    [ pe:var "hx21"; pe:value 2 ],
+    [ pe:var "hx22"; pe:value 0 ],
+    [ pe:var "xh11"; pe:value 0 ],
+    [ pe:var "xh12"; pe:value 2 ],
+    [ pe:var "xh21"; pe:value 1 ],
+    [ pe:var "xh22"; pe:value 0 ];
+  pe:uses
+    { :HX :a11 0 . },
+    { :HX :a12 1 . },
+    { :HX :a21 2 . },
+    { :HX :a22 0 . },
+    { :XH :a11 0 . },
+    { :XH :a12 2 . },
+    { :XH :a21 1 . },
+    { :XH :a22 0 . },
+    { (0 0) math:difference 0 . },
+    { (1 2) math:difference -1 . },
+    { (2 1) math:difference 1 . },
+    { (0 0) math:difference 0 . }.
+
+{ :C :a21 1 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "c11"; pe:value 0 ],
+    [ pe:var "c12"; pe:value -1 ],
+    [ pe:var "c21"; pe:value 1 ],
+    [ pe:var "c22"; pe:value 0 ],
+    [ pe:var "hx11"; pe:value 0 ],
+    [ pe:var "hx12"; pe:value 1 ],
+    [ pe:var "hx21"; pe:value 2 ],
+    [ pe:var "hx22"; pe:value 0 ],
+    [ pe:var "xh11"; pe:value 0 ],
+    [ pe:var "xh12"; pe:value 2 ],
+    [ pe:var "xh21"; pe:value 1 ],
+    [ pe:var "xh22"; pe:value 0 ];
+  pe:uses
+    { :HX :a11 0 . },
+    { :HX :a12 1 . },
+    { :HX :a21 2 . },
+    { :HX :a22 0 . },
+    { :XH :a11 0 . },
+    { :XH :a12 2 . },
+    { :XH :a21 1 . },
+    { :XH :a22 0 . },
+    { (0 0) math:difference 0 . },
+    { (1 2) math:difference -1 . },
+    { (2 1) math:difference 1 . },
+    { (0 0) math:difference 0 . }.
+
+{ :C :a22 0 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "c11"; pe:value 0 ],
+    [ pe:var "c12"; pe:value -1 ],
+    [ pe:var "c21"; pe:value 1 ],
+    [ pe:var "c22"; pe:value 0 ],
+    [ pe:var "hx11"; pe:value 0 ],
+    [ pe:var "hx12"; pe:value 1 ],
+    [ pe:var "hx21"; pe:value 2 ],
+    [ pe:var "hx22"; pe:value 0 ],
+    [ pe:var "xh11"; pe:value 0 ],
+    [ pe:var "xh12"; pe:value 2 ],
+    [ pe:var "xh21"; pe:value 1 ],
+    [ pe:var "xh22"; pe:value 0 ];
+  pe:uses
+    { :HX :a11 0 . },
+    { :HX :a12 1 . },
+    { :HX :a21 2 . },
+    { :HX :a22 0 . },
+    { :XH :a11 0 . },
+    { :XH :a12 2 . },
+    { :XH :a21 1 . },
+    { :XH :a22 0 . },
+    { (0 0) math:difference 0 . },
+    { (1 2) math:difference -1 . },
+    { (2 1) math:difference 1 . },
+    { (0 0) math:difference 0 . }.
+
+{ :C :nonzero "yes" . }
+  pe:rule 10;
+  pe:binding [ pe:var "v"; pe:value -1 ];
+  pe:uses
+    { :C :a12 -1 . },
+    { -1 math:notEqualTo 0 . }.
+
+{ -1 math:notEqualTo 0 . }
+  pe:builtin math:notEqualTo.

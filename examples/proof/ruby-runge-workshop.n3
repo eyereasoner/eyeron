@@ -1,0 +1,481 @@
+@prefix : <http://example.org/ruby-runge#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:Interp1 :yAtX0 -0.28000000000000014 .
+:Interp1 :yAtXPlus -0.27759800000000023 .
+:Interp1 :xPlus 0.601 .
+:Interp1 :yAtXMinus -0.2823980000000002 .
+:Interp1 :xMinus 0.599 .
+:Interp1 :yAtBracketA "-1"^^xsd:decimal .
+:Interp1 :yAtBracketB "1"^^xsd:decimal .
+:Interp1 :derivativeAtX0 2.3999999999999853 .
+:Interp1 :rootBracket _:b6_457ef41901b6dec1 .
+_:b6_457ef41901b6dec1 :a 0.0 .
+_:b6_457ef41901b6dec1 :b 1.0 .
+_:b6_457ef41901b6dec1 :ya "-1"^^xsd:decimal .
+_:b6_457ef41901b6dec1 :yb "1"^^xsd:decimal .
+
+{ :Interp1 :yAtX0 -0.28000000000000014 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5) ],
+    [ pe:var "terms"; pe:value (0.1568 -0.1456 -0.5824 0.5823999999999999 -0.2912) ],
+    [ pe:var "x0"; pe:value 0.6 ],
+    [ pe:var "y0"; pe:value -0.28000000000000014 ];
+  pe:uses
+    { :Interp1 :points (_:b1 _:b2 _:b3 _:b4 _:b5) . },
+    { :Interp1 :x0 0.6 . },
+    {
+        (?term {
+            (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+            ?pi :x ?xi .
+            ?pi :y ?yi .
+            (?f {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+                ?pj :x ?xj .
+                ?xj math:notEqualTo ?xi .
+                (0.6 ?xj) math:difference ?num .
+                (?xi ?xj) math:difference ?den .
+                (?num ?den) math:quotient ?f .
+            } ?factors) log:collectAllIn _:lag1 .
+            ?factors math:product ?basis .
+            (?yi ?basis) math:product ?term .
+        } (0.1568 -0.1456 -0.5824 0.5823999999999999 -0.2912)) log:collectAllIn ?_:lag0 .
+    },
+    { (0.1568 -0.1456 -0.5824 0.5823999999999999 -0.2912) math:sum -0.28000000000000014 . }.
+
+{ :Interp1 :points (_:b1 _:b2 _:b3 _:b4 _:b5) . }
+  pe:fact "ruby-runge-workshop.n3".
+
+{ :Interp1 :x0 0.6 . }
+  pe:fact "ruby-runge-workshop.n3".
+
+{
+  (?term {
+      (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+      ?pi :x ?xi .
+      ?pi :y ?yi .
+      (?f {
+          (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+          ?pj :x ?xj .
+          ?xj math:notEqualTo ?xi .
+          (0.6 ?xj) math:difference ?num .
+          (?xi ?xj) math:difference ?den .
+          (?num ?den) math:quotient ?f .
+      } ?factors) log:collectAllIn _:lag1 .
+      ?factors math:product ?basis .
+      (?yi ?basis) math:product ?term .
+  } (0.1568 -0.1456 -0.5824 0.5823999999999999 -0.2912)) log:collectAllIn ?_:lag0 .
+}
+  pe:builtin log:collectAllIn.
+
+{ (0.1568 -0.1456 -0.5824 0.5823999999999999 -0.2912) math:sum -0.28000000000000014 . }
+  pe:builtin math:sum.
+
+{ :Interp1 :yAtXPlus -0.27759800000000023 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "h"; pe:value 0.001 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5) ],
+    [ pe:var "terms"; pe:value (0.15665462178362502 -0.1454300602335 -0.5811152906002501 0.5835426727665 -0.291249943716375) ],
+    [ pe:var "x0"; pe:value 0.6 ],
+    [ pe:var "xPlus"; pe:value 0.601 ],
+    [ pe:var "yPlus"; pe:value -0.27759800000000023 ];
+  pe:uses
+    { :Interp1 :points (_:b1 _:b2 _:b3 _:b4 _:b5) . },
+    { :Interp1 :x0 0.6 . },
+    { :Interp1 :h 0.001 . },
+    { (0.6 0.001) math:sum 0.601 . },
+    {
+        (?term {
+            (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+            ?pi :x ?xi .
+            ?pi :y ?yi .
+            (?f {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+                ?pj :x ?xj .
+                ?xj math:notEqualTo ?xi .
+                (0.601 ?xj) math:difference ?num .
+                (?xi ?xj) math:difference ?den .
+                (?num ?den) math:quotient ?f .
+            } ?factors) log:collectAllIn _:d1 .
+            ?factors math:product ?basis .
+            (?yi ?basis) math:product ?term .
+        } (0.15665462178362502 -0.1454300602335 -0.5811152906002501 0.5835426727665 -0.291249943716375)) log:collectAllIn ?_:d0 .
+    },
+    { (0.15665462178362502 -0.1454300602335 -0.5811152906002501 0.5835426727665 -0.291249943716375) math:sum -0.27759800000000023 . }.
+
+{ :Interp1 :h 0.001 . }
+  pe:fact "ruby-runge-workshop.n3".
+
+{ (0.6 0.001) math:sum 0.601 . }
+  pe:builtin math:sum.
+
+{
+  (?term {
+      (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+      ?pi :x ?xi .
+      ?pi :y ?yi .
+      (?f {
+          (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+          ?pj :x ?xj .
+          ?xj math:notEqualTo ?xi .
+          (0.601 ?xj) math:difference ?num .
+          (?xi ?xj) math:difference ?den .
+          (?num ?den) math:quotient ?f .
+      } ?factors) log:collectAllIn _:d1 .
+      ?factors math:product ?basis .
+      (?yi ?basis) math:product ?term .
+  } (0.15665462178362502 -0.1454300602335 -0.5811152906002501 0.5835426727665 -0.291249943716375)) log:collectAllIn ?_:d0 .
+}
+  pe:builtin log:collectAllIn.
+
+{ (0.15665462178362502 -0.1454300602335 -0.5811152906002501 0.5835426727665 -0.291249943716375) math:sum -0.27759800000000023 . }
+  pe:builtin math:sum.
+
+{ :Interp1 :xPlus 0.601 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "h"; pe:value 0.001 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5) ],
+    [ pe:var "terms"; pe:value (0.15665462178362502 -0.1454300602335 -0.5811152906002501 0.5835426727665 -0.291249943716375) ],
+    [ pe:var "x0"; pe:value 0.6 ],
+    [ pe:var "xPlus"; pe:value 0.601 ],
+    [ pe:var "yPlus"; pe:value -0.27759800000000023 ];
+  pe:uses
+    { :Interp1 :points (_:b1 _:b2 _:b3 _:b4 _:b5) . },
+    { :Interp1 :x0 0.6 . },
+    { :Interp1 :h 0.001 . },
+    { (0.6 0.001) math:sum 0.601 . },
+    {
+        (?term {
+            (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+            ?pi :x ?xi .
+            ?pi :y ?yi .
+            (?f {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+                ?pj :x ?xj .
+                ?xj math:notEqualTo ?xi .
+                (0.601 ?xj) math:difference ?num .
+                (?xi ?xj) math:difference ?den .
+                (?num ?den) math:quotient ?f .
+            } ?factors) log:collectAllIn _:d1 .
+            ?factors math:product ?basis .
+            (?yi ?basis) math:product ?term .
+        } (0.15665462178362502 -0.1454300602335 -0.5811152906002501 0.5835426727665 -0.291249943716375)) log:collectAllIn ?_:d0 .
+    },
+    { (0.15665462178362502 -0.1454300602335 -0.5811152906002501 0.5835426727665 -0.291249943716375) math:sum -0.27759800000000023 . }.
+
+{ :Interp1 :yAtXMinus -0.2823980000000002 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "h"; pe:value 0.001 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5) ],
+    [ pe:var "terms"; pe:value (0.156943954883625 -0.14576872643350003 -0.58368328940025 0.5812573405664999 -0.29114727961637504) ],
+    [ pe:var "x0"; pe:value 0.6 ],
+    [ pe:var "xMinus"; pe:value 0.599 ],
+    [ pe:var "yMinus"; pe:value -0.2823980000000002 ];
+  pe:uses
+    { :Interp1 :points (_:b1 _:b2 _:b3 _:b4 _:b5) . },
+    { :Interp1 :x0 0.6 . },
+    { :Interp1 :h 0.001 . },
+    { (0.6 0.001) math:difference 0.599 . },
+    {
+        (?term {
+            (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+            ?pi :x ?xi .
+            ?pi :y ?yi .
+            (?f {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+                ?pj :x ?xj .
+                ?xj math:notEqualTo ?xi .
+                (0.599 ?xj) math:difference ?num .
+                (?xi ?xj) math:difference ?den .
+                (?num ?den) math:quotient ?f .
+            } ?factors) log:collectAllIn _:e1 .
+            ?factors math:product ?basis .
+            (?yi ?basis) math:product ?term .
+        } (0.156943954883625 -0.14576872643350003 -0.58368328940025 0.5812573405664999 -0.29114727961637504)) log:collectAllIn ?_:e0 .
+    },
+    { (0.156943954883625 -0.14576872643350003 -0.58368328940025 0.5812573405664999 -0.29114727961637504) math:sum -0.2823980000000002 . }.
+
+{ (0.6 0.001) math:difference 0.599 . }
+  pe:builtin math:difference.
+
+{
+  (?term {
+      (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+      ?pi :x ?xi .
+      ?pi :y ?yi .
+      (?f {
+          (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+          ?pj :x ?xj .
+          ?xj math:notEqualTo ?xi .
+          (0.599 ?xj) math:difference ?num .
+          (?xi ?xj) math:difference ?den .
+          (?num ?den) math:quotient ?f .
+      } ?factors) log:collectAllIn _:e1 .
+      ?factors math:product ?basis .
+      (?yi ?basis) math:product ?term .
+  } (0.156943954883625 -0.14576872643350003 -0.58368328940025 0.5812573405664999 -0.29114727961637504)) log:collectAllIn ?_:e0 .
+}
+  pe:builtin log:collectAllIn.
+
+{ (0.156943954883625 -0.14576872643350003 -0.58368328940025 0.5812573405664999 -0.29114727961637504) math:sum -0.2823980000000002 . }
+  pe:builtin math:sum.
+
+{ :Interp1 :xMinus 0.599 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "h"; pe:value 0.001 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5) ],
+    [ pe:var "terms"; pe:value (0.156943954883625 -0.14576872643350003 -0.58368328940025 0.5812573405664999 -0.29114727961637504) ],
+    [ pe:var "x0"; pe:value 0.6 ],
+    [ pe:var "xMinus"; pe:value 0.599 ],
+    [ pe:var "yMinus"; pe:value -0.2823980000000002 ];
+  pe:uses
+    { :Interp1 :points (_:b1 _:b2 _:b3 _:b4 _:b5) . },
+    { :Interp1 :x0 0.6 . },
+    { :Interp1 :h 0.001 . },
+    { (0.6 0.001) math:difference 0.599 . },
+    {
+        (?term {
+            (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+            ?pi :x ?xi .
+            ?pi :y ?yi .
+            (?f {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+                ?pj :x ?xj .
+                ?xj math:notEqualTo ?xi .
+                (0.599 ?xj) math:difference ?num .
+                (?xi ?xj) math:difference ?den .
+                (?num ?den) math:quotient ?f .
+            } ?factors) log:collectAllIn _:e1 .
+            ?factors math:product ?basis .
+            (?yi ?basis) math:product ?term .
+        } (0.156943954883625 -0.14576872643350003 -0.58368328940025 0.5812573405664999 -0.29114727961637504)) log:collectAllIn ?_:e0 .
+    },
+    { (0.156943954883625 -0.14576872643350003 -0.58368328940025 0.5812573405664999 -0.29114727961637504) math:sum -0.2823980000000002 . }.
+
+{ :Interp1 :yAtBracketA "-1"^^xsd:decimal . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5) ],
+    [ pe:var "terms"; pe:value ("0"^^xsd:decimal "0"^^xsd:decimal "-1"^^xsd:decimal "0"^^xsd:decimal "0"^^xsd:decimal) ],
+    [ pe:var "xa"; pe:value 0.0 ],
+    [ pe:var "ya"; pe:value "-1"^^xsd:decimal ];
+  pe:uses
+    { :Interp1 :points (_:b1 _:b2 _:b3 _:b4 _:b5) . },
+    { :Interp1 :bracketA 0.0 . },
+    {
+        (?term {
+            (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+            ?pi :x ?xi .
+            ?pi :y ?yi .
+            (?f {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+                ?pj :x ?xj .
+                ?xj math:notEqualTo ?xi .
+                (0.0 ?xj) math:difference ?num .
+                (?xi ?xj) math:difference ?den .
+                (?num ?den) math:quotient ?f .
+            } ?factors) log:collectAllIn _:ra1 .
+            ?factors math:product ?basis .
+            (?yi ?basis) math:product ?term .
+        } ("0"^^xsd:decimal "0"^^xsd:decimal "-1"^^xsd:decimal "0"^^xsd:decimal "0"^^xsd:decimal)) log:collectAllIn ?_:ra0 .
+    },
+    { ("0"^^xsd:decimal "0"^^xsd:decimal "-1"^^xsd:decimal "0"^^xsd:decimal "0"^^xsd:decimal) math:sum "-1"^^xsd:decimal . }.
+
+{ :Interp1 :bracketA 0.0 . }
+  pe:fact "ruby-runge-workshop.n3".
+
+{
+  (?term {
+      (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+      ?pi :x ?xi .
+      ?pi :y ?yi .
+      (?f {
+          (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+          ?pj :x ?xj .
+          ?xj math:notEqualTo ?xi .
+          (0.0 ?xj) math:difference ?num .
+          (?xi ?xj) math:difference ?den .
+          (?num ?den) math:quotient ?f .
+      } ?factors) log:collectAllIn _:ra1 .
+      ?factors math:product ?basis .
+      (?yi ?basis) math:product ?term .
+  } ("0"^^xsd:decimal "0"^^xsd:decimal "-1"^^xsd:decimal "0"^^xsd:decimal "0"^^xsd:decimal)) log:collectAllIn ?_:ra0 .
+}
+  pe:builtin log:collectAllIn.
+
+{ ("0"^^xsd:decimal "0"^^xsd:decimal "-1"^^xsd:decimal "0"^^xsd:decimal "0"^^xsd:decimal) math:sum "-1"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ :Interp1 :yAtBracketB "1"^^xsd:decimal . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5) ],
+    [ pe:var "terms"; pe:value ("0"^^xsd:decimal "0"^^xsd:decimal "0"^^xsd:decimal "1"^^xsd:decimal "0"^^xsd:decimal) ],
+    [ pe:var "xb"; pe:value 1.0 ],
+    [ pe:var "yb"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Interp1 :points (_:b1 _:b2 _:b3 _:b4 _:b5) . },
+    { :Interp1 :bracketB 1.0 . },
+    {
+        (?term {
+            (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+            ?pi :x ?xi .
+            ?pi :y ?yi .
+            (?f {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+                ?pj :x ?xj .
+                ?xj math:notEqualTo ?xi .
+                (1.0 ?xj) math:difference ?num .
+                (?xi ?xj) math:difference ?den .
+                (?num ?den) math:quotient ?f .
+            } ?factors) log:collectAllIn _:rb1 .
+            ?factors math:product ?basis .
+            (?yi ?basis) math:product ?term .
+        } ("0"^^xsd:decimal "0"^^xsd:decimal "0"^^xsd:decimal "1"^^xsd:decimal "0"^^xsd:decimal)) log:collectAllIn ?_:rb0 .
+    },
+    { ("0"^^xsd:decimal "0"^^xsd:decimal "0"^^xsd:decimal "1"^^xsd:decimal "0"^^xsd:decimal) math:sum "1"^^xsd:decimal . }.
+
+{ :Interp1 :bracketB 1.0 . }
+  pe:fact "ruby-runge-workshop.n3".
+
+{
+  (?term {
+      (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pi .
+      ?pi :x ?xi .
+      ?pi :y ?yi .
+      (?f {
+          (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?pj .
+          ?pj :x ?xj .
+          ?xj math:notEqualTo ?xi .
+          (1.0 ?xj) math:difference ?num .
+          (?xi ?xj) math:difference ?den .
+          (?num ?den) math:quotient ?f .
+      } ?factors) log:collectAllIn _:rb1 .
+      ?factors math:product ?basis .
+      (?yi ?basis) math:product ?term .
+  } ("0"^^xsd:decimal "0"^^xsd:decimal "0"^^xsd:decimal "1"^^xsd:decimal "0"^^xsd:decimal)) log:collectAllIn ?_:rb0 .
+}
+  pe:builtin log:collectAllIn.
+
+{ ("0"^^xsd:decimal "0"^^xsd:decimal "0"^^xsd:decimal "1"^^xsd:decimal "0"^^xsd:decimal) math:sum "1"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ :Interp1 :derivativeAtX0 2.3999999999999853 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "dy"; pe:value 0.004799999999999971 ],
+    [ pe:var "dydx"; pe:value 2.3999999999999853 ],
+    [ pe:var "h"; pe:value 0.001 ],
+    [ pe:var "twoH"; pe:value 0.002 ],
+    [ pe:var "yM"; pe:value -0.2823980000000002 ],
+    [ pe:var "yP"; pe:value -0.27759800000000023 ];
+  pe:uses
+    { :Interp1 :yAtXPlus -0.27759800000000023 . },
+    { :Interp1 :yAtXMinus -0.2823980000000002 . },
+    { :Interp1 :h 0.001 . },
+    { (-0.27759800000000023 -0.2823980000000002) math:difference 0.004799999999999971 . },
+    { (2.0 0.001) math:product 0.002 . },
+    { (0.004799999999999971 0.002) math:quotient 2.3999999999999853 . }.
+
+{ (-0.27759800000000023 -0.2823980000000002) math:difference 0.004799999999999971 . }
+  pe:builtin math:difference.
+
+{ (2.0 0.001) math:product 0.002 . }
+  pe:builtin math:product.
+
+{ (0.004799999999999971 0.002) math:quotient 2.3999999999999853 . }
+  pe:builtin math:quotient.
+
+{ :Interp1 :rootBracket _:b6_457ef41901b6dec1 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "prod"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "xa"; pe:value 0.0 ],
+    [ pe:var "xb"; pe:value 1.0 ],
+    [ pe:var "ya"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "yb"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Interp1 :bracketA 0.0 . },
+    { :Interp1 :bracketB 1.0 . },
+    { :Interp1 :yAtBracketA "-1"^^xsd:decimal . },
+    { :Interp1 :yAtBracketB "1"^^xsd:decimal . },
+    { ("-1"^^xsd:decimal "1"^^xsd:decimal) math:product "-1"^^xsd:decimal . },
+    { "-1"^^xsd:decimal math:lessThan 0.0 . }.
+
+{ ("-1"^^xsd:decimal "1"^^xsd:decimal) math:product "-1"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ "-1"^^xsd:decimal math:lessThan 0.0 . }
+  pe:builtin math:lessThan.
+
+{ _:b6_457ef41901b6dec1 :a 0.0 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "prod"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "xa"; pe:value 0.0 ],
+    [ pe:var "xb"; pe:value 1.0 ],
+    [ pe:var "ya"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "yb"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Interp1 :bracketA 0.0 . },
+    { :Interp1 :bracketB 1.0 . },
+    { :Interp1 :yAtBracketA "-1"^^xsd:decimal . },
+    { :Interp1 :yAtBracketB "1"^^xsd:decimal . },
+    { ("-1"^^xsd:decimal "1"^^xsd:decimal) math:product "-1"^^xsd:decimal . },
+    { "-1"^^xsd:decimal math:lessThan 0.0 . }.
+
+{ _:b6_457ef41901b6dec1 :b 1.0 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "prod"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "xa"; pe:value 0.0 ],
+    [ pe:var "xb"; pe:value 1.0 ],
+    [ pe:var "ya"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "yb"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Interp1 :bracketA 0.0 . },
+    { :Interp1 :bracketB 1.0 . },
+    { :Interp1 :yAtBracketA "-1"^^xsd:decimal . },
+    { :Interp1 :yAtBracketB "1"^^xsd:decimal . },
+    { ("-1"^^xsd:decimal "1"^^xsd:decimal) math:product "-1"^^xsd:decimal . },
+    { "-1"^^xsd:decimal math:lessThan 0.0 . }.
+
+{ _:b6_457ef41901b6dec1 :ya "-1"^^xsd:decimal . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "prod"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "xa"; pe:value 0.0 ],
+    [ pe:var "xb"; pe:value 1.0 ],
+    [ pe:var "ya"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "yb"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Interp1 :bracketA 0.0 . },
+    { :Interp1 :bracketB 1.0 . },
+    { :Interp1 :yAtBracketA "-1"^^xsd:decimal . },
+    { :Interp1 :yAtBracketB "1"^^xsd:decimal . },
+    { ("-1"^^xsd:decimal "1"^^xsd:decimal) math:product "-1"^^xsd:decimal . },
+    { "-1"^^xsd:decimal math:lessThan 0.0 . }.
+
+{ _:b6_457ef41901b6dec1 :yb "1"^^xsd:decimal . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "prod"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "xa"; pe:value 0.0 ],
+    [ pe:var "xb"; pe:value 1.0 ],
+    [ pe:var "ya"; pe:value "-1"^^xsd:decimal ],
+    [ pe:var "yb"; pe:value "1"^^xsd:decimal ];
+  pe:uses
+    { :Interp1 :bracketA 0.0 . },
+    { :Interp1 :bracketB 1.0 . },
+    { :Interp1 :yAtBracketA "-1"^^xsd:decimal . },
+    { :Interp1 :yAtBracketB "1"^^xsd:decimal . },
+    { ("-1"^^xsd:decimal "1"^^xsd:decimal) math:product "-1"^^xsd:decimal . },
+    { "-1"^^xsd:decimal math:lessThan 0.0 . }.

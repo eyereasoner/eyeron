@@ -1,0 +1,332 @@
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+{
+    :alcoholicBeverage :sellingTo :adult .
+} log:isPermittedIn :normativeWorld1 .
+{
+    {
+        :alcoholicBeverage :sellingTo :nonAdult .
+    } => false .
+} log:isPermittedIn :normativeWorld1 .
+{
+    {
+        :alcoholicBeverage :sellingTo :nonAdult .
+    } => false .
+} log:isPermittedIn :normativeWorld2 .
+{
+    :alcoholicBeverage :sellingTo :adult .
+} log:isPermittedIn :normativeWorld2 .
+{
+    {
+        :alcoholicBeverage :sellingTo :nonAdult .
+    } => false .
+} log:isObligatoryIn :normativeWorld1 .
+{
+    {
+        :alcoholicBeverage :sellingTo :nonAdult .
+    } => false .
+} log:isObligatoryIn :normativeWorld2 .
+{
+    :alcoholicBeverage :sellingTo :nonAdult .
+} log:isForbiddenIn :normativeWorld1 .
+{
+    :alcoholicBeverage :sellingTo :nonAdult .
+} log:isForbiddenIn :normativeWorld2 .
+
+{
+  {
+      :alcoholicBeverage :sellingTo :adult .
+  } log:isPermittedIn :normativeWorld1 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :alcoholicBeverage :sellingTo :adult .
+    } ],
+    [ pe:var "W1"; pe:value :normativeWorld1 ],
+    [ pe:var "W2"; pe:value :normativeWorld1 ];
+  pe:uses
+    { :normativeWorld1 log:hasAccessTo :normativeWorld1 . },
+    {
+        {
+            :alcoholicBeverage :sellingTo :adult .
+        } log:holdsIn :normativeWorld1 .
+    }.
+
+{ :normativeWorld1 log:hasAccessTo :normativeWorld1 . }
+  pe:fact "deontic-obligation.n3".
+
+{
+  {
+      :alcoholicBeverage :sellingTo :adult .
+  } log:holdsIn :normativeWorld1 .
+}
+  pe:fact "deontic-obligation.n3".
+
+{
+  {
+      {
+          :alcoholicBeverage :sellingTo :nonAdult .
+      } => false .
+  } log:isPermittedIn :normativeWorld1 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        {
+            :alcoholicBeverage :sellingTo :nonAdult .
+        } => false .
+    } ],
+    [ pe:var "W1"; pe:value :normativeWorld1 ],
+    [ pe:var "W2"; pe:value :normativeWorld1 ];
+  pe:uses
+    { :normativeWorld1 log:hasAccessTo :normativeWorld1 . },
+    {
+        {
+            {
+                :alcoholicBeverage :sellingTo :nonAdult .
+            } => false .
+        } log:holdsIn :normativeWorld1 .
+    }.
+
+{
+  {
+      {
+          :alcoholicBeverage :sellingTo :nonAdult .
+      } => false .
+  } log:holdsIn :normativeWorld1 .
+}
+  pe:fact "deontic-obligation.n3".
+
+{
+  {
+      {
+          :alcoholicBeverage :sellingTo :nonAdult .
+      } => false .
+  } log:isPermittedIn :normativeWorld2 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        {
+            :alcoholicBeverage :sellingTo :nonAdult .
+        } => false .
+    } ],
+    [ pe:var "W1"; pe:value :normativeWorld2 ],
+    [ pe:var "W2"; pe:value :normativeWorld2 ];
+  pe:uses
+    { :normativeWorld2 log:hasAccessTo :normativeWorld2 . },
+    {
+        {
+            {
+                :alcoholicBeverage :sellingTo :nonAdult .
+            } => false .
+        } log:holdsIn :normativeWorld2 .
+    }.
+
+{ :normativeWorld2 log:hasAccessTo :normativeWorld2 . }
+  pe:fact "deontic-obligation.n3".
+
+{
+  {
+      {
+          :alcoholicBeverage :sellingTo :nonAdult .
+      } => false .
+  } log:holdsIn :normativeWorld2 .
+}
+  pe:fact "deontic-obligation.n3".
+
+{
+  {
+      :alcoholicBeverage :sellingTo :adult .
+  } log:isPermittedIn :normativeWorld2 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :alcoholicBeverage :sellingTo :adult .
+    } ],
+    [ pe:var "W1"; pe:value :normativeWorld2 ],
+    [ pe:var "W2"; pe:value :normativeWorld1 ];
+  pe:uses
+    { :normativeWorld2 log:hasAccessTo :normativeWorld1 . },
+    {
+        {
+            :alcoholicBeverage :sellingTo :adult .
+        } log:holdsIn :normativeWorld1 .
+    }.
+
+{ :normativeWorld2 log:hasAccessTo :normativeWorld1 . }
+  pe:fact "deontic-obligation.n3".
+
+{
+  {
+      {
+          :alcoholicBeverage :sellingTo :nonAdult .
+      } => false .
+  } log:isObligatoryIn :normativeWorld1 .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        {
+            :alcoholicBeverage :sellingTo :nonAdult .
+        } => false .
+    } ],
+    [ pe:var "Sc"; pe:value _:forAllIn ],
+    [ pe:var "W"; pe:value :normativeWorld1 ],
+    [ pe:var "W1"; pe:value :normativeWorld1 ];
+  pe:uses
+    { :normativeWorld1 log:hasAccessTo :normativeWorld1 . },
+    {
+        {
+            {
+                :alcoholicBeverage :sellingTo :nonAdult .
+            } => false .
+        } log:holdsIn :normativeWorld1 .
+    },
+    {
+        ({
+            :normativeWorld1 log:hasAccessTo ?W2 .
+        } {
+            {
+                {
+                    :alcoholicBeverage :sellingTo :nonAdult .
+                } => false .
+            } log:holdsIn ?W2 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{
+  ({
+      :normativeWorld1 log:hasAccessTo ?W2 .
+  } {
+      {
+          {
+              :alcoholicBeverage :sellingTo :nonAdult .
+          } => false .
+      } log:holdsIn ?W2 .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.
+
+{
+  {
+      {
+          :alcoholicBeverage :sellingTo :nonAdult .
+      } => false .
+  } log:isObligatoryIn :normativeWorld2 .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        {
+            :alcoholicBeverage :sellingTo :nonAdult .
+        } => false .
+    } ],
+    [ pe:var "Sc"; pe:value _:forAllIn ],
+    [ pe:var "W"; pe:value :normativeWorld2 ],
+    [ pe:var "W1"; pe:value :normativeWorld2 ];
+  pe:uses
+    { :normativeWorld2 log:hasAccessTo :normativeWorld2 . },
+    {
+        {
+            {
+                :alcoholicBeverage :sellingTo :nonAdult .
+            } => false .
+        } log:holdsIn :normativeWorld2 .
+    },
+    {
+        ({
+            :normativeWorld2 log:hasAccessTo ?W2 .
+        } {
+            {
+                {
+                    :alcoholicBeverage :sellingTo :nonAdult .
+                } => false .
+            } log:holdsIn ?W2 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{
+  ({
+      :normativeWorld2 log:hasAccessTo ?W2 .
+  } {
+      {
+          {
+              :alcoholicBeverage :sellingTo :nonAdult .
+          } => false .
+      } log:holdsIn ?W2 .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.
+
+{
+  {
+      :alcoholicBeverage :sellingTo :nonAdult .
+  } log:isForbiddenIn :normativeWorld1 .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :alcoholicBeverage :sellingTo :nonAdult .
+    } ],
+    [ pe:var "Sc"; pe:value _:forAllIn ],
+    [ pe:var "W"; pe:value :normativeWorld1 ],
+    [ pe:var "W1"; pe:value :normativeWorld1 ];
+  pe:uses
+    { :normativeWorld1 log:hasAccessTo :normativeWorld1 . },
+    {
+        {
+            {
+                :alcoholicBeverage :sellingTo :nonAdult .
+            } => false .
+        } log:holdsIn :normativeWorld1 .
+    },
+    {
+        ({
+            :normativeWorld1 log:hasAccessTo ?W2 .
+        } {
+            {
+                {
+                    :alcoholicBeverage :sellingTo :nonAdult .
+                } => false .
+            } log:holdsIn ?W2 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{
+  {
+      :alcoholicBeverage :sellingTo :nonAdult .
+  } log:isForbiddenIn :normativeWorld2 .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :alcoholicBeverage :sellingTo :nonAdult .
+    } ],
+    [ pe:var "Sc"; pe:value _:forAllIn ],
+    [ pe:var "W"; pe:value :normativeWorld2 ],
+    [ pe:var "W1"; pe:value :normativeWorld2 ];
+  pe:uses
+    { :normativeWorld2 log:hasAccessTo :normativeWorld2 . },
+    {
+        {
+            {
+                :alcoholicBeverage :sellingTo :nonAdult .
+            } => false .
+        } log:holdsIn :normativeWorld2 .
+    },
+    {
+        ({
+            :normativeWorld2 log:hasAccessTo ?W2 .
+        } {
+            {
+                {
+                    :alcoholicBeverage :sellingTo :nonAdult .
+                } => false .
+            } log:holdsIn ?W2 .
+        }) log:forAllIn _:forAllIn .
+    }.

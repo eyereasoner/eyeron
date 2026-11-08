@@ -1,0 +1,55 @@
+# checked with obligations: 7 steps, 5 verified, 2 trusted
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+_:x_44d5add673004d27_14650fb0739d0383 a :Cat .
+_:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair .
+:test :is true .
+{
+    :Koko a :Animal .
+} => {
+    _:x_44d5add673004d27 a :Cat .
+} .
+{
+    :Koko a :Animal .
+} => {
+    _:x_64f1352a2f72e196 a :BritishShortHair .
+} .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/cat-koko.n3";
+    pe:source "examples/cat-koko.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 7;
+    pe:verified 5;
+    pe:trusted 2;
+    pe:builtinSteps 1;
+    pe:factSteps 1;
+    pe:ruleSteps 5;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 7; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 7; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 14; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 1; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 12; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 5; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:x_44d5add673004d27_14650fb0739d0383 a :Cat .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:x_64f1352a2f72e196_14650fb0739d0383 a :BritishShortHair .
+        }
+    ].

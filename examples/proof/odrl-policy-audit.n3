@@ -1,0 +1,682 @@
+@prefix : <http://example.org/#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:case :entails {
+    :alice :canAccess :PayrollLedger .
+} .
+:case :decision :ManualReviewRequired .
+
+{
+  :case :entails {
+      :alice :canAccess :PayrollLedger .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value {
+        :ticket-42 :request :PublishPolicySnapshot .
+        :policy-1 a odrl:Set .
+        :policy-1 odrl:permission _:b1 .
+        _:b1 odrl:assignee :alice .
+        _:b1 odrl:target :EmployeeHandbook .
+        _:b1 odrl:action odrl:read .
+        :policy-1 odrl:permission _:b2 .
+        _:b2 odrl:assignee :alice .
+        _:b2 odrl:target :PayrollLedger .
+        _:b2 odrl:action odrl:read .
+        :PayrollLedger a :SensitiveAsset .
+        :PayrollLedger a :PayrollAsset .
+        :EmployeeHandbook a :PublicAsset .
+        {
+            ?Policy odrl:permission _:b3 .
+            _:b3 odrl:assignee :alice .
+            _:b3 odrl:target ?Asset .
+            _:b3 odrl:action odrl:read .
+        } => {
+            :alice :canRead ?Asset .
+        } .
+        {
+            :alice :canRead ?Asset .
+        } => {
+            :alice :canAccess ?Asset .
+        } .
+        :alice :canRead :EmployeeHandbook .
+        :alice :canRead :PayrollLedger .
+        :alice :canAccess :EmployeeHandbook .
+        :alice :canAccess :PayrollLedger .
+    } ],
+    [ pe:var "User"; pe:value :alice ];
+  pe:uses
+    {
+        :case :policyClosure {
+            :ticket-42 :request :PublishPolicySnapshot .
+            :policy-1 a odrl:Set .
+            :policy-1 odrl:permission _:b1 .
+            _:b1 odrl:assignee :alice .
+            _:b1 odrl:target :EmployeeHandbook .
+            _:b1 odrl:action odrl:read .
+            :policy-1 odrl:permission _:b2 .
+            _:b2 odrl:assignee :alice .
+            _:b2 odrl:target :PayrollLedger .
+            _:b2 odrl:action odrl:read .
+            :PayrollLedger a :SensitiveAsset .
+            :PayrollLedger a :PayrollAsset .
+            :EmployeeHandbook a :PublicAsset .
+            {
+                ?Policy odrl:permission _:b3 .
+                _:b3 odrl:assignee :alice .
+                _:b3 odrl:target ?Asset .
+                _:b3 odrl:action odrl:read .
+            } => {
+                :alice :canRead ?Asset .
+            } .
+            {
+                :alice :canRead ?Asset .
+            } => {
+                :alice :canAccess ?Asset .
+            } .
+            :alice :canRead :EmployeeHandbook .
+            :alice :canRead :PayrollLedger .
+            :alice :canAccess :EmployeeHandbook .
+            :alice :canAccess :PayrollLedger .
+        } .
+    },
+    {
+        {
+            :ticket-42 :request :PublishPolicySnapshot .
+            :policy-1 a odrl:Set .
+            :policy-1 odrl:permission _:b1 .
+            _:b1 odrl:assignee :alice .
+            _:b1 odrl:target :EmployeeHandbook .
+            _:b1 odrl:action odrl:read .
+            :policy-1 odrl:permission _:b2 .
+            _:b2 odrl:assignee :alice .
+            _:b2 odrl:target :PayrollLedger .
+            _:b2 odrl:action odrl:read .
+            :PayrollLedger a :SensitiveAsset .
+            :PayrollLedger a :PayrollAsset .
+            :EmployeeHandbook a :PublicAsset .
+            {
+                ?Policy odrl:permission _:b3 .
+                _:b3 odrl:assignee :alice .
+                _:b3 odrl:target ?Asset .
+                _:b3 odrl:action odrl:read .
+            } => {
+                :alice :canRead ?Asset .
+            } .
+            {
+                :alice :canRead ?Asset .
+            } => {
+                :alice :canAccess ?Asset .
+            } .
+            :alice :canRead :EmployeeHandbook .
+            :alice :canRead :PayrollLedger .
+            :alice :canAccess :EmployeeHandbook .
+            :alice :canAccess :PayrollLedger .
+        } log:includes {
+            :alice :canAccess :PayrollLedger .
+        } .
+    }.
+
+{
+  :case :policyClosure {
+      :ticket-42 :request :PublishPolicySnapshot .
+      :policy-1 a odrl:Set .
+      :policy-1 odrl:permission _:b1 .
+      _:b1 odrl:assignee :alice .
+      _:b1 odrl:target :EmployeeHandbook .
+      _:b1 odrl:action odrl:read .
+      :policy-1 odrl:permission _:b2 .
+      _:b2 odrl:assignee :alice .
+      _:b2 odrl:target :PayrollLedger .
+      _:b2 odrl:action odrl:read .
+      :PayrollLedger a :SensitiveAsset .
+      :PayrollLedger a :PayrollAsset .
+      :EmployeeHandbook a :PublicAsset .
+      {
+          ?Policy odrl:permission _:b3 .
+          _:b3 odrl:assignee :alice .
+          _:b3 odrl:target ?Asset .
+          _:b3 odrl:action odrl:read .
+      } => {
+          :alice :canRead ?Asset .
+      } .
+      {
+          :alice :canRead ?Asset .
+      } => {
+          :alice :canAccess ?Asset .
+      } .
+      :alice :canRead :EmployeeHandbook .
+      :alice :canRead :PayrollLedger .
+      :alice :canAccess :EmployeeHandbook .
+      :alice :canAccess :PayrollLedger .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "PolicyClosure"; pe:value {
+        :ticket-42 :request :PublishPolicySnapshot .
+        :policy-1 a odrl:Set .
+        :policy-1 odrl:permission _:b1 .
+        _:b1 odrl:assignee :alice .
+        _:b1 odrl:target :EmployeeHandbook .
+        _:b1 odrl:action odrl:read .
+        :policy-1 odrl:permission _:b2 .
+        _:b2 odrl:assignee :alice .
+        _:b2 odrl:target :PayrollLedger .
+        _:b2 odrl:action odrl:read .
+        :PayrollLedger a :SensitiveAsset .
+        :PayrollLedger a :PayrollAsset .
+        :EmployeeHandbook a :PublicAsset .
+        {
+            ?Policy odrl:permission _:b3 .
+            _:b3 odrl:assignee :alice .
+            _:b3 odrl:target ?Asset .
+            _:b3 odrl:action odrl:read .
+        } => {
+            :alice :canRead ?Asset .
+        } .
+        {
+            :alice :canRead ?Asset .
+        } => {
+            :alice :canAccess ?Asset .
+        } .
+        :alice :canRead :EmployeeHandbook .
+        :alice :canRead :PayrollLedger .
+        :alice :canAccess :EmployeeHandbook .
+        :alice :canAccess :PayrollLedger .
+    } ],
+    [ pe:var "PolicyTheory"; pe:value {
+        :ticket-42 :request :PublishPolicySnapshot .
+        :policy-1 a odrl:Set .
+        :policy-1 odrl:permission _:b1 .
+        _:b1 odrl:assignee :alice .
+        _:b1 odrl:target :EmployeeHandbook .
+        _:b1 odrl:action odrl:read .
+        :policy-1 odrl:permission _:b2 .
+        _:b2 odrl:assignee :alice .
+        _:b2 odrl:target :PayrollLedger .
+        _:b2 odrl:action odrl:read .
+        :PayrollLedger a :SensitiveAsset .
+        :PayrollLedger a :PayrollAsset .
+        :EmployeeHandbook a :PublicAsset .
+        {
+            ?Policy odrl:permission _:b3 .
+            _:b3 odrl:assignee :alice .
+            _:b3 odrl:target ?Asset .
+            _:b3 odrl:action odrl:read .
+        } => {
+            :alice :canRead ?Asset .
+        } .
+        {
+            :alice :canRead ?Asset .
+        } => {
+            :alice :canAccess ?Asset .
+        } .
+    } ];
+  pe:uses
+    {
+        :case :policyTheory {
+            :ticket-42 :request :PublishPolicySnapshot .
+            :policy-1 a odrl:Set .
+            :policy-1 odrl:permission _:b1 .
+            _:b1 odrl:assignee :alice .
+            _:b1 odrl:target :EmployeeHandbook .
+            _:b1 odrl:action odrl:read .
+            :policy-1 odrl:permission _:b2 .
+            _:b2 odrl:assignee :alice .
+            _:b2 odrl:target :PayrollLedger .
+            _:b2 odrl:action odrl:read .
+            :PayrollLedger a :SensitiveAsset .
+            :PayrollLedger a :PayrollAsset .
+            :EmployeeHandbook a :PublicAsset .
+            {
+                ?Policy odrl:permission _:b3 .
+                _:b3 odrl:assignee :alice .
+                _:b3 odrl:target ?Asset .
+                _:b3 odrl:action odrl:read .
+            } => {
+                :alice :canRead ?Asset .
+            } .
+            {
+                :alice :canRead ?Asset .
+            } => {
+                :alice :canAccess ?Asset .
+            } .
+        } .
+    },
+    {
+        {
+            :ticket-42 :request :PublishPolicySnapshot .
+            :policy-1 a odrl:Set .
+            :policy-1 odrl:permission _:b1 .
+            _:b1 odrl:assignee :alice .
+            _:b1 odrl:target :EmployeeHandbook .
+            _:b1 odrl:action odrl:read .
+            :policy-1 odrl:permission _:b2 .
+            _:b2 odrl:assignee :alice .
+            _:b2 odrl:target :PayrollLedger .
+            _:b2 odrl:action odrl:read .
+            :PayrollLedger a :SensitiveAsset .
+            :PayrollLedger a :PayrollAsset .
+            :EmployeeHandbook a :PublicAsset .
+            {
+                ?Policy odrl:permission _:b3 .
+                _:b3 odrl:assignee :alice .
+                _:b3 odrl:target ?Asset .
+                _:b3 odrl:action odrl:read .
+            } => {
+                :alice :canRead ?Asset .
+            } .
+            {
+                :alice :canRead ?Asset .
+            } => {
+                :alice :canAccess ?Asset .
+            } .
+        } log:conclusion {
+            :ticket-42 :request :PublishPolicySnapshot .
+            :policy-1 a odrl:Set .
+            :policy-1 odrl:permission _:b1 .
+            _:b1 odrl:assignee :alice .
+            _:b1 odrl:target :EmployeeHandbook .
+            _:b1 odrl:action odrl:read .
+            :policy-1 odrl:permission _:b2 .
+            _:b2 odrl:assignee :alice .
+            _:b2 odrl:target :PayrollLedger .
+            _:b2 odrl:action odrl:read .
+            :PayrollLedger a :SensitiveAsset .
+            :PayrollLedger a :PayrollAsset .
+            :EmployeeHandbook a :PublicAsset .
+            {
+                ?Policy odrl:permission _:b3 .
+                _:b3 odrl:assignee :alice .
+                _:b3 odrl:target ?Asset .
+                _:b3 odrl:action odrl:read .
+            } => {
+                :alice :canRead ?Asset .
+            } .
+            {
+                :alice :canRead ?Asset .
+            } => {
+                :alice :canAccess ?Asset .
+            } .
+            :alice :canRead :EmployeeHandbook .
+            :alice :canRead :PayrollLedger .
+            :alice :canAccess :EmployeeHandbook .
+            :alice :canAccess :PayrollLedger .
+        } .
+    }.
+
+{
+  :case :policyTheory {
+      :ticket-42 :request :PublishPolicySnapshot .
+      :policy-1 a odrl:Set .
+      :policy-1 odrl:permission _:b1 .
+      _:b1 odrl:assignee :alice .
+      _:b1 odrl:target :EmployeeHandbook .
+      _:b1 odrl:action odrl:read .
+      :policy-1 odrl:permission _:b2 .
+      _:b2 odrl:assignee :alice .
+      _:b2 odrl:target :PayrollLedger .
+      _:b2 odrl:action odrl:read .
+      :PayrollLedger a :SensitiveAsset .
+      :PayrollLedger a :PayrollAsset .
+      :EmployeeHandbook a :PublicAsset .
+      {
+          ?Policy odrl:permission _:b3 .
+          _:b3 odrl:assignee ?User .
+          _:b3 odrl:target ?Asset .
+          _:b3 odrl:action odrl:read .
+      } => {
+          ?User :canRead ?Asset .
+      } .
+      {
+          ?User :canRead ?Asset .
+      } => {
+          ?User :canAccess ?Asset .
+      } .
+  } .
+}
+  pe:fact "odrl-policy-audit.n3".
+
+{
+  {
+      :ticket-42 :request :PublishPolicySnapshot .
+      :policy-1 a odrl:Set .
+      :policy-1 odrl:permission _:b1 .
+      _:b1 odrl:assignee :alice .
+      _:b1 odrl:target :EmployeeHandbook .
+      _:b1 odrl:action odrl:read .
+      :policy-1 odrl:permission _:b2 .
+      _:b2 odrl:assignee :alice .
+      _:b2 odrl:target :PayrollLedger .
+      _:b2 odrl:action odrl:read .
+      :PayrollLedger a :SensitiveAsset .
+      :PayrollLedger a :PayrollAsset .
+      :EmployeeHandbook a :PublicAsset .
+      {
+          ?Policy odrl:permission _:b3 .
+          _:b3 odrl:assignee :alice .
+          _:b3 odrl:target ?Asset .
+          _:b3 odrl:action odrl:read .
+      } => {
+          :alice :canRead ?Asset .
+      } .
+      {
+          :alice :canRead ?Asset .
+      } => {
+          :alice :canAccess ?Asset .
+      } .
+  } log:conclusion {
+      :ticket-42 :request :PublishPolicySnapshot .
+      :policy-1 a odrl:Set .
+      :policy-1 odrl:permission _:b1 .
+      _:b1 odrl:assignee :alice .
+      _:b1 odrl:target :EmployeeHandbook .
+      _:b1 odrl:action odrl:read .
+      :policy-1 odrl:permission _:b2 .
+      _:b2 odrl:assignee :alice .
+      _:b2 odrl:target :PayrollLedger .
+      _:b2 odrl:action odrl:read .
+      :PayrollLedger a :SensitiveAsset .
+      :PayrollLedger a :PayrollAsset .
+      :EmployeeHandbook a :PublicAsset .
+      {
+          ?Policy odrl:permission _:b3 .
+          _:b3 odrl:assignee :alice .
+          _:b3 odrl:target ?Asset .
+          _:b3 odrl:action odrl:read .
+      } => {
+          :alice :canRead ?Asset .
+      } .
+      {
+          :alice :canRead ?Asset .
+      } => {
+          :alice :canAccess ?Asset .
+      } .
+      :alice :canRead :EmployeeHandbook .
+      :alice :canRead :PayrollLedger .
+      :alice :canAccess :EmployeeHandbook .
+      :alice :canAccess :PayrollLedger .
+  } .
+}
+  pe:builtin log:conclusion.
+
+{
+  {
+      :ticket-42 :request :PublishPolicySnapshot .
+      :policy-1 a odrl:Set .
+      :policy-1 odrl:permission _:b1 .
+      _:b1 odrl:assignee :alice .
+      _:b1 odrl:target :EmployeeHandbook .
+      _:b1 odrl:action odrl:read .
+      :policy-1 odrl:permission _:b2 .
+      _:b2 odrl:assignee :alice .
+      _:b2 odrl:target :PayrollLedger .
+      _:b2 odrl:action odrl:read .
+      :PayrollLedger a :SensitiveAsset .
+      :PayrollLedger a :PayrollAsset .
+      :EmployeeHandbook a :PublicAsset .
+      {
+          ?Policy odrl:permission _:b3 .
+          _:b3 odrl:assignee :alice .
+          _:b3 odrl:target ?Asset .
+          _:b3 odrl:action odrl:read .
+      } => {
+          :alice :canRead ?Asset .
+      } .
+      {
+          :alice :canRead ?Asset .
+      } => {
+          :alice :canAccess ?Asset .
+      } .
+      :alice :canRead :EmployeeHandbook .
+      :alice :canRead :PayrollLedger .
+      :alice :canAccess :EmployeeHandbook .
+      :alice :canAccess :PayrollLedger .
+  } log:includes {
+      :alice :canAccess :PayrollLedger .
+  } .
+}
+  pe:builtin log:includes.
+
+{ :case :decision :ManualReviewRequired . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "PolicyTheory"; pe:value {
+        :ticket-42 :request :PublishPolicySnapshot .
+        :policy-1 a odrl:Set .
+        :policy-1 odrl:permission _:b1 .
+        _:b1 odrl:assignee :alice .
+        _:b1 odrl:target :EmployeeHandbook .
+        _:b1 odrl:action odrl:read .
+        :policy-1 odrl:permission _:b2 .
+        _:b2 odrl:assignee :alice .
+        _:b2 odrl:target :PayrollLedger .
+        _:b2 odrl:action odrl:read .
+        :PayrollLedger a :SensitiveAsset .
+        :PayrollLedger a :PayrollAsset .
+        :EmployeeHandbook a :PublicAsset .
+        {
+            ?Policy odrl:permission _:b3 .
+            _:b3 odrl:assignee ?User .
+            _:b3 odrl:target ?Asset .
+            _:b3 odrl:action odrl:read .
+        } => {
+            ?User :canRead ?Asset .
+        } .
+        {
+            ?User :canRead ?Asset .
+        } => {
+            ?User :canAccess ?Asset .
+        } .
+    } ];
+  pe:uses
+    {
+        :case :policyTheory {
+            :ticket-42 :request :PublishPolicySnapshot .
+            :policy-1 a odrl:Set .
+            :policy-1 odrl:permission _:b1 .
+            _:b1 odrl:assignee :alice .
+            _:b1 odrl:target :EmployeeHandbook .
+            _:b1 odrl:action odrl:read .
+            :policy-1 odrl:permission _:b2 .
+            _:b2 odrl:assignee :alice .
+            _:b2 odrl:target :PayrollLedger .
+            _:b2 odrl:action odrl:read .
+            :PayrollLedger a :SensitiveAsset .
+            :PayrollLedger a :PayrollAsset .
+            :EmployeeHandbook a :PublicAsset .
+            {
+                ?Policy odrl:permission _:b3 .
+                _:b3 odrl:assignee ?User .
+                _:b3 odrl:target ?Asset .
+                _:b3 odrl:action odrl:read .
+            } => {
+                ?User :canRead ?Asset .
+            } .
+            {
+                ?User :canRead ?Asset .
+            } => {
+                ?User :canAccess ?Asset .
+            } .
+        } .
+    },
+    {
+        {
+            :ticket-42 :request :PublishPolicySnapshot .
+            :policy-1 a odrl:Set .
+            :policy-1 odrl:permission _:b1 .
+            _:b1 odrl:assignee :alice .
+            _:b1 odrl:target :EmployeeHandbook .
+            _:b1 odrl:action odrl:read .
+            :policy-1 odrl:permission _:b2 .
+            _:b2 odrl:assignee :alice .
+            _:b2 odrl:target :PayrollLedger .
+            _:b2 odrl:action odrl:read .
+            :PayrollLedger a :SensitiveAsset .
+            :PayrollLedger a :PayrollAsset .
+            :EmployeeHandbook a :PublicAsset .
+            {
+                ?Policy odrl:permission _:b3 .
+                _:b3 odrl:assignee ?User .
+                _:b3 odrl:target ?Asset .
+                _:b3 odrl:action odrl:read .
+            } => {
+                ?User :canRead ?Asset .
+            } .
+            {
+                ?User :canRead ?Asset .
+            } => {
+                ?User :canAccess ?Asset .
+            } .
+        } log:includes {
+            :ticket-42 :request :PublishPolicySnapshot .
+        } .
+    },
+    { :case :risk :SensitiveAccessEntailed . }.
+
+{
+  {
+      :ticket-42 :request :PublishPolicySnapshot .
+      :policy-1 a odrl:Set .
+      :policy-1 odrl:permission _:b1 .
+      _:b1 odrl:assignee :alice .
+      _:b1 odrl:target :EmployeeHandbook .
+      _:b1 odrl:action odrl:read .
+      :policy-1 odrl:permission _:b2 .
+      _:b2 odrl:assignee :alice .
+      _:b2 odrl:target :PayrollLedger .
+      _:b2 odrl:action odrl:read .
+      :PayrollLedger a :SensitiveAsset .
+      :PayrollLedger a :PayrollAsset .
+      :EmployeeHandbook a :PublicAsset .
+      {
+          ?Policy odrl:permission _:b3 .
+          _:b3 odrl:assignee ?User .
+          _:b3 odrl:target ?Asset .
+          _:b3 odrl:action odrl:read .
+      } => {
+          ?User :canRead ?Asset .
+      } .
+      {
+          ?User :canRead ?Asset .
+      } => {
+          ?User :canAccess ?Asset .
+      } .
+  } log:includes {
+      :ticket-42 :request :PublishPolicySnapshot .
+  } .
+}
+  pe:builtin log:includes.
+
+{ :case :risk :SensitiveAccessEntailed . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value {
+        :ticket-42 :request :PublishPolicySnapshot .
+        :policy-1 a odrl:Set .
+        :policy-1 odrl:permission _:b1 .
+        _:b1 odrl:assignee :alice .
+        _:b1 odrl:target :EmployeeHandbook .
+        _:b1 odrl:action odrl:read .
+        :policy-1 odrl:permission _:b2 .
+        _:b2 odrl:assignee :alice .
+        _:b2 odrl:target :PayrollLedger .
+        _:b2 odrl:action odrl:read .
+        :PayrollLedger a :SensitiveAsset .
+        :PayrollLedger a :PayrollAsset .
+        :EmployeeHandbook a :PublicAsset .
+        {
+            ?Policy odrl:permission _:b3 .
+            _:b3 odrl:assignee :alice .
+            _:b3 odrl:target ?Asset .
+            _:b3 odrl:action odrl:read .
+        } => {
+            :alice :canRead ?Asset .
+        } .
+        {
+            :alice :canRead ?Asset .
+        } => {
+            :alice :canAccess ?Asset .
+        } .
+        :alice :canRead :EmployeeHandbook .
+        :alice :canRead :PayrollLedger .
+        :alice :canAccess :EmployeeHandbook .
+        :alice :canAccess :PayrollLedger .
+    } ],
+    [ pe:var "User"; pe:value :alice ];
+  pe:uses
+    {
+        :case :policyClosure {
+            :ticket-42 :request :PublishPolicySnapshot .
+            :policy-1 a odrl:Set .
+            :policy-1 odrl:permission _:b1 .
+            _:b1 odrl:assignee :alice .
+            _:b1 odrl:target :EmployeeHandbook .
+            _:b1 odrl:action odrl:read .
+            :policy-1 odrl:permission _:b2 .
+            _:b2 odrl:assignee :alice .
+            _:b2 odrl:target :PayrollLedger .
+            _:b2 odrl:action odrl:read .
+            :PayrollLedger a :SensitiveAsset .
+            :PayrollLedger a :PayrollAsset .
+            :EmployeeHandbook a :PublicAsset .
+            {
+                ?Policy odrl:permission _:b3 .
+                _:b3 odrl:assignee :alice .
+                _:b3 odrl:target ?Asset .
+                _:b3 odrl:action odrl:read .
+            } => {
+                :alice :canRead ?Asset .
+            } .
+            {
+                :alice :canRead ?Asset .
+            } => {
+                :alice :canAccess ?Asset .
+            } .
+            :alice :canRead :EmployeeHandbook .
+            :alice :canRead :PayrollLedger .
+            :alice :canAccess :EmployeeHandbook .
+            :alice :canAccess :PayrollLedger .
+        } .
+    },
+    {
+        {
+            :ticket-42 :request :PublishPolicySnapshot .
+            :policy-1 a odrl:Set .
+            :policy-1 odrl:permission _:b1 .
+            _:b1 odrl:assignee :alice .
+            _:b1 odrl:target :EmployeeHandbook .
+            _:b1 odrl:action odrl:read .
+            :policy-1 odrl:permission _:b2 .
+            _:b2 odrl:assignee :alice .
+            _:b2 odrl:target :PayrollLedger .
+            _:b2 odrl:action odrl:read .
+            :PayrollLedger a :SensitiveAsset .
+            :PayrollLedger a :PayrollAsset .
+            :EmployeeHandbook a :PublicAsset .
+            {
+                ?Policy odrl:permission _:b3 .
+                _:b3 odrl:assignee :alice .
+                _:b3 odrl:target ?Asset .
+                _:b3 odrl:action odrl:read .
+            } => {
+                :alice :canRead ?Asset .
+            } .
+            {
+                :alice :canRead ?Asset .
+            } => {
+                :alice :canAccess ?Asset .
+            } .
+            :alice :canRead :EmployeeHandbook .
+            :alice :canRead :PayrollLedger .
+            :alice :canAccess :EmployeeHandbook .
+            :alice :canAccess :PayrollLedger .
+        } log:includes {
+            :alice :canAccess :PayrollLedger .
+        } .
+    }.

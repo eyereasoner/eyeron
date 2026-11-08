@@ -1,0 +1,39 @@
+# checked: 29 steps, 29 verified, 0 trusted
+@prefix : <http://example.org/act/yeast/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:dnaRegister :can :SupportReplicationUnderNoDesignLaws .
+:contrastGenome :cannot :AccurateGenomeCopyUnderNoDesignLaws .
+:starterGenome :can :HeritableVariation .
+:contrastGenome :can :HeritableVariation .
+:starterGenome :can :AccurateGenomeCopyUnderNoDesignLaws .
+:starterCell :can :AccurateReplicationArchitecture .
+:starterCell :can :SelfReproduce .
+:starterCell :can :NaturalSelectionLineage .
+:contrastCell :can :AccurateReplicationArchitecture .
+:contrastCell :cannot :AccurateSelfReproduction .
+:contrastCell :cannot :NaturalSelectionLineage .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/act-yeast-self-reproduction.n3";
+    pe:source "examples/act-yeast-self-reproduction.n3";
+    pe:verdict pe:checked;
+    pe:steps 29;
+    pe:verified 29;
+    pe:trusted 0;
+    pe:factSteps 18;
+    pe:ruleSteps 11;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 29; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 29; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 29; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 54; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 40; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 54; pe:failed 0 ].

@@ -1,0 +1,181 @@
+@prefix : <https://eyereasoner.github.io/eyeling/examples/rc-discharge-envelope#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+
+:step12 :upperVoltage 1.1948896413552061 .
+:step13 :upperVoltage 0.9305809884055127 .
+:step13 :belowTolerance true .
+:step12 :notBelowTolerance true .
+:case :firstBelowToleranceStep :step13 .
+:step13 :timeSeconds 0.325 .
+:report log:outputString "# rc-discharge-envelope\n\n## Source files\n\n- [N3 rules](../rc-discharge-envelope.n3)\n- [Input TriG](../input/rc-discharge-envelope.trig)\n\n## Answer\nexact decay symbol : exp(-1/4)\ncertified decay interval : [0.7788007830, 0.7788007831]\nfirst below tolerance step : 13\nfirst below tolerance time : 0.325 s\nupper voltage at step 13 : 0.930581 V\n\n## Explanation\nThe physical decay factor is exp(-1/4), but the example uses a finite double interval as the certificate. Because the interval lies strictly between 0 and 1, the capacitor voltage envelope contracts each sample. The upper envelope is the safety-relevant bound: once it falls below 1.0 V, every compatible exact trajectory is below tolerance." .
+
+{ :step12 :upperVoltage 1.1948896413552061 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "DecayUpper"; pe:value 0.7788007831 ],
+    [ pe:var "Factor"; pe:value 0.04978706838980025 ],
+    [ pe:var "Index"; pe:value 12 ],
+    [ pe:var "Initial"; pe:value 24 ],
+    [ pe:var "Step"; pe:value :step12 ],
+    [ pe:var "Voltage"; pe:value 1.1948896413552061 ];
+  pe:uses
+    { :case :initialVoltage 24 . },
+    { :case :decayUpper 0.7788007831 . },
+    { :case :candidateStep :step12 . },
+    { :step12 :index 12 . },
+    { (0.7788007831 12) math:exponentiation 0.04978706838980025 . },
+    { (24 0.04978706838980025) math:product 1.1948896413552061 . }.
+
+{ :case :initialVoltage 24 . }
+  pe:fact "<unknown>".
+
+{ :case :decayUpper 0.7788007831 . }
+  pe:fact "<unknown>".
+
+{ :case :candidateStep :step12 . }
+  pe:fact "<unknown>".
+
+{ :step12 :index 12 . }
+  pe:fact "<unknown>".
+
+{ (0.7788007831 12) math:exponentiation 0.04978706838980025 . }
+  pe:builtin math:exponentiation.
+
+{ (24 0.04978706838980025) math:product 1.1948896413552061 . }
+  pe:builtin math:product.
+
+{ :step13 :upperVoltage 0.9305809884055127 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "DecayUpper"; pe:value 0.7788007831 ],
+    [ pe:var "Factor"; pe:value 0.0387742078502297 ],
+    [ pe:var "Index"; pe:value 13 ],
+    [ pe:var "Initial"; pe:value 24 ],
+    [ pe:var "Step"; pe:value :step13 ],
+    [ pe:var "Voltage"; pe:value 0.9305809884055127 ];
+  pe:uses
+    { :case :initialVoltage 24 . },
+    { :case :decayUpper 0.7788007831 . },
+    { :case :candidateStep :step13 . },
+    { :step13 :index 13 . },
+    { (0.7788007831 13) math:exponentiation 0.0387742078502297 . },
+    { (24 0.0387742078502297) math:product 0.9305809884055127 . }.
+
+{ :case :candidateStep :step13 . }
+  pe:fact "<unknown>".
+
+{ :step13 :index 13 . }
+  pe:fact "<unknown>".
+
+{ (0.7788007831 13) math:exponentiation 0.0387742078502297 . }
+  pe:builtin math:exponentiation.
+
+{ (24 0.0387742078502297) math:product 0.9305809884055127 . }
+  pe:builtin math:product.
+
+{ :step13 :belowTolerance true . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Step"; pe:value :step13 ],
+    [ pe:var "Tolerance"; pe:value 1 ],
+    [ pe:var "Voltage"; pe:value 0.9305809884055127 ];
+  pe:uses
+    { :case :tolerance 1 . },
+    { :step13 :upperVoltage 0.9305809884055127 . },
+    { 0.9305809884055127 math:lessThan 1 . }.
+
+{ :case :tolerance 1 . }
+  pe:fact "<unknown>".
+
+{ 0.9305809884055127 math:lessThan 1 . }
+  pe:builtin math:lessThan.
+
+{ :step12 :notBelowTolerance true . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Step"; pe:value :step12 ],
+    [ pe:var "Tolerance"; pe:value 1 ],
+    [ pe:var "Voltage"; pe:value 1.1948896413552061 ];
+  pe:uses
+    { :case :tolerance 1 . },
+    { :step12 :upperVoltage 1.1948896413552061 . },
+    { 1.1948896413552061 math:notLessThan 1 . }.
+
+{ 1.1948896413552061 math:notLessThan 1 . }
+  pe:builtin math:notLessThan.
+
+{ :case :firstBelowToleranceStep :step13 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Index"; pe:value 13 ],
+    [ pe:var "MaxStep"; pe:value 18 ],
+    [ pe:var "Previous"; pe:value :step12 ],
+    [ pe:var "Step"; pe:value :step13 ];
+  pe:uses
+    { :case :maxStep 18 . },
+    { :step13 :index 13 . },
+    { :step13 :previousStep :step12 . },
+    { :step13 :belowTolerance true . },
+    { :step12 :notBelowTolerance true . },
+    { 13 math:notGreaterThan 18 . }.
+
+{ :case :maxStep 18 . }
+  pe:fact "<unknown>".
+
+{ :step13 :previousStep :step12 . }
+  pe:fact "<unknown>".
+
+{ 13 math:notGreaterThan 18 . }
+  pe:builtin math:notGreaterThan.
+
+{ :step13 :timeSeconds 0.325 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Index"; pe:value 13 ],
+    [ pe:var "Period"; pe:value 0.025 ],
+    [ pe:var "Step"; pe:value :step13 ],
+    [ pe:var "Time"; pe:value 0.325 ];
+  pe:uses
+    { :case :samplePeriod 0.025 . },
+    { :case :firstBelowToleranceStep :step13 . },
+    { :step13 :index 13 . },
+    { (13 0.025) math:product 0.325 . }.
+
+{ :case :samplePeriod 0.025 . }
+  pe:fact "<unknown>".
+
+{ (13 0.025) math:product 0.325 . }
+  pe:builtin math:product.
+
+{ :report log:outputString "# rc-discharge-envelope\n\n## Source files\n\n- [N3 rules](../rc-discharge-envelope.n3)\n- [Input TriG](../input/rc-discharge-envelope.trig)\n\n## Answer\nexact decay symbol : exp(-1/4)\ncertified decay interval : [0.7788007830, 0.7788007831]\nfirst below tolerance step : 13\nfirst below tolerance time : 0.325 s\nupper voltage at step 13 : 0.930581 V\n\n## Explanation\nThe physical decay factor is exp(-1/4), but the example uses a finite double interval as the certificate. Because the interval lies strictly between 0 and 1, the capacitor voltage envelope contracts each sample. The upper envelope is the safety-relevant bound: once it falls below 1.0 V, every compatible exact trajectory is below tolerance." . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Block"; pe:value "# rc-discharge-envelope\n\n## Source files\n\n- [N3 rules](../rc-discharge-envelope.n3)\n- [Input TriG](../input/rc-discharge-envelope.trig)\n\n## Answer\nexact decay symbol : exp(-1/4)\ncertified decay interval : [0.7788007830, 0.7788007831]\nfirst below tolerance step : 13\nfirst below tolerance time : 0.325 s\nupper voltage at step 13 : 0.930581 V\n\n## Explanation\nThe physical decay factor is exp(-1/4), but the example uses a finite double interval as the certificate. Because the interval lies strictly between 0 and 1, the capacitor voltage envelope contracts each sample. The upper envelope is the safety-relevant bound: once it falls below 1.0 V, every compatible exact trajectory is below tolerance." ],
+    [ pe:var "Index"; pe:value 13 ],
+    [ pe:var "Lower"; pe:value 0.778800783 ],
+    [ pe:var "Step"; pe:value :step13 ],
+    [ pe:var "Symbol"; pe:value "exp(-1/4)" ],
+    [ pe:var "Time"; pe:value 0.325 ],
+    [ pe:var "Upper"; pe:value 0.7788007831 ],
+    [ pe:var "Voltage"; pe:value 0.9305809884055127 ];
+  pe:uses
+    { :case :exactDecaySymbol "exp(-1/4)" . },
+    { :case :decayLower 0.778800783 . },
+    { :case :decayUpper 0.7788007831 . },
+    { :case :firstBelowToleranceStep :step13 . },
+    { :step13 :index 13 . },
+    { :step13 :timeSeconds 0.325 . },
+    { :step13 :upperVoltage 0.9305809884055127 . },
+    { ("# rc-discharge-envelope\n\n## Source files\n\n- [N3 rules](../rc-discharge-envelope.n3)\n- [Input TriG](../input/rc-discharge-envelope.trig)\n\n## Answer\nexact decay symbol : %s\ncertified decay interval : [%.10f, %.10f]\nfirst below tolerance step : %d\nfirst below tolerance time : %.3f s\nupper voltage at step %d : %.6f V\n\n## Explanation\nThe physical decay factor is exp(-1/4), but the example uses a finite double interval as the certificate. Because the interval lies strictly between 0 and 1, the capacitor voltage envelope contracts each sample. The upper envelope is the safety-relevant bound: once it falls below 1.0 V, every compatible exact trajectory is below tolerance." "exp(-1/4)" 0.778800783 0.7788007831 13 0.325 13 0.9305809884055127) string:format "# rc-discharge-envelope\n\n## Source files\n\n- [N3 rules](../rc-discharge-envelope.n3)\n- [Input TriG](../input/rc-discharge-envelope.trig)\n\n## Answer\nexact decay symbol : exp(-1/4)\ncertified decay interval : [0.7788007830, 0.7788007831]\nfirst below tolerance step : 13\nfirst below tolerance time : 0.325 s\nupper voltage at step 13 : 0.930581 V\n\n## Explanation\nThe physical decay factor is exp(-1/4), but the example uses a finite double interval as the certificate. Because the interval lies strictly between 0 and 1, the capacitor voltage envelope contracts each sample. The upper envelope is the safety-relevant bound: once it falls below 1.0 V, every compatible exact trajectory is below tolerance." . }.
+
+{ :case :exactDecaySymbol "exp(-1/4)" . }
+  pe:fact "<unknown>".
+
+{ :case :decayLower 0.778800783 . }
+  pe:fact "<unknown>".
+
+{ ("# rc-discharge-envelope\n\n## Source files\n\n- [N3 rules](../rc-discharge-envelope.n3)\n- [Input TriG](../input/rc-discharge-envelope.trig)\n\n## Answer\nexact decay symbol : %s\ncertified decay interval : [%.10f, %.10f]\nfirst below tolerance step : %d\nfirst below tolerance time : %.3f s\nupper voltage at step %d : %.6f V\n\n## Explanation\nThe physical decay factor is exp(-1/4), but the example uses a finite double interval as the certificate. Because the interval lies strictly between 0 and 1, the capacitor voltage envelope contracts each sample. The upper envelope is the safety-relevant bound: once it falls below 1.0 V, every compatible exact trajectory is below tolerance." "exp(-1/4)" 0.778800783 0.7788007831 13 0.325 13 0.9305809884055127) string:format "# rc-discharge-envelope\n\n## Source files\n\n- [N3 rules](../rc-discharge-envelope.n3)\n- [Input TriG](../input/rc-discharge-envelope.trig)\n\n## Answer\nexact decay symbol : exp(-1/4)\ncertified decay interval : [0.7788007830, 0.7788007831]\nfirst below tolerance step : 13\nfirst below tolerance time : 0.325 s\nupper voltage at step 13 : 0.930581 V\n\n## Explanation\nThe physical decay factor is exp(-1/4), but the example uses a finite double interval as the certificate. Because the interval lies strictly between 0 and 1, the capacitor voltage envelope contracts each sample. The upper envelope is the safety-relevant bound: once it falls below 1.0 V, every compatible exact trajectory is below tolerance." . }
+  pe:builtin string:format.

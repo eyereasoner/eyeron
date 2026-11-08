@@ -1,0 +1,257 @@
+@prefix dqc: <https://eyereasoner.github.io/eye/reasoning/dqc#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+1 dqc:superdense-coding 1 .
+3 dqc:superdense-coding 3 .
+0 dqc:superdense-coding 0 .
+2 dqc:superdense-coding 2 .
+
+{ 1 dqc:superdense-coding 1 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "A"; pe:value (1) ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "X"; pe:value 1 ],
+    [ pe:var "Y"; pe:value 1 ];
+  pe:uses
+    { 1 dqc:sdcoding 1 . },
+    {
+        (1 {
+            1 dqc:sdcoding 1 .
+        } (1)) log:collectAllIn ?SCOPE .
+    },
+    { (1) math:sum 1 . },
+    { (1 2) math:remainder 1 . }.
+
+{ 1 dqc:sdcoding 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value true ],
+    [ pe:var "M"; pe:value 1 ],
+    [ pe:var "N"; pe:value 1 ],
+    [ pe:var "X"; pe:value false ],
+    [ pe:var "Y"; pe:value false ];
+  pe:uses
+    { false dqc:r false . },
+    { 1 dqc:alice (false true) . },
+    { (true false) dqc:bob 1 . }.
+
+{ false dqc:r false . }
+  pe:fact "superdense-coding.n3".
+
+{ 1 dqc:alice (false true) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "X"; pe:value false ],
+    [ pe:var "Y"; pe:value true ];
+  pe:uses { false dqc:g true . }.
+
+{ false dqc:g true . }
+  pe:fact "superdense-coding.n3".
+
+{ (true false) dqc:bob 1 . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "S1"; pe:value true ],
+    [ pe:var "S2"; pe:value false ];
+  pe:uses { true dqc:k false . }.
+
+{ true dqc:k false . }
+  pe:fact "superdense-coding.n3".
+
+{
+  (1 {
+      1 dqc:sdcoding 1 .
+  } (1)) log:collectAllIn ?SCOPE .
+}
+  pe:builtin log:collectAllIn.
+
+{ (1) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (1 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ 3 dqc:superdense-coding 3 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "A"; pe:value (1) ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "X"; pe:value 3 ],
+    [ pe:var "Y"; pe:value 3 ];
+  pe:uses
+    { 3 dqc:sdcoding 3 . },
+    {
+        (1 {
+            3 dqc:sdcoding 3 .
+        } (1)) log:collectAllIn ?SCOPE .
+    },
+    { (1) math:sum 1 . },
+    { (1 2) math:remainder 1 . }.
+
+{ 3 dqc:sdcoding 3 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value false ],
+    [ pe:var "M"; pe:value 3 ],
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "X"; pe:value false ],
+    [ pe:var "Y"; pe:value false ];
+  pe:uses
+    { false dqc:r false . },
+    { 3 dqc:alice (false false) . },
+    { (false false) dqc:bob 3 . }.
+
+{ 3 dqc:alice (false false) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "X"; pe:value false ],
+    [ pe:var "Y"; pe:value false ];
+  pe:uses { false dqc:kg false . }.
+
+{ false dqc:kg false . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "X"; pe:value false ],
+    [ pe:var "Y"; pe:value false ],
+    [ pe:var "Z"; pe:value true ];
+  pe:uses
+    { false dqc:g true . },
+    { true dqc:k false . }.
+
+{ (false false) dqc:bob 3 . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "S1"; pe:value false ],
+    [ pe:var "S2"; pe:value false ];
+  pe:uses { false dqc:id false . }.
+
+{ false dqc:id false . }
+  pe:fact "superdense-coding.n3".
+
+{
+  (1 {
+      3 dqc:sdcoding 3 .
+  } (1)) log:collectAllIn ?SCOPE .
+}
+  pe:builtin log:collectAllIn.
+
+{ 0 dqc:superdense-coding 0 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "A"; pe:value (1) ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "X"; pe:value 0 ],
+    [ pe:var "Y"; pe:value 0 ];
+  pe:uses
+    { 0 dqc:sdcoding 0 . },
+    {
+        (1 {
+            0 dqc:sdcoding 0 .
+        } (1)) log:collectAllIn ?SCOPE .
+    },
+    { (1) math:sum 1 . },
+    { (1 2) math:remainder 1 . }.
+
+{ 0 dqc:sdcoding 0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value true ],
+    [ pe:var "M"; pe:value 0 ],
+    [ pe:var "N"; pe:value 0 ],
+    [ pe:var "X"; pe:value true ],
+    [ pe:var "Y"; pe:value true ];
+  pe:uses
+    { true dqc:r true . },
+    { 0 dqc:alice (true true) . },
+    { (true true) dqc:bob 0 . }.
+
+{ true dqc:r true . }
+  pe:fact "superdense-coding.n3".
+
+{ 0 dqc:alice (true true) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "X"; pe:value true ],
+    [ pe:var "Y"; pe:value true ];
+  pe:uses { true dqc:id true . }.
+
+{ true dqc:id true . }
+  pe:fact "superdense-coding.n3".
+
+{ (true true) dqc:bob 0 . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "S1"; pe:value true ],
+    [ pe:var "S2"; pe:value true ];
+  pe:uses { true dqc:gk true . }.
+
+{ true dqc:gk true . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value true ],
+    [ pe:var "Y"; pe:value true ],
+    [ pe:var "Z"; pe:value false ];
+  pe:uses
+    { true dqc:k false . },
+    { false dqc:g true . }.
+
+{
+  (1 {
+      0 dqc:sdcoding 0 .
+  } (1)) log:collectAllIn ?SCOPE .
+}
+  pe:builtin log:collectAllIn.
+
+{ 2 dqc:superdense-coding 2 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "A"; pe:value (1) ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "X"; pe:value 2 ],
+    [ pe:var "Y"; pe:value 2 ];
+  pe:uses
+    { 2 dqc:sdcoding 2 . },
+    {
+        (1 {
+            2 dqc:sdcoding 2 .
+        } (1)) log:collectAllIn ?SCOPE .
+    },
+    { (1) math:sum 1 . },
+    { (1 2) math:remainder 1 . }.
+
+{ 2 dqc:sdcoding 2 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value false ],
+    [ pe:var "M"; pe:value 2 ],
+    [ pe:var "N"; pe:value 2 ],
+    [ pe:var "X"; pe:value true ],
+    [ pe:var "Y"; pe:value true ];
+  pe:uses
+    { true dqc:r true . },
+    { 2 dqc:alice (true false) . },
+    { (false true) dqc:bob 2 . }.
+
+{ 2 dqc:alice (true false) . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "X"; pe:value true ],
+    [ pe:var "Y"; pe:value false ];
+  pe:uses { true dqc:k false . }.
+
+{ (false true) dqc:bob 2 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "S1"; pe:value false ],
+    [ pe:var "S2"; pe:value true ];
+  pe:uses { false dqc:g true . }.
+
+{
+  (1 {
+      2 dqc:sdcoding 2 .
+  } (1)) log:collectAllIn ?SCOPE .
+}
+  pe:builtin log:collectAllIn.

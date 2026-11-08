@@ -1,0 +1,85 @@
+@prefix ex: <https://example.org/edu#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:APP-GR-01 ex:eligible true .
+ex:APP-GR-01 ex:status ex:Approved .
+_:pay_b34d79284e364c3d a ex:GrantPayment .
+ex:APP-GR-01 ex:issuedPayment _:pay_b34d79284e364c3d .
+
+{ ex:APP-GR-01 ex:eligible true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "app"; pe:value ex:APP-GR-01 ],
+    [ pe:var "ects"; pe:value 60 ],
+    [ pe:var "fee"; pe:value 1200 ],
+    [ pe:var "hh"; pe:value 3 ],
+    [ pe:var "inc"; pe:value 36000 ],
+    [ pe:var "pc"; pe:value 12000 ],
+    [ pe:var "s"; pe:value ex:Alice ];
+  pe:uses
+    { ex:APP-GR-01 ex:appliesFor ex:NeedBasedGrant . },
+    { ex:APP-GR-01 ex:hasApplicant ex:Alice . },
+    { ex:Alice ex:enrolledECTS 60 . },
+    { ex:Alice ex:householdIncome 36000 . },
+    { ex:Alice ex:householdSize 3 . },
+    { ex:Alice ex:tuitionAmount 1200 . },
+    { 30 math:notGreaterThan 60 . },
+    { (36000 3) math:quotient 12000 . },
+    { 12000 math:notGreaterThan 18000 . },
+    { 1200 math:greaterThan 0 . }.
+
+{ ex:APP-GR-01 ex:appliesFor ex:NeedBasedGrant . }
+  pe:fact "student-grant-needbased.n3".
+
+{ ex:APP-GR-01 ex:hasApplicant ex:Alice . }
+  pe:fact "student-grant-needbased.n3".
+
+{ ex:Alice ex:enrolledECTS 60 . }
+  pe:fact "student-grant-needbased.n3".
+
+{ ex:Alice ex:householdIncome 36000 . }
+  pe:fact "student-grant-needbased.n3".
+
+{ ex:Alice ex:householdSize 3 . }
+  pe:fact "student-grant-needbased.n3".
+
+{ ex:Alice ex:tuitionAmount 1200 . }
+  pe:fact "student-grant-needbased.n3".
+
+{ 30 math:notGreaterThan 60 . }
+  pe:builtin math:notGreaterThan.
+
+{ (36000 3) math:quotient 12000 . }
+  pe:builtin math:quotient.
+
+{ 12000 math:notGreaterThan 18000 . }
+  pe:builtin math:notGreaterThan.
+
+{ 1200 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ ex:APP-GR-01 ex:status ex:Approved . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-GR-01 ];
+  pe:uses
+    { ex:APP-GR-01 ex:eligible true . },
+    { ex:APP-GR-01 ex:status ex:Submitted . }.
+
+{ ex:APP-GR-01 ex:status ex:Submitted . }
+  pe:fact "student-grant-needbased.n3".
+
+{ _:pay_b34d79284e364c3d a ex:GrantPayment . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-GR-01 ];
+  pe:uses
+    { ex:APP-GR-01 ex:eligible true . },
+    { ex:APP-GR-01 ex:status ex:Submitted . }.
+
+{ ex:APP-GR-01 ex:issuedPayment _:pay_b34d79284e364c3d . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-GR-01 ];
+  pe:uses
+    { ex:APP-GR-01 ex:eligible true . },
+    { ex:APP-GR-01 ex:status ex:Submitted . }.

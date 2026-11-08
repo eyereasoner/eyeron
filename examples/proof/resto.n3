@@ -1,0 +1,172 @@
+@prefix : <http://example.org/resto#> .
+@prefix con: <http://www.w3.org/2000/10/swap/pim/contact#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix meteo: <http://purl.org/ns/meteo#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix resto: <http://example.org/restaurant#> .
+
+:Goal resto:restaurant :Maximiliaan .
+:Goal resto:reservation :Reservation42 .
+:Goal resto:onDate "2026-04-08" .
+:Goal resto:isOutside true .
+
+{ :Goal resto:restaurant :Maximiliaan . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Date"; pe:value "2026-04-08" ],
+    [ pe:var "Outside"; pe:value true ],
+    [ pe:var "Place"; pe:value :TableArea42 ],
+    [ pe:var "Reservation"; pe:value :Reservation42 ],
+    [ pe:var "Restaurant"; pe:value :Maximiliaan ];
+  pe:uses
+    { :Maximiliaan resto:hasReservation :Reservation42 . },
+    { :Reservation42 resto:onDate "2026-04-08" . },
+    { :Reservation42 resto:place :TableArea42 . },
+    { :TableArea42 resto:isOutside true . }.
+
+{ :Maximiliaan resto:hasReservation :Reservation42 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "Date"; pe:value "2026-04-08" ],
+    [ pe:var "Outside"; pe:value true ];
+  pe:uses
+    { :Maximiliaan resto:reservationList :MaximiliaanReservations . },
+    { :DesiredPlace resto:isOutside true . },
+    { :DinnerPlan resto:hasDate "2026-04-08" . }.
+
+{ :Maximiliaan resto:reservationList :MaximiliaanReservations . }
+  pe:rule 6;
+  pe:binding [ pe:var "Date"; pe:value "2026-04-08" ];
+  pe:uses
+    { :GentPoint a geo:Point . },
+    { :TodayWeather resto:goodForOutsideSeating true . },
+    { :DinnerPlan resto:isOn :appointmentList . },
+    { :DinnerPlan resto:hasDate "2026-04-08" . }.
+
+{ :GentPoint a geo:Point . }
+  pe:rule 2;
+  pe:uses { :GentAddress a con:Address . }.
+
+{ :GentAddress a con:Address . }
+  pe:rule 1;
+  pe:uses
+    { :Ruben a foaf:Person . },
+    { :PlanningDocument a foaf:Document . }.
+
+{ :Ruben a foaf:Person . }
+  pe:fact "resto.n3".
+
+{ :PlanningDocument a foaf:Document . }
+  pe:fact "resto.n3".
+
+{ :TodayWeather resto:goodForOutsideSeating true . }
+  pe:rule 5;
+  pe:uses
+    { :GentPoint meteo:temperature :Temp22 . },
+    { :GentPoint meteo:pressure :Pressure1016 . },
+    { :Temp22 meteo:celsius "22" . },
+    { :Pressure1016 meteo:millibar "1016" . }.
+
+{ :GentPoint meteo:temperature :Temp22 . }
+  pe:rule 3;
+  pe:uses { :GentPoint a geo:Point . }.
+
+{ :GentPoint meteo:pressure :Pressure1016 . }
+  pe:rule 4;
+  pe:uses { :GentPoint a geo:Point . }.
+
+{ :Temp22 meteo:celsius "22" . }
+  pe:rule 3;
+  pe:uses { :GentPoint a geo:Point . }.
+
+{ :Pressure1016 meteo:millibar "1016" . }
+  pe:rule 4;
+  pe:uses { :GentPoint a geo:Point . }.
+
+{ :DinnerPlan resto:isOn :appointmentList . }
+  pe:fact "resto.n3".
+
+{ :DinnerPlan resto:hasDate "2026-04-08" . }
+  pe:fact "resto.n3".
+
+{ :DesiredPlace resto:isOutside true . }
+  pe:rule 5;
+  pe:uses
+    { :GentPoint meteo:temperature :Temp22 . },
+    { :GentPoint meteo:pressure :Pressure1016 . },
+    { :Temp22 meteo:celsius "22" . },
+    { :Pressure1016 meteo:millibar "1016" . }.
+
+{ :Reservation42 resto:onDate "2026-04-08" . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "Date"; pe:value "2026-04-08" ],
+    [ pe:var "Outside"; pe:value true ];
+  pe:uses
+    { :Maximiliaan resto:reservationList :MaximiliaanReservations . },
+    { :DesiredPlace resto:isOutside true . },
+    { :DinnerPlan resto:hasDate "2026-04-08" . }.
+
+{ :Reservation42 resto:place :TableArea42 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "Date"; pe:value "2026-04-08" ],
+    [ pe:var "Outside"; pe:value true ];
+  pe:uses
+    { :Maximiliaan resto:reservationList :MaximiliaanReservations . },
+    { :DesiredPlace resto:isOutside true . },
+    { :DinnerPlan resto:hasDate "2026-04-08" . }.
+
+{ :TableArea42 resto:isOutside true . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "Date"; pe:value "2026-04-08" ],
+    [ pe:var "Outside"; pe:value true ];
+  pe:uses
+    { :Maximiliaan resto:reservationList :MaximiliaanReservations . },
+    { :DesiredPlace resto:isOutside true . },
+    { :DinnerPlan resto:hasDate "2026-04-08" . }.
+
+{ :Goal resto:reservation :Reservation42 . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Date"; pe:value "2026-04-08" ],
+    [ pe:var "Outside"; pe:value true ],
+    [ pe:var "Place"; pe:value :TableArea42 ],
+    [ pe:var "Reservation"; pe:value :Reservation42 ],
+    [ pe:var "Restaurant"; pe:value :Maximiliaan ];
+  pe:uses
+    { :Maximiliaan resto:hasReservation :Reservation42 . },
+    { :Reservation42 resto:onDate "2026-04-08" . },
+    { :Reservation42 resto:place :TableArea42 . },
+    { :TableArea42 resto:isOutside true . }.
+
+{ :Goal resto:onDate "2026-04-08" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Date"; pe:value "2026-04-08" ],
+    [ pe:var "Outside"; pe:value true ],
+    [ pe:var "Place"; pe:value :TableArea42 ],
+    [ pe:var "Reservation"; pe:value :Reservation42 ],
+    [ pe:var "Restaurant"; pe:value :Maximiliaan ];
+  pe:uses
+    { :Maximiliaan resto:hasReservation :Reservation42 . },
+    { :Reservation42 resto:onDate "2026-04-08" . },
+    { :Reservation42 resto:place :TableArea42 . },
+    { :TableArea42 resto:isOutside true . }.
+
+{ :Goal resto:isOutside true . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Date"; pe:value "2026-04-08" ],
+    [ pe:var "Outside"; pe:value true ],
+    [ pe:var "Place"; pe:value :TableArea42 ],
+    [ pe:var "Reservation"; pe:value :Reservation42 ],
+    [ pe:var "Restaurant"; pe:value :Maximiliaan ];
+  pe:uses
+    { :Maximiliaan resto:hasReservation :Reservation42 . },
+    { :Reservation42 resto:onDate "2026-04-08" . },
+    { :Reservation42 resto:place :TableArea42 . },
+    { :TableArea42 resto:isOutside true . }.

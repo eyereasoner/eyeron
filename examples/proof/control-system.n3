@@ -1,0 +1,118 @@
+@prefix : <https://example.org/control-system#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:actuator2 :control1 26.08 .
+:actuator1 :control1 39.27346198678276 .
+
+{ :actuator2 :control1 26.08 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value 26.08 ],
+    [ pe:var "C1"; pe:value "29"^^xsd:decimal ],
+    [ pe:var "C2"; pe:value -2.92 ],
+    [ pe:var "D"; pe:value -2 ],
+    [ pe:var "E"; pe:value 5 ],
+    [ pe:var "M3"; pe:value 56967 ],
+    [ pe:var "M4"; pe:value 24 ],
+    [ pe:var "N"; pe:value 1.46 ],
+    [ pe:var "P3"; pe:value 22 ],
+    [ pe:var "T2"; pe:value 29 ];
+  pe:uses
+    { :input3 :measurement3 56967 . },
+    { :state3 :observation3 22 . },
+    { :output2 :measurement4 24 . },
+    { :output2 :target2 29 . },
+    { (29 24) math:difference 5 . },
+    { (22 24) math:difference -2 . },
+    { (5.8 5) math:product "29"^^xsd:decimal . },
+    { (7.3 5) math:quotient 1.46 . },
+    { (1.46 -2) math:product -2.92 . },
+    { ("29"^^xsd:decimal -2.92) math:sum 26.08 . }.
+
+{ :input3 :measurement3 56967 . }
+  pe:fact "control-system.n3".
+
+{ :state3 :observation3 22 . }
+  pe:fact "control-system.n3".
+
+{ :output2 :measurement4 24 . }
+  pe:fact "control-system.n3".
+
+{ :output2 :target2 29 . }
+  pe:fact "control-system.n3".
+
+{ (29 24) math:difference 5 . }
+  pe:builtin math:difference.
+
+{ (22 24) math:difference -2 . }
+  pe:builtin math:difference.
+
+{ (5.8 5) math:product "29"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ (7.3 5) math:quotient 1.46 . }
+  pe:builtin math:quotient.
+
+{ (1.46 -2) math:product -2.92 . }
+  pe:builtin math:product.
+
+{ ("29"^^xsd:decimal -2.92) math:sum 26.08 . }
+  pe:builtin math:sum.
+
+{ :actuator1 :control1 39.27346198678276 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value 39.27346198678276 ],
+    [ pe:var "C1"; pe:value 43.82693235899588 ],
+    [ pe:var "C2"; pe:value 4.553470372213121 ],
+    [ pe:var "D1"; pe:value 35766 ],
+    [ pe:var "M1"; pe:value 2.23606797749979 ];
+  pe:uses
+    { :input1 :measurement10 2.23606797749979 . },
+    { :input2 :measurement2 true . },
+    { :disturbance1 :measurement3 35766 . },
+    { (2.23606797749979 19.6) math:product 43.82693235899588 . },
+    { (10 4.553470372213121) math:exponentiation 35766 . },
+    { (43.82693235899588 4.553470372213121) math:difference 39.27346198678276 . }.
+
+{ :input1 :measurement10 2.23606797749979 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "I"; pe:value :input1 ],
+    [ pe:var "M"; pe:value 2.23606797749979 ],
+    [ pe:var "M1"; pe:value 6 ],
+    [ pe:var "M2"; pe:value 11 ],
+    [ pe:var "M3"; pe:value 5 ];
+  pe:uses
+    { :input1 :measurement1 (6 11) . },
+    { 6 math:lessThan 11 . },
+    { (11 6) math:difference 5 . },
+    { (5 0.5) math:exponentiation 2.23606797749979 . }.
+
+{ :input1 :measurement1 (6 11) . }
+  pe:fact "control-system.n3".
+
+{ 6 math:lessThan 11 . }
+  pe:builtin math:lessThan.
+
+{ (11 6) math:difference 5 . }
+  pe:builtin math:difference.
+
+{ (5 0.5) math:exponentiation 2.23606797749979 . }
+  pe:builtin math:exponentiation.
+
+{ :input2 :measurement2 true . }
+  pe:fact "control-system.n3".
+
+{ :disturbance1 :measurement3 35766 . }
+  pe:fact "control-system.n3".
+
+{ (2.23606797749979 19.6) math:product 43.82693235899588 . }
+  pe:builtin math:product.
+
+{ (10 4.553470372213121) math:exponentiation 35766 . }
+  pe:builtin math:exponentiation.
+
+{ (43.82693235899588 4.553470372213121) math:difference 39.27346198678276 . }
+  pe:builtin math:difference.

@@ -1,0 +1,50 @@
+# checked: 24 steps, 24 verified, 0 trusted
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Checked answers: these follow from the source program.
+:alice a :Person .
+:Person owl:equivalentClass :Human .
+:Human owl:equivalentClass :Individual .
+:Human owl:equivalentClass :Human .
+:Person owl:equivalentClass :Person .
+:Human rdfs:subClassOf :Person .
+:Person rdfs:subClassOf :Human .
+:alice a :Individual .
+:bob a :Person .
+:Individual owl:equivalentClass :Person .
+:Individual owl:equivalentClass :Individual .
+:Person rdfs:subClassOf :Individual .
+:Individual rdfs:subClassOf :Person .
+:bob a :Human .
+:Individual owl:equivalentClass :Human .
+:Human rdfs:subClassOf :Individual .
+:Individual rdfs:subClassOf :Human .
+:Human rdfs:subClassOf :Human .
+:Person rdfs:subClassOf :Person .
+:Individual rdfs:subClassOf :Individual .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/owl-equivalent-classes.n3";
+    pe:source "examples/owl-equivalent-classes.n3";
+    pe:verdict pe:checked;
+    pe:steps 24;
+    pe:verified 24;
+    pe:trusted 0;
+    pe:factSteps 4;
+    pe:ruleSteps 20;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 24; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 24; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 24; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 49; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 44; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 20; pe:failed 0 ].

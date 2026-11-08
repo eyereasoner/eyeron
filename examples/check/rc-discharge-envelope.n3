@@ -1,0 +1,39 @@
+# checked: 28 steps, 28 verified, 0 trusted
+@prefix : <https://eyereasoner.github.io/eyeling/examples/rc-discharge-envelope#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:step12 :upperVoltage 1.1948896413552061 .
+:step13 :upperVoltage 0.9305809884055127 .
+:step13 :belowTolerance true .
+:step12 :notBelowTolerance true .
+:case :firstBelowToleranceStep :step13 .
+:step13 :timeSeconds 0.325 .
+:report log:outputString "# rc-discharge-envelope\n\n## Source files\n\n- [N3 rules](../rc-discharge-envelope.n3)\n- [Input TriG](../input/rc-discharge-envelope.trig)\n\n## Answer\nexact decay symbol : exp(-1/4)\ncertified decay interval : [0.7788007830, 0.7788007831]\nfirst below tolerance step : 13\nfirst below tolerance time : 0.325 s\nupper voltage at step 13 : 0.930581 V\n\n## Explanation\nThe physical decay factor is exp(-1/4), but the example uses a finite double interval as the certificate. Because the interval lies strictly between 0 and 1, the capacitor voltage envelope contracts each sample. The upper envelope is the safety-relevant bound: once it falls below 1.0 V, every compatible exact trajectory is below tolerance." .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/rc-discharge-envelope.n3";
+    pe:source "examples/rc-discharge-envelope.n3";
+    pe:source "examples/input/rc-discharge-envelope.trig";
+    pe:verdict pe:checked;
+    pe:steps 28;
+    pe:verified 28;
+    pe:trusted 0;
+    pe:builtinSteps 9;
+    pe:factSteps 12;
+    pe:ruleSteps 7;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 19; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 28; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 28; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 43; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 35; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 7; pe:failed 0 ].

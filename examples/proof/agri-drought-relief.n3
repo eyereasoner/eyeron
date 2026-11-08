@@ -1,0 +1,85 @@
+@prefix ex: <https://example.org/agri#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:APP-DR-01 ex:eligible true .
+ex:APP-DR-01 ex:status ex:Approved .
+_:pay_fe97679132096585 a ex:ReliefPayment .
+ex:APP-DR-01 ex:issuedPayment _:pay_fe97679132096585 .
+
+{ ex:APP-DR-01 ex:eligible true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "app"; pe:value ex:APP-DR-01 ],
+    [ pe:var "area"; pe:value 8 ],
+    [ pe:var "by"; pe:value 100 ],
+    [ pe:var "cy"; pe:value 60 ],
+    [ pe:var "drop"; pe:value 40 ],
+    [ pe:var "farm"; pe:value ex:FarmAlpha ],
+    [ pe:var "rain"; pe:value 12 ];
+  pe:uses
+    { ex:APP-DR-01 ex:appliesFor ex:DroughtReliefGrant . },
+    { ex:APP-DR-01 ex:hasApplicant ex:FarmAlpha . },
+    { ex:FarmAlpha ex:totalArea 8 . },
+    { ex:FarmAlpha ex:rainfallLast30d 12 . },
+    { ex:FarmAlpha ex:baselineYield 100 . },
+    { ex:FarmAlpha ex:currentYield 60 . },
+    { (100 60) math:difference 40 . },
+    { 5 math:notGreaterThan 8 . },
+    { 12 math:lessThan 20 . },
+    { 40 math:notLessThan 30 . }.
+
+{ ex:APP-DR-01 ex:appliesFor ex:DroughtReliefGrant . }
+  pe:fact "agri-drought-relief.n3".
+
+{ ex:APP-DR-01 ex:hasApplicant ex:FarmAlpha . }
+  pe:fact "agri-drought-relief.n3".
+
+{ ex:FarmAlpha ex:totalArea 8 . }
+  pe:fact "agri-drought-relief.n3".
+
+{ ex:FarmAlpha ex:rainfallLast30d 12 . }
+  pe:fact "agri-drought-relief.n3".
+
+{ ex:FarmAlpha ex:baselineYield 100 . }
+  pe:fact "agri-drought-relief.n3".
+
+{ ex:FarmAlpha ex:currentYield 60 . }
+  pe:fact "agri-drought-relief.n3".
+
+{ (100 60) math:difference 40 . }
+  pe:builtin math:difference.
+
+{ 5 math:notGreaterThan 8 . }
+  pe:builtin math:notGreaterThan.
+
+{ 12 math:lessThan 20 . }
+  pe:builtin math:lessThan.
+
+{ 40 math:notLessThan 30 . }
+  pe:builtin math:notLessThan.
+
+{ ex:APP-DR-01 ex:status ex:Approved . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-DR-01 ];
+  pe:uses
+    { ex:APP-DR-01 ex:eligible true . },
+    { ex:APP-DR-01 ex:status ex:Submitted . }.
+
+{ ex:APP-DR-01 ex:status ex:Submitted . }
+  pe:fact "agri-drought-relief.n3".
+
+{ _:pay_fe97679132096585 a ex:ReliefPayment . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-DR-01 ];
+  pe:uses
+    { ex:APP-DR-01 ex:eligible true . },
+    { ex:APP-DR-01 ex:status ex:Submitted . }.
+
+{ ex:APP-DR-01 ex:issuedPayment _:pay_fe97679132096585 . }
+  pe:rule 2;
+  pe:binding [ pe:var "app"; pe:value ex:APP-DR-01 ];
+  pe:uses
+    { ex:APP-DR-01 ex:eligible true . },
+    { ex:APP-DR-01 ex:status ex:Submitted . }.

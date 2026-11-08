@@ -1,0 +1,842 @@
+@prefix : <http://example.org/evrange#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:CityShort :safeInWorld :W0 .
+:MountainCool :safeInWorld :W0 .
+:CityShort :safeInWorld :W1 .
+:HighwayLongCold :safeInWorld :W1 .
+:MountainCool :safeInWorld :W1 .
+:ColdHighwayMidBattery :safeInWorld :W1 .
+:CityShort :safeInWorld :W2 .
+:MountainCool :safeInWorld :W2 .
+:ColdHighwayMidBattery :safeInWorld :W2 .
+:CityShort :safeInWorld :W3 .
+:HighwayLongCold :riskyInWorld :W0 .
+:ColdHighwayMidBattery :riskyInWorld :W0 .
+:HighwayLongCold :riskyInWorld :W2 .
+:HighwayLongCold :riskyInWorld :W3 .
+:MountainCool :riskyInWorld :W3 .
+:ColdHighwayMidBattery :riskyInWorld :W3 .
+
+{ :CityShort :safeInWorld :W0 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "Cap"; pe:value 40.0 ],
+    [ pe:var "E0"; pe:value 0.4835555555555555 ],
+    [ pe:var "T"; pe:value :CityShort ];
+  pe:uses
+    { :CityShort :energyRequired_W0 0.4835555555555555 . },
+    { :CityShort :batteryKWh 40.0 . },
+    { 0.4835555555555555 math:notGreaterThan 40.0 . }.
+
+{ :CityShort :energyRequired_W0 0.4835555555555555 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "E0"; pe:value 0.4835555555555555 ],
+    [ pe:var "T"; pe:value :CityShort ],
+    [ pe:var "d"; pe:value 15.0 ],
+    [ pe:var "ep0"; pe:value 0.032237037037037036 ];
+  pe:uses
+    { :CityShort :distanceKm 15.0 . },
+    { :CityShort :energyPerKm_W0 0.032237037037037036 . },
+    { (0.032237037037037036 15.0) math:product 0.4835555555555555 . }.
+
+{ :CityShort :distanceKm 15.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ :CityShort :energyPerKm_W0 0.032237037037037036 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Pf"; pe:value 1.02 ],
+    [ pe:var "T"; pe:value :CityShort ],
+    [ pe:var "Tf"; pe:value 1.0 ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "ep0"; pe:value 0.032237037037037036 ],
+    [ pe:var "ratio"; pe:value 0.4444444444444444 ],
+    [ pe:var "speedFactor"; pe:value 0.19753086419753085 ],
+    [ pe:var "tmp1"; pe:value 0.03160493827160494 ],
+    [ pe:var "tmp2"; pe:value 0.03160493827160494 ],
+    [ pe:var "v"; pe:value 40.0 ];
+  pe:uses
+    { :CityShort :baseConsumption 0.16 . },
+    { :CityShort :speedKph 40.0 . },
+    { :CityShort :tempFactor 1.0 . },
+    { :CityShort :payloadFactor 1.02 . },
+    { (40.0 90.0) math:quotient 0.4444444444444444 . },
+    { (0.4444444444444444 2) math:exponentiation 0.19753086419753085 . },
+    { (0.16 0.19753086419753085) math:product 0.03160493827160494 . },
+    { (0.03160493827160494 1.0) math:product 0.03160493827160494 . },
+    { (0.03160493827160494 1.02) math:product 0.032237037037037036 . }.
+
+{ :CityShort :baseConsumption 0.16 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ :CityShort :speedKph 40.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ :CityShort :tempFactor 1.0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "T"; pe:value :CityShort ],
+    [ pe:var "Temp"; pe:value 20.0 ];
+  pe:uses
+    { :CityShort :tempC 20.0 . },
+    { 20.0 math:notLessThan 10.0 . }.
+
+{ :CityShort :tempC 20.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ 20.0 math:notLessThan 10.0 . }
+  pe:builtin math:notLessThan.
+
+{ :CityShort :payloadFactor 1.02 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "M"; pe:value 80.0 ],
+    [ pe:var "Pf"; pe:value 1.02 ],
+    [ pe:var "T"; pe:value :CityShort ],
+    [ pe:var "extra"; pe:value 0.02 ];
+  pe:uses
+    { :CityShort :payloadKg 80.0 . },
+    { (80.0 0.00025) math:product 0.02 . },
+    { (0.02 1.0) math:sum 1.02 . }.
+
+{ :CityShort :payloadKg 80.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ (80.0 0.00025) math:product 0.02 . }
+  pe:builtin math:product.
+
+{ (0.02 1.0) math:sum 1.02 . }
+  pe:builtin math:sum.
+
+{ (40.0 90.0) math:quotient 0.4444444444444444 . }
+  pe:builtin math:quotient.
+
+{ (0.4444444444444444 2) math:exponentiation 0.19753086419753085 . }
+  pe:builtin math:exponentiation.
+
+{ (0.16 0.19753086419753085) math:product 0.03160493827160494 . }
+  pe:builtin math:product.
+
+{ (0.03160493827160494 1.0) math:product 0.03160493827160494 . }
+  pe:builtin math:product.
+
+{ (0.03160493827160494 1.02) math:product 0.032237037037037036 . }
+  pe:builtin math:product.
+
+{ (0.032237037037037036 15.0) math:product 0.4835555555555555 . }
+  pe:builtin math:product.
+
+{ :CityShort :batteryKWh 40.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ 0.4835555555555555 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :MountainCool :safeInWorld :W0 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "Cap"; pe:value 30.0 ],
+    [ pe:var "E0"; pe:value 27.720000000000002 ],
+    [ pe:var "T"; pe:value :MountainCool ];
+  pe:uses
+    { :MountainCool :energyRequired_W0 27.720000000000002 . },
+    { :MountainCool :batteryKWh 30.0 . },
+    { 27.720000000000002 math:notGreaterThan 30.0 . }.
+
+{ :MountainCool :energyRequired_W0 27.720000000000002 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "E0"; pe:value 27.720000000000002 ],
+    [ pe:var "T"; pe:value :MountainCool ],
+    [ pe:var "d"; pe:value 150.0 ],
+    [ pe:var "ep0"; pe:value 0.18480000000000002 ];
+  pe:uses
+    { :MountainCool :distanceKm 150.0 . },
+    { :MountainCool :energyPerKm_W0 0.18480000000000002 . },
+    { (0.18480000000000002 150.0) math:product 27.720000000000002 . }.
+
+{ :MountainCool :distanceKm 150.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ :MountainCool :energyPerKm_W0 0.18480000000000002 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Pf"; pe:value 1.05 ],
+    [ pe:var "T"; pe:value :MountainCool ],
+    [ pe:var "Tf"; pe:value 1.1 ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "ep0"; pe:value 0.18480000000000002 ],
+    [ pe:var "ratio"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "speedFactor"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "tmp1"; pe:value 0.16 ],
+    [ pe:var "tmp2"; pe:value 0.17600000000000002 ],
+    [ pe:var "v"; pe:value 90.0 ];
+  pe:uses
+    { :MountainCool :baseConsumption 0.16 . },
+    { :MountainCool :speedKph 90.0 . },
+    { :MountainCool :tempFactor 1.1 . },
+    { :MountainCool :payloadFactor 1.05 . },
+    { (90.0 90.0) math:quotient "1"^^xsd:decimal . },
+    { ("1"^^xsd:decimal 2) math:exponentiation "1"^^xsd:decimal . },
+    { (0.16 "1"^^xsd:decimal) math:product 0.16 . },
+    { (0.16 1.1) math:product 0.17600000000000002 . },
+    { (0.17600000000000002 1.05) math:product 0.18480000000000002 . }.
+
+{ :MountainCool :baseConsumption 0.16 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ :MountainCool :speedKph 90.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ :MountainCool :tempFactor 1.1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "T"; pe:value :MountainCool ],
+    [ pe:var "Temp"; pe:value 0.0 ];
+  pe:uses
+    { :MountainCool :tempC 0.0 . },
+    { 0.0 math:notLessThan 0.0 . },
+    { 0.0 math:lessThan 10.0 . }.
+
+{ :MountainCool :tempC 0.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ 0.0 math:notLessThan 0.0 . }
+  pe:builtin math:notLessThan.
+
+{ 0.0 math:lessThan 10.0 . }
+  pe:builtin math:lessThan.
+
+{ :MountainCool :payloadFactor 1.05 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "M"; pe:value 200.0 ],
+    [ pe:var "Pf"; pe:value 1.05 ],
+    [ pe:var "T"; pe:value :MountainCool ],
+    [ pe:var "extra"; pe:value 0.05 ];
+  pe:uses
+    { :MountainCool :payloadKg 200.0 . },
+    { (200.0 0.00025) math:product 0.05 . },
+    { (0.05 1.0) math:sum 1.05 . }.
+
+{ :MountainCool :payloadKg 200.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ (200.0 0.00025) math:product 0.05 . }
+  pe:builtin math:product.
+
+{ (0.05 1.0) math:sum 1.05 . }
+  pe:builtin math:sum.
+
+{ (90.0 90.0) math:quotient "1"^^xsd:decimal . }
+  pe:builtin math:quotient.
+
+{ ("1"^^xsd:decimal 2) math:exponentiation "1"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ (0.16 "1"^^xsd:decimal) math:product 0.16 . }
+  pe:builtin math:product.
+
+{ (0.16 1.1) math:product 0.17600000000000002 . }
+  pe:builtin math:product.
+
+{ (0.17600000000000002 1.05) math:product 0.18480000000000002 . }
+  pe:builtin math:product.
+
+{ (0.18480000000000002 150.0) math:product 27.720000000000002 . }
+  pe:builtin math:product.
+
+{ :MountainCool :batteryKWh 30.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ 27.720000000000002 math:notGreaterThan 30.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :CityShort :safeInWorld :W1 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "Cap"; pe:value 40.0 ],
+    [ pe:var "E1"; pe:value 2.4 ],
+    [ pe:var "T"; pe:value :CityShort ];
+  pe:uses
+    { :CityShort :energyRequired_W1 2.4 . },
+    { :CityShort :batteryKWh 40.0 . },
+    { 2.4 math:notGreaterThan 40.0 . }.
+
+{ :CityShort :energyRequired_W1 2.4 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "E1"; pe:value 2.4 ],
+    [ pe:var "T"; pe:value :CityShort ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "d"; pe:value 15.0 ];
+  pe:uses
+    { :CityShort :distanceKm 15.0 . },
+    { :CityShort :baseConsumption 0.16 . },
+    { (0.16 15.0) math:product 2.4 . }.
+
+{ (0.16 15.0) math:product 2.4 . }
+  pe:builtin math:product.
+
+{ 2.4 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :HighwayLongCold :safeInWorld :W1 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "Cap"; pe:value 50.0 ],
+    [ pe:var "E1"; pe:value 28.8 ],
+    [ pe:var "T"; pe:value :HighwayLongCold ];
+  pe:uses
+    { :HighwayLongCold :energyRequired_W1 28.8 . },
+    { :HighwayLongCold :batteryKWh 50.0 . },
+    { 28.8 math:notGreaterThan 50.0 . }.
+
+{ :HighwayLongCold :energyRequired_W1 28.8 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "E1"; pe:value 28.8 ],
+    [ pe:var "T"; pe:value :HighwayLongCold ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "d"; pe:value 180.0 ];
+  pe:uses
+    { :HighwayLongCold :distanceKm 180.0 . },
+    { :HighwayLongCold :baseConsumption 0.16 . },
+    { (0.16 180.0) math:product 28.8 . }.
+
+{ :HighwayLongCold :distanceKm 180.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ :HighwayLongCold :baseConsumption 0.16 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ (0.16 180.0) math:product 28.8 . }
+  pe:builtin math:product.
+
+{ :HighwayLongCold :batteryKWh 50.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ 28.8 math:notGreaterThan 50.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :MountainCool :safeInWorld :W1 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "Cap"; pe:value 30.0 ],
+    [ pe:var "E1"; pe:value "24"^^xsd:decimal ],
+    [ pe:var "T"; pe:value :MountainCool ];
+  pe:uses
+    { :MountainCool :energyRequired_W1 "24"^^xsd:decimal . },
+    { :MountainCool :batteryKWh 30.0 . },
+    { "24"^^xsd:decimal math:notGreaterThan 30.0 . }.
+
+{ :MountainCool :energyRequired_W1 "24"^^xsd:decimal . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "E1"; pe:value "24"^^xsd:decimal ],
+    [ pe:var "T"; pe:value :MountainCool ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "d"; pe:value 150.0 ];
+  pe:uses
+    { :MountainCool :distanceKm 150.0 . },
+    { :MountainCool :baseConsumption 0.16 . },
+    { (0.16 150.0) math:product "24"^^xsd:decimal . }.
+
+{ (0.16 150.0) math:product "24"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ "24"^^xsd:decimal math:notGreaterThan 30.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :ColdHighwayMidBattery :safeInWorld :W1 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "Cap"; pe:value 40.0 ],
+    [ pe:var "E1"; pe:value 17.6 ],
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ];
+  pe:uses
+    { :ColdHighwayMidBattery :energyRequired_W1 17.6 . },
+    { :ColdHighwayMidBattery :batteryKWh 40.0 . },
+    { 17.6 math:notGreaterThan 40.0 . }.
+
+{ :ColdHighwayMidBattery :energyRequired_W1 17.6 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "E1"; pe:value 17.6 ],
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "d"; pe:value 110.0 ];
+  pe:uses
+    { :ColdHighwayMidBattery :distanceKm 110.0 . },
+    { :ColdHighwayMidBattery :baseConsumption 0.16 . },
+    { (0.16 110.0) math:product 17.6 . }.
+
+{ :ColdHighwayMidBattery :distanceKm 110.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ :ColdHighwayMidBattery :baseConsumption 0.16 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ (0.16 110.0) math:product 17.6 . }
+  pe:builtin math:product.
+
+{ :ColdHighwayMidBattery :batteryKWh 40.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ 17.6 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :CityShort :safeInWorld :W2 . }
+  pe:rule 14;
+  pe:binding
+    [ pe:var "Cap"; pe:value 40.0 ],
+    [ pe:var "E2"; pe:value 0.4740740740740741 ],
+    [ pe:var "T"; pe:value :CityShort ];
+  pe:uses
+    { :CityShort :energyRequired_W2 0.4740740740740741 . },
+    { :CityShort :batteryKWh 40.0 . },
+    { 0.4740740740740741 math:notGreaterThan 40.0 . }.
+
+{ :CityShort :energyRequired_W2 0.4740740740740741 . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "E2"; pe:value 0.4740740740740741 ],
+    [ pe:var "T"; pe:value :CityShort ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "d"; pe:value 15.0 ],
+    [ pe:var "ep2"; pe:value 0.03160493827160494 ],
+    [ pe:var "ratio2"; pe:value 0.4444444444444444 ],
+    [ pe:var "speedFactor2"; pe:value 0.19753086419753085 ],
+    [ pe:var "v"; pe:value 40.0 ];
+  pe:uses
+    { :CityShort :distanceKm 15.0 . },
+    { :CityShort :baseConsumption 0.16 . },
+    { :CityShort :speedKph 40.0 . },
+    { (40.0 90.0) math:quotient 0.4444444444444444 . },
+    { (0.4444444444444444 2) math:exponentiation 0.19753086419753085 . },
+    { (0.16 0.19753086419753085) math:product 0.03160493827160494 . },
+    { (0.03160493827160494 15.0) math:product 0.4740740740740741 . }.
+
+{ (0.03160493827160494 15.0) math:product 0.4740740740740741 . }
+  pe:builtin math:product.
+
+{ 0.4740740740740741 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :MountainCool :safeInWorld :W2 . }
+  pe:rule 14;
+  pe:binding
+    [ pe:var "Cap"; pe:value 30.0 ],
+    [ pe:var "E2"; pe:value "24"^^xsd:decimal ],
+    [ pe:var "T"; pe:value :MountainCool ];
+  pe:uses
+    { :MountainCool :energyRequired_W2 "24"^^xsd:decimal . },
+    { :MountainCool :batteryKWh 30.0 . },
+    { "24"^^xsd:decimal math:notGreaterThan 30.0 . }.
+
+{ :MountainCool :energyRequired_W2 "24"^^xsd:decimal . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "E2"; pe:value "24"^^xsd:decimal ],
+    [ pe:var "T"; pe:value :MountainCool ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "d"; pe:value 150.0 ],
+    [ pe:var "ep2"; pe:value 0.16 ],
+    [ pe:var "ratio2"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "speedFactor2"; pe:value "1"^^xsd:decimal ],
+    [ pe:var "v"; pe:value 90.0 ];
+  pe:uses
+    { :MountainCool :distanceKm 150.0 . },
+    { :MountainCool :baseConsumption 0.16 . },
+    { :MountainCool :speedKph 90.0 . },
+    { (90.0 90.0) math:quotient "1"^^xsd:decimal . },
+    { ("1"^^xsd:decimal 2) math:exponentiation "1"^^xsd:decimal . },
+    { (0.16 "1"^^xsd:decimal) math:product 0.16 . },
+    { (0.16 150.0) math:product "24"^^xsd:decimal . }.
+
+{ :ColdHighwayMidBattery :safeInWorld :W2 . }
+  pe:rule 14;
+  pe:binding
+    [ pe:var "Cap"; pe:value 40.0 ],
+    [ pe:var "E2"; pe:value 31.288888888888888 ],
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ];
+  pe:uses
+    { :ColdHighwayMidBattery :energyRequired_W2 31.288888888888888 . },
+    { :ColdHighwayMidBattery :batteryKWh 40.0 . },
+    { 31.288888888888888 math:notGreaterThan 40.0 . }.
+
+{ :ColdHighwayMidBattery :energyRequired_W2 31.288888888888888 . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "E2"; pe:value 31.288888888888888 ],
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "d"; pe:value 110.0 ],
+    [ pe:var "ep2"; pe:value 0.28444444444444444 ],
+    [ pe:var "ratio2"; pe:value 1.3333333333333333 ],
+    [ pe:var "speedFactor2"; pe:value 1.7777777777777777 ],
+    [ pe:var "v"; pe:value 120.0 ];
+  pe:uses
+    { :ColdHighwayMidBattery :distanceKm 110.0 . },
+    { :ColdHighwayMidBattery :baseConsumption 0.16 . },
+    { :ColdHighwayMidBattery :speedKph 120.0 . },
+    { (120.0 90.0) math:quotient 1.3333333333333333 . },
+    { (1.3333333333333333 2) math:exponentiation 1.7777777777777777 . },
+    { (0.16 1.7777777777777777) math:product 0.28444444444444444 . },
+    { (0.28444444444444444 110.0) math:product 31.288888888888888 . }.
+
+{ :ColdHighwayMidBattery :speedKph 120.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ (120.0 90.0) math:quotient 1.3333333333333333 . }
+  pe:builtin math:quotient.
+
+{ (1.3333333333333333 2) math:exponentiation 1.7777777777777777 . }
+  pe:builtin math:exponentiation.
+
+{ (0.16 1.7777777777777777) math:product 0.28444444444444444 . }
+  pe:builtin math:product.
+
+{ (0.28444444444444444 110.0) math:product 31.288888888888888 . }
+  pe:builtin math:product.
+
+{ 31.288888888888888 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :CityShort :safeInWorld :W3 . }
+  pe:rule 16;
+  pe:binding
+    [ pe:var "Cap"; pe:value 40.0 ],
+    [ pe:var "E3"; pe:value 0.6286222222222222 ],
+    [ pe:var "T"; pe:value :CityShort ];
+  pe:uses
+    { :CityShort :energyRequired_W3 0.6286222222222222 . },
+    { :CityShort :batteryKWh 40.0 . },
+    { 0.6286222222222222 math:notGreaterThan 40.0 . }.
+
+{ :CityShort :energyRequired_W3 0.6286222222222222 . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "E0"; pe:value 0.4835555555555555 ],
+    [ pe:var "E3"; pe:value 0.6286222222222222 ],
+    [ pe:var "T"; pe:value :CityShort ];
+  pe:uses
+    { :CityShort :energyRequired_W0 0.4835555555555555 . },
+    { (0.4835555555555555 1.3) math:product 0.6286222222222222 . }.
+
+{ (0.4835555555555555 1.3) math:product 0.6286222222222222 . }
+  pe:builtin math:product.
+
+{ 0.6286222222222222 math:notGreaterThan 40.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :HighwayLongCold :riskyInWorld :W0 . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "Cap"; pe:value 50.0 ],
+    [ pe:var "E0"; pe:value 65.1264 ],
+    [ pe:var "T"; pe:value :HighwayLongCold ];
+  pe:uses
+    { :HighwayLongCold :energyRequired_W0 65.1264 . },
+    { :HighwayLongCold :batteryKWh 50.0 . },
+    { 65.1264 math:greaterThan 50.0 . }.
+
+{ :HighwayLongCold :energyRequired_W0 65.1264 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "E0"; pe:value 65.1264 ],
+    [ pe:var "T"; pe:value :HighwayLongCold ],
+    [ pe:var "d"; pe:value 180.0 ],
+    [ pe:var "ep0"; pe:value 0.3618133333333333 ];
+  pe:uses
+    { :HighwayLongCold :distanceKm 180.0 . },
+    { :HighwayLongCold :energyPerKm_W0 0.3618133333333333 . },
+    { (0.3618133333333333 180.0) math:product 65.1264 . }.
+
+{ :HighwayLongCold :energyPerKm_W0 0.3618133333333333 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Pf"; pe:value 1.06 ],
+    [ pe:var "T"; pe:value :HighwayLongCold ],
+    [ pe:var "Tf"; pe:value 1.2 ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "ep0"; pe:value 0.3618133333333333 ],
+    [ pe:var "ratio"; pe:value 1.3333333333333333 ],
+    [ pe:var "speedFactor"; pe:value 1.7777777777777777 ],
+    [ pe:var "tmp1"; pe:value 0.28444444444444444 ],
+    [ pe:var "tmp2"; pe:value 0.3413333333333333 ],
+    [ pe:var "v"; pe:value 120.0 ];
+  pe:uses
+    { :HighwayLongCold :baseConsumption 0.16 . },
+    { :HighwayLongCold :speedKph 120.0 . },
+    { :HighwayLongCold :tempFactor 1.2 . },
+    { :HighwayLongCold :payloadFactor 1.06 . },
+    { (120.0 90.0) math:quotient 1.3333333333333333 . },
+    { (1.3333333333333333 2) math:exponentiation 1.7777777777777777 . },
+    { (0.16 1.7777777777777777) math:product 0.28444444444444444 . },
+    { (0.28444444444444444 1.2) math:product 0.3413333333333333 . },
+    { (0.3413333333333333 1.06) math:product 0.3618133333333333 . }.
+
+{ :HighwayLongCold :speedKph 120.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ :HighwayLongCold :tempFactor 1.2 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "T"; pe:value :HighwayLongCold ],
+    [ pe:var "Temp"; pe:value -5.0 ];
+  pe:uses
+    { :HighwayLongCold :tempC -5.0 . },
+    { -5.0 math:lessThan 0.0 . }.
+
+{ :HighwayLongCold :tempC -5.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ -5.0 math:lessThan 0.0 . }
+  pe:builtin math:lessThan.
+
+{ :HighwayLongCold :payloadFactor 1.06 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "M"; pe:value 240.0 ],
+    [ pe:var "Pf"; pe:value 1.06 ],
+    [ pe:var "T"; pe:value :HighwayLongCold ],
+    [ pe:var "extra"; pe:value 0.06 ];
+  pe:uses
+    { :HighwayLongCold :payloadKg 240.0 . },
+    { (240.0 0.00025) math:product 0.06 . },
+    { (0.06 1.0) math:sum 1.06 . }.
+
+{ :HighwayLongCold :payloadKg 240.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ (240.0 0.00025) math:product 0.06 . }
+  pe:builtin math:product.
+
+{ (0.06 1.0) math:sum 1.06 . }
+  pe:builtin math:sum.
+
+{ (0.28444444444444444 1.2) math:product 0.3413333333333333 . }
+  pe:builtin math:product.
+
+{ (0.3413333333333333 1.06) math:product 0.3618133333333333 . }
+  pe:builtin math:product.
+
+{ (0.3618133333333333 180.0) math:product 65.1264 . }
+  pe:builtin math:product.
+
+{ 65.1264 math:greaterThan 50.0 . }
+  pe:builtin math:greaterThan.
+
+{ :ColdHighwayMidBattery :riskyInWorld :W0 . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "Cap"; pe:value 40.0 ],
+    [ pe:var "E0"; pe:value 40.36266666666667 ],
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ];
+  pe:uses
+    { :ColdHighwayMidBattery :energyRequired_W0 40.36266666666667 . },
+    { :ColdHighwayMidBattery :batteryKWh 40.0 . },
+    { 40.36266666666667 math:greaterThan 40.0 . }.
+
+{ :ColdHighwayMidBattery :energyRequired_W0 40.36266666666667 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "E0"; pe:value 40.36266666666667 ],
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ],
+    [ pe:var "d"; pe:value 110.0 ],
+    [ pe:var "ep0"; pe:value 0.36693333333333333 ];
+  pe:uses
+    { :ColdHighwayMidBattery :distanceKm 110.0 . },
+    { :ColdHighwayMidBattery :energyPerKm_W0 0.36693333333333333 . },
+    { (0.36693333333333333 110.0) math:product 40.36266666666667 . }.
+
+{ :ColdHighwayMidBattery :energyPerKm_W0 0.36693333333333333 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Pf"; pe:value 1.075 ],
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ],
+    [ pe:var "Tf"; pe:value 1.2 ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "ep0"; pe:value 0.36693333333333333 ],
+    [ pe:var "ratio"; pe:value 1.3333333333333333 ],
+    [ pe:var "speedFactor"; pe:value 1.7777777777777777 ],
+    [ pe:var "tmp1"; pe:value 0.28444444444444444 ],
+    [ pe:var "tmp2"; pe:value 0.3413333333333333 ],
+    [ pe:var "v"; pe:value 120.0 ];
+  pe:uses
+    { :ColdHighwayMidBattery :baseConsumption 0.16 . },
+    { :ColdHighwayMidBattery :speedKph 120.0 . },
+    { :ColdHighwayMidBattery :tempFactor 1.2 . },
+    { :ColdHighwayMidBattery :payloadFactor 1.075 . },
+    { (120.0 90.0) math:quotient 1.3333333333333333 . },
+    { (1.3333333333333333 2) math:exponentiation 1.7777777777777777 . },
+    { (0.16 1.7777777777777777) math:product 0.28444444444444444 . },
+    { (0.28444444444444444 1.2) math:product 0.3413333333333333 . },
+    { (0.3413333333333333 1.075) math:product 0.36693333333333333 . }.
+
+{ :ColdHighwayMidBattery :tempFactor 1.2 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ],
+    [ pe:var "Temp"; pe:value -15.0 ];
+  pe:uses
+    { :ColdHighwayMidBattery :tempC -15.0 . },
+    { -15.0 math:lessThan 0.0 . }.
+
+{ :ColdHighwayMidBattery :tempC -15.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ -15.0 math:lessThan 0.0 . }
+  pe:builtin math:lessThan.
+
+{ :ColdHighwayMidBattery :payloadFactor 1.075 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "M"; pe:value 300.0 ],
+    [ pe:var "Pf"; pe:value 1.075 ],
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ],
+    [ pe:var "extra"; pe:value 0.075 ];
+  pe:uses
+    { :ColdHighwayMidBattery :payloadKg 300.0 . },
+    { (300.0 0.00025) math:product 0.075 . },
+    { (0.075 1.0) math:sum 1.075 . }.
+
+{ :ColdHighwayMidBattery :payloadKg 300.0 . }
+  pe:fact "ev-range-worlds.n3".
+
+{ (300.0 0.00025) math:product 0.075 . }
+  pe:builtin math:product.
+
+{ (0.075 1.0) math:sum 1.075 . }
+  pe:builtin math:sum.
+
+{ (0.3413333333333333 1.075) math:product 0.36693333333333333 . }
+  pe:builtin math:product.
+
+{ (0.36693333333333333 110.0) math:product 40.36266666666667 . }
+  pe:builtin math:product.
+
+{ 40.36266666666667 math:greaterThan 40.0 . }
+  pe:builtin math:greaterThan.
+
+{ :HighwayLongCold :riskyInWorld :W2 . }
+  pe:rule 15;
+  pe:binding
+    [ pe:var "Cap"; pe:value 50.0 ],
+    [ pe:var "E2"; pe:value 51.2 ],
+    [ pe:var "T"; pe:value :HighwayLongCold ];
+  pe:uses
+    { :HighwayLongCold :energyRequired_W2 51.2 . },
+    { :HighwayLongCold :batteryKWh 50.0 . },
+    { 51.2 math:greaterThan 50.0 . }.
+
+{ :HighwayLongCold :energyRequired_W2 51.2 . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "E2"; pe:value 51.2 ],
+    [ pe:var "T"; pe:value :HighwayLongCold ],
+    [ pe:var "cBase"; pe:value 0.16 ],
+    [ pe:var "d"; pe:value 180.0 ],
+    [ pe:var "ep2"; pe:value 0.28444444444444444 ],
+    [ pe:var "ratio2"; pe:value 1.3333333333333333 ],
+    [ pe:var "speedFactor2"; pe:value 1.7777777777777777 ],
+    [ pe:var "v"; pe:value 120.0 ];
+  pe:uses
+    { :HighwayLongCold :distanceKm 180.0 . },
+    { :HighwayLongCold :baseConsumption 0.16 . },
+    { :HighwayLongCold :speedKph 120.0 . },
+    { (120.0 90.0) math:quotient 1.3333333333333333 . },
+    { (1.3333333333333333 2) math:exponentiation 1.7777777777777777 . },
+    { (0.16 1.7777777777777777) math:product 0.28444444444444444 . },
+    { (0.28444444444444444 180.0) math:product 51.2 . }.
+
+{ (0.28444444444444444 180.0) math:product 51.2 . }
+  pe:builtin math:product.
+
+{ 51.2 math:greaterThan 50.0 . }
+  pe:builtin math:greaterThan.
+
+{ :HighwayLongCold :riskyInWorld :W3 . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "Cap"; pe:value 50.0 ],
+    [ pe:var "E3"; pe:value 84.66432 ],
+    [ pe:var "T"; pe:value :HighwayLongCold ];
+  pe:uses
+    { :HighwayLongCold :energyRequired_W3 84.66432 . },
+    { :HighwayLongCold :batteryKWh 50.0 . },
+    { 84.66432 math:greaterThan 50.0 . }.
+
+{ :HighwayLongCold :energyRequired_W3 84.66432 . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "E0"; pe:value 65.1264 ],
+    [ pe:var "E3"; pe:value 84.66432 ],
+    [ pe:var "T"; pe:value :HighwayLongCold ];
+  pe:uses
+    { :HighwayLongCold :energyRequired_W0 65.1264 . },
+    { (65.1264 1.3) math:product 84.66432 . }.
+
+{ (65.1264 1.3) math:product 84.66432 . }
+  pe:builtin math:product.
+
+{ 84.66432 math:greaterThan 50.0 . }
+  pe:builtin math:greaterThan.
+
+{ :MountainCool :riskyInWorld :W3 . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "Cap"; pe:value 30.0 ],
+    [ pe:var "E3"; pe:value 36.036 ],
+    [ pe:var "T"; pe:value :MountainCool ];
+  pe:uses
+    { :MountainCool :energyRequired_W3 36.036 . },
+    { :MountainCool :batteryKWh 30.0 . },
+    { 36.036 math:greaterThan 30.0 . }.
+
+{ :MountainCool :energyRequired_W3 36.036 . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "E0"; pe:value 27.720000000000002 ],
+    [ pe:var "E3"; pe:value 36.036 ],
+    [ pe:var "T"; pe:value :MountainCool ];
+  pe:uses
+    { :MountainCool :energyRequired_W0 27.720000000000002 . },
+    { (27.720000000000002 1.3) math:product 36.036 . }.
+
+{ (27.720000000000002 1.3) math:product 36.036 . }
+  pe:builtin math:product.
+
+{ 36.036 math:greaterThan 30.0 . }
+  pe:builtin math:greaterThan.
+
+{ :ColdHighwayMidBattery :riskyInWorld :W3 . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "Cap"; pe:value 40.0 ],
+    [ pe:var "E3"; pe:value 52.47146666666667 ],
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ];
+  pe:uses
+    { :ColdHighwayMidBattery :energyRequired_W3 52.47146666666667 . },
+    { :ColdHighwayMidBattery :batteryKWh 40.0 . },
+    { 52.47146666666667 math:greaterThan 40.0 . }.
+
+{ :ColdHighwayMidBattery :energyRequired_W3 52.47146666666667 . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "E0"; pe:value 40.36266666666667 ],
+    [ pe:var "E3"; pe:value 52.47146666666667 ],
+    [ pe:var "T"; pe:value :ColdHighwayMidBattery ];
+  pe:uses
+    { :ColdHighwayMidBattery :energyRequired_W0 40.36266666666667 . },
+    { (40.36266666666667 1.3) math:product 52.47146666666667 . }.
+
+{ (40.36266666666667 1.3) math:product 52.47146666666667 . }
+  pe:builtin math:product.
+
+{ 52.47146666666667 math:greaterThan 40.0 . }
+  pe:builtin math:greaterThan.

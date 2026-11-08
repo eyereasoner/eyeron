@@ -1,0 +1,50 @@
+# checked: 33 steps, 33 verified, 0 trusted
+@prefix : <https://example.org/knowledge-engineering-alignment-flow#> .
+@prefix fpv: <https://example.org/fpv#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:msg1 a sosa:Observation .
+:probe7 a sosa:Sensor .
+:msg1 sosa:madeBySensor :probe7 .
+:observedBy fpv:runtimeRule fpv:copyToTarget .
+:observedBy fpv:targetPredicate sosa:madeBySensor .
+:msg1 sosa:resultTime "2026-06-17T12:34:56Z"^^xsd:dateTime .
+:observedAt fpv:runtimeRule fpv:copyToTarget .
+:observedAt fpv:targetPredicate sosa:resultTime .
+:msg1 sosa:hasSimpleResult 18.6 .
+:temperatureCelsius fpv:runtimeRule fpv:copyToTarget .
+:temperatureCelsius fpv:targetPredicate sosa:hasSimpleResult .
+:msg1 sosa:hasFeatureOfInterest :platformB .
+:observedFeature fpv:runtimeRule fpv:copyToTarget .
+:observedFeature fpv:targetPredicate sosa:hasFeatureOfInterest .
+:msg1 fpv:hasFlowStep :ingestStep .
+:inFlow fpv:runtimeRule fpv:copyToTarget .
+:inFlow fpv:targetPredicate fpv:hasFlowStep .
+:ingestStep fpv:emits :msg1 .
+:ingestStep fpv:trustedBy :probe7 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/knowledge-engineering-alignment-flow.n3";
+    pe:source "examples/knowledge-engineering-alignment-flow.n3";
+    pe:verdict pe:checked;
+    pe:steps 33;
+    pe:verified 33;
+    pe:trusted 0;
+    pe:factSteps 14;
+    pe:ruleSteps 19;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 33; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 33; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 33; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 49; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 52; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 19; pe:failed 0 ].

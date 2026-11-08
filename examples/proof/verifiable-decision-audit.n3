@@ -1,0 +1,607 @@
+@prefix : <https://example.org/access#> .
+@prefix doc: <https://example.org/doc/> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:audit dpv:hasJustification doc:intake .
+:audit dpv:hasJustification doc:ethics .
+:audit dpv:hasJustification doc:consent .
+:audit dpv:hasJustification doc:registry .
+
+{ :audit dpv:hasJustification doc:intake . }
+  pe:rule
+    {
+        {
+            :audit dpv:hasDataSource ?doc .
+        } => {
+            :audit dpv:hasJustification ?doc .
+        } .
+    };
+  pe:binding [ pe:var "doc"; pe:value doc:intake ];
+  pe:uses { :audit dpv:hasDataSource doc:intake . }.
+
+{ :audit dpv:hasDataSource doc:intake . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "audit"; pe:value :audit ],
+    [ pe:var "claim"; pe:value {
+        :request-42 odrl:profile :research-profile .
+    } ],
+    [ pe:var "doc"; pe:value doc:intake ],
+    [ pe:var "label"; pe:value "verifiable-decision.n3" ],
+    [ pe:var "root"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ];
+  pe:uses
+    { :audit a dpv:Audit . },
+    {
+        :audit dpv:hasScope {
+            :agreement-42 a odrl:Agreement .
+        } .
+    },
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } prov:wasDerivedFrom {
+            :request-42 odrl:profile :research-profile .
+        } .
+    },
+    {
+        {
+            :request-42 odrl:profile :research-profile .
+        } pe:fact "verifiable-decision.n3" .
+    },
+    {
+        {
+            :request-42 odrl:profile :research-profile .
+        } prov:hadPrimarySource doc:intake .
+    }.
+
+{ :audit a dpv:Audit . }
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  :audit dpv:hasScope {
+      :agreement-42 a odrl:Agreement .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } prov:wasDerivedFrom {
+      :request-42 odrl:profile :research-profile .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ],
+    [ pe:var "premise"; pe:value {
+        :request-42 odrl:profile :research-profile .
+    } ];
+  pe:uses
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } pe:uses {
+            :request-42 odrl:profile :research-profile .
+        } .
+    }.
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } pe:uses {
+      :request-42 odrl:profile :research-profile .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 odrl:profile :research-profile .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :request-42 odrl:profile :research-profile .
+  } prov:hadPrimarySource doc:intake .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{ :audit dpv:hasJustification doc:ethics . }
+  pe:rule
+    {
+        {
+            :audit dpv:hasDataSource ?doc .
+        } => {
+            :audit dpv:hasJustification ?doc .
+        } .
+    };
+  pe:binding [ pe:var "doc"; pe:value doc:ethics ];
+  pe:uses { :audit dpv:hasDataSource doc:ethics . }.
+
+{ :audit dpv:hasDataSource doc:ethics . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "audit"; pe:value :audit ],
+    [ pe:var "claim"; pe:value {
+        :dr-okafor :holdsApproval :eth-2026-118 .
+    } ],
+    [ pe:var "doc"; pe:value doc:ethics ],
+    [ pe:var "label"; pe:value "verifiable-decision.n3" ],
+    [ pe:var "root"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ];
+  pe:uses
+    { :audit a dpv:Audit . },
+    {
+        :audit dpv:hasScope {
+            :agreement-42 a odrl:Agreement .
+        } .
+    },
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } prov:wasDerivedFrom {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } .
+    },
+    {
+        {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } pe:fact "verifiable-decision.n3" .
+    },
+    {
+        {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } prov:hadPrimarySource doc:ethics .
+    }.
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } prov:wasDerivedFrom {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ],
+    [ pe:var "premise"; pe:value {
+        :research-use-42 dpv:hasJustification :eth-2026-118 .
+    } ],
+    [ pe:var "source"; pe:value {
+        :dr-okafor :holdsApproval :eth-2026-118 .
+    } ];
+  pe:uses
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } prov:wasDerivedFrom {
+            :research-use-42 dpv:hasJustification :eth-2026-118 .
+        } .
+    },
+    {
+        {
+            :research-use-42 dpv:hasJustification :eth-2026-118 .
+        } prov:wasDerivedFrom {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } .
+    }.
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } prov:wasDerivedFrom {
+      :research-use-42 dpv:hasJustification :eth-2026-118 .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ],
+    [ pe:var "premise"; pe:value {
+        :research-use-42 dpv:hasJustification :eth-2026-118 .
+    } ];
+  pe:uses
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } pe:uses {
+            :research-use-42 dpv:hasJustification :eth-2026-118 .
+        } .
+    }.
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } pe:uses {
+      :research-use-42 dpv:hasJustification :eth-2026-118 .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :research-use-42 dpv:hasJustification :eth-2026-118 .
+  } prov:wasDerivedFrom {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :research-use-42 dpv:hasJustification :eth-2026-118 .
+    } ],
+    [ pe:var "premise"; pe:value {
+        :dr-okafor :holdsApproval :eth-2026-118 .
+    } ];
+  pe:uses
+    {
+        {
+            :research-use-42 dpv:hasJustification :eth-2026-118 .
+        } pe:uses {
+            :dr-okafor :holdsApproval :eth-2026-118 .
+        } .
+    }.
+
+{
+  {
+      :research-use-42 dpv:hasJustification :eth-2026-118 .
+  } pe:uses {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :dr-okafor :holdsApproval :eth-2026-118 .
+  } prov:hadPrimarySource doc:ethics .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{ :audit dpv:hasJustification doc:consent . }
+  pe:rule
+    {
+        {
+            :audit dpv:hasDataSource ?doc .
+        } => {
+            :audit dpv:hasJustification ?doc .
+        } .
+    };
+  pe:binding [ pe:var "doc"; pe:value doc:consent ];
+  pe:uses { :audit dpv:hasDataSource doc:consent . }.
+
+{ :audit dpv:hasDataSource doc:consent . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "audit"; pe:value :audit ],
+    [ pe:var "claim"; pe:value {
+        :consent-b a dpv:Consent .
+    } ],
+    [ pe:var "doc"; pe:value doc:consent ],
+    [ pe:var "label"; pe:value "verifiable-decision.n3" ],
+    [ pe:var "root"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ];
+  pe:uses
+    { :audit a dpv:Audit . },
+    {
+        :audit dpv:hasScope {
+            :agreement-42 a odrl:Agreement .
+        } .
+    },
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } prov:wasDerivedFrom {
+            :consent-b a dpv:Consent .
+        } .
+    },
+    {
+        {
+            :consent-b a dpv:Consent .
+        } pe:fact "verifiable-decision.n3" .
+    },
+    {
+        {
+            :consent-b a dpv:Consent .
+        } prov:hadPrimarySource doc:consent .
+    }.
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } prov:wasDerivedFrom {
+      :consent-b a dpv:Consent .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ],
+    [ pe:var "premise"; pe:value {
+        :research-use-42 dpv:hasLegalBasis :consent-b .
+    } ],
+    [ pe:var "source"; pe:value {
+        :consent-b a dpv:Consent .
+    } ];
+  pe:uses
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } prov:wasDerivedFrom {
+            :research-use-42 dpv:hasLegalBasis :consent-b .
+        } .
+    },
+    {
+        {
+            :research-use-42 dpv:hasLegalBasis :consent-b .
+        } prov:wasDerivedFrom {
+            :consent-b a dpv:Consent .
+        } .
+    }.
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } prov:wasDerivedFrom {
+      :research-use-42 dpv:hasLegalBasis :consent-b .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ],
+    [ pe:var "premise"; pe:value {
+        :research-use-42 dpv:hasLegalBasis :consent-b .
+    } ];
+  pe:uses
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } pe:uses {
+            :research-use-42 dpv:hasLegalBasis :consent-b .
+        } .
+    }.
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } pe:uses {
+      :research-use-42 dpv:hasLegalBasis :consent-b .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :research-use-42 dpv:hasLegalBasis :consent-b .
+  } prov:wasDerivedFrom {
+      :consent-b a dpv:Consent .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :research-use-42 dpv:hasLegalBasis :consent-b .
+    } ],
+    [ pe:var "premise"; pe:value {
+        :consent-b a dpv:Consent .
+    } ];
+  pe:uses
+    {
+        {
+            :research-use-42 dpv:hasLegalBasis :consent-b .
+        } pe:uses {
+            :consent-b a dpv:Consent .
+        } .
+    }.
+
+{
+  {
+      :research-use-42 dpv:hasLegalBasis :consent-b .
+  } pe:uses {
+      :consent-b a dpv:Consent .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :consent-b a dpv:Consent .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :consent-b a dpv:Consent .
+  } prov:hadPrimarySource doc:consent .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{ :audit dpv:hasJustification doc:registry . }
+  pe:rule
+    {
+        {
+            :audit dpv:hasDataSource ?doc .
+        } => {
+            :audit dpv:hasJustification ?doc .
+        } .
+    };
+  pe:binding [ pe:var "doc"; pe:value doc:registry ];
+  pe:uses { :audit dpv:hasDataSource doc:registry . }.
+
+{ :audit dpv:hasDataSource doc:registry . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "audit"; pe:value :audit ],
+    [ pe:var "claim"; pe:value {
+        :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+    } ],
+    [ pe:var "doc"; pe:value doc:registry ],
+    [ pe:var "label"; pe:value "verifiable-decision.n3" ],
+    [ pe:var "root"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ];
+  pe:uses
+    { :audit a dpv:Audit . },
+    {
+        :audit dpv:hasScope {
+            :agreement-42 a odrl:Agreement .
+        } .
+    },
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } prov:wasDerivedFrom {
+            :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+        } .
+    },
+    {
+        {
+            :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+        } pe:fact "verifiable-decision.n3" .
+    },
+    {
+        {
+            :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+        } prov:hadPrimarySource doc:registry .
+    }.
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } prov:wasDerivedFrom {
+      :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ],
+    [ pe:var "premise"; pe:value {
+        :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+    } ],
+    [ pe:var "source"; pe:value {
+        :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+    } ];
+  pe:uses
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } prov:wasDerivedFrom {
+            :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+        } .
+    },
+    {
+        {
+            :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+        } prov:wasDerivedFrom {
+            :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+        } .
+    }.
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } prov:wasDerivedFrom {
+      :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :agreement-42 a odrl:Agreement .
+    } ],
+    [ pe:var "premise"; pe:value {
+        :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+    } ];
+  pe:uses
+    {
+        {
+            :agreement-42 a odrl:Agreement .
+        } pe:uses {
+            :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+        } .
+    }.
+
+{
+  {
+      :agreement-42 a odrl:Agreement .
+  } pe:uses {
+      :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+  } prov:wasDerivedFrom {
+      :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "claim"; pe:value {
+        :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+    } ],
+    [ pe:var "premise"; pe:value {
+        :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+    } ];
+  pe:uses
+    {
+        {
+            :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+        } pe:uses {
+            :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+        } .
+    }.
+
+{
+  {
+      :research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+  } pe:uses {
+      :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+  } .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+  } pe:fact "verifiable-decision.n3" .
+}
+  pe:fact "verifiable-decision-audit.n3".
+
+{
+  {
+      :cohort-b dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+  } prov:hadPrimarySource doc:registry .
+}
+  pe:fact "verifiable-decision-audit.n3".

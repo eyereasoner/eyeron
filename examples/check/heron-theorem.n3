@@ -1,0 +1,234 @@
+# checked with obligations: 116 steps, 86 verified, 30 trusted
+@prefix : <http://example.org/heron#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:T1 :answer _:b2_d1895b619c710c4c .
+_:b2_d1895b619c710c4c a :Area .
+_:b2_d1895b619c710c4c :value "6"^^xsd:decimal .
+:T1 :status "proper" .
+:T2 :answer _:b2_f00ed8195d58f09b .
+_:b2_f00ed8195d58f09b a :Area .
+_:b2_f00ed8195d58f09b :value 0.4330127018922193 .
+:T2 :status "proper" .
+:T3 :answer _:b2_ea67d051e3e10ed0 .
+_:b2_ea67d051e3e10ed0 a :Area .
+_:b2_ea67d051e3e10ed0 :value "12"^^xsd:decimal .
+:T3 :status "proper" .
+:T4 :answer _:b2_7a9bc048e235baf0 .
+_:b2_7a9bc048e235baf0 a :Area .
+_:b2_7a9bc048e235baf0 :value 26.832815729997478 .
+:T4 :status "proper" .
+:T6 :answer _:b2_8bd9134a837adda1 .
+_:b2_8bd9134a837adda1 a :Area .
+_:b2_8bd9134a837adda1 :value 5.846051552116183 .
+:T6 :status "proper" .
+:T5 :answer _:b3_f9c2d2b1b645cd4d .
+_:b3_f9c2d2b1b645cd4d a :Area .
+_:b3_f9c2d2b1b645cd4d :value 0 .
+:T5 :status "degenerate" .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/heron-theorem.n3";
+    pe:source "examples/heron-theorem.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 116;
+    pe:verified 86;
+    pe:trusted 30;
+    pe:builtinSteps 56;
+    pe:factSteps 24;
+    pe:ruleSteps 36;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 60; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 116; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 116; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 326; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 56; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 12; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 140; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 320; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T1 :answer _:b2_d1895b619c710c4c .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T1 :why _:b1_fc4fc0ba838e96c2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_fc4fc0ba838e96c2 :radicand 36 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_d1895b619c710c4c a :Area .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_d1895b619c710c4c :value "6"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T2 :answer _:b2_f00ed8195d58f09b .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T2 :why _:b1_acb7bd58cb6ee4a3 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_acb7bd58cb6ee4a3 :radicand 0.1875 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_f00ed8195d58f09b a :Area .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_f00ed8195d58f09b :value 0.4330127018922193 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T3 :answer _:b2_ea67d051e3e10ed0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T3 :why _:b1_8f412e4ba61f653 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_8f412e4ba61f653 :radicand 144 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_ea67d051e3e10ed0 a :Area .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_ea67d051e3e10ed0 :value "12"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T4 :answer _:b2_7a9bc048e235baf0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T4 :why _:b1_81ce404081590cdb .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_81ce404081590cdb :radicand 720 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_7a9bc048e235baf0 a :Area .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_7a9bc048e235baf0 :value 26.832815729997478 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T6 :answer _:b2_8bd9134a837adda1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T6 :why _:b1_2a43c82e311baef1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_2a43c82e311baef1 :radicand 34.176318750000036 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_8bd9134a837adda1 a :Area .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b2_8bd9134a837adda1 :value 5.846051552116183 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T5 :answer _:b3_f9c2d2b1b645cd4d .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :T5 :why _:b1_e016d55d4c4bf5be .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b1_e016d55d4c4bf5be :radicand 0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_f9c2d2b1b645cd4d a :Area .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_f9c2d2b1b645cd4d :value 0 .
+        }
+    ].

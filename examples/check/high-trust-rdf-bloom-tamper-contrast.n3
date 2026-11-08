@@ -1,0 +1,49 @@
+# checked: 102 steps, 102 verified, 0 trusted
+@prefix : <http://example.org/high-trust-rdf#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:result :decision _:b1_451871e9cc2af5ab .
+_:b1_451871e9cc2af5ab :artifact :trustedArtifact .
+_:b1_451871e9cc2af5ab :weak :AcceptUnderWeakBudgetOnlyRules .
+_:b1_451871e9cc2af5ab :hardened :AcceptForHighTrustUse .
+:result :decision _:b1_285c0555e4f33c45 .
+_:b1_285c0555e4f33c45 :artifact :tamperedArtifact .
+_:b1_285c0555e4f33c45 :weak :AcceptUnderWeakBudgetOnlyRules .
+_:b1_285c0555e4f33c45 :hardened :RejectForHighTrustUse .
+:result :summary (:trustedArtifact "lambda" 0.5126953125 "certified-lambda" 0.5126953125 "weak-fp-upper" 0.0016708059596428394 "weak-extra-exact-upper" 83.54029798214196 "weak-decision" :AcceptUnderWeakBudgetOnlyRules "hardened-decision" :AcceptForHighTrustUse) .
+:result :summary (:tamperedArtifact "lambda" -700 "certified-lambda" 0.5126953125 "weak-fp-upper" "-194754273881"^^xsd:decimal "weak-extra-exact-upper" "-194754273881"^^xsd:decimal "weak-decision" :AcceptUnderWeakBudgetOnlyRules "hardened-decision" :RejectForHighTrustUse) .
+:result :rejectReason _:b2_c15ba7f2268f6705 .
+_:b2_c15ba7f2268f6705 :artifact :tamperedArtifact .
+_:b2_c15ba7f2268f6705 :why :NonPositiveBloomBits .
+:result :rejectReason _:b2_5ad1687d80e842a .
+_:b2_5ad1687d80e842a :artifact :tamperedArtifact .
+_:b2_5ad1687d80e842a :why :CertifiedLambdaMismatch .
+:result :rejectReason _:b2_611b673cf05a56a8 .
+_:b2_611b673cf05a56a8 :artifact :tamperedArtifact .
+_:b2_611b673cf05a56a8 :why :MalformedIntervalOrdering .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/high-trust-rdf-bloom-tamper-contrast.n3";
+    pe:source "examples/high-trust-rdf-bloom-tamper-contrast.n3";
+    pe:verdict pe:checked;
+    pe:steps 102;
+    pe:verified 102;
+    pe:trusted 0;
+    pe:builtinSteps 32;
+    pe:factSteps 24;
+    pe:ruleSteps 46;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 70; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 102; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 102; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 192; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 32; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 121; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 17; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 238; pe:failed 0 ].

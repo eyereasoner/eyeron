@@ -1,0 +1,53 @@
+@prefix : <https://eyereasoner.github.io/eyeling/examples/triple_terms#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:observation :entails {
+    :sensor :needs :inspection .
+} .
+:__md_output log:outputString "# triple-terms\n\n## Source files\n\n- [N3 rules](../triple-terms.n3)\n- [Input TriG](../input/triple-terms.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/triple_terms#> .\n\n:observation :entails <<( :sensor :needs :inspection )>> .\n" .
+
+{
+  :observation :entails {
+      :sensor :needs :inspection .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "action"; pe:value :inspection ],
+    [ pe:var "condition"; pe:value :overheating ],
+    [ pe:var "device"; pe:value :sensor ],
+    [ pe:var "observation"; pe:value :observation ];
+  pe:uses
+    {
+        :observation rdf:reifies {
+            :sensor :reports :overheating .
+        } .
+    },
+    { :overheating :requires :inspection . }.
+
+{
+  :observation rdf:reifies {
+      :sensor :reports :overheating .
+  } .
+}
+  pe:fact "<unknown>".
+
+{ :overheating :requires :inspection . }
+  pe:fact "<unknown>".
+
+{ :__md_output log:outputString "# triple-terms\n\n## Source files\n\n- [N3 rules](../triple-terms.n3)\n- [Input TriG](../input/triple-terms.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/triple_terms#> .\n\n:observation :entails <<( :sensor :needs :inspection )>> .\n" . }
+  pe:rule
+    {
+        {
+            :__md_output :text ?text .
+        } => {
+            :__md_output log:outputString ?text .
+        } .
+    };
+  pe:binding [ pe:var "text"; pe:value "# triple-terms\n\n## Source files\n\n- [N3 rules](../triple-terms.n3)\n- [Input TriG](../input/triple-terms.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/triple_terms#> .\n\n:observation :entails <<( :sensor :needs :inspection )>> .\n" ];
+  pe:uses { :__md_output :text "# triple-terms\n\n## Source files\n\n- [N3 rules](../triple-terms.n3)\n- [Input TriG](../input/triple-terms.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/triple_terms#> .\n\n:observation :entails <<( :sensor :needs :inspection )>> .\n" . }.
+
+{ :__md_output :text "# triple-terms\n\n## Source files\n\n- [N3 rules](../triple-terms.n3)\n- [Input TriG](../input/triple-terms.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/triple_terms#> .\n\n:observation :entails <<( :sensor :needs :inspection )>> .\n" . }
+  pe:fact "triple-terms.n3".

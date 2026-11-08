@@ -1,0 +1,288 @@
+# checked with obligations: 123 steps, 87 verified, 36 trusted
+@prefix : <http://example.org/quad#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:Q1 :answer _:b3_c069274beb6a4411 .
+_:b3_c069274beb6a4411 a :RealRoot .
+_:b3_c069274beb6a4411 :value "2"^^xsd:decimal .
+:Q1 :answer _:b4_c069274beb6a4411 .
+_:b4_c069274beb6a4411 a :RealRoot .
+_:b4_c069274beb6a4411 :value "1"^^xsd:decimal .
+:Q1 :status "two-real-roots" .
+:Q3 :answer _:b3_1c0aec122f904ec6 .
+_:b3_1c0aec122f904ec6 a :RealRoot .
+_:b3_1c0aec122f904ec6 :value "-1"^^xsd:decimal .
+:Q3 :answer _:b4_1c0aec122f904ec6 .
+_:b4_1c0aec122f904ec6 a :RealRoot .
+_:b4_1c0aec122f904ec6 :value "1"^^xsd:decimal .
+:Q3 :status "two-real-roots" .
+:Q4 :answer _:b3_4bafab36e4d5f14f .
+_:b3_4bafab36e4d5f14f a :RealRoot .
+_:b3_4bafab36e4d5f14f :value "-1"^^xsd:decimal .
+:Q4 :answer _:b4_4bafab36e4d5f14f .
+_:b4_4bafab36e4d5f14f a :RealRoot .
+_:b4_4bafab36e4d5f14f :value "-4"^^xsd:decimal .
+:Q4 :status "two-real-roots" .
+:Q6 :answer _:b3_b98495ba1f7ecf95 .
+_:b3_b98495ba1f7ecf95 a :RealRoot .
+_:b3_b98495ba1f7ecf95 :value "3"^^xsd:decimal .
+:Q6 :answer _:b4_b98495ba1f7ecf95 .
+_:b4_b98495ba1f7ecf95 a :RealRoot .
+_:b4_b98495ba1f7ecf95 :value "1"^^xsd:decimal .
+:Q6 :status "two-real-roots" .
+:Q2 :answer _:b6_b95bd459e1a915dd .
+_:b6_b95bd459e1a915dd a :RealRoot .
+_:b6_b95bd459e1a915dd :value -1 .
+_:b6_b95bd459e1a915dd :multiplicity 2 .
+:Q2 :status "double-root" .
+:Q5 :answer _:b8_a3eb4bac570718ce .
+_:b8_a3eb4bac570718ce a :ComplexRoot .
+_:b8_a3eb4bac570718ce :real 0 .
+_:b8_a3eb4bac570718ce :imag "1"^^xsd:decimal .
+:Q5 :answer _:b9_a3eb4bac570718ce .
+_:b9_a3eb4bac570718ce a :ComplexRoot .
+_:b9_a3eb4bac570718ce :real 0 .
+_:b9_a3eb4bac570718ce :imag -1 .
+:Q5 :status "complex-roots" .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/quadratic-equation.n3";
+    pe:source "examples/quadratic-equation.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 123;
+    pe:verified 87;
+    pe:trusted 36;
+    pe:builtinSteps 57;
+    pe:factSteps 24;
+    pe:ruleSteps 42;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 66; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 123; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 123; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 772; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 57; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 11; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 165; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 36; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 736; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q1 :answer _:b3_c069274beb6a4411 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_c069274beb6a4411 a :RealRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_c069274beb6a4411 :value "2"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q1 :answer _:b4_c069274beb6a4411 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_c069274beb6a4411 a :RealRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_c069274beb6a4411 :value "1"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q3 :answer _:b3_1c0aec122f904ec6 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_1c0aec122f904ec6 a :RealRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_1c0aec122f904ec6 :value "-1"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q3 :answer _:b4_1c0aec122f904ec6 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_1c0aec122f904ec6 a :RealRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_1c0aec122f904ec6 :value "1"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q4 :answer _:b3_4bafab36e4d5f14f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_4bafab36e4d5f14f a :RealRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_4bafab36e4d5f14f :value "-1"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q4 :answer _:b4_4bafab36e4d5f14f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_4bafab36e4d5f14f a :RealRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_4bafab36e4d5f14f :value "-4"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q6 :answer _:b3_b98495ba1f7ecf95 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_b98495ba1f7ecf95 a :RealRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b3_b98495ba1f7ecf95 :value "3"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q6 :answer _:b4_b98495ba1f7ecf95 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_b98495ba1f7ecf95 a :RealRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b4_b98495ba1f7ecf95 :value "1"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q2 :answer _:b6_b95bd459e1a915dd .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_b95bd459e1a915dd a :RealRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_b95bd459e1a915dd :value -1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_b95bd459e1a915dd :multiplicity 2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q5 :answer _:b8_a3eb4bac570718ce .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b8_a3eb4bac570718ce a :ComplexRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b8_a3eb4bac570718ce :real 0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b8_a3eb4bac570718ce :imag "1"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Q5 :answer _:b9_a3eb4bac570718ce .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_a3eb4bac570718ce a :ComplexRoot .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_a3eb4bac570718ce :real 0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_a3eb4bac570718ce :imag -1 .
+        }
+    ].

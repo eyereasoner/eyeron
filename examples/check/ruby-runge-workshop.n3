@@ -1,0 +1,73 @@
+# checked with obligations: 35 steps, 30 verified, 5 trusted
+@prefix : <http://example.org/ruby-runge#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:Interp1 :yAtX0 -0.28000000000000014 .
+:Interp1 :yAtXPlus -0.27759800000000023 .
+:Interp1 :xPlus 0.601 .
+:Interp1 :yAtXMinus -0.2823980000000002 .
+:Interp1 :xMinus 0.599 .
+:Interp1 :yAtBracketA "-1"^^xsd:decimal .
+:Interp1 :yAtBracketB "1"^^xsd:decimal .
+:Interp1 :derivativeAtX0 2.3999999999999853 .
+:Interp1 :rootBracket _:b6_457ef41901b6dec1 .
+_:b6_457ef41901b6dec1 :a 0.0 .
+_:b6_457ef41901b6dec1 :b 1.0 .
+_:b6_457ef41901b6dec1 :ya "-1"^^xsd:decimal .
+_:b6_457ef41901b6dec1 :yb "1"^^xsd:decimal .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/ruby-runge-workshop.n3";
+    pe:source "examples/ruby-runge-workshop.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 35;
+    pe:verified 30;
+    pe:trusted 5;
+    pe:builtinSteps 17;
+    pe:factSteps 5;
+    pe:ruleSteps 13;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 18; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 35; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 35; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 85; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 17; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 48; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 5; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 5; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 13; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Interp1 :rootBracket _:b6_457ef41901b6dec1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_457ef41901b6dec1 :a 0.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_457ef41901b6dec1 :b 1.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_457ef41901b6dec1 :ya "-1"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_457ef41901b6dec1 :yb "1"^^xsd:decimal .
+        }
+    ].

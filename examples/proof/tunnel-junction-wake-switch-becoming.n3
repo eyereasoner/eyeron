@@ -1,0 +1,128 @@
+@prefix : <http://example.org/tunnel-junction-wake-switch-becoming/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:tunnelJunction :canBecome :QuantumTransferState .
+:tunnelJunction :canBecome :SubThresholdCurrentState .
+:tunnelJunction :canBecome :NegativeDifferentialResponseState .
+:tunnelJunction :canBecome :UltraLowBiasSwitchingState .
+:ordinaryJunction :cannotBecome :QuantumTransferState .
+:ordinaryJunction :cannotBecome :SubThresholdCurrentState .
+:ordinaryJunction :cannotBecome :UltraLowBiasSwitchingState .
+:tunnelJunction :canBecome :LeakAlarmWakeServingState .
+:ordinaryJunction :cannotBecome :NegativeDifferentialResponseState .
+:ordinaryJunction :cannotBecome :LeakAlarmWakeServingState .
+
+{ :tunnelJunction :canBecome :QuantumTransferState . }
+  pe:rule 1;
+  pe:binding [ pe:var "J"; pe:value :tunnelJunction ];
+  pe:uses
+    { :tunnelJunction a :PNJunction . },
+    { :tunnelJunction :doping :Heavy . },
+    { :tunnelJunction :depletionWidth :Narrow . },
+    { :tunnelJunction :stateAlignment :Overlap . }.
+
+{ :tunnelJunction a :PNJunction . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :tunnelJunction :doping :Heavy . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :tunnelJunction :depletionWidth :Narrow . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :tunnelJunction :stateAlignment :Overlap . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :tunnelJunction :canBecome :SubThresholdCurrentState . }
+  pe:rule 2;
+  pe:binding [ pe:var "J"; pe:value :tunnelJunction ];
+  pe:uses
+    { :tunnelJunction :canBecome :QuantumTransferState . },
+    { :tunnelJunction :biasRegime :LowForwardBias . }.
+
+{ :tunnelJunction :biasRegime :LowForwardBias . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :tunnelJunction :canBecome :NegativeDifferentialResponseState . }
+  pe:rule 3;
+  pe:binding [ pe:var "J"; pe:value :tunnelJunction ];
+  pe:uses
+    { :tunnelJunction :canBecome :QuantumTransferState . },
+    { :tunnelJunction :scanProfile :PeakToValley . }.
+
+{ :tunnelJunction :scanProfile :PeakToValley . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :tunnelJunction :canBecome :UltraLowBiasSwitchingState . }
+  pe:rule 4;
+  pe:binding [ pe:var "J"; pe:value :tunnelJunction ];
+  pe:uses
+    { :tunnelJunction :canBecome :SubThresholdCurrentState . },
+    { :tunnelJunction :deviceRole :WakeSwitch . }.
+
+{ :tunnelJunction :deviceRole :WakeSwitch . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :ordinaryJunction :cannotBecome :QuantumTransferState . }
+  pe:rule 6;
+  pe:binding [ pe:var "J"; pe:value :ordinaryJunction ];
+  pe:uses
+    { :ordinaryJunction a :PNJunction . },
+    { :ordinaryJunction :doping :Standard . },
+    { :ordinaryJunction :depletionWidth :Wide . },
+    { :ordinaryJunction :stateAlignment :NoOverlap . }.
+
+{ :ordinaryJunction a :PNJunction . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :ordinaryJunction :doping :Standard . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :ordinaryJunction :depletionWidth :Wide . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :ordinaryJunction :stateAlignment :NoOverlap . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :ordinaryJunction :cannotBecome :SubThresholdCurrentState . }
+  pe:rule 7;
+  pe:binding [ pe:var "J"; pe:value :ordinaryJunction ];
+  pe:uses
+    { :ordinaryJunction :cannotBecome :QuantumTransferState . },
+    { :ordinaryJunction :biasRegime :LowForwardBias . }.
+
+{ :ordinaryJunction :biasRegime :LowForwardBias . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :ordinaryJunction :cannotBecome :UltraLowBiasSwitchingState . }
+  pe:rule 9;
+  pe:binding [ pe:var "J"; pe:value :ordinaryJunction ];
+  pe:uses
+    { :ordinaryJunction :cannotBecome :SubThresholdCurrentState . },
+    { :ordinaryJunction :deviceRole :WakeSwitch . }.
+
+{ :ordinaryJunction :deviceRole :WakeSwitch . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :tunnelJunction :canBecome :LeakAlarmWakeServingState . }
+  pe:rule 5;
+  pe:binding [ pe:var "J"; pe:value :tunnelJunction ];
+  pe:uses
+    { :tunnelJunction :canBecome :UltraLowBiasSwitchingState . },
+    { :leakAlarmNode :needs :MicrowattWakeSwitching . }.
+
+{ :leakAlarmNode :needs :MicrowattWakeSwitching . }
+  pe:fact "tunnel-junction-wake-switch-becoming.n3".
+
+{ :ordinaryJunction :cannotBecome :NegativeDifferentialResponseState . }
+  pe:rule 8;
+  pe:binding [ pe:var "J"; pe:value :ordinaryJunction ];
+  pe:uses { :ordinaryJunction :cannotBecome :QuantumTransferState . }.
+
+{ :ordinaryJunction :cannotBecome :LeakAlarmWakeServingState . }
+  pe:rule 10;
+  pe:binding [ pe:var "J"; pe:value :ordinaryJunction ];
+  pe:uses
+    { :ordinaryJunction :cannotBecome :UltraLowBiasSwitchingState . },
+    { :leakAlarmNode :needs :MicrowattWakeSwitching . }.

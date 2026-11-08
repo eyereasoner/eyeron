@@ -1,0 +1,97 @@
+# checked with obligations: 41 steps, 33 verified, 8 trusted
+@prefix act: <https://example.org/activity#> .
+@prefix ex: <https://example.org/enforce#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix prod: <https://example.org/product#> .
+@prefix req: <https://example.org/request#> .
+@prefix shop: <https://example.org/shop#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+_:sk_2 a ex:Allowed .
+_:sk_2 ex:target _:sk_0 .
+req:r1 a ex:Allowed .
+req:r1 ex:target _:sk_0 .
+_:b3 shop:note "High sugar" .
+_:b3 shop:suggestedAlternative prod:BIS_101 .
+_:b3 shop:suggestedAlternative prod:CHOC_150 .
+_:a_8ab911721c1afd1f a act:Decision .
+_:a_8ab911721c1afd1f act:at "2025-10-04T16:51:53Z"^^xsd:dateTime .
+_:a_8ab911721c1afd1f act:request _:sk_2 .
+_:a_8ab911721c1afd1f act:outcome "Allowed" .
+_:a_1544a30569ede393 a act:Decision .
+_:a_1544a30569ede393 act:at "2025-10-04T16:51:53Z"^^xsd:dateTime .
+_:a_1544a30569ede393 act:request req:r1 .
+_:a_1544a30569ede393 act:outcome "Allowed" .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/delfour-scanner.n3";
+    pe:source "examples/delfour-scanner.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 41;
+    pe:verified 33;
+    pe:trusted 8;
+    pe:builtinSteps 3;
+    pe:factSteps 23;
+    pe:ruleSteps 15;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 38; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 41; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 41; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 119; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 56; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 15; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:a_8ab911721c1afd1f a act:Decision .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:a_8ab911721c1afd1f act:at "2025-10-04T16:51:53Z"^^xsd:dateTime .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:a_8ab911721c1afd1f act:request _:sk_2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:a_8ab911721c1afd1f act:outcome "Allowed" .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:a_1544a30569ede393 a act:Decision .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:a_1544a30569ede393 act:at "2025-10-04T16:51:53Z"^^xsd:dateTime .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:a_1544a30569ede393 act:request req:r1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:a_1544a30569ede393 act:outcome "Allowed" .
+        }
+    ].

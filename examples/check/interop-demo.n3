@@ -1,0 +1,61 @@
+# checked: 42 steps, 42 verified, 0 trusted
+@prefix : <https://example.org/demo#> .
+@prefix c: <https://example.org/appC#> .
+@prefix ex: <https://example.org/common#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:aliceA a ex:Customer .
+:aliceA ex:email "alice@example.com" .
+:aliceA ex:lifetimeSpendEur "1200"^^xsd:decimal .
+:aliceB a ex:Customer .
+:aliceB ex:email "alice@example.com" .
+:aliceB ex:lifetimeSpendEur 1200.00 .
+:aliceB ex:hasOpenInvoice :invoice42 .
+:invoice42 ex:amountDueEur "200"^^xsd:decimal .
+:aliceC a ex:Customer .
+:aliceC ex:email "alice@example.com" .
+:aliceC ex:marketingOptIn true .
+:aliceC ex:preferredChannel c:Email .
+:aliceA ex:sameCustomerAs :aliceA .
+:aliceA ex:sameCustomerAs :aliceB .
+:aliceA ex:sameCustomerAs :aliceC .
+:aliceB ex:sameCustomerAs :aliceA .
+:aliceC ex:sameCustomerAs :aliceA .
+:aliceB ex:sameCustomerAs :aliceB .
+:aliceB ex:sameCustomerAs :aliceC .
+:aliceC ex:sameCustomerAs :aliceB .
+:aliceA ex:lifetimeSpendEur 1200.00 .
+:aliceA ex:hasOpenInvoice :invoice42 .
+:aliceC ex:sameCustomerAs :aliceC .
+:aliceA ex:marketingOptIn true .
+:aliceA ex:preferredChannel c:Email .
+:aliceA ex:eligibleFor ex:GoldDiscount .
+:aliceA ex:recommendedAction ex:ApplyGoldDiscountAndSendInvoiceReminder .
+"001" log:outputString "ACTION: apply GoldDiscount and send invoice reminder (opt-in confirmed).\n" .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/interop-demo.n3";
+    pe:source "examples/interop-demo.n3";
+    pe:verdict pe:checked;
+    pe:steps 42;
+    pe:verified 42;
+    pe:trusted 0;
+    pe:builtinSteps 1;
+    pe:factSteps 13;
+    pe:ruleSteps 28;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 41; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 42; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 42; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 111; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 1; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 70; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 28; pe:failed 0 ].

@@ -1,0 +1,84 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:bob owl:sameAs :bob .
+:bob owl:sameAs :robert .
+:robert owl:sameAs :bob .
+:robert owl:sameAs :robert .
+
+{ :bob owl:sameAs :bob . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :OnlyChildParent ],
+    [ pe:var "P"; pe:value :child ],
+    [ pe:var "U"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :bob ],
+    [ pe:var "Z"; pe:value :bob ];
+  pe:uses
+    { :OnlyChildParent owl:maxCardinality 1 . },
+    { :OnlyChildParent owl:onProperty :child . },
+    { :alice a :OnlyChildParent . },
+    { :alice :child :bob . },
+    { :alice :child :bob . }.
+
+{ :OnlyChildParent owl:maxCardinality 1 . }
+  pe:fact "owl-max-cardinality.n3".
+
+{ :OnlyChildParent owl:onProperty :child . }
+  pe:fact "owl-max-cardinality.n3".
+
+{ :alice a :OnlyChildParent . }
+  pe:fact "owl-max-cardinality.n3".
+
+{ :alice :child :bob . }
+  pe:fact "owl-max-cardinality.n3".
+
+{ :bob owl:sameAs :robert . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :OnlyChildParent ],
+    [ pe:var "P"; pe:value :child ],
+    [ pe:var "U"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :bob ],
+    [ pe:var "Z"; pe:value :robert ];
+  pe:uses
+    { :OnlyChildParent owl:maxCardinality 1 . },
+    { :OnlyChildParent owl:onProperty :child . },
+    { :alice a :OnlyChildParent . },
+    { :alice :child :bob . },
+    { :alice :child :robert . }.
+
+{ :alice :child :robert . }
+  pe:fact "owl-max-cardinality.n3".
+
+{ :robert owl:sameAs :bob . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :OnlyChildParent ],
+    [ pe:var "P"; pe:value :child ],
+    [ pe:var "U"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :robert ],
+    [ pe:var "Z"; pe:value :bob ];
+  pe:uses
+    { :OnlyChildParent owl:maxCardinality 1 . },
+    { :OnlyChildParent owl:onProperty :child . },
+    { :alice a :OnlyChildParent . },
+    { :alice :child :robert . },
+    { :alice :child :bob . }.
+
+{ :robert owl:sameAs :robert . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :OnlyChildParent ],
+    [ pe:var "P"; pe:value :child ],
+    [ pe:var "U"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :robert ],
+    [ pe:var "Z"; pe:value :robert ];
+  pe:uses
+    { :OnlyChildParent owl:maxCardinality 1 . },
+    { :OnlyChildParent owl:onProperty :child . },
+    { :alice a :OnlyChildParent . },
+    { :alice :child :robert . },
+    { :alice :child :robert . }.

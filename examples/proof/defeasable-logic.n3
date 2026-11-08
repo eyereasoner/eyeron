@@ -1,0 +1,85 @@
+@prefix : <http://example.org/defeasible#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:tweety :flies true .
+:polly :flies false .
+
+{ :tweety :flies true . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ],
+    [ pe:var "X"; pe:value :tweety ];
+  pe:uses
+    { :tweety a :Bird . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :tweety :abnormal true .
+        } .
+    }.
+
+{ :tweety a :Bird . }
+  pe:fact "defeasable-logic.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :tweety :abnormal true .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :polly :flies false . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ],
+    [ pe:var "X"; pe:value :polly ];
+  pe:uses
+    { :polly a :Bird . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :polly :flies true .
+        } .
+    }.
+
+{ :polly a :Bird . }
+  pe:rule 1;
+  pe:binding [ pe:var "X"; pe:value :polly ];
+  pe:uses { :polly a :Penguin . }.
+
+{ :polly a :Penguin . }
+  pe:fact "defeasable-logic.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :polly :flies true .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :polly :abnormal true . }
+  pe:rule 2;
+  pe:binding [ pe:var "X"; pe:value :polly ];
+  pe:uses { :polly a :Penguin . }.
+
+rdf:type pe:derived
+    { :polly a :Bird . }.
+
+:abnormal pe:derived
+    { :polly :abnormal true . }.
+
+:flies pe:derived
+    { :tweety :flies true . },
+    { :polly :flies false . }.

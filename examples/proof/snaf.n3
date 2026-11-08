@@ -1,0 +1,38 @@
+@prefix : <http://example.org/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:Alice :hates :Nobody .
+
+{ :Alice :hates :Nobody . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "SCOPE"; pe:value {
+        :a :b :c .
+    } ],
+    [ pe:var "X"; pe:value :Bob ];
+  pe:uses
+    {
+        {
+            :a :b :c .
+        } log:notIncludes {
+            :Alice :hates :Bob .
+        } .
+    },
+    { :Bob a :Person . }.
+
+{
+  {
+      :a :b :c .
+  } log:notIncludes {
+      :Alice :hates :Bob .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :Bob a :Person . }
+  pe:fact "snaf.n3".
+
+:hates pe:derived
+    { :Alice :hates :Nobody . }.

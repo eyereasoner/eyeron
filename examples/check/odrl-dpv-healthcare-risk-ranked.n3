@@ -1,0 +1,144 @@
+# checked: 134 steps, 134 verified, 0 trusted
+@prefix : <https://example.org/odrl-dpv-healthcare-risk-ranked#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix genid: <https://eyereasoner.github.io/.well-known/genid/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix risk: <https://w3id.org/dpv/risk#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+(:AgreementHC1 :PatientExample 0) log:outputString "# odrl-dpv-healthcare-risk-ranked\n\n## Source files\n\n- [N3 rules](../odrl-dpv-healthcare-risk-ranked.n3)\n\n## Ranked DPV Risk Report (Healthcare & Life Sciences)\n\n**Agreement:** Example Healthcare & Life-Sciences Data Use Agreement\n**Profile:** Example patient profile\n\n" .
+genid:1a0938e3b2860f50 a risk:RiskSource .
+genid:1a0938e3b2860f50 a risk:PolicyRisk .
+genid:1a0938e3b2860f50 dct:source :PermRetention10y .
+genid:1a0938e3b2860f50 dct:description "Retention period exceeds patient preference." .
+genid:6d18345e03468b09 a dpv:Risk .
+genid:6d18345e03468b09 a risk:PolicyRisk .
+genid:6d18345e03468b09 a risk:CustomerConfidenceLoss .
+genid:6d18345e03468b09 dct:source :PermRetention10y .
+genid:6d18345e03468b09 risk:hasRiskSource genid:1a0938e3b2860f50 .
+genid:6d18345e03468b09 dpv:hasConsequence risk:CustomerConfidenceLoss .
+genid:6d18345e03468b09 dpv:hasImpact risk:NonMaterialDamage .
+genid:6d18345e03468b09 :aboutClause :ClauseH4 .
+genid:6d18345e03468b09 :scoreRaw 70 .
+genid:6d18345e03468b09 :violatesNeed :Need_RetentionLimit3y .
+genid:6d18345e03468b09 dct:description "Risk: retention (3650 days) exceeds patient preference (1095 days). Clause H4: Hospital retains patient health records for 10 years." .
+:ProcessContextHC1 dpv:hasRisk genid:6d18345e03468b09 .
+genid:c51e9d445f9ef621 a dpv:RiskMitigationMeasure .
+genid:c51e9d445f9ef621 dct:description "Limit retention to 3 years (or document the legal obligation requiring longer retention)." .
+genid:c51e9d445f9ef621 dpv:mitigatesRisk genid:6d18345e03468b09 .
+genid:c51e9d445f9ef621 :suggestAdd {
+    :PermRetention10y odrl:constraint _:b18_9050dacd9fbb61e5 .
+    _:b18_9050dacd9fbb61e5 a odrl:Constraint .
+    _:b18_9050dacd9fbb61e5 odrl:leftOperand :retentionDays .
+    _:b18_9050dacd9fbb61e5 odrl:operator odrl:lteq .
+    _:b18_9050dacd9fbb61e5 odrl:rightOperand 1095 .
+} .
+genid:6d18345e03468b09 dpv:isMitigatedByMeasure genid:c51e9d445f9ef621 .
+genid:6d18345e03468b09 :score 70 .
+genid:6d18345e03468b09 dpv:hasSeverity risk:ModerateSeverity .
+genid:6d18345e03468b09 dpv:hasRiskLevel risk:ModerateRisk .
+(:AgreementHC1 :PatientExample 1 930 "H4" 0 genid:6d18345e03468b09) log:outputString "### Clause H4 — score 70\n\n**Risk level:** `https://w3id.org/dpv/risk#ModerateRisk`\n**Severity:** `https://w3id.org/dpv/risk#ModerateSeverity`\n\nRisk: retention (3650 days) exceeds patient preference (1095 days). Clause H4: Hospital retains patient health records for 10 years.\n\n" .
+(:AgreementHC1 :PatientExample 1 930 "H4" 1 genid:6d18345e03468b09 genid:c51e9d445f9ef621) log:outputString "- **Mitigation for clause H4:** Limit retention to 3 years (or document the legal obligation requiring longer retention).\n\n" .
+genid:19e4d3baca01950d a risk:RiskSource .
+genid:19e4d3baca01950d a risk:LegalComplianceRisk .
+genid:19e4d3baca01950d dct:source :PermResearchUse .
+genid:19e4d3baca01950d dct:description "Research use permitted without explicit consent constraint." .
+genid:84bb6ffa28c7fd10 a dpv:Risk .
+genid:84bb6ffa28c7fd10 a risk:PolicyRisk .
+genid:84bb6ffa28c7fd10 a risk:CustomerConfidenceLoss .
+genid:84bb6ffa28c7fd10 dct:source :PermResearchUse .
+genid:84bb6ffa28c7fd10 risk:hasRiskSource genid:19e4d3baca01950d .
+genid:84bb6ffa28c7fd10 dpv:hasConsequence risk:CustomerConfidenceLoss .
+genid:84bb6ffa28c7fd10 dpv:hasImpact risk:NonMaterialDamage .
+genid:84bb6ffa28c7fd10 dpv:hasImpact risk:FinancialLoss .
+genid:84bb6ffa28c7fd10 :aboutClause :ClauseH1 .
+genid:84bb6ffa28c7fd10 :scoreRaw 120 .
+genid:84bb6ffa28c7fd10 :violatesNeed :Need_ConsentForResearch .
+genid:84bb6ffa28c7fd10 dct:description "Risk: health/genomic data may be used for research without explicit opt-in consent. Clause H1: Hospital may use EHR and genomic data for internal clinical research and publication." .
+:ProcessContextHC1 dpv:hasRisk genid:84bb6ffa28c7fd10 .
+genid:b34e1b8a779808f7 a dpv:RiskMitigationMeasure .
+genid:b34e1b8a779808f7 dct:description "Add an explicit consent constraint for secondary research use." .
+genid:b34e1b8a779808f7 dpv:mitigatesRisk genid:84bb6ffa28c7fd10 .
+genid:b34e1b8a779808f7 :suggestAdd {
+    :PermResearchUse odrl:constraint _:b9_1118a5a4b9baa37 .
+    _:b9_1118a5a4b9baa37 a odrl:Constraint .
+    _:b9_1118a5a4b9baa37 odrl:leftOperand :explicitConsent .
+    _:b9_1118a5a4b9baa37 odrl:operator odrl:eq .
+    _:b9_1118a5a4b9baa37 odrl:rightOperand true .
+} .
+genid:84bb6ffa28c7fd10 dpv:isMitigatedByMeasure genid:b34e1b8a779808f7 .
+genid:c5eaf4d2bf57f262 a risk:RiskSource .
+genid:c5eaf4d2bf57f262 a risk:LegalComplianceRisk .
+genid:c5eaf4d2bf57f262 dct:source :PermShareWithPharma .
+genid:c5eaf4d2bf57f262 dct:description "External sharing permitted without de-identification/pseudonymisation requirement." .
+genid:af0faa1da0665b07 a dpv:Risk .
+genid:af0faa1da0665b07 a risk:UnwantedDisclosureData .
+genid:af0faa1da0665b07 a risk:ReputationalRisk .
+genid:af0faa1da0665b07 dct:source :PermShareWithPharma .
+genid:af0faa1da0665b07 risk:hasRiskSource genid:c5eaf4d2bf57f262 .
+genid:af0faa1da0665b07 dpv:hasConsequence risk:CustomerConfidenceLoss .
+genid:af0faa1da0665b07 dpv:hasImpact risk:NonMaterialDamage .
+genid:af0faa1da0665b07 dpv:hasImpact risk:FinancialLoss .
+genid:af0faa1da0665b07 dpv:hasImpact risk:Discrimination .
+genid:af0faa1da0665b07 :aboutClause :ClauseH2 .
+genid:af0faa1da0665b07 :scoreRaw 125 .
+genid:af0faa1da0665b07 :violatesNeed :Need_DeIdentifyBeforeSharing .
+genid:af0faa1da0665b07 dct:description "Risk: genomic data may be shared with external pharma partners without a de-identification/pseudonymisation requirement. Clause H2: Hospital may share genomic data with pharmaceutical partners for drug discovery and R&D." .
+:ProcessContextHC1 dpv:hasRisk genid:af0faa1da0665b07 .
+genid:f1a0dd18f65084a6 a dpv:RiskMitigationMeasure .
+genid:f1a0dd18f65084a6 dct:description "Require de-identification/pseudonymisation before external sharing of genomic data." .
+genid:f1a0dd18f65084a6 dpv:mitigatesRisk genid:af0faa1da0665b07 .
+genid:f1a0dd18f65084a6 :suggestAdd {
+    :PermShareWithPharma odrl:constraint _:b11_3f8a60d41ca024c8 .
+    _:b11_3f8a60d41ca024c8 a odrl:Constraint .
+    _:b11_3f8a60d41ca024c8 odrl:leftOperand :deIdentified .
+    _:b11_3f8a60d41ca024c8 odrl:operator odrl:eq .
+    _:b11_3f8a60d41ca024c8 odrl:rightOperand true .
+    :PermShareWithPharma odrl:duty _:b12_3f8a60d41ca024c8 .
+    _:b12_3f8a60d41ca024c8 a odrl:Duty .
+    _:b12_3f8a60d41ca024c8 odrl:action :deIdentify .
+    _:b12_3f8a60d41ca024c8 odrl:constraint _:b13_3f8a60d41ca024c8 .
+    _:b13_3f8a60d41ca024c8 a odrl:Constraint .
+    _:b13_3f8a60d41ca024c8 odrl:leftOperand :deIdentificationStandard .
+    _:b13_3f8a60d41ca024c8 odrl:operator odrl:eq .
+    _:b13_3f8a60d41ca024c8 odrl:rightOperand :StateOfTheArt .
+} .
+genid:af0faa1da0665b07 dpv:isMitigatedByMeasure genid:f1a0dd18f65084a6 .
+genid:84bb6ffa28c7fd10 :score 100 .
+genid:84bb6ffa28c7fd10 dpv:hasSeverity risk:HighSeverity .
+genid:84bb6ffa28c7fd10 dpv:hasRiskLevel risk:HighRisk .
+(:AgreementHC1 :PatientExample 1 900 "H1" 0 genid:84bb6ffa28c7fd10) log:outputString "### Clause H1 — score 100\n\n**Risk level:** `https://w3id.org/dpv/risk#HighRisk`\n**Severity:** `https://w3id.org/dpv/risk#HighSeverity`\n\nRisk: health/genomic data may be used for research without explicit opt-in consent. Clause H1: Hospital may use EHR and genomic data for internal clinical research and publication.\n\n" .
+(:AgreementHC1 :PatientExample 1 900 "H1" 1 genid:84bb6ffa28c7fd10 genid:b34e1b8a779808f7) log:outputString "- **Mitigation for clause H1:** Add an explicit consent constraint for secondary research use.\n\n" .
+genid:af0faa1da0665b07 :score 100 .
+genid:af0faa1da0665b07 dpv:hasSeverity risk:HighSeverity .
+genid:af0faa1da0665b07 dpv:hasRiskLevel risk:HighRisk .
+(:AgreementHC1 :PatientExample 1 900 "H2" 0 genid:af0faa1da0665b07) log:outputString "### Clause H2 — score 100\n\n**Risk level:** `https://w3id.org/dpv/risk#HighRisk`\n**Severity:** `https://w3id.org/dpv/risk#HighSeverity`\n\nRisk: genomic data may be shared with external pharma partners without a de-identification/pseudonymisation requirement. Clause H2: Hospital may share genomic data with pharmaceutical partners for drug discovery and R&D.\n\n" .
+(:AgreementHC1 :PatientExample 1 900 "H2" 1 genid:af0faa1da0665b07 genid:f1a0dd18f65084a6) log:outputString "- **Mitigation for clause H2:** Require de-identification/pseudonymisation before external sharing of genomic data.\n\n" .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/odrl-dpv-healthcare-risk-ranked.n3";
+    pe:source "examples/odrl-dpv-healthcare-risk-ranked.n3";
+    pe:verdict pe:checked;
+    pe:steps 134;
+    pe:verified 134;
+    pe:trusted 0;
+    pe:builtinSteps 36;
+    pe:factSteps 16;
+    pe:ruleSteps 82;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 98; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 134; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 134; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 978; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 36; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 216; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 82; pe:failed 0 ].

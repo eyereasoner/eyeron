@@ -1,0 +1,45 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:bob :childOf :alice .
+:dave :parentOf :carol .
+:childOf owl:inverseOf :parentOf .
+
+{ :bob :childOf :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :bob ],
+    [ pe:var "P"; pe:value :parentOf ],
+    [ pe:var "Q"; pe:value :childOf ],
+    [ pe:var "S"; pe:value :alice ];
+  pe:uses
+    { :parentOf owl:inverseOf :childOf . },
+    { :alice :parentOf :bob . }.
+
+{ :parentOf owl:inverseOf :childOf . }
+  pe:fact "owl-inverse-properties.n3".
+
+{ :alice :parentOf :bob . }
+  pe:fact "owl-inverse-properties.n3".
+
+{ :dave :parentOf :carol . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "O"; pe:value :dave ],
+    [ pe:var "P"; pe:value :parentOf ],
+    [ pe:var "Q"; pe:value :childOf ],
+    [ pe:var "S"; pe:value :carol ];
+  pe:uses
+    { :parentOf owl:inverseOf :childOf . },
+    { :carol :childOf :dave . }.
+
+{ :carol :childOf :dave . }
+  pe:fact "owl-inverse-properties.n3".
+
+{ :childOf owl:inverseOf :parentOf . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "P"; pe:value :parentOf ],
+    [ pe:var "Q"; pe:value :childOf ];
+  pe:uses { :parentOf owl:inverseOf :childOf . }.

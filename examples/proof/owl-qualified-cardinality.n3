@@ -1,0 +1,109 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:milo owl:sameAs :milo .
+:milo owl:sameAs :felix .
+:felix owl:sameAs :milo .
+:felix owl:sameAs :felix .
+
+{ :milo owl:sameAs :milo . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :SingleCatOwner ],
+    [ pe:var "D"; pe:value :Cat ],
+    [ pe:var "P"; pe:value :pet ],
+    [ pe:var "U"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :milo ],
+    [ pe:var "Z"; pe:value :milo ];
+  pe:uses
+    { :SingleCatOwner owl:maxQualifiedCardinality 1 . },
+    { :SingleCatOwner owl:onProperty :pet . },
+    { :SingleCatOwner owl:onClass :Cat . },
+    { :alice a :SingleCatOwner . },
+    { :alice :pet :milo . },
+    { :milo a :Cat . },
+    { :alice :pet :milo . },
+    { :milo a :Cat . }.
+
+{ :SingleCatOwner owl:maxQualifiedCardinality 1 . }
+  pe:fact "owl-qualified-cardinality.n3".
+
+{ :SingleCatOwner owl:onProperty :pet . }
+  pe:fact "owl-qualified-cardinality.n3".
+
+{ :SingleCatOwner owl:onClass :Cat . }
+  pe:fact "owl-qualified-cardinality.n3".
+
+{ :alice a :SingleCatOwner . }
+  pe:fact "owl-qualified-cardinality.n3".
+
+{ :alice :pet :milo . }
+  pe:fact "owl-qualified-cardinality.n3".
+
+{ :milo a :Cat . }
+  pe:fact "owl-qualified-cardinality.n3".
+
+{ :milo owl:sameAs :felix . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :SingleCatOwner ],
+    [ pe:var "D"; pe:value :Cat ],
+    [ pe:var "P"; pe:value :pet ],
+    [ pe:var "U"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :milo ],
+    [ pe:var "Z"; pe:value :felix ];
+  pe:uses
+    { :SingleCatOwner owl:maxQualifiedCardinality 1 . },
+    { :SingleCatOwner owl:onProperty :pet . },
+    { :SingleCatOwner owl:onClass :Cat . },
+    { :alice a :SingleCatOwner . },
+    { :alice :pet :milo . },
+    { :milo a :Cat . },
+    { :alice :pet :felix . },
+    { :felix a :Cat . }.
+
+{ :alice :pet :felix . }
+  pe:fact "owl-qualified-cardinality.n3".
+
+{ :felix a :Cat . }
+  pe:fact "owl-qualified-cardinality.n3".
+
+{ :felix owl:sameAs :milo . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :SingleCatOwner ],
+    [ pe:var "D"; pe:value :Cat ],
+    [ pe:var "P"; pe:value :pet ],
+    [ pe:var "U"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :felix ],
+    [ pe:var "Z"; pe:value :milo ];
+  pe:uses
+    { :SingleCatOwner owl:maxQualifiedCardinality 1 . },
+    { :SingleCatOwner owl:onProperty :pet . },
+    { :SingleCatOwner owl:onClass :Cat . },
+    { :alice a :SingleCatOwner . },
+    { :alice :pet :felix . },
+    { :felix a :Cat . },
+    { :alice :pet :milo . },
+    { :milo a :Cat . }.
+
+{ :felix owl:sameAs :felix . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :SingleCatOwner ],
+    [ pe:var "D"; pe:value :Cat ],
+    [ pe:var "P"; pe:value :pet ],
+    [ pe:var "U"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :felix ],
+    [ pe:var "Z"; pe:value :felix ];
+  pe:uses
+    { :SingleCatOwner owl:maxQualifiedCardinality 1 . },
+    { :SingleCatOwner owl:onProperty :pet . },
+    { :SingleCatOwner owl:onClass :Cat . },
+    { :alice a :SingleCatOwner . },
+    { :alice :pet :felix . },
+    { :felix a :Cat . },
+    { :alice :pet :felix . },
+    { :felix a :Cat . }.

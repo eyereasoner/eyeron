@@ -1,0 +1,76 @@
+@prefix : <http://example.org/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:alice :parentOf :bob .
+:motherOf rdfs:subPropertyOf :ancestorOf .
+:motherOf rdfs:domain :Person .
+:motherOf rdfs:range :Person .
+:alice :ancestorOf :bob .
+
+{ :alice :parentOf :bob . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :bob ],
+    [ pe:var "P"; pe:value :motherOf ],
+    [ pe:var "Q"; pe:value :parentOf ],
+    [ pe:var "S"; pe:value :alice ];
+  pe:uses
+    { :motherOf rdfs:subPropertyOf :parentOf . },
+    { :alice :motherOf :bob . }.
+
+{ :motherOf rdfs:subPropertyOf :parentOf . }
+  pe:fact "rdfs-subproperty-closure.n3".
+
+{ :alice :motherOf :bob . }
+  pe:fact "rdfs-subproperty-closure.n3".
+
+{ :motherOf rdfs:subPropertyOf :ancestorOf . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value :motherOf ],
+    [ pe:var "Q"; pe:value :parentOf ],
+    [ pe:var "R"; pe:value :ancestorOf ];
+  pe:uses
+    { :motherOf rdfs:subPropertyOf :parentOf . },
+    { :parentOf rdfs:subPropertyOf :ancestorOf . }.
+
+{ :parentOf rdfs:subPropertyOf :ancestorOf . }
+  pe:fact "rdfs-subproperty-closure.n3".
+
+{ :motherOf rdfs:domain :Person . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :Person ],
+    [ pe:var "P"; pe:value :motherOf ],
+    [ pe:var "Q"; pe:value :parentOf ];
+  pe:uses
+    { :motherOf rdfs:subPropertyOf :parentOf . },
+    { :parentOf rdfs:domain :Person . }.
+
+{ :parentOf rdfs:domain :Person . }
+  pe:fact "rdfs-subproperty-closure.n3".
+
+{ :motherOf rdfs:range :Person . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :Person ],
+    [ pe:var "P"; pe:value :motherOf ],
+    [ pe:var "Q"; pe:value :parentOf ];
+  pe:uses
+    { :motherOf rdfs:subPropertyOf :parentOf . },
+    { :parentOf rdfs:range :Person . }.
+
+{ :parentOf rdfs:range :Person . }
+  pe:fact "rdfs-subproperty-closure.n3".
+
+{ :alice :ancestorOf :bob . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :bob ],
+    [ pe:var "P"; pe:value :parentOf ],
+    [ pe:var "Q"; pe:value :ancestorOf ],
+    [ pe:var "S"; pe:value :alice ];
+  pe:uses
+    { :parentOf rdfs:subPropertyOf :ancestorOf . },
+    { :alice :parentOf :bob . }.

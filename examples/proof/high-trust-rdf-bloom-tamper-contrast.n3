@@ -1,0 +1,910 @@
+@prefix : <http://example.org/high-trust-rdf#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:result :decision _:b1_451871e9cc2af5ab .
+_:b1_451871e9cc2af5ab :artifact :trustedArtifact .
+_:b1_451871e9cc2af5ab :weak :AcceptUnderWeakBudgetOnlyRules .
+_:b1_451871e9cc2af5ab :hardened :AcceptForHighTrustUse .
+:result :decision _:b1_285c0555e4f33c45 .
+_:b1_285c0555e4f33c45 :artifact :tamperedArtifact .
+_:b1_285c0555e4f33c45 :weak :AcceptUnderWeakBudgetOnlyRules .
+_:b1_285c0555e4f33c45 :hardened :RejectForHighTrustUse .
+:result :summary (:trustedArtifact "lambda" 0.5126953125 "certified-lambda" 0.5126953125 "weak-fp-upper" 0.0016708059596428394 "weak-extra-exact-upper" 83.54029798214196 "weak-decision" :AcceptUnderWeakBudgetOnlyRules "hardened-decision" :AcceptForHighTrustUse) .
+:result :summary (:tamperedArtifact "lambda" -700 "certified-lambda" 0.5126953125 "weak-fp-upper" "-194754273881"^^xsd:decimal "weak-extra-exact-upper" "-194754273881"^^xsd:decimal "weak-decision" :AcceptUnderWeakBudgetOnlyRules "hardened-decision" :RejectForHighTrustUse) .
+:result :rejectReason _:b2_c15ba7f2268f6705 .
+_:b2_c15ba7f2268f6705 :artifact :tamperedArtifact .
+_:b2_c15ba7f2268f6705 :why :NonPositiveBloomBits .
+:result :rejectReason _:b2_5ad1687d80e842a .
+_:b2_5ad1687d80e842a :artifact :tamperedArtifact .
+_:b2_5ad1687d80e842a :why :CertifiedLambdaMismatch .
+:result :rejectReason _:b2_611b673cf05a56a8 .
+_:b2_611b673cf05a56a8 :artifact :tamperedArtifact .
+_:b2_611b673cf05a56a8 :why :MalformedIntervalOrdering .
+
+{ :result :decision _:b1_451871e9cc2af5ab . }
+  pe:rule
+    {
+        {
+            ?a :weakDecision ?weak .
+            ?a :hardenedDecision ?hard .
+        } => {
+            :result :decision _:b1 .
+            _:b1 :artifact ?a .
+            _:b1 :weak ?weak .
+            _:b1 :hardened ?hard .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "hard"; pe:value :AcceptForHighTrustUse ],
+    [ pe:var "weak"; pe:value :AcceptUnderWeakBudgetOnlyRules ];
+  pe:uses
+    { :trustedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . },
+    { :trustedArtifact :hardenedDecision :AcceptForHighTrustUse . }.
+
+{ :trustedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . }
+  pe:rule 7;
+  pe:binding [ pe:var "a"; pe:value :trustedArtifact ];
+  pe:uses
+    { :trustedArtifact :indexAgreement true . },
+    { :trustedArtifact :weakWithinFpRateBudget true . },
+    { :trustedArtifact :weakWithinExactLookupBudget true . },
+    { :trustedArtifact :maybePositivePolicy :ConfirmAgainstCanonicalGraph . },
+    { :trustedArtifact :definiteNegativePolicy :ReturnAbsent . }.
+
+{ :trustedArtifact :indexAgreement true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "n"; pe:value 1200 ];
+  pe:uses
+    { :trustedArtifact :canonicalTripleCount 1200 . },
+    { :trustedArtifact :spoIndexTripleCount 1200 . }.
+
+{ :trustedArtifact :canonicalTripleCount 1200 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :trustedArtifact :spoIndexTripleCount 1200 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :trustedArtifact :weakWithinFpRateBudget true . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "budget"; pe:value 0.002 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ];
+  pe:uses
+    { :trustedArtifact :weakFpRateUpper 0.0016708059596428394 . },
+    { :trustedArtifact :fpRateBudget 0.002 . },
+    { 0.0016708059596428394 math:lessThan 0.002 . }.
+
+{ :trustedArtifact :weakFpRateUpper 0.0016708059596428394 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "eHi"; pe:value 0.5988792349 ],
+    [ pe:var "eLo"; pe:value 0.5988792348 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ],
+    [ pe:var "fpLo"; pe:value 0.0016708059567271017 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "oneMinusHi"; pe:value 0.40112076519999995 ],
+    [ pe:var "oneMinusLo"; pe:value 0.40112076510000005 ];
+  pe:uses
+    { :trustedArtifact :hashFunctions 7 . },
+    { :trustedArtifact :expMinusLambdaLower 0.5988792348 . },
+    { :trustedArtifact :expMinusLambdaUpper 0.5988792349 . },
+    { (1.0 0.5988792349) math:difference 0.40112076510000005 . },
+    { (1.0 0.5988792348) math:difference 0.40112076519999995 . },
+    { (0.40112076510000005 7) math:exponentiation 0.0016708059567271017 . },
+    { (0.40112076519999995 7) math:exponentiation 0.0016708059596428394 . }.
+
+{ :trustedArtifact :hashFunctions 7 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :trustedArtifact :expMinusLambdaLower 0.5988792348 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :trustedArtifact :expMinusLambdaUpper 0.5988792349 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ (1.0 0.5988792349) math:difference 0.40112076510000005 . }
+  pe:builtin math:difference.
+
+{ (1.0 0.5988792348) math:difference 0.40112076519999995 . }
+  pe:builtin math:difference.
+
+{ (0.40112076510000005 7) math:exponentiation 0.0016708059567271017 . }
+  pe:builtin math:exponentiation.
+
+{ (0.40112076519999995 7) math:exponentiation 0.0016708059596428394 . }
+  pe:builtin math:exponentiation.
+
+{ :trustedArtifact :fpRateBudget 0.002 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ 0.0016708059596428394 math:lessThan 0.002 . }
+  pe:builtin math:lessThan.
+
+{ :trustedArtifact :weakWithinExactLookupBudget true . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "budget"; pe:value 100.0 ],
+    [ pe:var "extraHi"; pe:value 83.54029798214196 ];
+  pe:uses
+    { :trustedArtifact :weakExpectedExtraExactLookupsUpper 83.54029798214196 . },
+    { :trustedArtifact :extraExactLookupsBudget 100.0 . },
+    { 83.54029798214196 math:lessThan 100.0 . }.
+
+{ :trustedArtifact :weakExpectedExtraExactLookupsUpper 83.54029798214196 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "extraHi"; pe:value 83.54029798214196 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ],
+    [ pe:var "q"; pe:value 50000 ];
+  pe:uses
+    { :trustedArtifact :negativeLookupsPerBatch 50000 . },
+    { :trustedArtifact :weakFpRateUpper 0.0016708059596428394 . },
+    { (50000 0.0016708059596428394) math:product 83.54029798214196 . }.
+
+{ :trustedArtifact :negativeLookupsPerBatch 50000 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ (50000 0.0016708059596428394) math:product 83.54029798214196 . }
+  pe:builtin math:product.
+
+{ :trustedArtifact :extraExactLookupsBudget 100.0 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ 83.54029798214196 math:lessThan 100.0 . }
+  pe:builtin math:lessThan.
+
+{ :trustedArtifact :maybePositivePolicy :ConfirmAgainstCanonicalGraph . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :trustedArtifact :definiteNegativePolicy :ReturnAbsent . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :trustedArtifact :hardenedDecision :AcceptForHighTrustUse . }
+  pe:rule 14;
+  pe:binding [ pe:var "a"; pe:value :trustedArtifact ];
+  pe:uses
+    { :trustedArtifact :parameterSanity true . },
+    { :trustedArtifact :indexAgreement true . },
+    { :trustedArtifact :expIntervalCertificate :CertifiedDecimalInterval . },
+    { :trustedArtifact :withinFpRateBudget true . },
+    { :trustedArtifact :withinExactLookupBudget true . },
+    { :trustedArtifact :maybePositivePolicy :ConfirmAgainstCanonicalGraph . },
+    { :trustedArtifact :definiteNegativePolicy :ReturnAbsent . }.
+
+{ :trustedArtifact :parameterSanity true . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "e"; pe:value 100.0 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "m"; pe:value 16384 ],
+    [ pe:var "n"; pe:value 1200 ],
+    [ pe:var "q"; pe:value 50000 ],
+    [ pe:var "r"; pe:value 0.002 ],
+    [ pe:var "s"; pe:value 1200 ];
+  pe:uses
+    { :trustedArtifact :canonicalTripleCount 1200 . },
+    { :trustedArtifact :spoIndexTripleCount 1200 . },
+    { :trustedArtifact :bloomBits 16384 . },
+    { :trustedArtifact :hashFunctions 7 . },
+    { :trustedArtifact :negativeLookupsPerBatch 50000 . },
+    { :trustedArtifact :fpRateBudget 0.002 . },
+    { :trustedArtifact :extraExactLookupsBudget 100.0 . },
+    { 1200 math:greaterThan 0 . },
+    { 1200 math:greaterThan 0 . },
+    { 16384 math:greaterThan 0 . },
+    { 7 math:greaterThan 0 . },
+    { 50000 math:greaterThan 0 . },
+    { 0.002 math:greaterThan 0 . },
+    { 100.0 math:greaterThan 0 . }.
+
+{ :trustedArtifact :bloomBits 16384 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ 1200 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 16384 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 7 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 50000 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 0.002 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 100.0 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :trustedArtifact :expIntervalCertificate :CertifiedDecimalInterval . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "hi"; pe:value 0.5988792349 ],
+    [ pe:var "lambda"; pe:value 0.5126953125 ],
+    [ pe:var "lo"; pe:value 0.5988792348 ];
+  pe:uses
+    { :trustedArtifact :lambda 0.5126953125 . },
+    { :trustedArtifact :certifiedLambda 0.5126953125 . },
+    { :trustedArtifact :expMinusLambdaLower 0.5988792348 . },
+    { :trustedArtifact :expMinusLambdaUpper 0.5988792349 . },
+    { 0.5126953125 math:greaterThan 0 . },
+    { 0.5988792348 math:lessThan 0.5988792349 . },
+    { 0.5988792348 math:greaterThan 0 . },
+    { 0.5988792349 math:lessThan 1 . }.
+
+{ :trustedArtifact :lambda 0.5126953125 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "kn"; pe:value 8400 ],
+    [ pe:var "lambda"; pe:value 0.5126953125 ],
+    [ pe:var "m"; pe:value 16384 ],
+    [ pe:var "n"; pe:value 1200 ];
+  pe:uses
+    { :trustedArtifact :tripleCount 1200 . },
+    { :trustedArtifact :hashFunctions 7 . },
+    { :trustedArtifact :bloomBits 16384 . },
+    { (7 1200) math:product 8400 . },
+    { (8400 16384) math:quotient 0.5126953125 . }.
+
+{ :trustedArtifact :tripleCount 1200 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "n"; pe:value 1200 ];
+  pe:uses
+    { :trustedArtifact :canonicalTripleCount 1200 . },
+    { :trustedArtifact :spoIndexTripleCount 1200 . }.
+
+{ (7 1200) math:product 8400 . }
+  pe:builtin math:product.
+
+{ (8400 16384) math:quotient 0.5126953125 . }
+  pe:builtin math:quotient.
+
+{ :trustedArtifact :certifiedLambda 0.5126953125 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ 0.5126953125 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 0.5988792348 math:lessThan 0.5988792349 . }
+  pe:builtin math:lessThan.
+
+{ 0.5988792348 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ 0.5988792349 math:lessThan 1 . }
+  pe:builtin math:lessThan.
+
+{ :trustedArtifact :withinFpRateBudget true . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "budget"; pe:value 0.002 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ];
+  pe:uses
+    { :trustedArtifact :fpRateUpper 0.0016708059596428394 . },
+    { :trustedArtifact :fpRateBudget 0.002 . },
+    { 0.0016708059596428394 math:greaterThan 0 . },
+    { 0.0016708059596428394 math:lessThan 0.002 . }.
+
+{ :trustedArtifact :fpRateUpper 0.0016708059596428394 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "eHi"; pe:value 0.5988792349 ],
+    [ pe:var "eLo"; pe:value 0.5988792348 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ],
+    [ pe:var "fpLo"; pe:value 0.0016708059567271017 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "oneMinusHi"; pe:value 0.40112076519999995 ],
+    [ pe:var "oneMinusLo"; pe:value 0.40112076510000005 ];
+  pe:uses
+    { :trustedArtifact :expIntervalCertificate :CertifiedDecimalInterval . },
+    { :trustedArtifact :hashFunctions 7 . },
+    { :trustedArtifact :expMinusLambdaLower 0.5988792348 . },
+    { :trustedArtifact :expMinusLambdaUpper 0.5988792349 . },
+    { (1.0 0.5988792349) math:difference 0.40112076510000005 . },
+    { (1.0 0.5988792348) math:difference 0.40112076519999995 . },
+    { (0.40112076510000005 7) math:exponentiation 0.0016708059567271017 . },
+    { (0.40112076519999995 7) math:exponentiation 0.0016708059596428394 . }.
+
+{ 0.0016708059596428394 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :trustedArtifact :withinExactLookupBudget true . }
+  pe:rule 13;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "budget"; pe:value 100.0 ],
+    [ pe:var "extraHi"; pe:value 83.54029798214196 ];
+  pe:uses
+    { :trustedArtifact :expectedExtraExactLookupsUpper 83.54029798214196 . },
+    { :trustedArtifact :extraExactLookupsBudget 100.0 . },
+    { 83.54029798214196 math:greaterThan 0 . },
+    { 83.54029798214196 math:lessThan 100.0 . }.
+
+{ :trustedArtifact :expectedExtraExactLookupsUpper 83.54029798214196 . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "extraHi"; pe:value 83.54029798214196 ],
+    [ pe:var "fpHi"; pe:value 0.0016708059596428394 ],
+    [ pe:var "q"; pe:value 50000 ];
+  pe:uses
+    { :trustedArtifact :negativeLookupsPerBatch 50000 . },
+    { :trustedArtifact :fpRateUpper 0.0016708059596428394 . },
+    { (50000 0.0016708059596428394) math:product 83.54029798214196 . }.
+
+{ 83.54029798214196 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ _:b1_451871e9cc2af5ab :artifact :trustedArtifact . }
+  pe:rule
+    {
+        {
+            ?a :weakDecision ?weak .
+            ?a :hardenedDecision ?hard .
+        } => {
+            :result :decision _:b1 .
+            _:b1 :artifact ?a .
+            _:b1 :weak ?weak .
+            _:b1 :hardened ?hard .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "hard"; pe:value :AcceptForHighTrustUse ],
+    [ pe:var "weak"; pe:value :AcceptUnderWeakBudgetOnlyRules ];
+  pe:uses
+    { :trustedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . },
+    { :trustedArtifact :hardenedDecision :AcceptForHighTrustUse . }.
+
+{ _:b1_451871e9cc2af5ab :weak :AcceptUnderWeakBudgetOnlyRules . }
+  pe:rule
+    {
+        {
+            ?a :weakDecision ?weak .
+            ?a :hardenedDecision ?hard .
+        } => {
+            :result :decision _:b1 .
+            _:b1 :artifact ?a .
+            _:b1 :weak ?weak .
+            _:b1 :hardened ?hard .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "hard"; pe:value :AcceptForHighTrustUse ],
+    [ pe:var "weak"; pe:value :AcceptUnderWeakBudgetOnlyRules ];
+  pe:uses
+    { :trustedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . },
+    { :trustedArtifact :hardenedDecision :AcceptForHighTrustUse . }.
+
+{ _:b1_451871e9cc2af5ab :hardened :AcceptForHighTrustUse . }
+  pe:rule
+    {
+        {
+            ?a :weakDecision ?weak .
+            ?a :hardenedDecision ?hard .
+        } => {
+            :result :decision _:b1 .
+            _:b1 :artifact ?a .
+            _:b1 :weak ?weak .
+            _:b1 :hardened ?hard .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "hard"; pe:value :AcceptForHighTrustUse ],
+    [ pe:var "weak"; pe:value :AcceptUnderWeakBudgetOnlyRules ];
+  pe:uses
+    { :trustedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . },
+    { :trustedArtifact :hardenedDecision :AcceptForHighTrustUse . }.
+
+{ :result :decision _:b1_285c0555e4f33c45 . }
+  pe:rule
+    {
+        {
+            ?a :weakDecision ?weak .
+            ?a :hardenedDecision ?hard .
+        } => {
+            :result :decision _:b1 .
+            _:b1 :artifact ?a .
+            _:b1 :weak ?weak .
+            _:b1 :hardened ?hard .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "hard"; pe:value :RejectForHighTrustUse ],
+    [ pe:var "weak"; pe:value :AcceptUnderWeakBudgetOnlyRules ];
+  pe:uses
+    { :tamperedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . },
+    { :tamperedArtifact :hardenedDecision :RejectForHighTrustUse . }.
+
+{ :tamperedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . }
+  pe:rule 7;
+  pe:binding [ pe:var "a"; pe:value :tamperedArtifact ];
+  pe:uses
+    { :tamperedArtifact :indexAgreement true . },
+    { :tamperedArtifact :weakWithinFpRateBudget true . },
+    { :tamperedArtifact :weakWithinExactLookupBudget true . },
+    { :tamperedArtifact :maybePositivePolicy :ConfirmAgainstCanonicalGraph . },
+    { :tamperedArtifact :definiteNegativePolicy :ReturnAbsent . }.
+
+{ :tamperedArtifact :indexAgreement true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "n"; pe:value 1200 ];
+  pe:uses
+    { :tamperedArtifact :canonicalTripleCount 1200 . },
+    { :tamperedArtifact :spoIndexTripleCount 1200 . }.
+
+{ :tamperedArtifact :canonicalTripleCount 1200 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :tamperedArtifact :spoIndexTripleCount 1200 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :tamperedArtifact :weakWithinFpRateBudget true . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "budget"; pe:value 0.1 ],
+    [ pe:var "fpHi"; pe:value "-194754273881"^^xsd:decimal ];
+  pe:uses
+    { :tamperedArtifact :weakFpRateUpper "-194754273881"^^xsd:decimal . },
+    { :tamperedArtifact :fpRateBudget 0.1 . },
+    { "-194754273881"^^xsd:decimal math:lessThan 0.1 . }.
+
+{ :tamperedArtifact :weakFpRateUpper "-194754273881"^^xsd:decimal . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "eHi"; pe:value -42 ],
+    [ pe:var "eLo"; pe:value 42 ],
+    [ pe:var "fpHi"; pe:value "-194754273881"^^xsd:decimal ],
+    [ pe:var "fpLo"; pe:value "271818611107"^^xsd:decimal ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "oneMinusHi"; pe:value "-41"^^xsd:decimal ],
+    [ pe:var "oneMinusLo"; pe:value "43"^^xsd:decimal ];
+  pe:uses
+    { :tamperedArtifact :hashFunctions 7 . },
+    { :tamperedArtifact :expMinusLambdaLower 42 . },
+    { :tamperedArtifact :expMinusLambdaUpper -42 . },
+    { (1.0 -42) math:difference "43"^^xsd:decimal . },
+    { (1.0 42) math:difference "-41"^^xsd:decimal . },
+    { ("43"^^xsd:decimal 7) math:exponentiation "271818611107"^^xsd:decimal . },
+    { ("-41"^^xsd:decimal 7) math:exponentiation "-194754273881"^^xsd:decimal . }.
+
+{ :tamperedArtifact :hashFunctions 7 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :tamperedArtifact :expMinusLambdaLower 42 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :tamperedArtifact :expMinusLambdaUpper -42 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ (1.0 -42) math:difference "43"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ (1.0 42) math:difference "-41"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ ("43"^^xsd:decimal 7) math:exponentiation "271818611107"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ ("-41"^^xsd:decimal 7) math:exponentiation "-194754273881"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ :tamperedArtifact :fpRateBudget 0.1 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ "-194754273881"^^xsd:decimal math:lessThan 0.1 . }
+  pe:builtin math:lessThan.
+
+{ :tamperedArtifact :weakWithinExactLookupBudget true . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "budget"; pe:value 100.0 ],
+    [ pe:var "extraHi"; pe:value "-194754273881"^^xsd:decimal ];
+  pe:uses
+    { :tamperedArtifact :weakExpectedExtraExactLookupsUpper "-194754273881"^^xsd:decimal . },
+    { :tamperedArtifact :extraExactLookupsBudget 100.0 . },
+    { "-194754273881"^^xsd:decimal math:lessThan 100.0 . }.
+
+{ :tamperedArtifact :weakExpectedExtraExactLookupsUpper "-194754273881"^^xsd:decimal . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "extraHi"; pe:value "-194754273881"^^xsd:decimal ],
+    [ pe:var "fpHi"; pe:value "-194754273881"^^xsd:decimal ],
+    [ pe:var "q"; pe:value 1 ];
+  pe:uses
+    { :tamperedArtifact :negativeLookupsPerBatch 1 . },
+    { :tamperedArtifact :weakFpRateUpper "-194754273881"^^xsd:decimal . },
+    { (1 "-194754273881"^^xsd:decimal) math:product "-194754273881"^^xsd:decimal . }.
+
+{ :tamperedArtifact :negativeLookupsPerBatch 1 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ (1 "-194754273881"^^xsd:decimal) math:product "-194754273881"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :tamperedArtifact :extraExactLookupsBudget 100.0 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ "-194754273881"^^xsd:decimal math:lessThan 100.0 . }
+  pe:builtin math:lessThan.
+
+{ :tamperedArtifact :maybePositivePolicy :ConfirmAgainstCanonicalGraph . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :tamperedArtifact :definiteNegativePolicy :ReturnAbsent . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :tamperedArtifact :hardenedDecision :RejectForHighTrustUse . }
+  pe:rule 20;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "why"; pe:value :NonPositiveBloomBits ];
+  pe:uses { :tamperedArtifact :rejectReason :NonPositiveBloomBits . }.
+
+{ :tamperedArtifact :rejectReason :NonPositiveBloomBits . }
+  pe:rule 15;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "m"; pe:value -12 ];
+  pe:uses
+    { :tamperedArtifact :bloomBits -12 . },
+    { -12 math:notGreaterThan 0 . }.
+
+{ :tamperedArtifact :bloomBits -12 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ -12 math:notGreaterThan 0 . }
+  pe:builtin math:notGreaterThan.
+
+{ _:b1_285c0555e4f33c45 :artifact :tamperedArtifact . }
+  pe:rule
+    {
+        {
+            ?a :weakDecision ?weak .
+            ?a :hardenedDecision ?hard .
+        } => {
+            :result :decision _:b1 .
+            _:b1 :artifact ?a .
+            _:b1 :weak ?weak .
+            _:b1 :hardened ?hard .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "hard"; pe:value :RejectForHighTrustUse ],
+    [ pe:var "weak"; pe:value :AcceptUnderWeakBudgetOnlyRules ];
+  pe:uses
+    { :tamperedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . },
+    { :tamperedArtifact :hardenedDecision :RejectForHighTrustUse . }.
+
+{ _:b1_285c0555e4f33c45 :weak :AcceptUnderWeakBudgetOnlyRules . }
+  pe:rule
+    {
+        {
+            ?a :weakDecision ?weak .
+            ?a :hardenedDecision ?hard .
+        } => {
+            :result :decision _:b1 .
+            _:b1 :artifact ?a .
+            _:b1 :weak ?weak .
+            _:b1 :hardened ?hard .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "hard"; pe:value :RejectForHighTrustUse ],
+    [ pe:var "weak"; pe:value :AcceptUnderWeakBudgetOnlyRules ];
+  pe:uses
+    { :tamperedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . },
+    { :tamperedArtifact :hardenedDecision :RejectForHighTrustUse . }.
+
+{ _:b1_285c0555e4f33c45 :hardened :RejectForHighTrustUse . }
+  pe:rule
+    {
+        {
+            ?a :weakDecision ?weak .
+            ?a :hardenedDecision ?hard .
+        } => {
+            :result :decision _:b1 .
+            _:b1 :artifact ?a .
+            _:b1 :weak ?weak .
+            _:b1 :hardened ?hard .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "hard"; pe:value :RejectForHighTrustUse ],
+    [ pe:var "weak"; pe:value :AcceptUnderWeakBudgetOnlyRules ];
+  pe:uses
+    { :tamperedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . },
+    { :tamperedArtifact :hardenedDecision :RejectForHighTrustUse . }.
+
+{ :result :summary (:trustedArtifact "lambda" 0.5126953125 "certified-lambda" 0.5126953125 "weak-fp-upper" 0.0016708059596428394 "weak-extra-exact-upper" 83.54029798214196 "weak-decision" :AcceptUnderWeakBudgetOnlyRules "hardened-decision" :AcceptForHighTrustUse) . }
+  pe:rule
+    {
+        {
+            ?a :lambda ?lambda .
+            ?a :certifiedLambda ?certifiedLambda .
+            ?a :weakFpRateUpper ?weakFpHi .
+            ?a :weakExpectedExtraExactLookupsUpper ?weakExtraHi .
+            ?a :weakDecision ?weakDecision .
+            ?a :hardenedDecision ?hardDecision .
+        } => {
+            :result :summary (?a "lambda" ?lambda "certified-lambda" ?certifiedLambda "weak-fp-upper" ?weakFpHi "weak-extra-exact-upper" ?weakExtraHi "weak-decision" ?weakDecision "hardened-decision" ?hardDecision) .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :trustedArtifact ],
+    [ pe:var "certifiedLambda"; pe:value 0.5126953125 ],
+    [ pe:var "hardDecision"; pe:value :AcceptForHighTrustUse ],
+    [ pe:var "lambda"; pe:value 0.5126953125 ],
+    [ pe:var "weakDecision"; pe:value :AcceptUnderWeakBudgetOnlyRules ],
+    [ pe:var "weakExtraHi"; pe:value 83.54029798214196 ],
+    [ pe:var "weakFpHi"; pe:value 0.0016708059596428394 ];
+  pe:uses
+    { :trustedArtifact :lambda 0.5126953125 . },
+    { :trustedArtifact :certifiedLambda 0.5126953125 . },
+    { :trustedArtifact :weakFpRateUpper 0.0016708059596428394 . },
+    { :trustedArtifact :weakExpectedExtraExactLookupsUpper 83.54029798214196 . },
+    { :trustedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . },
+    { :trustedArtifact :hardenedDecision :AcceptForHighTrustUse . }.
+
+{ :result :summary (:tamperedArtifact "lambda" -700 "certified-lambda" 0.5126953125 "weak-fp-upper" "-194754273881"^^xsd:decimal "weak-extra-exact-upper" "-194754273881"^^xsd:decimal "weak-decision" :AcceptUnderWeakBudgetOnlyRules "hardened-decision" :RejectForHighTrustUse) . }
+  pe:rule
+    {
+        {
+            ?a :lambda ?lambda .
+            ?a :certifiedLambda ?certifiedLambda .
+            ?a :weakFpRateUpper ?weakFpHi .
+            ?a :weakExpectedExtraExactLookupsUpper ?weakExtraHi .
+            ?a :weakDecision ?weakDecision .
+            ?a :hardenedDecision ?hardDecision .
+        } => {
+            :result :summary (?a "lambda" ?lambda "certified-lambda" ?certifiedLambda "weak-fp-upper" ?weakFpHi "weak-extra-exact-upper" ?weakExtraHi "weak-decision" ?weakDecision "hardened-decision" ?hardDecision) .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "certifiedLambda"; pe:value 0.5126953125 ],
+    [ pe:var "hardDecision"; pe:value :RejectForHighTrustUse ],
+    [ pe:var "lambda"; pe:value -700 ],
+    [ pe:var "weakDecision"; pe:value :AcceptUnderWeakBudgetOnlyRules ],
+    [ pe:var "weakExtraHi"; pe:value "-194754273881"^^xsd:decimal ],
+    [ pe:var "weakFpHi"; pe:value "-194754273881"^^xsd:decimal ];
+  pe:uses
+    { :tamperedArtifact :lambda -700 . },
+    { :tamperedArtifact :certifiedLambda 0.5126953125 . },
+    { :tamperedArtifact :weakFpRateUpper "-194754273881"^^xsd:decimal . },
+    { :tamperedArtifact :weakExpectedExtraExactLookupsUpper "-194754273881"^^xsd:decimal . },
+    { :tamperedArtifact :weakDecision :AcceptUnderWeakBudgetOnlyRules . },
+    { :tamperedArtifact :hardenedDecision :RejectForHighTrustUse . }.
+
+{ :tamperedArtifact :lambda -700 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "kn"; pe:value 8400 ],
+    [ pe:var "lambda"; pe:value -700 ],
+    [ pe:var "m"; pe:value -12 ],
+    [ pe:var "n"; pe:value 1200 ];
+  pe:uses
+    { :tamperedArtifact :tripleCount 1200 . },
+    { :tamperedArtifact :hashFunctions 7 . },
+    { :tamperedArtifact :bloomBits -12 . },
+    { (7 1200) math:product 8400 . },
+    { (8400 -12) math:quotient -700 . }.
+
+{ :tamperedArtifact :tripleCount 1200 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "n"; pe:value 1200 ];
+  pe:uses
+    { :tamperedArtifact :canonicalTripleCount 1200 . },
+    { :tamperedArtifact :spoIndexTripleCount 1200 . }.
+
+{ (8400 -12) math:quotient -700 . }
+  pe:builtin math:quotient.
+
+{ :tamperedArtifact :certifiedLambda 0.5126953125 . }
+  pe:fact "high-trust-rdf-bloom-tamper-contrast.n3".
+
+{ :result :rejectReason _:b2_c15ba7f2268f6705 . }
+  pe:rule
+    {
+        {
+            ?a :rejectReason ?why .
+        } => {
+            :result :rejectReason _:b2 .
+            _:b2 :artifact ?a .
+            _:b2 :why ?why .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "why"; pe:value :NonPositiveBloomBits ];
+  pe:uses { :tamperedArtifact :rejectReason :NonPositiveBloomBits . }.
+
+{ _:b2_c15ba7f2268f6705 :artifact :tamperedArtifact . }
+  pe:rule
+    {
+        {
+            ?a :rejectReason ?why .
+        } => {
+            :result :rejectReason _:b2 .
+            _:b2 :artifact ?a .
+            _:b2 :why ?why .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "why"; pe:value :NonPositiveBloomBits ];
+  pe:uses { :tamperedArtifact :rejectReason :NonPositiveBloomBits . }.
+
+{ _:b2_c15ba7f2268f6705 :why :NonPositiveBloomBits . }
+  pe:rule
+    {
+        {
+            ?a :rejectReason ?why .
+        } => {
+            :result :rejectReason _:b2 .
+            _:b2 :artifact ?a .
+            _:b2 :why ?why .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "why"; pe:value :NonPositiveBloomBits ];
+  pe:uses { :tamperedArtifact :rejectReason :NonPositiveBloomBits . }.
+
+{ :result :rejectReason _:b2_5ad1687d80e842a . }
+  pe:rule
+    {
+        {
+            ?a :rejectReason ?why .
+        } => {
+            :result :rejectReason _:b2 .
+            _:b2 :artifact ?a .
+            _:b2 :why ?why .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "why"; pe:value :CertifiedLambdaMismatch ];
+  pe:uses { :tamperedArtifact :rejectReason :CertifiedLambdaMismatch . }.
+
+{ :tamperedArtifact :rejectReason :CertifiedLambdaMismatch . }
+  pe:rule 16;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "certified"; pe:value 0.5126953125 ],
+    [ pe:var "lambda"; pe:value -700 ];
+  pe:uses
+    { :tamperedArtifact :lambda -700 . },
+    { :tamperedArtifact :certifiedLambda 0.5126953125 . },
+    { 0.5126953125 math:notEqualTo -700 . }.
+
+{ 0.5126953125 math:notEqualTo -700 . }
+  pe:builtin math:notEqualTo.
+
+{ _:b2_5ad1687d80e842a :artifact :tamperedArtifact . }
+  pe:rule
+    {
+        {
+            ?a :rejectReason ?why .
+        } => {
+            :result :rejectReason _:b2 .
+            _:b2 :artifact ?a .
+            _:b2 :why ?why .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "why"; pe:value :CertifiedLambdaMismatch ];
+  pe:uses { :tamperedArtifact :rejectReason :CertifiedLambdaMismatch . }.
+
+{ _:b2_5ad1687d80e842a :why :CertifiedLambdaMismatch . }
+  pe:rule
+    {
+        {
+            ?a :rejectReason ?why .
+        } => {
+            :result :rejectReason _:b2 .
+            _:b2 :artifact ?a .
+            _:b2 :why ?why .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "why"; pe:value :CertifiedLambdaMismatch ];
+  pe:uses { :tamperedArtifact :rejectReason :CertifiedLambdaMismatch . }.
+
+{ :result :rejectReason _:b2_611b673cf05a56a8 . }
+  pe:rule
+    {
+        {
+            ?a :rejectReason ?why .
+        } => {
+            :result :rejectReason _:b2 .
+            _:b2 :artifact ?a .
+            _:b2 :why ?why .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "why"; pe:value :MalformedIntervalOrdering ];
+  pe:uses { :tamperedArtifact :rejectReason :MalformedIntervalOrdering . }.
+
+{ :tamperedArtifact :rejectReason :MalformedIntervalOrdering . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "hi"; pe:value -42 ],
+    [ pe:var "lo"; pe:value 42 ];
+  pe:uses
+    { :tamperedArtifact :expMinusLambdaLower 42 . },
+    { :tamperedArtifact :expMinusLambdaUpper -42 . },
+    { -42 math:notGreaterThan 42 . }.
+
+{ -42 math:notGreaterThan 42 . }
+  pe:builtin math:notGreaterThan.
+
+{ _:b2_611b673cf05a56a8 :artifact :tamperedArtifact . }
+  pe:rule
+    {
+        {
+            ?a :rejectReason ?why .
+        } => {
+            :result :rejectReason _:b2 .
+            _:b2 :artifact ?a .
+            _:b2 :why ?why .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "why"; pe:value :MalformedIntervalOrdering ];
+  pe:uses { :tamperedArtifact :rejectReason :MalformedIntervalOrdering . }.
+
+{ _:b2_611b673cf05a56a8 :why :MalformedIntervalOrdering . }
+  pe:rule
+    {
+        {
+            ?a :rejectReason ?why .
+        } => {
+            :result :rejectReason _:b2 .
+            _:b2 :artifact ?a .
+            _:b2 :why ?why .
+        } .
+    };
+  pe:binding
+    [ pe:var "a"; pe:value :tamperedArtifact ],
+    [ pe:var "why"; pe:value :MalformedIntervalOrdering ];
+  pe:uses { :tamperedArtifact :rejectReason :MalformedIntervalOrdering . }.

@@ -1,0 +1,91 @@
+@prefix : <http://example.org/test#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:task1 a :AllTasksCompleted .
+
+{ :task1 a :AllTasksCompleted . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Graph"; pe:value {
+        :task1 :subTask :subtask1 .
+        :subtask1 a :Completed .
+        :task1 :subTask :subtask2 .
+        :subtask2 a :Completed .
+        :task1 :subTask :subtask3 .
+        :subtask3 a :Completed .
+        :task2 :subTask :subtask4 .
+        :subtask4 a :Completed .
+        :task2 :subTask :subtask5 .
+    } ],
+    [ pe:var "Task"; pe:value :task1 ];
+  pe:uses
+    { :task1 a :CompositeTask . },
+    {
+        :subtasks :graph {
+            :task1 :subTask :subtask1 .
+            :subtask1 a :Completed .
+            :task1 :subTask :subtask2 .
+            :subtask2 a :Completed .
+            :task1 :subTask :subtask3 .
+            :subtask3 a :Completed .
+            :task2 :subTask :subtask4 .
+            :subtask4 a :Completed .
+            :task2 :subTask :subtask5 .
+        } .
+    },
+    {
+        ({
+            :task1 :subTask ?Subtask .
+        } {
+            ?Subtask a :Completed .
+        }) log:forAllIn {
+            :task1 :subTask :subtask1 .
+            :subtask1 a :Completed .
+            :task1 :subTask :subtask2 .
+            :subtask2 a :Completed .
+            :task1 :subTask :subtask3 .
+            :subtask3 a :Completed .
+            :task2 :subTask :subtask4 .
+            :subtask4 a :Completed .
+            :task2 :subTask :subtask5 .
+        } .
+    }.
+
+{ :task1 a :CompositeTask . }
+  pe:fact "task-completion.n3".
+
+{
+  :subtasks :graph {
+      :task1 :subTask :subtask1 .
+      :subtask1 a :Completed .
+      :task1 :subTask :subtask2 .
+      :subtask2 a :Completed .
+      :task1 :subTask :subtask3 .
+      :subtask3 a :Completed .
+      :task2 :subTask :subtask4 .
+      :subtask4 a :Completed .
+      :task2 :subTask :subtask5 .
+  } .
+}
+  pe:fact "task-completion.n3".
+
+{
+  ({
+      :task1 :subTask ?Subtask .
+  } {
+      ?Subtask a :Completed .
+  }) log:forAllIn {
+      :task1 :subTask :subtask1 .
+      :subtask1 a :Completed .
+      :task1 :subTask :subtask2 .
+      :subtask2 a :Completed .
+      :task1 :subTask :subtask3 .
+      :subtask3 a :Completed .
+      :task2 :subTask :subtask4 .
+      :subtask4 a :Completed .
+      :task2 :subTask :subtask5 .
+  } .
+}
+  pe:builtin log:forAllIn.

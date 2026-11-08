@@ -1,0 +1,58 @@
+# checked with obligations: 8 steps, 4 verified, 4 trusted
+@prefix : <http://example.org/#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:test1 :is true .
+:test2 :is true .
+:test3 :is true .
+:test4 :is true .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/list-map.n3";
+    pe:source "examples/list-map.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 8;
+    pe:verified 4;
+    pe:trusted 4;
+    pe:builtinSteps 4;
+    pe:ruleSteps 4;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 12; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 4; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            ((:s1 :s2) :p1) list:map (:o1 :o2) .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            ((:s1 :s2 :s3) :p1) list:map (:o1 :o2 :o3 :o4) .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            ((:s4) :p1) list:map () .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            ((:s1) :p2) list:map () .
+        }
+    ].

@@ -1,0 +1,1212 @@
+# checked with obligations: 25 steps, 21 verified, 4 trusted
+@prefix : <http://example.org/#> .
+@prefix air: <http://dig.csail.mit.edu/TAMI/2007/amord/air#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:Request_Jos_Prog_Home :agent :Jos .
+:Request_Jos_Prog_Home :job :ProgrammingWork .
+:Request_Jos_Prog_Home :location :Home .
+:Request_Jos_Prog_Office :agent :Jos .
+:Request_Jos_Prog_Office :job :ProgrammingWork .
+:Request_Jos_Prog_Office :location :Office .
+:Request_Jos_Prog_Home :decisionStatus :BothPermitDeny .
+:Request_Jos_Prog_Office :decisionStatus :BothPermitDeny .
+:Request_Jos_Prog_Office :effectiveDecision :Deny .
+:Request_Jos_Prog_Home :effectiveDecision :Permit .
+:Jos :workDecision :RemoteWorkOnly .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/doctor-advice-work-conflict.n3";
+    pe:source "examples/doctor-advice-work-conflict.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 25;
+    pe:verified 21;
+    pe:trusted 4;
+    pe:builtinSteps 13;
+    pe:factSteps 1;
+    pe:ruleSteps 11;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 12; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 25; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 25; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 54; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 13; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 36; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 11; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :Jos a :Person .
+                :Jos :has :Flu .
+                :Flu :typeOf :Disease .
+                :Home a :Location .
+                :Office a :Location .
+                :ProgrammingWork rdfs:subClassOf :Work .
+                :Request_Jos_Prog_Home a :Request .
+                :Request_Jos_Prog_Home :agent :Jos .
+                :Request_Jos_Prog_Home :job :ProgrammingWork .
+                :Request_Jos_Prog_Home :location :Home .
+                :Request_Jos_Prog_Office a :Request .
+                :Request_Jos_Prog_Office :agent :Jos .
+                :Request_Jos_Prog_Office :job :ProgrammingWork .
+                :Request_Jos_Prog_Office :location :Office .
+                :Doctor :says {
+                    :Jos :canDo :ProgrammingWork .
+                } .
+                {
+                    ?doc :says ?G .
+                    ?G log:includes {
+                        ?x :canDo :ProgrammingWork .
+                    } .
+                } => {
+                    ?x :canDo :ProgrammingWork .
+                } .
+                {
+                    ?x :has ?a .
+                    ?a :typeOf ?b .
+                } => {
+                    ?x :has ?b .
+                } .
+                {
+                    ?x :has :Disease .
+                } => {
+                    ?x :healthStatus :Sick .
+                } .
+                {
+                    ?a rdfs:subClassOf ?b .
+                } => {
+                    ?a :isKindOf ?b .
+                } .
+                {
+                    ?a :isKindOf ?b .
+                    ?b :isKindOf ?c .
+                } => {
+                    ?a :isKindOf ?c .
+                } .
+                {
+                    ?x :canDo :ProgrammingWork .
+                    :ProgrammingWork rdfs:subClassOf ?super .
+                } => {
+                    ?x :canDo ?super .
+                } .
+                :R_DoctorPermit a air:Rule .
+                :R_DoctorPermit air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    ?x :canDo :ProgrammingWork .
+                } .
+                :R_DoctorPermit air:then {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    ?x :canDo :ProgrammingWork .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                } .
+                :R_SickNoWork a air:Rule .
+                :R_SickNoWork air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Work .
+                } .
+                :R_SickNoWork air:then {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Work .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                } .
+                :R_SickWork a air:Rule .
+                :R_SickWork air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Office .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Office .
+                } .
+                :R_SickWork air:then {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Office .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Office .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                :R_SickProgHome a air:Rule .
+                :R_SickProgHome air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Home .
+                    ?x :healthStatus :Sick .
+                } .
+                :R_SickProgHome air:then {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Home .
+                    ?x :healthStatus :Sick .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+            } log:conclusion {
+                :Jos a :Person .
+                :Jos :has :Flu .
+                :Flu :typeOf :Disease .
+                :Home a :Location .
+                :Office a :Location .
+                :ProgrammingWork rdfs:subClassOf :Work .
+                :Request_Jos_Prog_Home a :Request .
+                :Request_Jos_Prog_Home :agent :Jos .
+                :Request_Jos_Prog_Home :job :ProgrammingWork .
+                :Request_Jos_Prog_Home :location :Home .
+                :Request_Jos_Prog_Office a :Request .
+                :Request_Jos_Prog_Office :agent :Jos .
+                :Request_Jos_Prog_Office :job :ProgrammingWork .
+                :Request_Jos_Prog_Office :location :Office .
+                :Doctor :says {
+                    :Jos :canDo :ProgrammingWork .
+                } .
+                {
+                    ?doc :says ?G .
+                    ?G log:includes {
+                        ?x :canDo :ProgrammingWork .
+                    } .
+                } => {
+                    ?x :canDo :ProgrammingWork .
+                } .
+                {
+                    ?x :has ?a .
+                    ?a :typeOf ?b .
+                } => {
+                    ?x :has ?b .
+                } .
+                {
+                    ?x :has :Disease .
+                } => {
+                    ?x :healthStatus :Sick .
+                } .
+                {
+                    ?a rdfs:subClassOf ?b .
+                } => {
+                    ?a :isKindOf ?b .
+                } .
+                {
+                    ?a :isKindOf ?b .
+                    ?b :isKindOf ?c .
+                } => {
+                    ?a :isKindOf ?c .
+                } .
+                {
+                    ?x :canDo :ProgrammingWork .
+                    :ProgrammingWork rdfs:subClassOf ?super .
+                } => {
+                    ?x :canDo ?super .
+                } .
+                :R_DoctorPermit a air:Rule .
+                :R_DoctorPermit air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    ?x :canDo :ProgrammingWork .
+                } .
+                :R_DoctorPermit air:then {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    ?x :canDo :ProgrammingWork .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                } .
+                :R_SickNoWork a air:Rule .
+                :R_SickNoWork air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Work .
+                } .
+                :R_SickNoWork air:then {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Work .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                } .
+                :R_SickWork a air:Rule .
+                :R_SickWork air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Office .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Office .
+                } .
+                :R_SickWork air:then {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Office .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Office .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                :R_SickProgHome a air:Rule .
+                :R_SickProgHome air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Home .
+                    ?x :healthStatus :Sick .
+                } .
+                :R_SickProgHome air:then {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Home .
+                    ?x :healthStatus :Sick .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                :Jos :has :Disease .
+                :ProgrammingWork :isKindOf :Work .
+                :Jos :healthStatus :Sick .
+                :Request_Jos_Prog_Home :decision :Deny .
+                :Request_Jos_Prog_Office :decision :Deny .
+                :Request_Jos_Prog_Home :decision :Permit .
+                :Jos :remoteWorkRecommended true .
+                :Jos :canDo :ProgrammingWork .
+                :Jos :canDo :Work .
+                :Request_Jos_Prog_Office :decision :Permit .
+            } .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :Jos a :Person .
+                :Jos :has :Flu .
+                :Flu :typeOf :Disease .
+                :Home a :Location .
+                :Office a :Location .
+                :ProgrammingWork rdfs:subClassOf :Work .
+                :Request_Jos_Prog_Home a :Request .
+                :Request_Jos_Prog_Home :agent :Jos .
+                :Request_Jos_Prog_Home :job :ProgrammingWork .
+                :Request_Jos_Prog_Home :location :Home .
+                :Request_Jos_Prog_Office a :Request .
+                :Request_Jos_Prog_Office :agent :Jos .
+                :Request_Jos_Prog_Office :job :ProgrammingWork .
+                :Request_Jos_Prog_Office :location :Office .
+                :Doctor :says {
+                    :Jos :canDo :ProgrammingWork .
+                } .
+                {
+                    ?doc :says ?G .
+                    ?G log:includes {
+                        ?x :canDo :ProgrammingWork .
+                    } .
+                } => {
+                    ?x :canDo :ProgrammingWork .
+                } .
+                {
+                    ?x :has ?a .
+                    ?a :typeOf ?b .
+                } => {
+                    ?x :has ?b .
+                } .
+                {
+                    ?x :has :Disease .
+                } => {
+                    ?x :healthStatus :Sick .
+                } .
+                {
+                    ?a rdfs:subClassOf ?b .
+                } => {
+                    ?a :isKindOf ?b .
+                } .
+                {
+                    ?a :isKindOf ?b .
+                    ?b :isKindOf ?c .
+                } => {
+                    ?a :isKindOf ?c .
+                } .
+                {
+                    ?x :canDo :ProgrammingWork .
+                    :ProgrammingWork rdfs:subClassOf ?super .
+                } => {
+                    ?x :canDo ?super .
+                } .
+                :R_DoctorPermit a air:Rule .
+                :R_DoctorPermit air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    ?x :canDo :ProgrammingWork .
+                } .
+                :R_DoctorPermit air:then {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    ?x :canDo :ProgrammingWork .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                } .
+                :R_SickNoWork a air:Rule .
+                :R_SickNoWork air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Work .
+                } .
+                :R_SickNoWork air:then {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Work .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                } .
+                :R_SickWork a air:Rule .
+                :R_SickWork air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Office .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Office .
+                } .
+                :R_SickWork air:then {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Office .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Office .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                :R_SickProgHome a air:Rule .
+                :R_SickProgHome air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Home .
+                    ?x :healthStatus :Sick .
+                } .
+                :R_SickProgHome air:then {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Home .
+                    ?x :healthStatus :Sick .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+            } log:conclusion {
+                :Jos a :Person .
+                :Jos :has :Flu .
+                :Flu :typeOf :Disease .
+                :Home a :Location .
+                :Office a :Location .
+                :ProgrammingWork rdfs:subClassOf :Work .
+                :Request_Jos_Prog_Home a :Request .
+                :Request_Jos_Prog_Home :agent :Jos .
+                :Request_Jos_Prog_Home :job :ProgrammingWork .
+                :Request_Jos_Prog_Home :location :Home .
+                :Request_Jos_Prog_Office a :Request .
+                :Request_Jos_Prog_Office :agent :Jos .
+                :Request_Jos_Prog_Office :job :ProgrammingWork .
+                :Request_Jos_Prog_Office :location :Office .
+                :Doctor :says {
+                    :Jos :canDo :ProgrammingWork .
+                } .
+                {
+                    ?doc :says ?G .
+                    ?G log:includes {
+                        ?x :canDo :ProgrammingWork .
+                    } .
+                } => {
+                    ?x :canDo :ProgrammingWork .
+                } .
+                {
+                    ?x :has ?a .
+                    ?a :typeOf ?b .
+                } => {
+                    ?x :has ?b .
+                } .
+                {
+                    ?x :has :Disease .
+                } => {
+                    ?x :healthStatus :Sick .
+                } .
+                {
+                    ?a rdfs:subClassOf ?b .
+                } => {
+                    ?a :isKindOf ?b .
+                } .
+                {
+                    ?a :isKindOf ?b .
+                    ?b :isKindOf ?c .
+                } => {
+                    ?a :isKindOf ?c .
+                } .
+                {
+                    ?x :canDo :ProgrammingWork .
+                    :ProgrammingWork rdfs:subClassOf ?super .
+                } => {
+                    ?x :canDo ?super .
+                } .
+                :R_DoctorPermit a air:Rule .
+                :R_DoctorPermit air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    ?x :canDo :ProgrammingWork .
+                } .
+                :R_DoctorPermit air:then {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    ?x :canDo :ProgrammingWork .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                } .
+                :R_SickNoWork a air:Rule .
+                :R_SickNoWork air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Work .
+                } .
+                :R_SickNoWork air:then {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Work .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                } .
+                :R_SickWork a air:Rule .
+                :R_SickWork air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Office .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Office .
+                } .
+                :R_SickWork air:then {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Office .
+                    ?x :healthStatus :Sick .
+                    :ProgrammingWork :isKindOf :Office .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                :R_SickProgHome a air:Rule .
+                :R_SickProgHome air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Home .
+                    ?x :healthStatus :Sick .
+                } .
+                :R_SickProgHome air:then {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Home .
+                    ?x :healthStatus :Sick .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                :Jos :has :Disease .
+                :ProgrammingWork :isKindOf :Work .
+                :Jos :healthStatus :Sick .
+                :Request_Jos_Prog_Home :decision :Deny .
+                :Request_Jos_Prog_Office :decision :Deny .
+                :Request_Jos_Prog_Home :decision :Permit .
+                :Jos :remoteWorkRecommended true .
+                :Jos :canDo :ProgrammingWork .
+                :Jos :canDo :Work .
+                :Request_Jos_Prog_Office :decision :Permit .
+            } .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :Jos a :Person .
+                :Jos :has :Flu .
+                :Flu :typeOf :Disease .
+                :Home a :Location .
+                :Office a :Location .
+                :ProgrammingWork rdfs:subClassOf :Work .
+                :Request_Jos_Prog_Home a :Request .
+                :Request_Jos_Prog_Home :agent :Jos .
+                :Request_Jos_Prog_Home :job :ProgrammingWork .
+                :Request_Jos_Prog_Home :location :Home .
+                :Request_Jos_Prog_Office a :Request .
+                :Request_Jos_Prog_Office :agent :Jos .
+                :Request_Jos_Prog_Office :job :ProgrammingWork .
+                :Request_Jos_Prog_Office :location :Office .
+                :Doctor :says {
+                    :Jos :canDo :ProgrammingWork .
+                } .
+                {
+                    ?doc :says ?G .
+                    ?G log:includes {
+                        ?x :canDo ?job .
+                    } .
+                } => {
+                    ?x :canDo ?job .
+                } .
+                {
+                    ?x :has ?a .
+                    ?a :typeOf ?b .
+                } => {
+                    ?x :has ?b .
+                } .
+                {
+                    ?x :has :Disease .
+                } => {
+                    ?x :healthStatus :Sick .
+                } .
+                {
+                    ?a rdfs:subClassOf ?b .
+                } => {
+                    ?a :isKindOf ?b .
+                } .
+                {
+                    ?a :isKindOf ?b .
+                    ?b :isKindOf ?c .
+                } => {
+                    ?a :isKindOf ?c .
+                } .
+                {
+                    ?x :canDo ?job .
+                    ?job rdfs:subClassOf ?super .
+                } => {
+                    ?x :canDo ?super .
+                } .
+                :R_DoctorPermit a air:Rule .
+                :R_DoctorPermit air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    ?x :canDo ?job .
+                } .
+                :R_DoctorPermit air:then {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    ?x :canDo ?job .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                } .
+                :R_SickNoWork a air:Rule .
+                :R_SickNoWork air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Work .
+                } .
+                :R_SickNoWork air:then {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Work .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                } .
+                :R_SickWork a air:Rule .
+                :R_SickWork air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    :Request_Jos_Prog_Home :location :Office .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Office .
+                } .
+                :R_SickWork air:then {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    :Request_Jos_Prog_Home :location :Office .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Office .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                :R_SickProgHome a air:Rule .
+                :R_SickProgHome air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Home .
+                    ?x :healthStatus :Sick .
+                } .
+                :R_SickProgHome air:then {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Home .
+                    ?x :healthStatus :Sick .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+            } log:conclusion {
+                :Jos a :Person .
+                :Jos :has :Flu .
+                :Flu :typeOf :Disease .
+                :Home a :Location .
+                :Office a :Location .
+                :ProgrammingWork rdfs:subClassOf :Work .
+                :Request_Jos_Prog_Home a :Request .
+                :Request_Jos_Prog_Home :agent :Jos .
+                :Request_Jos_Prog_Home :job :ProgrammingWork .
+                :Request_Jos_Prog_Home :location :Home .
+                :Request_Jos_Prog_Office a :Request .
+                :Request_Jos_Prog_Office :agent :Jos .
+                :Request_Jos_Prog_Office :job :ProgrammingWork .
+                :Request_Jos_Prog_Office :location :Office .
+                :Doctor :says {
+                    :Jos :canDo :ProgrammingWork .
+                } .
+                {
+                    ?doc :says ?G .
+                    ?G log:includes {
+                        ?x :canDo ?job .
+                    } .
+                } => {
+                    ?x :canDo ?job .
+                } .
+                {
+                    ?x :has ?a .
+                    ?a :typeOf ?b .
+                } => {
+                    ?x :has ?b .
+                } .
+                {
+                    ?x :has :Disease .
+                } => {
+                    ?x :healthStatus :Sick .
+                } .
+                {
+                    ?a rdfs:subClassOf ?b .
+                } => {
+                    ?a :isKindOf ?b .
+                } .
+                {
+                    ?a :isKindOf ?b .
+                    ?b :isKindOf ?c .
+                } => {
+                    ?a :isKindOf ?c .
+                } .
+                {
+                    ?x :canDo ?job .
+                    ?job rdfs:subClassOf ?super .
+                } => {
+                    ?x :canDo ?super .
+                } .
+                :R_DoctorPermit a air:Rule .
+                :R_DoctorPermit air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    ?x :canDo ?job .
+                } .
+                :R_DoctorPermit air:then {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    ?x :canDo ?job .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                } .
+                :R_SickNoWork a air:Rule .
+                :R_SickNoWork air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Work .
+                } .
+                :R_SickNoWork air:then {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Work .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                } .
+                :R_SickWork a air:Rule .
+                :R_SickWork air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    :Request_Jos_Prog_Home :location :Office .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Office .
+                } .
+                :R_SickWork air:then {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job ?job .
+                    :Request_Jos_Prog_Home :location :Office .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Office .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                :R_SickProgHome a air:Rule .
+                :R_SickProgHome air:if {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Home .
+                    ?x :healthStatus :Sick .
+                } .
+                :R_SickProgHome air:then {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                {
+                    :Request_Jos_Prog_Home a :Request .
+                    :Request_Jos_Prog_Home :agent ?x .
+                    :Request_Jos_Prog_Home :job :ProgrammingWork .
+                    :Request_Jos_Prog_Home :location :Home .
+                    ?x :healthStatus :Sick .
+                } => {
+                    :Request_Jos_Prog_Home :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                :Jos :has :Disease .
+                :ProgrammingWork :isKindOf :Work .
+                :Jos :healthStatus :Sick .
+                :Request_Jos_Prog_Home :decision :Deny .
+                :Request_Jos_Prog_Office :decision :Deny .
+                :Request_Jos_Prog_Home :decision :Permit .
+                :Jos :remoteWorkRecommended true .
+                :Jos :canDo :ProgrammingWork .
+                :Jos :canDo :Work .
+                :Request_Jos_Prog_Office :decision :Permit .
+            } .
+        }
+    ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :Jos a :Person .
+                :Jos :has :Flu .
+                :Flu :typeOf :Disease .
+                :Home a :Location .
+                :Office a :Location .
+                :ProgrammingWork rdfs:subClassOf :Work .
+                :Request_Jos_Prog_Home a :Request .
+                :Request_Jos_Prog_Home :agent :Jos .
+                :Request_Jos_Prog_Home :job :ProgrammingWork .
+                :Request_Jos_Prog_Home :location :Home .
+                :Request_Jos_Prog_Office a :Request .
+                :Request_Jos_Prog_Office :agent :Jos .
+                :Request_Jos_Prog_Office :job :ProgrammingWork .
+                :Request_Jos_Prog_Office :location :Office .
+                :Doctor :says {
+                    :Jos :canDo :ProgrammingWork .
+                } .
+                {
+                    ?doc :says ?G .
+                    ?G log:includes {
+                        ?x :canDo ?job .
+                    } .
+                } => {
+                    ?x :canDo ?job .
+                } .
+                {
+                    ?x :has ?a .
+                    ?a :typeOf ?b .
+                } => {
+                    ?x :has ?b .
+                } .
+                {
+                    ?x :has :Disease .
+                } => {
+                    ?x :healthStatus :Sick .
+                } .
+                {
+                    ?a rdfs:subClassOf ?b .
+                } => {
+                    ?a :isKindOf ?b .
+                } .
+                {
+                    ?a :isKindOf ?b .
+                    ?b :isKindOf ?c .
+                } => {
+                    ?a :isKindOf ?c .
+                } .
+                {
+                    ?x :canDo ?job .
+                    ?job rdfs:subClassOf ?super .
+                } => {
+                    ?x :canDo ?super .
+                } .
+                :R_DoctorPermit a air:Rule .
+                :R_DoctorPermit air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    ?x :canDo ?job .
+                } .
+                :R_DoctorPermit air:then {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    ?x :canDo ?job .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                } .
+                :R_SickNoWork a air:Rule .
+                :R_SickNoWork air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Work .
+                } .
+                :R_SickNoWork air:then {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Work .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                } .
+                :R_SickWork a air:Rule .
+                :R_SickWork air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    :Request_Jos_Prog_Office :location :Office .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Office .
+                } .
+                :R_SickWork air:then {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    :Request_Jos_Prog_Office :location :Office .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Office .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                :R_SickProgHome a air:Rule .
+                :R_SickProgHome air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Home .
+                    ?x :healthStatus :Sick .
+                } .
+                :R_SickProgHome air:then {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Home .
+                    ?x :healthStatus :Sick .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+            } log:conclusion {
+                :Jos a :Person .
+                :Jos :has :Flu .
+                :Flu :typeOf :Disease .
+                :Home a :Location .
+                :Office a :Location .
+                :ProgrammingWork rdfs:subClassOf :Work .
+                :Request_Jos_Prog_Home a :Request .
+                :Request_Jos_Prog_Home :agent :Jos .
+                :Request_Jos_Prog_Home :job :ProgrammingWork .
+                :Request_Jos_Prog_Home :location :Home .
+                :Request_Jos_Prog_Office a :Request .
+                :Request_Jos_Prog_Office :agent :Jos .
+                :Request_Jos_Prog_Office :job :ProgrammingWork .
+                :Request_Jos_Prog_Office :location :Office .
+                :Doctor :says {
+                    :Jos :canDo :ProgrammingWork .
+                } .
+                {
+                    ?doc :says ?G .
+                    ?G log:includes {
+                        ?x :canDo ?job .
+                    } .
+                } => {
+                    ?x :canDo ?job .
+                } .
+                {
+                    ?x :has ?a .
+                    ?a :typeOf ?b .
+                } => {
+                    ?x :has ?b .
+                } .
+                {
+                    ?x :has :Disease .
+                } => {
+                    ?x :healthStatus :Sick .
+                } .
+                {
+                    ?a rdfs:subClassOf ?b .
+                } => {
+                    ?a :isKindOf ?b .
+                } .
+                {
+                    ?a :isKindOf ?b .
+                    ?b :isKindOf ?c .
+                } => {
+                    ?a :isKindOf ?c .
+                } .
+                {
+                    ?x :canDo ?job .
+                    ?job rdfs:subClassOf ?super .
+                } => {
+                    ?x :canDo ?super .
+                } .
+                :R_DoctorPermit a air:Rule .
+                :R_DoctorPermit air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    ?x :canDo ?job .
+                } .
+                :R_DoctorPermit air:then {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    ?x :canDo ?job .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                } .
+                :R_SickNoWork a air:Rule .
+                :R_SickNoWork air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Work .
+                } .
+                :R_SickNoWork air:then {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Work .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                } .
+                :R_SickWork a air:Rule .
+                :R_SickWork air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    :Request_Jos_Prog_Office :location :Office .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Office .
+                } .
+                :R_SickWork air:then {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job ?job .
+                    :Request_Jos_Prog_Office :location :Office .
+                    ?x :healthStatus :Sick .
+                    ?job :isKindOf :Office .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Deny .
+                    ?x :avoidInfectingColleagues true .
+                } .
+                :R_SickProgHome a air:Rule .
+                :R_SickProgHome air:if {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Home .
+                    ?x :healthStatus :Sick .
+                } .
+                :R_SickProgHome air:then {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                {
+                    :Request_Jos_Prog_Office a :Request .
+                    :Request_Jos_Prog_Office :agent ?x .
+                    :Request_Jos_Prog_Office :job :ProgrammingWork .
+                    :Request_Jos_Prog_Office :location :Home .
+                    ?x :healthStatus :Sick .
+                } => {
+                    :Request_Jos_Prog_Office :decision :Permit .
+                    ?x :remoteWorkRecommended true .
+                } .
+                :Jos :has :Disease .
+                :ProgrammingWork :isKindOf :Work .
+                :Jos :healthStatus :Sick .
+                :Request_Jos_Prog_Home :decision :Deny .
+                :Request_Jos_Prog_Office :decision :Deny .
+                :Request_Jos_Prog_Home :decision :Permit .
+                :Jos :remoteWorkRecommended true .
+                :Jos :canDo :ProgrammingWork .
+                :Jos :canDo :Work .
+                :Request_Jos_Prog_Office :decision :Permit .
+            } .
+        }
+    ].

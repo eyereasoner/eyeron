@@ -1,0 +1,513 @@
+@prefix : <http://example.org/socrates#> .
+@prefix pa: <http://example.org/proof-audit#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+pa:test pa:root {
+    :Socrates a :Mortal .
+} .
+pa:test pa:answerApplied ("A" :Human) .
+pa:test pa:answerApplied ("B" :Mortal) .
+pa:test pa:answerApplied ("S" :Socrates) .
+{
+    :Socrates a :Mortal .
+} pa:dependsOn {
+    :Socrates a :Human .
+} .
+{
+    :Socrates a :Mortal .
+} pa:dependsOn {
+    :Human rdfs:subClassOf :Mortal .
+} .
+{
+    :Socrates a :Human .
+} pa:sourceFact true .
+{
+    :Human rdfs:subClassOf :Mortal .
+} pa:sourceFact true .
+pa:test pa:queryDependency {
+    :Socrates a :Human .
+} .
+pa:test pa:queryDependency {
+    :Human rdfs:subClassOf :Mortal .
+} .
+{
+    :Socrates a :Mortal .
+} pa:supportedBy {
+    :Socrates a :Human .
+} .
+{
+    :Socrates a :Mortal .
+} pa:supportedBy {
+    :Human rdfs:subClassOf :Mortal .
+} .
+{
+    :Socrates a :Human .
+} pa:supportedBy {
+    :Socrates a :Human .
+} .
+{
+    :Human rdfs:subClassOf :Mortal .
+} pa:supportedBy {
+    :Human rdfs:subClassOf :Mortal .
+} .
+pa:test pa:support {
+    :Socrates a :Human .
+} .
+pa:test pa:support {
+    :Human rdfs:subClassOf :Mortal .
+} .
+
+{
+  pa:test pa:root {
+      :Socrates a :Mortal .
+  } .
+}
+  pe:rule 6;
+  pe:binding
+    [ pe:var "root"; pe:value {
+        :Socrates a :Mortal .
+    } ],
+    [ pe:var "ruleName"; pe:value 1 ];
+  pe:uses
+    {
+        {
+            :Socrates a :Mortal .
+        } pe:rule 1 .
+    }.
+
+{
+  {
+      :Socrates a :Mortal .
+  } pe:rule 1 .
+}
+  pe:fact "proof-audit.n3".
+
+{ pa:test pa:answerApplied ("A" :Human) . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "bindingNode"; pe:value _:b1 ],
+    [ pe:var "name"; pe:value "A" ],
+    [ pe:var "root"; pe:value {
+        :Socrates a :Mortal .
+    } ],
+    [ pe:var "value"; pe:value :Human ];
+  pe:uses
+    {
+        {
+            :Socrates a :Mortal .
+        } pe:binding _:b1 .
+    },
+    { _:b1 pe:var "A" . },
+    { _:b1 pe:value :Human . },
+    {
+        pa:test pa:root {
+            :Socrates a :Mortal .
+        } .
+    }.
+
+{
+  {
+      :Socrates a :Mortal .
+  } pe:binding _:b1 .
+}
+  pe:fact "proof-audit.n3".
+
+{ _:b1 pe:var "A" . }
+  pe:fact "proof-audit.n3".
+
+{ _:b1 pe:value :Human . }
+  pe:fact "proof-audit.n3".
+
+{ pa:test pa:answerApplied ("B" :Mortal) . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "bindingNode"; pe:value _:b2 ],
+    [ pe:var "name"; pe:value "B" ],
+    [ pe:var "root"; pe:value {
+        :Socrates a :Mortal .
+    } ],
+    [ pe:var "value"; pe:value :Mortal ];
+  pe:uses
+    {
+        {
+            :Socrates a :Mortal .
+        } pe:binding _:b2 .
+    },
+    { _:b2 pe:var "B" . },
+    { _:b2 pe:value :Mortal . },
+    {
+        pa:test pa:root {
+            :Socrates a :Mortal .
+        } .
+    }.
+
+{
+  {
+      :Socrates a :Mortal .
+  } pe:binding _:b2 .
+}
+  pe:fact "proof-audit.n3".
+
+{ _:b2 pe:var "B" . }
+  pe:fact "proof-audit.n3".
+
+{ _:b2 pe:value :Mortal . }
+  pe:fact "proof-audit.n3".
+
+{ pa:test pa:answerApplied ("S" :Socrates) . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "bindingNode"; pe:value _:b3 ],
+    [ pe:var "name"; pe:value "S" ],
+    [ pe:var "root"; pe:value {
+        :Socrates a :Mortal .
+    } ],
+    [ pe:var "value"; pe:value :Socrates ];
+  pe:uses
+    {
+        {
+            :Socrates a :Mortal .
+        } pe:binding _:b3 .
+    },
+    { _:b3 pe:var "S" . },
+    { _:b3 pe:value :Socrates . },
+    {
+        pa:test pa:root {
+            :Socrates a :Mortal .
+        } .
+    }.
+
+{
+  {
+      :Socrates a :Mortal .
+  } pe:binding _:b3 .
+}
+  pe:fact "proof-audit.n3".
+
+{ _:b3 pe:var "S" . }
+  pe:fact "proof-audit.n3".
+
+{ _:b3 pe:value :Socrates . }
+  pe:fact "proof-audit.n3".
+
+{
+  {
+      :Socrates a :Mortal .
+  } pa:dependsOn {
+      :Socrates a :Human .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "dep"; pe:value {
+        :Socrates a :Human .
+    } ],
+    [ pe:var "step"; pe:value {
+        :Socrates a :Mortal .
+    } ];
+  pe:uses
+    {
+        {
+            :Socrates a :Mortal .
+        } pe:uses {
+            :Socrates a :Human .
+        } .
+    }.
+
+{
+  {
+      :Socrates a :Mortal .
+  } pe:uses {
+      :Socrates a :Human .
+  } .
+}
+  pe:fact "proof-audit.n3".
+
+{
+  {
+      :Socrates a :Mortal .
+  } pa:dependsOn {
+      :Human rdfs:subClassOf :Mortal .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "dep"; pe:value {
+        :Human rdfs:subClassOf :Mortal .
+    } ],
+    [ pe:var "step"; pe:value {
+        :Socrates a :Mortal .
+    } ];
+  pe:uses
+    {
+        {
+            :Socrates a :Mortal .
+        } pe:uses {
+            :Human rdfs:subClassOf :Mortal .
+        } .
+    }.
+
+{
+  {
+      :Socrates a :Mortal .
+  } pe:uses {
+      :Human rdfs:subClassOf :Mortal .
+  } .
+}
+  pe:fact "proof-audit.n3".
+
+{
+  {
+      :Socrates a :Human .
+  } pa:sourceFact true .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "src"; pe:value "socrates.n3" ],
+    [ pe:var "step"; pe:value {
+        :Socrates a :Human .
+    } ];
+  pe:uses
+    {
+        {
+            :Socrates a :Human .
+        } pe:fact "socrates.n3" .
+    }.
+
+{
+  {
+      :Socrates a :Human .
+  } pe:fact "socrates.n3" .
+}
+  pe:fact "proof-audit.n3".
+
+{
+  {
+      :Human rdfs:subClassOf :Mortal .
+  } pa:sourceFact true .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "src"; pe:value "socrates.n3" ],
+    [ pe:var "step"; pe:value {
+        :Human rdfs:subClassOf :Mortal .
+    } ];
+  pe:uses
+    {
+        {
+            :Human rdfs:subClassOf :Mortal .
+        } pe:fact "socrates.n3" .
+    }.
+
+{
+  {
+      :Human rdfs:subClassOf :Mortal .
+  } pe:fact "socrates.n3" .
+}
+  pe:fact "proof-audit.n3".
+
+{
+  pa:test pa:queryDependency {
+      :Socrates a :Human .
+  } .
+}
+  pe:rule 7;
+  pe:binding
+    [ pe:var "anc"; pe:value {
+        :Socrates a :Human .
+    } ],
+    [ pe:var "root"; pe:value {
+        :Socrates a :Mortal .
+    } ];
+  pe:uses
+    {
+        pa:test pa:root {
+            :Socrates a :Mortal .
+        } .
+    },
+    {
+        {
+            :Socrates a :Mortal .
+        } pa:dependsOn {
+            :Socrates a :Human .
+        } .
+    }.
+
+{
+  pa:test pa:queryDependency {
+      :Human rdfs:subClassOf :Mortal .
+  } .
+}
+  pe:rule 7;
+  pe:binding
+    [ pe:var "anc"; pe:value {
+        :Human rdfs:subClassOf :Mortal .
+    } ],
+    [ pe:var "root"; pe:value {
+        :Socrates a :Mortal .
+    } ];
+  pe:uses
+    {
+        pa:test pa:root {
+            :Socrates a :Mortal .
+        } .
+    },
+    {
+        {
+            :Socrates a :Mortal .
+        } pa:dependsOn {
+            :Human rdfs:subClassOf :Mortal .
+        } .
+    }.
+
+{
+  {
+      :Socrates a :Mortal .
+  } pa:supportedBy {
+      :Socrates a :Human .
+  } .
+}
+  pe:rule 5;
+  pe:binding
+    [ pe:var "anc"; pe:value {
+        :Socrates a :Human .
+    } ],
+    [ pe:var "step"; pe:value {
+        :Socrates a :Mortal .
+    } ];
+  pe:uses
+    {
+        {
+            :Socrates a :Mortal .
+        } pa:dependsOn {
+            :Socrates a :Human .
+        } .
+    },
+    {
+        {
+            :Socrates a :Human .
+        } pa:sourceFact true .
+    }.
+
+{
+  {
+      :Socrates a :Mortal .
+  } pa:supportedBy {
+      :Human rdfs:subClassOf :Mortal .
+  } .
+}
+  pe:rule 5;
+  pe:binding
+    [ pe:var "anc"; pe:value {
+        :Human rdfs:subClassOf :Mortal .
+    } ],
+    [ pe:var "step"; pe:value {
+        :Socrates a :Mortal .
+    } ];
+  pe:uses
+    {
+        {
+            :Socrates a :Mortal .
+        } pa:dependsOn {
+            :Human rdfs:subClassOf :Mortal .
+        } .
+    },
+    {
+        {
+            :Human rdfs:subClassOf :Mortal .
+        } pa:sourceFact true .
+    }.
+
+{
+  {
+      :Socrates a :Human .
+  } pa:supportedBy {
+      :Socrates a :Human .
+  } .
+}
+  pe:rule 4;
+  pe:binding
+    [ pe:var "step"; pe:value {
+        :Socrates a :Human .
+    } ];
+  pe:uses
+    {
+        {
+            :Socrates a :Human .
+        } pa:sourceFact true .
+    }.
+
+{
+  {
+      :Human rdfs:subClassOf :Mortal .
+  } pa:supportedBy {
+      :Human rdfs:subClassOf :Mortal .
+  } .
+}
+  pe:rule 4;
+  pe:binding
+    [ pe:var "step"; pe:value {
+        :Human rdfs:subClassOf :Mortal .
+    } ];
+  pe:uses
+    {
+        {
+            :Human rdfs:subClassOf :Mortal .
+        } pa:sourceFact true .
+    }.
+
+{
+  pa:test pa:support {
+      :Socrates a :Human .
+  } .
+}
+  pe:rule 8;
+  pe:binding
+    [ pe:var "fact"; pe:value {
+        :Socrates a :Human .
+    } ],
+    [ pe:var "root"; pe:value {
+        :Socrates a :Mortal .
+    } ];
+  pe:uses
+    {
+        pa:test pa:root {
+            :Socrates a :Mortal .
+        } .
+    },
+    {
+        {
+            :Socrates a :Mortal .
+        } pa:supportedBy {
+            :Socrates a :Human .
+        } .
+    }.
+
+{
+  pa:test pa:support {
+      :Human rdfs:subClassOf :Mortal .
+  } .
+}
+  pe:rule 8;
+  pe:binding
+    [ pe:var "fact"; pe:value {
+        :Human rdfs:subClassOf :Mortal .
+    } ],
+    [ pe:var "root"; pe:value {
+        :Socrates a :Mortal .
+    } ];
+  pe:uses
+    {
+        pa:test pa:root {
+            :Socrates a :Mortal .
+        } .
+    },
+    {
+        {
+            :Socrates a :Mortal .
+        } pa:supportedBy {
+            :Human rdfs:subClassOf :Mortal .
+        } .
+    }.

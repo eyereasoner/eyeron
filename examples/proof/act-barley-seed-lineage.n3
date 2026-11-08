@@ -1,0 +1,798 @@
+@prefix : <http://example.org/act/barley/cancant/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:mainGenome :can :GenomeCopyUnderNoDesignLaws .
+:fragileGenome :can :GenomeCopyUnderNoDesignLaws .
+:coatlessGenome :can :GenomeCopyUnderNoDesignLaws .
+:staticGenome :can :GenomeCopyUnderNoDesignLaws .
+:analogGenome :cannot :AccurateGenomeCopyUnderNoDesignLaws .
+:mainLine :can :AccurateSelfReproduction .
+:coatlessLine :can :AccurateSelfReproduction .
+:staticLine :can :AccurateSelfReproduction .
+:mainSeed :can :Germinate .
+:analogSeed :can :Germinate .
+:fragileSeed :can :Germinate .
+:coatlessSeed :can :Germinate .
+:staticSeed :can :Germinate .
+:mainAdult :can :PropaguleProduction .
+:analogAdult :can :PropaguleProduction .
+:fragileAdult :can :PropaguleProduction .
+:coatlessAdult :can :PropaguleProduction .
+:staticAdult :can :PropaguleProduction .
+:mainSeed :can :ProtectedDormancy .
+:mainLine :can :LineageClosure .
+:mainLine :can :HeritableVariation .
+:mainLine :can :AdaptivePersistence .
+:analogSeed :can :ProtectedDormancy .
+:analogLine :can :LineageClosure .
+:analogLine :can :HeritableVariation .
+:analogLine :cannot :AccurateSelfReproduction .
+:fragileSeed :can :ProtectedDormancy .
+:fragileLine :can :LineageClosure .
+:fragileLine :can :HeritableVariation .
+:fragileLine :cannot :ReliableDamageCorrection .
+:coatlessLine :can :HeritableVariation .
+:coatlessLine :can :AdaptivePersistence .
+:coatlessLine :cannot :ProtectedDormancy .
+:staticSeed :can :ProtectedDormancy .
+:staticLine :can :LineageClosure .
+:staticLine :cannot :AdaptiveEvolution .
+:mainLine a :EvolvableLineage .
+:analogLine :cannot :EvolvableLineage .
+:fragileLine :cannot :AccurateSelfReproduction .
+:coatlessLine :cannot :LineageClosure .
+:staticLine :cannot :AdaptivePersistence .
+:fragileLine :cannot :EvolvableLineage .
+:coatlessLine :cannot :EvolvableLineage .
+:staticLine :cannot :EvolvableLineage .
+
+{ :mainGenome :can :GenomeCopyUnderNoDesignLaws . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Genome"; pe:value :mainGenome ],
+    [ pe:var "Medium"; pe:value :dnaRegister ];
+  pe:uses
+    { :world :obeys :NoDesignLaws . },
+    { :mainGenome a :Replicator . },
+    { :mainGenome :storedIn :dnaRegister . },
+    { :dnaRegister a :DigitalInformationMedium . }.
+
+{ :world :obeys :NoDesignLaws . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainGenome a :Replicator . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainGenome :storedIn :dnaRegister . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :dnaRegister a :DigitalInformationMedium . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileGenome :can :GenomeCopyUnderNoDesignLaws . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Genome"; pe:value :fragileGenome ],
+    [ pe:var "Medium"; pe:value :dnaRegister ];
+  pe:uses
+    { :world :obeys :NoDesignLaws . },
+    { :fragileGenome a :Replicator . },
+    { :fragileGenome :storedIn :dnaRegister . },
+    { :dnaRegister a :DigitalInformationMedium . }.
+
+{ :fragileGenome a :Replicator . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileGenome :storedIn :dnaRegister . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessGenome :can :GenomeCopyUnderNoDesignLaws . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Genome"; pe:value :coatlessGenome ],
+    [ pe:var "Medium"; pe:value :dnaRegister ];
+  pe:uses
+    { :world :obeys :NoDesignLaws . },
+    { :coatlessGenome a :Replicator . },
+    { :coatlessGenome :storedIn :dnaRegister . },
+    { :dnaRegister a :DigitalInformationMedium . }.
+
+{ :coatlessGenome a :Replicator . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessGenome :storedIn :dnaRegister . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticGenome :can :GenomeCopyUnderNoDesignLaws . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Genome"; pe:value :staticGenome ],
+    [ pe:var "Medium"; pe:value :dnaRegister ];
+  pe:uses
+    { :world :obeys :NoDesignLaws . },
+    { :staticGenome a :Replicator . },
+    { :staticGenome :storedIn :dnaRegister . },
+    { :dnaRegister a :DigitalInformationMedium . }.
+
+{ :staticGenome a :Replicator . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticGenome :storedIn :dnaRegister . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogGenome :cannot :AccurateGenomeCopyUnderNoDesignLaws . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "Genome"; pe:value :analogGenome ],
+    [ pe:var "Medium"; pe:value :analogRegister ];
+  pe:uses
+    { :world :obeys :NoDesignLaws . },
+    { :analogGenome a :Replicator . },
+    { :analogGenome :storedIn :analogRegister . },
+    { :analogRegister a :NonDigitalInformationMedium . }.
+
+{ :analogGenome a :Replicator . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogGenome :storedIn :analogRegister . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogRegister a :NonDigitalInformationMedium . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainLine :can :AccurateSelfReproduction . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Genome"; pe:value :mainGenome ],
+    [ pe:var "Line"; pe:value :mainLine ],
+    [ pe:var "Repair"; pe:value :mainRepair ],
+    [ pe:var "Seed"; pe:value :mainSeed ],
+    [ pe:var "Vehicle"; pe:value :mainEmbryoVehicle ];
+  pe:uses
+    { :mainLine a :Lineage . },
+    { :mainLine :seedStage :mainSeed . },
+    { :mainLine :replicator :mainGenome . },
+    { :mainGenome :can :GenomeCopyUnderNoDesignLaws . },
+    { :mainSeed :hasVehicle :mainEmbryoVehicle . },
+    { :mainEmbryoVehicle :usesRepair :mainRepair . },
+    { :mainRepair a :RepairVehicle . },
+    { :zygote a :DevelopmentalBottleneck . }.
+
+{ :mainLine a :Lineage . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainLine :seedStage :mainSeed . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainLine :replicator :mainGenome . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainSeed :hasVehicle :mainEmbryoVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainEmbryoVehicle :usesRepair :mainRepair . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainRepair a :RepairVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :zygote a :DevelopmentalBottleneck . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessLine :can :AccurateSelfReproduction . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Genome"; pe:value :coatlessGenome ],
+    [ pe:var "Line"; pe:value :coatlessLine ],
+    [ pe:var "Repair"; pe:value :coatlessRepair ],
+    [ pe:var "Seed"; pe:value :coatlessSeed ],
+    [ pe:var "Vehicle"; pe:value :coatlessEmbryoVehicle ];
+  pe:uses
+    { :coatlessLine a :Lineage . },
+    { :coatlessLine :seedStage :coatlessSeed . },
+    { :coatlessLine :replicator :coatlessGenome . },
+    { :coatlessGenome :can :GenomeCopyUnderNoDesignLaws . },
+    { :coatlessSeed :hasVehicle :coatlessEmbryoVehicle . },
+    { :coatlessEmbryoVehicle :usesRepair :coatlessRepair . },
+    { :coatlessRepair a :RepairVehicle . },
+    { :zygote a :DevelopmentalBottleneck . }.
+
+{ :coatlessLine a :Lineage . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessLine :seedStage :coatlessSeed . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessLine :replicator :coatlessGenome . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessSeed :hasVehicle :coatlessEmbryoVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessEmbryoVehicle :usesRepair :coatlessRepair . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessRepair a :RepairVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticLine :can :AccurateSelfReproduction . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Genome"; pe:value :staticGenome ],
+    [ pe:var "Line"; pe:value :staticLine ],
+    [ pe:var "Repair"; pe:value :staticRepair ],
+    [ pe:var "Seed"; pe:value :staticSeed ],
+    [ pe:var "Vehicle"; pe:value :staticEmbryoVehicle ];
+  pe:uses
+    { :staticLine a :Lineage . },
+    { :staticLine :seedStage :staticSeed . },
+    { :staticLine :replicator :staticGenome . },
+    { :staticGenome :can :GenomeCopyUnderNoDesignLaws . },
+    { :staticSeed :hasVehicle :staticEmbryoVehicle . },
+    { :staticEmbryoVehicle :usesRepair :staticRepair . },
+    { :staticRepair a :RepairVehicle . },
+    { :zygote a :DevelopmentalBottleneck . }.
+
+{ :staticLine a :Lineage . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticLine :seedStage :staticSeed . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticLine :replicator :staticGenome . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticSeed :hasVehicle :staticEmbryoVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticEmbryoVehicle :usesRepair :staticRepair . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticRepair a :RepairVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainSeed :can :Germinate . }
+  pe:rule 3;
+  pe:binding [ pe:var "Seed"; pe:value :mainSeed ];
+  pe:uses
+    { :mainSeed a :Organism . },
+    { :mainSeed :lifeStage :DormantSeed . },
+    { :greenhouse :condition :WarmthAvailable . },
+    { :greenhouse :condition :MoistureAvailable . },
+    { :nutrientBed a :RawMaterialSupply . }.
+
+{ :mainSeed a :Organism . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainSeed :lifeStage :DormantSeed . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :greenhouse :condition :WarmthAvailable . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :greenhouse :condition :MoistureAvailable . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :nutrientBed a :RawMaterialSupply . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogSeed :can :Germinate . }
+  pe:rule 3;
+  pe:binding [ pe:var "Seed"; pe:value :analogSeed ];
+  pe:uses
+    { :analogSeed a :Organism . },
+    { :analogSeed :lifeStage :DormantSeed . },
+    { :greenhouse :condition :WarmthAvailable . },
+    { :greenhouse :condition :MoistureAvailable . },
+    { :nutrientBed a :RawMaterialSupply . }.
+
+{ :analogSeed a :Organism . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogSeed :lifeStage :DormantSeed . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileSeed :can :Germinate . }
+  pe:rule 3;
+  pe:binding [ pe:var "Seed"; pe:value :fragileSeed ];
+  pe:uses
+    { :fragileSeed a :Organism . },
+    { :fragileSeed :lifeStage :DormantSeed . },
+    { :greenhouse :condition :WarmthAvailable . },
+    { :greenhouse :condition :MoistureAvailable . },
+    { :nutrientBed a :RawMaterialSupply . }.
+
+{ :fragileSeed a :Organism . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileSeed :lifeStage :DormantSeed . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessSeed :can :Germinate . }
+  pe:rule 3;
+  pe:binding [ pe:var "Seed"; pe:value :coatlessSeed ];
+  pe:uses
+    { :coatlessSeed a :Organism . },
+    { :coatlessSeed :lifeStage :DormantSeed . },
+    { :greenhouse :condition :WarmthAvailable . },
+    { :greenhouse :condition :MoistureAvailable . },
+    { :nutrientBed a :RawMaterialSupply . }.
+
+{ :coatlessSeed a :Organism . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessSeed :lifeStage :DormantSeed . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticSeed :can :Germinate . }
+  pe:rule 3;
+  pe:binding [ pe:var "Seed"; pe:value :staticSeed ];
+  pe:uses
+    { :staticSeed a :Organism . },
+    { :staticSeed :lifeStage :DormantSeed . },
+    { :greenhouse :condition :WarmthAvailable . },
+    { :greenhouse :condition :MoistureAvailable . },
+    { :nutrientBed a :RawMaterialSupply . }.
+
+{ :staticSeed a :Organism . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticSeed :lifeStage :DormantSeed . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainAdult :can :PropaguleProduction . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Adult"; pe:value :mainAdult ],
+    [ pe:var "Vehicle"; pe:value :mainAdultVehicle ];
+  pe:uses
+    { :mainAdult a :Organism . },
+    { :mainAdult :lifeStage :AdultPlant . },
+    { :mainAdult :hasVehicle :mainAdultVehicle . },
+    { :mainAdultVehicle :function :GameteProduction . },
+    { :mainAdultVehicle :function :SeedConstruction . },
+    { :pollinationLoop a :ReproductionSupport . },
+    { :greenhouse :condition :LightAvailable . }.
+
+{ :mainAdult a :Organism . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainAdult :lifeStage :AdultPlant . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainAdult :hasVehicle :mainAdultVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainAdultVehicle :function :GameteProduction . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainAdultVehicle :function :SeedConstruction . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :pollinationLoop a :ReproductionSupport . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :greenhouse :condition :LightAvailable . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogAdult :can :PropaguleProduction . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Adult"; pe:value :analogAdult ],
+    [ pe:var "Vehicle"; pe:value :analogAdultVehicle ];
+  pe:uses
+    { :analogAdult a :Organism . },
+    { :analogAdult :lifeStage :AdultPlant . },
+    { :analogAdult :hasVehicle :analogAdultVehicle . },
+    { :analogAdultVehicle :function :GameteProduction . },
+    { :analogAdultVehicle :function :SeedConstruction . },
+    { :pollinationLoop a :ReproductionSupport . },
+    { :greenhouse :condition :LightAvailable . }.
+
+{ :analogAdult a :Organism . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogAdult :lifeStage :AdultPlant . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogAdult :hasVehicle :analogAdultVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogAdultVehicle :function :GameteProduction . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogAdultVehicle :function :SeedConstruction . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileAdult :can :PropaguleProduction . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Adult"; pe:value :fragileAdult ],
+    [ pe:var "Vehicle"; pe:value :fragileAdultVehicle ];
+  pe:uses
+    { :fragileAdult a :Organism . },
+    { :fragileAdult :lifeStage :AdultPlant . },
+    { :fragileAdult :hasVehicle :fragileAdultVehicle . },
+    { :fragileAdultVehicle :function :GameteProduction . },
+    { :fragileAdultVehicle :function :SeedConstruction . },
+    { :pollinationLoop a :ReproductionSupport . },
+    { :greenhouse :condition :LightAvailable . }.
+
+{ :fragileAdult a :Organism . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileAdult :lifeStage :AdultPlant . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileAdult :hasVehicle :fragileAdultVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileAdultVehicle :function :GameteProduction . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileAdultVehicle :function :SeedConstruction . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessAdult :can :PropaguleProduction . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Adult"; pe:value :coatlessAdult ],
+    [ pe:var "Vehicle"; pe:value :coatlessAdultVehicle ];
+  pe:uses
+    { :coatlessAdult a :Organism . },
+    { :coatlessAdult :lifeStage :AdultPlant . },
+    { :coatlessAdult :hasVehicle :coatlessAdultVehicle . },
+    { :coatlessAdultVehicle :function :GameteProduction . },
+    { :coatlessAdultVehicle :function :SeedConstruction . },
+    { :pollinationLoop a :ReproductionSupport . },
+    { :greenhouse :condition :LightAvailable . }.
+
+{ :coatlessAdult a :Organism . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessAdult :lifeStage :AdultPlant . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessAdult :hasVehicle :coatlessAdultVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessAdultVehicle :function :GameteProduction . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessAdultVehicle :function :SeedConstruction . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticAdult :can :PropaguleProduction . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "Adult"; pe:value :staticAdult ],
+    [ pe:var "Vehicle"; pe:value :staticAdultVehicle ];
+  pe:uses
+    { :staticAdult a :Organism . },
+    { :staticAdult :lifeStage :AdultPlant . },
+    { :staticAdult :hasVehicle :staticAdultVehicle . },
+    { :staticAdultVehicle :function :GameteProduction . },
+    { :staticAdultVehicle :function :SeedConstruction . },
+    { :pollinationLoop a :ReproductionSupport . },
+    { :greenhouse :condition :LightAvailable . }.
+
+{ :staticAdult a :Organism . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticAdult :lifeStage :AdultPlant . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticAdult :hasVehicle :staticAdultVehicle . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticAdultVehicle :function :GameteProduction . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticAdultVehicle :function :SeedConstruction . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainSeed :can :ProtectedDormancy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Compartment"; pe:value :mainSeedCoat ],
+    [ pe:var "Seed"; pe:value :mainSeed ];
+  pe:uses
+    { :mainSeed a :Organism . },
+    { :mainSeed :lifeStage :DormantSeed . },
+    { :mainSeed :hasCompartment :mainSeedCoat . },
+    { :mainSeedCoat :function :DormancyProtection . }.
+
+{ :mainSeed :hasCompartment :mainSeedCoat . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainSeedCoat :function :DormancyProtection . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainLine :can :LineageClosure . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Adult"; pe:value :mainAdult ],
+    [ pe:var "Line"; pe:value :mainLine ],
+    [ pe:var "Seed"; pe:value :mainSeed ];
+  pe:uses
+    { :mainLine a :Lineage . },
+    { :mainLine :seedStage :mainSeed . },
+    { :mainLine :adultStage :mainAdult . },
+    { :mainSeed :can :ProtectedDormancy . },
+    { :mainSeed :can :Germinate . },
+    { :mainAdult :can :PropaguleProduction . }.
+
+{ :mainLine :adultStage :mainAdult . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainLine :can :HeritableVariation . }
+  pe:rule 7;
+  pe:binding [ pe:var "Line"; pe:value :mainLine ];
+  pe:uses
+    { :mainLine a :Lineage . },
+    { :mainLine :variationStatus :Present . }.
+
+{ :mainLine :variationStatus :Present . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainLine :can :AdaptivePersistence . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Line"; pe:value :mainLine ],
+    [ pe:var "Variant"; pe:value :SaltTolerant ];
+  pe:uses
+    { :mainLine a :Lineage . },
+    { :mainLine :variant :SaltTolerant . },
+    { :mainLine :can :AccurateSelfReproduction . },
+    { :mainLine :can :HeritableVariation . },
+    { :salineBench :favours :SaltTolerant . }.
+
+{ :mainLine :variant :SaltTolerant . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :salineBench :favours :SaltTolerant . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogSeed :can :ProtectedDormancy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Compartment"; pe:value :analogSeedCoat ],
+    [ pe:var "Seed"; pe:value :analogSeed ];
+  pe:uses
+    { :analogSeed a :Organism . },
+    { :analogSeed :lifeStage :DormantSeed . },
+    { :analogSeed :hasCompartment :analogSeedCoat . },
+    { :analogSeedCoat :function :DormancyProtection . }.
+
+{ :analogSeed :hasCompartment :analogSeedCoat . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogSeedCoat :function :DormancyProtection . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogLine :can :LineageClosure . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Adult"; pe:value :analogAdult ],
+    [ pe:var "Line"; pe:value :analogLine ],
+    [ pe:var "Seed"; pe:value :analogSeed ];
+  pe:uses
+    { :analogLine a :Lineage . },
+    { :analogLine :seedStage :analogSeed . },
+    { :analogLine :adultStage :analogAdult . },
+    { :analogSeed :can :ProtectedDormancy . },
+    { :analogSeed :can :Germinate . },
+    { :analogAdult :can :PropaguleProduction . }.
+
+{ :analogLine a :Lineage . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogLine :seedStage :analogSeed . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogLine :adultStage :analogAdult . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogLine :can :HeritableVariation . }
+  pe:rule 7;
+  pe:binding [ pe:var "Line"; pe:value :analogLine ];
+  pe:uses
+    { :analogLine a :Lineage . },
+    { :analogLine :variationStatus :Present . }.
+
+{ :analogLine :variationStatus :Present . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :analogLine :cannot :AccurateSelfReproduction . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "Genome"; pe:value :analogGenome ],
+    [ pe:var "Line"; pe:value :analogLine ];
+  pe:uses
+    { :analogLine :replicator :analogGenome . },
+    { :analogGenome :cannot :AccurateGenomeCopyUnderNoDesignLaws . }.
+
+{ :analogLine :replicator :analogGenome . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileSeed :can :ProtectedDormancy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Compartment"; pe:value :fragileSeedCoat ],
+    [ pe:var "Seed"; pe:value :fragileSeed ];
+  pe:uses
+    { :fragileSeed a :Organism . },
+    { :fragileSeed :lifeStage :DormantSeed . },
+    { :fragileSeed :hasCompartment :fragileSeedCoat . },
+    { :fragileSeedCoat :function :DormancyProtection . }.
+
+{ :fragileSeed :hasCompartment :fragileSeedCoat . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileSeedCoat :function :DormancyProtection . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileLine :can :LineageClosure . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Adult"; pe:value :fragileAdult ],
+    [ pe:var "Line"; pe:value :fragileLine ],
+    [ pe:var "Seed"; pe:value :fragileSeed ];
+  pe:uses
+    { :fragileLine a :Lineage . },
+    { :fragileLine :seedStage :fragileSeed . },
+    { :fragileLine :adultStage :fragileAdult . },
+    { :fragileSeed :can :ProtectedDormancy . },
+    { :fragileSeed :can :Germinate . },
+    { :fragileAdult :can :PropaguleProduction . }.
+
+{ :fragileLine a :Lineage . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileLine :seedStage :fragileSeed . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileLine :adultStage :fragileAdult . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileLine :can :HeritableVariation . }
+  pe:rule 7;
+  pe:binding [ pe:var "Line"; pe:value :fragileLine ];
+  pe:uses
+    { :fragileLine a :Lineage . },
+    { :fragileLine :variationStatus :Present . }.
+
+{ :fragileLine :variationStatus :Present . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :fragileLine :cannot :ReliableDamageCorrection . }
+  pe:rule 12;
+  pe:binding [ pe:var "Line"; pe:value :fragileLine ];
+  pe:uses
+    { :fragileLine a :Lineage . },
+    { :fragileLine :lacksRepair true . }.
+
+{ :fragileLine :lacksRepair true . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessLine :can :HeritableVariation . }
+  pe:rule 7;
+  pe:binding [ pe:var "Line"; pe:value :coatlessLine ];
+  pe:uses
+    { :coatlessLine a :Lineage . },
+    { :coatlessLine :variationStatus :Present . }.
+
+{ :coatlessLine :variationStatus :Present . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessLine :can :AdaptivePersistence . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Line"; pe:value :coatlessLine ],
+    [ pe:var "Variant"; pe:value :SaltTolerant ];
+  pe:uses
+    { :coatlessLine a :Lineage . },
+    { :coatlessLine :variant :SaltTolerant . },
+    { :coatlessLine :can :AccurateSelfReproduction . },
+    { :coatlessLine :can :HeritableVariation . },
+    { :salineBench :favours :SaltTolerant . }.
+
+{ :coatlessLine :variant :SaltTolerant . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :coatlessLine :cannot :ProtectedDormancy . }
+  pe:rule 14;
+  pe:binding [ pe:var "Line"; pe:value :coatlessLine ];
+  pe:uses
+    { :coatlessLine a :Lineage . },
+    { :coatlessLine :lacksDormancyProtection true . }.
+
+{ :coatlessLine :lacksDormancyProtection true . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticSeed :can :ProtectedDormancy . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Compartment"; pe:value :staticSeedCoat ],
+    [ pe:var "Seed"; pe:value :staticSeed ];
+  pe:uses
+    { :staticSeed a :Organism . },
+    { :staticSeed :lifeStage :DormantSeed . },
+    { :staticSeed :hasCompartment :staticSeedCoat . },
+    { :staticSeedCoat :function :DormancyProtection . }.
+
+{ :staticSeed :hasCompartment :staticSeedCoat . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticSeedCoat :function :DormancyProtection . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticLine :can :LineageClosure . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Adult"; pe:value :staticAdult ],
+    [ pe:var "Line"; pe:value :staticLine ],
+    [ pe:var "Seed"; pe:value :staticSeed ];
+  pe:uses
+    { :staticLine a :Lineage . },
+    { :staticLine :seedStage :staticSeed . },
+    { :staticLine :adultStage :staticAdult . },
+    { :staticSeed :can :ProtectedDormancy . },
+    { :staticSeed :can :Germinate . },
+    { :staticAdult :can :PropaguleProduction . }.
+
+{ :staticLine :adultStage :staticAdult . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :staticLine :cannot :AdaptiveEvolution . }
+  pe:rule 16;
+  pe:binding [ pe:var "Line"; pe:value :staticLine ];
+  pe:uses
+    { :staticLine a :Lineage . },
+    { :staticLine :variationStatus :None . }.
+
+{ :staticLine :variationStatus :None . }
+  pe:fact "act-barley-seed-lineage.n3".
+
+{ :mainLine a :EvolvableLineage . }
+  pe:rule 9;
+  pe:binding [ pe:var "Line"; pe:value :mainLine ];
+  pe:uses
+    { :mainLine :can :LineageClosure . },
+    { :mainLine :can :AdaptivePersistence . }.
+
+{ :analogLine :cannot :EvolvableLineage . }
+  pe:rule 18;
+  pe:binding [ pe:var "Line"; pe:value :analogLine ];
+  pe:uses { :analogLine :cannot :AccurateSelfReproduction . }.
+
+{ :fragileLine :cannot :AccurateSelfReproduction . }
+  pe:rule 13;
+  pe:binding [ pe:var "Line"; pe:value :fragileLine ];
+  pe:uses { :fragileLine :cannot :ReliableDamageCorrection . }.
+
+{ :coatlessLine :cannot :LineageClosure . }
+  pe:rule 15;
+  pe:binding [ pe:var "Line"; pe:value :coatlessLine ];
+  pe:uses { :coatlessLine :cannot :ProtectedDormancy . }.
+
+{ :staticLine :cannot :AdaptivePersistence . }
+  pe:rule 17;
+  pe:binding [ pe:var "Line"; pe:value :staticLine ];
+  pe:uses { :staticLine :cannot :AdaptiveEvolution . }.
+
+{ :fragileLine :cannot :EvolvableLineage . }
+  pe:rule 18;
+  pe:binding [ pe:var "Line"; pe:value :fragileLine ];
+  pe:uses { :fragileLine :cannot :AccurateSelfReproduction . }.
+
+{ :coatlessLine :cannot :EvolvableLineage . }
+  pe:rule 20;
+  pe:binding [ pe:var "Line"; pe:value :coatlessLine ];
+  pe:uses { :coatlessLine :cannot :LineageClosure . }.
+
+{ :staticLine :cannot :EvolvableLineage . }
+  pe:rule 19;
+  pe:binding [ pe:var "Line"; pe:value :staticLine ];
+  pe:uses { :staticLine :cannot :AdaptivePersistence . }.

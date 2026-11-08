@@ -1,0 +1,99 @@
+# checked with obligations: 8 steps, 7 verified, 1 trusted
+@prefix : <http://example.org/#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:case :entails {
+    :alice :canAccess :PayrollLedger .
+} .
+:case :decision :ManualReviewRequired .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/odrl-policy-audit.n3";
+    pe:source "examples/odrl-policy-audit.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 8;
+    pe:verified 7;
+    pe:trusted 1;
+    pe:builtinSteps 3;
+    pe:factSteps 1;
+    pe:ruleSteps 4;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 5; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 13; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 10; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 15; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                :ticket-42 :request :PublishPolicySnapshot .
+                :policy-1 a odrl:Set .
+                :policy-1 odrl:permission _:b1 .
+                _:b1 odrl:assignee :alice .
+                _:b1 odrl:target :EmployeeHandbook .
+                _:b1 odrl:action odrl:read .
+                :policy-1 odrl:permission _:b2 .
+                _:b2 odrl:assignee :alice .
+                _:b2 odrl:target :PayrollLedger .
+                _:b2 odrl:action odrl:read .
+                :PayrollLedger a :SensitiveAsset .
+                :PayrollLedger a :PayrollAsset .
+                :EmployeeHandbook a :PublicAsset .
+                {
+                    ?Policy odrl:permission _:b3 .
+                    _:b3 odrl:assignee :alice .
+                    _:b3 odrl:target ?Asset .
+                    _:b3 odrl:action odrl:read .
+                } => {
+                    :alice :canRead ?Asset .
+                } .
+                {
+                    :alice :canRead ?Asset .
+                } => {
+                    :alice :canAccess ?Asset .
+                } .
+            } log:conclusion {
+                :ticket-42 :request :PublishPolicySnapshot .
+                :policy-1 a odrl:Set .
+                :policy-1 odrl:permission _:b1 .
+                _:b1 odrl:assignee :alice .
+                _:b1 odrl:target :EmployeeHandbook .
+                _:b1 odrl:action odrl:read .
+                :policy-1 odrl:permission _:b2 .
+                _:b2 odrl:assignee :alice .
+                _:b2 odrl:target :PayrollLedger .
+                _:b2 odrl:action odrl:read .
+                :PayrollLedger a :SensitiveAsset .
+                :PayrollLedger a :PayrollAsset .
+                :EmployeeHandbook a :PublicAsset .
+                {
+                    ?Policy odrl:permission _:b3 .
+                    _:b3 odrl:assignee :alice .
+                    _:b3 odrl:target ?Asset .
+                    _:b3 odrl:action odrl:read .
+                } => {
+                    :alice :canRead ?Asset .
+                } .
+                {
+                    :alice :canRead ?Asset .
+                } => {
+                    :alice :canAccess ?Asset .
+                } .
+                :alice :canRead :EmployeeHandbook .
+                :alice :canRead :PayrollLedger .
+                :alice :canAccess :EmployeeHandbook .
+                :alice :canAccess :PayrollLedger .
+            } .
+        }
+    ].

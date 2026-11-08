@@ -37,7 +37,7 @@ impl Kind {
 }
 
 /// The validity conditions of specification §9.4, in report order.
-pub const CONDITIONS: [(&str, &str); 9] = [
+pub const CONDITIONS: [(&str, &str); 10] = [
     ("C1", "resolution"),
     ("C2", "well-foundedness"),
     ("C3", "justification"),
@@ -46,7 +46,8 @@ pub const CONDITIONS: [(&str, &str); 9] = [
     ("C6", "boundary consistency"),
     ("C7", "relevance"),
     ("C8", "witness integrity"),
-    ("C9", "query isolation"),
+    ("C9", "search closure"),
+    ("C10", "call fidelity"),
 ];
 
 fn condition_index(condition: &str) -> usize {
@@ -81,7 +82,7 @@ pub struct Obligation {
 
 #[derive(Debug, Clone)]
 pub struct Failure {
-    /// The validity condition that failed: `"C1"`..`"C9"`.
+    /// The validity condition that failed: `"C1"`..`"C10"`.
     pub condition: &'static str,
     pub conclusion: String,
     pub detail: String,
@@ -189,11 +190,32 @@ pub trait Document {
         (0, Vec::new())
     }
 
-    /// (C9) Query applications justify output without adding premises or
-    /// rules to the inference graph. Query outputs need query support.
-    fn query_isolation(&self) -> (usize, Vec<(String, String)>) {
+    /// (C9) Settle current-graph tests with the proof's search
+    /// certificate (§9.6.1): which tests were settled, the steps of the
+    /// listed facts each one rests on, and the certificate's failures.
+    fn search_closure(&self) -> Closure {
+        Closure::default()
+    }
+
+    /// (C10) Each test is checked as its rule called it, and each output
+    /// claim is an answer of an original question that feeds no inference.
+    fn call_fidelity(&self) -> (usize, Vec<(String, String)>) {
         (0, Vec::new())
     }
+}
+
+/// What C9 established about the document's current-graph tests.
+#[derive(Default)]
+pub struct Closure {
+    /// How many tests and listings it examined.
+    pub examined: usize,
+    /// The steps whose test the certificate settles: verified rather than
+    /// trusted.
+    pub settled: Vec<usize>,
+    /// (test step, listed fact's step): the listed facts a settled test
+    /// rests on serve it (C7), without supporting it (C2).
+    pub serves: Vec<(usize, usize)>,
+    pub failures: Vec<(String, String)>,
 }
 
 /// What checking one step's justification found, and under which
@@ -237,15 +259,34 @@ pub fn check(document: &dyn Document) -> Report {
     // kind of justification examined (C3); rules and facts are
     // re-performed (C1), built-ins re-decided (C5).
     report.checked[condition_index("C3")] = document.step_count();
-    for index in 0..document.step_count() {
+    let mut trusted = vec![None; document.step_count()];
+    for (index, trust) in trusted.iter_mut().enumerate() {
         let StepCheck { condition, outcome } = document.check_step(index);
         if condition != "C3" {
             report.checked[condition_index(condition)] += 1;
         }
         match outcome {
             Ok(Checked::Verified) => report.verified += 1,
-            Ok(Checked::Trusted(kind)) => report.obligations.push(Obligation { kind, conclusion: document.describe(index) }),
+            Ok(Checked::Trusted(kind)) => *trust = Some(kind),
             Err(detail) => report.fail(condition, document.describe(index), detail),
+        }
+    }
+
+    // (C9) the search certificate settles what it can of the tests over
+    // the current graph; those are verified rather than trusted.
+    let closure = document.search_closure();
+    report.checked[condition_index("C9")] = closure.examined;
+    for index in closure.settled {
+        if trusted[index].take().is_some() {
+            report.verified += 1;
+        }
+    }
+    for (conclusion, detail) in closure.failures {
+        report.fail("C9", conclusion, detail);
+    }
+    for (index, trust) in trusted.into_iter().enumerate() {
+        if let Some(kind) = trust {
+            report.obligations.push(Obligation { kind, conclusion: document.describe(index) });
         }
     }
 
@@ -288,10 +329,15 @@ pub fn check(document: &dyn Document) -> Report {
             report.fail("C7", claim.clone(), detail);
         }
     }
+    let mut certified = vec![Vec::new(); document.step_count()];
+    for (test, listed) in closure.serves {
+        certified[test].push(listed);
+    }
     let mut serves = vec![false; document.step_count()];
     while let Some(index) = roots.pop() {
         if !std::mem::replace(&mut serves[index], true) {
             roots.extend(edges[index].iter().copied());
+            roots.extend(certified[index].iter().copied());
         }
     }
     for (index, serving) in serves.iter().enumerate() {
@@ -300,7 +346,7 @@ pub fn check(document: &dyn Document) -> Report {
         }
     }
 
-    for (condition, (examined, failures)) in [("C8", document.witnesses()), ("C9", document.query_isolation())] {
+    for (condition, (examined, failures)) in [("C8", document.witnesses()), ("C10", document.call_fidelity())] {
         report.checked[condition_index(condition)] = examined;
         for (conclusion, detail) in failures {
             report.fail(condition, conclusion, detail);

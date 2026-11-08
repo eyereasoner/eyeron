@@ -230,3 +230,39 @@ fn the_four_previously_invalid_example_proofs_check_when_generated() {
         .join()
         .unwrap();
 }
+
+#[test]
+fn proofs_settle_negations_over_derived_facts_with_a_search_certificate() {
+    let source = r#"
+        @prefix : <urn:pacifists:>.
+        @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+        :nixon a :Republican. :ada a :Quaker.
+        { ?x a :Republican } => { ?x a :NonPacifist }.
+        { ?x a :Quaker. ?g log:notIncludes { ?x a :NonPacifist } } => { ?x a :Pacifist }.
+        { ?x :likes :war } => { ?x :hawk true }.
+        { ?x a :Quaker. ?g log:notIncludes { ?x :hawk true } } => { ?x :dove true }.
+    "#;
+    let proof = checked_proof(source);
+    // Listed with every fact derived with it, and listed empty when none.
+    assert!(proof.contains("rdf:type pe:derived"), "{proof}");
+    assert!(proof.contains(":hawk pe:derived {}."), "{proof}");
+    let document = parse_n3_with_source(source, None, Some("test.n3")).unwrap();
+    let parsed = eyeron::proof_check_n3::N3Proof::read_document(&document, &proof).unwrap();
+    let report = eyeron::proof_check::check(&parsed);
+    assert!(report.obligations.is_empty(), "{:?}\n{proof}", report.obligations);
+}
+
+#[test]
+fn a_certificate_too_large_to_list_leaves_the_negation_an_obligation() {
+    let mut source = String::from("@prefix : <urn:items:>.\n@prefix log: <http://www.w3.org/2000/10/swap/log#>.\n:q a :Quaker.\n");
+    for item in 0..=10_000 {
+        source.push_str(&format!(":n{item} a :Item.\n"));
+    }
+    source.push_str("{ ?x a :Item } => { ?x :seen true }.\n");
+    source.push_str("{ ?x a :Quaker. ?g log:notIncludes { ?x :seen true } } => { ?x a :Pacifist }.\n");
+    // The query keeps the claim to the pacifist, whose proof needs no
+    // listing of the ten thousand items seen.
+    source.push_str("{ ?x a :Pacifist } log:query { ?x a :Pacifist }.\n");
+    let proof = checked_proof(&source);
+    assert!(!proof.contains("pe:derived"), "{proof}");
+}

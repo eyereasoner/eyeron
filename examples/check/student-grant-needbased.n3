@@ -1,0 +1,46 @@
+# checked with obligations: 15 steps, 13 verified, 2 trusted
+@prefix ex: <https://example.org/edu#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+ex:APP-GR-01 ex:eligible true .
+ex:APP-GR-01 ex:status ex:Approved .
+_:pay_b34d79284e364c3d a ex:GrantPayment .
+ex:APP-GR-01 ex:issuedPayment _:pay_b34d79284e364c3d .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/student-grant-needbased.n3";
+    pe:source "examples/student-grant-needbased.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 15;
+    pe:verified 13;
+    pe:trusted 2;
+    pe:builtinSteps 4;
+    pe:factSteps 7;
+    pe:ruleSteps 4;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 11; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 15; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 15; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 20; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 1; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 19; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 4; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:pay_b34d79284e364c3d a ex:GrantPayment .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:APP-GR-01 ex:issuedPayment _:pay_b34d79284e364c3d .
+        }
+    ].

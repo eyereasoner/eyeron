@@ -1,0 +1,432 @@
+@prefix : <https://example.org/odrl-dpv-fpv-trust-flow#> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix fpv: <https://example.org/fpv#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix risk: <https://w3id.org/dpv/risk#> .
+
+:FlowCare fpv:decision fpv:permit .
+:FlowCare fpv:confidence 0.92 .
+:FlowCare dpv:hasStatus fpv:ExecutableFlow .
+:FlowClinic fpv:decision fpv:review .
+:FlowClinic fpv:confidence 0.63 .
+:FlowClinic dpv:hasRisk risk:TrustworthinessRisk .
+:FlowAds fpv:decision fpv:deny .
+:FlowAds dpv:hasRisk risk:UnwantedDisclosureData .
+:FlowAds dpv:hasStatus fpv:BlockedFlow .
+
+{ :FlowCare fpv:decision fpv:permit . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "action"; pe:value dpv:Use ],
+    [ pe:var "data"; pe:value :LabResult ],
+    [ pe:var "flow"; pe:value :FlowCare ],
+    [ pe:var "minTrust"; pe:value 0.80 ],
+    [ pe:var "permission"; pe:value :PermitHealthcareResearch ],
+    [ pe:var "purpose"; pe:value dpv:Healthcare ],
+    [ pe:var "purposeConstraint"; pe:value :HealthcarePurpose ],
+    [ pe:var "recipient"; pe:value :ResearchPartner ],
+    [ pe:var "score"; pe:value 0.92 ],
+    [ pe:var "source"; pe:value :HospitalA ],
+    [ pe:var "trustConstraint"; pe:value :MinTrust ];
+  pe:uses
+    { :FlowCare a fpv:DataFlow . },
+    { :FlowCare fpv:source :HospitalA . },
+    { :FlowCare fpv:recipient :ResearchPartner . },
+    { :FlowCare fpv:data :LabResult . },
+    { :FlowCare fpv:processing dpv:Use . },
+    { :FlowCare fpv:purpose dpv:Healthcare . },
+    { :HospitalA :trustScore 0.92 . },
+    { :TrustPolicy odrl:permission :PermitHealthcareResearch . },
+    { :PermitHealthcareResearch odrl:assignee :ResearchPartner . },
+    { :PermitHealthcareResearch odrl:target :LabResult . },
+    { :PermitHealthcareResearch odrl:action dpv:Use . },
+    { :PermitHealthcareResearch odrl:constraint :HealthcarePurpose . },
+    { :PermitHealthcareResearch odrl:constraint :MinTrust . },
+    { :HealthcarePurpose odrl:leftOperand fpv:purpose . },
+    { :HealthcarePurpose odrl:operator odrl:isA . },
+    { :HealthcarePurpose odrl:rightOperand dpv:Healthcare . },
+    { :MinTrust odrl:leftOperand fpv:sourceTrust . },
+    { :MinTrust odrl:operator odrl:gteq . },
+    { :MinTrust odrl:rightOperand 0.80 . },
+    { 0.92 math:notLessThan 0.80 . }.
+
+{ :FlowCare a fpv:DataFlow . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowCare fpv:source :HospitalA . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowCare fpv:recipient :ResearchPartner . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowCare fpv:data :LabResult . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowCare fpv:processing dpv:Use . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowCare fpv:purpose dpv:Healthcare . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :HospitalA :trustScore 0.92 . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :TrustPolicy odrl:permission :PermitHealthcareResearch . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :PermitHealthcareResearch odrl:assignee :ResearchPartner . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :PermitHealthcareResearch odrl:target :LabResult . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :PermitHealthcareResearch odrl:action dpv:Use . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :PermitHealthcareResearch odrl:constraint :HealthcarePurpose . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :PermitHealthcareResearch odrl:constraint :MinTrust . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :HealthcarePurpose odrl:leftOperand fpv:purpose . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :HealthcarePurpose odrl:operator odrl:isA . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :HealthcarePurpose odrl:rightOperand dpv:Healthcare . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :MinTrust odrl:leftOperand fpv:sourceTrust . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :MinTrust odrl:operator odrl:gteq . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :MinTrust odrl:rightOperand 0.80 . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ 0.92 math:notLessThan 0.80 . }
+  pe:builtin math:notLessThan.
+
+{ :FlowCare fpv:confidence 0.92 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "action"; pe:value dpv:Use ],
+    [ pe:var "data"; pe:value :LabResult ],
+    [ pe:var "flow"; pe:value :FlowCare ],
+    [ pe:var "minTrust"; pe:value 0.80 ],
+    [ pe:var "permission"; pe:value :PermitHealthcareResearch ],
+    [ pe:var "purpose"; pe:value dpv:Healthcare ],
+    [ pe:var "purposeConstraint"; pe:value :HealthcarePurpose ],
+    [ pe:var "recipient"; pe:value :ResearchPartner ],
+    [ pe:var "score"; pe:value 0.92 ],
+    [ pe:var "source"; pe:value :HospitalA ],
+    [ pe:var "trustConstraint"; pe:value :MinTrust ];
+  pe:uses
+    { :FlowCare a fpv:DataFlow . },
+    { :FlowCare fpv:source :HospitalA . },
+    { :FlowCare fpv:recipient :ResearchPartner . },
+    { :FlowCare fpv:data :LabResult . },
+    { :FlowCare fpv:processing dpv:Use . },
+    { :FlowCare fpv:purpose dpv:Healthcare . },
+    { :HospitalA :trustScore 0.92 . },
+    { :TrustPolicy odrl:permission :PermitHealthcareResearch . },
+    { :PermitHealthcareResearch odrl:assignee :ResearchPartner . },
+    { :PermitHealthcareResearch odrl:target :LabResult . },
+    { :PermitHealthcareResearch odrl:action dpv:Use . },
+    { :PermitHealthcareResearch odrl:constraint :HealthcarePurpose . },
+    { :PermitHealthcareResearch odrl:constraint :MinTrust . },
+    { :HealthcarePurpose odrl:leftOperand fpv:purpose . },
+    { :HealthcarePurpose odrl:operator odrl:isA . },
+    { :HealthcarePurpose odrl:rightOperand dpv:Healthcare . },
+    { :MinTrust odrl:leftOperand fpv:sourceTrust . },
+    { :MinTrust odrl:operator odrl:gteq . },
+    { :MinTrust odrl:rightOperand 0.80 . },
+    { 0.92 math:notLessThan 0.80 . }.
+
+{ :FlowCare dpv:hasStatus fpv:ExecutableFlow . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "action"; pe:value dpv:Use ],
+    [ pe:var "data"; pe:value :LabResult ],
+    [ pe:var "flow"; pe:value :FlowCare ],
+    [ pe:var "minTrust"; pe:value 0.80 ],
+    [ pe:var "permission"; pe:value :PermitHealthcareResearch ],
+    [ pe:var "purpose"; pe:value dpv:Healthcare ],
+    [ pe:var "purposeConstraint"; pe:value :HealthcarePurpose ],
+    [ pe:var "recipient"; pe:value :ResearchPartner ],
+    [ pe:var "score"; pe:value 0.92 ],
+    [ pe:var "source"; pe:value :HospitalA ],
+    [ pe:var "trustConstraint"; pe:value :MinTrust ];
+  pe:uses
+    { :FlowCare a fpv:DataFlow . },
+    { :FlowCare fpv:source :HospitalA . },
+    { :FlowCare fpv:recipient :ResearchPartner . },
+    { :FlowCare fpv:data :LabResult . },
+    { :FlowCare fpv:processing dpv:Use . },
+    { :FlowCare fpv:purpose dpv:Healthcare . },
+    { :HospitalA :trustScore 0.92 . },
+    { :TrustPolicy odrl:permission :PermitHealthcareResearch . },
+    { :PermitHealthcareResearch odrl:assignee :ResearchPartner . },
+    { :PermitHealthcareResearch odrl:target :LabResult . },
+    { :PermitHealthcareResearch odrl:action dpv:Use . },
+    { :PermitHealthcareResearch odrl:constraint :HealthcarePurpose . },
+    { :PermitHealthcareResearch odrl:constraint :MinTrust . },
+    { :HealthcarePurpose odrl:leftOperand fpv:purpose . },
+    { :HealthcarePurpose odrl:operator odrl:isA . },
+    { :HealthcarePurpose odrl:rightOperand dpv:Healthcare . },
+    { :MinTrust odrl:leftOperand fpv:sourceTrust . },
+    { :MinTrust odrl:operator odrl:gteq . },
+    { :MinTrust odrl:rightOperand 0.80 . },
+    { 0.92 math:notLessThan 0.80 . }.
+
+{ :FlowClinic fpv:decision fpv:review . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "action"; pe:value dpv:Use ],
+    [ pe:var "data"; pe:value :LabResult ],
+    [ pe:var "flow"; pe:value :FlowClinic ],
+    [ pe:var "minTrust"; pe:value 0.80 ],
+    [ pe:var "permission"; pe:value :PermitHealthcareResearch ],
+    [ pe:var "purpose"; pe:value dpv:Healthcare ],
+    [ pe:var "purposeConstraint"; pe:value :HealthcarePurpose ],
+    [ pe:var "recipient"; pe:value :ResearchPartner ],
+    [ pe:var "score"; pe:value 0.63 ],
+    [ pe:var "source"; pe:value :SmallClinic ],
+    [ pe:var "trustConstraint"; pe:value :MinTrust ];
+  pe:uses
+    { :FlowClinic a fpv:DataFlow . },
+    { :FlowClinic fpv:source :SmallClinic . },
+    { :FlowClinic fpv:recipient :ResearchPartner . },
+    { :FlowClinic fpv:data :LabResult . },
+    { :FlowClinic fpv:processing dpv:Use . },
+    { :FlowClinic fpv:purpose dpv:Healthcare . },
+    { :SmallClinic :trustScore 0.63 . },
+    { :TrustPolicy odrl:permission :PermitHealthcareResearch . },
+    { :PermitHealthcareResearch odrl:assignee :ResearchPartner . },
+    { :PermitHealthcareResearch odrl:target :LabResult . },
+    { :PermitHealthcareResearch odrl:action dpv:Use . },
+    { :PermitHealthcareResearch odrl:constraint :HealthcarePurpose . },
+    { :PermitHealthcareResearch odrl:constraint :MinTrust . },
+    { :HealthcarePurpose odrl:leftOperand fpv:purpose . },
+    { :HealthcarePurpose odrl:operator odrl:isA . },
+    { :HealthcarePurpose odrl:rightOperand dpv:Healthcare . },
+    { :MinTrust odrl:leftOperand fpv:sourceTrust . },
+    { :MinTrust odrl:operator odrl:gteq . },
+    { :MinTrust odrl:rightOperand 0.80 . },
+    { 0.63 math:lessThan 0.80 . }.
+
+{ :FlowClinic a fpv:DataFlow . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowClinic fpv:source :SmallClinic . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowClinic fpv:recipient :ResearchPartner . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowClinic fpv:data :LabResult . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowClinic fpv:processing dpv:Use . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowClinic fpv:purpose dpv:Healthcare . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :SmallClinic :trustScore 0.63 . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ 0.63 math:lessThan 0.80 . }
+  pe:builtin math:lessThan.
+
+{ :FlowClinic fpv:confidence 0.63 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "action"; pe:value dpv:Use ],
+    [ pe:var "data"; pe:value :LabResult ],
+    [ pe:var "flow"; pe:value :FlowClinic ],
+    [ pe:var "minTrust"; pe:value 0.80 ],
+    [ pe:var "permission"; pe:value :PermitHealthcareResearch ],
+    [ pe:var "purpose"; pe:value dpv:Healthcare ],
+    [ pe:var "purposeConstraint"; pe:value :HealthcarePurpose ],
+    [ pe:var "recipient"; pe:value :ResearchPartner ],
+    [ pe:var "score"; pe:value 0.63 ],
+    [ pe:var "source"; pe:value :SmallClinic ],
+    [ pe:var "trustConstraint"; pe:value :MinTrust ];
+  pe:uses
+    { :FlowClinic a fpv:DataFlow . },
+    { :FlowClinic fpv:source :SmallClinic . },
+    { :FlowClinic fpv:recipient :ResearchPartner . },
+    { :FlowClinic fpv:data :LabResult . },
+    { :FlowClinic fpv:processing dpv:Use . },
+    { :FlowClinic fpv:purpose dpv:Healthcare . },
+    { :SmallClinic :trustScore 0.63 . },
+    { :TrustPolicy odrl:permission :PermitHealthcareResearch . },
+    { :PermitHealthcareResearch odrl:assignee :ResearchPartner . },
+    { :PermitHealthcareResearch odrl:target :LabResult . },
+    { :PermitHealthcareResearch odrl:action dpv:Use . },
+    { :PermitHealthcareResearch odrl:constraint :HealthcarePurpose . },
+    { :PermitHealthcareResearch odrl:constraint :MinTrust . },
+    { :HealthcarePurpose odrl:leftOperand fpv:purpose . },
+    { :HealthcarePurpose odrl:operator odrl:isA . },
+    { :HealthcarePurpose odrl:rightOperand dpv:Healthcare . },
+    { :MinTrust odrl:leftOperand fpv:sourceTrust . },
+    { :MinTrust odrl:operator odrl:gteq . },
+    { :MinTrust odrl:rightOperand 0.80 . },
+    { 0.63 math:lessThan 0.80 . }.
+
+{ :FlowClinic dpv:hasRisk risk:TrustworthinessRisk . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "action"; pe:value dpv:Use ],
+    [ pe:var "data"; pe:value :LabResult ],
+    [ pe:var "flow"; pe:value :FlowClinic ],
+    [ pe:var "minTrust"; pe:value 0.80 ],
+    [ pe:var "permission"; pe:value :PermitHealthcareResearch ],
+    [ pe:var "purpose"; pe:value dpv:Healthcare ],
+    [ pe:var "purposeConstraint"; pe:value :HealthcarePurpose ],
+    [ pe:var "recipient"; pe:value :ResearchPartner ],
+    [ pe:var "score"; pe:value 0.63 ],
+    [ pe:var "source"; pe:value :SmallClinic ],
+    [ pe:var "trustConstraint"; pe:value :MinTrust ];
+  pe:uses
+    { :FlowClinic a fpv:DataFlow . },
+    { :FlowClinic fpv:source :SmallClinic . },
+    { :FlowClinic fpv:recipient :ResearchPartner . },
+    { :FlowClinic fpv:data :LabResult . },
+    { :FlowClinic fpv:processing dpv:Use . },
+    { :FlowClinic fpv:purpose dpv:Healthcare . },
+    { :SmallClinic :trustScore 0.63 . },
+    { :TrustPolicy odrl:permission :PermitHealthcareResearch . },
+    { :PermitHealthcareResearch odrl:assignee :ResearchPartner . },
+    { :PermitHealthcareResearch odrl:target :LabResult . },
+    { :PermitHealthcareResearch odrl:action dpv:Use . },
+    { :PermitHealthcareResearch odrl:constraint :HealthcarePurpose . },
+    { :PermitHealthcareResearch odrl:constraint :MinTrust . },
+    { :HealthcarePurpose odrl:leftOperand fpv:purpose . },
+    { :HealthcarePurpose odrl:operator odrl:isA . },
+    { :HealthcarePurpose odrl:rightOperand dpv:Healthcare . },
+    { :MinTrust odrl:leftOperand fpv:sourceTrust . },
+    { :MinTrust odrl:operator odrl:gteq . },
+    { :MinTrust odrl:rightOperand 0.80 . },
+    { 0.63 math:lessThan 0.80 . }.
+
+{ :FlowAds fpv:decision fpv:deny . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "action"; pe:value dpv:Share ],
+    [ pe:var "data"; pe:value :LabResult ],
+    [ pe:var "flow"; pe:value :FlowAds ],
+    [ pe:var "prohibition"; pe:value :ProhibitMarketingDisclosure ],
+    [ pe:var "purpose"; pe:value dpv:Marketing ],
+    [ pe:var "purposeConstraint"; pe:value :MarketingPurpose ],
+    [ pe:var "recipient"; pe:value :AdNetwork ];
+  pe:uses
+    { :FlowAds a fpv:DataFlow . },
+    { :FlowAds fpv:recipient :AdNetwork . },
+    { :FlowAds fpv:data :LabResult . },
+    { :FlowAds fpv:processing dpv:Share . },
+    { :FlowAds fpv:purpose dpv:Marketing . },
+    { :TrustPolicy odrl:prohibition :ProhibitMarketingDisclosure . },
+    { :ProhibitMarketingDisclosure odrl:assignee :AdNetwork . },
+    { :ProhibitMarketingDisclosure odrl:target :LabResult . },
+    { :ProhibitMarketingDisclosure odrl:action dpv:Share . },
+    { :ProhibitMarketingDisclosure odrl:constraint :MarketingPurpose . },
+    { :MarketingPurpose odrl:leftOperand fpv:purpose . },
+    { :MarketingPurpose odrl:operator odrl:isA . },
+    { :MarketingPurpose odrl:rightOperand dpv:Marketing . }.
+
+{ :FlowAds a fpv:DataFlow . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowAds fpv:recipient :AdNetwork . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowAds fpv:data :LabResult . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowAds fpv:processing dpv:Share . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowAds fpv:purpose dpv:Marketing . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :TrustPolicy odrl:prohibition :ProhibitMarketingDisclosure . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :ProhibitMarketingDisclosure odrl:assignee :AdNetwork . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :ProhibitMarketingDisclosure odrl:target :LabResult . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :ProhibitMarketingDisclosure odrl:action dpv:Share . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :ProhibitMarketingDisclosure odrl:constraint :MarketingPurpose . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :MarketingPurpose odrl:leftOperand fpv:purpose . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :MarketingPurpose odrl:operator odrl:isA . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :MarketingPurpose odrl:rightOperand dpv:Marketing . }
+  pe:fact "odrl-dpv-fpv-trust-flow.n3".
+
+{ :FlowAds dpv:hasRisk risk:UnwantedDisclosureData . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "action"; pe:value dpv:Share ],
+    [ pe:var "data"; pe:value :LabResult ],
+    [ pe:var "flow"; pe:value :FlowAds ],
+    [ pe:var "prohibition"; pe:value :ProhibitMarketingDisclosure ],
+    [ pe:var "purpose"; pe:value dpv:Marketing ],
+    [ pe:var "purposeConstraint"; pe:value :MarketingPurpose ],
+    [ pe:var "recipient"; pe:value :AdNetwork ];
+  pe:uses
+    { :FlowAds a fpv:DataFlow . },
+    { :FlowAds fpv:recipient :AdNetwork . },
+    { :FlowAds fpv:data :LabResult . },
+    { :FlowAds fpv:processing dpv:Share . },
+    { :FlowAds fpv:purpose dpv:Marketing . },
+    { :TrustPolicy odrl:prohibition :ProhibitMarketingDisclosure . },
+    { :ProhibitMarketingDisclosure odrl:assignee :AdNetwork . },
+    { :ProhibitMarketingDisclosure odrl:target :LabResult . },
+    { :ProhibitMarketingDisclosure odrl:action dpv:Share . },
+    { :ProhibitMarketingDisclosure odrl:constraint :MarketingPurpose . },
+    { :MarketingPurpose odrl:leftOperand fpv:purpose . },
+    { :MarketingPurpose odrl:operator odrl:isA . },
+    { :MarketingPurpose odrl:rightOperand dpv:Marketing . }.
+
+{ :FlowAds dpv:hasStatus fpv:BlockedFlow . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "action"; pe:value dpv:Share ],
+    [ pe:var "data"; pe:value :LabResult ],
+    [ pe:var "flow"; pe:value :FlowAds ],
+    [ pe:var "prohibition"; pe:value :ProhibitMarketingDisclosure ],
+    [ pe:var "purpose"; pe:value dpv:Marketing ],
+    [ pe:var "purposeConstraint"; pe:value :MarketingPurpose ],
+    [ pe:var "recipient"; pe:value :AdNetwork ];
+  pe:uses
+    { :FlowAds a fpv:DataFlow . },
+    { :FlowAds fpv:recipient :AdNetwork . },
+    { :FlowAds fpv:data :LabResult . },
+    { :FlowAds fpv:processing dpv:Share . },
+    { :FlowAds fpv:purpose dpv:Marketing . },
+    { :TrustPolicy odrl:prohibition :ProhibitMarketingDisclosure . },
+    { :ProhibitMarketingDisclosure odrl:assignee :AdNetwork . },
+    { :ProhibitMarketingDisclosure odrl:target :LabResult . },
+    { :ProhibitMarketingDisclosure odrl:action dpv:Share . },
+    { :ProhibitMarketingDisclosure odrl:constraint :MarketingPurpose . },
+    { :MarketingPurpose odrl:leftOperand fpv:purpose . },
+    { :MarketingPurpose odrl:operator odrl:isA . },
+    { :MarketingPurpose odrl:rightOperand dpv:Marketing . }.

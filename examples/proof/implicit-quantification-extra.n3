@@ -1,0 +1,25 @@
+@prefix : <http://example.org/test#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:c :d :e .
+
+{ :c :d :e . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :a ],
+    [ pe:var "y"; pe:value {
+        :c :d :e .
+    } ];
+  pe:uses
+    {
+        :a :b {
+            :c :d :e .
+        } .
+    }.
+
+{
+  :a :b {
+      :c :d :e .
+  } .
+}
+  pe:fact "implicit-quantification-extra.n3".

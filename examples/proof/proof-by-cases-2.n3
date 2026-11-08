@@ -1,0 +1,86 @@
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:water :is :observable .
+
+{ :water :is :observable . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :water ],
+    [ pe:var "B"; pe:value ({
+        :water :is :solid .
+    } {
+        :water :is :liquid .
+    } {
+        :water :is :gas .
+    }) ],
+    [ pe:var "SCOPE"; pe:value _:forAllIn ];
+  pe:uses
+    {
+        (:water) log:allPossibleCases ({
+            :water :is :solid .
+        } {
+            :water :is :liquid .
+        } {
+            :water :is :gas .
+        }) .
+    },
+    {
+        ({
+            ({
+                :water :is :solid .
+            } {
+                :water :is :liquid .
+            } {
+                :water :is :gas .
+            }) list:member {
+                :water :is ?C .
+            } .
+        } {
+            {
+                :water :is ?C .
+            } => {
+                :water :is :observable .
+            } .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{
+  (:water) log:allPossibleCases ({
+      :water :is :solid .
+  } {
+      :water :is :liquid .
+  } {
+      :water :is :gas .
+  }) .
+}
+  pe:rule 1;
+  pe:binding [ pe:var "A"; pe:value :water ];
+  pe:uses { :water a :InorganicCompound . }.
+
+{ :water a :InorganicCompound . }
+  pe:fact "proof-by-cases-2.n3".
+
+{
+  ({
+      ({
+          :water :is :solid .
+      } {
+          :water :is :liquid .
+      } {
+          :water :is :gas .
+      }) list:member {
+          :water :is ?C .
+      } .
+  } {
+      {
+          :water :is ?C .
+      } => {
+          :water :is :observable .
+      } .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.

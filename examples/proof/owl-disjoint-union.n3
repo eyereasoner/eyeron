@@ -1,0 +1,134 @@
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:Cat owl:disjointWith :Dog .
+:Pet owl:unionOf (:Cat :Dog :Bird) .
+:Cat owl:disjointWith :Bird .
+:Dog owl:disjointWith :Cat .
+:Dog owl:disjointWith :Bird .
+:Bird owl:disjointWith :Cat .
+:Bird owl:disjointWith :Dog .
+
+{ :Cat owl:disjointWith :Dog . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Cat ],
+    [ pe:var "B"; pe:value :Dog ],
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "L"; pe:value (:Cat :Dog :Bird) ];
+  pe:uses
+    { :Pet owl:disjointUnionOf (:Cat :Dog :Bird) . },
+    { :Cat list:in (:Cat :Dog :Bird) . },
+    { :Dog list:in (:Cat :Dog :Bird) . },
+    { :Cat log:notEqualTo :Dog . }.
+
+{ :Pet owl:disjointUnionOf (:Cat :Dog :Bird) . }
+  pe:fact "owl-disjoint-union.n3".
+
+{ :Cat list:in (:Cat :Dog :Bird) . }
+  pe:builtin list:in.
+
+{ :Dog list:in (:Cat :Dog :Bird) . }
+  pe:builtin list:in.
+
+{ :Cat log:notEqualTo :Dog . }
+  pe:builtin log:notEqualTo.
+
+{ :Pet owl:unionOf (:Cat :Dog :Bird) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Cat ],
+    [ pe:var "B"; pe:value :Dog ],
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "L"; pe:value (:Cat :Dog :Bird) ];
+  pe:uses
+    { :Pet owl:disjointUnionOf (:Cat :Dog :Bird) . },
+    { :Cat list:in (:Cat :Dog :Bird) . },
+    { :Dog list:in (:Cat :Dog :Bird) . },
+    { :Cat log:notEqualTo :Dog . }.
+
+{ :Cat owl:disjointWith :Bird . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Cat ],
+    [ pe:var "B"; pe:value :Bird ],
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "L"; pe:value (:Cat :Dog :Bird) ];
+  pe:uses
+    { :Pet owl:disjointUnionOf (:Cat :Dog :Bird) . },
+    { :Cat list:in (:Cat :Dog :Bird) . },
+    { :Bird list:in (:Cat :Dog :Bird) . },
+    { :Cat log:notEqualTo :Bird . }.
+
+{ :Bird list:in (:Cat :Dog :Bird) . }
+  pe:builtin list:in.
+
+{ :Cat log:notEqualTo :Bird . }
+  pe:builtin log:notEqualTo.
+
+{ :Dog owl:disjointWith :Cat . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Dog ],
+    [ pe:var "B"; pe:value :Cat ],
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "L"; pe:value (:Cat :Dog :Bird) ];
+  pe:uses
+    { :Pet owl:disjointUnionOf (:Cat :Dog :Bird) . },
+    { :Dog list:in (:Cat :Dog :Bird) . },
+    { :Cat list:in (:Cat :Dog :Bird) . },
+    { :Dog log:notEqualTo :Cat . }.
+
+{ :Dog log:notEqualTo :Cat . }
+  pe:builtin log:notEqualTo.
+
+{ :Dog owl:disjointWith :Bird . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Dog ],
+    [ pe:var "B"; pe:value :Bird ],
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "L"; pe:value (:Cat :Dog :Bird) ];
+  pe:uses
+    { :Pet owl:disjointUnionOf (:Cat :Dog :Bird) . },
+    { :Dog list:in (:Cat :Dog :Bird) . },
+    { :Bird list:in (:Cat :Dog :Bird) . },
+    { :Dog log:notEqualTo :Bird . }.
+
+{ :Dog log:notEqualTo :Bird . }
+  pe:builtin log:notEqualTo.
+
+{ :Bird owl:disjointWith :Cat . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Bird ],
+    [ pe:var "B"; pe:value :Cat ],
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "L"; pe:value (:Cat :Dog :Bird) ];
+  pe:uses
+    { :Pet owl:disjointUnionOf (:Cat :Dog :Bird) . },
+    { :Bird list:in (:Cat :Dog :Bird) . },
+    { :Cat list:in (:Cat :Dog :Bird) . },
+    { :Bird log:notEqualTo :Cat . }.
+
+{ :Bird log:notEqualTo :Cat . }
+  pe:builtin log:notEqualTo.
+
+{ :Bird owl:disjointWith :Dog . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Bird ],
+    [ pe:var "B"; pe:value :Dog ],
+    [ pe:var "C"; pe:value :Pet ],
+    [ pe:var "L"; pe:value (:Cat :Dog :Bird) ];
+  pe:uses
+    { :Pet owl:disjointUnionOf (:Cat :Dog :Bird) . },
+    { :Bird list:in (:Cat :Dog :Bird) . },
+    { :Dog list:in (:Cat :Dog :Bird) . },
+    { :Bird log:notEqualTo :Dog . }.
+
+{ :Bird log:notEqualTo :Dog . }
+  pe:builtin log:notEqualTo.

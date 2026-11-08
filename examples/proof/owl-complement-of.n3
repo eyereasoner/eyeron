@@ -1,0 +1,31 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:Invertebrate owl:complementOf :Vertebrate .
+:Invertebrate owl:disjointWith :Vertebrate .
+:Vertebrate owl:disjointWith :Invertebrate .
+
+{ :Invertebrate owl:complementOf :Vertebrate . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Vertebrate ],
+    [ pe:var "D"; pe:value :Invertebrate ];
+  pe:uses { :Vertebrate owl:complementOf :Invertebrate . }.
+
+{ :Vertebrate owl:complementOf :Invertebrate . }
+  pe:fact "owl-complement-of.n3".
+
+{ :Invertebrate owl:disjointWith :Vertebrate . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :Vertebrate ],
+    [ pe:var "D"; pe:value :Invertebrate ];
+  pe:uses { :Vertebrate owl:complementOf :Invertebrate . }.
+
+{ :Vertebrate owl:disjointWith :Invertebrate . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :Invertebrate ],
+    [ pe:var "D"; pe:value :Vertebrate ];
+  pe:uses { :Invertebrate owl:complementOf :Vertebrate . }.

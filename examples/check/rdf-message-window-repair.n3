@@ -1,0 +1,95 @@
+# checked: 104 steps, 104 verified, 0 trusted
+@prefix : <https://eyereasoner.github.io/eyeling/examples/rdf-message-window-repair#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+<urn:eyeron:rdf-message-stream:1:envelope:1> :boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1:envelope:1> :offset 0 .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :offset 1 .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :offset 2 .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :offset 3 .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :offset 4 .
+:previousWindow :contains <urn:eyeron:rdf-message-stream:1:envelope:2> .
+:previousWindow :contains <urn:eyeron:rdf-message-stream:1:envelope:3> .
+:previousWindow :contains <urn:eyeron:rdf-message-stream:1:envelope:4> .
+:currentWindow :contains <urn:eyeron:rdf-message-stream:1:envelope:3> .
+:currentWindow :contains <urn:eyeron:rdf-message-stream:1:envelope:4> .
+:currentWindow :contains <urn:eyeron:rdf-message-stream:1:envelope:5> .
+:windowSlide :expired <urn:eyeron:rdf-message-stream:1:envelope:2> .
+:windowSlide :retained <urn:eyeron:rdf-message-stream:1:envelope:3> .
+:windowSlide :retained <urn:eyeron:rdf-message-stream:1:envelope:4> .
+:windowSlide :entered <urn:eyeron:rdf-message-stream:1:envelope:5> .
+:doorA :windowSize 3 .
+:doorA :repairPolicy :preferHigherPriority .
+:open :actionText "send a technician to inspect and close the fire door" .
+:open :stateText "open" .
+:closed :actionText "mark the fire compartment as sealed" .
+:closed :stateText "closed" .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :windowAssertion :reading-001 .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :doorState :closed .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :priority 1 .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :source "hallway-latch" .
+:previousWindow :hasDoorState :closed .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :windowAssertion :reading-002 .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :doorState :open .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :priority 1 .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :source "corridor-camera" .
+:previousWindow :hasDoorState :open .
+:currentWindow :hasDoorState :open .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :windowAssertion :reading-003 .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :doorState :closed .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :priority 1 .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :source "hallway-latch" .
+:currentWindow :hasDoorState :closed .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :windowAssertion :reading-004 .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :doorState :closed .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :priority 3 .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :source "safety-controller" .
+:currentWindow :rawConflict :doorOpenAndClosed .
+:currentWindow :inconsistentDoor :doorA .
+:currentWindow :preferredRepairState :closed .
+:currentWindow :preferredEvidence <urn:eyeron:rdf-message-stream:1:envelope:5> .
+:currentWindow :preferredSource "safety-controller" .
+:currentWindow :rejectsLowerPriority <urn:eyeron:rdf-message-stream:1:envelope:3> .
+:currentWindow :repairsInconsistency :doorOpenAndClosed .
+:currentWindow :resolvedDoorState :closed .
+:currentWindow :materializedActionText "mark the fire compartment as sealed" .
+:rdfMessageWindowRepairExample log:outputString "# rdf-message-window-repair\n\n## Source files\n\n- [N3 rules](../rdf-message-window-repair.n3)\n- [Input RDF Message Log](../input/rdf-message-window-repair.trig)\n- [Story deck](../deck/rdf-message-window-repair.md)\n\n## Answer\nSliding-window RDF Message repair accepted: 5 parser-replayed messages produced two overlapping 3-message ABox windows. The current window retained two envelopes from the previous window, expired one old door reading, and added one new safety-controller reading. Its raw graph-level materialization was inconsistent because doorA was both open and closed. The preferred repair kept the priority-3 assertion from safety-controller, resolved the door state to closed, and materialized the action: mark the fire compartment as sealed.\n\n## Explanation\nThe RDF Message Log uses VERSION \\\"1.2-messages\\\" and MESSAGE delimiters. Eyeron parses those boundaries into eymsg: envelopes and payload graphs; the rules inspect each payload with log:includes rather than merging message bodies by hand. The example mirrors a sliding-window stream-reasoning pattern: when the window advances, overlapping message evidence is retained, an expired assertion leaves the window, an entering assertion can change the materialization, and a preferred repair fixes a noisy open/closed contradiction before the final action is produced." .
+:rdfMessageWindowRepairExample :demonstrates :RDFMessageLogReplay .
+:rdfMessageWindowRepairExample :demonstrates :SlidingWindow .
+:rdfMessageWindowRepairExample :demonstrates :OverlappingWindows .
+:rdfMessageWindowRepairExample :demonstrates :ABoxStream .
+:rdfMessageWindowRepairExample :demonstrates :RawDoorInconsistency .
+:rdfMessageWindowRepairExample :demonstrates :PreferredRepair .
+:rdfMessageWindowRepairExample :demonstrates :IncrementalMaterialization .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/rdf-message-window-repair.n3";
+    pe:source "examples/rdf-message-window-repair.n3";
+    pe:source "examples/input/rdf-message-window-repair.trig";
+    pe:verdict pe:checked;
+    pe:steps 104;
+    pe:verified 104;
+    pe:trusted 0;
+    pe:builtinSteps 9;
+    pe:factSteps 32;
+    pe:ruleSteps 63;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 95; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 104; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 104; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 475; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 167; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 63; pe:failed 0 ].

@@ -1,0 +1,81 @@
+# checked: 41 steps, 41 verified, 0 trusted
+@prefix : <https://example.org/n3-speaks#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix id: <https://example.org/id/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:report :trusts <https://alice.example/profile.n3> .
+:report :trusts <https://bob.example/profile.n3> .
+:report :trusts <https://carol.example/profile.n3> .
+:report :believes {
+    id:alice foaf:name "Alice" .
+} .
+{
+    id:alice foaf:name "Alice" .
+} :believedFromDoc <https://alice.example/profile.n3> .
+:report :believes {
+    id:alice foaf:knows id:bob .
+} .
+{
+    id:alice foaf:knows id:bob .
+} :believedFromDoc <https://alice.example/profile.n3> .
+:report :believes {
+    id:bob foaf:name "Bob" .
+} .
+{
+    id:bob foaf:name "Bob" .
+} :believedFromDoc <https://bob.example/profile.n3> .
+:report :believes {
+    id:bob foaf:knows id:carol .
+} .
+{
+    id:bob foaf:knows id:carol .
+} :believedFromDoc <https://bob.example/profile.n3> .
+:report :believes {
+    id:carol foaf:name "Carol" .
+} .
+{
+    id:carol foaf:name "Carol" .
+} :believedFromDoc <https://carol.example/profile.n3> .
+:report :believes {
+    id:carol foaf:knows id:dave .
+} .
+{
+    id:carol foaf:knows id:dave .
+} :believedFromDoc <https://carol.example/profile.n3> .
+:report :believes {
+    id:dave foaf:name "Dave" .
+} .
+{
+    id:dave foaf:name "Dave" .
+} :believedFromDoc <https://carol.example/profile.n3> .
+:report :aliceReaches id:bob .
+:report :aliceReaches id:carol .
+:report :aliceReaches id:dave .
+:__md_output log:outputString "# n3-speaks-for-itself\n\n## Source files\n\n- [N3 rules](../n3-speaks-for-itself.n3)\n\n@prefix : <https://example.org/n3-speaks#> .\n@prefix foaf: <http://xmlns.com/foaf/0.1/> .\n@prefix id: <https://example.org/id/> .\n\n:report :aliceReaches id:bob .\n:report :aliceReaches id:carol .\n:report :aliceReaches id:dave .\n:report :believes {\n    id:alice foaf:knows id:bob .\n} .\n:report :believes {\n    id:alice foaf:name \"Alice\" .\n} .\n:report :believes {\n    id:bob foaf:knows id:carol .\n} .\n:report :believes {\n    id:bob foaf:name \"Bob\" .\n} .\n:report :believes {\n    id:carol foaf:knows id:dave .\n} .\n:report :believes {\n    id:carol foaf:name \"Carol\" .\n} .\n:report :believes {\n    id:dave foaf:name \"Dave\" .\n} .\n:report :trusts <https://alice.example/profile.n3> .\n:report :trusts <https://bob.example/profile.n3> .\n:report :trusts <https://carol.example/profile.n3> .\n{\n    id:alice foaf:knows id:bob .\n} :believedFromDoc <https://alice.example/profile.n3> .\n{\n    id:alice foaf:name \"Alice\" .\n} :believedFromDoc <https://alice.example/profile.n3> .\n{\n    id:bob foaf:knows id:carol .\n} :believedFromDoc <https://bob.example/profile.n3> .\n{\n    id:bob foaf:name \"Bob\" .\n} :believedFromDoc <https://bob.example/profile.n3> .\n{\n    id:carol foaf:knows id:dave .\n} :believedFromDoc <https://carol.example/profile.n3> .\n{\n    id:carol foaf:name \"Carol\" .\n} :believedFromDoc <https://carol.example/profile.n3> .\n{\n    id:dave foaf:name \"Dave\" .\n} :believedFromDoc <https://carol.example/profile.n3> .\n" .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/n3-speaks-for-itself.n3";
+    pe:source "examples/n3-speaks-for-itself.n3";
+    pe:verdict pe:checked;
+    pe:steps 41;
+    pe:verified 41;
+    pe:trusted 0;
+    pe:builtinSteps 7;
+    pe:factSteps 7;
+    pe:ruleSteps 27;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 34; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 41; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 41; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 105; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 7; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 62; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 132; pe:failed 0 ].

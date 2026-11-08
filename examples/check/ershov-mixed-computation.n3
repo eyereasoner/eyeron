@@ -1,0 +1,67 @@
+# checked with obligations: 8 steps, 7 verified, 1 trusted
+@prefix : <http://example.org/mix#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:specialization :residualProgram {
+    {
+        ?order :subtotal ?subtotal .
+        (?subtotal 0.90) math:product ?discounted .
+        (?discounted 5.00) math:sum ?final .
+    } => {
+        ?order :finalPrice ?final .
+    } .
+} .
+:futureOrder :computedByResidualProgram "95"^^xsd:decimal .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/ershov-mixed-computation.n3";
+    pe:source "examples/ershov-mixed-computation.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 8;
+    pe:verified 7;
+    pe:trusted 1;
+    pe:builtinSteps 3;
+    pe:factSteps 3;
+    pe:ruleSteps 2;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 5; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 10; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 2; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "impure built-in";
+        pe:statement {
+            {
+                {
+                    ?order :subtotal ?subtotal .
+                    (?subtotal 0.90) math:product ?discounted .
+                    (?discounted 5.00) math:sum ?final .
+                } => {
+                    ?order :finalPrice ?final .
+                } .
+                :futureOrder :subtotal 100.00 .
+            } log:conclusion {
+                {
+                    ?order :subtotal ?subtotal .
+                    (?subtotal 0.90) math:product ?discounted .
+                    (?discounted 5.00) math:sum ?final .
+                } => {
+                    ?order :finalPrice ?final .
+                } .
+                :futureOrder :subtotal 100.00 .
+                :futureOrder :finalPrice "95"^^xsd:decimal .
+            } .
+        }
+    ].

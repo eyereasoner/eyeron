@@ -1,0 +1,186 @@
+# checked with obligations: 98 steps, 74 verified, 24 trusted
+@prefix : <https://example.org/odrl-dpv-ehds-risk-ranked#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+(:AgreementEHDS1 :PatientProfileExample 0) log:outputString "# odrl-dpv-ehds-risk-ranked\n\n## Source files\n\n- [N3 rules](../odrl-dpv-ehds-risk-ranked.n3)\n\n## Ranked DPV Risk Report (EHDS-aligned)\n\n**Agreement:** EHDS Secondary Use Agreement (example)\n**Profile:** Example patient profile (EHDS rights expectations)\n\n" .
+(:AgreementEHDS1 :PatientProfileExample 1 900 "H1" 0 _:riskH1_7299718daead7eb1) log:outputString "### Clause H1 — score 100\n\n**Risk level:** `https://w3id.org/dpv/risk#HighRisk`\n**Severity:** `https://w3id.org/dpv/risk#HighSeverity`\n\nRisk: secondary use is permitted without an EHDS Data Permit safeguard. Clause H1: Hospital may provide electronic health data for secondary use based on a bilateral data use agreement with the applicant.\n\n" .
+(:AgreementEHDS1 :PatientProfileExample 1 900 "H2" 0 _:riskH2_efa7ddd6f8321a24) log:outputString "### Clause H2 — score 100\n\n**Risk level:** `https://w3id.org/dpv/risk#HighRisk`\n**Severity:** `https://w3id.org/dpv/risk#HighSeverity`\n\nRisk: secondary use may include patients who opted out (EHDS A71). Clause H2: Secondary use may include all patient records for training and evaluating health-related algorithms.\n\n" .
+(:AgreementEHDS1 :PatientProfileExample 1 912 "H3" 0 _:riskH3_fc196b9dc5c58ed6) log:outputString "### Clause H3 — score 88\n\n**Risk level:** `https://w3id.org/dpv/risk#HighRisk`\n**Severity:** `https://w3id.org/dpv/risk#HighSeverity`\n\nRisk: the agreement permits local downloads rather than processing within a secure processing environment. Clause H3: The applicant may download a complete local copy of the dataset to its own infrastructure for analysis.\n\n" .
+(:AgreementEHDS1 :PatientProfileExample 1 920 "H4" 0 _:riskH4_cece88d41ac6b3e0) log:outputString "### Clause H4 — score 80\n\n**Risk level:** `https://w3id.org/dpv/risk#HighRisk`\n**Severity:** `https://w3id.org/dpv/risk#HighSeverity`\n\nRisk: secondary-use dataset is only described as pseudonymised, without a safeguard requiring statistically anonymised data for secondary use. Clause H4: The dataset will be provided in pseudonymised form by removing direct identifiers.\n\n" .
+(:AgreementEHDS1 :PatientProfileExample 1 900 "H1" 1 _:riskH1_7299718daead7eb1 _:mH1_1_7299718daead7eb1) log:outputString "- **Mitigation for clause H1:** Require an EHDS Data Permit (eu-ehds:DataPermit) issued by a Health Data Access Body prior to secondary use.\n\n" .
+(:AgreementEHDS1 :PatientProfileExample 1 900 "H2" 1 _:riskH2_efa7ddd6f8321a24 _:mH2_1_efa7ddd6f8321a24) log:outputString "- **Mitigation for clause H2:** Add an explicit safeguard to exclude records of persons who exercised the EHDS opt-out from secondary use (A71).\n\n" .
+(:AgreementEHDS1 :PatientProfileExample 1 912 "H3" 1 _:riskH3_fc196b9dc5c58ed6 _:mH3_1_fc196b9dc5c58ed6) log:outputString "- **Mitigation for clause H3:** Require processing only within a secure processing environment (e.g., eu-dga:SecureProcessingEnvironment), and prohibit local downloads of raw datasets.\n\n" .
+(:AgreementEHDS1 :PatientProfileExample 1 920 "H4" 1 _:riskH4_cece88d41ac6b3e0 _:mH4_1_cece88d41ac6b3e0) log:outputString "- **Mitigation for clause H4:** Require an EHDS Health Data Request for statistically anonymised data (eu-ehds:HealthDataRequest), and add a constraint that secondary-use data must be statistically anonymised.\n\n" .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/odrl-dpv-ehds-risk-ranked.n3";
+    pe:source "examples/odrl-dpv-ehds-risk-ranked.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 98;
+    pe:verified 74;
+    pe:trusted 24;
+    pe:builtinSteps 34;
+    pe:factSteps 19;
+    pe:ruleSteps 45;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 64; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 98; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 98; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 341; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 34; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 107; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 28; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 386; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH1_7299718daead7eb1 a dpv:Risk .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH1_7299718daead7eb1 :scoreRaw 100 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH1_7299718daead7eb1 :aboutClause :ClauseH1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH1_7299718daead7eb1 dct:description "Risk: secondary use is permitted without an EHDS Data Permit safeguard. Clause H1: Hospital may provide electronic health data for secondary use based on a bilateral data use agreement with the applicant." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH2_efa7ddd6f8321a24 a dpv:Risk .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH2_efa7ddd6f8321a24 :scoreRaw 100 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH2_efa7ddd6f8321a24 :aboutClause :ClauseH2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH2_efa7ddd6f8321a24 dct:description "Risk: secondary use may include patients who opted out (EHDS A71). Clause H2: Secondary use may include all patient records for training and evaluating health-related algorithms." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH3_fc196b9dc5c58ed6 a dpv:Risk .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH3_fc196b9dc5c58ed6 :scoreRaw 88 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH3_fc196b9dc5c58ed6 :aboutClause :ClauseH3 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH3_fc196b9dc5c58ed6 dct:description "Risk: the agreement permits local downloads rather than processing within a secure processing environment. Clause H3: The applicant may download a complete local copy of the dataset to its own infrastructure for analysis." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH4_cece88d41ac6b3e0 a dpv:Risk .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH4_cece88d41ac6b3e0 :scoreRaw 80 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH4_cece88d41ac6b3e0 :aboutClause :ClauseH4 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH4_cece88d41ac6b3e0 dct:description "Risk: secondary-use dataset is only described as pseudonymised, without a safeguard requiring statistically anonymised data for secondary use. Clause H4: The dataset will be provided in pseudonymised form by removing direct identifiers." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH1_7299718daead7eb1 dpv:isMitigatedByMeasure _:mH1_1_7299718daead7eb1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:mH1_1_7299718daead7eb1 dct:description "Require an EHDS Data Permit (eu-ehds:DataPermit) issued by a Health Data Access Body prior to secondary use." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH2_efa7ddd6f8321a24 dpv:isMitigatedByMeasure _:mH2_1_efa7ddd6f8321a24 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:mH2_1_efa7ddd6f8321a24 dct:description "Add an explicit safeguard to exclude records of persons who exercised the EHDS opt-out from secondary use (A71)." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH3_fc196b9dc5c58ed6 dpv:isMitigatedByMeasure _:mH3_1_fc196b9dc5c58ed6 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:mH3_1_fc196b9dc5c58ed6 dct:description "Require processing only within a secure processing environment (e.g., eu-dga:SecureProcessingEnvironment), and prohibit local downloads of raw datasets." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:riskH4_cece88d41ac6b3e0 dpv:isMitigatedByMeasure _:mH4_1_cece88d41ac6b3e0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:mH4_1_cece88d41ac6b3e0 dct:description "Require an EHDS Health Data Request for statistically anonymised data (eu-ehds:HealthDataRequest), and add a constraint that secondary-use data must be statistically anonymised." .
+        }
+    ].

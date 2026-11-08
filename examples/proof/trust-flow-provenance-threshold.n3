@@ -1,0 +1,176 @@
+@prefix : <https://example.org/trust-flow-provenance-threshold#> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix fpv: <https://example.org/fpv#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix risk: <https://w3id.org/dpv/risk#> .
+
+:messageA fpv:confidence 0.8937599999999999 .
+:messageA fpv:trustFlowState fpv:accepted .
+:messageA dpv:hasStatus fpv:HighTrustFlow .
+:messageB fpv:confidence 0.41999999999999993 .
+:messageB fpv:trustFlowState fpv:quarantine .
+:messageB dpv:hasRisk risk:LowTrustDataSource .
+
+{ :messageA fpv:confidence 0.8937599999999999 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "confidence"; pe:value 0.8937599999999999 ],
+    [ pe:var "message"; pe:value :messageA ],
+    [ pe:var "publisher"; pe:value :PublisherA ],
+    [ pe:var "publisherTrust"; pe:value 0.95 ],
+    [ pe:var "quality"; pe:value 0.96 ],
+    [ pe:var "receiver"; pe:value :ReceiverApp ],
+    [ pe:var "signature"; pe:value :SignatureA ],
+    [ pe:var "signatureTrust"; pe:value 0.98 ],
+    [ pe:var "transform"; pe:value :TransformA ];
+  pe:uses
+    { :messageA a fpv:Message . },
+    { :messageA prov:wasAttributedTo :PublisherA . },
+    { :messageA prov:wasGeneratedBy :TransformA . },
+    { :messageA fpv:hasSignature :SignatureA . },
+    { :messageA fpv:receiver :ReceiverApp . },
+    { :PublisherA fpv:publisherTrust 0.95 . },
+    { :SignatureA fpv:signatureStrength 0.98 . },
+    { :TransformA fpv:qualityScore 0.96 . },
+    { (0.95 0.98 0.96) math:product 0.8937599999999999 . }.
+
+{ :messageA a fpv:Message . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :messageA prov:wasAttributedTo :PublisherA . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :messageA prov:wasGeneratedBy :TransformA . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :messageA fpv:hasSignature :SignatureA . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :messageA fpv:receiver :ReceiverApp . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :PublisherA fpv:publisherTrust 0.95 . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :SignatureA fpv:signatureStrength 0.98 . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :TransformA fpv:qualityScore 0.96 . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ (0.95 0.98 0.96) math:product 0.8937599999999999 . }
+  pe:builtin math:product.
+
+{ :messageA fpv:trustFlowState fpv:accepted . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "confidence"; pe:value 0.8937599999999999 ],
+    [ pe:var "message"; pe:value :messageA ],
+    [ pe:var "receiver"; pe:value :ReceiverApp ],
+    [ pe:var "threshold"; pe:value 0.85 ];
+  pe:uses
+    { :messageA fpv:confidence 0.8937599999999999 . },
+    { :messageA fpv:receiver :ReceiverApp . },
+    { :ReceiverApp fpv:acceptanceThreshold 0.85 . },
+    { 0.8937599999999999 math:notLessThan 0.85 . }.
+
+{ :ReceiverApp fpv:acceptanceThreshold 0.85 . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ 0.8937599999999999 math:notLessThan 0.85 . }
+  pe:builtin math:notLessThan.
+
+{ :messageA dpv:hasStatus fpv:HighTrustFlow . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "confidence"; pe:value 0.8937599999999999 ],
+    [ pe:var "message"; pe:value :messageA ],
+    [ pe:var "receiver"; pe:value :ReceiverApp ],
+    [ pe:var "threshold"; pe:value 0.85 ];
+  pe:uses
+    { :messageA fpv:confidence 0.8937599999999999 . },
+    { :messageA fpv:receiver :ReceiverApp . },
+    { :ReceiverApp fpv:acceptanceThreshold 0.85 . },
+    { 0.8937599999999999 math:notLessThan 0.85 . }.
+
+{ :messageB fpv:confidence 0.41999999999999993 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "confidence"; pe:value 0.41999999999999993 ],
+    [ pe:var "message"; pe:value :messageB ],
+    [ pe:var "publisher"; pe:value :PublisherB ],
+    [ pe:var "publisherTrust"; pe:value 0.70 ],
+    [ pe:var "quality"; pe:value 0.80 ],
+    [ pe:var "receiver"; pe:value :ReceiverApp ],
+    [ pe:var "signature"; pe:value :SignatureB ],
+    [ pe:var "signatureTrust"; pe:value 0.75 ],
+    [ pe:var "transform"; pe:value :TransformB ];
+  pe:uses
+    { :messageB a fpv:Message . },
+    { :messageB prov:wasAttributedTo :PublisherB . },
+    { :messageB prov:wasGeneratedBy :TransformB . },
+    { :messageB fpv:hasSignature :SignatureB . },
+    { :messageB fpv:receiver :ReceiverApp . },
+    { :PublisherB fpv:publisherTrust 0.70 . },
+    { :SignatureB fpv:signatureStrength 0.75 . },
+    { :TransformB fpv:qualityScore 0.80 . },
+    { (0.70 0.75 0.80) math:product 0.41999999999999993 . }.
+
+{ :messageB a fpv:Message . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :messageB prov:wasAttributedTo :PublisherB . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :messageB prov:wasGeneratedBy :TransformB . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :messageB fpv:hasSignature :SignatureB . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :messageB fpv:receiver :ReceiverApp . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :PublisherB fpv:publisherTrust 0.70 . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :SignatureB fpv:signatureStrength 0.75 . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ :TransformB fpv:qualityScore 0.80 . }
+  pe:fact "trust-flow-provenance-threshold.n3".
+
+{ (0.70 0.75 0.80) math:product 0.41999999999999993 . }
+  pe:builtin math:product.
+
+{ :messageB fpv:trustFlowState fpv:quarantine . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "confidence"; pe:value 0.41999999999999993 ],
+    [ pe:var "message"; pe:value :messageB ],
+    [ pe:var "receiver"; pe:value :ReceiverApp ],
+    [ pe:var "threshold"; pe:value 0.85 ];
+  pe:uses
+    { :messageB fpv:confidence 0.41999999999999993 . },
+    { :messageB fpv:receiver :ReceiverApp . },
+    { :ReceiverApp fpv:acceptanceThreshold 0.85 . },
+    { 0.41999999999999993 math:lessThan 0.85 . }.
+
+{ 0.41999999999999993 math:lessThan 0.85 . }
+  pe:builtin math:lessThan.
+
+{ :messageB dpv:hasRisk risk:LowTrustDataSource . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "confidence"; pe:value 0.41999999999999993 ],
+    [ pe:var "message"; pe:value :messageB ],
+    [ pe:var "receiver"; pe:value :ReceiverApp ],
+    [ pe:var "threshold"; pe:value 0.85 ];
+  pe:uses
+    { :messageB fpv:confidence 0.41999999999999993 . },
+    { :messageB fpv:receiver :ReceiverApp . },
+    { :ReceiverApp fpv:acceptanceThreshold 0.85 . },
+    { 0.41999999999999993 math:lessThan 0.85 . }.

@@ -1,0 +1,278 @@
+@prefix : <http://example.org/quantum#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:state1 :hasDecohered true .
+:state1 :selectedByEnvironment true .
+:alice :estimatesAmplitude 0.9 .
+:state5 :hasAmplitude 0.9 .
+:state5 a :QuantumState .
+:state5 :isPointerState true .
+:carol :estimatesAmplitude 0.4 .
+:state6 :hasAmplitude 0.4 .
+:state6 a :QuantumState .
+:state3 :hasDecohered true .
+:state3 :selectedByEnvironment true .
+:bob :estimatesAmplitude 0.9 .
+:dave :estimatesAmplitude 0.3 .
+:alice :agreesWith :bob .
+:state5 :entangledWith :state3 .
+:carol :disagreesWith :dave .
+:state6 :entangledWith :state4 .
+:state1 :isObservable true .
+:state5 :hasDecohered true .
+:state5 :selectedByEnvironment true .
+:state3 :isObservable true .
+:state5 :isObservable true .
+
+{ :state1 :hasDecohered true . }
+  pe:rule 1;
+  pe:binding [ pe:var "S"; pe:value :state1 ];
+  pe:uses
+    { :state1 a :QuantumState . },
+    { :state1 :isPointerState true . }.
+
+{ :state1 a :QuantumState . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state1 :isPointerState true . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state1 :selectedByEnvironment true . }
+  pe:rule 11;
+  pe:binding [ pe:var "S"; pe:value :state1 ];
+  pe:uses
+    { :state1 a :QuantumState . },
+    { :state1 :isPointerState true . }.
+
+{ :alice :estimatesAmplitude 0.9 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 0.9 ],
+    [ pe:var "O"; pe:value :alice ],
+    [ pe:var "S"; pe:value :state1 ];
+  pe:uses
+    { :alice :measures :state1 . },
+    { :state1 :hasAmplitude 0.9 . }.
+
+{ :alice :measures :state1 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state1 :hasAmplitude 0.9 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state5 :hasAmplitude 0.9 . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "A"; pe:value 0.9 ],
+    [ pe:var "S1"; pe:value :state1 ],
+    [ pe:var "S2"; pe:value :state5 ];
+  pe:uses
+    { :state1 :evolvesInto :state5 . },
+    { :state1 :hasAmplitude 0.9 . }.
+
+{ :state1 :evolvesInto :state5 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state5 a :QuantumState . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "A"; pe:value 0.9 ],
+    [ pe:var "S1"; pe:value :state1 ],
+    [ pe:var "S2"; pe:value :state5 ];
+  pe:uses
+    { :state1 :evolvesInto :state5 . },
+    { :state1 :hasAmplitude 0.9 . }.
+
+{ :state5 :isPointerState true . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "S1"; pe:value :state1 ],
+    [ pe:var "S2"; pe:value :state5 ];
+  pe:uses
+    { :state1 :evolvesInto :state5 . },
+    { :state1 :isPointerState true . }.
+
+{ :carol :estimatesAmplitude 0.4 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 0.4 ],
+    [ pe:var "O"; pe:value :carol ],
+    [ pe:var "S"; pe:value :state2 ];
+  pe:uses
+    { :carol :measures :state2 . },
+    { :state2 :hasAmplitude 0.4 . }.
+
+{ :carol :measures :state2 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state2 :hasAmplitude 0.4 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state6 :hasAmplitude 0.4 . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "A"; pe:value 0.4 ],
+    [ pe:var "S1"; pe:value :state2 ],
+    [ pe:var "S2"; pe:value :state6 ];
+  pe:uses
+    { :state2 :evolvesInto :state6 . },
+    { :state2 :hasAmplitude 0.4 . }.
+
+{ :state2 :evolvesInto :state6 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state6 a :QuantumState . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "A"; pe:value 0.4 ],
+    [ pe:var "S1"; pe:value :state2 ],
+    [ pe:var "S2"; pe:value :state6 ];
+  pe:uses
+    { :state2 :evolvesInto :state6 . },
+    { :state2 :hasAmplitude 0.4 . }.
+
+{ :state3 :hasDecohered true . }
+  pe:rule 1;
+  pe:binding [ pe:var "S"; pe:value :state3 ];
+  pe:uses
+    { :state3 a :QuantumState . },
+    { :state3 :isPointerState true . }.
+
+{ :state3 a :QuantumState . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state3 :isPointerState true . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state3 :selectedByEnvironment true . }
+  pe:rule 11;
+  pe:binding [ pe:var "S"; pe:value :state3 ];
+  pe:uses
+    { :state3 a :QuantumState . },
+    { :state3 :isPointerState true . }.
+
+{ :bob :estimatesAmplitude 0.9 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 0.9 ],
+    [ pe:var "O"; pe:value :bob ],
+    [ pe:var "S"; pe:value :state3 ];
+  pe:uses
+    { :bob :measures :state3 . },
+    { :state3 :hasAmplitude 0.9 . }.
+
+{ :bob :measures :state3 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state3 :hasAmplitude 0.9 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :dave :estimatesAmplitude 0.3 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value 0.3 ],
+    [ pe:var "O"; pe:value :dave ],
+    [ pe:var "S"; pe:value :state4 ];
+  pe:uses
+    { :dave :measures :state4 . },
+    { :state4 :hasAmplitude 0.3 . }.
+
+{ :dave :measures :state4 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state4 :hasAmplitude 0.3 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :alice :agreesWith :bob . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value 0.9 ],
+    [ pe:var "O1"; pe:value :alice ],
+    [ pe:var "O2"; pe:value :bob ],
+    [ pe:var "S1"; pe:value :state1 ],
+    [ pe:var "S2"; pe:value :state3 ];
+  pe:uses
+    { :alice :measures :state1 . },
+    { :bob :measures :state3 . },
+    { :state1 :entangledWith :state3 . },
+    { :alice :estimatesAmplitude 0.9 . },
+    { :bob :estimatesAmplitude 0.9 . },
+    { :state1 :hasDecohered true . },
+    { :state3 :hasDecohered true . }.
+
+{ :state1 :entangledWith :state3 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ :state5 :entangledWith :state3 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "S1"; pe:value :state1 ],
+    [ pe:var "S2"; pe:value :state5 ],
+    [ pe:var "S3"; pe:value :state3 ];
+  pe:uses
+    { :state1 :evolvesInto :state5 . },
+    { :state1 :entangledWith :state3 . }.
+
+{ :carol :disagreesWith :dave . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "A1"; pe:value 0.4 ],
+    [ pe:var "A2"; pe:value 0.3 ],
+    [ pe:var "O1"; pe:value :carol ],
+    [ pe:var "O2"; pe:value :dave ],
+    [ pe:var "S1"; pe:value :state2 ],
+    [ pe:var "S2"; pe:value :state4 ];
+  pe:uses
+    { :carol :measures :state2 . },
+    { :dave :measures :state4 . },
+    { :state2 :entangledWith :state4 . },
+    { :carol :estimatesAmplitude 0.4 . },
+    { :dave :estimatesAmplitude 0.3 . },
+    { 0.4 log:notEqualTo 0.3 . }.
+
+{ :state2 :entangledWith :state4 . }
+  pe:fact "quantum-darwinism.n3".
+
+{ 0.4 log:notEqualTo 0.3 . }
+  pe:builtin log:notEqualTo.
+
+{ :state6 :entangledWith :state4 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "S1"; pe:value :state2 ],
+    [ pe:var "S2"; pe:value :state6 ],
+    [ pe:var "S3"; pe:value :state4 ];
+  pe:uses
+    { :state2 :evolvesInto :state6 . },
+    { :state2 :entangledWith :state4 . }.
+
+{ :state1 :isObservable true . }
+  pe:rule 3;
+  pe:binding [ pe:var "S"; pe:value :state1 ];
+  pe:uses { :state1 :hasDecohered true . }.
+
+{ :state5 :hasDecohered true . }
+  pe:rule 1;
+  pe:binding [ pe:var "S"; pe:value :state5 ];
+  pe:uses
+    { :state5 a :QuantumState . },
+    { :state5 :isPointerState true . }.
+
+{ :state5 :selectedByEnvironment true . }
+  pe:rule 11;
+  pe:binding [ pe:var "S"; pe:value :state5 ];
+  pe:uses
+    { :state5 a :QuantumState . },
+    { :state5 :isPointerState true . }.
+
+{ :state3 :isObservable true . }
+  pe:rule 3;
+  pe:binding [ pe:var "S"; pe:value :state3 ];
+  pe:uses { :state3 :hasDecohered true . }.
+
+{ :state5 :isObservable true . }
+  pe:rule 3;
+  pe:binding [ pe:var "S"; pe:value :state5 ];
+  pe:uses { :state5 :hasDecohered true . }.

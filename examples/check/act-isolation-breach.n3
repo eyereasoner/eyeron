@@ -1,0 +1,594 @@
+# checked with obligations: 140 steps, 51 verified, 89 trusted
+@prefix : <http://example.org/isolation-breach/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:doorBeacon :can :PrepareInformationStates .
+:doorBeacon :can :LocalPermutation .
+:doorBeacon :can :LocalClone .
+:containmentPLC :can :PrepareInformationStates .
+:containmentPLC :can :LocalPermutation .
+:containmentPLC :can :LocalClone .
+:nursePager :can :PrepareInformationStates .
+:nursePager :can :LocalPermutation .
+:nursePager :can :LocalClone .
+:incidentBoard :can :PrepareInformationStates .
+:incidentBoard :can :LocalPermutation .
+:incidentBoard :can :LocalClone .
+:specimenSeal :cannot :UniversalClone .
+:specimenSeal :cannot :UnrestrictedParallelFanOut .
+(:doorBeacon :doorBeacon) :canCopy :BreachBit .
+(:doorBeacon :containmentPLC) :canCopy :BreachBit .
+(:doorBeacon :nursePager) :canCopy :BreachBit .
+(:doorBeacon :incidentBoard) :canCopy :BreachBit .
+(:containmentPLC :doorBeacon) :canCopy :BreachBit .
+(:nursePager :doorBeacon) :canCopy :BreachBit .
+(:incidentBoard :doorBeacon) :canCopy :BreachBit .
+(:containmentPLC :containmentPLC) :canCopy :BreachBit .
+(:containmentPLC :nursePager) :canCopy :BreachBit .
+(:containmentPLC :incidentBoard) :canCopy :BreachBit .
+(:nursePager :containmentPLC) :canCopy :BreachBit .
+(:incidentBoard :containmentPLC) :canCopy :BreachBit .
+(:nursePager :nursePager) :canCopy :BreachBit .
+(:nursePager :incidentBoard) :canCopy :BreachBit .
+(:incidentBoard :nursePager) :canCopy :BreachBit .
+(:incidentBoard :incidentBoard) :canCopy :BreachBit .
+:SerialNetwork a :PossibleTask .
+:ParallelNetwork a :PossibleTask .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/act-isolation-breach.n3";
+    pe:source "examples/act-isolation-breach.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 140;
+    pe:verified 51;
+    pe:trusted 89;
+    pe:factSteps 18;
+    pe:ruleSteps 122;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 140; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 140; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 140; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 578; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 19; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 172; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 89; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 686; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_aca6292e9274c721 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_aca6292e9274c721 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_aca6292e9274c721 :from :doorBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_aca6292e9274c721 :to :doorBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_aca6292e9274c721 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_6055d88164f1516e a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_6055d88164f1516e :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_6055d88164f1516e :from :doorBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_6055d88164f1516e :to :containmentPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_6055d88164f1516e :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_660d497814a710cd a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_660d497814a710cd :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_660d497814a710cd :from :doorBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_660d497814a710cd :to :nursePager .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_660d497814a710cd :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f1f5354d5f58c801 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f1f5354d5f58c801 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f1f5354d5f58c801 :from :doorBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f1f5354d5f58c801 :to :incidentBoard .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f1f5354d5f58c801 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_2c7502a35f7ec076 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_2c7502a35f7ec076 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_2c7502a35f7ec076 :from :containmentPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_2c7502a35f7ec076 :to :doorBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_2c7502a35f7ec076 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_4383061b6fe51069 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_4383061b6fe51069 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_4383061b6fe51069 :from :nursePager .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_4383061b6fe51069 :to :doorBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_4383061b6fe51069 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_5220167810ec18c7 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_5220167810ec18c7 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_5220167810ec18c7 :from :incidentBoard .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_5220167810ec18c7 :to :doorBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_5220167810ec18c7 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_a03ad614843f0149 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_a03ad614843f0149 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_a03ad614843f0149 :from :containmentPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_a03ad614843f0149 :to :containmentPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_a03ad614843f0149 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_b6bccdd16af08c0e a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_b6bccdd16af08c0e :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_b6bccdd16af08c0e :from :containmentPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_b6bccdd16af08c0e :to :nursePager .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_b6bccdd16af08c0e :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_7640d80fb31624a8 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_7640d80fb31624a8 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_7640d80fb31624a8 :from :containmentPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_7640d80fb31624a8 :to :incidentBoard .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_7640d80fb31624a8 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_6cb73c4c88207d26 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_6cb73c4c88207d26 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_6cb73c4c88207d26 :from :nursePager .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_6cb73c4c88207d26 :to :containmentPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_6cb73c4c88207d26 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f14081e2088527e0 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f14081e2088527e0 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f14081e2088527e0 :from :incidentBoard .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f14081e2088527e0 :to :containmentPLC .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f14081e2088527e0 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f6d4899944b28585 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f6d4899944b28585 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f6d4899944b28585 :from :nursePager .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f6d4899944b28585 :to :nursePager .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_f6d4899944b28585 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_9b35a9fbcb68eac9 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_9b35a9fbcb68eac9 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_9b35a9fbcb68eac9 :from :nursePager .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_9b35a9fbcb68eac9 :to :incidentBoard .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_9b35a9fbcb68eac9 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_490aeabb4b367c83 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_490aeabb4b367c83 :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_490aeabb4b367c83 :from :incidentBoard .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_490aeabb4b367c83 :to :nursePager .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_490aeabb4b367c83 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_465e1668a648d02f a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_465e1668a648d02f :kind :Copy .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_465e1668a648d02f :from :incidentBoard .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_465e1668a648d02f :to :incidentBoard .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_465e1668a648d02f :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b13_e0263202c02aa69 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_aca6292e9274c721 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_aca6292e9274c721 :kind :Measure .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_aca6292e9274c721 :from :doorBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_aca6292e9274c721 :to :doorBeacon .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_aca6292e9274c721 :variable :BreachBit .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b13_e0263202c02aa69 :kind :SerialNetwork .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b16_e0263202c02aa69 a :PossibleTask .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b16_e0263202c02aa69 :kind :ParallelNetwork .
+        }
+    ].

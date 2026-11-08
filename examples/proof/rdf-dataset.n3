@@ -1,0 +1,46 @@
+@prefix : <https://eyereasoner.github.io/eyeling/examples/rdf-dataset#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:workOrder :entails {
+    :sensor :needs :inspection .
+} .
+:__md_output log:outputString "# rdf-dataset\n\n## Source files\n\n- [N3 rules](../rdf-dataset.n3)\n- [Input TriG](../input/rdf-dataset.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/rdf-dataset#> .\n\n:workOrder :entails <<( :sensor :needs :inspection )>> .\n" .
+
+{
+  :workOrder :entails {
+      :sensor :needs :inspection .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "action"; pe:value :inspection ],
+    [ pe:var "condition"; pe:value :overheating ];
+  pe:uses
+    { :sensor :reports :overheating . },
+    { :overheating :requires :inspection . },
+    { :maintenanceSystem :trusted true . }.
+
+{ :sensor :reports :overheating . }
+  pe:fact "<unknown>".
+
+{ :overheating :requires :inspection . }
+  pe:fact "<unknown>".
+
+{ :maintenanceSystem :trusted true . }
+  pe:fact "<unknown>".
+
+{ :__md_output log:outputString "# rdf-dataset\n\n## Source files\n\n- [N3 rules](../rdf-dataset.n3)\n- [Input TriG](../input/rdf-dataset.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/rdf-dataset#> .\n\n:workOrder :entails <<( :sensor :needs :inspection )>> .\n" . }
+  pe:rule
+    {
+        {
+            :__md_output :text ?text .
+        } => {
+            :__md_output log:outputString ?text .
+        } .
+    };
+  pe:binding [ pe:var "text"; pe:value "# rdf-dataset\n\n## Source files\n\n- [N3 rules](../rdf-dataset.n3)\n- [Input TriG](../input/rdf-dataset.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/rdf-dataset#> .\n\n:workOrder :entails <<( :sensor :needs :inspection )>> .\n" ];
+  pe:uses { :__md_output :text "# rdf-dataset\n\n## Source files\n\n- [N3 rules](../rdf-dataset.n3)\n- [Input TriG](../input/rdf-dataset.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/rdf-dataset#> .\n\n:workOrder :entails <<( :sensor :needs :inspection )>> .\n" . }.
+
+{ :__md_output :text "# rdf-dataset\n\n## Source files\n\n- [N3 rules](../rdf-dataset.n3)\n- [Input TriG](../input/rdf-dataset.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/rdf-dataset#> .\n\n:workOrder :entails <<( :sensor :needs :inspection )>> .\n" . }
+  pe:fact "rdf-dataset.n3".

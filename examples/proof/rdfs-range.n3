@@ -1,0 +1,23 @@
+@prefix : <http://example.org/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:logic a :Subject .
+
+{ :logic a :Subject . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Subject ],
+    [ pe:var "P"; pe:value :teaches ],
+    [ pe:var "X"; pe:value :alice ],
+    [ pe:var "Y"; pe:value :logic ];
+  pe:uses
+    { :teaches rdfs:range :Subject . },
+    { :alice :teaches :logic . }.
+
+{ :teaches rdfs:range :Subject . }
+  pe:fact "rdfs-range.n3".
+
+{ :alice :teaches :logic . }
+  pe:fact "rdfs-range.n3".

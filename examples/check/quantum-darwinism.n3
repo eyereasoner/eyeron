@@ -1,0 +1,52 @@
+# checked: 39 steps, 39 verified, 0 trusted
+@prefix : <http://example.org/quantum#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:state1 :hasDecohered true .
+:state1 :selectedByEnvironment true .
+:alice :estimatesAmplitude 0.9 .
+:state5 :hasAmplitude 0.9 .
+:state5 a :QuantumState .
+:state5 :isPointerState true .
+:carol :estimatesAmplitude 0.4 .
+:state6 :hasAmplitude 0.4 .
+:state6 a :QuantumState .
+:state3 :hasDecohered true .
+:state3 :selectedByEnvironment true .
+:bob :estimatesAmplitude 0.9 .
+:dave :estimatesAmplitude 0.3 .
+:alice :agreesWith :bob .
+:state5 :entangledWith :state3 .
+:carol :disagreesWith :dave .
+:state6 :entangledWith :state4 .
+:state1 :isObservable true .
+:state5 :hasDecohered true .
+:state5 :selectedByEnvironment true .
+:state3 :isObservable true .
+:state5 :isObservable true .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/quantum-darwinism.n3";
+    pe:source "examples/quantum-darwinism.n3";
+    pe:verdict pe:checked;
+    pe:steps 39;
+    pe:verified 39;
+    pe:trusted 0;
+    pe:builtinSteps 1;
+    pe:factSteps 16;
+    pe:ruleSteps 22;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 38; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 39; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 39; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 72; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 1; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 61; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 22; pe:failed 0 ].

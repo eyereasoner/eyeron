@@ -1,0 +1,365 @@
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:sequences :collatz (1 (1)) .
+:sequences :collatz (2 (2 1)) .
+:sequences :collatz (3 (3 10 5 16 8 4 2 1)) .
+:sequences :collatz (4 (4 2 1)) .
+:sequences :collatz (5 (5 16 8 4 2 1)) .
+:sequences :collatz (6 (6 3 10 5 16 8 4 2 1)) .
+:sequences :collatz (8 (8 4 2 1)) .
+:sequences :collatz (10 (10 5 16 8 4 2 1)) .
+:sequences :collatz (16 (16 8 4 2 1)) .
+
+{ :sequences :collatz (1 (1)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "N"; pe:value 1 ],
+    [ pe:var "Sequence"; pe:value (1) ];
+  pe:uses
+    { (1 2 3 4 5 6 8 10 16) list:member 1 . },
+    { 1 :collatz (1) . }.
+
+{ (1 2 3 4 5 6 8 10 16) list:member 1 . }
+  pe:builtin list:member.
+
+{ 1 :collatz (1) . }
+  pe:rule 1.
+
+{ :sequences :collatz (2 (2 1)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "N"; pe:value 2 ],
+    [ pe:var "Sequence"; pe:value (2 1) ];
+  pe:uses
+    { (1 2 3 4 5 6 8 10 16) list:member 2 . },
+    { 2 :collatz (2 1) . }.
+
+{ (1 2 3 4 5 6 8 10 16) list:member 2 . }
+  pe:builtin list:member.
+
+{ 2 :collatz (2 1) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "N"; pe:value 2 ],
+    [ pe:var "Next"; pe:value 1 ],
+    [ pe:var "Parity"; pe:value 0 ],
+    [ pe:var "Sequence"; pe:value (2 1) ],
+    [ pe:var "Tail"; pe:value (1) ];
+  pe:uses
+    { 2 math:greaterThan 1 . },
+    { (2 2) math:remainder 0 . },
+    { 0 math:equalTo 0 . },
+    { (2 2) math:integerQuotient 1 . },
+    { 1 :collatz (1) . },
+    { (2 1) list:firstRest (2 (1)) . }.
+
+{ 2 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (2 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ 0 math:equalTo 0 . }
+  pe:builtin math:equalTo.
+
+{ (2 2) math:integerQuotient 1 . }
+  pe:builtin math:integerQuotient.
+
+{ (2 1) list:firstRest (2 (1)) . }
+  pe:builtin list:firstRest.
+
+{ :sequences :collatz (3 (3 10 5 16 8 4 2 1)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Sequence"; pe:value (3 10 5 16 8 4 2 1) ];
+  pe:uses
+    { (1 2 3 4 5 6 8 10 16) list:member 3 . },
+    { 3 :collatz (3 10 5 16 8 4 2 1) . }.
+
+{ (1 2 3 4 5 6 8 10 16) list:member 3 . }
+  pe:builtin list:member.
+
+{ 3 :collatz (3 10 5 16 8 4 2 1) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "N"; pe:value 3 ],
+    [ pe:var "Next"; pe:value 10 ],
+    [ pe:var "Parity"; pe:value 1 ],
+    [ pe:var "Sequence"; pe:value (3 10 5 16 8 4 2 1) ],
+    [ pe:var "Tail"; pe:value (10 5 16 8 4 2 1) ],
+    [ pe:var "Triple"; pe:value 9 ];
+  pe:uses
+    { 3 math:greaterThan 1 . },
+    { (3 2) math:remainder 1 . },
+    { 1 math:equalTo 1 . },
+    { (3 3) math:product 9 . },
+    { (9 1) math:sum 10 . },
+    { 10 :collatz (10 5 16 8 4 2 1) . },
+    { (3 10 5 16 8 4 2 1) list:firstRest (3 (10 5 16 8 4 2 1)) . }.
+
+{ 3 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (3 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ 1 math:equalTo 1 . }
+  pe:builtin math:equalTo.
+
+{ (3 3) math:product 9 . }
+  pe:builtin math:product.
+
+{ (9 1) math:sum 10 . }
+  pe:builtin math:sum.
+
+{ 10 :collatz (10 5 16 8 4 2 1) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "N"; pe:value 10 ],
+    [ pe:var "Next"; pe:value 5 ],
+    [ pe:var "Parity"; pe:value 0 ],
+    [ pe:var "Sequence"; pe:value (10 5 16 8 4 2 1) ],
+    [ pe:var "Tail"; pe:value (5 16 8 4 2 1) ];
+  pe:uses
+    { 10 math:greaterThan 1 . },
+    { (10 2) math:remainder 0 . },
+    { 0 math:equalTo 0 . },
+    { (10 2) math:integerQuotient 5 . },
+    { 5 :collatz (5 16 8 4 2 1) . },
+    { (10 5 16 8 4 2 1) list:firstRest (10 (5 16 8 4 2 1)) . }.
+
+{ 10 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (10 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (10 2) math:integerQuotient 5 . }
+  pe:builtin math:integerQuotient.
+
+{ 5 :collatz (5 16 8 4 2 1) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "N"; pe:value 5 ],
+    [ pe:var "Next"; pe:value 16 ],
+    [ pe:var "Parity"; pe:value 1 ],
+    [ pe:var "Sequence"; pe:value (5 16 8 4 2 1) ],
+    [ pe:var "Tail"; pe:value (16 8 4 2 1) ],
+    [ pe:var "Triple"; pe:value 15 ];
+  pe:uses
+    { 5 math:greaterThan 1 . },
+    { (5 2) math:remainder 1 . },
+    { 1 math:equalTo 1 . },
+    { (3 5) math:product 15 . },
+    { (15 1) math:sum 16 . },
+    { 16 :collatz (16 8 4 2 1) . },
+    { (5 16 8 4 2 1) list:firstRest (5 (16 8 4 2 1)) . }.
+
+{ 5 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (5 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ (3 5) math:product 15 . }
+  pe:builtin math:product.
+
+{ (15 1) math:sum 16 . }
+  pe:builtin math:sum.
+
+{ 16 :collatz (16 8 4 2 1) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "N"; pe:value 16 ],
+    [ pe:var "Next"; pe:value 8 ],
+    [ pe:var "Parity"; pe:value 0 ],
+    [ pe:var "Sequence"; pe:value (16 8 4 2 1) ],
+    [ pe:var "Tail"; pe:value (8 4 2 1) ];
+  pe:uses
+    { 16 math:greaterThan 1 . },
+    { (16 2) math:remainder 0 . },
+    { 0 math:equalTo 0 . },
+    { (16 2) math:integerQuotient 8 . },
+    { 8 :collatz (8 4 2 1) . },
+    { (16 8 4 2 1) list:firstRest (16 (8 4 2 1)) . }.
+
+{ 16 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (16 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (16 2) math:integerQuotient 8 . }
+  pe:builtin math:integerQuotient.
+
+{ 8 :collatz (8 4 2 1) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "N"; pe:value 8 ],
+    [ pe:var "Next"; pe:value 4 ],
+    [ pe:var "Parity"; pe:value 0 ],
+    [ pe:var "Sequence"; pe:value (8 4 2 1) ],
+    [ pe:var "Tail"; pe:value (4 2 1) ];
+  pe:uses
+    { 8 math:greaterThan 1 . },
+    { (8 2) math:remainder 0 . },
+    { 0 math:equalTo 0 . },
+    { (8 2) math:integerQuotient 4 . },
+    { 4 :collatz (4 2 1) . },
+    { (8 4 2 1) list:firstRest (8 (4 2 1)) . }.
+
+{ 8 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (8 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (8 2) math:integerQuotient 4 . }
+  pe:builtin math:integerQuotient.
+
+{ 4 :collatz (4 2 1) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Next"; pe:value 2 ],
+    [ pe:var "Parity"; pe:value 0 ],
+    [ pe:var "Sequence"; pe:value (4 2 1) ],
+    [ pe:var "Tail"; pe:value (2 1) ];
+  pe:uses
+    { 4 math:greaterThan 1 . },
+    { (4 2) math:remainder 0 . },
+    { 0 math:equalTo 0 . },
+    { (4 2) math:integerQuotient 2 . },
+    { 2 :collatz (2 1) . },
+    { (4 2 1) list:firstRest (4 (2 1)) . }.
+
+{ 4 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (4 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (4 2) math:integerQuotient 2 . }
+  pe:builtin math:integerQuotient.
+
+{ (4 2 1) list:firstRest (4 (2 1)) . }
+  pe:builtin list:firstRest.
+
+{ (8 4 2 1) list:firstRest (8 (4 2 1)) . }
+  pe:builtin list:firstRest.
+
+{ (16 8 4 2 1) list:firstRest (16 (8 4 2 1)) . }
+  pe:builtin list:firstRest.
+
+{ (5 16 8 4 2 1) list:firstRest (5 (16 8 4 2 1)) . }
+  pe:builtin list:firstRest.
+
+{ (10 5 16 8 4 2 1) list:firstRest (10 (5 16 8 4 2 1)) . }
+  pe:builtin list:firstRest.
+
+{ (3 10 5 16 8 4 2 1) list:firstRest (3 (10 5 16 8 4 2 1)) . }
+  pe:builtin list:firstRest.
+
+{ :sequences :collatz (4 (4 2 1)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "N"; pe:value 4 ],
+    [ pe:var "Sequence"; pe:value (4 2 1) ];
+  pe:uses
+    { (1 2 3 4 5 6 8 10 16) list:member 4 . },
+    { 4 :collatz (4 2 1) . }.
+
+{ (1 2 3 4 5 6 8 10 16) list:member 4 . }
+  pe:builtin list:member.
+
+{ :sequences :collatz (5 (5 16 8 4 2 1)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "N"; pe:value 5 ],
+    [ pe:var "Sequence"; pe:value (5 16 8 4 2 1) ];
+  pe:uses
+    { (1 2 3 4 5 6 8 10 16) list:member 5 . },
+    { 5 :collatz (5 16 8 4 2 1) . }.
+
+{ (1 2 3 4 5 6 8 10 16) list:member 5 . }
+  pe:builtin list:member.
+
+{ :sequences :collatz (6 (6 3 10 5 16 8 4 2 1)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "N"; pe:value 6 ],
+    [ pe:var "Sequence"; pe:value (6 3 10 5 16 8 4 2 1) ];
+  pe:uses
+    { (1 2 3 4 5 6 8 10 16) list:member 6 . },
+    { 6 :collatz (6 3 10 5 16 8 4 2 1) . }.
+
+{ (1 2 3 4 5 6 8 10 16) list:member 6 . }
+  pe:builtin list:member.
+
+{ 6 :collatz (6 3 10 5 16 8 4 2 1) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "N"; pe:value 6 ],
+    [ pe:var "Next"; pe:value 3 ],
+    [ pe:var "Parity"; pe:value 0 ],
+    [ pe:var "Sequence"; pe:value (6 3 10 5 16 8 4 2 1) ],
+    [ pe:var "Tail"; pe:value (3 10 5 16 8 4 2 1) ];
+  pe:uses
+    { 6 math:greaterThan 1 . },
+    { (6 2) math:remainder 0 . },
+    { 0 math:equalTo 0 . },
+    { (6 2) math:integerQuotient 3 . },
+    { 3 :collatz (3 10 5 16 8 4 2 1) . },
+    { (6 3 10 5 16 8 4 2 1) list:firstRest (6 (3 10 5 16 8 4 2 1)) . }.
+
+{ 6 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ (6 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (6 2) math:integerQuotient 3 . }
+  pe:builtin math:integerQuotient.
+
+{ (6 3 10 5 16 8 4 2 1) list:firstRest (6 (3 10 5 16 8 4 2 1)) . }
+  pe:builtin list:firstRest.
+
+{ :sequences :collatz (8 (8 4 2 1)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "N"; pe:value 8 ],
+    [ pe:var "Sequence"; pe:value (8 4 2 1) ];
+  pe:uses
+    { (1 2 3 4 5 6 8 10 16) list:member 8 . },
+    { 8 :collatz (8 4 2 1) . }.
+
+{ (1 2 3 4 5 6 8 10 16) list:member 8 . }
+  pe:builtin list:member.
+
+{ :sequences :collatz (10 (10 5 16 8 4 2 1)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "N"; pe:value 10 ],
+    [ pe:var "Sequence"; pe:value (10 5 16 8 4 2 1) ];
+  pe:uses
+    { (1 2 3 4 5 6 8 10 16) list:member 10 . },
+    { 10 :collatz (10 5 16 8 4 2 1) . }.
+
+{ (1 2 3 4 5 6 8 10 16) list:member 10 . }
+  pe:builtin list:member.
+
+{ :sequences :collatz (16 (16 8 4 2 1)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "N"; pe:value 16 ],
+    [ pe:var "Sequence"; pe:value (16 8 4 2 1) ];
+  pe:uses
+    { (1 2 3 4 5 6 8 10 16) list:member 16 . },
+    { 16 :collatz (16 8 4 2 1) . }.
+
+{ (1 2 3 4 5 6 8 10 16) list:member 16 . }
+  pe:builtin list:member.

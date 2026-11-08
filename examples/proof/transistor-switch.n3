@@ -1,0 +1,281 @@
+@prefix : <http://example.org/transistor-switch#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:low :collectorCurrentUa 0 .
+:low :collectorEmitterVoltageMv 5000 .
+:low :stateLabel "cutoff / OFF" .
+:high :collectorCurrentUa 4800 .
+:high :collectorEmitterVoltageMv 200 .
+:high :stateLabel "saturation / ON" .
+
+{ :low :collectorCurrentUa 0 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "state"; pe:value :low ],
+    [ pe:var "vbe"; pe:value 700 ],
+    [ pe:var "vcc"; pe:value 5000 ],
+    [ pe:var "vin"; pe:value 0 ];
+  pe:uses
+    { :low list:in (:low :high) . },
+    { :low :inputMv 0 . },
+    { :case :vbeOnMv 700 . },
+    { 0 math:notGreaterThan 700 . },
+    { :case :supplyMv 5000 . }.
+
+{ :low list:in (:low :high) . }
+  pe:builtin list:in.
+
+{ :low :inputMv 0 . }
+  pe:fact "transistor-switch.n3".
+
+{ :case :vbeOnMv 700 . }
+  pe:fact "transistor-switch.n3".
+
+{ 0 math:notGreaterThan 700 . }
+  pe:builtin math:notGreaterThan.
+
+{ :case :supplyMv 5000 . }
+  pe:fact "transistor-switch.n3".
+
+{ :low :collectorEmitterVoltageMv 5000 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "state"; pe:value :low ],
+    [ pe:var "vbe"; pe:value 700 ],
+    [ pe:var "vcc"; pe:value 5000 ],
+    [ pe:var "vin"; pe:value 0 ];
+  pe:uses
+    { :low list:in (:low :high) . },
+    { :low :inputMv 0 . },
+    { :case :vbeOnMv 700 . },
+    { 0 math:notGreaterThan 700 . },
+    { :case :supplyMv 5000 . }.
+
+{ :low :stateLabel "cutoff / OFF" . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "state"; pe:value :low ],
+    [ pe:var "vbe"; pe:value 700 ],
+    [ pe:var "vcc"; pe:value 5000 ],
+    [ pe:var "vin"; pe:value 0 ];
+  pe:uses
+    { :low list:in (:low :high) . },
+    { :low :inputMv 0 . },
+    { :case :vbeOnMv 700 . },
+    { 0 math:notGreaterThan 700 . },
+    { :case :supplyMv 5000 . }.
+
+{ :high :collectorCurrentUa 4800 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "gainLimit"; pe:value 43000 ],
+    [ pe:var "loadLimit"; pe:value 4800 ],
+    [ pe:var "loadVoltageMv"; pe:value 4800 ],
+    [ pe:var "loadVoltageNumerator"; pe:value 4800000 ],
+    [ pe:var "rl"; pe:value 1000 ],
+    [ pe:var "state"; pe:value :high ],
+    [ pe:var "vceSat"; pe:value 200 ];
+  pe:uses
+    { :high :cutoff false . },
+    { :high :collectorGainLimitUa 43000 . },
+    { :high :collectorLoadLimitUa 4800 . },
+    { 43000 math:notLessThan 4800 . },
+    { :case :loadResistanceOhms 1000 . },
+    { (4800 1000) math:product 4800000 . },
+    { (4800000 1000) math:integerQuotient 4800 . },
+    { :case :vceSatMv 200 . }.
+
+{ :high :cutoff false . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "baseCurrentUa"; pe:value 430 ],
+    [ pe:var "baseNumerator"; pe:value 4300000 ],
+    [ pe:var "beta"; pe:value 100 ],
+    [ pe:var "collectorGainLimitUa"; pe:value 43000 ],
+    [ pe:var "collectorLoadLimitUa"; pe:value 4800 ],
+    [ pe:var "loadNumerator"; pe:value 4800000 ],
+    [ pe:var "loadSpanMv"; pe:value 4800 ],
+    [ pe:var "overdriveMv"; pe:value 4300 ],
+    [ pe:var "rb"; pe:value 10000 ],
+    [ pe:var "rl"; pe:value 1000 ],
+    [ pe:var "state"; pe:value :high ],
+    [ pe:var "vbe"; pe:value 700 ],
+    [ pe:var "vcc"; pe:value 5000 ],
+    [ pe:var "vceSat"; pe:value 200 ],
+    [ pe:var "vin"; pe:value 5000 ];
+  pe:uses
+    { :high list:in (:low :high) . },
+    { :high :inputMv 5000 . },
+    { :case :vbeOnMv 700 . },
+    { 5000 math:greaterThan 700 . },
+    { :case :baseResistanceOhms 10000 . },
+    { (5000 700) math:difference 4300 . },
+    { (4300 1000) math:product 4300000 . },
+    { (4300000 10000) math:integerQuotient 430 . },
+    { :case :beta 100 . },
+    { (430 100) math:product 43000 . },
+    { :case :supplyMv 5000 . },
+    { :case :vceSatMv 200 . },
+    { :case :loadResistanceOhms 1000 . },
+    { (5000 200) math:difference 4800 . },
+    { (4800 1000) math:product 4800000 . },
+    { (4800000 1000) math:integerQuotient 4800 . }.
+
+{ :high list:in (:low :high) . }
+  pe:builtin list:in.
+
+{ :high :inputMv 5000 . }
+  pe:fact "transistor-switch.n3".
+
+{ 5000 math:greaterThan 700 . }
+  pe:builtin math:greaterThan.
+
+{ :case :baseResistanceOhms 10000 . }
+  pe:fact "transistor-switch.n3".
+
+{ (5000 700) math:difference 4300 . }
+  pe:builtin math:difference.
+
+{ (4300 1000) math:product 4300000 . }
+  pe:builtin math:product.
+
+{ (4300000 10000) math:integerQuotient 430 . }
+  pe:builtin math:integerQuotient.
+
+{ :case :beta 100 . }
+  pe:fact "transistor-switch.n3".
+
+{ (430 100) math:product 43000 . }
+  pe:builtin math:product.
+
+{ :case :vceSatMv 200 . }
+  pe:fact "transistor-switch.n3".
+
+{ :case :loadResistanceOhms 1000 . }
+  pe:fact "transistor-switch.n3".
+
+{ (5000 200) math:difference 4800 . }
+  pe:builtin math:difference.
+
+{ (4800 1000) math:product 4800000 . }
+  pe:builtin math:product.
+
+{ (4800000 1000) math:integerQuotient 4800 . }
+  pe:builtin math:integerQuotient.
+
+{ :high :collectorGainLimitUa 43000 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "baseCurrentUa"; pe:value 430 ],
+    [ pe:var "baseNumerator"; pe:value 4300000 ],
+    [ pe:var "beta"; pe:value 100 ],
+    [ pe:var "collectorGainLimitUa"; pe:value 43000 ],
+    [ pe:var "collectorLoadLimitUa"; pe:value 4800 ],
+    [ pe:var "loadNumerator"; pe:value 4800000 ],
+    [ pe:var "loadSpanMv"; pe:value 4800 ],
+    [ pe:var "overdriveMv"; pe:value 4300 ],
+    [ pe:var "rb"; pe:value 10000 ],
+    [ pe:var "rl"; pe:value 1000 ],
+    [ pe:var "state"; pe:value :high ],
+    [ pe:var "vbe"; pe:value 700 ],
+    [ pe:var "vcc"; pe:value 5000 ],
+    [ pe:var "vceSat"; pe:value 200 ],
+    [ pe:var "vin"; pe:value 5000 ];
+  pe:uses
+    { :high list:in (:low :high) . },
+    { :high :inputMv 5000 . },
+    { :case :vbeOnMv 700 . },
+    { 5000 math:greaterThan 700 . },
+    { :case :baseResistanceOhms 10000 . },
+    { (5000 700) math:difference 4300 . },
+    { (4300 1000) math:product 4300000 . },
+    { (4300000 10000) math:integerQuotient 430 . },
+    { :case :beta 100 . },
+    { (430 100) math:product 43000 . },
+    { :case :supplyMv 5000 . },
+    { :case :vceSatMv 200 . },
+    { :case :loadResistanceOhms 1000 . },
+    { (5000 200) math:difference 4800 . },
+    { (4800 1000) math:product 4800000 . },
+    { (4800000 1000) math:integerQuotient 4800 . }.
+
+{ :high :collectorLoadLimitUa 4800 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "baseCurrentUa"; pe:value 430 ],
+    [ pe:var "baseNumerator"; pe:value 4300000 ],
+    [ pe:var "beta"; pe:value 100 ],
+    [ pe:var "collectorGainLimitUa"; pe:value 43000 ],
+    [ pe:var "collectorLoadLimitUa"; pe:value 4800 ],
+    [ pe:var "loadNumerator"; pe:value 4800000 ],
+    [ pe:var "loadSpanMv"; pe:value 4800 ],
+    [ pe:var "overdriveMv"; pe:value 4300 ],
+    [ pe:var "rb"; pe:value 10000 ],
+    [ pe:var "rl"; pe:value 1000 ],
+    [ pe:var "state"; pe:value :high ],
+    [ pe:var "vbe"; pe:value 700 ],
+    [ pe:var "vcc"; pe:value 5000 ],
+    [ pe:var "vceSat"; pe:value 200 ],
+    [ pe:var "vin"; pe:value 5000 ];
+  pe:uses
+    { :high list:in (:low :high) . },
+    { :high :inputMv 5000 . },
+    { :case :vbeOnMv 700 . },
+    { 5000 math:greaterThan 700 . },
+    { :case :baseResistanceOhms 10000 . },
+    { (5000 700) math:difference 4300 . },
+    { (4300 1000) math:product 4300000 . },
+    { (4300000 10000) math:integerQuotient 430 . },
+    { :case :beta 100 . },
+    { (430 100) math:product 43000 . },
+    { :case :supplyMv 5000 . },
+    { :case :vceSatMv 200 . },
+    { :case :loadResistanceOhms 1000 . },
+    { (5000 200) math:difference 4800 . },
+    { (4800 1000) math:product 4800000 . },
+    { (4800000 1000) math:integerQuotient 4800 . }.
+
+{ 43000 math:notLessThan 4800 . }
+  pe:builtin math:notLessThan.
+
+{ :high :collectorEmitterVoltageMv 200 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "gainLimit"; pe:value 43000 ],
+    [ pe:var "loadLimit"; pe:value 4800 ],
+    [ pe:var "loadVoltageMv"; pe:value 4800 ],
+    [ pe:var "loadVoltageNumerator"; pe:value 4800000 ],
+    [ pe:var "rl"; pe:value 1000 ],
+    [ pe:var "state"; pe:value :high ],
+    [ pe:var "vceSat"; pe:value 200 ];
+  pe:uses
+    { :high :cutoff false . },
+    { :high :collectorGainLimitUa 43000 . },
+    { :high :collectorLoadLimitUa 4800 . },
+    { 43000 math:notLessThan 4800 . },
+    { :case :loadResistanceOhms 1000 . },
+    { (4800 1000) math:product 4800000 . },
+    { (4800000 1000) math:integerQuotient 4800 . },
+    { :case :vceSatMv 200 . }.
+
+{ :high :stateLabel "saturation / ON" . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "gainLimit"; pe:value 43000 ],
+    [ pe:var "loadLimit"; pe:value 4800 ],
+    [ pe:var "loadVoltageMv"; pe:value 4800 ],
+    [ pe:var "loadVoltageNumerator"; pe:value 4800000 ],
+    [ pe:var "rl"; pe:value 1000 ],
+    [ pe:var "state"; pe:value :high ],
+    [ pe:var "vceSat"; pe:value 200 ];
+  pe:uses
+    { :high :cutoff false . },
+    { :high :collectorGainLimitUa 43000 . },
+    { :high :collectorLoadLimitUa 4800 . },
+    { 43000 math:notLessThan 4800 . },
+    { :case :loadResistanceOhms 1000 . },
+    { (4800 1000) math:product 4800000 . },
+    { (4800000 1000) math:integerQuotient 4800 . },
+    { :case :vceSatMv 200 . }.

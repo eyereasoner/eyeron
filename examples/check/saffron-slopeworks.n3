@@ -1,0 +1,171 @@
+# checked with obligations: 66 steps, 51 verified, 15 trusted
+@prefix : <http://example.org/saffron-slopeworks#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:Reg1 :n 8 .
+:Reg1 :sumX "36"^^xsd:decimal .
+:Reg1 :sumY "46"^^xsd:decimal .
+:Reg1 :sumXX "204"^^xsd:decimal .
+:Reg1 :sumYY 379.72 .
+:Reg1 :sumXY "266"^^xsd:decimal .
+:Reg1 :slope 1.4047619047619047 .
+:Reg1 :intercept -0.5714285714285712 .
+:Reg1 :pearsonR 0.8481319639871384 .
+:Reg1 :rSquared 0.7193278283366806 .
+:Reg1 :sse 32.33904761904761 .
+:Reg1 :rmse 2.010567321026817 .
+:Reg1 :highResidual _:b9_407cb401a24f5c40 .
+_:b9_407cb401a24f5c40 :point _:b8 .
+_:b9_407cb401a24f5c40 :x 8.0 .
+_:b9_407cb401a24f5c40 :y 15.0 .
+_:b9_407cb401a24f5c40 :yhat 10.666666666666666 .
+_:b9_407cb401a24f5c40 :residual 4.333333333333334 .
+:Reg1 :prediction _:b10_fdbd2cf2941258de .
+_:b10_fdbd2cf2941258de :x 8.5 .
+_:b10_fdbd2cf2941258de :y 11.369047619047619 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/saffron-slopeworks.n3";
+    pe:source "examples/saffron-slopeworks.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 66;
+    pe:verified 51;
+    pe:trusted 15;
+    pe:builtinSteps 41;
+    pe:factSteps 4;
+    pe:ruleSteps 21;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 25; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 66; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 66; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 294; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 41; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 87; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 21; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?x {
+                (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+                ?p :x ?x .
+            } (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0)) log:collectAllIn ?_:s1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?y {
+                (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+                ?p :y ?y .
+            } (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0)) log:collectAllIn ?_:s1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?x2 {
+                (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+                ?p :x ?x .
+                (?x 2.0) math:exponentiation ?x2 .
+            } ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?y2 {
+                (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+                ?p :y ?y .
+                (?y 2.0) math:exponentiation ?y2 .
+            } (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?xy {
+                (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+                ?p :x ?x .
+                ?p :y ?y .
+                (?x ?y) math:product ?xy .
+            } (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?e2 {
+                (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+                ?p :x ?x .
+                ?p :y ?y .
+                (1.4047619047619047 ?x) math:product ?bx .
+                (-0.5714285714285712 ?bx) math:sum ?yhat .
+                (?y ?yhat) math:difference ?e .
+                (?e 2.0) math:exponentiation ?e2 .
+            } (1.6044444444444443 0.4381179138321994 0.024693877551020513 0.7184580498866208 1.8289342403628133 3.8304081632652998 5.116213151927433 18.777777777777782)) log:collectAllIn ?_:s2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Reg1 :highResidual _:b9_407cb401a24f5c40 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_407cb401a24f5c40 :point _:b8 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_407cb401a24f5c40 :x 8.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_407cb401a24f5c40 :y 15.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_407cb401a24f5c40 :yhat 10.666666666666666 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b9_407cb401a24f5c40 :residual 4.333333333333334 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Reg1 :prediction _:b10_fdbd2cf2941258de .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_fdbd2cf2941258de :x 8.5 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b10_fdbd2cf2941258de :y 11.369047619047619 .
+        }
+    ].

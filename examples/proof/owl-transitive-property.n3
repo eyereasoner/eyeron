@@ -1,0 +1,56 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:alice :ancestor :carol .
+:bob :ancestor :dave .
+:alice :ancestor :dave .
+
+{ :alice :ancestor :carol . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :carol ],
+    [ pe:var "P"; pe:value :ancestor ],
+    [ pe:var "S"; pe:value :alice ],
+    [ pe:var "X"; pe:value :bob ];
+  pe:uses
+    { :ancestor a owl:TransitiveProperty . },
+    { :alice :ancestor :bob . },
+    { :bob :ancestor :carol . }.
+
+{ :ancestor a owl:TransitiveProperty . }
+  pe:fact "owl-transitive-property.n3".
+
+{ :alice :ancestor :bob . }
+  pe:fact "owl-transitive-property.n3".
+
+{ :bob :ancestor :carol . }
+  pe:fact "owl-transitive-property.n3".
+
+{ :bob :ancestor :dave . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :dave ],
+    [ pe:var "P"; pe:value :ancestor ],
+    [ pe:var "S"; pe:value :bob ],
+    [ pe:var "X"; pe:value :carol ];
+  pe:uses
+    { :ancestor a owl:TransitiveProperty . },
+    { :bob :ancestor :carol . },
+    { :carol :ancestor :dave . }.
+
+{ :carol :ancestor :dave . }
+  pe:fact "owl-transitive-property.n3".
+
+{ :alice :ancestor :dave . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :dave ],
+    [ pe:var "P"; pe:value :ancestor ],
+    [ pe:var "S"; pe:value :alice ],
+    [ pe:var "X"; pe:value :bob ];
+  pe:uses
+    { :ancestor a owl:TransitiveProperty . },
+    { :alice :ancestor :bob . },
+    { :bob :ancestor :dave . }.

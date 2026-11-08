@@ -1,0 +1,199 @@
+# checked with obligations: 107 steps, 81 verified, 26 trusted
+@prefix : <https://example.org/odrl-dpv-risk-ranked#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+(:Agreement1 :ConsumerExample 0) log:outputString "# odrl-dpv-risk-ranked\n\n## Source files\n\n- [N3 rules](../odrl-dpv-risk-ranked.n3)\n\n## Ranked DPV Risk Report\n\n**Agreement:** Example Agreement\n**Profile:** Example consumer profile\n\n" .
+(:Agreement1 :ConsumerExample 1 900 "C1" 0 _:risk1_87cd4004194bead4) log:outputString "### Clause C1 — score 100\n\n**Risk level:** `https://w3id.org/dpv/risk#HighRisk`\n**Severity:** `https://w3id.org/dpv/risk#HighSeverity`\n\nRisk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion.\n\n" .
+(:Agreement1 :ConsumerExample 1 915 "C2" 0 _:risk2_dd26e4e8f36bbb7f) log:outputString "### Clause C2 — score 85\n\n**Risk level:** `https://w3id.org/dpv/risk#HighRisk`\n**Severity:** `https://w3id.org/dpv/risk#HighSeverity`\n\nRisk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance.\n\n" .
+(:Agreement1 :ConsumerExample 1 903 "C3" 0 _:risk3_1987663455332410) log:outputString "### Clause C3 — score 97\n\n**Risk level:** `https://w3id.org/dpv/risk#HighRisk`\n**Severity:** `https://w3id.org/dpv/risk#HighSeverity`\n\nRisk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes.\n\n" .
+(:Agreement1 :ConsumerExample 1 930 "C4" 0 _:risk4_4cf150de25434292) log:outputString "### Clause C4 — score 70\n\n**Risk level:** `https://w3id.org/dpv/risk#ModerateRisk`\n**Severity:** `https://w3id.org/dpv/risk#ModerateSeverity`\n\nRisk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data.\n\n" .
+(:Agreement1 :ConsumerExample 1 900 "C1" 1 _:risk1_87cd4004194bead4 _:m11_87cd4004194bead4) log:outputString "- **Mitigation for clause C1:** Add a notice constraint (minimum noticeDays) before account removal.\n\n" .
+(:Agreement1 :ConsumerExample 1 900 "C1" 1 _:risk1_87cd4004194bead4 _:m21_87cd4004194bead4) log:outputString "- **Mitigation for clause C1:** Add a duty to inform the consumer prior to account removal.\n\n" .
+(:Agreement1 :ConsumerExample 1 915 "C2" 1 _:risk2_dd26e4e8f36bbb7f _:m12_dd26e4e8f36bbb7f) log:outputString "- **Mitigation for clause C2:** Increase minimum noticeDays in the inform duty to meet the consumer requirement.\n\n" .
+(:Agreement1 :ConsumerExample 1 903 "C3" 1 _:risk3_1987663455332410 _:m13_1987663455332410) log:outputString "- **Mitigation for clause C3:** Add an explicit consent constraint before data sharing.\n\n" .
+(:Agreement1 :ConsumerExample 1 930 "C4" 1 _:risk4_4cf150de25434292 _:m14_4cf150de25434292) log:outputString "- **Mitigation for clause C4:** Add a permission allowing data export (or remove the prohibition) to support portability.\n\n" .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/odrl-dpv-risk-ranked.n3";
+    pe:source "examples/odrl-dpv-risk-ranked.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 107;
+    pe:verified 81;
+    pe:trusted 26;
+    pe:builtinSteps 39;
+    pe:factSteps 20;
+    pe:ruleSteps 48;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 68; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 107; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 107; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 379; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 39; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 117; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 31; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 427; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk1_87cd4004194bead4 a dpv:Risk .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk1_87cd4004194bead4 :scoreRaw 110 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk1_87cd4004194bead4 :aboutClause :ClauseC1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk1_87cd4004194bead4 dct:description "Risk: account/data removal is permitted without notice safeguards (no notice constraint and no duty to inform). Clause C1: Provider may remove the user account (and associated data) at its discretion." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk2_dd26e4e8f36bbb7f a dpv:Risk .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk2_dd26e4e8f36bbb7f :scoreRaw 85 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk2_dd26e4e8f36bbb7f :aboutClause :ClauseC2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk2_dd26e4e8f36bbb7f dct:description "Risk: terms may change with notice (3 days) below consumer requirement (14 days). Clause C2: Provider may change terms by informing users at least 3 days in advance." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk3_1987663455332410 a dpv:Risk .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk3_1987663455332410 :scoreRaw 97 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk3_1987663455332410 :aboutClause :ClauseC3 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk3_1987663455332410 dct:description "Risk: user data sharing is permitted without an explicit consent constraint. Clause C3: Provider may share user data with partners for business purposes." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk4_4cf150de25434292 a dpv:Risk .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk4_4cf150de25434292 :scoreRaw 70 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk4_4cf150de25434292 :aboutClause :ClauseC4 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk4_4cf150de25434292 dct:description "Risk: portability is restricted because exporting user data is prohibited. Clause C4: Users are not permitted to export their data." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk1_87cd4004194bead4 dpv:isMitigatedByMeasure _:m11_87cd4004194bead4 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:m11_87cd4004194bead4 dct:description "Add a notice constraint (minimum noticeDays) before account removal." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk1_87cd4004194bead4 dpv:isMitigatedByMeasure _:m21_87cd4004194bead4 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:m21_87cd4004194bead4 dct:description "Add a duty to inform the consumer prior to account removal." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk2_dd26e4e8f36bbb7f dpv:isMitigatedByMeasure _:m12_dd26e4e8f36bbb7f .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:m12_dd26e4e8f36bbb7f dct:description "Increase minimum noticeDays in the inform duty to meet the consumer requirement." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk3_1987663455332410 dpv:isMitigatedByMeasure _:m13_1987663455332410 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:m13_1987663455332410 dct:description "Add an explicit consent constraint before data sharing." .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:risk4_4cf150de25434292 dpv:isMitigatedByMeasure _:m14_4cf150de25434292 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:m14_4cf150de25434292 dct:description "Add a permission allowing data export (or remove the prohibition) to support portability." .
+        }
+    ].

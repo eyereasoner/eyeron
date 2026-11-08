@@ -1,0 +1,1102 @@
+@prefix : <http://example.org/decimal-servo#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:result :summary ("exact-pole" "exp(-1/3)" "decimal-lower" 0.7165313105 "decimal-upper" 0.7165313106 "tolerance" 0.5 "first-settled-step" 10 "first-settled-time-s" 0.2) .
+:result :envelope (0 12.5 12.5) .
+:result :envelope (1 8.95664138125 8.956641382499999) .
+:result :envelope (2 6.417713986585592 6.41771398837692) .
+:result :envelope (3 4.598493013222353 4.5984930151476675) .
+:result :envelope (4 3.2949642250893065 3.2949642269287036) .
+:result :envelope (5 2.3609450342538576 2.3609450359013398) .
+:result :envelope (6 1.6916910394123839 1.691691040828951) .
+:result :envelope (7 1.2121495974312624 1.2121495986154462) .
+:result :envelope (8 0.8685431395694698 0.8685431405391896) .
+:result :envelope (9 0.6223383540214966 0.6223383548031854) .
+:result :envelope (10 0.4459249163814359 0.44592491700377423) .
+:result :envelope (11 0.3195191647193932 0.3195191652099106) .
+:result :envelope (12 0.22894548582625215 0.22894548620967514) .
+:result :contractionAt 0 .
+:result :contractionAt 1 .
+:result :contractionAt 2 .
+:result :contractionAt 3 .
+:result :contractionAt 4 .
+:result :contractionAt 5 .
+:result :contractionAt 6 .
+:result :contractionAt 7 .
+:result :contractionAt 8 .
+:result :contractionAt 9 .
+:result :contractionAt 10 .
+:result :contractionAt 11 .
+
+{ :result :summary ("exact-pole" "exp(-1/3)" "decimal-lower" 0.7165313105 "decimal-upper" 0.7165313106 "tolerance" 0.5 "first-settled-step" 10 "first-settled-time-s" 0.2) . }
+  pe:rule
+    {
+        {
+            :servo :firstSettledStep ?k .
+            :servo :firstSettledTime ?t .
+            :servo :tolerance ?tol .
+            :servo :exactPoleSymbol ?sym .
+            :servo :poleLower ?aLo .
+            :servo :poleUpper ?aHi .
+        } => {
+            :result :summary ("exact-pole" ?sym "decimal-lower" ?aLo "decimal-upper" ?aHi "tolerance" ?tol "first-settled-step" ?k "first-settled-time-s" ?t) .
+        } .
+    };
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "sym"; pe:value "exp(-1/3)" ],
+    [ pe:var "t"; pe:value 0.2 ],
+    [ pe:var "tol"; pe:value 0.5 ];
+  pe:uses
+    { :servo :firstSettledStep 10 . },
+    { :servo :firstSettledTime 0.2 . },
+    { :servo :tolerance 0.5 . },
+    { :servo :exactPoleSymbol "exp(-1/3)" . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . }.
+
+{ :servo :firstSettledStep 10 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "km1"; pe:value 9 ],
+    [ pe:var "prevHi"; pe:value 0.6223383548031854 ],
+    [ pe:var "prevLo"; pe:value 0.6223383540214966 ],
+    [ pe:var "tol"; pe:value 0.5 ];
+  pe:uses
+    { :servo :settledCandidate 10 . },
+    { 10 math:greaterThan 0 . },
+    { (10 1) math:difference 9 . },
+    { :servo :errorEnvelopeAt (9 0.6223383540214966 0.6223383548031854) . },
+    { :servo :tolerance 0.5 . },
+    { 0.6223383548031854 math:notLessThan 0.5 . }.
+
+{ :servo :settledCandidate 10 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "hi"; pe:value 0.44592491700377423 ],
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "lo"; pe:value 0.4459249163814359 ],
+    [ pe:var "tol"; pe:value 0.5 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (10 0.4459249163814359 0.44592491700377423) . },
+    { :servo :tolerance 0.5 . },
+    { 0.44592491700377423 math:lessThan 0.5 . }.
+
+{ :servo :errorEnvelopeAt (10 0.4459249163814359 0.44592491700377423) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 0.6223383548031854 ],
+    [ pe:var "hi1"; pe:value 0.44592491700377423 ],
+    [ pe:var "k"; pe:value 9 ],
+    [ pe:var "k1"; pe:value 10 ],
+    [ pe:var "lo"; pe:value 0.6223383540214966 ],
+    [ pe:var "lo1"; pe:value 0.4459249163814359 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (9 0.6223383540214966 0.6223383548031854) . },
+    { 9 math:lessThan 12 . },
+    { (9 1) math:sum 10 . },
+    { (0.7165313105 0.6223383540214966) math:product 0.4459249163814359 . },
+    { (0.7165313106 0.6223383548031854) math:product 0.44592491700377423 . }.
+
+{ :servo :maxStep 12 . }
+  pe:fact "decimal-transcendental-servo-envelope.n3".
+
+{ :servo :poleLower 0.7165313105 . }
+  pe:fact "decimal-transcendental-servo-envelope.n3".
+
+{ :servo :poleUpper 0.7165313106 . }
+  pe:fact "decimal-transcendental-servo-envelope.n3".
+
+{ :servo :errorEnvelopeAt (9 0.6223383540214966 0.6223383548031854) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 0.8685431405391896 ],
+    [ pe:var "hi1"; pe:value 0.6223383548031854 ],
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "k1"; pe:value 9 ],
+    [ pe:var "lo"; pe:value 0.8685431395694698 ],
+    [ pe:var "lo1"; pe:value 0.6223383540214966 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (8 0.8685431395694698 0.8685431405391896) . },
+    { 8 math:lessThan 12 . },
+    { (8 1) math:sum 9 . },
+    { (0.7165313105 0.8685431395694698) math:product 0.6223383540214966 . },
+    { (0.7165313106 0.8685431405391896) math:product 0.6223383548031854 . }.
+
+{ :servo :errorEnvelopeAt (8 0.8685431395694698 0.8685431405391896) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 1.2121495986154462 ],
+    [ pe:var "hi1"; pe:value 0.8685431405391896 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "k1"; pe:value 8 ],
+    [ pe:var "lo"; pe:value 1.2121495974312624 ],
+    [ pe:var "lo1"; pe:value 0.8685431395694698 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (7 1.2121495974312624 1.2121495986154462) . },
+    { 7 math:lessThan 12 . },
+    { (7 1) math:sum 8 . },
+    { (0.7165313105 1.2121495974312624) math:product 0.8685431395694698 . },
+    { (0.7165313106 1.2121495986154462) math:product 0.8685431405391896 . }.
+
+{ :servo :errorEnvelopeAt (7 1.2121495974312624 1.2121495986154462) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 1.691691040828951 ],
+    [ pe:var "hi1"; pe:value 1.2121495986154462 ],
+    [ pe:var "k"; pe:value 6 ],
+    [ pe:var "k1"; pe:value 7 ],
+    [ pe:var "lo"; pe:value 1.6916910394123839 ],
+    [ pe:var "lo1"; pe:value 1.2121495974312624 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (6 1.6916910394123839 1.691691040828951) . },
+    { 6 math:lessThan 12 . },
+    { (6 1) math:sum 7 . },
+    { (0.7165313105 1.6916910394123839) math:product 1.2121495974312624 . },
+    { (0.7165313106 1.691691040828951) math:product 1.2121495986154462 . }.
+
+{ :servo :errorEnvelopeAt (6 1.6916910394123839 1.691691040828951) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 2.3609450359013398 ],
+    [ pe:var "hi1"; pe:value 1.691691040828951 ],
+    [ pe:var "k"; pe:value 5 ],
+    [ pe:var "k1"; pe:value 6 ],
+    [ pe:var "lo"; pe:value 2.3609450342538576 ],
+    [ pe:var "lo1"; pe:value 1.6916910394123839 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (5 2.3609450342538576 2.3609450359013398) . },
+    { 5 math:lessThan 12 . },
+    { (5 1) math:sum 6 . },
+    { (0.7165313105 2.3609450342538576) math:product 1.6916910394123839 . },
+    { (0.7165313106 2.3609450359013398) math:product 1.691691040828951 . }.
+
+{ :servo :errorEnvelopeAt (5 2.3609450342538576 2.3609450359013398) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 3.2949642269287036 ],
+    [ pe:var "hi1"; pe:value 2.3609450359013398 ],
+    [ pe:var "k"; pe:value 4 ],
+    [ pe:var "k1"; pe:value 5 ],
+    [ pe:var "lo"; pe:value 3.2949642250893065 ],
+    [ pe:var "lo1"; pe:value 2.3609450342538576 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (4 3.2949642250893065 3.2949642269287036) . },
+    { 4 math:lessThan 12 . },
+    { (4 1) math:sum 5 . },
+    { (0.7165313105 3.2949642250893065) math:product 2.3609450342538576 . },
+    { (0.7165313106 3.2949642269287036) math:product 2.3609450359013398 . }.
+
+{ :servo :errorEnvelopeAt (4 3.2949642250893065 3.2949642269287036) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 4.5984930151476675 ],
+    [ pe:var "hi1"; pe:value 3.2949642269287036 ],
+    [ pe:var "k"; pe:value 3 ],
+    [ pe:var "k1"; pe:value 4 ],
+    [ pe:var "lo"; pe:value 4.598493013222353 ],
+    [ pe:var "lo1"; pe:value 3.2949642250893065 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (3 4.598493013222353 4.5984930151476675) . },
+    { 3 math:lessThan 12 . },
+    { (3 1) math:sum 4 . },
+    { (0.7165313105 4.598493013222353) math:product 3.2949642250893065 . },
+    { (0.7165313106 4.5984930151476675) math:product 3.2949642269287036 . }.
+
+{ :servo :errorEnvelopeAt (3 4.598493013222353 4.5984930151476675) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 6.41771398837692 ],
+    [ pe:var "hi1"; pe:value 4.5984930151476675 ],
+    [ pe:var "k"; pe:value 2 ],
+    [ pe:var "k1"; pe:value 3 ],
+    [ pe:var "lo"; pe:value 6.417713986585592 ],
+    [ pe:var "lo1"; pe:value 4.598493013222353 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (2 6.417713986585592 6.41771398837692) . },
+    { 2 math:lessThan 12 . },
+    { (2 1) math:sum 3 . },
+    { (0.7165313105 6.417713986585592) math:product 4.598493013222353 . },
+    { (0.7165313106 6.41771398837692) math:product 4.5984930151476675 . }.
+
+{ :servo :errorEnvelopeAt (2 6.417713986585592 6.41771398837692) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 8.956641382499999 ],
+    [ pe:var "hi1"; pe:value 6.41771398837692 ],
+    [ pe:var "k"; pe:value 1 ],
+    [ pe:var "k1"; pe:value 2 ],
+    [ pe:var "lo"; pe:value 8.95664138125 ],
+    [ pe:var "lo1"; pe:value 6.417713986585592 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (1 8.95664138125 8.956641382499999) . },
+    { 1 math:lessThan 12 . },
+    { (1 1) math:sum 2 . },
+    { (0.7165313105 8.95664138125) math:product 6.417713986585592 . },
+    { (0.7165313106 8.956641382499999) math:product 6.41771398837692 . }.
+
+{ :servo :errorEnvelopeAt (1 8.95664138125 8.956641382499999) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 12.5 ],
+    [ pe:var "hi1"; pe:value 8.956641382499999 ],
+    [ pe:var "k"; pe:value 0 ],
+    [ pe:var "k1"; pe:value 1 ],
+    [ pe:var "lo"; pe:value 12.5 ],
+    [ pe:var "lo1"; pe:value 8.95664138125 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (0 12.5 12.5) . },
+    { 0 math:lessThan 12 . },
+    { (0 1) math:sum 1 . },
+    { (0.7165313105 12.5) math:product 8.95664138125 . },
+    { (0.7165313106 12.5) math:product 8.956641382499999 . }.
+
+{ :servo :errorEnvelopeAt (0 12.5 12.5) . }
+  pe:rule 2;
+  pe:binding [ pe:var "e0"; pe:value 12.5 ];
+  pe:uses { :servo :initialAbsError 12.5 . }.
+
+{ :servo :initialAbsError 12.5 . }
+  pe:fact "decimal-transcendental-servo-envelope.n3".
+
+{ 0 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (0 1) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 12.5) math:product 8.95664138125 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 12.5) math:product 8.956641382499999 . }
+  pe:builtin math:product.
+
+{ 1 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 8.95664138125) math:product 6.417713986585592 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 8.956641382499999) math:product 6.41771398837692 . }
+  pe:builtin math:product.
+
+{ 2 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (2 1) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 6.417713986585592) math:product 4.598493013222353 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 6.41771398837692) math:product 4.5984930151476675 . }
+  pe:builtin math:product.
+
+{ 3 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (3 1) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 4.598493013222353) math:product 3.2949642250893065 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 4.5984930151476675) math:product 3.2949642269287036 . }
+  pe:builtin math:product.
+
+{ 4 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (4 1) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 3.2949642250893065) math:product 2.3609450342538576 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 3.2949642269287036) math:product 2.3609450359013398 . }
+  pe:builtin math:product.
+
+{ 5 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (5 1) math:sum 6 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 2.3609450342538576) math:product 1.6916910394123839 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 2.3609450359013398) math:product 1.691691040828951 . }
+  pe:builtin math:product.
+
+{ 6 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (6 1) math:sum 7 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 1.6916910394123839) math:product 1.2121495974312624 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 1.691691040828951) math:product 1.2121495986154462 . }
+  pe:builtin math:product.
+
+{ 7 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (7 1) math:sum 8 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 1.2121495974312624) math:product 0.8685431395694698 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 1.2121495986154462) math:product 0.8685431405391896 . }
+  pe:builtin math:product.
+
+{ 8 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (8 1) math:sum 9 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 0.8685431395694698) math:product 0.6223383540214966 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 0.8685431405391896) math:product 0.6223383548031854 . }
+  pe:builtin math:product.
+
+{ 9 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (9 1) math:sum 10 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 0.6223383540214966) math:product 0.4459249163814359 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 0.6223383548031854) math:product 0.44592491700377423 . }
+  pe:builtin math:product.
+
+{ :servo :tolerance 0.5 . }
+  pe:fact "decimal-transcendental-servo-envelope.n3".
+
+{ 0.44592491700377423 math:lessThan 0.5 . }
+  pe:builtin math:lessThan.
+
+{ 10 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (10 1) math:difference 9 . }
+  pe:builtin math:difference.
+
+{ 0.6223383548031854 math:notLessThan 0.5 . }
+  pe:builtin math:notLessThan.
+
+{ :servo :firstSettledTime 0.2 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "t"; pe:value 0.2 ],
+    [ pe:var "ts"; pe:value 0.020 ];
+  pe:uses
+    { :servo :firstSettledStep 10 . },
+    { :servo :samplePeriod 0.020 . },
+    { (10 0.020) math:product 0.2 . }.
+
+{ :servo :samplePeriod 0.020 . }
+  pe:fact "decimal-transcendental-servo-envelope.n3".
+
+{ (10 0.020) math:product 0.2 . }
+  pe:builtin math:product.
+
+{ :servo :exactPoleSymbol "exp(-1/3)" . }
+  pe:fact "decimal-transcendental-servo-envelope.n3".
+
+{ :result :envelope (0 12.5 12.5) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 12.5 ],
+    [ pe:var "k"; pe:value 0 ],
+    [ pe:var "lo"; pe:value 12.5 ];
+  pe:uses { :servo :errorEnvelopeAt (0 12.5 12.5) . }.
+
+{ :result :envelope (1 8.95664138125 8.956641382499999) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 8.956641382499999 ],
+    [ pe:var "k"; pe:value 1 ],
+    [ pe:var "lo"; pe:value 8.95664138125 ];
+  pe:uses { :servo :errorEnvelopeAt (1 8.95664138125 8.956641382499999) . }.
+
+{ :result :envelope (2 6.417713986585592 6.41771398837692) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 6.41771398837692 ],
+    [ pe:var "k"; pe:value 2 ],
+    [ pe:var "lo"; pe:value 6.417713986585592 ];
+  pe:uses { :servo :errorEnvelopeAt (2 6.417713986585592 6.41771398837692) . }.
+
+{ :result :envelope (3 4.598493013222353 4.5984930151476675) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 4.5984930151476675 ],
+    [ pe:var "k"; pe:value 3 ],
+    [ pe:var "lo"; pe:value 4.598493013222353 ];
+  pe:uses { :servo :errorEnvelopeAt (3 4.598493013222353 4.5984930151476675) . }.
+
+{ :result :envelope (4 3.2949642250893065 3.2949642269287036) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 3.2949642269287036 ],
+    [ pe:var "k"; pe:value 4 ],
+    [ pe:var "lo"; pe:value 3.2949642250893065 ];
+  pe:uses { :servo :errorEnvelopeAt (4 3.2949642250893065 3.2949642269287036) . }.
+
+{ :result :envelope (5 2.3609450342538576 2.3609450359013398) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 2.3609450359013398 ],
+    [ pe:var "k"; pe:value 5 ],
+    [ pe:var "lo"; pe:value 2.3609450342538576 ];
+  pe:uses { :servo :errorEnvelopeAt (5 2.3609450342538576 2.3609450359013398) . }.
+
+{ :result :envelope (6 1.6916910394123839 1.691691040828951) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 1.691691040828951 ],
+    [ pe:var "k"; pe:value 6 ],
+    [ pe:var "lo"; pe:value 1.6916910394123839 ];
+  pe:uses { :servo :errorEnvelopeAt (6 1.6916910394123839 1.691691040828951) . }.
+
+{ :result :envelope (7 1.2121495974312624 1.2121495986154462) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 1.2121495986154462 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "lo"; pe:value 1.2121495974312624 ];
+  pe:uses { :servo :errorEnvelopeAt (7 1.2121495974312624 1.2121495986154462) . }.
+
+{ :result :envelope (8 0.8685431395694698 0.8685431405391896) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 0.8685431405391896 ],
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "lo"; pe:value 0.8685431395694698 ];
+  pe:uses { :servo :errorEnvelopeAt (8 0.8685431395694698 0.8685431405391896) . }.
+
+{ :result :envelope (9 0.6223383540214966 0.6223383548031854) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 0.6223383548031854 ],
+    [ pe:var "k"; pe:value 9 ],
+    [ pe:var "lo"; pe:value 0.6223383540214966 ];
+  pe:uses { :servo :errorEnvelopeAt (9 0.6223383540214966 0.6223383548031854) . }.
+
+{ :result :envelope (10 0.4459249163814359 0.44592491700377423) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 0.44592491700377423 ],
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "lo"; pe:value 0.4459249163814359 ];
+  pe:uses { :servo :errorEnvelopeAt (10 0.4459249163814359 0.44592491700377423) . }.
+
+{ :result :envelope (11 0.3195191647193932 0.3195191652099106) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 0.3195191652099106 ],
+    [ pe:var "k"; pe:value 11 ],
+    [ pe:var "lo"; pe:value 0.3195191647193932 ];
+  pe:uses { :servo :errorEnvelopeAt (11 0.3195191647193932 0.3195191652099106) . }.
+
+{ :servo :errorEnvelopeAt (11 0.3195191647193932 0.3195191652099106) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 0.44592491700377423 ],
+    [ pe:var "hi1"; pe:value 0.3195191652099106 ],
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "k1"; pe:value 11 ],
+    [ pe:var "lo"; pe:value 0.4459249163814359 ],
+    [ pe:var "lo1"; pe:value 0.3195191647193932 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (10 0.4459249163814359 0.44592491700377423) . },
+    { 10 math:lessThan 12 . },
+    { (10 1) math:sum 11 . },
+    { (0.7165313105 0.4459249163814359) math:product 0.3195191647193932 . },
+    { (0.7165313106 0.44592491700377423) math:product 0.3195191652099106 . }.
+
+{ 10 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (10 1) math:sum 11 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 0.4459249163814359) math:product 0.3195191647193932 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 0.44592491700377423) math:product 0.3195191652099106 . }
+  pe:builtin math:product.
+
+{ :result :envelope (12 0.22894548582625215 0.22894548620967514) . }
+  pe:rule
+    {
+        {
+            :servo :errorEnvelopeAt (?k ?lo ?hi) .
+        } => {
+            :result :envelope (?k ?lo ?hi) .
+        } .
+    };
+  pe:binding
+    [ pe:var "hi"; pe:value 0.22894548620967514 ],
+    [ pe:var "k"; pe:value 12 ],
+    [ pe:var "lo"; pe:value 0.22894548582625215 ];
+  pe:uses { :servo :errorEnvelopeAt (12 0.22894548582625215 0.22894548620967514) . }.
+
+{ :servo :errorEnvelopeAt (12 0.22894548582625215 0.22894548620967514) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "aHi"; pe:value 0.7165313106 ],
+    [ pe:var "aLo"; pe:value 0.7165313105 ],
+    [ pe:var "hi"; pe:value 0.3195191652099106 ],
+    [ pe:var "hi1"; pe:value 0.22894548620967514 ],
+    [ pe:var "k"; pe:value 11 ],
+    [ pe:var "k1"; pe:value 12 ],
+    [ pe:var "lo"; pe:value 0.3195191647193932 ],
+    [ pe:var "lo1"; pe:value 0.22894548582625215 ],
+    [ pe:var "max"; pe:value 12 ];
+  pe:uses
+    { :servo :maxStep 12 . },
+    { :servo :poleLower 0.7165313105 . },
+    { :servo :poleUpper 0.7165313106 . },
+    { :servo :errorEnvelopeAt (11 0.3195191647193932 0.3195191652099106) . },
+    { 11 math:lessThan 12 . },
+    { (11 1) math:sum 12 . },
+    { (0.7165313105 0.3195191647193932) math:product 0.22894548582625215 . },
+    { (0.7165313106 0.3195191652099106) math:product 0.22894548620967514 . }.
+
+{ 11 math:lessThan 12 . }
+  pe:builtin math:lessThan.
+
+{ (11 1) math:sum 12 . }
+  pe:builtin math:sum.
+
+{ (0.7165313105 0.3195191647193932) math:product 0.22894548582625215 . }
+  pe:builtin math:product.
+
+{ (0.7165313106 0.3195191652099106) math:product 0.22894548620967514 . }
+  pe:builtin math:product.
+
+{ :result :contractionAt 0 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 0 ];
+  pe:uses { :servo :strictContractionAt 0 . }.
+
+{ :servo :strictContractionAt 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 12.5 ],
+    [ pe:var "hi1"; pe:value 8.956641382499999 ],
+    [ pe:var "k"; pe:value 0 ],
+    [ pe:var "k1"; pe:value 1 ],
+    [ pe:var "lo"; pe:value 12.5 ],
+    [ pe:var "lo1"; pe:value 8.95664138125 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (0 12.5 12.5) . },
+    { (0 1) math:sum 1 . },
+    { :servo :errorEnvelopeAt (1 8.95664138125 8.956641382499999) . },
+    { 8.956641382499999 math:lessThan 12.5 . }.
+
+{ 8.956641382499999 math:lessThan 12.5 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 1 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 1 ];
+  pe:uses { :servo :strictContractionAt 1 . }.
+
+{ :servo :strictContractionAt 1 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 8.956641382499999 ],
+    [ pe:var "hi1"; pe:value 6.41771398837692 ],
+    [ pe:var "k"; pe:value 1 ],
+    [ pe:var "k1"; pe:value 2 ],
+    [ pe:var "lo"; pe:value 8.95664138125 ],
+    [ pe:var "lo1"; pe:value 6.417713986585592 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (1 8.95664138125 8.956641382499999) . },
+    { (1 1) math:sum 2 . },
+    { :servo :errorEnvelopeAt (2 6.417713986585592 6.41771398837692) . },
+    { 6.41771398837692 math:lessThan 8.956641382499999 . }.
+
+{ 6.41771398837692 math:lessThan 8.956641382499999 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 2 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 2 ];
+  pe:uses { :servo :strictContractionAt 2 . }.
+
+{ :servo :strictContractionAt 2 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 6.41771398837692 ],
+    [ pe:var "hi1"; pe:value 4.5984930151476675 ],
+    [ pe:var "k"; pe:value 2 ],
+    [ pe:var "k1"; pe:value 3 ],
+    [ pe:var "lo"; pe:value 6.417713986585592 ],
+    [ pe:var "lo1"; pe:value 4.598493013222353 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (2 6.417713986585592 6.41771398837692) . },
+    { (2 1) math:sum 3 . },
+    { :servo :errorEnvelopeAt (3 4.598493013222353 4.5984930151476675) . },
+    { 4.5984930151476675 math:lessThan 6.41771398837692 . }.
+
+{ 4.5984930151476675 math:lessThan 6.41771398837692 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 3 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 3 ];
+  pe:uses { :servo :strictContractionAt 3 . }.
+
+{ :servo :strictContractionAt 3 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 4.5984930151476675 ],
+    [ pe:var "hi1"; pe:value 3.2949642269287036 ],
+    [ pe:var "k"; pe:value 3 ],
+    [ pe:var "k1"; pe:value 4 ],
+    [ pe:var "lo"; pe:value 4.598493013222353 ],
+    [ pe:var "lo1"; pe:value 3.2949642250893065 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (3 4.598493013222353 4.5984930151476675) . },
+    { (3 1) math:sum 4 . },
+    { :servo :errorEnvelopeAt (4 3.2949642250893065 3.2949642269287036) . },
+    { 3.2949642269287036 math:lessThan 4.5984930151476675 . }.
+
+{ 3.2949642269287036 math:lessThan 4.5984930151476675 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 4 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 4 ];
+  pe:uses { :servo :strictContractionAt 4 . }.
+
+{ :servo :strictContractionAt 4 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 3.2949642269287036 ],
+    [ pe:var "hi1"; pe:value 2.3609450359013398 ],
+    [ pe:var "k"; pe:value 4 ],
+    [ pe:var "k1"; pe:value 5 ],
+    [ pe:var "lo"; pe:value 3.2949642250893065 ],
+    [ pe:var "lo1"; pe:value 2.3609450342538576 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (4 3.2949642250893065 3.2949642269287036) . },
+    { (4 1) math:sum 5 . },
+    { :servo :errorEnvelopeAt (5 2.3609450342538576 2.3609450359013398) . },
+    { 2.3609450359013398 math:lessThan 3.2949642269287036 . }.
+
+{ 2.3609450359013398 math:lessThan 3.2949642269287036 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 5 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 5 ];
+  pe:uses { :servo :strictContractionAt 5 . }.
+
+{ :servo :strictContractionAt 5 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 2.3609450359013398 ],
+    [ pe:var "hi1"; pe:value 1.691691040828951 ],
+    [ pe:var "k"; pe:value 5 ],
+    [ pe:var "k1"; pe:value 6 ],
+    [ pe:var "lo"; pe:value 2.3609450342538576 ],
+    [ pe:var "lo1"; pe:value 1.6916910394123839 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (5 2.3609450342538576 2.3609450359013398) . },
+    { (5 1) math:sum 6 . },
+    { :servo :errorEnvelopeAt (6 1.6916910394123839 1.691691040828951) . },
+    { 1.691691040828951 math:lessThan 2.3609450359013398 . }.
+
+{ 1.691691040828951 math:lessThan 2.3609450359013398 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 6 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 6 ];
+  pe:uses { :servo :strictContractionAt 6 . }.
+
+{ :servo :strictContractionAt 6 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 1.691691040828951 ],
+    [ pe:var "hi1"; pe:value 1.2121495986154462 ],
+    [ pe:var "k"; pe:value 6 ],
+    [ pe:var "k1"; pe:value 7 ],
+    [ pe:var "lo"; pe:value 1.6916910394123839 ],
+    [ pe:var "lo1"; pe:value 1.2121495974312624 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (6 1.6916910394123839 1.691691040828951) . },
+    { (6 1) math:sum 7 . },
+    { :servo :errorEnvelopeAt (7 1.2121495974312624 1.2121495986154462) . },
+    { 1.2121495986154462 math:lessThan 1.691691040828951 . }.
+
+{ 1.2121495986154462 math:lessThan 1.691691040828951 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 7 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 7 ];
+  pe:uses { :servo :strictContractionAt 7 . }.
+
+{ :servo :strictContractionAt 7 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 1.2121495986154462 ],
+    [ pe:var "hi1"; pe:value 0.8685431405391896 ],
+    [ pe:var "k"; pe:value 7 ],
+    [ pe:var "k1"; pe:value 8 ],
+    [ pe:var "lo"; pe:value 1.2121495974312624 ],
+    [ pe:var "lo1"; pe:value 0.8685431395694698 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (7 1.2121495974312624 1.2121495986154462) . },
+    { (7 1) math:sum 8 . },
+    { :servo :errorEnvelopeAt (8 0.8685431395694698 0.8685431405391896) . },
+    { 0.8685431405391896 math:lessThan 1.2121495986154462 . }.
+
+{ 0.8685431405391896 math:lessThan 1.2121495986154462 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 8 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 8 ];
+  pe:uses { :servo :strictContractionAt 8 . }.
+
+{ :servo :strictContractionAt 8 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 0.8685431405391896 ],
+    [ pe:var "hi1"; pe:value 0.6223383548031854 ],
+    [ pe:var "k"; pe:value 8 ],
+    [ pe:var "k1"; pe:value 9 ],
+    [ pe:var "lo"; pe:value 0.8685431395694698 ],
+    [ pe:var "lo1"; pe:value 0.6223383540214966 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (8 0.8685431395694698 0.8685431405391896) . },
+    { (8 1) math:sum 9 . },
+    { :servo :errorEnvelopeAt (9 0.6223383540214966 0.6223383548031854) . },
+    { 0.6223383548031854 math:lessThan 0.8685431405391896 . }.
+
+{ 0.6223383548031854 math:lessThan 0.8685431405391896 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 9 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 9 ];
+  pe:uses { :servo :strictContractionAt 9 . }.
+
+{ :servo :strictContractionAt 9 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 0.6223383548031854 ],
+    [ pe:var "hi1"; pe:value 0.44592491700377423 ],
+    [ pe:var "k"; pe:value 9 ],
+    [ pe:var "k1"; pe:value 10 ],
+    [ pe:var "lo"; pe:value 0.6223383540214966 ],
+    [ pe:var "lo1"; pe:value 0.4459249163814359 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (9 0.6223383540214966 0.6223383548031854) . },
+    { (9 1) math:sum 10 . },
+    { :servo :errorEnvelopeAt (10 0.4459249163814359 0.44592491700377423) . },
+    { 0.44592491700377423 math:lessThan 0.6223383548031854 . }.
+
+{ 0.44592491700377423 math:lessThan 0.6223383548031854 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 10 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 10 ];
+  pe:uses { :servo :strictContractionAt 10 . }.
+
+{ :servo :strictContractionAt 10 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 0.44592491700377423 ],
+    [ pe:var "hi1"; pe:value 0.3195191652099106 ],
+    [ pe:var "k"; pe:value 10 ],
+    [ pe:var "k1"; pe:value 11 ],
+    [ pe:var "lo"; pe:value 0.4459249163814359 ],
+    [ pe:var "lo1"; pe:value 0.3195191647193932 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (10 0.4459249163814359 0.44592491700377423) . },
+    { (10 1) math:sum 11 . },
+    { :servo :errorEnvelopeAt (11 0.3195191647193932 0.3195191652099106) . },
+    { 0.3195191652099106 math:lessThan 0.44592491700377423 . }.
+
+{ 0.3195191652099106 math:lessThan 0.44592491700377423 . }
+  pe:builtin math:lessThan.
+
+{ :result :contractionAt 11 . }
+  pe:rule
+    {
+        {
+            :servo :strictContractionAt ?k .
+        } => {
+            :result :contractionAt ?k .
+        } .
+    };
+  pe:binding [ pe:var "k"; pe:value 11 ];
+  pe:uses { :servo :strictContractionAt 11 . }.
+
+{ :servo :strictContractionAt 11 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "hi"; pe:value 0.3195191652099106 ],
+    [ pe:var "hi1"; pe:value 0.22894548620967514 ],
+    [ pe:var "k"; pe:value 11 ],
+    [ pe:var "k1"; pe:value 12 ],
+    [ pe:var "lo"; pe:value 0.3195191647193932 ],
+    [ pe:var "lo1"; pe:value 0.22894548582625215 ];
+  pe:uses
+    { :servo :errorEnvelopeAt (11 0.3195191647193932 0.3195191652099106) . },
+    { (11 1) math:sum 12 . },
+    { :servo :errorEnvelopeAt (12 0.22894548582625215 0.22894548620967514) . },
+    { 0.22894548620967514 math:lessThan 0.3195191652099106 . }.
+
+{ 0.22894548620967514 math:lessThan 0.3195191652099106 . }
+  pe:builtin math:lessThan.

@@ -1,0 +1,56 @@
+# checked: 126 steps, 126 verified, 0 trusted
+@prefix : <http://example.org/decimal-servo#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:result :summary ("exact-pole" "exp(-1/3)" "decimal-lower" 0.7165313105 "decimal-upper" 0.7165313106 "tolerance" 0.5 "first-settled-step" 10 "first-settled-time-s" 0.2) .
+:result :envelope (0 12.5 12.5) .
+:result :envelope (1 8.95664138125 8.956641382499999) .
+:result :envelope (2 6.417713986585592 6.41771398837692) .
+:result :envelope (3 4.598493013222353 4.5984930151476675) .
+:result :envelope (4 3.2949642250893065 3.2949642269287036) .
+:result :envelope (5 2.3609450342538576 2.3609450359013398) .
+:result :envelope (6 1.6916910394123839 1.691691040828951) .
+:result :envelope (7 1.2121495974312624 1.2121495986154462) .
+:result :envelope (8 0.8685431395694698 0.8685431405391896) .
+:result :envelope (9 0.6223383540214966 0.6223383548031854) .
+:result :envelope (10 0.4459249163814359 0.44592491700377423) .
+:result :envelope (11 0.3195191647193932 0.3195191652099106) .
+:result :envelope (12 0.22894548582625215 0.22894548620967514) .
+:result :contractionAt 0 .
+:result :contractionAt 1 .
+:result :contractionAt 2 .
+:result :contractionAt 3 .
+:result :contractionAt 4 .
+:result :contractionAt 5 .
+:result :contractionAt 6 .
+:result :contractionAt 7 .
+:result :contractionAt 8 .
+:result :contractionAt 9 .
+:result :contractionAt 10 .
+:result :contractionAt 11 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/decimal-transcendental-servo-envelope.n3";
+    pe:source "examples/decimal-transcendental-servo-envelope.n3";
+    pe:verdict pe:checked;
+    pe:steps 126;
+    pe:verified 126;
+    pe:trusted 0;
+    pe:builtinSteps 65;
+    pe:factSteps 7;
+    pe:ruleSteps 54;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 61; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 126; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 126; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 240; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 65; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 152; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 294; pe:failed 0 ].

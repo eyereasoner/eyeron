@@ -1,0 +1,64 @@
+@prefix : <http://example/> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:bob :knownBy :alice .
+:bob :scoredFor 8 .
+:carol :knownBy :alice .
+:carol :scoredFor 8 .
+
+{ :bob :knownBy :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "friend"; pe:value :bob ],
+    [ pe:var "person"; pe:value :alice ],
+    [ pe:var "score"; pe:value 8 ];
+  pe:uses
+    { :alice :knows :bob . },
+    { :alice :score 8 . },
+    { 8 math:notLessThan 5 . }.
+
+{ :alice :knows :bob . }
+  pe:fact "turtle-shortcuts.n3".
+
+{ :alice :score 8 . }
+  pe:fact "turtle-shortcuts.n3".
+
+{ 8 math:notLessThan 5 . }
+  pe:builtin math:notLessThan.
+
+{ :bob :scoredFor 8 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "friend"; pe:value :bob ],
+    [ pe:var "person"; pe:value :alice ],
+    [ pe:var "score"; pe:value 8 ];
+  pe:uses
+    { :alice :knows :bob . },
+    { :alice :score 8 . },
+    { 8 math:notLessThan 5 . }.
+
+{ :carol :knownBy :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "friend"; pe:value :carol ],
+    [ pe:var "person"; pe:value :alice ],
+    [ pe:var "score"; pe:value 8 ];
+  pe:uses
+    { :alice :knows :carol . },
+    { :alice :score 8 . },
+    { 8 math:notLessThan 5 . }.
+
+{ :alice :knows :carol . }
+  pe:fact "turtle-shortcuts.n3".
+
+{ :carol :scoredFor 8 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "friend"; pe:value :carol ],
+    [ pe:var "person"; pe:value :alice ],
+    [ pe:var "score"; pe:value 8 ];
+  pe:uses
+    { :alice :knows :carol . },
+    { :alice :score 8 . },
+    { 8 math:notLessThan 5 . }.

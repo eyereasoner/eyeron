@@ -1,0 +1,1040 @@
+@prefix : <http://example.org/saffron-slopeworks#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:Reg1 :n 8 .
+:Reg1 :sumX "36"^^xsd:decimal .
+:Reg1 :sumY "46"^^xsd:decimal .
+:Reg1 :sumXX "204"^^xsd:decimal .
+:Reg1 :sumYY 379.72 .
+:Reg1 :sumXY "266"^^xsd:decimal .
+:Reg1 :slope 1.4047619047619047 .
+:Reg1 :intercept -0.5714285714285712 .
+:Reg1 :pearsonR 0.8481319639871384 .
+:Reg1 :rSquared 0.7193278283366806 .
+:Reg1 :sse 32.33904761904761 .
+:Reg1 :rmse 2.010567321026817 .
+:Reg1 :highResidual _:b9_407cb401a24f5c40 .
+_:b9_407cb401a24f5c40 :point _:b8 .
+_:b9_407cb401a24f5c40 :x 8.0 .
+_:b9_407cb401a24f5c40 :y 15.0 .
+_:b9_407cb401a24f5c40 :yhat 10.666666666666666 .
+_:b9_407cb401a24f5c40 :residual 4.333333333333334 .
+:Reg1 :prediction _:b10_fdbd2cf2941258de .
+_:b10_fdbd2cf2941258de :x 8.5 .
+_:b10_fdbd2cf2941258de :y 11.369047619047619 .
+
+{ :Reg1 :n 8 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "sumX"; pe:value "36"^^xsd:decimal ],
+    [ pe:var "sumXX"; pe:value "204"^^xsd:decimal ],
+    [ pe:var "sumXY"; pe:value "266"^^xsd:decimal ],
+    [ pe:var "sumY"; pe:value "46"^^xsd:decimal ],
+    [ pe:var "sumYY"; pe:value 379.72 ],
+    [ pe:var "x2s"; pe:value ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) ],
+    [ pe:var "xs"; pe:value (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) ],
+    [ pe:var "xys"; pe:value (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) ],
+    [ pe:var "y2s"; pe:value (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) ],
+    [ pe:var "ys"; pe:value (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:length 8 . },
+    {
+        (?x {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+        } (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0)) log:collectAllIn ?_:s1 .
+    },
+    {
+        (?y {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+        } (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0)) log:collectAllIn ?_:s1 .
+    },
+    { (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) math:sum "36"^^xsd:decimal . },
+    { (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) math:sum "46"^^xsd:decimal . },
+    {
+        (?x2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            (?x 2.0) math:exponentiation ?x2 .
+        } ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) math:sum "204"^^xsd:decimal . },
+    {
+        (?y2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+            (?y 2.0) math:exponentiation ?y2 .
+        } (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) math:sum 379.72 . },
+    {
+        (?xy {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            ?p :y ?y .
+            (?x ?y) math:product ?xy .
+        } (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) math:sum "266"^^xsd:decimal . }.
+
+{ :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . }
+  pe:fact "saffron-slopeworks.n3".
+
+{ (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:length 8 . }
+  pe:builtin list:length.
+
+{
+  (?x {
+      (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+      ?p :x ?x .
+  } (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0)) log:collectAllIn ?_:s1 .
+}
+  pe:builtin log:collectAllIn.
+
+{
+  (?y {
+      (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+      ?p :y ?y .
+  } (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0)) log:collectAllIn ?_:s1 .
+}
+  pe:builtin log:collectAllIn.
+
+{ (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) math:sum "36"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) math:sum "46"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{
+  (?x2 {
+      (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+      ?p :x ?x .
+      (?x 2.0) math:exponentiation ?x2 .
+  } ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+}
+  pe:builtin log:collectAllIn.
+
+{ ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) math:sum "204"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{
+  (?y2 {
+      (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+      ?p :y ?y .
+      (?y 2.0) math:exponentiation ?y2 .
+  } (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+}
+  pe:builtin log:collectAllIn.
+
+{ (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) math:sum 379.72 . }
+  pe:builtin math:sum.
+
+{
+  (?xy {
+      (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+      ?p :x ?x .
+      ?p :y ?y .
+      (?x ?y) math:product ?xy .
+  } (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+}
+  pe:builtin log:collectAllIn.
+
+{ (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) math:sum "266"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ :Reg1 :sumX "36"^^xsd:decimal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "sumX"; pe:value "36"^^xsd:decimal ],
+    [ pe:var "sumXX"; pe:value "204"^^xsd:decimal ],
+    [ pe:var "sumXY"; pe:value "266"^^xsd:decimal ],
+    [ pe:var "sumY"; pe:value "46"^^xsd:decimal ],
+    [ pe:var "sumYY"; pe:value 379.72 ],
+    [ pe:var "x2s"; pe:value ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) ],
+    [ pe:var "xs"; pe:value (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) ],
+    [ pe:var "xys"; pe:value (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) ],
+    [ pe:var "y2s"; pe:value (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) ],
+    [ pe:var "ys"; pe:value (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:length 8 . },
+    {
+        (?x {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+        } (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0)) log:collectAllIn ?_:s1 .
+    },
+    {
+        (?y {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+        } (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0)) log:collectAllIn ?_:s1 .
+    },
+    { (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) math:sum "36"^^xsd:decimal . },
+    { (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) math:sum "46"^^xsd:decimal . },
+    {
+        (?x2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            (?x 2.0) math:exponentiation ?x2 .
+        } ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) math:sum "204"^^xsd:decimal . },
+    {
+        (?y2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+            (?y 2.0) math:exponentiation ?y2 .
+        } (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) math:sum 379.72 . },
+    {
+        (?xy {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            ?p :y ?y .
+            (?x ?y) math:product ?xy .
+        } (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) math:sum "266"^^xsd:decimal . }.
+
+{ :Reg1 :sumY "46"^^xsd:decimal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "sumX"; pe:value "36"^^xsd:decimal ],
+    [ pe:var "sumXX"; pe:value "204"^^xsd:decimal ],
+    [ pe:var "sumXY"; pe:value "266"^^xsd:decimal ],
+    [ pe:var "sumY"; pe:value "46"^^xsd:decimal ],
+    [ pe:var "sumYY"; pe:value 379.72 ],
+    [ pe:var "x2s"; pe:value ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) ],
+    [ pe:var "xs"; pe:value (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) ],
+    [ pe:var "xys"; pe:value (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) ],
+    [ pe:var "y2s"; pe:value (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) ],
+    [ pe:var "ys"; pe:value (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:length 8 . },
+    {
+        (?x {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+        } (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0)) log:collectAllIn ?_:s1 .
+    },
+    {
+        (?y {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+        } (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0)) log:collectAllIn ?_:s1 .
+    },
+    { (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) math:sum "36"^^xsd:decimal . },
+    { (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) math:sum "46"^^xsd:decimal . },
+    {
+        (?x2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            (?x 2.0) math:exponentiation ?x2 .
+        } ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) math:sum "204"^^xsd:decimal . },
+    {
+        (?y2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+            (?y 2.0) math:exponentiation ?y2 .
+        } (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) math:sum 379.72 . },
+    {
+        (?xy {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            ?p :y ?y .
+            (?x ?y) math:product ?xy .
+        } (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) math:sum "266"^^xsd:decimal . }.
+
+{ :Reg1 :sumXX "204"^^xsd:decimal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "sumX"; pe:value "36"^^xsd:decimal ],
+    [ pe:var "sumXX"; pe:value "204"^^xsd:decimal ],
+    [ pe:var "sumXY"; pe:value "266"^^xsd:decimal ],
+    [ pe:var "sumY"; pe:value "46"^^xsd:decimal ],
+    [ pe:var "sumYY"; pe:value 379.72 ],
+    [ pe:var "x2s"; pe:value ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) ],
+    [ pe:var "xs"; pe:value (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) ],
+    [ pe:var "xys"; pe:value (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) ],
+    [ pe:var "y2s"; pe:value (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) ],
+    [ pe:var "ys"; pe:value (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:length 8 . },
+    {
+        (?x {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+        } (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0)) log:collectAllIn ?_:s1 .
+    },
+    {
+        (?y {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+        } (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0)) log:collectAllIn ?_:s1 .
+    },
+    { (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) math:sum "36"^^xsd:decimal . },
+    { (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) math:sum "46"^^xsd:decimal . },
+    {
+        (?x2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            (?x 2.0) math:exponentiation ?x2 .
+        } ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) math:sum "204"^^xsd:decimal . },
+    {
+        (?y2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+            (?y 2.0) math:exponentiation ?y2 .
+        } (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) math:sum 379.72 . },
+    {
+        (?xy {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            ?p :y ?y .
+            (?x ?y) math:product ?xy .
+        } (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) math:sum "266"^^xsd:decimal . }.
+
+{ :Reg1 :sumYY 379.72 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "sumX"; pe:value "36"^^xsd:decimal ],
+    [ pe:var "sumXX"; pe:value "204"^^xsd:decimal ],
+    [ pe:var "sumXY"; pe:value "266"^^xsd:decimal ],
+    [ pe:var "sumY"; pe:value "46"^^xsd:decimal ],
+    [ pe:var "sumYY"; pe:value 379.72 ],
+    [ pe:var "x2s"; pe:value ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) ],
+    [ pe:var "xs"; pe:value (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) ],
+    [ pe:var "xys"; pe:value (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) ],
+    [ pe:var "y2s"; pe:value (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) ],
+    [ pe:var "ys"; pe:value (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:length 8 . },
+    {
+        (?x {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+        } (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0)) log:collectAllIn ?_:s1 .
+    },
+    {
+        (?y {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+        } (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0)) log:collectAllIn ?_:s1 .
+    },
+    { (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) math:sum "36"^^xsd:decimal . },
+    { (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) math:sum "46"^^xsd:decimal . },
+    {
+        (?x2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            (?x 2.0) math:exponentiation ?x2 .
+        } ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) math:sum "204"^^xsd:decimal . },
+    {
+        (?y2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+            (?y 2.0) math:exponentiation ?y2 .
+        } (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) math:sum 379.72 . },
+    {
+        (?xy {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            ?p :y ?y .
+            (?x ?y) math:product ?xy .
+        } (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) math:sum "266"^^xsd:decimal . }.
+
+{ :Reg1 :sumXY "266"^^xsd:decimal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "sumX"; pe:value "36"^^xsd:decimal ],
+    [ pe:var "sumXX"; pe:value "204"^^xsd:decimal ],
+    [ pe:var "sumXY"; pe:value "266"^^xsd:decimal ],
+    [ pe:var "sumY"; pe:value "46"^^xsd:decimal ],
+    [ pe:var "sumYY"; pe:value 379.72 ],
+    [ pe:var "x2s"; pe:value ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) ],
+    [ pe:var "xs"; pe:value (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) ],
+    [ pe:var "xys"; pe:value (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) ],
+    [ pe:var "y2s"; pe:value (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) ],
+    [ pe:var "ys"; pe:value (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:length 8 . },
+    {
+        (?x {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+        } (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0)) log:collectAllIn ?_:s1 .
+    },
+    {
+        (?y {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+        } (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0)) log:collectAllIn ?_:s1 .
+    },
+    { (1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0) math:sum "36"^^xsd:decimal . },
+    { (2.1 2.9 3.8 4.2 5.1 5.9 7.0 15.0) math:sum "46"^^xsd:decimal . },
+    {
+        (?x2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            (?x 2.0) math:exponentiation ?x2 .
+        } ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { ("1"^^xsd:decimal "4"^^xsd:decimal "9"^^xsd:decimal "16"^^xsd:decimal "25"^^xsd:decimal "36"^^xsd:decimal "49"^^xsd:decimal "64"^^xsd:decimal) math:sum "204"^^xsd:decimal . },
+    {
+        (?y2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :y ?y .
+            (?y 2.0) math:exponentiation ?y2 .
+        } (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (4.41 8.41 14.44 17.64 26.009999999999998 34.81 "49"^^xsd:decimal "225"^^xsd:decimal) math:sum 379.72 . },
+    {
+        (?xy {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            ?p :y ?y .
+            (?x ?y) math:product ?xy .
+        } (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal)) log:collectAllIn ?_:s1 .
+    },
+    { (2.1 5.8 11.399999999999999 16.8 25.5 35.400000000000006 "49"^^xsd:decimal "120"^^xsd:decimal) math:sum "266"^^xsd:decimal . }.
+
+{ :Reg1 :slope 1.4047619047619047 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "b_sx"; pe:value 50.57142857142857 ],
+    [ pe:var "denX"; pe:value "336"^^xsd:decimal ],
+    [ pe:var "denXY"; pe:value 309711.3600000001 ],
+    [ pe:var "denY"; pe:value 921.7600000000002 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "n_sxx"; pe:value "1632"^^xsd:decimal ],
+    [ pe:var "n_sxy"; pe:value "2128"^^xsd:decimal ],
+    [ pe:var "n_syy"; pe:value 3037.76 ],
+    [ pe:var "num"; pe:value "472"^^xsd:decimal ],
+    [ pe:var "r"; pe:value 0.8481319639871384 ],
+    [ pe:var "r2"; pe:value 0.7193278283366806 ],
+    [ pe:var "sqrtDen"; pe:value 556.5171695464571 ],
+    [ pe:var "sx"; pe:value "36"^^xsd:decimal ],
+    [ pe:var "sx2"; pe:value "1296"^^xsd:decimal ],
+    [ pe:var "sx_sy"; pe:value "1656"^^xsd:decimal ],
+    [ pe:var "sxx"; pe:value "204"^^xsd:decimal ],
+    [ pe:var "sxy"; pe:value "266"^^xsd:decimal ],
+    [ pe:var "sy"; pe:value "46"^^xsd:decimal ],
+    [ pe:var "sy2"; pe:value "2116"^^xsd:decimal ],
+    [ pe:var "syy"; pe:value 379.72 ],
+    [ pe:var "tmpA"; pe:value -4.571428571428569 ];
+  pe:uses
+    { :Reg1 :n 8 . },
+    { :Reg1 :sumX "36"^^xsd:decimal . },
+    { :Reg1 :sumY "46"^^xsd:decimal . },
+    { :Reg1 :sumXX "204"^^xsd:decimal . },
+    { :Reg1 :sumYY 379.72 . },
+    { :Reg1 :sumXY "266"^^xsd:decimal . },
+    { (8 "266"^^xsd:decimal) math:product "2128"^^xsd:decimal . },
+    { ("36"^^xsd:decimal "46"^^xsd:decimal) math:product "1656"^^xsd:decimal . },
+    { ("2128"^^xsd:decimal "1656"^^xsd:decimal) math:difference "472"^^xsd:decimal . },
+    { (8 "204"^^xsd:decimal) math:product "1632"^^xsd:decimal . },
+    { ("36"^^xsd:decimal 2.0) math:exponentiation "1296"^^xsd:decimal . },
+    { ("1632"^^xsd:decimal "1296"^^xsd:decimal) math:difference "336"^^xsd:decimal . },
+    { ("472"^^xsd:decimal "336"^^xsd:decimal) math:quotient 1.4047619047619047 . },
+    { (1.4047619047619047 "36"^^xsd:decimal) math:product 50.57142857142857 . },
+    { ("46"^^xsd:decimal 50.57142857142857) math:difference -4.571428571428569 . },
+    { (-4.571428571428569 8) math:quotient -0.5714285714285712 . },
+    { (8 379.72) math:product 3037.76 . },
+    { ("46"^^xsd:decimal 2.0) math:exponentiation "2116"^^xsd:decimal . },
+    { (3037.76 "2116"^^xsd:decimal) math:difference 921.7600000000002 . },
+    { ("336"^^xsd:decimal 921.7600000000002) math:product 309711.3600000001 . },
+    { (309711.3600000001 0.5) math:exponentiation 556.5171695464571 . },
+    { ("472"^^xsd:decimal 556.5171695464571) math:quotient 0.8481319639871384 . },
+    { (0.8481319639871384 2.0) math:exponentiation 0.7193278283366806 . }.
+
+{ (8 "266"^^xsd:decimal) math:product "2128"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ("36"^^xsd:decimal "46"^^xsd:decimal) math:product "1656"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ("2128"^^xsd:decimal "1656"^^xsd:decimal) math:difference "472"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ (8 "204"^^xsd:decimal) math:product "1632"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ("36"^^xsd:decimal 2.0) math:exponentiation "1296"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ ("1632"^^xsd:decimal "1296"^^xsd:decimal) math:difference "336"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ ("472"^^xsd:decimal "336"^^xsd:decimal) math:quotient 1.4047619047619047 . }
+  pe:builtin math:quotient.
+
+{ (1.4047619047619047 "36"^^xsd:decimal) math:product 50.57142857142857 . }
+  pe:builtin math:product.
+
+{ ("46"^^xsd:decimal 50.57142857142857) math:difference -4.571428571428569 . }
+  pe:builtin math:difference.
+
+{ (-4.571428571428569 8) math:quotient -0.5714285714285712 . }
+  pe:builtin math:quotient.
+
+{ (8 379.72) math:product 3037.76 . }
+  pe:builtin math:product.
+
+{ ("46"^^xsd:decimal 2.0) math:exponentiation "2116"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ (3037.76 "2116"^^xsd:decimal) math:difference 921.7600000000002 . }
+  pe:builtin math:difference.
+
+{ ("336"^^xsd:decimal 921.7600000000002) math:product 309711.3600000001 . }
+  pe:builtin math:product.
+
+{ (309711.3600000001 0.5) math:exponentiation 556.5171695464571 . }
+  pe:builtin math:exponentiation.
+
+{ ("472"^^xsd:decimal 556.5171695464571) math:quotient 0.8481319639871384 . }
+  pe:builtin math:quotient.
+
+{ (0.8481319639871384 2.0) math:exponentiation 0.7193278283366806 . }
+  pe:builtin math:exponentiation.
+
+{ :Reg1 :intercept -0.5714285714285712 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "b_sx"; pe:value 50.57142857142857 ],
+    [ pe:var "denX"; pe:value "336"^^xsd:decimal ],
+    [ pe:var "denXY"; pe:value 309711.3600000001 ],
+    [ pe:var "denY"; pe:value 921.7600000000002 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "n_sxx"; pe:value "1632"^^xsd:decimal ],
+    [ pe:var "n_sxy"; pe:value "2128"^^xsd:decimal ],
+    [ pe:var "n_syy"; pe:value 3037.76 ],
+    [ pe:var "num"; pe:value "472"^^xsd:decimal ],
+    [ pe:var "r"; pe:value 0.8481319639871384 ],
+    [ pe:var "r2"; pe:value 0.7193278283366806 ],
+    [ pe:var "sqrtDen"; pe:value 556.5171695464571 ],
+    [ pe:var "sx"; pe:value "36"^^xsd:decimal ],
+    [ pe:var "sx2"; pe:value "1296"^^xsd:decimal ],
+    [ pe:var "sx_sy"; pe:value "1656"^^xsd:decimal ],
+    [ pe:var "sxx"; pe:value "204"^^xsd:decimal ],
+    [ pe:var "sxy"; pe:value "266"^^xsd:decimal ],
+    [ pe:var "sy"; pe:value "46"^^xsd:decimal ],
+    [ pe:var "sy2"; pe:value "2116"^^xsd:decimal ],
+    [ pe:var "syy"; pe:value 379.72 ],
+    [ pe:var "tmpA"; pe:value -4.571428571428569 ];
+  pe:uses
+    { :Reg1 :n 8 . },
+    { :Reg1 :sumX "36"^^xsd:decimal . },
+    { :Reg1 :sumY "46"^^xsd:decimal . },
+    { :Reg1 :sumXX "204"^^xsd:decimal . },
+    { :Reg1 :sumYY 379.72 . },
+    { :Reg1 :sumXY "266"^^xsd:decimal . },
+    { (8 "266"^^xsd:decimal) math:product "2128"^^xsd:decimal . },
+    { ("36"^^xsd:decimal "46"^^xsd:decimal) math:product "1656"^^xsd:decimal . },
+    { ("2128"^^xsd:decimal "1656"^^xsd:decimal) math:difference "472"^^xsd:decimal . },
+    { (8 "204"^^xsd:decimal) math:product "1632"^^xsd:decimal . },
+    { ("36"^^xsd:decimal 2.0) math:exponentiation "1296"^^xsd:decimal . },
+    { ("1632"^^xsd:decimal "1296"^^xsd:decimal) math:difference "336"^^xsd:decimal . },
+    { ("472"^^xsd:decimal "336"^^xsd:decimal) math:quotient 1.4047619047619047 . },
+    { (1.4047619047619047 "36"^^xsd:decimal) math:product 50.57142857142857 . },
+    { ("46"^^xsd:decimal 50.57142857142857) math:difference -4.571428571428569 . },
+    { (-4.571428571428569 8) math:quotient -0.5714285714285712 . },
+    { (8 379.72) math:product 3037.76 . },
+    { ("46"^^xsd:decimal 2.0) math:exponentiation "2116"^^xsd:decimal . },
+    { (3037.76 "2116"^^xsd:decimal) math:difference 921.7600000000002 . },
+    { ("336"^^xsd:decimal 921.7600000000002) math:product 309711.3600000001 . },
+    { (309711.3600000001 0.5) math:exponentiation 556.5171695464571 . },
+    { ("472"^^xsd:decimal 556.5171695464571) math:quotient 0.8481319639871384 . },
+    { (0.8481319639871384 2.0) math:exponentiation 0.7193278283366806 . }.
+
+{ :Reg1 :pearsonR 0.8481319639871384 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "b_sx"; pe:value 50.57142857142857 ],
+    [ pe:var "denX"; pe:value "336"^^xsd:decimal ],
+    [ pe:var "denXY"; pe:value 309711.3600000001 ],
+    [ pe:var "denY"; pe:value 921.7600000000002 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "n_sxx"; pe:value "1632"^^xsd:decimal ],
+    [ pe:var "n_sxy"; pe:value "2128"^^xsd:decimal ],
+    [ pe:var "n_syy"; pe:value 3037.76 ],
+    [ pe:var "num"; pe:value "472"^^xsd:decimal ],
+    [ pe:var "r"; pe:value 0.8481319639871384 ],
+    [ pe:var "r2"; pe:value 0.7193278283366806 ],
+    [ pe:var "sqrtDen"; pe:value 556.5171695464571 ],
+    [ pe:var "sx"; pe:value "36"^^xsd:decimal ],
+    [ pe:var "sx2"; pe:value "1296"^^xsd:decimal ],
+    [ pe:var "sx_sy"; pe:value "1656"^^xsd:decimal ],
+    [ pe:var "sxx"; pe:value "204"^^xsd:decimal ],
+    [ pe:var "sxy"; pe:value "266"^^xsd:decimal ],
+    [ pe:var "sy"; pe:value "46"^^xsd:decimal ],
+    [ pe:var "sy2"; pe:value "2116"^^xsd:decimal ],
+    [ pe:var "syy"; pe:value 379.72 ],
+    [ pe:var "tmpA"; pe:value -4.571428571428569 ];
+  pe:uses
+    { :Reg1 :n 8 . },
+    { :Reg1 :sumX "36"^^xsd:decimal . },
+    { :Reg1 :sumY "46"^^xsd:decimal . },
+    { :Reg1 :sumXX "204"^^xsd:decimal . },
+    { :Reg1 :sumYY 379.72 . },
+    { :Reg1 :sumXY "266"^^xsd:decimal . },
+    { (8 "266"^^xsd:decimal) math:product "2128"^^xsd:decimal . },
+    { ("36"^^xsd:decimal "46"^^xsd:decimal) math:product "1656"^^xsd:decimal . },
+    { ("2128"^^xsd:decimal "1656"^^xsd:decimal) math:difference "472"^^xsd:decimal . },
+    { (8 "204"^^xsd:decimal) math:product "1632"^^xsd:decimal . },
+    { ("36"^^xsd:decimal 2.0) math:exponentiation "1296"^^xsd:decimal . },
+    { ("1632"^^xsd:decimal "1296"^^xsd:decimal) math:difference "336"^^xsd:decimal . },
+    { ("472"^^xsd:decimal "336"^^xsd:decimal) math:quotient 1.4047619047619047 . },
+    { (1.4047619047619047 "36"^^xsd:decimal) math:product 50.57142857142857 . },
+    { ("46"^^xsd:decimal 50.57142857142857) math:difference -4.571428571428569 . },
+    { (-4.571428571428569 8) math:quotient -0.5714285714285712 . },
+    { (8 379.72) math:product 3037.76 . },
+    { ("46"^^xsd:decimal 2.0) math:exponentiation "2116"^^xsd:decimal . },
+    { (3037.76 "2116"^^xsd:decimal) math:difference 921.7600000000002 . },
+    { ("336"^^xsd:decimal 921.7600000000002) math:product 309711.3600000001 . },
+    { (309711.3600000001 0.5) math:exponentiation 556.5171695464571 . },
+    { ("472"^^xsd:decimal 556.5171695464571) math:quotient 0.8481319639871384 . },
+    { (0.8481319639871384 2.0) math:exponentiation 0.7193278283366806 . }.
+
+{ :Reg1 :rSquared 0.7193278283366806 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "b_sx"; pe:value 50.57142857142857 ],
+    [ pe:var "denX"; pe:value "336"^^xsd:decimal ],
+    [ pe:var "denXY"; pe:value 309711.3600000001 ],
+    [ pe:var "denY"; pe:value 921.7600000000002 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "n_sxx"; pe:value "1632"^^xsd:decimal ],
+    [ pe:var "n_sxy"; pe:value "2128"^^xsd:decimal ],
+    [ pe:var "n_syy"; pe:value 3037.76 ],
+    [ pe:var "num"; pe:value "472"^^xsd:decimal ],
+    [ pe:var "r"; pe:value 0.8481319639871384 ],
+    [ pe:var "r2"; pe:value 0.7193278283366806 ],
+    [ pe:var "sqrtDen"; pe:value 556.5171695464571 ],
+    [ pe:var "sx"; pe:value "36"^^xsd:decimal ],
+    [ pe:var "sx2"; pe:value "1296"^^xsd:decimal ],
+    [ pe:var "sx_sy"; pe:value "1656"^^xsd:decimal ],
+    [ pe:var "sxx"; pe:value "204"^^xsd:decimal ],
+    [ pe:var "sxy"; pe:value "266"^^xsd:decimal ],
+    [ pe:var "sy"; pe:value "46"^^xsd:decimal ],
+    [ pe:var "sy2"; pe:value "2116"^^xsd:decimal ],
+    [ pe:var "syy"; pe:value 379.72 ],
+    [ pe:var "tmpA"; pe:value -4.571428571428569 ];
+  pe:uses
+    { :Reg1 :n 8 . },
+    { :Reg1 :sumX "36"^^xsd:decimal . },
+    { :Reg1 :sumY "46"^^xsd:decimal . },
+    { :Reg1 :sumXX "204"^^xsd:decimal . },
+    { :Reg1 :sumYY 379.72 . },
+    { :Reg1 :sumXY "266"^^xsd:decimal . },
+    { (8 "266"^^xsd:decimal) math:product "2128"^^xsd:decimal . },
+    { ("36"^^xsd:decimal "46"^^xsd:decimal) math:product "1656"^^xsd:decimal . },
+    { ("2128"^^xsd:decimal "1656"^^xsd:decimal) math:difference "472"^^xsd:decimal . },
+    { (8 "204"^^xsd:decimal) math:product "1632"^^xsd:decimal . },
+    { ("36"^^xsd:decimal 2.0) math:exponentiation "1296"^^xsd:decimal . },
+    { ("1632"^^xsd:decimal "1296"^^xsd:decimal) math:difference "336"^^xsd:decimal . },
+    { ("472"^^xsd:decimal "336"^^xsd:decimal) math:quotient 1.4047619047619047 . },
+    { (1.4047619047619047 "36"^^xsd:decimal) math:product 50.57142857142857 . },
+    { ("46"^^xsd:decimal 50.57142857142857) math:difference -4.571428571428569 . },
+    { (-4.571428571428569 8) math:quotient -0.5714285714285712 . },
+    { (8 379.72) math:product 3037.76 . },
+    { ("46"^^xsd:decimal 2.0) math:exponentiation "2116"^^xsd:decimal . },
+    { (3037.76 "2116"^^xsd:decimal) math:difference 921.7600000000002 . },
+    { ("336"^^xsd:decimal 921.7600000000002) math:product 309711.3600000001 . },
+    { (309711.3600000001 0.5) math:exponentiation 556.5171695464571 . },
+    { ("472"^^xsd:decimal 556.5171695464571) math:quotient 0.8481319639871384 . },
+    { (0.8481319639871384 2.0) math:exponentiation 0.7193278283366806 . }.
+
+{ :Reg1 :sse 32.33904761904761 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "e2s"; pe:value (1.6044444444444443 0.4381179138321994 0.024693877551020513 0.7184580498866208 1.8289342403628133 3.8304081632652998 5.116213151927433 18.777777777777782) ],
+    [ pe:var "mse"; pe:value 4.0423809523809515 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "rmse"; pe:value 2.010567321026817 ],
+    [ pe:var "sse"; pe:value 32.33904761904761 ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:length 8 . },
+    {
+        (?e2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            ?p :y ?y .
+            (1.4047619047619047 ?x) math:product ?bx .
+            (-0.5714285714285712 ?bx) math:sum ?yhat .
+            (?y ?yhat) math:difference ?e .
+            (?e 2.0) math:exponentiation ?e2 .
+        } (1.6044444444444443 0.4381179138321994 0.024693877551020513 0.7184580498866208 1.8289342403628133 3.8304081632652998 5.116213151927433 18.777777777777782)) log:collectAllIn ?_:s2 .
+    },
+    { (1.6044444444444443 0.4381179138321994 0.024693877551020513 0.7184580498866208 1.8289342403628133 3.8304081632652998 5.116213151927433 18.777777777777782) math:sum 32.33904761904761 . },
+    { (32.33904761904761 8) math:quotient 4.0423809523809515 . },
+    { (4.0423809523809515 0.5) math:exponentiation 2.010567321026817 . }.
+
+{
+  (?e2 {
+      (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+      ?p :x ?x .
+      ?p :y ?y .
+      (1.4047619047619047 ?x) math:product ?bx .
+      (-0.5714285714285712 ?bx) math:sum ?yhat .
+      (?y ?yhat) math:difference ?e .
+      (?e 2.0) math:exponentiation ?e2 .
+  } (1.6044444444444443 0.4381179138321994 0.024693877551020513 0.7184580498866208 1.8289342403628133 3.8304081632652998 5.116213151927433 18.777777777777782)) log:collectAllIn ?_:s2 .
+}
+  pe:builtin log:collectAllIn.
+
+{ (1.6044444444444443 0.4381179138321994 0.024693877551020513 0.7184580498866208 1.8289342403628133 3.8304081632652998 5.116213151927433 18.777777777777782) math:sum 32.33904761904761 . }
+  pe:builtin math:sum.
+
+{ (32.33904761904761 8) math:quotient 4.0423809523809515 . }
+  pe:builtin math:quotient.
+
+{ (4.0423809523809515 0.5) math:exponentiation 2.010567321026817 . }
+  pe:builtin math:exponentiation.
+
+{ :Reg1 :rmse 2.010567321026817 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "e2s"; pe:value (1.6044444444444443 0.4381179138321994 0.024693877551020513 0.7184580498866208 1.8289342403628133 3.8304081632652998 5.116213151927433 18.777777777777782) ],
+    [ pe:var "mse"; pe:value 4.0423809523809515 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "rmse"; pe:value 2.010567321026817 ],
+    [ pe:var "sse"; pe:value 32.33904761904761 ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:length 8 . },
+    {
+        (?e2 {
+            (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member ?p .
+            ?p :x ?x .
+            ?p :y ?y .
+            (1.4047619047619047 ?x) math:product ?bx .
+            (-0.5714285714285712 ?bx) math:sum ?yhat .
+            (?y ?yhat) math:difference ?e .
+            (?e 2.0) math:exponentiation ?e2 .
+        } (1.6044444444444443 0.4381179138321994 0.024693877551020513 0.7184580498866208 1.8289342403628133 3.8304081632652998 5.116213151927433 18.777777777777782)) log:collectAllIn ?_:s2 .
+    },
+    { (1.6044444444444443 0.4381179138321994 0.024693877551020513 0.7184580498866208 1.8289342403628133 3.8304081632652998 5.116213151927433 18.777777777777782) math:sum 32.33904761904761 . },
+    { (32.33904761904761 8) math:quotient 4.0423809523809515 . },
+    { (4.0423809523809515 0.5) math:exponentiation 2.010567321026817 . }.
+
+{ :Reg1 :highResidual _:b9_407cb401a24f5c40 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "ae"; pe:value 4.333333333333334 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "bx"; pe:value 11.238095238095237 ],
+    [ pe:var "e"; pe:value 4.333333333333334 ],
+    [ pe:var "p"; pe:value _:b8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "rmse"; pe:value 2.010567321026817 ],
+    [ pe:var "thr"; pe:value 4.021134642053634 ],
+    [ pe:var "x"; pe:value 8.0 ],
+    [ pe:var "y"; pe:value 15.0 ],
+    [ pe:var "yhat"; pe:value 10.666666666666666 ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { :Reg1 :rmse 2.010567321026817 . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member _:b8 . },
+    { _:b8 :x 8.0 . },
+    { _:b8 :y 15.0 . },
+    { (1.4047619047619047 8.0) math:product 11.238095238095237 . },
+    { (-0.5714285714285712 11.238095238095237) math:sum 10.666666666666666 . },
+    { (15.0 10.666666666666666) math:difference 4.333333333333334 . },
+    { 4.333333333333334 math:absoluteValue 4.333333333333334 . },
+    { (2.0 2.010567321026817) math:product 4.021134642053634 . },
+    { 4.333333333333334 math:greaterThan 4.021134642053634 . }.
+
+{ (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member _:b8 . }
+  pe:builtin list:member.
+
+{ _:b8 :x 8.0 . }
+  pe:fact "saffron-slopeworks.n3".
+
+{ _:b8 :y 15.0 . }
+  pe:fact "saffron-slopeworks.n3".
+
+{ (1.4047619047619047 8.0) math:product 11.238095238095237 . }
+  pe:builtin math:product.
+
+{ (-0.5714285714285712 11.238095238095237) math:sum 10.666666666666666 . }
+  pe:builtin math:sum.
+
+{ (15.0 10.666666666666666) math:difference 4.333333333333334 . }
+  pe:builtin math:difference.
+
+{ 4.333333333333334 math:absoluteValue 4.333333333333334 . }
+  pe:builtin math:absoluteValue.
+
+{ (2.0 2.010567321026817) math:product 4.021134642053634 . }
+  pe:builtin math:product.
+
+{ 4.333333333333334 math:greaterThan 4.021134642053634 . }
+  pe:builtin math:greaterThan.
+
+{ _:b9_407cb401a24f5c40 :point _:b8 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "ae"; pe:value 4.333333333333334 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "bx"; pe:value 11.238095238095237 ],
+    [ pe:var "e"; pe:value 4.333333333333334 ],
+    [ pe:var "p"; pe:value _:b8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "rmse"; pe:value 2.010567321026817 ],
+    [ pe:var "thr"; pe:value 4.021134642053634 ],
+    [ pe:var "x"; pe:value 8.0 ],
+    [ pe:var "y"; pe:value 15.0 ],
+    [ pe:var "yhat"; pe:value 10.666666666666666 ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { :Reg1 :rmse 2.010567321026817 . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member _:b8 . },
+    { _:b8 :x 8.0 . },
+    { _:b8 :y 15.0 . },
+    { (1.4047619047619047 8.0) math:product 11.238095238095237 . },
+    { (-0.5714285714285712 11.238095238095237) math:sum 10.666666666666666 . },
+    { (15.0 10.666666666666666) math:difference 4.333333333333334 . },
+    { 4.333333333333334 math:absoluteValue 4.333333333333334 . },
+    { (2.0 2.010567321026817) math:product 4.021134642053634 . },
+    { 4.333333333333334 math:greaterThan 4.021134642053634 . }.
+
+{ _:b9_407cb401a24f5c40 :x 8.0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "ae"; pe:value 4.333333333333334 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "bx"; pe:value 11.238095238095237 ],
+    [ pe:var "e"; pe:value 4.333333333333334 ],
+    [ pe:var "p"; pe:value _:b8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "rmse"; pe:value 2.010567321026817 ],
+    [ pe:var "thr"; pe:value 4.021134642053634 ],
+    [ pe:var "x"; pe:value 8.0 ],
+    [ pe:var "y"; pe:value 15.0 ],
+    [ pe:var "yhat"; pe:value 10.666666666666666 ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { :Reg1 :rmse 2.010567321026817 . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member _:b8 . },
+    { _:b8 :x 8.0 . },
+    { _:b8 :y 15.0 . },
+    { (1.4047619047619047 8.0) math:product 11.238095238095237 . },
+    { (-0.5714285714285712 11.238095238095237) math:sum 10.666666666666666 . },
+    { (15.0 10.666666666666666) math:difference 4.333333333333334 . },
+    { 4.333333333333334 math:absoluteValue 4.333333333333334 . },
+    { (2.0 2.010567321026817) math:product 4.021134642053634 . },
+    { 4.333333333333334 math:greaterThan 4.021134642053634 . }.
+
+{ _:b9_407cb401a24f5c40 :y 15.0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "ae"; pe:value 4.333333333333334 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "bx"; pe:value 11.238095238095237 ],
+    [ pe:var "e"; pe:value 4.333333333333334 ],
+    [ pe:var "p"; pe:value _:b8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "rmse"; pe:value 2.010567321026817 ],
+    [ pe:var "thr"; pe:value 4.021134642053634 ],
+    [ pe:var "x"; pe:value 8.0 ],
+    [ pe:var "y"; pe:value 15.0 ],
+    [ pe:var "yhat"; pe:value 10.666666666666666 ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { :Reg1 :rmse 2.010567321026817 . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member _:b8 . },
+    { _:b8 :x 8.0 . },
+    { _:b8 :y 15.0 . },
+    { (1.4047619047619047 8.0) math:product 11.238095238095237 . },
+    { (-0.5714285714285712 11.238095238095237) math:sum 10.666666666666666 . },
+    { (15.0 10.666666666666666) math:difference 4.333333333333334 . },
+    { 4.333333333333334 math:absoluteValue 4.333333333333334 . },
+    { (2.0 2.010567321026817) math:product 4.021134642053634 . },
+    { 4.333333333333334 math:greaterThan 4.021134642053634 . }.
+
+{ _:b9_407cb401a24f5c40 :yhat 10.666666666666666 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "ae"; pe:value 4.333333333333334 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "bx"; pe:value 11.238095238095237 ],
+    [ pe:var "e"; pe:value 4.333333333333334 ],
+    [ pe:var "p"; pe:value _:b8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "rmse"; pe:value 2.010567321026817 ],
+    [ pe:var "thr"; pe:value 4.021134642053634 ],
+    [ pe:var "x"; pe:value 8.0 ],
+    [ pe:var "y"; pe:value 15.0 ],
+    [ pe:var "yhat"; pe:value 10.666666666666666 ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { :Reg1 :rmse 2.010567321026817 . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member _:b8 . },
+    { _:b8 :x 8.0 . },
+    { _:b8 :y 15.0 . },
+    { (1.4047619047619047 8.0) math:product 11.238095238095237 . },
+    { (-0.5714285714285712 11.238095238095237) math:sum 10.666666666666666 . },
+    { (15.0 10.666666666666666) math:difference 4.333333333333334 . },
+    { 4.333333333333334 math:absoluteValue 4.333333333333334 . },
+    { (2.0 2.010567321026817) math:product 4.021134642053634 . },
+    { 4.333333333333334 math:greaterThan 4.021134642053634 . }.
+
+{ _:b9_407cb401a24f5c40 :residual 4.333333333333334 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "ae"; pe:value 4.333333333333334 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "bx"; pe:value 11.238095238095237 ],
+    [ pe:var "e"; pe:value 4.333333333333334 ],
+    [ pe:var "p"; pe:value _:b8 ],
+    [ pe:var "pts"; pe:value (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) ],
+    [ pe:var "rmse"; pe:value 2.010567321026817 ],
+    [ pe:var "thr"; pe:value 4.021134642053634 ],
+    [ pe:var "x"; pe:value 8.0 ],
+    [ pe:var "y"; pe:value 15.0 ],
+    [ pe:var "yhat"; pe:value 10.666666666666666 ];
+  pe:uses
+    { :Reg1 :points (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { :Reg1 :rmse 2.010567321026817 . },
+    { (_:b1 _:b2 _:b3 _:b4 _:b5 _:b6 _:b7 _:b8) list:member _:b8 . },
+    { _:b8 :x 8.0 . },
+    { _:b8 :y 15.0 . },
+    { (1.4047619047619047 8.0) math:product 11.238095238095237 . },
+    { (-0.5714285714285712 11.238095238095237) math:sum 10.666666666666666 . },
+    { (15.0 10.666666666666666) math:difference 4.333333333333334 . },
+    { 4.333333333333334 math:absoluteValue 4.333333333333334 . },
+    { (2.0 2.010567321026817) math:product 4.021134642053634 . },
+    { 4.333333333333334 math:greaterThan 4.021134642053634 . }.
+
+{ :Reg1 :prediction _:b10_fdbd2cf2941258de . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "bx0"; pe:value 11.94047619047619 ],
+    [ pe:var "x0"; pe:value 8.5 ],
+    [ pe:var "y0"; pe:value 11.369047619047619 ];
+  pe:uses
+    { :Reg1 :predictX 8.5 . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { (1.4047619047619047 8.5) math:product 11.94047619047619 . },
+    { (-0.5714285714285712 11.94047619047619) math:sum 11.369047619047619 . }.
+
+{ :Reg1 :predictX 8.5 . }
+  pe:fact "saffron-slopeworks.n3".
+
+{ (1.4047619047619047 8.5) math:product 11.94047619047619 . }
+  pe:builtin math:product.
+
+{ (-0.5714285714285712 11.94047619047619) math:sum 11.369047619047619 . }
+  pe:builtin math:sum.
+
+{ _:b10_fdbd2cf2941258de :x 8.5 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "bx0"; pe:value 11.94047619047619 ],
+    [ pe:var "x0"; pe:value 8.5 ],
+    [ pe:var "y0"; pe:value 11.369047619047619 ];
+  pe:uses
+    { :Reg1 :predictX 8.5 . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { (1.4047619047619047 8.5) math:product 11.94047619047619 . },
+    { (-0.5714285714285712 11.94047619047619) math:sum 11.369047619047619 . }.
+
+{ _:b10_fdbd2cf2941258de :y 11.369047619047619 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "a"; pe:value -0.5714285714285712 ],
+    [ pe:var "b"; pe:value 1.4047619047619047 ],
+    [ pe:var "bx0"; pe:value 11.94047619047619 ],
+    [ pe:var "x0"; pe:value 8.5 ],
+    [ pe:var "y0"; pe:value 11.369047619047619 ];
+  pe:uses
+    { :Reg1 :predictX 8.5 . },
+    { :Reg1 :slope 1.4047619047619047 . },
+    { :Reg1 :intercept -0.5714285714285712 . },
+    { (1.4047619047619047 8.5) math:product 11.94047619047619 . },
+    { (-0.5714285714285712 11.94047619047619) math:sum 11.369047619047619 . }.

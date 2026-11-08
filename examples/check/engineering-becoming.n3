@@ -1,0 +1,52 @@
+# checked: 37 steps, 37 verified, 0 trusted
+@prefix : <http://example.org/engineering#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:r2 :considers :carbonFrame .
+:r3 :considers :ribbedHousing .
+:r2 :inheritsRequirement :stiffnessReq .
+:r2 :inheritsRequirement :assemblyReq .
+:r1 :availableForFutureIteration :yes .
+:r1 :status :approvedBaseline .
+:r2 :preserves :stiffnessReq .
+:r2 :integrates :carbonFrame .
+:r2 :preserves :assemblyReq .
+:r2 :satisfies :stiffnessReq .
+:r2 :realizes :carbonFrame .
+:r2 :satisfies :assemblyReq .
+:r3 :inheritsRequirement :stiffnessReq .
+:r2 :achieves :approvedBaseline .
+:r2 :availableForFutureIteration :yes .
+:r3 :inheritsRequirement :assemblyReq .
+:r2 :status :approvedBaseline .
+:r3 :preserves :assemblyReq .
+:r3 :integrates :ribbedHousing .
+:r3 :satisfies :assemblyReq .
+:r3 :realizes :ribbedHousing .
+:r3 :achieves :approvedBaseline .
+:r3 :availableForFutureIteration :yes .
+:r3 :status :approvedBaseline .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/engineering-becoming.n3";
+    pe:source "examples/engineering-becoming.n3";
+    pe:verdict pe:checked;
+    pe:steps 37;
+    pe:verified 37;
+    pe:trusted 0;
+    pe:factSteps 13;
+    pe:ruleSteps 24;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 37; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 37; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 37; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 64; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 61; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 24; pe:failed 0 ].

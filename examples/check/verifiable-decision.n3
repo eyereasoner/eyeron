@@ -1,0 +1,39 @@
+# checked: 30 steps, 30 verified, 0 trusted
+@prefix : <https://example.org/access#> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:research-use-42 dpv:hasJustification :eth-2026-118 .
+:research-use-42 dpv:hasLegalBasis :consent-b .
+:research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+:agreement-42 a odrl:Agreement .
+:agreement-42 odrl:profile :research-profile .
+:agreement-42 odrl:assigner :hospital .
+:agreement-42 odrl:assignee :dr-okafor .
+:agreement-42 odrl:permission :research-use-42 .
+:request-42 dpv:hasOutcome :agreement-42 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/verifiable-decision.n3";
+    pe:source "examples/verifiable-decision.n3";
+    pe:verdict pe:checked;
+    pe:steps 30;
+    pe:verified 30;
+    pe:trusted 0;
+    pe:factSteps 21;
+    pe:ruleSteps 9;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 109; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 39; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 9; pe:failed 0 ].

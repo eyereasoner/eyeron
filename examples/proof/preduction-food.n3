@@ -1,0 +1,223 @@
+@prefix food: <http://www.w3.org/2002/03owlt/miscellaneous/consistent002#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+_:g a food:SweetFruit .
+_:cnd a food:Dessert .
+_:pwlcs a food:PastaWithWhiteSauce .
+_:m a food:ConsumableThing .
+_:pwlcs a food:Pasta .
+_:cnd a food:EdibleThing .
+_:g a food:EdibleThing .
+_:g a food:ConsumableThing .
+_:cnd a food:ConsumableThing .
+_:pwlcs a food:EdibleThing .
+_:pwlcs a food:ConsumableThing .
+_:g a food:Grape .
+_:cnd a food:CheeseNutsDessert .
+_:pwlcs a food:PastaWithLightCreamSauce .
+_:ct a food:ConsumableThing .
+_:m a food:Meal .
+
+{ _:g a food:SweetFruit . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:Grape ],
+    [ pe:var "D"; pe:value food:SweetFruit ],
+    [ pe:var "X"; pe:value _:g ];
+  pe:uses
+    { food:Grape rdfs:subClassOf food:SweetFruit . },
+    { _:g a food:Grape . }.
+
+{ food:Grape rdfs:subClassOf food:SweetFruit . }
+  pe:fact "preduction-food.n3".
+
+{ _:g a food:Grape . }
+  pe:fact "preduction-food.n3".
+
+{ _:cnd a food:Dessert . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:CheeseNutsDessert ],
+    [ pe:var "D"; pe:value food:Dessert ],
+    [ pe:var "X"; pe:value _:cnd ];
+  pe:uses
+    { food:CheeseNutsDessert rdfs:subClassOf food:Dessert . },
+    { _:cnd a food:CheeseNutsDessert . }.
+
+{ food:CheeseNutsDessert rdfs:subClassOf food:Dessert . }
+  pe:fact "preduction-food.n3".
+
+{ _:cnd a food:CheeseNutsDessert . }
+  pe:fact "preduction-food.n3".
+
+{ _:pwlcs a food:PastaWithWhiteSauce . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:PastaWithLightCreamSauce ],
+    [ pe:var "D"; pe:value food:PastaWithWhiteSauce ],
+    [ pe:var "X"; pe:value _:pwlcs ];
+  pe:uses
+    { food:PastaWithLightCreamSauce rdfs:subClassOf food:PastaWithWhiteSauce . },
+    { _:pwlcs a food:PastaWithLightCreamSauce . }.
+
+{ food:PastaWithLightCreamSauce rdfs:subClassOf food:PastaWithWhiteSauce . }
+  pe:fact "preduction-food.n3".
+
+{ _:pwlcs a food:PastaWithLightCreamSauce . }
+  pe:fact "preduction-food.n3".
+
+{ _:m a food:ConsumableThing . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:Meal ],
+    [ pe:var "D"; pe:value food:ConsumableThing ],
+    [ pe:var "X"; pe:value _:m ];
+  pe:uses
+    { food:Meal rdfs:subClassOf food:ConsumableThing . },
+    { _:m a food:Meal . }.
+
+{ food:Meal rdfs:subClassOf food:ConsumableThing . }
+  pe:fact "preduction-food.n3".
+
+{ _:m a food:Meal . }
+  pe:fact "preduction-food.n3".
+
+{ _:pwlcs a food:Pasta . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:PastaWithWhiteSauce ],
+    [ pe:var "D"; pe:value food:Pasta ],
+    [ pe:var "X"; pe:value _:pwlcs ];
+  pe:uses
+    { food:PastaWithWhiteSauce rdfs:subClassOf food:Pasta . },
+    { _:pwlcs a food:PastaWithWhiteSauce . }.
+
+{ food:PastaWithWhiteSauce rdfs:subClassOf food:Pasta . }
+  pe:fact "preduction-food.n3".
+
+{ _:cnd a food:EdibleThing . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:Dessert ],
+    [ pe:var "D"; pe:value food:EdibleThing ],
+    [ pe:var "X"; pe:value _:cnd ];
+  pe:uses
+    { food:Dessert rdfs:subClassOf food:EdibleThing . },
+    { _:cnd a food:Dessert . }.
+
+{ food:Dessert rdfs:subClassOf food:EdibleThing . }
+  pe:fact "preduction-food.n3".
+
+{ _:g a food:EdibleThing . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:SweetFruit ],
+    [ pe:var "D"; pe:value food:EdibleThing ],
+    [ pe:var "X"; pe:value _:g ];
+  pe:uses
+    { food:SweetFruit rdfs:subClassOf food:EdibleThing . },
+    { _:g a food:SweetFruit . }.
+
+{ food:SweetFruit rdfs:subClassOf food:EdibleThing . }
+  pe:fact "preduction-food.n3".
+
+{ _:g a food:ConsumableThing . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:SweetFruit ],
+    [ pe:var "D"; pe:value food:ConsumableThing ],
+    [ pe:var "X"; pe:value _:g ];
+  pe:uses
+    { food:SweetFruit rdfs:subClassOf food:ConsumableThing . },
+    { _:g a food:SweetFruit . }.
+
+{ food:SweetFruit rdfs:subClassOf food:ConsumableThing . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value food:SweetFruit ],
+    [ pe:var "D"; pe:value food:EdibleThing ],
+    [ pe:var "E"; pe:value food:ConsumableThing ];
+  pe:uses
+    { food:SweetFruit rdfs:subClassOf food:EdibleThing . },
+    { food:EdibleThing rdfs:subClassOf food:ConsumableThing . }.
+
+{ food:EdibleThing rdfs:subClassOf food:ConsumableThing . }
+  pe:fact "preduction-food.n3".
+
+{ _:cnd a food:ConsumableThing . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:Dessert ],
+    [ pe:var "D"; pe:value food:ConsumableThing ],
+    [ pe:var "X"; pe:value _:cnd ];
+  pe:uses
+    { food:Dessert rdfs:subClassOf food:ConsumableThing . },
+    { _:cnd a food:Dessert . }.
+
+{ food:Dessert rdfs:subClassOf food:ConsumableThing . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value food:Dessert ],
+    [ pe:var "D"; pe:value food:EdibleThing ],
+    [ pe:var "E"; pe:value food:ConsumableThing ];
+  pe:uses
+    { food:Dessert rdfs:subClassOf food:EdibleThing . },
+    { food:EdibleThing rdfs:subClassOf food:ConsumableThing . }.
+
+{ _:pwlcs a food:EdibleThing . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:PastaWithWhiteSauce ],
+    [ pe:var "D"; pe:value food:EdibleThing ],
+    [ pe:var "X"; pe:value _:pwlcs ];
+  pe:uses
+    { food:PastaWithWhiteSauce rdfs:subClassOf food:EdibleThing . },
+    { _:pwlcs a food:PastaWithWhiteSauce . }.
+
+{ food:PastaWithWhiteSauce rdfs:subClassOf food:EdibleThing . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value food:PastaWithWhiteSauce ],
+    [ pe:var "D"; pe:value food:Pasta ],
+    [ pe:var "E"; pe:value food:EdibleThing ];
+  pe:uses
+    { food:PastaWithWhiteSauce rdfs:subClassOf food:Pasta . },
+    { food:Pasta rdfs:subClassOf food:EdibleThing . }.
+
+{ food:Pasta rdfs:subClassOf food:EdibleThing . }
+  pe:fact "preduction-food.n3".
+
+{ _:pwlcs a food:ConsumableThing . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value food:PastaWithWhiteSauce ],
+    [ pe:var "D"; pe:value food:ConsumableThing ],
+    [ pe:var "X"; pe:value _:pwlcs ];
+  pe:uses
+    { food:PastaWithWhiteSauce rdfs:subClassOf food:ConsumableThing . },
+    { _:pwlcs a food:PastaWithWhiteSauce . }.
+
+{ food:PastaWithWhiteSauce rdfs:subClassOf food:ConsumableThing . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value food:PastaWithWhiteSauce ],
+    [ pe:var "D"; pe:value food:Pasta ],
+    [ pe:var "E"; pe:value food:ConsumableThing ];
+  pe:uses
+    { food:PastaWithWhiteSauce rdfs:subClassOf food:Pasta . },
+    { food:Pasta rdfs:subClassOf food:ConsumableThing . }.
+
+{ food:Pasta rdfs:subClassOf food:ConsumableThing . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value food:Pasta ],
+    [ pe:var "D"; pe:value food:EdibleThing ],
+    [ pe:var "E"; pe:value food:ConsumableThing ];
+  pe:uses
+    { food:Pasta rdfs:subClassOf food:EdibleThing . },
+    { food:EdibleThing rdfs:subClassOf food:ConsumableThing . }.
+
+{ _:ct a food:ConsumableThing . }
+  pe:fact "preduction-food.n3".

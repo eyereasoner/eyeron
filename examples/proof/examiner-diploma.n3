@@ -1,0 +1,110 @@
+@prefix : <https://example.org/course#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:wittgenstein a :Student .
+:philosophy :examiner :russell .
+:philosophy :numberOfExaminers 1 .
+:russell a :Person .
+:russell :has _:x_f83503b81d199c51 .
+_:x_f83503b81d199c51 a :Diploma .
+
+{ :wittgenstein a :Student . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "course"; pe:value :philosophy ],
+    [ pe:var "person"; pe:value :wittgenstein ];
+  pe:uses { :philosophy :participant :wittgenstein . }.
+
+{ :philosophy :participant :wittgenstein . }
+  pe:fact "examiner-diploma.n3".
+
+{ :philosophy :examiner :russell . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "course"; pe:value :philosophy ],
+    [ pe:var "person"; pe:value :russell ],
+    [ pe:var "scope"; pe:value {
+        <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+    } ];
+  pe:uses
+    { :philosophy :teacher :russell . },
+    {
+        {
+            <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+        } log:notIncludes {
+            :russell a :Student .
+        } .
+    }.
+
+{ :philosophy :teacher :russell . }
+  pe:fact "examiner-diploma.n3".
+
+{
+  {
+      <http://example.org/a> <http://example.org/b> <http://example.org/c> .
+  } log:notIncludes {
+      :russell a :Student .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{ :philosophy :numberOfExaminers 1 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "anyone"; pe:value :wittgenstein ],
+    [ pe:var "count"; pe:value 1 ],
+    [ pe:var "course"; pe:value :philosophy ],
+    [ pe:var "examiners"; pe:value (:russell) ];
+  pe:uses
+    { :philosophy :participant :wittgenstein . },
+    {
+        (?examiner {
+            :philosophy :examiner ?examiner .
+        } (:russell)) log:collectAllIn ?scope .
+    },
+    { (:russell) list:length 1 . }.
+
+{
+  (?examiner {
+      :philosophy :examiner ?examiner .
+  } (:russell)) log:collectAllIn ?scope .
+}
+  pe:builtin log:collectAllIn.
+
+{ (:russell) list:length 1 . }
+  pe:builtin list:length.
+
+{ :russell a :Person . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "x"; pe:value :philosophy ],
+    [ pe:var "y"; pe:value :russell ];
+  pe:uses { :philosophy :examiner :russell . }.
+
+{ :russell :has _:x_f83503b81d199c51 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "x"; pe:value :philosophy ],
+    [ pe:var "y"; pe:value :russell ];
+  pe:uses { :philosophy :examiner :russell . }.
+
+{ _:x_f83503b81d199c51 a :Diploma . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "x"; pe:value :philosophy ],
+    [ pe:var "y"; pe:value :russell ];
+  pe:uses { :philosophy :examiner :russell . }.
+
+rdf:type pe:derived
+    { :wittgenstein a :Student . },
+    { :russell a :Person . },
+    { _:x_f83503b81d199c51 a :Diploma . }.
+
+:examiner pe:derived
+    { :philosophy :examiner :russell . }.
+
+:has pe:derived
+    { :russell :has _:x_f83503b81d199c51 . }.

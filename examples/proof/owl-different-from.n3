@@ -1,0 +1,15 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:bob owl:differentFrom :alice .
+
+{ :bob owl:differentFrom :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :alice ],
+    [ pe:var "B"; pe:value :bob ];
+  pe:uses { :alice owl:differentFrom :bob . }.
+
+{ :alice owl:differentFrom :bob . }
+  pe:fact "owl-different-from.n3".

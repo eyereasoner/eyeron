@@ -1,0 +1,127 @@
+@prefix : <http://example.org/act/memory-reset/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:batteryPack :can :DriveControlledReset .
+:alarmLatch :can :ReliableResetFromWork .
+:ambientBath :cannot :DriveControlledReset .
+:alarmLatch :cannot :ReliableResetFromHeatAlone .
+:alarmLatch :can :PrepareStandardState .
+:batteryPack :can :DegradeToHeatDuringReset .
+:ambientBath :cannot :ReconstructChargedWorkMediumByItself .
+:alarmLatch :cannot :PrepareStandardStateFromHeatAlone .
+:alarmSensor :can :ReadyForReuse .
+:alarmSensor :cannot :ReadyForReuseFromHeatAlone .
+
+{ :batteryPack :can :DriveControlledReset . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :alarmLatch ],
+    [ pe:var "W"; pe:value :batteryPack ];
+  pe:uses
+    { :batteryPack a :WorkMedium . },
+    { :batteryPack :chargeState :Charged . },
+    { :batteryPack :canSupply :DirectedEnergyTransfer . },
+    { :alarmLatch a :OneBitMemory . }.
+
+{ :batteryPack a :WorkMedium . }
+  pe:fact "act-sensor-memory-reset.n3".
+
+{ :batteryPack :chargeState :Charged . }
+  pe:fact "act-sensor-memory-reset.n3".
+
+{ :batteryPack :canSupply :DirectedEnergyTransfer . }
+  pe:fact "act-sensor-memory-reset.n3".
+
+{ :alarmLatch a :OneBitMemory . }
+  pe:fact "act-sensor-memory-reset.n3".
+
+{ :alarmLatch :can :ReliableResetFromWork . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "M"; pe:value :alarmLatch ],
+    [ pe:var "W"; pe:value :batteryPack ];
+  pe:uses
+    { :batteryPack a :WorkMedium . },
+    { :batteryPack :chargeState :Charged . },
+    { :batteryPack :canSupply :DirectedEnergyTransfer . },
+    { :alarmLatch a :OneBitMemory . }.
+
+{ :ambientBath :cannot :DriveControlledReset . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "H"; pe:value :ambientBath ],
+    [ pe:var "M"; pe:value :alarmLatch ];
+  pe:uses
+    { :ambientBath a :HeatMedium . },
+    { :ambientBath :provides :UndirectedThermalContact . },
+    { :alarmLatch a :OneBitMemory . }.
+
+{ :ambientBath a :HeatMedium . }
+  pe:fact "act-sensor-memory-reset.n3".
+
+{ :ambientBath :provides :UndirectedThermalContact . }
+  pe:fact "act-sensor-memory-reset.n3".
+
+{ :alarmLatch :cannot :ReliableResetFromHeatAlone . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "H"; pe:value :ambientBath ],
+    [ pe:var "M"; pe:value :alarmLatch ];
+  pe:uses
+    { :ambientBath a :HeatMedium . },
+    { :ambientBath :provides :UndirectedThermalContact . },
+    { :alarmLatch a :OneBitMemory . }.
+
+{ :alarmLatch :can :PrepareStandardState . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "M"; pe:value :alarmLatch ],
+    [ pe:var "Z"; pe:value :Clear ];
+  pe:uses
+    { :alarmLatch :can :ReliableResetFromWork . },
+    { :alarmLatch :zeroState :Clear . }.
+
+{ :alarmLatch :zeroState :Clear . }
+  pe:fact "act-sensor-memory-reset.n3".
+
+{ :batteryPack :can :DegradeToHeatDuringReset . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "M"; pe:value :alarmLatch ],
+    [ pe:var "W"; pe:value :batteryPack ];
+  pe:uses
+    { :batteryPack a :WorkMedium . },
+    { :batteryPack :chargeState :Charged . },
+    { :alarmLatch :can :ReliableResetFromWork . }.
+
+{ :ambientBath :cannot :ReconstructChargedWorkMediumByItself . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "H"; pe:value :ambientBath ],
+    [ pe:var "W"; pe:value :batteryPack ];
+  pe:uses
+    { :batteryPack :can :DegradeToHeatDuringReset . },
+    { :ambientBath a :HeatMedium . }.
+
+{ :alarmLatch :cannot :PrepareStandardStateFromHeatAlone . }
+  pe:rule 6;
+  pe:binding [ pe:var "M"; pe:value :alarmLatch ];
+  pe:uses { :alarmLatch :cannot :ReliableResetFromHeatAlone . }.
+
+{ :alarmSensor :can :ReadyForReuse . }
+  pe:rule 3;
+  pe:binding [ pe:var "M"; pe:value :alarmLatch ];
+  pe:uses
+    { :alarmSensor :hasMemory :alarmLatch . },
+    { :alarmLatch :can :PrepareStandardState . }.
+
+{ :alarmSensor :hasMemory :alarmLatch . }
+  pe:fact "act-sensor-memory-reset.n3".
+
+{ :alarmSensor :cannot :ReadyForReuseFromHeatAlone . }
+  pe:rule 7;
+  pe:binding [ pe:var "M"; pe:value :alarmLatch ];
+  pe:uses
+    { :alarmSensor :hasMemory :alarmLatch . },
+    { :alarmLatch :cannot :PrepareStandardStateFromHeatAlone . }.

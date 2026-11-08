@@ -1,0 +1,32 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:PetOwner rdfs:subClassOf :Person .
+
+{ :PetOwner rdfs:subClassOf :Person . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :PetOwner ],
+    [ pe:var "Domain"; pe:value :Person ],
+    [ pe:var "Property"; pe:value _:b2 ],
+    [ pe:var "Restriction"; pe:value _:b1 ],
+    [ pe:var "Value"; pe:value :milo ];
+  pe:uses
+    { :PetOwner rdfs:subClassOf _:b1 . },
+    { _:b1 owl:onProperty _:b2 . },
+    { _:b1 owl:hasValue :milo . },
+    { _:b2 rdfs:domain :Person . }.
+
+{ :PetOwner rdfs:subClassOf _:b1 . }
+  pe:fact "owl-restriction-domain.n3".
+
+{ _:b1 owl:onProperty _:b2 . }
+  pe:fact "owl-restriction-domain.n3".
+
+{ _:b1 owl:hasValue :milo . }
+  pe:fact "owl-restriction-domain.n3".
+
+{ _:b2 rdfs:domain :Person . }
+  pe:fact "owl-restriction-domain.n3".

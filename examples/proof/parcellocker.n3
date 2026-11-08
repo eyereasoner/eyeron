@@ -1,0 +1,74 @@
+@prefix : <https://example.org/parcellocker#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:case :decision :Permit .
+
+{ :case :decision :Permit . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "action"; pe:value :CollectParcel ],
+    [ pe:var "locker"; pe:value :lockerB17 ],
+    [ pe:var "parcel"; pe:value :parcel123 ],
+    [ pe:var "purpose"; pe:value :PickupOnly ],
+    [ pe:var "who"; pe:value :noah ];
+  pe:uses
+    { :pickupToken :delegate :noah . },
+    { :pickupRequest :requester :noah . },
+    { :pickupToken :parcel :parcel123 . },
+    { :pickupRequest :parcel :parcel123 . },
+    { :pickupToken :locker :lockerB17 . },
+    { :pickupRequest :locker :lockerB17 . },
+    { :pickupToken :action :CollectParcel . },
+    { :pickupRequest :action :CollectParcel . },
+    { :pickupToken :purpose :PickupOnly . },
+    { :pickupRequest :purpose :PickupOnly . },
+    { :pickupToken :state :Active . },
+    { :pickupToken :reuse :SingleUse . },
+    { :parcel123 :status :ReadyForPickup . },
+    { :pickupToken :billingAccess :None . },
+    { :pickupToken :redirectAllowed :No . }.
+
+{ :pickupToken :delegate :noah . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupRequest :requester :noah . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupToken :parcel :parcel123 . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupRequest :parcel :parcel123 . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupToken :locker :lockerB17 . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupRequest :locker :lockerB17 . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupToken :action :CollectParcel . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupRequest :action :CollectParcel . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupToken :purpose :PickupOnly . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupRequest :purpose :PickupOnly . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupToken :state :Active . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupToken :reuse :SingleUse . }
+  pe:fact "parcellocker.n3".
+
+{ :parcel123 :status :ReadyForPickup . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupToken :billingAccess :None . }
+  pe:fact "parcellocker.n3".
+
+{ :pickupToken :redirectAllowed :No . }
+  pe:fact "parcellocker.n3".

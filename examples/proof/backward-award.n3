@@ -1,0 +1,19 @@
+@prefix : <http://example.org/#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:D :moreInterestingThan :B .
+
+{ :D :moreInterestingThan :B . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "X"; pe:value :D ],
+    [ pe:var "Y"; pe:value :B ];
+  pe:uses
+    { :D :hasAward true . },
+    { :B :boring true . }.
+
+{ :D :hasAward true . }
+  pe:fact "backward-award.n3".
+
+{ :B :boring true . }
+  pe:fact "backward-award.n3".

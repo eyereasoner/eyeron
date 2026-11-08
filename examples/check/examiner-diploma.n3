@@ -1,0 +1,57 @@
+# checked with obligations: 11 steps, 8 verified, 3 trusted
+@prefix : <https://example.org/course#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+:wittgenstein a :Student .
+:philosophy :examiner :russell .
+:philosophy :numberOfExaminers 1 .
+:russell a :Person .
+:russell :has _:x_f83503b81d199c51 .
+_:x_f83503b81d199c51 a :Diploma .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/examiner-diploma.n3";
+    pe:source "examples/examiner-diploma.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 11;
+    pe:verified 8;
+    pe:trusted 3;
+    pe:builtinSteps 3;
+    pe:factSteps 2;
+    pe:ruleSteps 6;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 8; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 11; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 11; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 15; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 17; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 5; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 6; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?examiner {
+                :philosophy :examiner ?examiner .
+            } (:russell)) log:collectAllIn ?scope .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :russell :has _:x_f83503b81d199c51 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:x_f83503b81d199c51 a :Diploma .
+        }
+    ].

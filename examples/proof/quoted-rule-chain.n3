@@ -1,0 +1,61 @@
+@prefix : <http://example.org/try#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+{
+    :s :p ?O .
+} => {
+    :s :q ?O .
+} .
+{
+    :s :q ?O .
+} => {
+    :s :r ?O .
+} .
+
+{
+  {
+      :s :p ?O .
+  } => {
+      :s :q ?O .
+  } .
+}
+  pe:rule
+    {
+        {
+            ?S :p :o .
+        } => {
+            {
+                ?S :p ?O .
+            } => {
+                ?S :q ?O .
+            } .
+        } .
+    };
+  pe:binding [ pe:var "S"; pe:value :s ];
+  pe:uses { :s :p :o . }.
+
+{ :s :p :o . }
+  pe:fact "quoted-rule-chain.n3".
+
+{
+  {
+      :s :q ?O .
+  } => {
+      :s :r ?O .
+  } .
+}
+  pe:rule
+    {
+        {
+            ?S :p :o .
+        } => {
+            {
+                ?S :q ?O .
+            } => {
+                ?S :r ?O .
+            } .
+        } .
+    };
+  pe:binding [ pe:var "S"; pe:value :s ];
+  pe:uses { :s :p :o . }.

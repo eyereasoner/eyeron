@@ -9,10 +9,10 @@ functions](https://w3c-cg.github.io/N3/spec/builtins.html) [N3-BUILTINS] and
 This document states how Eyeron reads N3 and RDF input, the choices it makes
 in scoping, graph terms, and existential conclusions, how it evaluates a
 program and what a run outputs, its built-ins and resource limits, the N3
-proofs it writes, and the validity conditions C1–C9 its proof checker applies.
+proofs it writes, and the validity conditions C1–C10 its proof checker applies.
 It describes the current implementation. Sections and paragraphs marked
 *informative* explain or illustrate and add no requirements. The
-[guide](GUIDE.md) describes the command line, browser playground, Rust
+[README](README.md) describes the command line, browser playground, Rust
 library, and development, and is informative.
 
 **Abstract.** Eyeron derives conclusions from N3 facts and rules over N3 and
@@ -538,7 +538,7 @@ and `--stream`.
 This section is the validity contract implemented by
 [proof_check.rs](src/proof_check.rs) and its [N3
 reader](src/proof_check_n3.rs). Code comments refer to its numbered
-subsections. The [guide](GUIDE.md#proofs-and-their-limits) covers commands and
+subsections. The [README](README.md#proofs-and-their-limits) covers commands and
 a decision-and-audit example.
 
 ### 9.1 Purpose
@@ -582,14 +582,16 @@ enlarge that evidence.
 | **C6: boundary consistency** | The proof's evidence MUST NOT contradict what its obligations assume (9.6), and MUST NOT satisfy the premise of a source inference fuse. |
 | **C7: relevance** | Every step MUST serve a claim: some claim depends on it. With `log:query` rules in the source, every claim MUST be an instance of a query's conclusion. |
 | **C8: witness integrity** | Each introduced existential MUST have a fresh blank witness under a concrete universal assignment. One existential in one firing MUST keep one witness across all its conclusions; distinct existentials or firings MUST NOT share it. This also applies to instances of universal source assertions, including direct premise and claim resolution. |
-| **C9: query isolation** | A query-only answer MUST NOT supply an inference premise or carried rule, or enter consistency-checking evidence. Every output claim in a program with queries MUST have a supported query application: matching a query head alone is insufficient. |
+| **C9: search closure** | A test over the current graph that the proof's search certificate can settle MUST hold over that certificate, whose listed facts MUST be supported and whose listings MUST be closed under the forward rules (9.6.1). A settled test is verified; any other remains an obligation. |
+| **C10: call fidelity** | Each negative, collecting, or universal test in a rule step MUST be the call its rule makes, with the variables only its clause mentions left unbound (9.5.1). A query-only answer MUST NOT supply an inference premise or carried rule, or enter consistency-checking evidence. Every output claim in a program with queries MUST have a supported query application: matching a query head alone is insufficient. |
 
 *Informative.* C1 and C5 re-perform what the proof records; C2 and C4 check
 its structure; C3 its form; C6 looks inside the proof for evidence against its
 assumptions; C7 keeps the steps relevant. C8 checks quantified individuals
-across applications, and C9 checks the boundary between inference and output.
-Malformed proof metadata (9.8) is a reader error rather than a C3 failure,
-because no report can attribute it to a step.
+across applications, C9 settles tests over the current graph with the proof's
+search certificate, and C10 checks that each test and each answer is the one
+the source asks for. Malformed proof metadata (9.8) is a reader error rather
+than a C3 failure, because no report can attribute it to a step.
 
 The report records failures with their condition, affected conclusion, and
 detail, and lists every condition with how many items it examined and how many
@@ -651,7 +653,14 @@ backward rules can use an original variable name as a binding alias when it
 uniquely identifies one of their standardized variables; the binding is
 applied and checked, rather than ignored.
 
-C9 distinguishes query-only answers from ordinary assertions. Such an answer
+A variable of the rule that occurs only in the clauses of its `log:notIncludes`,
+`log:collectAllIn` (template and condition), or `log:forAllIn` premises is
+local to that test: the reasoner runs the test once the rule's other premises
+have bound theirs, with it unbound. The recorded premise MUST keep each local
+variable a distinct variable (C10). Binding one would record a weaker test:
+`{ :c :p :y }` is absent even when `{ ?x :p :y }` has a solution.
+
+C10 distinguishes query-only answers from ordinary assertions. Such an answer
 MAY be claimed, but MUST NOT supply another step's premise or carried-rule
 provenance. If the source also supplies the same assertion or an equivalent
 ordinary rule, that independent inference support remains available. Query
@@ -690,8 +699,9 @@ compatible input and output types.
 Scoped built-ins whose scope is a quoted graph (`log:includes`,
 `log:notIncludes`, `log:collectAllIn`, `log:forAllIn`) and `log:conjunction`
 are re-decided. Built-ins that read outside the proof, and scoped tests over
-the current graph, are obligations instead (9.6). An unsupported built-in
-fails C5; its name cannot make it a trust obligation.
+the current graph, are obligations instead (9.6), unless a search certificate
+settles the latter (9.6.1). An unsupported built-in fails C5; its name cannot
+make it a trust obligation.
 
 ### 9.6 Trust Obligations
 
@@ -738,10 +748,70 @@ value. An implicit query selection that needs a dependent existential instance
 requires its recorded fact step, so witness checking cannot be bypassed by
 hiding the instance in a filter.
 
+C9 settles `absent` and `collected` tests when the proof's search certificate
+allows it (9.6.1); a settled test is verified rather than trusted.
+
 Acceptance records an assumption; it does not establish that the trusted
 relation holds. Consumers can reject reports with nonempty `obligations` even
 when `Report::valid()` is true. The CLI returns success for both successful
 verdicts.
+
+#### 9.6.1 Search Certificates
+
+A proof MAY carry a search certificate: for each predicate it lists, every
+fact the run derived with that predicate, written `P pe:derived { s P o },
+...`, or `P pe:derived {}` when the run derived none. Source assertions need
+not be listed. The **certificate graph** is the source assertions and the
+listed facts; evaluating a test over it takes it as the current graph.
+
+A negation, collection, or universal test over the current graph that reads
+nothing outside the proof has **needed predicates**: those its clause
+matches, including through tests nested in it, that a forward rule
+concludes, together with the predicates matched by the premises of such
+rules and by the other triples of an existential piece with such a head. A
+test cannot be settled when:
+
+- a backward rule or a general source assertion gives one of those
+  predicates;
+- a consulted triple has a variable predicate, matches rules as data, or
+  reads outside the proof, or a forward rule generates rules or unquotes its
+  conclusion;
+- the forward rules the test reaches depend on a negation or collection
+  through a cycle, a premise triple depending on each rule with a head that
+  can match it; such a program can have more than one closed current graph;
+- it is a collection with a needed predicate: the order of a list collected
+  over derived facts is not the certificate's to establish.
+
+Otherwise C9 settles the test when every needed predicate is listed and:
+
+1. each listed fact is ground but for blank nodes, has the listing's
+   predicate, and is concluded by a step that answers no query or is given
+   by the source;
+2. each needed listing is closed: for every forward rule that can conclude
+   its predicate, each solution of the rule's premise over the certificate
+   graph gives head instances with that predicate that are listed or given,
+   and, for a head in an existential piece, a whole piece the certificate
+   graph satisfies;
+3. the test holds over the certificate graph, a collection with exactly its
+   recorded list;
+4. every such test in the derivations of the needed listed facts also holds
+   over the certificate graph.
+
+A listed fact without support, a listing that is not closed, and a test the
+certificate shows false fail C9. A test the checker cannot decide within its
+budget is not settled, and stays an obligation subject to C6. The steps of
+the listed facts serve the tests that rest on them (C7) without supporting
+them (C2).
+
+*Informative.* Supported steps give a lower bound on the run's closure and a
+closed listing an upper bound, so for a stratified program a certificate
+that passes is that closure on the needed predicates. For `:nixon a
+:Republican. :ada a :Quaker.` with `{ ?x a :Republican } => { ?x a
+:NonPacifist }` and `{ ?x a :Quaker. ?g log:notIncludes { ?x a :NonPacifist }
+} => { ?x a :Pacifist }`, the absence of `:ada a :NonPacifist` rests on the
+listing `rdf:type pe:derived { :nixon a :NonPacifist }, { :ada a :Pacifist }`:
+the first rule derives only what is listed, and the listing lacks the tested
+statement. A test that consults only source assertions needs no listing.
 
 ### 9.7 Unproven Steps
 
@@ -761,6 +831,7 @@ The proof vocabulary is `https://eyereasoner.github.io/pe#`.
 | Source assertion | `pe:fact "label"` |
 | Built-in relation | `pe:builtin predicate` |
 | Missing support | `pe:unproven "reason"` |
+| Search certificate listing | `P pe:derived { s P o }, ...`, or `P pe:derived {}` |
 | Binding | `pe:binding [ pe:var "name"; pe:value value ]` |
 | Premise | `pe:uses { s p o }`, repeated for multiple premises |
 
@@ -777,49 +848,79 @@ triple. Rule numbers MUST be positive `xsd:integer` values; fact labels and
 unproven reasons MUST be strings; built-in names MUST be IRIs. Bindings require
 one nonempty string name and one value, MAY occur only on rule steps, and MUST
 NOT repeat a variable name. Unknown predicates, malformed metadata, and
-unreferenced binding records are reader errors.
+unreferenced binding records are reader errors. A listing's subject MUST be a
+predicate IRI, and each of its objects MUST wrap one triple with that
+predicate, or none; a fact MUST NOT be listed twice.
 
 Both CLI checking modes use the same parsed source `Document`, preserving
 input formats, base IRIs, and file scopes; see [input
-handling](GUIDE.md#proofs-and-their-limits).
+handling](README.md#inputs-and-output).
 
 ### 9.9 Reporting
 
-Reports contain step totals, verified-justification counts, counts by kind,
-obligations, and failures. An invalid proof can have verified justifications
-while failing premise resolution, cycle checking, or claim coverage. Failure
-counts are counts of diagnostics, not necessarily distinct steps.
+A check report is an N3 document. Its first line is a comment giving the
+verdict in words: `checked`, `checked with obligations`, or `invalid`, with
+the step totals. Its plain statements are the proof's claims, introduced by a
+comment saying what the check established about them. A `pe:Check` resource
+then records:
+
+| Property | Value |
+| --- | --- |
+| `pe:proof`, `pe:source` | The proof checked, when it was read from a file, and each source input |
+| `pe:verdict` | `pe:checked`, `pe:checkedWithObligations`, or `pe:invalid` |
+| `pe:steps`, `pe:verified`, `pe:trusted` | Step totals: all, verified justifications, and obligations |
+| `pe:ruleSteps`, `pe:factSteps`, ... | Steps of each kind present |
+| `pe:condition` | For each of C1–C10, its `pe:id`, `pe:name`, and how many items it `pe:checked` and `pe:failed` |
+| `pe:obligation` | Each obligation's `pe:kind` and the `pe:statement` it accepts |
+| `pe:failure` | Each failure's condition `pe:id`, the `pe:statement` it concerns, and its `pe:detail` |
+
+An invalid proof can have verified justifications while failing premise
+resolution, cycle checking, or claim coverage. Failure counts are counts of
+diagnostics, not necessarily distinct steps. The verdict covers the claims;
+it does not establish that they are all the answers.
 
 ```console
 $ eyeron -p examples/socrates.n3 > socrates.proof.n3
 $ eyeron --check-proof socrates.proof.n3 examples/socrates.n3
-Proof: socrates.proof.n3
-Source program: examples/socrates.n3
-checked: 3 steps, 3 verified, 0 trusted
-Step kinds:
-  source facts: 2
-  rule applications: 1
-Conditions:
-  C1 resolution: 3 checked, 0 failed
-  C2 well-foundedness: 3 checked, 0 failed
-  C3 justification: 3 checked, 0 failed
-  C4 coverage: 3 checked, 0 failed
-  C5 re-decision: 0 checked, 0 failed
-  C6 boundary consistency: 0 checked, 0 failed
-  C7 relevance: 4 checked, 0 failed
-  C8 witness integrity: 0 checked, 0 failed
-  C9 query isolation: 0 checked, 0 failed
+# checked: 3 steps, 3 verified, 0 trusted
+@prefix : <http://example.org/socrates#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:Socrates a :Mortal .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "socrates.proof.n3";
+    pe:source "examples/socrates.n3";
+    pe:verdict pe:checked;
+    pe:steps 3;
+    pe:verified 3;
+    pe:trusted 0;
+    pe:factSteps 2;
+    pe:ruleSteps 1;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 3; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 1; pe:failed 0 ].
 ```
 
-Trusted conclusions are listed under "Trust obligations (accepted without
-verifying their truth)"; failures name their condition, such as `[C6: boundary
-consistency]`. Invalid proofs return status 1. Parsing errors occur before a
-checking report exists.
+Invalid proofs return status 1. Parsing errors occur before a checking report
+exists.
 
 Witness correspondence, each implicit query selection, and each
 inference-fuse check have a budget of 200,000 match attempts. Exhaustion MUST
-be reported as a verification failure under C8, C9, or C6, with a specific
-budget diagnostic; it never produces `checked`. This failure means the checker
+be reported as a verification failure under C8, C10, or C6, with a specific
+budget diagnostic; it never produces `checked`. C9 instead leaves a test it
+cannot decide within the budget of one search unsettled. This failure means the checker
 did not establish validity within its budget, rather than demonstrating that
 the claim is false. Rechecking the same parsed proof starts with fresh checking
 state.
@@ -834,17 +935,22 @@ heads and source instances, existentials introduced although a fact already
 satisfied them, symbolic witness generalization, open built-in values, query
 answers used as premises or carried rules, incomplete query selections,
 external reads hidden in collections, re-decided quoted-graph tests, negations
-and collections contradicted by the proof's evidence, tripped inference fuses,
-and irrelevant steps or claims. It also checks ambiguous head correspondence,
+and collections contradicted by the proof's evidence, tests whose local
+variables a step binds, search certificates that are malformed, unsupported,
+not closed, or that show a negation false, negations a certificate cannot
+settle because they lie in a cycle, tripped inference fuses, and irrelevant
+steps or claims. It also checks ambiguous head correspondence,
 separate blank scopes, partial unquoting bindings, and repeated checking. [CLI
 tests](tests/cli_proof_check.rs) cover saved and generated proofs, source
 bases, separate input scopes, RDF formats, and stdin. Malformed proof metadata
-returns a reader error before a report is constructed; semantic C1–C9 failures
+returns a reader error before a report is constructed; semantic C1–C10 failures
 produce an invalid report.
 
 [tests/proof_checking.rs](tests/proof_checking.rs) generates the proof of
-every packaged example that derives anything and requires it to be nonempty
-and check. `variable-predicate-dependency` is an intentional negative cycle
+every packaged example that derives anything, requires it to be nonempty and
+check, and compares the proof and its check report with the goldens in
+`examples/proof/` and `examples/check/`; `age` reads the clock, so its proof
+is checked but kept as no golden. `variable-predicate-dependency` is an intentional negative cycle
 that assumes `:a a :Blocked` is absent and then derives it; it trips an
 inference fuse and has no conclusions to prove.
 [Generation regressions](tests/proof_generation.rs) also check fresh
@@ -869,7 +975,7 @@ the reasoner:
 - a rule concluding `false`, or deriving a statement a pure built-in rejects,
   is an inference fuse (Section 5);
 - reasoning is bounded by reported budgets (Sections 6.4 and 6.5);
-- proofs use the `pe:` vocabulary and are checked under C1–C9 (Section 9).
+- proofs use the `pe:` vocabulary and are checked under C1–C10 (Section 9).
 
 The RDF parsers pass all 1180 cases of twelve W3C RDF 1.1 and RDF 1.2 test
 manifests (Turtle, TriG, N-Triples, N-Quads, and semantics), kept as a local
@@ -879,7 +985,7 @@ vendored Notation3 conformance suite in `tests/notation3tests/`. That coverage
 does not imply implementation of every historical N3 extension or a complete
 OWL reasoner. Eyeron has no persistent graph store, query service, or custom
 external built-in loader. Compatibility-only CLI flags are listed in [the
-guide](GUIDE.md#cli-options).
+README](README.md#cli-options).
 
 Deferred rules follow the order of Section 6.2 rather than a computed
 stratification, so a program whose negations, collections, and existentials

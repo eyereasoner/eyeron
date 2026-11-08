@@ -1,0 +1,945 @@
+@prefix : <http://example.org/heron#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:T1 :answer _:b2_d1895b619c710c4c .
+_:b2_d1895b619c710c4c a :Area .
+_:b2_d1895b619c710c4c :value "6"^^xsd:decimal .
+:T1 :status "proper" .
+:T2 :answer _:b2_f00ed8195d58f09b .
+_:b2_f00ed8195d58f09b a :Area .
+_:b2_f00ed8195d58f09b :value 0.4330127018922193 .
+:T2 :status "proper" .
+:T3 :answer _:b2_ea67d051e3e10ed0 .
+_:b2_ea67d051e3e10ed0 a :Area .
+_:b2_ea67d051e3e10ed0 :value "12"^^xsd:decimal .
+:T3 :status "proper" .
+:T4 :answer _:b2_7a9bc048e235baf0 .
+_:b2_7a9bc048e235baf0 a :Area .
+_:b2_7a9bc048e235baf0 :value 26.832815729997478 .
+:T4 :status "proper" .
+:T6 :answer _:b2_8bd9134a837adda1 .
+_:b2_8bd9134a837adda1 a :Area .
+_:b2_8bd9134a837adda1 :value 5.846051552116183 .
+:T6 :status "proper" .
+:T5 :answer _:b3_f9c2d2b1b645cd4d .
+_:b3_f9c2d2b1b645cd4d a :Area .
+_:b3_f9c2d2b1b645cd4d :value 0 .
+:T5 :status "degenerate" .
+
+{ :T1 :answer _:b2_d1895b619c710c4c . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value "6"^^xsd:decimal ],
+    [ pe:var "rad"; pe:value 36 ],
+    [ pe:var "t"; pe:value :T1 ],
+    [ pe:var "w"; pe:value _:b1_fc4fc0ba838e96c2 ];
+  pe:uses
+    { :T1 a :Triangle . },
+    { :T1 :why _:b1_fc4fc0ba838e96c2 . },
+    { _:b1_fc4fc0ba838e96c2 :radicand 36 . },
+    { 36 math:greaterThan 0 . },
+    { (36 0.5) math:exponentiation "6"^^xsd:decimal . }.
+
+{ :T1 a :Triangle . }
+  pe:fact "heron-theorem.n3".
+
+{ :T1 :why _:b1_fc4fc0ba838e96c2 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 3 ],
+    [ pe:var "b"; pe:value 4 ],
+    [ pe:var "c"; pe:value 5 ],
+    [ pe:var "p1"; pe:value 18 ],
+    [ pe:var "p2"; pe:value 36 ],
+    [ pe:var "perim"; pe:value 12 ],
+    [ pe:var "rad"; pe:value 36 ],
+    [ pe:var "s"; pe:value 6 ],
+    [ pe:var "sa"; pe:value 3 ],
+    [ pe:var "sb"; pe:value 2 ],
+    [ pe:var "sc"; pe:value 1 ],
+    [ pe:var "t"; pe:value :T1 ];
+  pe:uses
+    { :T1 a :Triangle . },
+    { :T1 :a 3 . },
+    { :T1 :b 4 . },
+    { :T1 :c 5 . },
+    { (3 4 5) math:sum 12 . },
+    { (12 2) math:quotient 6 . },
+    { (6 3) math:difference 3 . },
+    { (6 4) math:difference 2 . },
+    { (6 5) math:difference 1 . },
+    { (6 3) math:product 18 . },
+    { (18 2) math:product 36 . },
+    { (36 1) math:product 36 . }.
+
+{ :T1 :a 3 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T1 :b 4 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T1 :c 5 . }
+  pe:fact "heron-theorem.n3".
+
+{ (3 4 5) math:sum 12 . }
+  pe:builtin math:sum.
+
+{ (12 2) math:quotient 6 . }
+  pe:builtin math:quotient.
+
+{ (6 3) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (6 4) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (6 5) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (6 3) math:product 18 . }
+  pe:builtin math:product.
+
+{ (18 2) math:product 36 . }
+  pe:builtin math:product.
+
+{ (36 1) math:product 36 . }
+  pe:builtin math:product.
+
+{ _:b1_fc4fc0ba838e96c2 :radicand 36 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 3 ],
+    [ pe:var "b"; pe:value 4 ],
+    [ pe:var "c"; pe:value 5 ],
+    [ pe:var "p1"; pe:value 18 ],
+    [ pe:var "p2"; pe:value 36 ],
+    [ pe:var "perim"; pe:value 12 ],
+    [ pe:var "rad"; pe:value 36 ],
+    [ pe:var "s"; pe:value 6 ],
+    [ pe:var "sa"; pe:value 3 ],
+    [ pe:var "sb"; pe:value 2 ],
+    [ pe:var "sc"; pe:value 1 ],
+    [ pe:var "t"; pe:value :T1 ];
+  pe:uses
+    { :T1 a :Triangle . },
+    { :T1 :a 3 . },
+    { :T1 :b 4 . },
+    { :T1 :c 5 . },
+    { (3 4 5) math:sum 12 . },
+    { (12 2) math:quotient 6 . },
+    { (6 3) math:difference 3 . },
+    { (6 4) math:difference 2 . },
+    { (6 5) math:difference 1 . },
+    { (6 3) math:product 18 . },
+    { (18 2) math:product 36 . },
+    { (36 1) math:product 36 . }.
+
+{ 36 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (36 0.5) math:exponentiation "6"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ _:b2_d1895b619c710c4c a :Area . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value "6"^^xsd:decimal ],
+    [ pe:var "rad"; pe:value 36 ],
+    [ pe:var "t"; pe:value :T1 ],
+    [ pe:var "w"; pe:value _:b1_fc4fc0ba838e96c2 ];
+  pe:uses
+    { :T1 a :Triangle . },
+    { :T1 :why _:b1_fc4fc0ba838e96c2 . },
+    { _:b1_fc4fc0ba838e96c2 :radicand 36 . },
+    { 36 math:greaterThan 0 . },
+    { (36 0.5) math:exponentiation "6"^^xsd:decimal . }.
+
+{ _:b2_d1895b619c710c4c :value "6"^^xsd:decimal . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value "6"^^xsd:decimal ],
+    [ pe:var "rad"; pe:value 36 ],
+    [ pe:var "t"; pe:value :T1 ],
+    [ pe:var "w"; pe:value _:b1_fc4fc0ba838e96c2 ];
+  pe:uses
+    { :T1 a :Triangle . },
+    { :T1 :why _:b1_fc4fc0ba838e96c2 . },
+    { _:b1_fc4fc0ba838e96c2 :radicand 36 . },
+    { 36 math:greaterThan 0 . },
+    { (36 0.5) math:exponentiation "6"^^xsd:decimal . }.
+
+{ :T1 :status "proper" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value "6"^^xsd:decimal ],
+    [ pe:var "rad"; pe:value 36 ],
+    [ pe:var "t"; pe:value :T1 ],
+    [ pe:var "w"; pe:value _:b1_fc4fc0ba838e96c2 ];
+  pe:uses
+    { :T1 a :Triangle . },
+    { :T1 :why _:b1_fc4fc0ba838e96c2 . },
+    { _:b1_fc4fc0ba838e96c2 :radicand 36 . },
+    { 36 math:greaterThan 0 . },
+    { (36 0.5) math:exponentiation "6"^^xsd:decimal . }.
+
+{ :T2 :answer _:b2_f00ed8195d58f09b . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 0.4330127018922193 ],
+    [ pe:var "rad"; pe:value 0.1875 ],
+    [ pe:var "t"; pe:value :T2 ],
+    [ pe:var "w"; pe:value _:b1_acb7bd58cb6ee4a3 ];
+  pe:uses
+    { :T2 a :Triangle . },
+    { :T2 :why _:b1_acb7bd58cb6ee4a3 . },
+    { _:b1_acb7bd58cb6ee4a3 :radicand 0.1875 . },
+    { 0.1875 math:greaterThan 0 . },
+    { (0.1875 0.5) math:exponentiation 0.4330127018922193 . }.
+
+{ :T2 a :Triangle . }
+  pe:fact "heron-theorem.n3".
+
+{ :T2 :why _:b1_acb7bd58cb6ee4a3 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 1 ],
+    [ pe:var "b"; pe:value 1 ],
+    [ pe:var "c"; pe:value 1 ],
+    [ pe:var "p1"; pe:value 0.75 ],
+    [ pe:var "p2"; pe:value 0.375 ],
+    [ pe:var "perim"; pe:value 3 ],
+    [ pe:var "rad"; pe:value 0.1875 ],
+    [ pe:var "s"; pe:value 1.5 ],
+    [ pe:var "sa"; pe:value 0.5 ],
+    [ pe:var "sb"; pe:value 0.5 ],
+    [ pe:var "sc"; pe:value 0.5 ],
+    [ pe:var "t"; pe:value :T2 ];
+  pe:uses
+    { :T2 a :Triangle . },
+    { :T2 :a 1 . },
+    { :T2 :b 1 . },
+    { :T2 :c 1 . },
+    { (1 1 1) math:sum 3 . },
+    { (3 2) math:quotient 1.5 . },
+    { (1.5 1) math:difference 0.5 . },
+    { (1.5 1) math:difference 0.5 . },
+    { (1.5 1) math:difference 0.5 . },
+    { (1.5 0.5) math:product 0.75 . },
+    { (0.75 0.5) math:product 0.375 . },
+    { (0.375 0.5) math:product 0.1875 . }.
+
+{ :T2 :a 1 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T2 :b 1 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T2 :c 1 . }
+  pe:fact "heron-theorem.n3".
+
+{ (1 1 1) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ (3 2) math:quotient 1.5 . }
+  pe:builtin math:quotient.
+
+{ (1.5 1) math:difference 0.5 . }
+  pe:builtin math:difference.
+
+{ (1.5 0.5) math:product 0.75 . }
+  pe:builtin math:product.
+
+{ (0.75 0.5) math:product 0.375 . }
+  pe:builtin math:product.
+
+{ (0.375 0.5) math:product 0.1875 . }
+  pe:builtin math:product.
+
+{ _:b1_acb7bd58cb6ee4a3 :radicand 0.1875 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 1 ],
+    [ pe:var "b"; pe:value 1 ],
+    [ pe:var "c"; pe:value 1 ],
+    [ pe:var "p1"; pe:value 0.75 ],
+    [ pe:var "p2"; pe:value 0.375 ],
+    [ pe:var "perim"; pe:value 3 ],
+    [ pe:var "rad"; pe:value 0.1875 ],
+    [ pe:var "s"; pe:value 1.5 ],
+    [ pe:var "sa"; pe:value 0.5 ],
+    [ pe:var "sb"; pe:value 0.5 ],
+    [ pe:var "sc"; pe:value 0.5 ],
+    [ pe:var "t"; pe:value :T2 ];
+  pe:uses
+    { :T2 a :Triangle . },
+    { :T2 :a 1 . },
+    { :T2 :b 1 . },
+    { :T2 :c 1 . },
+    { (1 1 1) math:sum 3 . },
+    { (3 2) math:quotient 1.5 . },
+    { (1.5 1) math:difference 0.5 . },
+    { (1.5 1) math:difference 0.5 . },
+    { (1.5 1) math:difference 0.5 . },
+    { (1.5 0.5) math:product 0.75 . },
+    { (0.75 0.5) math:product 0.375 . },
+    { (0.375 0.5) math:product 0.1875 . }.
+
+{ 0.1875 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (0.1875 0.5) math:exponentiation 0.4330127018922193 . }
+  pe:builtin math:exponentiation.
+
+{ _:b2_f00ed8195d58f09b a :Area . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 0.4330127018922193 ],
+    [ pe:var "rad"; pe:value 0.1875 ],
+    [ pe:var "t"; pe:value :T2 ],
+    [ pe:var "w"; pe:value _:b1_acb7bd58cb6ee4a3 ];
+  pe:uses
+    { :T2 a :Triangle . },
+    { :T2 :why _:b1_acb7bd58cb6ee4a3 . },
+    { _:b1_acb7bd58cb6ee4a3 :radicand 0.1875 . },
+    { 0.1875 math:greaterThan 0 . },
+    { (0.1875 0.5) math:exponentiation 0.4330127018922193 . }.
+
+{ _:b2_f00ed8195d58f09b :value 0.4330127018922193 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 0.4330127018922193 ],
+    [ pe:var "rad"; pe:value 0.1875 ],
+    [ pe:var "t"; pe:value :T2 ],
+    [ pe:var "w"; pe:value _:b1_acb7bd58cb6ee4a3 ];
+  pe:uses
+    { :T2 a :Triangle . },
+    { :T2 :why _:b1_acb7bd58cb6ee4a3 . },
+    { _:b1_acb7bd58cb6ee4a3 :radicand 0.1875 . },
+    { 0.1875 math:greaterThan 0 . },
+    { (0.1875 0.5) math:exponentiation 0.4330127018922193 . }.
+
+{ :T2 :status "proper" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 0.4330127018922193 ],
+    [ pe:var "rad"; pe:value 0.1875 ],
+    [ pe:var "t"; pe:value :T2 ],
+    [ pe:var "w"; pe:value _:b1_acb7bd58cb6ee4a3 ];
+  pe:uses
+    { :T2 a :Triangle . },
+    { :T2 :why _:b1_acb7bd58cb6ee4a3 . },
+    { _:b1_acb7bd58cb6ee4a3 :radicand 0.1875 . },
+    { 0.1875 math:greaterThan 0 . },
+    { (0.1875 0.5) math:exponentiation 0.4330127018922193 . }.
+
+{ :T3 :answer _:b2_ea67d051e3e10ed0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value "12"^^xsd:decimal ],
+    [ pe:var "rad"; pe:value 144 ],
+    [ pe:var "t"; pe:value :T3 ],
+    [ pe:var "w"; pe:value _:b1_8f412e4ba61f653 ];
+  pe:uses
+    { :T3 a :Triangle . },
+    { :T3 :why _:b1_8f412e4ba61f653 . },
+    { _:b1_8f412e4ba61f653 :radicand 144 . },
+    { 144 math:greaterThan 0 . },
+    { (144 0.5) math:exponentiation "12"^^xsd:decimal . }.
+
+{ :T3 a :Triangle . }
+  pe:fact "heron-theorem.n3".
+
+{ :T3 :why _:b1_8f412e4ba61f653 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 5 ],
+    [ pe:var "b"; pe:value 5 ],
+    [ pe:var "c"; pe:value 6 ],
+    [ pe:var "p1"; pe:value 24 ],
+    [ pe:var "p2"; pe:value 72 ],
+    [ pe:var "perim"; pe:value 16 ],
+    [ pe:var "rad"; pe:value 144 ],
+    [ pe:var "s"; pe:value 8 ],
+    [ pe:var "sa"; pe:value 3 ],
+    [ pe:var "sb"; pe:value 3 ],
+    [ pe:var "sc"; pe:value 2 ],
+    [ pe:var "t"; pe:value :T3 ];
+  pe:uses
+    { :T3 a :Triangle . },
+    { :T3 :a 5 . },
+    { :T3 :b 5 . },
+    { :T3 :c 6 . },
+    { (5 5 6) math:sum 16 . },
+    { (16 2) math:quotient 8 . },
+    { (8 5) math:difference 3 . },
+    { (8 5) math:difference 3 . },
+    { (8 6) math:difference 2 . },
+    { (8 3) math:product 24 . },
+    { (24 3) math:product 72 . },
+    { (72 2) math:product 144 . }.
+
+{ :T3 :a 5 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T3 :b 5 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T3 :c 6 . }
+  pe:fact "heron-theorem.n3".
+
+{ (5 5 6) math:sum 16 . }
+  pe:builtin math:sum.
+
+{ (16 2) math:quotient 8 . }
+  pe:builtin math:quotient.
+
+{ (8 5) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (8 6) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (8 3) math:product 24 . }
+  pe:builtin math:product.
+
+{ (24 3) math:product 72 . }
+  pe:builtin math:product.
+
+{ (72 2) math:product 144 . }
+  pe:builtin math:product.
+
+{ _:b1_8f412e4ba61f653 :radicand 144 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 5 ],
+    [ pe:var "b"; pe:value 5 ],
+    [ pe:var "c"; pe:value 6 ],
+    [ pe:var "p1"; pe:value 24 ],
+    [ pe:var "p2"; pe:value 72 ],
+    [ pe:var "perim"; pe:value 16 ],
+    [ pe:var "rad"; pe:value 144 ],
+    [ pe:var "s"; pe:value 8 ],
+    [ pe:var "sa"; pe:value 3 ],
+    [ pe:var "sb"; pe:value 3 ],
+    [ pe:var "sc"; pe:value 2 ],
+    [ pe:var "t"; pe:value :T3 ];
+  pe:uses
+    { :T3 a :Triangle . },
+    { :T3 :a 5 . },
+    { :T3 :b 5 . },
+    { :T3 :c 6 . },
+    { (5 5 6) math:sum 16 . },
+    { (16 2) math:quotient 8 . },
+    { (8 5) math:difference 3 . },
+    { (8 5) math:difference 3 . },
+    { (8 6) math:difference 2 . },
+    { (8 3) math:product 24 . },
+    { (24 3) math:product 72 . },
+    { (72 2) math:product 144 . }.
+
+{ 144 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (144 0.5) math:exponentiation "12"^^xsd:decimal . }
+  pe:builtin math:exponentiation.
+
+{ _:b2_ea67d051e3e10ed0 a :Area . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value "12"^^xsd:decimal ],
+    [ pe:var "rad"; pe:value 144 ],
+    [ pe:var "t"; pe:value :T3 ],
+    [ pe:var "w"; pe:value _:b1_8f412e4ba61f653 ];
+  pe:uses
+    { :T3 a :Triangle . },
+    { :T3 :why _:b1_8f412e4ba61f653 . },
+    { _:b1_8f412e4ba61f653 :radicand 144 . },
+    { 144 math:greaterThan 0 . },
+    { (144 0.5) math:exponentiation "12"^^xsd:decimal . }.
+
+{ _:b2_ea67d051e3e10ed0 :value "12"^^xsd:decimal . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value "12"^^xsd:decimal ],
+    [ pe:var "rad"; pe:value 144 ],
+    [ pe:var "t"; pe:value :T3 ],
+    [ pe:var "w"; pe:value _:b1_8f412e4ba61f653 ];
+  pe:uses
+    { :T3 a :Triangle . },
+    { :T3 :why _:b1_8f412e4ba61f653 . },
+    { _:b1_8f412e4ba61f653 :radicand 144 . },
+    { 144 math:greaterThan 0 . },
+    { (144 0.5) math:exponentiation "12"^^xsd:decimal . }.
+
+{ :T3 :status "proper" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value "12"^^xsd:decimal ],
+    [ pe:var "rad"; pe:value 144 ],
+    [ pe:var "t"; pe:value :T3 ],
+    [ pe:var "w"; pe:value _:b1_8f412e4ba61f653 ];
+  pe:uses
+    { :T3 a :Triangle . },
+    { :T3 :why _:b1_8f412e4ba61f653 . },
+    { _:b1_8f412e4ba61f653 :radicand 144 . },
+    { 144 math:greaterThan 0 . },
+    { (144 0.5) math:exponentiation "12"^^xsd:decimal . }.
+
+{ :T4 :answer _:b2_7a9bc048e235baf0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 26.832815729997478 ],
+    [ pe:var "rad"; pe:value 720 ],
+    [ pe:var "t"; pe:value :T4 ],
+    [ pe:var "w"; pe:value _:b1_81ce404081590cdb ];
+  pe:uses
+    { :T4 a :Triangle . },
+    { :T4 :why _:b1_81ce404081590cdb . },
+    { _:b1_81ce404081590cdb :radicand 720 . },
+    { 720 math:greaterThan 0 . },
+    { (720 0.5) math:exponentiation 26.832815729997478 . }.
+
+{ :T4 a :Triangle . }
+  pe:fact "heron-theorem.n3".
+
+{ :T4 :why _:b1_81ce404081590cdb . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 7 ],
+    [ pe:var "b"; pe:value 8 ],
+    [ pe:var "c"; pe:value 9 ],
+    [ pe:var "p1"; pe:value 60 ],
+    [ pe:var "p2"; pe:value 240 ],
+    [ pe:var "perim"; pe:value 24 ],
+    [ pe:var "rad"; pe:value 720 ],
+    [ pe:var "s"; pe:value 12 ],
+    [ pe:var "sa"; pe:value 5 ],
+    [ pe:var "sb"; pe:value 4 ],
+    [ pe:var "sc"; pe:value 3 ],
+    [ pe:var "t"; pe:value :T4 ];
+  pe:uses
+    { :T4 a :Triangle . },
+    { :T4 :a 7 . },
+    { :T4 :b 8 . },
+    { :T4 :c 9 . },
+    { (7 8 9) math:sum 24 . },
+    { (24 2) math:quotient 12 . },
+    { (12 7) math:difference 5 . },
+    { (12 8) math:difference 4 . },
+    { (12 9) math:difference 3 . },
+    { (12 5) math:product 60 . },
+    { (60 4) math:product 240 . },
+    { (240 3) math:product 720 . }.
+
+{ :T4 :a 7 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T4 :b 8 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T4 :c 9 . }
+  pe:fact "heron-theorem.n3".
+
+{ (7 8 9) math:sum 24 . }
+  pe:builtin math:sum.
+
+{ (24 2) math:quotient 12 . }
+  pe:builtin math:quotient.
+
+{ (12 7) math:difference 5 . }
+  pe:builtin math:difference.
+
+{ (12 8) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ (12 9) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (12 5) math:product 60 . }
+  pe:builtin math:product.
+
+{ (60 4) math:product 240 . }
+  pe:builtin math:product.
+
+{ (240 3) math:product 720 . }
+  pe:builtin math:product.
+
+{ _:b1_81ce404081590cdb :radicand 720 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 7 ],
+    [ pe:var "b"; pe:value 8 ],
+    [ pe:var "c"; pe:value 9 ],
+    [ pe:var "p1"; pe:value 60 ],
+    [ pe:var "p2"; pe:value 240 ],
+    [ pe:var "perim"; pe:value 24 ],
+    [ pe:var "rad"; pe:value 720 ],
+    [ pe:var "s"; pe:value 12 ],
+    [ pe:var "sa"; pe:value 5 ],
+    [ pe:var "sb"; pe:value 4 ],
+    [ pe:var "sc"; pe:value 3 ],
+    [ pe:var "t"; pe:value :T4 ];
+  pe:uses
+    { :T4 a :Triangle . },
+    { :T4 :a 7 . },
+    { :T4 :b 8 . },
+    { :T4 :c 9 . },
+    { (7 8 9) math:sum 24 . },
+    { (24 2) math:quotient 12 . },
+    { (12 7) math:difference 5 . },
+    { (12 8) math:difference 4 . },
+    { (12 9) math:difference 3 . },
+    { (12 5) math:product 60 . },
+    { (60 4) math:product 240 . },
+    { (240 3) math:product 720 . }.
+
+{ 720 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (720 0.5) math:exponentiation 26.832815729997478 . }
+  pe:builtin math:exponentiation.
+
+{ _:b2_7a9bc048e235baf0 a :Area . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 26.832815729997478 ],
+    [ pe:var "rad"; pe:value 720 ],
+    [ pe:var "t"; pe:value :T4 ],
+    [ pe:var "w"; pe:value _:b1_81ce404081590cdb ];
+  pe:uses
+    { :T4 a :Triangle . },
+    { :T4 :why _:b1_81ce404081590cdb . },
+    { _:b1_81ce404081590cdb :radicand 720 . },
+    { 720 math:greaterThan 0 . },
+    { (720 0.5) math:exponentiation 26.832815729997478 . }.
+
+{ _:b2_7a9bc048e235baf0 :value 26.832815729997478 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 26.832815729997478 ],
+    [ pe:var "rad"; pe:value 720 ],
+    [ pe:var "t"; pe:value :T4 ],
+    [ pe:var "w"; pe:value _:b1_81ce404081590cdb ];
+  pe:uses
+    { :T4 a :Triangle . },
+    { :T4 :why _:b1_81ce404081590cdb . },
+    { _:b1_81ce404081590cdb :radicand 720 . },
+    { 720 math:greaterThan 0 . },
+    { (720 0.5) math:exponentiation 26.832815729997478 . }.
+
+{ :T4 :status "proper" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 26.832815729997478 ],
+    [ pe:var "rad"; pe:value 720 ],
+    [ pe:var "t"; pe:value :T4 ],
+    [ pe:var "w"; pe:value _:b1_81ce404081590cdb ];
+  pe:uses
+    { :T4 a :Triangle . },
+    { :T4 :why _:b1_81ce404081590cdb . },
+    { _:b1_81ce404081590cdb :radicand 720 . },
+    { 720 math:greaterThan 0 . },
+    { (720 0.5) math:exponentiation 26.832815729997478 . }.
+
+{ :T6 :answer _:b2_8bd9134a837adda1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 5.846051552116183 ],
+    [ pe:var "rad"; pe:value 34.176318750000036 ],
+    [ pe:var "t"; pe:value :T6 ],
+    [ pe:var "w"; pe:value _:b1_2a43c82e311baef1 ];
+  pe:uses
+    { :T6 a :Triangle . },
+    { :T6 :why _:b1_2a43c82e311baef1 . },
+    { _:b1_2a43c82e311baef1 :radicand 34.176318750000036 . },
+    { 34.176318750000036 math:greaterThan 0 . },
+    { (34.176318750000036 0.5) math:exponentiation 5.846051552116183 . }.
+
+{ :T6 a :Triangle . }
+  pe:fact "heron-theorem.n3".
+
+{ :T6 :why _:b1_2a43c82e311baef1 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 2.5 ],
+    [ pe:var "b"; pe:value 4.7 ],
+    [ pe:var "c"; pe:value 5.1 ],
+    [ pe:var "p1"; pe:value 22.447500000000005 ],
+    [ pe:var "p2"; pe:value 32.54887500000001 ],
+    [ pe:var "perim"; pe:value 12.3 ],
+    [ pe:var "rad"; pe:value 34.176318750000036 ],
+    [ pe:var "s"; pe:value 6.15 ],
+    [ pe:var "sa"; pe:value 3.6500000000000004 ],
+    [ pe:var "sb"; pe:value 1.4500000000000002 ],
+    [ pe:var "sc"; pe:value 1.0500000000000007 ],
+    [ pe:var "t"; pe:value :T6 ];
+  pe:uses
+    { :T6 a :Triangle . },
+    { :T6 :a 2.5 . },
+    { :T6 :b 4.7 . },
+    { :T6 :c 5.1 . },
+    { (2.5 4.7 5.1) math:sum 12.3 . },
+    { (12.3 2) math:quotient 6.15 . },
+    { (6.15 2.5) math:difference 3.6500000000000004 . },
+    { (6.15 4.7) math:difference 1.4500000000000002 . },
+    { (6.15 5.1) math:difference 1.0500000000000007 . },
+    { (6.15 3.6500000000000004) math:product 22.447500000000005 . },
+    { (22.447500000000005 1.4500000000000002) math:product 32.54887500000001 . },
+    { (32.54887500000001 1.0500000000000007) math:product 34.176318750000036 . }.
+
+{ :T6 :a 2.5 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T6 :b 4.7 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T6 :c 5.1 . }
+  pe:fact "heron-theorem.n3".
+
+{ (2.5 4.7 5.1) math:sum 12.3 . }
+  pe:builtin math:sum.
+
+{ (12.3 2) math:quotient 6.15 . }
+  pe:builtin math:quotient.
+
+{ (6.15 2.5) math:difference 3.6500000000000004 . }
+  pe:builtin math:difference.
+
+{ (6.15 4.7) math:difference 1.4500000000000002 . }
+  pe:builtin math:difference.
+
+{ (6.15 5.1) math:difference 1.0500000000000007 . }
+  pe:builtin math:difference.
+
+{ (6.15 3.6500000000000004) math:product 22.447500000000005 . }
+  pe:builtin math:product.
+
+{ (22.447500000000005 1.4500000000000002) math:product 32.54887500000001 . }
+  pe:builtin math:product.
+
+{ (32.54887500000001 1.0500000000000007) math:product 34.176318750000036 . }
+  pe:builtin math:product.
+
+{ _:b1_2a43c82e311baef1 :radicand 34.176318750000036 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 2.5 ],
+    [ pe:var "b"; pe:value 4.7 ],
+    [ pe:var "c"; pe:value 5.1 ],
+    [ pe:var "p1"; pe:value 22.447500000000005 ],
+    [ pe:var "p2"; pe:value 32.54887500000001 ],
+    [ pe:var "perim"; pe:value 12.3 ],
+    [ pe:var "rad"; pe:value 34.176318750000036 ],
+    [ pe:var "s"; pe:value 6.15 ],
+    [ pe:var "sa"; pe:value 3.6500000000000004 ],
+    [ pe:var "sb"; pe:value 1.4500000000000002 ],
+    [ pe:var "sc"; pe:value 1.0500000000000007 ],
+    [ pe:var "t"; pe:value :T6 ];
+  pe:uses
+    { :T6 a :Triangle . },
+    { :T6 :a 2.5 . },
+    { :T6 :b 4.7 . },
+    { :T6 :c 5.1 . },
+    { (2.5 4.7 5.1) math:sum 12.3 . },
+    { (12.3 2) math:quotient 6.15 . },
+    { (6.15 2.5) math:difference 3.6500000000000004 . },
+    { (6.15 4.7) math:difference 1.4500000000000002 . },
+    { (6.15 5.1) math:difference 1.0500000000000007 . },
+    { (6.15 3.6500000000000004) math:product 22.447500000000005 . },
+    { (22.447500000000005 1.4500000000000002) math:product 32.54887500000001 . },
+    { (32.54887500000001 1.0500000000000007) math:product 34.176318750000036 . }.
+
+{ 34.176318750000036 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (34.176318750000036 0.5) math:exponentiation 5.846051552116183 . }
+  pe:builtin math:exponentiation.
+
+{ _:b2_8bd9134a837adda1 a :Area . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 5.846051552116183 ],
+    [ pe:var "rad"; pe:value 34.176318750000036 ],
+    [ pe:var "t"; pe:value :T6 ],
+    [ pe:var "w"; pe:value _:b1_2a43c82e311baef1 ];
+  pe:uses
+    { :T6 a :Triangle . },
+    { :T6 :why _:b1_2a43c82e311baef1 . },
+    { _:b1_2a43c82e311baef1 :radicand 34.176318750000036 . },
+    { 34.176318750000036 math:greaterThan 0 . },
+    { (34.176318750000036 0.5) math:exponentiation 5.846051552116183 . }.
+
+{ _:b2_8bd9134a837adda1 :value 5.846051552116183 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 5.846051552116183 ],
+    [ pe:var "rad"; pe:value 34.176318750000036 ],
+    [ pe:var "t"; pe:value :T6 ],
+    [ pe:var "w"; pe:value _:b1_2a43c82e311baef1 ];
+  pe:uses
+    { :T6 a :Triangle . },
+    { :T6 :why _:b1_2a43c82e311baef1 . },
+    { _:b1_2a43c82e311baef1 :radicand 34.176318750000036 . },
+    { 34.176318750000036 math:greaterThan 0 . },
+    { (34.176318750000036 0.5) math:exponentiation 5.846051552116183 . }.
+
+{ :T6 :status "proper" . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 5.846051552116183 ],
+    [ pe:var "rad"; pe:value 34.176318750000036 ],
+    [ pe:var "t"; pe:value :T6 ],
+    [ pe:var "w"; pe:value _:b1_2a43c82e311baef1 ];
+  pe:uses
+    { :T6 a :Triangle . },
+    { :T6 :why _:b1_2a43c82e311baef1 . },
+    { _:b1_2a43c82e311baef1 :radicand 34.176318750000036 . },
+    { 34.176318750000036 math:greaterThan 0 . },
+    { (34.176318750000036 0.5) math:exponentiation 5.846051552116183 . }.
+
+{ :T5 :answer _:b3_f9c2d2b1b645cd4d . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "rad"; pe:value 0 ],
+    [ pe:var "t"; pe:value :T5 ],
+    [ pe:var "w"; pe:value _:b1_e016d55d4c4bf5be ];
+  pe:uses
+    { :T5 a :Triangle . },
+    { :T5 :why _:b1_e016d55d4c4bf5be . },
+    { _:b1_e016d55d4c4bf5be :radicand 0 . },
+    { 0 math:equalTo 0 . }.
+
+{ :T5 a :Triangle . }
+  pe:fact "heron-theorem.n3".
+
+{ :T5 :why _:b1_e016d55d4c4bf5be . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 1 ],
+    [ pe:var "b"; pe:value 2 ],
+    [ pe:var "c"; pe:value 3 ],
+    [ pe:var "p1"; pe:value 6 ],
+    [ pe:var "p2"; pe:value 6 ],
+    [ pe:var "perim"; pe:value 6 ],
+    [ pe:var "rad"; pe:value 0 ],
+    [ pe:var "s"; pe:value 3 ],
+    [ pe:var "sa"; pe:value 2 ],
+    [ pe:var "sb"; pe:value 1 ],
+    [ pe:var "sc"; pe:value 0 ],
+    [ pe:var "t"; pe:value :T5 ];
+  pe:uses
+    { :T5 a :Triangle . },
+    { :T5 :a 1 . },
+    { :T5 :b 2 . },
+    { :T5 :c 3 . },
+    { (1 2 3) math:sum 6 . },
+    { (6 2) math:quotient 3 . },
+    { (3 1) math:difference 2 . },
+    { (3 2) math:difference 1 . },
+    { (3 3) math:difference 0 . },
+    { (3 2) math:product 6 . },
+    { (6 1) math:product 6 . },
+    { (6 0) math:product 0 . }.
+
+{ :T5 :a 1 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T5 :b 2 . }
+  pe:fact "heron-theorem.n3".
+
+{ :T5 :c 3 . }
+  pe:fact "heron-theorem.n3".
+
+{ (1 2 3) math:sum 6 . }
+  pe:builtin math:sum.
+
+{ (6 2) math:quotient 3 . }
+  pe:builtin math:quotient.
+
+{ (3 1) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (3 2) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (3 3) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ (3 2) math:product 6 . }
+  pe:builtin math:product.
+
+{ (6 1) math:product 6 . }
+  pe:builtin math:product.
+
+{ (6 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ _:b1_e016d55d4c4bf5be :radicand 0 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "a"; pe:value 1 ],
+    [ pe:var "b"; pe:value 2 ],
+    [ pe:var "c"; pe:value 3 ],
+    [ pe:var "p1"; pe:value 6 ],
+    [ pe:var "p2"; pe:value 6 ],
+    [ pe:var "perim"; pe:value 6 ],
+    [ pe:var "rad"; pe:value 0 ],
+    [ pe:var "s"; pe:value 3 ],
+    [ pe:var "sa"; pe:value 2 ],
+    [ pe:var "sb"; pe:value 1 ],
+    [ pe:var "sc"; pe:value 0 ],
+    [ pe:var "t"; pe:value :T5 ];
+  pe:uses
+    { :T5 a :Triangle . },
+    { :T5 :a 1 . },
+    { :T5 :b 2 . },
+    { :T5 :c 3 . },
+    { (1 2 3) math:sum 6 . },
+    { (6 2) math:quotient 3 . },
+    { (3 1) math:difference 2 . },
+    { (3 2) math:difference 1 . },
+    { (3 3) math:difference 0 . },
+    { (3 2) math:product 6 . },
+    { (6 1) math:product 6 . },
+    { (6 0) math:product 0 . }.
+
+{ 0 math:equalTo 0 . }
+  pe:builtin math:equalTo.
+
+{ _:b3_f9c2d2b1b645cd4d a :Area . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "rad"; pe:value 0 ],
+    [ pe:var "t"; pe:value :T5 ],
+    [ pe:var "w"; pe:value _:b1_e016d55d4c4bf5be ];
+  pe:uses
+    { :T5 a :Triangle . },
+    { :T5 :why _:b1_e016d55d4c4bf5be . },
+    { _:b1_e016d55d4c4bf5be :radicand 0 . },
+    { 0 math:equalTo 0 . }.
+
+{ _:b3_f9c2d2b1b645cd4d :value 0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "rad"; pe:value 0 ],
+    [ pe:var "t"; pe:value :T5 ],
+    [ pe:var "w"; pe:value _:b1_e016d55d4c4bf5be ];
+  pe:uses
+    { :T5 a :Triangle . },
+    { :T5 :why _:b1_e016d55d4c4bf5be . },
+    { _:b1_e016d55d4c4bf5be :radicand 0 . },
+    { 0 math:equalTo 0 . }.
+
+{ :T5 :status "degenerate" . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "rad"; pe:value 0 ],
+    [ pe:var "t"; pe:value :T5 ],
+    [ pe:var "w"; pe:value _:b1_e016d55d4c4bf5be ];
+  pe:uses
+    { :T5 a :Triangle . },
+    { :T5 :why _:b1_e016d55d4c4bf5be . },
+    { _:b1_e016d55d4c4bf5be :radicand 0 . },
+    { 0 math:equalTo 0 . }.

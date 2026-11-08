@@ -1,0 +1,205 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:alice a :Person .
+:Person owl:equivalentClass :Human .
+:Human owl:equivalentClass :Individual .
+:Human owl:equivalentClass :Human .
+:Person owl:equivalentClass :Person .
+:Human rdfs:subClassOf :Person .
+:Person rdfs:subClassOf :Human .
+:alice a :Individual .
+:bob a :Person .
+:Individual owl:equivalentClass :Person .
+:Individual owl:equivalentClass :Individual .
+:Person rdfs:subClassOf :Individual .
+:Individual rdfs:subClassOf :Person .
+:bob a :Human .
+:Individual owl:equivalentClass :Human .
+:Human rdfs:subClassOf :Individual .
+:Individual rdfs:subClassOf :Human .
+:Human rdfs:subClassOf :Human .
+:Person rdfs:subClassOf :Person .
+:Individual rdfs:subClassOf :Individual .
+
+{ :alice a :Person . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Person ],
+    [ pe:var "X"; pe:value :alice ];
+  pe:uses
+    { :Human owl:equivalentClass :Person . },
+    { :alice a :Human . }.
+
+{ :Human owl:equivalentClass :Person . }
+  pe:fact "owl-equivalent-classes.n3".
+
+{ :alice a :Human . }
+  pe:fact "owl-equivalent-classes.n3".
+
+{ :Person owl:equivalentClass :Human . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Person ];
+  pe:uses { :Human owl:equivalentClass :Person . }.
+
+{ :Human owl:equivalentClass :Individual . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Person ],
+    [ pe:var "C"; pe:value :Individual ];
+  pe:uses
+    { :Human owl:equivalentClass :Person . },
+    { :Person owl:equivalentClass :Individual . }.
+
+{ :Person owl:equivalentClass :Individual . }
+  pe:fact "owl-equivalent-classes.n3".
+
+{ :Human owl:equivalentClass :Human . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Person ],
+    [ pe:var "C"; pe:value :Human ];
+  pe:uses
+    { :Human owl:equivalentClass :Person . },
+    { :Person owl:equivalentClass :Human . }.
+
+{ :Person owl:equivalentClass :Person . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :Person ],
+    [ pe:var "B"; pe:value :Human ],
+    [ pe:var "C"; pe:value :Person ];
+  pe:uses
+    { :Person owl:equivalentClass :Human . },
+    { :Human owl:equivalentClass :Person . }.
+
+{ :Human rdfs:subClassOf :Person . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Person ];
+  pe:uses { :Human owl:equivalentClass :Person . }.
+
+{ :Person rdfs:subClassOf :Human . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Person ];
+  pe:uses { :Human owl:equivalentClass :Person . }.
+
+{ :alice a :Individual . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :Person ],
+    [ pe:var "B"; pe:value :Individual ],
+    [ pe:var "X"; pe:value :alice ];
+  pe:uses
+    { :Person owl:equivalentClass :Individual . },
+    { :alice a :Person . }.
+
+{ :bob a :Person . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :Person ],
+    [ pe:var "B"; pe:value :Individual ],
+    [ pe:var "X"; pe:value :bob ];
+  pe:uses
+    { :Person owl:equivalentClass :Individual . },
+    { :bob a :Individual . }.
+
+{ :bob a :Individual . }
+  pe:fact "owl-equivalent-classes.n3".
+
+{ :Individual owl:equivalentClass :Person . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value :Person ],
+    [ pe:var "B"; pe:value :Individual ];
+  pe:uses { :Person owl:equivalentClass :Individual . }.
+
+{ :Individual owl:equivalentClass :Individual . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :Individual ],
+    [ pe:var "B"; pe:value :Person ],
+    [ pe:var "C"; pe:value :Individual ];
+  pe:uses
+    { :Individual owl:equivalentClass :Person . },
+    { :Person owl:equivalentClass :Individual . }.
+
+{ :Person rdfs:subClassOf :Individual . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :Person ],
+    [ pe:var "B"; pe:value :Individual ];
+  pe:uses { :Person owl:equivalentClass :Individual . }.
+
+{ :Individual rdfs:subClassOf :Person . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :Person ],
+    [ pe:var "B"; pe:value :Individual ];
+  pe:uses { :Person owl:equivalentClass :Individual . }.
+
+{ :bob a :Human . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Individual ],
+    [ pe:var "X"; pe:value :bob ];
+  pe:uses
+    { :Human owl:equivalentClass :Individual . },
+    { :bob a :Individual . }.
+
+{ :Individual owl:equivalentClass :Human . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A"; pe:value :Individual ],
+    [ pe:var "B"; pe:value :Person ],
+    [ pe:var "C"; pe:value :Human ];
+  pe:uses
+    { :Individual owl:equivalentClass :Person . },
+    { :Person owl:equivalentClass :Human . }.
+
+{ :Human rdfs:subClassOf :Individual . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Individual ];
+  pe:uses { :Human owl:equivalentClass :Individual . }.
+
+{ :Individual rdfs:subClassOf :Human . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Individual ];
+  pe:uses { :Human owl:equivalentClass :Individual . }.
+
+{ :Human rdfs:subClassOf :Human . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :Human ],
+    [ pe:var "B"; pe:value :Human ];
+  pe:uses { :Human owl:equivalentClass :Human . }.
+
+{ :Person rdfs:subClassOf :Person . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :Person ],
+    [ pe:var "B"; pe:value :Person ];
+  pe:uses { :Person owl:equivalentClass :Person . }.
+
+{ :Individual rdfs:subClassOf :Individual . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A"; pe:value :Individual ],
+    [ pe:var "B"; pe:value :Individual ];
+  pe:uses { :Individual owl:equivalentClass :Individual . }.

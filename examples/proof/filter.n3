@@ -1,0 +1,41 @@
+@prefix : <http://example.org/#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+
+:result :is ("Huey" "Dewey") .
+
+{ :result :is ("Huey" "Dewey") . }
+  pe:rule
+    {
+        {
+            (?param {
+                :Let :param ?param .
+                ?param string:lessThan "Louie" .
+            } ?filteredParams) log:collectAllIn ?scope .
+            ?filteredParams list:length 2 .
+        } => {
+            :result :is ?filteredParams .
+        } .
+    };
+  pe:binding [ pe:var "filteredParams"; pe:value ("Huey" "Dewey") ];
+  pe:uses
+    {
+        (?param {
+            :Let :param ?param .
+            ?param string:lessThan "Louie" .
+        } ("Huey" "Dewey")) log:collectAllIn ?scope .
+    },
+    { ("Huey" "Dewey") list:length 2 . }.
+
+{
+  (?param {
+      :Let :param ?param .
+      ?param string:lessThan "Louie" .
+  } ("Huey" "Dewey")) log:collectAllIn ?scope .
+}
+  pe:builtin log:collectAllIn.
+
+{ ("Huey" "Dewey") list:length 2 . }
+  pe:builtin list:length.

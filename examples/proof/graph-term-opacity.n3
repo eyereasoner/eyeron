@@ -1,0 +1,38 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:loisLane :knows {
+    :clarkKent :can :fly .
+} .
+
+{
+  :loisLane :knows {
+      :clarkKent :can :fly .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "p"; pe:value :knows ],
+    [ pe:var "q"; pe:value :can ],
+    [ pe:var "r"; pe:value :fly ],
+    [ pe:var "s"; pe:value :loisLane ],
+    [ pe:var "x"; pe:value :superman ],
+    [ pe:var "y"; pe:value :clarkKent ];
+  pe:uses
+    { :superman owl:sameAs :clarkKent . },
+    {
+        :loisLane :knows {
+            :superman :can :fly .
+        } .
+    }.
+
+{ :superman owl:sameAs :clarkKent . }
+  pe:fact "graph-term-opacity.n3".
+
+{
+  :loisLane :knows {
+      :superman :can :fly .
+  } .
+}
+  pe:fact "graph-term-opacity.n3".

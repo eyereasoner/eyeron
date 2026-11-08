@@ -1,0 +1,2031 @@
+@prefix : <http://example.org/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+{
+    ?X a ?C .
+    ?C rdfs:subClassOf ?D .
+} :ruleStatus :Bidirectional .
+{
+    ?X a ?C .
+    ?C rdfs:subClassOf ?D .
+} :ruleHead {
+    ?X a ?D .
+} .
+{
+    :alice a :Student .
+    :Student rdfs:subClassOf :Person .
+} :activeAs :ForwardBody .
+{
+    :alice :parentOf :bob .
+} :activeAs :ForwardBody .
+{
+    :alice a :Student .
+    :Student rdfs:subClassOf :Person .
+} :activeAs :BackwardBody .
+{
+    :acme :employs :carol .
+} :activeAs :BackwardBody .
+{
+    ?P :parentOf ?Q .
+} :ruleStatus :ForwardOnly .
+{
+    ?P :parentOf ?Q .
+} :ruleHead {
+    ?Q :childOf ?P .
+} .
+{
+    ?Org :employs ?P .
+} :ruleStatus :BackwardOnly .
+{
+    ?Org :employs ?P .
+} :ruleHead {
+    ?P :worksFor ?Org .
+} .
+
+{
+  {
+      ?X a ?C .
+      ?C rdfs:subClassOf ?D .
+  } :ruleStatus :Bidirectional .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        ?X a ?C .
+        ?C rdfs:subClassOf ?D .
+    } ],
+    [ pe:var "F"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?X a ?D .
+        } <= {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+        :alice :parentOf :bob .
+        :acme :employs :carol .
+    } ],
+    [ pe:var "H"; pe:value {
+        ?X a ?D .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :theory {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+        } .
+    }.
+
+{
+  <> :theory {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } .
+}
+  pe:fact "meta-rule-audit.n3".
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      ?X a ?C .
+      ?C rdfs:subClassOf ?D .
+  } :ruleHead {
+      ?X a ?D .
+  } .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        ?X a ?C .
+        ?C rdfs:subClassOf ?D .
+    } ],
+    [ pe:var "F"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?X a ?D .
+        } <= {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+        :alice :parentOf :bob .
+        :acme :employs :carol .
+    } ],
+    [ pe:var "H"; pe:value {
+        ?X a ?D .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :theory {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+        } .
+    }.
+
+{
+  {
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+  } :activeAs :ForwardBody .
+}
+  pe:rule 4;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+    } ],
+    [ pe:var "F"; pe:value {
+        {
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+        } => {
+            :alice a :Person .
+        } .
+        {
+            :alice a :Person .
+        } <= {
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+        :alice :parentOf :bob .
+        :acme :employs :carol .
+    } ],
+    [ pe:var "H"; pe:value {
+        :alice a :Person .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :theory {
+            {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } => {
+                :alice a :Person .
+            } .
+            {
+                :alice a :Person .
+            } <= {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } .
+    },
+    {
+        {
+            {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } => {
+                :alice a :Person .
+            } .
+            {
+                :alice a :Person .
+            } <= {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } => {
+                :alice a :Person .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } => {
+                :alice a :Person .
+            } .
+            {
+                :alice a :Person .
+            } <= {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+        } .
+    }.
+
+{
+  {
+      {
+          :alice a :Student .
+          :Student rdfs:subClassOf :Person .
+      } => {
+          :alice a :Person .
+      } .
+      {
+          :alice a :Person .
+      } <= {
+          :alice a :Student .
+          :Student rdfs:subClassOf :Person .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      {
+          :alice a :Student .
+          :Student rdfs:subClassOf :Person .
+      } => {
+          :alice a :Person .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      {
+          :alice a :Student .
+          :Student rdfs:subClassOf :Person .
+      } => {
+          :alice a :Person .
+      } .
+      {
+          :alice a :Person .
+      } <= {
+          :alice a :Student .
+          :Student rdfs:subClassOf :Person .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      :alice :parentOf :bob .
+  } :activeAs :ForwardBody .
+}
+  pe:rule 4;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        :alice :parentOf :bob .
+    } ],
+    [ pe:var "F"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?X a ?D .
+        } <= {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } .
+        {
+            :alice :parentOf :bob .
+        } => {
+            :bob :childOf :alice .
+        } .
+        {
+            :alice :worksFor ?Org .
+        } <= {
+            ?Org :employs :alice .
+        } .
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+        :alice :parentOf :bob .
+        :acme :employs :carol .
+    } ],
+    [ pe:var "H"; pe:value {
+        :bob :childOf :alice .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :theory {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                :alice :parentOf :bob .
+            } => {
+                :bob :childOf :alice .
+            } .
+            {
+                :alice :worksFor ?Org .
+            } <= {
+                ?Org :employs :alice .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                :alice :parentOf :bob .
+            } => {
+                :bob :childOf :alice .
+            } .
+            {
+                :alice :worksFor ?Org .
+            } <= {
+                ?Org :employs :alice .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                :alice :parentOf :bob .
+            } => {
+                :bob :childOf :alice .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                :alice :parentOf :bob .
+            } => {
+                :bob :childOf :alice .
+            } .
+            {
+                :alice :worksFor ?Org .
+            } <= {
+                ?Org :employs :alice .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            :alice :parentOf :bob .
+        } .
+    }.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          :alice :parentOf :bob .
+      } => {
+          :bob :childOf :alice .
+      } .
+      {
+          :alice :worksFor ?Org .
+      } <= {
+          ?Org :employs :alice .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      {
+          :alice :parentOf :bob .
+      } => {
+          :bob :childOf :alice .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          :alice :parentOf :bob .
+      } => {
+          :bob :childOf :alice .
+      } .
+      {
+          :alice :worksFor ?Org .
+      } <= {
+          ?Org :employs :alice .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      :alice :parentOf :bob .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+  } :activeAs :BackwardBody .
+}
+  pe:rule 5;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+    } ],
+    [ pe:var "F"; pe:value {
+        {
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+        } => {
+            :alice a :Person .
+        } .
+        {
+            :alice a :Person .
+        } <= {
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+        :alice :parentOf :bob .
+        :acme :employs :carol .
+    } ],
+    [ pe:var "H"; pe:value {
+        :alice a :Person .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :theory {
+            {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } => {
+                :alice a :Person .
+            } .
+            {
+                :alice a :Person .
+            } <= {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } .
+    },
+    {
+        {
+            {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } => {
+                :alice a :Person .
+            } .
+            {
+                :alice a :Person .
+            } <= {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                :alice a :Person .
+            } <= {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } => {
+                :alice a :Person .
+            } .
+            {
+                :alice a :Person .
+            } <= {
+                :alice a :Student .
+                :Student rdfs:subClassOf :Person .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+        } .
+    }.
+
+{
+  {
+      {
+          :alice a :Student .
+          :Student rdfs:subClassOf :Person .
+      } => {
+          :alice a :Person .
+      } .
+      {
+          :alice a :Person .
+      } <= {
+          :alice a :Student .
+          :Student rdfs:subClassOf :Person .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      {
+          :alice a :Person .
+      } <= {
+          :alice a :Student .
+          :Student rdfs:subClassOf :Person .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      :acme :employs :carol .
+  } :activeAs :BackwardBody .
+}
+  pe:rule 5;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        :acme :employs :carol .
+    } ],
+    [ pe:var "F"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?X a ?D .
+        } <= {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } .
+        {
+            :carol :parentOf ?Q .
+        } => {
+            ?Q :childOf :carol .
+        } .
+        {
+            :carol :worksFor :acme .
+        } <= {
+            :acme :employs :carol .
+        } .
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+        :alice :parentOf :bob .
+        :acme :employs :carol .
+    } ],
+    [ pe:var "H"; pe:value {
+        :carol :worksFor :acme .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :theory {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                :carol :parentOf ?Q .
+            } => {
+                ?Q :childOf :carol .
+            } .
+            {
+                :carol :worksFor :acme .
+            } <= {
+                :acme :employs :carol .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                :carol :parentOf ?Q .
+            } => {
+                ?Q :childOf :carol .
+            } .
+            {
+                :carol :worksFor :acme .
+            } <= {
+                :acme :employs :carol .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                :carol :worksFor :acme .
+            } <= {
+                :acme :employs :carol .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                :carol :parentOf ?Q .
+            } => {
+                ?Q :childOf :carol .
+            } .
+            {
+                :carol :worksFor :acme .
+            } <= {
+                :acme :employs :carol .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            :acme :employs :carol .
+        } .
+    }.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          :carol :parentOf ?Q .
+      } => {
+          ?Q :childOf :carol .
+      } .
+      {
+          :carol :worksFor :acme .
+      } <= {
+          :acme :employs :carol .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      {
+          :carol :worksFor :acme .
+      } <= {
+          :acme :employs :carol .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          :carol :parentOf ?Q .
+      } => {
+          ?Q :childOf :carol .
+      } .
+      {
+          :carol :worksFor :acme .
+      } <= {
+          :acme :employs :carol .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      :acme :employs :carol .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      ?P :parentOf ?Q .
+  } :ruleStatus :ForwardOnly .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        ?P :parentOf ?Q .
+    } ],
+    [ pe:var "F"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?X a ?D .
+        } <= {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+        :alice :parentOf :bob .
+        :acme :employs :carol .
+    } ],
+    [ pe:var "H"; pe:value {
+        ?Q :childOf ?P .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :theory {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:notIncludes {
+            {
+                ?Q :childOf ?P .
+            } <= {
+                ?P :parentOf ?Q .
+            } .
+        } .
+    }.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:notIncludes {
+      {
+          ?Q :childOf ?P .
+      } <= {
+          ?P :parentOf ?Q .
+      } .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{
+  {
+      ?P :parentOf ?Q .
+  } :ruleHead {
+      ?Q :childOf ?P .
+  } .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        ?P :parentOf ?Q .
+    } ],
+    [ pe:var "F"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?X a ?D .
+        } <= {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+        :alice :parentOf :bob .
+        :acme :employs :carol .
+    } ],
+    [ pe:var "H"; pe:value {
+        ?Q :childOf ?P .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :theory {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:notIncludes {
+            {
+                ?Q :childOf ?P .
+            } <= {
+                ?P :parentOf ?Q .
+            } .
+        } .
+    }.
+
+{
+  {
+      ?Org :employs ?P .
+  } :ruleStatus :BackwardOnly .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        ?Org :employs ?P .
+    } ],
+    [ pe:var "F"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?X a ?D .
+        } <= {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+        :alice :parentOf :bob .
+        :acme :employs :carol .
+    } ],
+    [ pe:var "H"; pe:value {
+        ?P :worksFor ?Org .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :theory {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:notIncludes {
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+        } .
+    }.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:includes {
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+  } .
+}
+  pe:builtin log:includes.
+
+{
+  {
+      {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } => {
+          ?X a ?D .
+      } .
+      {
+          ?X a ?D .
+      } <= {
+          ?X a ?C .
+          ?C rdfs:subClassOf ?D .
+      } .
+      {
+          ?P :parentOf ?Q .
+      } => {
+          ?Q :childOf ?P .
+      } .
+      {
+          ?P :worksFor ?Org .
+      } <= {
+          ?Org :employs ?P .
+      } .
+      :alice a :Student .
+      :Student rdfs:subClassOf :Person .
+      :alice :parentOf :bob .
+      :acme :employs :carol .
+  } log:notIncludes {
+      {
+          ?Org :employs ?P .
+      } => {
+          ?P :worksFor ?Org .
+      } .
+  } .
+}
+  pe:builtin log:notIncludes.
+
+{
+  {
+      ?Org :employs ?P .
+  } :ruleHead {
+      ?P :worksFor ?Org .
+  } .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value {
+        ?Org :employs ?P .
+    } ],
+    [ pe:var "F"; pe:value {
+        {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } => {
+            ?X a ?D .
+        } .
+        {
+            ?X a ?D .
+        } <= {
+            ?X a ?C .
+            ?C rdfs:subClassOf ?D .
+        } .
+        {
+            ?P :parentOf ?Q .
+        } => {
+            ?Q :childOf ?P .
+        } .
+        {
+            ?P :worksFor ?Org .
+        } <= {
+            ?Org :employs ?P .
+        } .
+        :alice a :Student .
+        :Student rdfs:subClassOf :Person .
+        :alice :parentOf :bob .
+        :acme :employs :carol .
+    } ],
+    [ pe:var "H"; pe:value {
+        ?P :worksFor ?Org .
+    } ],
+    [ pe:var "W"; pe:value <> ];
+  pe:uses
+    {
+        <> :theory {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:includes {
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+        } .
+    },
+    {
+        {
+            {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } => {
+                ?X a ?D .
+            } .
+            {
+                ?X a ?D .
+            } <= {
+                ?X a ?C .
+                ?C rdfs:subClassOf ?D .
+            } .
+            {
+                ?P :parentOf ?Q .
+            } => {
+                ?Q :childOf ?P .
+            } .
+            {
+                ?P :worksFor ?Org .
+            } <= {
+                ?Org :employs ?P .
+            } .
+            :alice a :Student .
+            :Student rdfs:subClassOf :Person .
+            :alice :parentOf :bob .
+            :acme :employs :carol .
+        } log:notIncludes {
+            {
+                ?Org :employs ?P .
+            } => {
+                ?P :worksFor ?Org .
+            } .
+        } .
+    }.

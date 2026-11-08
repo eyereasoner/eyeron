@@ -1,0 +1,578 @@
+@prefix : <https://eyereasoner.github.io/ns#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+{
+    :s1 :p1 :o1 .
+} log:isPermittedIn :w1 .
+{
+    :s2 :p2 :o2 .
+} log:isPermittedIn :w1 .
+{
+    {
+        :s3 :p3 :o3 .
+    } => false .
+} log:isPermittedIn :w1 .
+{
+    {
+        :s1 :p1 :o1 .
+    } => {
+        :s4 :p4 :o4 .
+    } .
+} log:isPermittedIn :w1 .
+{
+    :s1 :p1 :o1 .
+} log:isPermittedIn :w2 .
+{
+    :s2 :p2 :o2 .
+} log:isPermittedIn :w2 .
+{
+    {
+        :s3 :p3 :o3 .
+    } => false .
+} log:isPermittedIn :w2 .
+{
+    :s1 :p1 :o1 .
+} log:isObligatoryIn :w1 .
+{
+    :s2 :p2 :o2 .
+} log:isObligatoryIn :w1 .
+{
+    :s1 :p1 :o1 .
+} log:isObligatoryIn :w2 .
+{
+    :s2 :p2 :o2 .
+} log:isObligatoryIn :w2 .
+{
+    {
+        :s3 :p3 :o3 .
+    } => false .
+} log:isObligatoryIn :w2 .
+{
+    :s3 :p3 :o3 .
+} log:isForbiddenIn :w2 .
+{
+    :s4 :p4 :o4 .
+} log:isObligatoryIn :w2 .
+
+{
+  {
+      :s1 :p1 :o1 .
+  } log:isPermittedIn :w1 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :s1 :p1 :o1 .
+    } ],
+    [ pe:var "W1"; pe:value :w1 ],
+    [ pe:var "W2"; pe:value :w2 ];
+  pe:uses
+    { :w1 log:hasAccessTo :w2 . },
+    {
+        {
+            :s1 :p1 :o1 .
+        } log:holdsIn :w2 .
+    }.
+
+{ :w1 log:hasAccessTo :w2 . }
+  pe:fact "deontic-permission.n3".
+
+{
+  {
+      :s1 :p1 :o1 .
+  } log:holdsIn :w2 .
+}
+  pe:fact "deontic-permission.n3".
+
+{
+  {
+      :s2 :p2 :o2 .
+  } log:isPermittedIn :w1 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :s2 :p2 :o2 .
+    } ],
+    [ pe:var "W1"; pe:value :w1 ],
+    [ pe:var "W2"; pe:value :w2 ];
+  pe:uses
+    { :w1 log:hasAccessTo :w2 . },
+    {
+        {
+            :s2 :p2 :o2 .
+        } log:holdsIn :w2 .
+    }.
+
+{
+  {
+      :s2 :p2 :o2 .
+  } log:holdsIn :w2 .
+}
+  pe:fact "deontic-permission.n3".
+
+{
+  {
+      {
+          :s3 :p3 :o3 .
+      } => false .
+  } log:isPermittedIn :w1 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        {
+            :s3 :p3 :o3 .
+        } => false .
+    } ],
+    [ pe:var "W1"; pe:value :w1 ],
+    [ pe:var "W2"; pe:value :w2 ];
+  pe:uses
+    { :w1 log:hasAccessTo :w2 . },
+    {
+        {
+            {
+                :s3 :p3 :o3 .
+            } => false .
+        } log:holdsIn :w2 .
+    }.
+
+{
+  {
+      {
+          :s3 :p3 :o3 .
+      } => false .
+  } log:holdsIn :w2 .
+}
+  pe:fact "deontic-permission.n3".
+
+{
+  {
+      {
+          :s1 :p1 :o1 .
+      } => {
+          :s4 :p4 :o4 .
+      } .
+  } log:isPermittedIn :w1 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        {
+            :s1 :p1 :o1 .
+        } => {
+            :s4 :p4 :o4 .
+        } .
+    } ],
+    [ pe:var "W1"; pe:value :w1 ],
+    [ pe:var "W2"; pe:value :w2 ];
+  pe:uses
+    { :w1 log:hasAccessTo :w2 . },
+    {
+        {
+            {
+                :s1 :p1 :o1 .
+            } => {
+                :s4 :p4 :o4 .
+            } .
+        } log:holdsIn :w2 .
+    }.
+
+{
+  {
+      {
+          :s1 :p1 :o1 .
+      } => {
+          :s4 :p4 :o4 .
+      } .
+  } log:holdsIn :w2 .
+}
+  pe:fact "deontic-permission.n3".
+
+{
+  {
+      :s1 :p1 :o1 .
+  } log:isPermittedIn :w2 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :s1 :p1 :o1 .
+    } ],
+    [ pe:var "W1"; pe:value :w2 ],
+    [ pe:var "W2"; pe:value :w3 ];
+  pe:uses
+    { :w2 log:hasAccessTo :w3 . },
+    {
+        {
+            :s1 :p1 :o1 .
+        } log:holdsIn :w3 .
+    }.
+
+{ :w2 log:hasAccessTo :w3 . }
+  pe:fact "deontic-permission.n3".
+
+{
+  {
+      :s1 :p1 :o1 .
+  } log:holdsIn :w3 .
+}
+  pe:fact "deontic-permission.n3".
+
+{
+  {
+      :s2 :p2 :o2 .
+  } log:isPermittedIn :w2 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :s2 :p2 :o2 .
+    } ],
+    [ pe:var "W1"; pe:value :w2 ],
+    [ pe:var "W2"; pe:value :w3 ];
+  pe:uses
+    { :w2 log:hasAccessTo :w3 . },
+    {
+        {
+            :s2 :p2 :o2 .
+        } log:holdsIn :w3 .
+    }.
+
+{
+  {
+      :s2 :p2 :o2 .
+  } log:holdsIn :w3 .
+}
+  pe:fact "deontic-permission.n3".
+
+{
+  {
+      {
+          :s3 :p3 :o3 .
+      } => false .
+  } log:isPermittedIn :w2 .
+}
+  pe:rule 2;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        {
+            :s3 :p3 :o3 .
+        } => false .
+    } ],
+    [ pe:var "W1"; pe:value :w2 ],
+    [ pe:var "W2"; pe:value :w3 ];
+  pe:uses
+    { :w2 log:hasAccessTo :w3 . },
+    {
+        {
+            {
+                :s3 :p3 :o3 .
+            } => false .
+        } log:holdsIn :w3 .
+    }.
+
+{
+  {
+      {
+          :s3 :p3 :o3 .
+      } => false .
+  } log:holdsIn :w3 .
+}
+  pe:fact "deontic-permission.n3".
+
+{
+  {
+      :s1 :p1 :o1 .
+  } log:isObligatoryIn :w1 .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :s1 :p1 :o1 .
+    } ],
+    [ pe:var "Sc"; pe:value _:forAllIn ],
+    [ pe:var "W"; pe:value :w2 ],
+    [ pe:var "W1"; pe:value :w1 ];
+  pe:uses
+    { :w1 log:hasAccessTo :w2 . },
+    {
+        {
+            :s1 :p1 :o1 .
+        } log:holdsIn :w1 .
+    },
+    {
+        ({
+            :w1 log:hasAccessTo ?W2 .
+        } {
+            {
+                :s1 :p1 :o1 .
+            } log:holdsIn ?W2 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{
+  {
+      :s1 :p1 :o1 .
+  } log:holdsIn :w1 .
+}
+  pe:fact "deontic-permission.n3".
+
+{
+  ({
+      :w1 log:hasAccessTo ?W2 .
+  } {
+      {
+          :s1 :p1 :o1 .
+      } log:holdsIn ?W2 .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.
+
+{
+  {
+      :s2 :p2 :o2 .
+  } log:isObligatoryIn :w1 .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :s2 :p2 :o2 .
+    } ],
+    [ pe:var "Sc"; pe:value _:forAllIn ],
+    [ pe:var "W"; pe:value :w2 ],
+    [ pe:var "W1"; pe:value :w1 ];
+  pe:uses
+    { :w1 log:hasAccessTo :w2 . },
+    {
+        {
+            :s2 :p2 :o2 .
+        } log:holdsIn :w1 .
+    },
+    {
+        ({
+            :w1 log:hasAccessTo ?W2 .
+        } {
+            {
+                :s2 :p2 :o2 .
+            } log:holdsIn ?W2 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{
+  {
+      :s2 :p2 :o2 .
+  } log:holdsIn :w1 .
+}
+  pe:fact "deontic-permission.n3".
+
+{
+  ({
+      :w1 log:hasAccessTo ?W2 .
+  } {
+      {
+          :s2 :p2 :o2 .
+      } log:holdsIn ?W2 .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.
+
+{
+  {
+      :s1 :p1 :o1 .
+  } log:isObligatoryIn :w2 .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :s1 :p1 :o1 .
+    } ],
+    [ pe:var "Sc"; pe:value _:forAllIn ],
+    [ pe:var "W"; pe:value :w3 ],
+    [ pe:var "W1"; pe:value :w2 ];
+  pe:uses
+    { :w2 log:hasAccessTo :w3 . },
+    {
+        {
+            :s1 :p1 :o1 .
+        } log:holdsIn :w2 .
+    },
+    {
+        ({
+            :w2 log:hasAccessTo ?W2 .
+        } {
+            {
+                :s1 :p1 :o1 .
+            } log:holdsIn ?W2 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{
+  ({
+      :w2 log:hasAccessTo ?W2 .
+  } {
+      {
+          :s1 :p1 :o1 .
+      } log:holdsIn ?W2 .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.
+
+{
+  {
+      :s2 :p2 :o2 .
+  } log:isObligatoryIn :w2 .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :s2 :p2 :o2 .
+    } ],
+    [ pe:var "Sc"; pe:value _:forAllIn ],
+    [ pe:var "W"; pe:value :w3 ],
+    [ pe:var "W1"; pe:value :w2 ];
+  pe:uses
+    { :w2 log:hasAccessTo :w3 . },
+    {
+        {
+            :s2 :p2 :o2 .
+        } log:holdsIn :w2 .
+    },
+    {
+        ({
+            :w2 log:hasAccessTo ?W2 .
+        } {
+            {
+                :s2 :p2 :o2 .
+            } log:holdsIn ?W2 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{
+  ({
+      :w2 log:hasAccessTo ?W2 .
+  } {
+      {
+          :s2 :p2 :o2 .
+      } log:holdsIn ?W2 .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.
+
+{
+  {
+      {
+          :s3 :p3 :o3 .
+      } => false .
+  } log:isObligatoryIn :w2 .
+}
+  pe:rule 1;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        {
+            :s3 :p3 :o3 .
+        } => false .
+    } ],
+    [ pe:var "Sc"; pe:value _:forAllIn ],
+    [ pe:var "W"; pe:value :w3 ],
+    [ pe:var "W1"; pe:value :w2 ];
+  pe:uses
+    { :w2 log:hasAccessTo :w3 . },
+    {
+        {
+            {
+                :s3 :p3 :o3 .
+            } => false .
+        } log:holdsIn :w2 .
+    },
+    {
+        ({
+            :w2 log:hasAccessTo ?W2 .
+        } {
+            {
+                {
+                    :s3 :p3 :o3 .
+                } => false .
+            } log:holdsIn ?W2 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{
+  ({
+      :w2 log:hasAccessTo ?W2 .
+  } {
+      {
+          {
+              :s3 :p3 :o3 .
+          } => false .
+      } log:holdsIn ?W2 .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.
+
+{
+  {
+      :s3 :p3 :o3 .
+  } log:isForbiddenIn :w2 .
+}
+  pe:rule 3;
+  pe:binding
+    [ pe:var "P"; pe:value {
+        :s3 :p3 :o3 .
+    } ],
+    [ pe:var "Sc"; pe:value _:forAllIn ],
+    [ pe:var "W"; pe:value :w3 ],
+    [ pe:var "W1"; pe:value :w2 ];
+  pe:uses
+    { :w2 log:hasAccessTo :w3 . },
+    {
+        {
+            {
+                :s3 :p3 :o3 .
+            } => false .
+        } log:holdsIn :w2 .
+    },
+    {
+        ({
+            :w2 log:hasAccessTo ?W2 .
+        } {
+            {
+                {
+                    :s3 :p3 :o3 .
+                } => false .
+            } log:holdsIn ?W2 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{
+  {
+      :s4 :p4 :o4 .
+  } log:isObligatoryIn :w2 .
+}
+  pe:rule 4;
+  pe:binding
+    [ pe:var "O1"; pe:value :o1 ],
+    [ pe:var "O2"; pe:value :o4 ],
+    [ pe:var "P1"; pe:value :p1 ],
+    [ pe:var "P2"; pe:value :p4 ],
+    [ pe:var "S1"; pe:value :s1 ],
+    [ pe:var "S2"; pe:value :s4 ],
+    [ pe:var "W"; pe:value :w3 ],
+    [ pe:var "W1"; pe:value :w2 ];
+  pe:uses
+    { :w2 log:hasAccessTo :w3 . },
+    {
+        {
+            {
+                :s1 :p1 :o1 .
+            } => {
+                :s4 :p4 :o4 .
+            } .
+        } log:holdsIn :w2 .
+    },
+    {
+        {
+            :s1 :p1 :o1 .
+        } log:isObligatoryIn :w2 .
+    }.

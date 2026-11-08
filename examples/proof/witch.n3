@@ -1,0 +1,55 @@
+@prefix : <https://eyereasoner.github.io/eye/reasoning/witch#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:DUCK a :ISMADEOFWOOD .
+:GIRL a :FLOATS .
+:DUCK a :BURNS .
+:GIRL a :ISMADEOFWOOD .
+:GIRL a :BURNS .
+:GIRL a :WITCH .
+
+{ :DUCK a :ISMADEOFWOOD . }
+  pe:rule 3;
+  pe:binding [ pe:var "x"; pe:value :DUCK ];
+  pe:uses { :DUCK a :FLOATS . }.
+
+{ :DUCK a :FLOATS . }
+  pe:fact "witch.n3".
+
+{ :GIRL a :FLOATS . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "x"; pe:value :DUCK ],
+    [ pe:var "y"; pe:value :GIRL ];
+  pe:uses
+    { :DUCK a :FLOATS . },
+    { :DUCK :SAMEWEIGHT :GIRL . }.
+
+{ :DUCK :SAMEWEIGHT :GIRL . }
+  pe:fact "witch.n3".
+
+{ :DUCK a :BURNS . }
+  pe:rule 2;
+  pe:binding [ pe:var "x"; pe:value :DUCK ];
+  pe:uses { :DUCK a :ISMADEOFWOOD . }.
+
+{ :GIRL a :ISMADEOFWOOD . }
+  pe:rule 3;
+  pe:binding [ pe:var "x"; pe:value :GIRL ];
+  pe:uses { :GIRL a :FLOATS . }.
+
+{ :GIRL a :BURNS . }
+  pe:rule 2;
+  pe:binding [ pe:var "x"; pe:value :GIRL ];
+  pe:uses { :GIRL a :ISMADEOFWOOD . }.
+
+{ :GIRL a :WITCH . }
+  pe:rule 1;
+  pe:binding [ pe:var "x"; pe:value :GIRL ];
+  pe:uses
+    { :GIRL a :BURNS . },
+    { :GIRL a :WOMAN . }.
+
+{ :GIRL a :WOMAN . }
+  pe:fact "witch.n3".

@@ -1,0 +1,1139 @@
+@prefix : <http://example.org/pn-junction-tunneling#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:case :peakBias 2 .
+:case :peakCurrent 4 .
+:case :negativeDifferentialRegion true .
+
+{ :case :peakBias 2 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "c0"; pe:value 2 ],
+    [ pe:var "c1"; pe:value 3 ],
+    [ pe:var "c3"; pe:value 3 ],
+    [ pe:var "c4"; pe:value 2 ],
+    [ pe:var "c5"; pe:value 1 ],
+    [ pe:var "c6"; pe:value 0 ],
+    [ pe:var "peak"; pe:value 4 ];
+  pe:uses
+    { :b2 :currentProxy 4 . },
+    { :b0 :currentProxy 2 . },
+    { 4 math:greaterThan 2 . },
+    { :b1 :currentProxy 3 . },
+    { 4 math:greaterThan 3 . },
+    { :b3 :currentProxy 3 . },
+    { 4 math:greaterThan 3 . },
+    { :b4 :currentProxy 2 . },
+    { 4 math:greaterThan 2 . },
+    { :b5 :currentProxy 1 . },
+    { 4 math:greaterThan 1 . },
+    { :b6 :currentProxy 0 . },
+    { 4 math:greaterThan 0 . }.
+
+{ :b2 :currentProxy 4 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b2 ],
+    [ pe:var "current"; pe:value 4 ],
+    [ pe:var "v0"; pe:value 1 ],
+    [ pe:var "v1"; pe:value 1 ],
+    [ pe:var "v2"; pe:value 1 ],
+    [ pe:var "v3"; pe:value 1 ];
+  pe:uses
+    { (:b2 0) :overlapValue 1 . },
+    { (:b2 1) :overlapValue 1 . },
+    { (:b2 2) :overlapValue 1 . },
+    { (:b2 3) :overlapValue 1 . },
+    { (1 1 1 1) math:sum 4 . }.
+
+{ (:b2 0) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b2 ],
+    [ pe:var "shifted"; pe:value 1 ],
+    [ pe:var "slot"; pe:value 0 ];
+  pe:uses
+    { (:b2 0) :shiftedLevel 1 . },
+    { 1 math:notLessThan 1 . },
+    { 1 math:notGreaterThan 4 . }.
+
+{ (:b2 0) :shiftedLevel 1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 2 ],
+    [ pe:var "bnode"; pe:value :b2 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 1 ],
+    [ pe:var "slot"; pe:value 0 ],
+    [ pe:var "zeroLevel"; pe:value 3 ];
+  pe:uses
+    { :b2 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b2 :value 2 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (0 3) . },
+    { (3 2) math:difference 1 . }.
+
+{ :b2 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . }
+  pe:builtin list:in.
+
+{ :b2 :value 2 . }
+  pe:fact "pn-junction-tunneling.n3".
+
+{ :case :pEmptyZeroBiasLevels (3 4 5 6) . }
+  pe:fact "pn-junction-tunneling.n3".
+
+{ (3 4 5 6) list:iterate (0 3) . }
+  pe:builtin list:iterate.
+
+{ (3 2) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ 1 math:notLessThan 1 . }
+  pe:builtin math:notLessThan.
+
+{ 1 math:notGreaterThan 4 . }
+  pe:builtin math:notGreaterThan.
+
+{ (:b2 1) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b2 ],
+    [ pe:var "shifted"; pe:value 2 ],
+    [ pe:var "slot"; pe:value 1 ];
+  pe:uses
+    { (:b2 1) :shiftedLevel 2 . },
+    { 2 math:notLessThan 1 . },
+    { 2 math:notGreaterThan 4 . }.
+
+{ (:b2 1) :shiftedLevel 2 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 2 ],
+    [ pe:var "bnode"; pe:value :b2 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 2 ],
+    [ pe:var "slot"; pe:value 1 ],
+    [ pe:var "zeroLevel"; pe:value 4 ];
+  pe:uses
+    { :b2 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b2 :value 2 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (1 4) . },
+    { (4 2) math:difference 2 . }.
+
+{ (3 4 5 6) list:iterate (1 4) . }
+  pe:builtin list:iterate.
+
+{ (4 2) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ 2 math:notLessThan 1 . }
+  pe:builtin math:notLessThan.
+
+{ 2 math:notGreaterThan 4 . }
+  pe:builtin math:notGreaterThan.
+
+{ (:b2 2) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b2 ],
+    [ pe:var "shifted"; pe:value 3 ],
+    [ pe:var "slot"; pe:value 2 ];
+  pe:uses
+    { (:b2 2) :shiftedLevel 3 . },
+    { 3 math:notLessThan 1 . },
+    { 3 math:notGreaterThan 4 . }.
+
+{ (:b2 2) :shiftedLevel 3 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 2 ],
+    [ pe:var "bnode"; pe:value :b2 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 3 ],
+    [ pe:var "slot"; pe:value 2 ],
+    [ pe:var "zeroLevel"; pe:value 5 ];
+  pe:uses
+    { :b2 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b2 :value 2 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (2 5) . },
+    { (5 2) math:difference 3 . }.
+
+{ (3 4 5 6) list:iterate (2 5) . }
+  pe:builtin list:iterate.
+
+{ (5 2) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ 3 math:notLessThan 1 . }
+  pe:builtin math:notLessThan.
+
+{ 3 math:notGreaterThan 4 . }
+  pe:builtin math:notGreaterThan.
+
+{ (:b2 3) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b2 ],
+    [ pe:var "shifted"; pe:value 4 ],
+    [ pe:var "slot"; pe:value 3 ];
+  pe:uses
+    { (:b2 3) :shiftedLevel 4 . },
+    { 4 math:notLessThan 1 . },
+    { 4 math:notGreaterThan 4 . }.
+
+{ (:b2 3) :shiftedLevel 4 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 2 ],
+    [ pe:var "bnode"; pe:value :b2 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 4 ],
+    [ pe:var "slot"; pe:value 3 ],
+    [ pe:var "zeroLevel"; pe:value 6 ];
+  pe:uses
+    { :b2 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b2 :value 2 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (3 6) . },
+    { (6 2) math:difference 4 . }.
+
+{ (3 4 5 6) list:iterate (3 6) . }
+  pe:builtin list:iterate.
+
+{ (6 2) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ 4 math:notLessThan 1 . }
+  pe:builtin math:notLessThan.
+
+{ 4 math:notGreaterThan 4 . }
+  pe:builtin math:notGreaterThan.
+
+{ (1 1 1 1) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ :b0 :currentProxy 2 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b0 ],
+    [ pe:var "current"; pe:value 2 ],
+    [ pe:var "v0"; pe:value 1 ],
+    [ pe:var "v1"; pe:value 1 ],
+    [ pe:var "v2"; pe:value 0 ],
+    [ pe:var "v3"; pe:value 0 ];
+  pe:uses
+    { (:b0 0) :overlapValue 1 . },
+    { (:b0 1) :overlapValue 1 . },
+    { (:b0 2) :overlapValue 0 . },
+    { (:b0 3) :overlapValue 0 . },
+    { (1 1 0 0) math:sum 2 . }.
+
+{ (:b0 0) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b0 ],
+    [ pe:var "shifted"; pe:value 3 ],
+    [ pe:var "slot"; pe:value 0 ];
+  pe:uses
+    { (:b0 0) :shiftedLevel 3 . },
+    { 3 math:notLessThan 1 . },
+    { 3 math:notGreaterThan 4 . }.
+
+{ (:b0 0) :shiftedLevel 3 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 0 ],
+    [ pe:var "bnode"; pe:value :b0 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 3 ],
+    [ pe:var "slot"; pe:value 0 ],
+    [ pe:var "zeroLevel"; pe:value 3 ];
+  pe:uses
+    { :b0 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b0 :value 0 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (0 3) . },
+    { (3 0) math:difference 3 . }.
+
+{ :b0 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . }
+  pe:builtin list:in.
+
+{ :b0 :value 0 . }
+  pe:fact "pn-junction-tunneling.n3".
+
+{ (3 0) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (:b0 1) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b0 ],
+    [ pe:var "shifted"; pe:value 4 ],
+    [ pe:var "slot"; pe:value 1 ];
+  pe:uses
+    { (:b0 1) :shiftedLevel 4 . },
+    { 4 math:notLessThan 1 . },
+    { 4 math:notGreaterThan 4 . }.
+
+{ (:b0 1) :shiftedLevel 4 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 0 ],
+    [ pe:var "bnode"; pe:value :b0 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 4 ],
+    [ pe:var "slot"; pe:value 1 ],
+    [ pe:var "zeroLevel"; pe:value 4 ];
+  pe:uses
+    { :b0 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b0 :value 0 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (1 4) . },
+    { (4 0) math:difference 4 . }.
+
+{ (4 0) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ (:b0 2) :overlapValue 0 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b0 ],
+    [ pe:var "shifted"; pe:value 5 ],
+    [ pe:var "slot"; pe:value 2 ];
+  pe:uses
+    { (:b0 2) :shiftedLevel 5 . },
+    { 5 math:greaterThan 4 . }.
+
+{ (:b0 2) :shiftedLevel 5 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 0 ],
+    [ pe:var "bnode"; pe:value :b0 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 5 ],
+    [ pe:var "slot"; pe:value 2 ],
+    [ pe:var "zeroLevel"; pe:value 5 ];
+  pe:uses
+    { :b0 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b0 :value 0 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (2 5) . },
+    { (5 0) math:difference 5 . }.
+
+{ (5 0) math:difference 5 . }
+  pe:builtin math:difference.
+
+{ 5 math:greaterThan 4 . }
+  pe:builtin math:greaterThan.
+
+{ (:b0 3) :overlapValue 0 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b0 ],
+    [ pe:var "shifted"; pe:value 6 ],
+    [ pe:var "slot"; pe:value 3 ];
+  pe:uses
+    { (:b0 3) :shiftedLevel 6 . },
+    { 6 math:greaterThan 4 . }.
+
+{ (:b0 3) :shiftedLevel 6 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 0 ],
+    [ pe:var "bnode"; pe:value :b0 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 6 ],
+    [ pe:var "slot"; pe:value 3 ],
+    [ pe:var "zeroLevel"; pe:value 6 ];
+  pe:uses
+    { :b0 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b0 :value 0 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (3 6) . },
+    { (6 0) math:difference 6 . }.
+
+{ (6 0) math:difference 6 . }
+  pe:builtin math:difference.
+
+{ 6 math:greaterThan 4 . }
+  pe:builtin math:greaterThan.
+
+{ (1 1 0 0) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ 4 math:greaterThan 2 . }
+  pe:builtin math:greaterThan.
+
+{ :b1 :currentProxy 3 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b1 ],
+    [ pe:var "current"; pe:value 3 ],
+    [ pe:var "v0"; pe:value 1 ],
+    [ pe:var "v1"; pe:value 1 ],
+    [ pe:var "v2"; pe:value 1 ],
+    [ pe:var "v3"; pe:value 0 ];
+  pe:uses
+    { (:b1 0) :overlapValue 1 . },
+    { (:b1 1) :overlapValue 1 . },
+    { (:b1 2) :overlapValue 1 . },
+    { (:b1 3) :overlapValue 0 . },
+    { (1 1 1 0) math:sum 3 . }.
+
+{ (:b1 0) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b1 ],
+    [ pe:var "shifted"; pe:value 2 ],
+    [ pe:var "slot"; pe:value 0 ];
+  pe:uses
+    { (:b1 0) :shiftedLevel 2 . },
+    { 2 math:notLessThan 1 . },
+    { 2 math:notGreaterThan 4 . }.
+
+{ (:b1 0) :shiftedLevel 2 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 1 ],
+    [ pe:var "bnode"; pe:value :b1 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 2 ],
+    [ pe:var "slot"; pe:value 0 ],
+    [ pe:var "zeroLevel"; pe:value 3 ];
+  pe:uses
+    { :b1 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b1 :value 1 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (0 3) . },
+    { (3 1) math:difference 2 . }.
+
+{ :b1 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . }
+  pe:builtin list:in.
+
+{ :b1 :value 1 . }
+  pe:fact "pn-junction-tunneling.n3".
+
+{ (3 1) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (:b1 1) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b1 ],
+    [ pe:var "shifted"; pe:value 3 ],
+    [ pe:var "slot"; pe:value 1 ];
+  pe:uses
+    { (:b1 1) :shiftedLevel 3 . },
+    { 3 math:notLessThan 1 . },
+    { 3 math:notGreaterThan 4 . }.
+
+{ (:b1 1) :shiftedLevel 3 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 1 ],
+    [ pe:var "bnode"; pe:value :b1 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 3 ],
+    [ pe:var "slot"; pe:value 1 ],
+    [ pe:var "zeroLevel"; pe:value 4 ];
+  pe:uses
+    { :b1 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b1 :value 1 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (1 4) . },
+    { (4 1) math:difference 3 . }.
+
+{ (4 1) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (:b1 2) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b1 ],
+    [ pe:var "shifted"; pe:value 4 ],
+    [ pe:var "slot"; pe:value 2 ];
+  pe:uses
+    { (:b1 2) :shiftedLevel 4 . },
+    { 4 math:notLessThan 1 . },
+    { 4 math:notGreaterThan 4 . }.
+
+{ (:b1 2) :shiftedLevel 4 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 1 ],
+    [ pe:var "bnode"; pe:value :b1 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 4 ],
+    [ pe:var "slot"; pe:value 2 ],
+    [ pe:var "zeroLevel"; pe:value 5 ];
+  pe:uses
+    { :b1 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b1 :value 1 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (2 5) . },
+    { (5 1) math:difference 4 . }.
+
+{ (5 1) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ (:b1 3) :overlapValue 0 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b1 ],
+    [ pe:var "shifted"; pe:value 5 ],
+    [ pe:var "slot"; pe:value 3 ];
+  pe:uses
+    { (:b1 3) :shiftedLevel 5 . },
+    { 5 math:greaterThan 4 . }.
+
+{ (:b1 3) :shiftedLevel 5 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 1 ],
+    [ pe:var "bnode"; pe:value :b1 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 5 ],
+    [ pe:var "slot"; pe:value 3 ],
+    [ pe:var "zeroLevel"; pe:value 6 ];
+  pe:uses
+    { :b1 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b1 :value 1 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (3 6) . },
+    { (6 1) math:difference 5 . }.
+
+{ (6 1) math:difference 5 . }
+  pe:builtin math:difference.
+
+{ (1 1 1 0) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ 4 math:greaterThan 3 . }
+  pe:builtin math:greaterThan.
+
+{ :b3 :currentProxy 3 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b3 ],
+    [ pe:var "current"; pe:value 3 ],
+    [ pe:var "v0"; pe:value 0 ],
+    [ pe:var "v1"; pe:value 1 ],
+    [ pe:var "v2"; pe:value 1 ],
+    [ pe:var "v3"; pe:value 1 ];
+  pe:uses
+    { (:b3 0) :overlapValue 0 . },
+    { (:b3 1) :overlapValue 1 . },
+    { (:b3 2) :overlapValue 1 . },
+    { (:b3 3) :overlapValue 1 . },
+    { (0 1 1 1) math:sum 3 . }.
+
+{ (:b3 0) :overlapValue 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b3 ],
+    [ pe:var "shifted"; pe:value 0 ],
+    [ pe:var "slot"; pe:value 0 ];
+  pe:uses
+    { (:b3 0) :shiftedLevel 0 . },
+    { 0 math:lessThan 1 . }.
+
+{ (:b3 0) :shiftedLevel 0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 3 ],
+    [ pe:var "bnode"; pe:value :b3 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 0 ],
+    [ pe:var "slot"; pe:value 0 ],
+    [ pe:var "zeroLevel"; pe:value 3 ];
+  pe:uses
+    { :b3 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b3 :value 3 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (0 3) . },
+    { (3 3) math:difference 0 . }.
+
+{ :b3 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . }
+  pe:builtin list:in.
+
+{ :b3 :value 3 . }
+  pe:fact "pn-junction-tunneling.n3".
+
+{ (3 3) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ 0 math:lessThan 1 . }
+  pe:builtin math:lessThan.
+
+{ (:b3 1) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b3 ],
+    [ pe:var "shifted"; pe:value 1 ],
+    [ pe:var "slot"; pe:value 1 ];
+  pe:uses
+    { (:b3 1) :shiftedLevel 1 . },
+    { 1 math:notLessThan 1 . },
+    { 1 math:notGreaterThan 4 . }.
+
+{ (:b3 1) :shiftedLevel 1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 3 ],
+    [ pe:var "bnode"; pe:value :b3 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 1 ],
+    [ pe:var "slot"; pe:value 1 ],
+    [ pe:var "zeroLevel"; pe:value 4 ];
+  pe:uses
+    { :b3 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b3 :value 3 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (1 4) . },
+    { (4 3) math:difference 1 . }.
+
+{ (4 3) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (:b3 2) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b3 ],
+    [ pe:var "shifted"; pe:value 2 ],
+    [ pe:var "slot"; pe:value 2 ];
+  pe:uses
+    { (:b3 2) :shiftedLevel 2 . },
+    { 2 math:notLessThan 1 . },
+    { 2 math:notGreaterThan 4 . }.
+
+{ (:b3 2) :shiftedLevel 2 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 3 ],
+    [ pe:var "bnode"; pe:value :b3 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 2 ],
+    [ pe:var "slot"; pe:value 2 ],
+    [ pe:var "zeroLevel"; pe:value 5 ];
+  pe:uses
+    { :b3 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b3 :value 3 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (2 5) . },
+    { (5 3) math:difference 2 . }.
+
+{ (5 3) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (:b3 3) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b3 ],
+    [ pe:var "shifted"; pe:value 3 ],
+    [ pe:var "slot"; pe:value 3 ];
+  pe:uses
+    { (:b3 3) :shiftedLevel 3 . },
+    { 3 math:notLessThan 1 . },
+    { 3 math:notGreaterThan 4 . }.
+
+{ (:b3 3) :shiftedLevel 3 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 3 ],
+    [ pe:var "bnode"; pe:value :b3 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 3 ],
+    [ pe:var "slot"; pe:value 3 ],
+    [ pe:var "zeroLevel"; pe:value 6 ];
+  pe:uses
+    { :b3 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b3 :value 3 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (3 6) . },
+    { (6 3) math:difference 3 . }.
+
+{ (6 3) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (0 1 1 1) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ :b4 :currentProxy 2 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b4 ],
+    [ pe:var "current"; pe:value 2 ],
+    [ pe:var "v0"; pe:value 0 ],
+    [ pe:var "v1"; pe:value 0 ],
+    [ pe:var "v2"; pe:value 1 ],
+    [ pe:var "v3"; pe:value 1 ];
+  pe:uses
+    { (:b4 0) :overlapValue 0 . },
+    { (:b4 1) :overlapValue 0 . },
+    { (:b4 2) :overlapValue 1 . },
+    { (:b4 3) :overlapValue 1 . },
+    { (0 0 1 1) math:sum 2 . }.
+
+{ (:b4 0) :overlapValue 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b4 ],
+    [ pe:var "shifted"; pe:value -1 ],
+    [ pe:var "slot"; pe:value 0 ];
+  pe:uses
+    { (:b4 0) :shiftedLevel -1 . },
+    { -1 math:lessThan 1 . }.
+
+{ (:b4 0) :shiftedLevel -1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 4 ],
+    [ pe:var "bnode"; pe:value :b4 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value -1 ],
+    [ pe:var "slot"; pe:value 0 ],
+    [ pe:var "zeroLevel"; pe:value 3 ];
+  pe:uses
+    { :b4 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b4 :value 4 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (0 3) . },
+    { (3 4) math:difference -1 . }.
+
+{ :b4 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . }
+  pe:builtin list:in.
+
+{ :b4 :value 4 . }
+  pe:fact "pn-junction-tunneling.n3".
+
+{ (3 4) math:difference -1 . }
+  pe:builtin math:difference.
+
+{ -1 math:lessThan 1 . }
+  pe:builtin math:lessThan.
+
+{ (:b4 1) :overlapValue 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b4 ],
+    [ pe:var "shifted"; pe:value 0 ],
+    [ pe:var "slot"; pe:value 1 ];
+  pe:uses
+    { (:b4 1) :shiftedLevel 0 . },
+    { 0 math:lessThan 1 . }.
+
+{ (:b4 1) :shiftedLevel 0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 4 ],
+    [ pe:var "bnode"; pe:value :b4 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 0 ],
+    [ pe:var "slot"; pe:value 1 ],
+    [ pe:var "zeroLevel"; pe:value 4 ];
+  pe:uses
+    { :b4 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b4 :value 4 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (1 4) . },
+    { (4 4) math:difference 0 . }.
+
+{ (4 4) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ (:b4 2) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b4 ],
+    [ pe:var "shifted"; pe:value 1 ],
+    [ pe:var "slot"; pe:value 2 ];
+  pe:uses
+    { (:b4 2) :shiftedLevel 1 . },
+    { 1 math:notLessThan 1 . },
+    { 1 math:notGreaterThan 4 . }.
+
+{ (:b4 2) :shiftedLevel 1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 4 ],
+    [ pe:var "bnode"; pe:value :b4 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 1 ],
+    [ pe:var "slot"; pe:value 2 ],
+    [ pe:var "zeroLevel"; pe:value 5 ];
+  pe:uses
+    { :b4 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b4 :value 4 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (2 5) . },
+    { (5 4) math:difference 1 . }.
+
+{ (5 4) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (:b4 3) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b4 ],
+    [ pe:var "shifted"; pe:value 2 ],
+    [ pe:var "slot"; pe:value 3 ];
+  pe:uses
+    { (:b4 3) :shiftedLevel 2 . },
+    { 2 math:notLessThan 1 . },
+    { 2 math:notGreaterThan 4 . }.
+
+{ (:b4 3) :shiftedLevel 2 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 4 ],
+    [ pe:var "bnode"; pe:value :b4 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 2 ],
+    [ pe:var "slot"; pe:value 3 ],
+    [ pe:var "zeroLevel"; pe:value 6 ];
+  pe:uses
+    { :b4 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b4 :value 4 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (3 6) . },
+    { (6 4) math:difference 2 . }.
+
+{ (6 4) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (0 0 1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ :b5 :currentProxy 1 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b5 ],
+    [ pe:var "current"; pe:value 1 ],
+    [ pe:var "v0"; pe:value 0 ],
+    [ pe:var "v1"; pe:value 0 ],
+    [ pe:var "v2"; pe:value 0 ],
+    [ pe:var "v3"; pe:value 1 ];
+  pe:uses
+    { (:b5 0) :overlapValue 0 . },
+    { (:b5 1) :overlapValue 0 . },
+    { (:b5 2) :overlapValue 0 . },
+    { (:b5 3) :overlapValue 1 . },
+    { (0 0 0 1) math:sum 1 . }.
+
+{ (:b5 0) :overlapValue 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b5 ],
+    [ pe:var "shifted"; pe:value -2 ],
+    [ pe:var "slot"; pe:value 0 ];
+  pe:uses
+    { (:b5 0) :shiftedLevel -2 . },
+    { -2 math:lessThan 1 . }.
+
+{ (:b5 0) :shiftedLevel -2 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 5 ],
+    [ pe:var "bnode"; pe:value :b5 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value -2 ],
+    [ pe:var "slot"; pe:value 0 ],
+    [ pe:var "zeroLevel"; pe:value 3 ];
+  pe:uses
+    { :b5 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b5 :value 5 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (0 3) . },
+    { (3 5) math:difference -2 . }.
+
+{ :b5 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . }
+  pe:builtin list:in.
+
+{ :b5 :value 5 . }
+  pe:fact "pn-junction-tunneling.n3".
+
+{ (3 5) math:difference -2 . }
+  pe:builtin math:difference.
+
+{ -2 math:lessThan 1 . }
+  pe:builtin math:lessThan.
+
+{ (:b5 1) :overlapValue 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b5 ],
+    [ pe:var "shifted"; pe:value -1 ],
+    [ pe:var "slot"; pe:value 1 ];
+  pe:uses
+    { (:b5 1) :shiftedLevel -1 . },
+    { -1 math:lessThan 1 . }.
+
+{ (:b5 1) :shiftedLevel -1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 5 ],
+    [ pe:var "bnode"; pe:value :b5 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value -1 ],
+    [ pe:var "slot"; pe:value 1 ],
+    [ pe:var "zeroLevel"; pe:value 4 ];
+  pe:uses
+    { :b5 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b5 :value 5 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (1 4) . },
+    { (4 5) math:difference -1 . }.
+
+{ (4 5) math:difference -1 . }
+  pe:builtin math:difference.
+
+{ (:b5 2) :overlapValue 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b5 ],
+    [ pe:var "shifted"; pe:value 0 ],
+    [ pe:var "slot"; pe:value 2 ];
+  pe:uses
+    { (:b5 2) :shiftedLevel 0 . },
+    { 0 math:lessThan 1 . }.
+
+{ (:b5 2) :shiftedLevel 0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 5 ],
+    [ pe:var "bnode"; pe:value :b5 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 0 ],
+    [ pe:var "slot"; pe:value 2 ],
+    [ pe:var "zeroLevel"; pe:value 5 ];
+  pe:uses
+    { :b5 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b5 :value 5 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (2 5) . },
+    { (5 5) math:difference 0 . }.
+
+{ (5 5) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ (:b5 3) :overlapValue 1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b5 ],
+    [ pe:var "shifted"; pe:value 1 ],
+    [ pe:var "slot"; pe:value 3 ];
+  pe:uses
+    { (:b5 3) :shiftedLevel 1 . },
+    { 1 math:notLessThan 1 . },
+    { 1 math:notGreaterThan 4 . }.
+
+{ (:b5 3) :shiftedLevel 1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 5 ],
+    [ pe:var "bnode"; pe:value :b5 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 1 ],
+    [ pe:var "slot"; pe:value 3 ],
+    [ pe:var "zeroLevel"; pe:value 6 ];
+  pe:uses
+    { :b5 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b5 :value 5 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (3 6) . },
+    { (6 5) math:difference 1 . }.
+
+{ (6 5) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ (0 0 0 1) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ 4 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ :b6 :currentProxy 0 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b6 ],
+    [ pe:var "current"; pe:value 0 ],
+    [ pe:var "v0"; pe:value 0 ],
+    [ pe:var "v1"; pe:value 0 ],
+    [ pe:var "v2"; pe:value 0 ],
+    [ pe:var "v3"; pe:value 0 ];
+  pe:uses
+    { (:b6 0) :overlapValue 0 . },
+    { (:b6 1) :overlapValue 0 . },
+    { (:b6 2) :overlapValue 0 . },
+    { (:b6 3) :overlapValue 0 . },
+    { (0 0 0 0) math:sum 0 . }.
+
+{ (:b6 0) :overlapValue 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b6 ],
+    [ pe:var "shifted"; pe:value -3 ],
+    [ pe:var "slot"; pe:value 0 ];
+  pe:uses
+    { (:b6 0) :shiftedLevel -3 . },
+    { -3 math:lessThan 1 . }.
+
+{ (:b6 0) :shiftedLevel -3 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 6 ],
+    [ pe:var "bnode"; pe:value :b6 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value -3 ],
+    [ pe:var "slot"; pe:value 0 ],
+    [ pe:var "zeroLevel"; pe:value 3 ];
+  pe:uses
+    { :b6 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b6 :value 6 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (0 3) . },
+    { (3 6) math:difference -3 . }.
+
+{ :b6 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . }
+  pe:builtin list:in.
+
+{ :b6 :value 6 . }
+  pe:fact "pn-junction-tunneling.n3".
+
+{ (3 6) math:difference -3 . }
+  pe:builtin math:difference.
+
+{ -3 math:lessThan 1 . }
+  pe:builtin math:lessThan.
+
+{ (:b6 1) :overlapValue 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b6 ],
+    [ pe:var "shifted"; pe:value -2 ],
+    [ pe:var "slot"; pe:value 1 ];
+  pe:uses
+    { (:b6 1) :shiftedLevel -2 . },
+    { -2 math:lessThan 1 . }.
+
+{ (:b6 1) :shiftedLevel -2 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 6 ],
+    [ pe:var "bnode"; pe:value :b6 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value -2 ],
+    [ pe:var "slot"; pe:value 1 ],
+    [ pe:var "zeroLevel"; pe:value 4 ];
+  pe:uses
+    { :b6 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b6 :value 6 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (1 4) . },
+    { (4 6) math:difference -2 . }.
+
+{ (4 6) math:difference -2 . }
+  pe:builtin math:difference.
+
+{ (:b6 2) :overlapValue 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b6 ],
+    [ pe:var "shifted"; pe:value -1 ],
+    [ pe:var "slot"; pe:value 2 ];
+  pe:uses
+    { (:b6 2) :shiftedLevel -1 . },
+    { -1 math:lessThan 1 . }.
+
+{ (:b6 2) :shiftedLevel -1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 6 ],
+    [ pe:var "bnode"; pe:value :b6 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value -1 ],
+    [ pe:var "slot"; pe:value 2 ],
+    [ pe:var "zeroLevel"; pe:value 5 ];
+  pe:uses
+    { :b6 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b6 :value 6 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (2 5) . },
+    { (5 6) math:difference -1 . }.
+
+{ (5 6) math:difference -1 . }
+  pe:builtin math:difference.
+
+{ (:b6 3) :overlapValue 0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "bnode"; pe:value :b6 ],
+    [ pe:var "shifted"; pe:value 0 ],
+    [ pe:var "slot"; pe:value 3 ];
+  pe:uses
+    { (:b6 3) :shiftedLevel 0 . },
+    { 0 math:lessThan 1 . }.
+
+{ (:b6 3) :shiftedLevel 0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "bias"; pe:value 6 ],
+    [ pe:var "bnode"; pe:value :b6 ],
+    [ pe:var "levels"; pe:value (3 4 5 6) ],
+    [ pe:var "shifted"; pe:value 0 ],
+    [ pe:var "slot"; pe:value 3 ],
+    [ pe:var "zeroLevel"; pe:value 6 ];
+  pe:uses
+    { :b6 list:in (:b0 :b1 :b2 :b3 :b4 :b5 :b6) . },
+    { :b6 :value 6 . },
+    { :case :pEmptyZeroBiasLevels (3 4 5 6) . },
+    { (3 4 5 6) list:iterate (3 6) . },
+    { (6 6) math:difference 0 . }.
+
+{ (6 6) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ (0 0 0 0) math:sum 0 . }
+  pe:builtin math:sum.
+
+{ 4 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ :case :peakCurrent 4 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "c0"; pe:value 2 ],
+    [ pe:var "c1"; pe:value 3 ],
+    [ pe:var "c3"; pe:value 3 ],
+    [ pe:var "c4"; pe:value 2 ],
+    [ pe:var "c5"; pe:value 1 ],
+    [ pe:var "c6"; pe:value 0 ],
+    [ pe:var "peak"; pe:value 4 ];
+  pe:uses
+    { :b2 :currentProxy 4 . },
+    { :b0 :currentProxy 2 . },
+    { 4 math:greaterThan 2 . },
+    { :b1 :currentProxy 3 . },
+    { 4 math:greaterThan 3 . },
+    { :b3 :currentProxy 3 . },
+    { 4 math:greaterThan 3 . },
+    { :b4 :currentProxy 2 . },
+    { 4 math:greaterThan 2 . },
+    { :b5 :currentProxy 1 . },
+    { 4 math:greaterThan 1 . },
+    { :b6 :currentProxy 0 . },
+    { 4 math:greaterThan 0 . }.
+
+{ :case :negativeDifferentialRegion true . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "c2"; pe:value 4 ],
+    [ pe:var "c3"; pe:value 3 ];
+  pe:uses
+    { :b2 :currentProxy 4 . },
+    { :b3 :currentProxy 3 . },
+    { 4 math:greaterThan 3 . }.

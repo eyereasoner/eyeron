@@ -1,0 +1,53 @@
+@prefix : <http://example.org/> .
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:hashes :sha1 ("" "da39a3ee5e6b4b0d3255bfef95601890afd80709") .
+:hashes :sha1 ("abc" "a9993e364706816aba3e25717850c26c9cd0d89d") .
+:hashes :sha1 ("blargh" "d1e670385f40ee942a059f949c761214872ac35f") .
+
+{ :hashes :sha1 ("" "da39a3ee5e6b4b0d3255bfef95601890afd80709") . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Digest"; pe:value "da39a3ee5e6b4b0d3255bfef95601890afd80709" ],
+    [ pe:var "Text"; pe:value "" ];
+  pe:uses
+    { ("" "abc" "blargh") list:member "" . },
+    { "" crypto:sha "da39a3ee5e6b4b0d3255bfef95601890afd80709" . }.
+
+{ ("" "abc" "blargh") list:member "" . }
+  pe:builtin list:member.
+
+{ "" crypto:sha "da39a3ee5e6b4b0d3255bfef95601890afd80709" . }
+  pe:builtin crypto:sha.
+
+{ :hashes :sha1 ("abc" "a9993e364706816aba3e25717850c26c9cd0d89d") . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Digest"; pe:value "a9993e364706816aba3e25717850c26c9cd0d89d" ],
+    [ pe:var "Text"; pe:value "abc" ];
+  pe:uses
+    { ("" "abc" "blargh") list:member "abc" . },
+    { "abc" crypto:sha "a9993e364706816aba3e25717850c26c9cd0d89d" . }.
+
+{ ("" "abc" "blargh") list:member "abc" . }
+  pe:builtin list:member.
+
+{ "abc" crypto:sha "a9993e364706816aba3e25717850c26c9cd0d89d" . }
+  pe:builtin crypto:sha.
+
+{ :hashes :sha1 ("blargh" "d1e670385f40ee942a059f949c761214872ac35f") . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Digest"; pe:value "d1e670385f40ee942a059f949c761214872ac35f" ],
+    [ pe:var "Text"; pe:value "blargh" ];
+  pe:uses
+    { ("" "abc" "blargh") list:member "blargh" . },
+    { "blargh" crypto:sha "d1e670385f40ee942a059f949c761214872ac35f" . }.
+
+{ ("" "abc" "blargh") list:member "blargh" . }
+  pe:builtin list:member.
+
+{ "blargh" crypto:sha "d1e670385f40ee942a059f949c761214872ac35f" . }
+  pe:builtin crypto:sha.

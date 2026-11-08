@@ -1,0 +1,69 @@
+@prefix : <https://eyereasoner.github.io/eyepl/examples/ancestor#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :ancestor :bob .
+:bob :ancestor :carol .
+:carol :ancestor :dana .
+:alice :ancestor :carol .
+:bob :ancestor :dana .
+:alice :ancestor :dana .
+
+{ :alice :ancestor :bob . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :alice ],
+    [ pe:var "y"; pe:value :bob ];
+  pe:uses { :alice :parent :bob . }.
+
+{ :alice :parent :bob . }
+  pe:fact "ancestor.n3".
+
+{ :bob :ancestor :carol . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :bob ],
+    [ pe:var "y"; pe:value :carol ];
+  pe:uses { :bob :parent :carol . }.
+
+{ :bob :parent :carol . }
+  pe:fact "ancestor.n3".
+
+{ :carol :ancestor :dana . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "x"; pe:value :carol ],
+    [ pe:var "y"; pe:value :dana ];
+  pe:uses { :carol :parent :dana . }.
+
+{ :carol :parent :dana . }
+  pe:fact "ancestor.n3".
+
+{ :alice :ancestor :carol . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :alice ],
+    [ pe:var "y"; pe:value :bob ],
+    [ pe:var "z"; pe:value :carol ];
+  pe:uses
+    { :alice :parent :bob . },
+    { :bob :ancestor :carol . }.
+
+{ :bob :ancestor :dana . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :bob ],
+    [ pe:var "y"; pe:value :carol ],
+    [ pe:var "z"; pe:value :dana ];
+  pe:uses
+    { :bob :parent :carol . },
+    { :carol :ancestor :dana . }.
+
+{ :alice :ancestor :dana . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "x"; pe:value :alice ],
+    [ pe:var "y"; pe:value :bob ],
+    [ pe:var "z"; pe:value :dana ];
+  pe:uses
+    { :alice :parent :bob . },
+    { :bob :ancestor :dana . }.

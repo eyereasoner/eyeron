@@ -1,0 +1,93 @@
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:alice :grandparent :carol .
+:bob :grandparent :dave .
+
+{ :alice :grandparent :carol . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "First"; pe:value :parent ],
+    [ pe:var "L"; pe:value (:parent :parent) ],
+    [ pe:var "Middle"; pe:value :bob ],
+    [ pe:var "O"; pe:value :carol ],
+    [ pe:var "P"; pe:value :grandparent ],
+    [ pe:var "Rest"; pe:value (:parent) ],
+    [ pe:var "S"; pe:value :alice ];
+  pe:uses
+    { :grandparent owl:propertyChainAxiom (:parent :parent) . },
+    { (:parent :parent) list:firstRest (:parent (:parent)) . },
+    { :alice :parent :bob . },
+    { ((:parent) :bob) :followChain :carol . }.
+
+{ :grandparent owl:propertyChainAxiom (:parent :parent) . }
+  pe:fact "owl-property-chain.n3".
+
+{ (:parent :parent) list:firstRest (:parent (:parent)) . }
+  pe:builtin list:firstRest.
+
+{ :alice :parent :bob . }
+  pe:fact "owl-property-chain.n3".
+
+{ ((:parent) :bob) :followChain :carol . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "End"; pe:value :carol ],
+    [ pe:var "Next"; pe:value :carol ],
+    [ pe:var "Properties"; pe:value (:parent) ],
+    [ pe:var "Property"; pe:value :parent ],
+    [ pe:var "Start"; pe:value :bob ],
+    [ pe:var "Tail"; pe:value () ];
+  pe:uses
+    { (:parent) list:firstRest (:parent ()) . },
+    { :bob :parent :carol . },
+    { (() :carol) :followChain :carol . }.
+
+{ (:parent) list:firstRest (:parent ()) . }
+  pe:builtin list:firstRest.
+
+{ :bob :parent :carol . }
+  pe:fact "owl-property-chain.n3".
+
+{ (() :carol) :followChain :carol . }
+  pe:rule 2;
+  pe:binding [ pe:var "Node"; pe:value :carol ].
+
+{ :bob :grandparent :dave . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "First"; pe:value :parent ],
+    [ pe:var "L"; pe:value (:parent :parent) ],
+    [ pe:var "Middle"; pe:value :carol ],
+    [ pe:var "O"; pe:value :dave ],
+    [ pe:var "P"; pe:value :grandparent ],
+    [ pe:var "Rest"; pe:value (:parent) ],
+    [ pe:var "S"; pe:value :bob ];
+  pe:uses
+    { :grandparent owl:propertyChainAxiom (:parent :parent) . },
+    { (:parent :parent) list:firstRest (:parent (:parent)) . },
+    { :bob :parent :carol . },
+    { ((:parent) :carol) :followChain :dave . }.
+
+{ ((:parent) :carol) :followChain :dave . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "End"; pe:value :dave ],
+    [ pe:var "Next"; pe:value :dave ],
+    [ pe:var "Properties"; pe:value (:parent) ],
+    [ pe:var "Property"; pe:value :parent ],
+    [ pe:var "Start"; pe:value :carol ],
+    [ pe:var "Tail"; pe:value () ];
+  pe:uses
+    { (:parent) list:firstRest (:parent ()) . },
+    { :carol :parent :dave . },
+    { (() :dave) :followChain :dave . }.
+
+{ :carol :parent :dave . }
+  pe:fact "owl-property-chain.n3".
+
+{ (() :dave) :followChain :dave . }
+  pe:rule 2;
+  pe:binding [ pe:var "Node"; pe:value :dave ].

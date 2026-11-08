@@ -1,0 +1,654 @@
+@prefix : <http://example.org/fft8#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:result :fft ((:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 0) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 1) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 2) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 3) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 4) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 5) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 6) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 7) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7)))))))) .
+
+{ :result :fft ((:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 0) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 1) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 2) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 3) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 4) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 5) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 6) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 7) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7)))))))) . }
+  pe:rule
+    {
+        {
+            (0 1 2 3 4 5 6 7) :fft8 ?out .
+        } => {
+            :result :fft ?out .
+        } .
+    };
+  pe:binding [ pe:var "out"; pe:value ((:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 0) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 1) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 2) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 3) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 4) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 5) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 6) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 7) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7)))))))) ];
+  pe:uses { (0 1 2 3 4 5 6 7) :fft8 ((:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 0) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 1) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 2) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 3) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 4) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 5) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 6) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 7) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7)))))))) . }.
+
+{ (0 1 2 3 4 5 6 7) :fft8 ((:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 0) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 1) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 2) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 3) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 4) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 5) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 6) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 7) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7)))))))) . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "a0"; pe:value 0 ],
+    [ pe:var "a1"; pe:value 1 ],
+    [ pe:var "a2"; pe:value 2 ],
+    [ pe:var "a3"; pe:value 3 ],
+    [ pe:var "a4"; pe:value 4 ],
+    [ pe:var "a5"; pe:value 5 ],
+    [ pe:var "a6"; pe:value 6 ],
+    [ pe:var "a7"; pe:value 7 ],
+    [ pe:var "x0"; pe:value (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 0) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) ],
+    [ pe:var "x1"; pe:value (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 1) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) ],
+    [ pe:var "x2"; pe:value (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 2) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) ],
+    [ pe:var "x3"; pe:value (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 3) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) ],
+    [ pe:var "x4"; pe:value (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 4) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) ],
+    [ pe:var "x5"; pe:value (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 5) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) ],
+    [ pe:var "x6"; pe:value (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 6) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) ],
+    [ pe:var "x7"; pe:value (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 7) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) ];
+  pe:uses
+    { ((0 1 2 3 4 5 6 7) :omega 0 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 0) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) . },
+    { ((0 1 2 3 4 5 6 7) :omega 1 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 1) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) . },
+    { ((0 1 2 3 4 5 6 7) :omega 2 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 2) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) . },
+    { ((0 1 2 3 4 5 6 7) :omega 3 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 3) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) . },
+    { ((0 1 2 3 4 5 6 7) :omega 4 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 4) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) . },
+    { ((0 1 2 3 4 5 6 7) :omega 5 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 5) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) . },
+    { ((0 1 2 3 4 5 6 7) :omega 6 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 6) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) . },
+    { ((0 1 2 3 4 5 6 7) :omega 7 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 7) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) . }.
+
+{ ((0 1 2 3 4 5 6 7) :omega 0 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 0) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 1 ],
+    [ pe:var "i2"; pe:value 2 ],
+    [ pe:var "i3"; pe:value 3 ],
+    [ pe:var "i4"; pe:value 4 ],
+    [ pe:var "i5"; pe:value 5 ],
+    [ pe:var "i6"; pe:value 6 ],
+    [ pe:var "i7"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "rhs"; pe:value (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 0 ];
+  pe:uses
+    { (0 2) math:product 0 . },
+    { (0 8) math:remainder 0 . },
+    { ((0 2 4 6) :omega 0 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) . },
+    { ((1 3 5 7) :omega 0 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))) . }.
+
+{ (0 2) math:product 0 . }
+  pe:builtin math:product.
+
+{ (0 8) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ ((0 2 4 6) :omega 0 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 2 ],
+    [ pe:var "i2"; pe:value 4 ],
+    [ pe:var "i3"; pe:value 6 ],
+    [ pe:var "lhs"; pe:value (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "rhs"; pe:value (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 0 ];
+  pe:uses
+    { (0 2) math:product 0 . },
+    { (0 8) math:remainder 0 . },
+    { ((0 4) :omega 0 8) :fftExpr (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) . },
+    { ((2 6) :omega 0 8) :fftExpr (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))) . }.
+
+{ ((0 4) :omega 0 8) :fftExpr (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 4 ],
+    [ pe:var "lhs"; pe:value (:leaf 0) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "rhs"; pe:value (:leaf 4) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 0 ];
+  pe:uses
+    { (0 2) math:product 0 . },
+    { (0 8) math:remainder 0 . },
+    { ((0) :omega 0 8) :fftExpr (:leaf 0) . },
+    { ((4) :omega 0 8) :fftExpr (:leaf 4) . }.
+
+{ ((0) :omega 0 8) :fftExpr (:leaf 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "i"; pe:value 0 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "root"; pe:value :omega ].
+
+{ ((4) :omega 0 8) :fftExpr (:leaf 4) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "i"; pe:value 4 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "root"; pe:value :omega ].
+
+{ ((2 6) :omega 0 8) :fftExpr (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 2 ],
+    [ pe:var "i1"; pe:value 6 ],
+    [ pe:var "lhs"; pe:value (:leaf 2) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "rhs"; pe:value (:leaf 6) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 0 ];
+  pe:uses
+    { (0 2) math:product 0 . },
+    { (0 8) math:remainder 0 . },
+    { ((2) :omega 0 8) :fftExpr (:leaf 2) . },
+    { ((6) :omega 0 8) :fftExpr (:leaf 6) . }.
+
+{ ((2) :omega 0 8) :fftExpr (:leaf 2) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "i"; pe:value 2 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "root"; pe:value :omega ].
+
+{ ((6) :omega 0 8) :fftExpr (:leaf 6) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "i"; pe:value 6 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "root"; pe:value :omega ].
+
+{ ((1 3 5 7) :omega 0 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 1 ],
+    [ pe:var "i1"; pe:value 3 ],
+    [ pe:var "i2"; pe:value 5 ],
+    [ pe:var "i3"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "rhs"; pe:value (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 0 ];
+  pe:uses
+    { (0 2) math:product 0 . },
+    { (0 8) math:remainder 0 . },
+    { ((1 5) :omega 0 8) :fftExpr (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) . },
+    { ((3 7) :omega 0 8) :fftExpr (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))) . }.
+
+{ ((1 5) :omega 0 8) :fftExpr (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 1 ],
+    [ pe:var "i1"; pe:value 5 ],
+    [ pe:var "lhs"; pe:value (:leaf 1) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "rhs"; pe:value (:leaf 5) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 0 ];
+  pe:uses
+    { (0 2) math:product 0 . },
+    { (0 8) math:remainder 0 . },
+    { ((1) :omega 0 8) :fftExpr (:leaf 1) . },
+    { ((5) :omega 0 8) :fftExpr (:leaf 5) . }.
+
+{ ((1) :omega 0 8) :fftExpr (:leaf 1) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "i"; pe:value 1 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "root"; pe:value :omega ].
+
+{ ((5) :omega 0 8) :fftExpr (:leaf 5) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "i"; pe:value 5 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "root"; pe:value :omega ].
+
+{ ((3 7) :omega 0 8) :fftExpr (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 3 ],
+    [ pe:var "i1"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:leaf 3) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "rhs"; pe:value (:leaf 7) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 0 ];
+  pe:uses
+    { (0 2) math:product 0 . },
+    { (0 8) math:remainder 0 . },
+    { ((3) :omega 0 8) :fftExpr (:leaf 3) . },
+    { ((7) :omega 0 8) :fftExpr (:leaf 7) . }.
+
+{ ((3) :omega 0 8) :fftExpr (:leaf 3) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "i"; pe:value 3 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "root"; pe:value :omega ].
+
+{ ((7) :omega 0 8) :fftExpr (:leaf 7) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "i"; pe:value 7 ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 0 ],
+    [ pe:var "root"; pe:value :omega ].
+
+{ ((0 1 2 3 4 5 6 7) :omega 1 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 1) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "childP"; pe:value 2 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 1 ],
+    [ pe:var "i2"; pe:value 2 ],
+    [ pe:var "i3"; pe:value 3 ],
+    [ pe:var "i4"; pe:value 4 ],
+    [ pe:var "i5"; pe:value 5 ],
+    [ pe:var "i6"; pe:value 6 ],
+    [ pe:var "i7"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 1 ],
+    [ pe:var "rhs"; pe:value (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 2 ];
+  pe:uses
+    { (1 2) math:product 2 . },
+    { (2 8) math:remainder 2 . },
+    { ((0 2 4 6) :omega 2 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) . },
+    { ((1 3 5 7) :omega 2 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))) . }.
+
+{ (1 2) math:product 2 . }
+  pe:builtin math:product.
+
+{ (2 8) math:remainder 2 . }
+  pe:builtin math:remainder.
+
+{ ((0 2 4 6) :omega 2 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "childP"; pe:value 4 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 2 ],
+    [ pe:var "i2"; pe:value 4 ],
+    [ pe:var "i3"; pe:value 6 ],
+    [ pe:var "lhs"; pe:value (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 2 ],
+    [ pe:var "rhs"; pe:value (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 4 ];
+  pe:uses
+    { (2 2) math:product 4 . },
+    { (4 8) math:remainder 4 . },
+    { ((0 4) :omega 4 8) :fftExpr (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) . },
+    { ((2 6) :omega 4 8) :fftExpr (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))) . }.
+
+{ (2 2) math:product 4 . }
+  pe:builtin math:product.
+
+{ (4 8) math:remainder 4 . }
+  pe:builtin math:remainder.
+
+{ ((0 4) :omega 4 8) :fftExpr (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 4 ],
+    [ pe:var "lhs"; pe:value (:leaf 0) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 4 ],
+    [ pe:var "rhs"; pe:value (:leaf 4) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 8 ];
+  pe:uses
+    { (4 2) math:product 8 . },
+    { (8 8) math:remainder 0 . },
+    { ((0) :omega 0 8) :fftExpr (:leaf 0) . },
+    { ((4) :omega 0 8) :fftExpr (:leaf 4) . }.
+
+{ (4 2) math:product 8 . }
+  pe:builtin math:product.
+
+{ (8 8) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ ((2 6) :omega 4 8) :fftExpr (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 2 ],
+    [ pe:var "i1"; pe:value 6 ],
+    [ pe:var "lhs"; pe:value (:leaf 2) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 4 ],
+    [ pe:var "rhs"; pe:value (:leaf 6) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 8 ];
+  pe:uses
+    { (4 2) math:product 8 . },
+    { (8 8) math:remainder 0 . },
+    { ((2) :omega 0 8) :fftExpr (:leaf 2) . },
+    { ((6) :omega 0 8) :fftExpr (:leaf 6) . }.
+
+{ ((1 3 5 7) :omega 2 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "childP"; pe:value 4 ],
+    [ pe:var "i0"; pe:value 1 ],
+    [ pe:var "i1"; pe:value 3 ],
+    [ pe:var "i2"; pe:value 5 ],
+    [ pe:var "i3"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 2 ],
+    [ pe:var "rhs"; pe:value (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 4 ];
+  pe:uses
+    { (2 2) math:product 4 . },
+    { (4 8) math:remainder 4 . },
+    { ((1 5) :omega 4 8) :fftExpr (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) . },
+    { ((3 7) :omega 4 8) :fftExpr (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))) . }.
+
+{ ((1 5) :omega 4 8) :fftExpr (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 1 ],
+    [ pe:var "i1"; pe:value 5 ],
+    [ pe:var "lhs"; pe:value (:leaf 1) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 4 ],
+    [ pe:var "rhs"; pe:value (:leaf 5) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 8 ];
+  pe:uses
+    { (4 2) math:product 8 . },
+    { (8 8) math:remainder 0 . },
+    { ((1) :omega 0 8) :fftExpr (:leaf 1) . },
+    { ((5) :omega 0 8) :fftExpr (:leaf 5) . }.
+
+{ ((3 7) :omega 4 8) :fftExpr (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 3 ],
+    [ pe:var "i1"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:leaf 3) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 4 ],
+    [ pe:var "rhs"; pe:value (:leaf 7) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 8 ];
+  pe:uses
+    { (4 2) math:product 8 . },
+    { (8 8) math:remainder 0 . },
+    { ((3) :omega 0 8) :fftExpr (:leaf 3) . },
+    { ((7) :omega 0 8) :fftExpr (:leaf 7) . }.
+
+{ ((0 1 2 3 4 5 6 7) :omega 2 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 2) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "childP"; pe:value 4 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 1 ],
+    [ pe:var "i2"; pe:value 2 ],
+    [ pe:var "i3"; pe:value 3 ],
+    [ pe:var "i4"; pe:value 4 ],
+    [ pe:var "i5"; pe:value 5 ],
+    [ pe:var "i6"; pe:value 6 ],
+    [ pe:var "i7"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 2 ],
+    [ pe:var "rhs"; pe:value (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 4 ];
+  pe:uses
+    { (2 2) math:product 4 . },
+    { (4 8) math:remainder 4 . },
+    { ((0 2 4 6) :omega 4 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) . },
+    { ((1 3 5 7) :omega 4 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))) . }.
+
+{ ((0 2 4 6) :omega 4 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 2 ],
+    [ pe:var "i2"; pe:value 4 ],
+    [ pe:var "i3"; pe:value 6 ],
+    [ pe:var "lhs"; pe:value (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 4 ],
+    [ pe:var "rhs"; pe:value (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 8 ];
+  pe:uses
+    { (4 2) math:product 8 . },
+    { (8 8) math:remainder 0 . },
+    { ((0 4) :omega 0 8) :fftExpr (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) . },
+    { ((2 6) :omega 0 8) :fftExpr (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))) . }.
+
+{ ((1 3 5 7) :omega 4 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 1 ],
+    [ pe:var "i1"; pe:value 3 ],
+    [ pe:var "i2"; pe:value 5 ],
+    [ pe:var "i3"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 4 ],
+    [ pe:var "rhs"; pe:value (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 8 ];
+  pe:uses
+    { (4 2) math:product 8 . },
+    { (8 8) math:remainder 0 . },
+    { ((1 5) :omega 0 8) :fftExpr (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) . },
+    { ((3 7) :omega 0 8) :fftExpr (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))) . }.
+
+{ ((0 1 2 3 4 5 6 7) :omega 3 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 3) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "childP"; pe:value 6 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 1 ],
+    [ pe:var "i2"; pe:value 2 ],
+    [ pe:var "i3"; pe:value 3 ],
+    [ pe:var "i4"; pe:value 4 ],
+    [ pe:var "i5"; pe:value 5 ],
+    [ pe:var "i6"; pe:value 6 ],
+    [ pe:var "i7"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 3 ],
+    [ pe:var "rhs"; pe:value (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 6 ];
+  pe:uses
+    { (3 2) math:product 6 . },
+    { (6 8) math:remainder 6 . },
+    { ((0 2 4 6) :omega 6 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) . },
+    { ((1 3 5 7) :omega 6 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))) . }.
+
+{ (3 2) math:product 6 . }
+  pe:builtin math:product.
+
+{ (6 8) math:remainder 6 . }
+  pe:builtin math:remainder.
+
+{ ((0 2 4 6) :omega 6 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "childP"; pe:value 4 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 2 ],
+    [ pe:var "i2"; pe:value 4 ],
+    [ pe:var "i3"; pe:value 6 ],
+    [ pe:var "lhs"; pe:value (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 6 ],
+    [ pe:var "rhs"; pe:value (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 12 ];
+  pe:uses
+    { (6 2) math:product 12 . },
+    { (12 8) math:remainder 4 . },
+    { ((0 4) :omega 4 8) :fftExpr (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) . },
+    { ((2 6) :omega 4 8) :fftExpr (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))) . }.
+
+{ (6 2) math:product 12 . }
+  pe:builtin math:product.
+
+{ (12 8) math:remainder 4 . }
+  pe:builtin math:remainder.
+
+{ ((1 3 5 7) :omega 6 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "childP"; pe:value 4 ],
+    [ pe:var "i0"; pe:value 1 ],
+    [ pe:var "i1"; pe:value 3 ],
+    [ pe:var "i2"; pe:value 5 ],
+    [ pe:var "i3"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 6 ],
+    [ pe:var "rhs"; pe:value (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 12 ];
+  pe:uses
+    { (6 2) math:product 12 . },
+    { (12 8) math:remainder 4 . },
+    { ((1 5) :omega 4 8) :fftExpr (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) . },
+    { ((3 7) :omega 4 8) :fftExpr (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))) . }.
+
+{ ((0 1 2 3 4 5 6 7) :omega 4 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 4) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "childP"; pe:value 0 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 1 ],
+    [ pe:var "i2"; pe:value 2 ],
+    [ pe:var "i3"; pe:value 3 ],
+    [ pe:var "i4"; pe:value 4 ],
+    [ pe:var "i5"; pe:value 5 ],
+    [ pe:var "i6"; pe:value 6 ],
+    [ pe:var "i7"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 4 ],
+    [ pe:var "rhs"; pe:value (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 8 ];
+  pe:uses
+    { (4 2) math:product 8 . },
+    { (8 8) math:remainder 0 . },
+    { ((0 2 4 6) :omega 0 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 0) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) . },
+    { ((1 3 5 7) :omega 0 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 0) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))) . }.
+
+{ ((0 1 2 3 4 5 6 7) :omega 5 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 5) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "childP"; pe:value 2 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 1 ],
+    [ pe:var "i2"; pe:value 2 ],
+    [ pe:var "i3"; pe:value 3 ],
+    [ pe:var "i4"; pe:value 4 ],
+    [ pe:var "i5"; pe:value 5 ],
+    [ pe:var "i6"; pe:value 6 ],
+    [ pe:var "i7"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 5 ],
+    [ pe:var "rhs"; pe:value (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 10 ];
+  pe:uses
+    { (5 2) math:product 10 . },
+    { (10 8) math:remainder 2 . },
+    { ((0 2 4 6) :omega 2 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 2) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) . },
+    { ((1 3 5 7) :omega 2 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 2) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))) . }.
+
+{ (5 2) math:product 10 . }
+  pe:builtin math:product.
+
+{ (10 8) math:remainder 2 . }
+  pe:builtin math:remainder.
+
+{ ((0 1 2 3 4 5 6 7) :omega 6 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) (:mul (:twiddle :omega 6) (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))))) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "childP"; pe:value 4 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 1 ],
+    [ pe:var "i2"; pe:value 2 ],
+    [ pe:var "i3"; pe:value 3 ],
+    [ pe:var "i4"; pe:value 4 ],
+    [ pe:var "i5"; pe:value 5 ],
+    [ pe:var "i6"; pe:value 6 ],
+    [ pe:var "i7"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 6 ],
+    [ pe:var "rhs"; pe:value (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 12 ];
+  pe:uses
+    { (6 2) math:product 12 . },
+    { (12 8) math:remainder 4 . },
+    { ((0 2 4 6) :omega 4 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 0) (:leaf 4))) (:mul (:twiddle :omega 4) (:add (:leaf 2) (:mul (:twiddle :omega 0) (:leaf 6))))) . },
+    { ((1 3 5 7) :omega 4 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 0) (:leaf 5))) (:mul (:twiddle :omega 4) (:add (:leaf 3) (:mul (:twiddle :omega 0) (:leaf 7))))) . }.
+
+{ ((0 1 2 3 4 5 6 7) :omega 7 8) :fftExpr (:add (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) (:mul (:twiddle :omega 7) (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))))) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "childP"; pe:value 6 ],
+    [ pe:var "i0"; pe:value 0 ],
+    [ pe:var "i1"; pe:value 1 ],
+    [ pe:var "i2"; pe:value 2 ],
+    [ pe:var "i3"; pe:value 3 ],
+    [ pe:var "i4"; pe:value 4 ],
+    [ pe:var "i5"; pe:value 5 ],
+    [ pe:var "i6"; pe:value 6 ],
+    [ pe:var "i7"; pe:value 7 ],
+    [ pe:var "lhs"; pe:value (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) ],
+    [ pe:var "n"; pe:value 8 ],
+    [ pe:var "p"; pe:value 7 ],
+    [ pe:var "rhs"; pe:value (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))) ],
+    [ pe:var "root"; pe:value :omega ],
+    [ pe:var "twiceP"; pe:value 14 ];
+  pe:uses
+    { (7 2) math:product 14 . },
+    { (14 8) math:remainder 6 . },
+    { ((0 2 4 6) :omega 6 8) :fftExpr (:add (:add (:leaf 0) (:mul (:twiddle :omega 4) (:leaf 4))) (:mul (:twiddle :omega 6) (:add (:leaf 2) (:mul (:twiddle :omega 4) (:leaf 6))))) . },
+    { ((1 3 5 7) :omega 6 8) :fftExpr (:add (:add (:leaf 1) (:mul (:twiddle :omega 4) (:leaf 5))) (:mul (:twiddle :omega 6) (:add (:leaf 3) (:mul (:twiddle :omega 4) (:leaf 7))))) . }.
+
+{ (7 2) math:product 14 . }
+  pe:builtin math:product.
+
+{ (14 8) math:remainder 6 . }
+  pe:builtin math:remainder.

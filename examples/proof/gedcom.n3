@@ -1,0 +1,534 @@
+@prefix : <http://www.agfa.com/w3c/euler/gedcom-facts#> .
+@prefix gc: <http://www.daml.org/2001/01/gedcom/gedcom#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:Jos :testRelationship :Bart .
+:Geert :testRelationship :Bart .
+:Dirk :testRelationship :Bart .
+:Jos :testRelationship :Tom .
+:Geert :testRelationship :Tom .
+:Dirk :testRelationship :Tom .
+
+{ :Jos :testRelationship :Bart . }
+  pe:rule
+    {
+        {
+            ?A gc:mother ?M .
+            ?M gc:daughter ?D .
+            ?D gc:son ?S .
+            ?S gc:uncle ?A .
+        } => {
+            ?A :testRelationship ?S .
+        } .
+    };
+  pe:binding
+    [ pe:var "A"; pe:value :Jos ],
+    [ pe:var "D"; pe:value :Rita ],
+    [ pe:var "M"; pe:value :Maria ],
+    [ pe:var "S"; pe:value :Bart ];
+  pe:uses
+    { :Jos gc:mother :Maria . },
+    { :Maria gc:daughter :Rita . },
+    { :Rita gc:son :Bart . },
+    { :Bart gc:uncle :Jos . }.
+
+{ :Jos gc:mother :Maria . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :Jos ],
+    [ pe:var "P"; pe:value :Maria ];
+  pe:uses
+    { :Jos gc:parent :Maria . },
+    { :Maria gc:sex gc:Female . }.
+
+{ :Jos gc:parent :Maria . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Jos ],
+    [ pe:var "F"; pe:value :dp ],
+    [ pe:var "P"; pe:value :Maria ];
+  pe:uses
+    { :Jos gc:childIn :dp . },
+    { :Maria gc:spouseIn :dp . }.
+
+{ :Jos gc:childIn :dp . }
+  pe:fact "gedcom.n3".
+
+{ :Maria gc:spouseIn :dp . }
+  pe:fact "gedcom.n3".
+
+{ :Maria gc:sex gc:Female . }
+  pe:fact "gedcom.n3".
+
+{ :Maria gc:daughter :Rita . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "C"; pe:value :Rita ],
+    [ pe:var "P"; pe:value :Maria ];
+  pe:uses
+    { :Rita gc:parent :Maria . },
+    { :Rita gc:sex gc:Female . }.
+
+{ :Rita gc:parent :Maria . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Rita ],
+    [ pe:var "F"; pe:value :dp ],
+    [ pe:var "P"; pe:value :Maria ];
+  pe:uses
+    { :Rita gc:childIn :dp . },
+    { :Maria gc:spouseIn :dp . }.
+
+{ :Rita gc:childIn :dp . }
+  pe:fact "gedcom.n3".
+
+{ :Rita gc:sex gc:Female . }
+  pe:fact "gedcom.n3".
+
+{ :Rita gc:son :Bart . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :Bart ],
+    [ pe:var "P"; pe:value :Rita ];
+  pe:uses
+    { :Bart gc:parent :Rita . },
+    { :Bart gc:sex gc:Male . }.
+
+{ :Bart gc:parent :Rita . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Bart ],
+    [ pe:var "F"; pe:value :gd ],
+    [ pe:var "P"; pe:value :Rita ];
+  pe:uses
+    { :Bart gc:childIn :gd . },
+    { :Rita gc:spouseIn :gd . }.
+
+{ :Bart gc:childIn :gd . }
+  pe:fact "gedcom.n3".
+
+{ :Rita gc:spouseIn :gd . }
+  pe:fact "gedcom.n3".
+
+{ :Bart gc:sex gc:Male . }
+  pe:fact "gedcom.n3".
+
+{ :Bart gc:uncle :Jos . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "C"; pe:value :Bart ],
+    [ pe:var "P"; pe:value :Rita ],
+    [ pe:var "U"; pe:value :Jos ];
+  pe:uses
+    { :Bart gc:parent :Rita . },
+    { :Rita gc:brother :Jos . }.
+
+{ :Rita gc:brother :Jos . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "C"; pe:value :Rita ],
+    [ pe:var "S"; pe:value :Jos ];
+  pe:uses
+    { :Rita gc:sibling :Jos . },
+    { :Jos gc:sex gc:Male . }.
+
+{ :Rita gc:sibling :Jos . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "C"; pe:value :Rita ],
+    [ pe:var "C2"; pe:value :Jos ],
+    [ pe:var "F"; pe:value :dp ];
+  pe:uses
+    { :Rita gc:childIn :dp . },
+    { :Jos gc:childIn :dp . },
+    { :Rita log:notEqualTo :Jos . }.
+
+{ :Rita log:notEqualTo :Jos . }
+  pe:builtin log:notEqualTo.
+
+{ :Jos gc:sex gc:Male . }
+  pe:fact "gedcom.n3".
+
+{ :Geert :testRelationship :Bart . }
+  pe:rule
+    {
+        {
+            ?A gc:mother ?M .
+            ?M gc:daughter ?D .
+            ?D gc:son ?S .
+            ?S gc:uncle ?A .
+        } => {
+            ?A :testRelationship ?S .
+        } .
+    };
+  pe:binding
+    [ pe:var "A"; pe:value :Geert ],
+    [ pe:var "D"; pe:value :Rita ],
+    [ pe:var "M"; pe:value :Maria ],
+    [ pe:var "S"; pe:value :Bart ];
+  pe:uses
+    { :Geert gc:mother :Maria . },
+    { :Maria gc:daughter :Rita . },
+    { :Rita gc:son :Bart . },
+    { :Bart gc:uncle :Geert . }.
+
+{ :Geert gc:mother :Maria . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :Geert ],
+    [ pe:var "P"; pe:value :Maria ];
+  pe:uses
+    { :Geert gc:parent :Maria . },
+    { :Maria gc:sex gc:Female . }.
+
+{ :Geert gc:parent :Maria . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Geert ],
+    [ pe:var "F"; pe:value :dp ],
+    [ pe:var "P"; pe:value :Maria ];
+  pe:uses
+    { :Geert gc:childIn :dp . },
+    { :Maria gc:spouseIn :dp . }.
+
+{ :Geert gc:childIn :dp . }
+  pe:fact "gedcom.n3".
+
+{ :Bart gc:uncle :Geert . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "C"; pe:value :Bart ],
+    [ pe:var "P"; pe:value :Rita ],
+    [ pe:var "U"; pe:value :Geert ];
+  pe:uses
+    { :Bart gc:parent :Rita . },
+    { :Rita gc:brother :Geert . }.
+
+{ :Rita gc:brother :Geert . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "C"; pe:value :Rita ],
+    [ pe:var "S"; pe:value :Geert ];
+  pe:uses
+    { :Rita gc:sibling :Geert . },
+    { :Geert gc:sex gc:Male . }.
+
+{ :Rita gc:sibling :Geert . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "C"; pe:value :Rita ],
+    [ pe:var "C2"; pe:value :Geert ],
+    [ pe:var "F"; pe:value :dp ];
+  pe:uses
+    { :Rita gc:childIn :dp . },
+    { :Geert gc:childIn :dp . },
+    { :Rita log:notEqualTo :Geert . }.
+
+{ :Rita log:notEqualTo :Geert . }
+  pe:builtin log:notEqualTo.
+
+{ :Geert gc:sex gc:Male . }
+  pe:fact "gedcom.n3".
+
+{ :Dirk :testRelationship :Bart . }
+  pe:rule
+    {
+        {
+            ?A gc:mother ?M .
+            ?M gc:daughter ?D .
+            ?D gc:son ?S .
+            ?S gc:uncle ?A .
+        } => {
+            ?A :testRelationship ?S .
+        } .
+    };
+  pe:binding
+    [ pe:var "A"; pe:value :Dirk ],
+    [ pe:var "D"; pe:value :Rita ],
+    [ pe:var "M"; pe:value :Maria ],
+    [ pe:var "S"; pe:value :Bart ];
+  pe:uses
+    { :Dirk gc:mother :Maria . },
+    { :Maria gc:daughter :Rita . },
+    { :Rita gc:son :Bart . },
+    { :Bart gc:uncle :Dirk . }.
+
+{ :Dirk gc:mother :Maria . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :Dirk ],
+    [ pe:var "P"; pe:value :Maria ];
+  pe:uses
+    { :Dirk gc:parent :Maria . },
+    { :Maria gc:sex gc:Female . }.
+
+{ :Dirk gc:parent :Maria . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Dirk ],
+    [ pe:var "F"; pe:value :dp ],
+    [ pe:var "P"; pe:value :Maria ];
+  pe:uses
+    { :Dirk gc:childIn :dp . },
+    { :Maria gc:spouseIn :dp . }.
+
+{ :Dirk gc:childIn :dp . }
+  pe:fact "gedcom.n3".
+
+{ :Bart gc:uncle :Dirk . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "C"; pe:value :Bart ],
+    [ pe:var "P"; pe:value :Rita ],
+    [ pe:var "U"; pe:value :Dirk ];
+  pe:uses
+    { :Bart gc:parent :Rita . },
+    { :Rita gc:brother :Dirk . }.
+
+{ :Rita gc:brother :Dirk . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "C"; pe:value :Rita ],
+    [ pe:var "S"; pe:value :Dirk ];
+  pe:uses
+    { :Rita gc:sibling :Dirk . },
+    { :Dirk gc:sex gc:Male . }.
+
+{ :Rita gc:sibling :Dirk . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "C"; pe:value :Rita ],
+    [ pe:var "C2"; pe:value :Dirk ],
+    [ pe:var "F"; pe:value :dp ];
+  pe:uses
+    { :Rita gc:childIn :dp . },
+    { :Dirk gc:childIn :dp . },
+    { :Rita log:notEqualTo :Dirk . }.
+
+{ :Rita log:notEqualTo :Dirk . }
+  pe:builtin log:notEqualTo.
+
+{ :Dirk gc:sex gc:Male . }
+  pe:fact "gedcom.n3".
+
+{ :Jos :testRelationship :Tom . }
+  pe:rule
+    {
+        {
+            ?A gc:mother ?M .
+            ?M gc:daughter ?D .
+            ?D gc:son ?S .
+            ?S gc:uncle ?A .
+        } => {
+            ?A :testRelationship ?S .
+        } .
+    };
+  pe:binding
+    [ pe:var "A"; pe:value :Jos ],
+    [ pe:var "D"; pe:value :Greta ],
+    [ pe:var "M"; pe:value :Maria ],
+    [ pe:var "S"; pe:value :Tom ];
+  pe:uses
+    { :Jos gc:mother :Maria . },
+    { :Maria gc:daughter :Greta . },
+    { :Greta gc:son :Tom . },
+    { :Tom gc:uncle :Jos . }.
+
+{ :Maria gc:daughter :Greta . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "C"; pe:value :Greta ],
+    [ pe:var "P"; pe:value :Maria ];
+  pe:uses
+    { :Greta gc:parent :Maria . },
+    { :Greta gc:sex gc:Female . }.
+
+{ :Greta gc:parent :Maria . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Greta ],
+    [ pe:var "F"; pe:value :dp ],
+    [ pe:var "P"; pe:value :Maria ];
+  pe:uses
+    { :Greta gc:childIn :dp . },
+    { :Maria gc:spouseIn :dp . }.
+
+{ :Greta gc:childIn :dp . }
+  pe:fact "gedcom.n3".
+
+{ :Greta gc:sex gc:Female . }
+  pe:fact "gedcom.n3".
+
+{ :Greta gc:son :Tom . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :Tom ],
+    [ pe:var "P"; pe:value :Greta ];
+  pe:uses
+    { :Tom gc:parent :Greta . },
+    { :Tom gc:sex gc:Male . }.
+
+{ :Tom gc:parent :Greta . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :Tom ],
+    [ pe:var "F"; pe:value :sd ],
+    [ pe:var "P"; pe:value :Greta ];
+  pe:uses
+    { :Tom gc:childIn :sd . },
+    { :Greta gc:spouseIn :sd . }.
+
+{ :Tom gc:childIn :sd . }
+  pe:fact "gedcom.n3".
+
+{ :Greta gc:spouseIn :sd . }
+  pe:fact "gedcom.n3".
+
+{ :Tom gc:sex gc:Male . }
+  pe:fact "gedcom.n3".
+
+{ :Tom gc:uncle :Jos . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "C"; pe:value :Tom ],
+    [ pe:var "P"; pe:value :Greta ],
+    [ pe:var "U"; pe:value :Jos ];
+  pe:uses
+    { :Tom gc:parent :Greta . },
+    { :Greta gc:brother :Jos . }.
+
+{ :Greta gc:brother :Jos . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "C"; pe:value :Greta ],
+    [ pe:var "S"; pe:value :Jos ];
+  pe:uses
+    { :Greta gc:sibling :Jos . },
+    { :Jos gc:sex gc:Male . }.
+
+{ :Greta gc:sibling :Jos . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "C"; pe:value :Greta ],
+    [ pe:var "C2"; pe:value :Jos ],
+    [ pe:var "F"; pe:value :dp ];
+  pe:uses
+    { :Greta gc:childIn :dp . },
+    { :Jos gc:childIn :dp . },
+    { :Greta log:notEqualTo :Jos . }.
+
+{ :Greta log:notEqualTo :Jos . }
+  pe:builtin log:notEqualTo.
+
+{ :Geert :testRelationship :Tom . }
+  pe:rule
+    {
+        {
+            ?A gc:mother ?M .
+            ?M gc:daughter ?D .
+            ?D gc:son ?S .
+            ?S gc:uncle ?A .
+        } => {
+            ?A :testRelationship ?S .
+        } .
+    };
+  pe:binding
+    [ pe:var "A"; pe:value :Geert ],
+    [ pe:var "D"; pe:value :Greta ],
+    [ pe:var "M"; pe:value :Maria ],
+    [ pe:var "S"; pe:value :Tom ];
+  pe:uses
+    { :Geert gc:mother :Maria . },
+    { :Maria gc:daughter :Greta . },
+    { :Greta gc:son :Tom . },
+    { :Tom gc:uncle :Geert . }.
+
+{ :Tom gc:uncle :Geert . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "C"; pe:value :Tom ],
+    [ pe:var "P"; pe:value :Greta ],
+    [ pe:var "U"; pe:value :Geert ];
+  pe:uses
+    { :Tom gc:parent :Greta . },
+    { :Greta gc:brother :Geert . }.
+
+{ :Greta gc:brother :Geert . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "C"; pe:value :Greta ],
+    [ pe:var "S"; pe:value :Geert ];
+  pe:uses
+    { :Greta gc:sibling :Geert . },
+    { :Geert gc:sex gc:Male . }.
+
+{ :Greta gc:sibling :Geert . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "C"; pe:value :Greta ],
+    [ pe:var "C2"; pe:value :Geert ],
+    [ pe:var "F"; pe:value :dp ];
+  pe:uses
+    { :Greta gc:childIn :dp . },
+    { :Geert gc:childIn :dp . },
+    { :Greta log:notEqualTo :Geert . }.
+
+{ :Greta log:notEqualTo :Geert . }
+  pe:builtin log:notEqualTo.
+
+{ :Dirk :testRelationship :Tom . }
+  pe:rule
+    {
+        {
+            ?A gc:mother ?M .
+            ?M gc:daughter ?D .
+            ?D gc:son ?S .
+            ?S gc:uncle ?A .
+        } => {
+            ?A :testRelationship ?S .
+        } .
+    };
+  pe:binding
+    [ pe:var "A"; pe:value :Dirk ],
+    [ pe:var "D"; pe:value :Greta ],
+    [ pe:var "M"; pe:value :Maria ],
+    [ pe:var "S"; pe:value :Tom ];
+  pe:uses
+    { :Dirk gc:mother :Maria . },
+    { :Maria gc:daughter :Greta . },
+    { :Greta gc:son :Tom . },
+    { :Tom gc:uncle :Dirk . }.
+
+{ :Tom gc:uncle :Dirk . }
+  pe:rule 17;
+  pe:binding
+    [ pe:var "C"; pe:value :Tom ],
+    [ pe:var "P"; pe:value :Greta ],
+    [ pe:var "U"; pe:value :Dirk ];
+  pe:uses
+    { :Tom gc:parent :Greta . },
+    { :Greta gc:brother :Dirk . }.
+
+{ :Greta gc:brother :Dirk . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "C"; pe:value :Greta ],
+    [ pe:var "S"; pe:value :Dirk ];
+  pe:uses
+    { :Greta gc:sibling :Dirk . },
+    { :Dirk gc:sex gc:Male . }.
+
+{ :Greta gc:sibling :Dirk . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "C"; pe:value :Greta ],
+    [ pe:var "C2"; pe:value :Dirk ],
+    [ pe:var "F"; pe:value :dp ];
+  pe:uses
+    { :Greta gc:childIn :dp . },
+    { :Dirk gc:childIn :dp . },
+    { :Greta log:notEqualTo :Dirk . }.
+
+{ :Greta log:notEqualTo :Dirk . }
+  pe:builtin log:notEqualTo.

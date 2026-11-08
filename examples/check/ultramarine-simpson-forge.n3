@@ -1,0 +1,369 @@
+# checked with obligations: 139 steps, 97 verified, 42 trusted
+@prefix : <http://example.org/ultramarine-simpson#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+_:b1 :y "0"^^xsd:decimal .
+_:b1 :dy "1"^^xsd:decimal .
+_:b1 :ds 1.4142135623730951 .
+:Simpson1 :sampleResult _:b6_f847bd9b69e197ef .
+_:b6_f847bd9b69e197ef :sample _:b1 .
+_:b6_f847bd9b69e197ef :x 0.0 .
+_:b6_f847bd9b69e197ef :coef 1.0 .
+_:b6_f847bd9b69e197ef :y "0"^^xsd:decimal .
+_:b6_f847bd9b69e197ef :dy "1"^^xsd:decimal .
+_:b6_f847bd9b69e197ef :ds 1.4142135623730951 .
+_:b2 :y 0.729425538604203 .
+_:b2 :dy 1.8775825618903728 .
+_:b2 :ds 2.12727907823934 .
+:Simpson1 :sampleResult _:b6_d26b5553d9ddab73 .
+_:b6_d26b5553d9ddab73 :sample _:b2 .
+_:b6_d26b5553d9ddab73 :x 0.5 .
+_:b6_d26b5553d9ddab73 :coef 4.0 .
+_:b6_d26b5553d9ddab73 :y 0.729425538604203 .
+_:b6_d26b5553d9ddab73 :dy 1.8775825618903728 .
+_:b6_d26b5553d9ddab73 :ds 2.12727907823934 .
+_:b3 :y 1.8414709848078965 .
+_:b3 :dy 2.5403023058681398 .
+_:b3 :ds 2.7300431874237794 .
+:Simpson1 :sampleResult _:b6_9a0657b8af178fa5 .
+_:b6_9a0657b8af178fa5 :sample _:b3 .
+_:b6_9a0657b8af178fa5 :x 1.0 .
+_:b6_9a0657b8af178fa5 :coef 2.0 .
+_:b6_9a0657b8af178fa5 :y 1.8414709848078965 .
+_:b6_9a0657b8af178fa5 :dy 2.5403023058681398 .
+_:b6_9a0657b8af178fa5 :ds 2.7300431874237794 .
+_:b4 :y 3.2474949866040546 .
+_:b4 :dy 3.070737201667703 .
+_:b4 :ds 3.229462333222977 .
+:Simpson1 :sampleResult _:b6_c6430fd71891029d .
+_:b6_c6430fd71891029d :sample _:b4 .
+_:b6_c6430fd71891029d :x 1.5 .
+_:b6_c6430fd71891029d :coef 4.0 .
+_:b6_c6430fd71891029d :y 3.2474949866040546 .
+_:b6_c6430fd71891029d :dy 3.070737201667703 .
+_:b6_c6430fd71891029d :ds 3.229462333222977 .
+_:b5 :y 4.909297426825682 .
+_:b5 :dy 3.5838531634528574 .
+_:b5 :ds 3.720753081997118 .
+:Simpson1 :sampleResult _:b6_8729801b4b1fe918 .
+_:b6_8729801b4b1fe918 :sample _:b5 .
+_:b6_8729801b4b1fe918 :x 2.0 .
+_:b6_8729801b4b1fe918 :coef 1.0 .
+_:b6_8729801b4b1fe918 :y 4.909297426825682 .
+_:b6_8729801b4b1fe918 :dy 3.5838531634528574 .
+_:b6_8729801b4b1fe918 :ds 3.720753081997118 .
+:Simpson1 :sumWY 24.499921497274507 .
+:Simpson1 :sumWXY 34.445357820099886 .
+:Simpson1 :sumWY2 75.19637321836198 .
+:Simpson1 :sumWDS 32.022018665067044 .
+:Simpson1 :areaUnderCurve 4.083320249545751 .
+:Simpson1 :arcLength 5.337003110844507 .
+:Simpson1 :momentAboutY 5.740892970016647 .
+:Simpson1 :momentAboutX 6.266364434863498 .
+:Simpson1 :centroid _:b7_f593950cd1658ad4 .
+_:b7_f593950cd1658ad4 :xbar 1.405937477143825 .
+_:b7_f593950cd1658ad4 :ybar 1.5346247788330099 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/ultramarine-simpson-forge.n3";
+    pe:source "examples/ultramarine-simpson-forge.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 139;
+    pe:verified 97;
+    pe:trusted 42;
+    pe:builtinSteps 66;
+    pe:factSteps 12;
+    pe:ruleSteps 61;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 73; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 139; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 139; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 838; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 66; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 10; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 200; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 53; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 4; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 61; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Simpson1 :sampleResult _:b6_f847bd9b69e197ef .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_f847bd9b69e197ef :sample _:b1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_f847bd9b69e197ef :x 0.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_f847bd9b69e197ef :coef 1.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_f847bd9b69e197ef :y "0"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_f847bd9b69e197ef :dy "1"^^xsd:decimal .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_f847bd9b69e197ef :ds 1.4142135623730951 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Simpson1 :sampleResult _:b6_d26b5553d9ddab73 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_d26b5553d9ddab73 :sample _:b2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_d26b5553d9ddab73 :x 0.5 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_d26b5553d9ddab73 :coef 4.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_d26b5553d9ddab73 :y 0.729425538604203 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_d26b5553d9ddab73 :dy 1.8775825618903728 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_d26b5553d9ddab73 :ds 2.12727907823934 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Simpson1 :sampleResult _:b6_9a0657b8af178fa5 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_9a0657b8af178fa5 :sample _:b3 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_9a0657b8af178fa5 :x 1.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_9a0657b8af178fa5 :coef 2.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_9a0657b8af178fa5 :y 1.8414709848078965 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_9a0657b8af178fa5 :dy 2.5403023058681398 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_9a0657b8af178fa5 :ds 2.7300431874237794 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Simpson1 :sampleResult _:b6_c6430fd71891029d .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_c6430fd71891029d :sample _:b4 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_c6430fd71891029d :x 1.5 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_c6430fd71891029d :coef 4.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_c6430fd71891029d :y 3.2474949866040546 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_c6430fd71891029d :dy 3.070737201667703 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_c6430fd71891029d :ds 3.229462333222977 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Simpson1 :sampleResult _:b6_8729801b4b1fe918 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_8729801b4b1fe918 :sample _:b5 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_8729801b4b1fe918 :x 2.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_8729801b4b1fe918 :coef 1.0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_8729801b4b1fe918 :y 4.909297426825682 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_8729801b4b1fe918 :dy 3.5838531634528574 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b6_8729801b4b1fe918 :ds 3.720753081997118 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?wy {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?s .
+                ?s :coef ?c .
+                ?s :y ?y .
+                (?c ?y) math:product ?wy .
+            } ("0"^^xsd:decimal 2.917702154416812 3.682941969615793 12.989979946416218 4.909297426825682)) log:collectAllIn ?_:w0 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?wxy {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?s .
+                ?s :coef ?c .
+                ?s :x ?x .
+                ?s :y ?y .
+                (?x ?y) math:product ?xy .
+                (?c ?xy) math:product ?wxy .
+            } ("0"^^xsd:decimal 1.458851077208406 3.682941969615793 19.484969919624326 9.818594853651364)) log:collectAllIn ?_:w1 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?wy2 {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?s .
+                ?s :coef ?c .
+                ?s :y ?y .
+                (?y 2.0) math:exponentiation ?y2 .
+                (?c ?y2) math:product ?wy2 .
+            } ("0"^^xsd:decimal 2.1282464654721265 6.782030775778728 42.18489475207387 24.10120122503726)) log:collectAllIn ?_:w2 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "collected";
+        pe:statement {
+            (?wds {
+                (_:b1 _:b2 _:b3 _:b4 _:b5) list:member ?s .
+                ?s :coef ?c .
+                ?s :ds ?ds .
+                (?c ?ds) math:product ?wds .
+            } (1.4142135623730951 8.50911631295736 5.460086374847559 12.917849332891908 3.720753081997118)) log:collectAllIn ?_:w3 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            :Simpson1 :centroid _:b7_f593950cd1658ad4 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_f593950cd1658ad4 :xbar 1.405937477143825 .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:b7_f593950cd1658ad4 :ybar 1.5346247788330099 .
+        }
+    ].

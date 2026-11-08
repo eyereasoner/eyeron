@@ -1,0 +1,82 @@
+@prefix : <http://eulersharp.sourceforge.net/2006/02swap/med#> .
+@prefix fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:Joe :isPrescribed :aspirinLowDose .
+:Joe :isPrescribed :betaBlocker .
+
+{ :Joe :isPrescribed :aspirinLowDose . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Diagnosis"; pe:value :AcuteMyocardialInfarction ],
+    [ pe:var "Medication"; pe:value :aspirinLowDose ],
+    [ pe:var "Membership"; pe:value 0.9 ],
+    [ pe:var "SCOPE"; pe:value _:forAllIn ],
+    [ pe:var "Who"; pe:value :Joe ];
+  pe:uses
+    { :aspirinLowDose :prescribedFor :AcuteMyocardialInfarction . },
+    { (:Joe :AcuteMyocardialInfarction) fl:mu 0.9 . },
+    { 0.9 math:greaterThan 0.7 . },
+    {
+        ({
+            :aspirinLowDose :excludedFor ?Exclusion .
+        } {
+            (:Joe ?Exclusion) fl:mu ?Value .
+            ?Value math:notGreaterThan 0.01 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{ :aspirinLowDose :prescribedFor :AcuteMyocardialInfarction . }
+  pe:fact "fuzzy-prescription.n3".
+
+{ (:Joe :AcuteMyocardialInfarction) fl:mu 0.9 . }
+  pe:fact "fuzzy-prescription.n3".
+
+{ 0.9 math:greaterThan 0.7 . }
+  pe:builtin math:greaterThan.
+
+{
+  ({
+      :aspirinLowDose :excludedFor ?Exclusion .
+  } {
+      (:Joe ?Exclusion) fl:mu ?Value .
+      ?Value math:notGreaterThan 0.01 .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.
+
+{ :Joe :isPrescribed :betaBlocker . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Diagnosis"; pe:value :AcuteMyocardialInfarction ],
+    [ pe:var "Medication"; pe:value :betaBlocker ],
+    [ pe:var "Membership"; pe:value 0.9 ],
+    [ pe:var "SCOPE"; pe:value _:forAllIn ],
+    [ pe:var "Who"; pe:value :Joe ];
+  pe:uses
+    { :betaBlocker :prescribedFor :AcuteMyocardialInfarction . },
+    { (:Joe :AcuteMyocardialInfarction) fl:mu 0.9 . },
+    { 0.9 math:greaterThan 0.7 . },
+    {
+        ({
+            :betaBlocker :excludedFor ?Exclusion .
+        } {
+            (:Joe ?Exclusion) fl:mu ?Value .
+            ?Value math:notGreaterThan 0.01 .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{ :betaBlocker :prescribedFor :AcuteMyocardialInfarction . }
+  pe:fact "fuzzy-prescription.n3".
+
+{
+  ({
+      :betaBlocker :excludedFor ?Exclusion .
+  } {
+      (:Joe ?Exclusion) fl:mu ?Value .
+      ?Value math:notGreaterThan 0.01 .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.

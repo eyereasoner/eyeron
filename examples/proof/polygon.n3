@@ -1,0 +1,274 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix polygon: <https://eyereasoner.github.io/eye/reasoning/polygon#> .
+
+((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 7 .
+
+{ ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 7 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "AREA"; pe:value 7 ],
+    [ pe:var "AREA1"; pe:value 9 ],
+    [ pe:var "POINTS"; pe:value ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) ],
+    [ pe:var "POINTS1"; pe:value ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) ],
+    [ pe:var "POINTS2"; pe:value ((7 6) (4 6) (5 5) (5 3) (4 2)) ],
+    [ pe:var "X1"; pe:value 4 ],
+    [ pe:var "X2"; pe:value 6 ],
+    [ pe:var "Y1"; pe:value 2 ],
+    [ pe:var "Y2"; pe:value 2 ],
+    [ pe:var "Z1"; pe:value 8 ],
+    [ pe:var "Z2"; pe:value 12 ],
+    [ pe:var "Z3"; pe:value -4 ],
+    [ pe:var "Z4"; pe:value -2 ];
+  pe:uses
+    { ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) list:firstRest ((4 2) ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2))) . },
+    { ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) list:firstRest ((6 2) ((7 6) (4 6) (5 5) (5 3) (4 2))) . },
+    { ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 9 . },
+    { (4 2) math:product 8 . },
+    { (2 6) math:product 12 . },
+    { (8 12) math:difference -4 . },
+    { (-4 2) math:quotient -2 . },
+    { (-2 9) math:sum 7 . }.
+
+{ ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) list:firstRest ((4 2) ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2))) . }
+  pe:builtin list:firstRest.
+
+{ ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) list:firstRest ((6 2) ((7 6) (4 6) (5 5) (5 3) (4 2))) . }
+  pe:builtin list:firstRest.
+
+{ ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 9 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "AREA"; pe:value 9 ],
+    [ pe:var "AREA1"; pe:value -2 ],
+    [ pe:var "POINTS"; pe:value ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) ],
+    [ pe:var "POINTS1"; pe:value ((7 6) (4 6) (5 5) (5 3) (4 2)) ],
+    [ pe:var "POINTS2"; pe:value ((4 6) (5 5) (5 3) (4 2)) ],
+    [ pe:var "X1"; pe:value 6 ],
+    [ pe:var "X2"; pe:value 7 ],
+    [ pe:var "Y1"; pe:value 2 ],
+    [ pe:var "Y2"; pe:value 6 ],
+    [ pe:var "Z1"; pe:value 36 ],
+    [ pe:var "Z2"; pe:value 14 ],
+    [ pe:var "Z3"; pe:value 22 ],
+    [ pe:var "Z4"; pe:value 11 ];
+  pe:uses
+    { ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) list:firstRest ((6 2) ((7 6) (4 6) (5 5) (5 3) (4 2))) . },
+    { ((7 6) (4 6) (5 5) (5 3) (4 2)) list:firstRest ((7 6) ((4 6) (5 5) (5 3) (4 2))) . },
+    { ((7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area -2 . },
+    { (6 6) math:product 36 . },
+    { (2 7) math:product 14 . },
+    { (36 14) math:difference 22 . },
+    { (22 2) math:quotient 11 . },
+    { (11 -2) math:sum 9 . }.
+
+{ ((7 6) (4 6) (5 5) (5 3) (4 2)) list:firstRest ((7 6) ((4 6) (5 5) (5 3) (4 2))) . }
+  pe:builtin list:firstRest.
+
+{ ((7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area -2 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "AREA"; pe:value -2 ],
+    [ pe:var "AREA1"; pe:value -11 ],
+    [ pe:var "POINTS"; pe:value ((7 6) (4 6) (5 5) (5 3) (4 2)) ],
+    [ pe:var "POINTS1"; pe:value ((4 6) (5 5) (5 3) (4 2)) ],
+    [ pe:var "POINTS2"; pe:value ((5 5) (5 3) (4 2)) ],
+    [ pe:var "X1"; pe:value 7 ],
+    [ pe:var "X2"; pe:value 4 ],
+    [ pe:var "Y1"; pe:value 6 ],
+    [ pe:var "Y2"; pe:value 6 ],
+    [ pe:var "Z1"; pe:value 42 ],
+    [ pe:var "Z2"; pe:value 24 ],
+    [ pe:var "Z3"; pe:value 18 ],
+    [ pe:var "Z4"; pe:value 9 ];
+  pe:uses
+    { ((7 6) (4 6) (5 5) (5 3) (4 2)) list:firstRest ((7 6) ((4 6) (5 5) (5 3) (4 2))) . },
+    { ((4 6) (5 5) (5 3) (4 2)) list:firstRest ((4 6) ((5 5) (5 3) (4 2))) . },
+    { ((4 6) (5 5) (5 3) (4 2)) polygon:area -11 . },
+    { (7 6) math:product 42 . },
+    { (6 4) math:product 24 . },
+    { (42 24) math:difference 18 . },
+    { (18 2) math:quotient 9 . },
+    { (9 -11) math:sum -2 . }.
+
+{ ((4 6) (5 5) (5 3) (4 2)) list:firstRest ((4 6) ((5 5) (5 3) (4 2))) . }
+  pe:builtin list:firstRest.
+
+{ ((4 6) (5 5) (5 3) (4 2)) polygon:area -11 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "AREA"; pe:value -11 ],
+    [ pe:var "AREA1"; pe:value -6 ],
+    [ pe:var "POINTS"; pe:value ((4 6) (5 5) (5 3) (4 2)) ],
+    [ pe:var "POINTS1"; pe:value ((5 5) (5 3) (4 2)) ],
+    [ pe:var "POINTS2"; pe:value ((5 3) (4 2)) ],
+    [ pe:var "X1"; pe:value 4 ],
+    [ pe:var "X2"; pe:value 5 ],
+    [ pe:var "Y1"; pe:value 6 ],
+    [ pe:var "Y2"; pe:value 5 ],
+    [ pe:var "Z1"; pe:value 20 ],
+    [ pe:var "Z2"; pe:value 30 ],
+    [ pe:var "Z3"; pe:value -10 ],
+    [ pe:var "Z4"; pe:value -5 ];
+  pe:uses
+    { ((4 6) (5 5) (5 3) (4 2)) list:firstRest ((4 6) ((5 5) (5 3) (4 2))) . },
+    { ((5 5) (5 3) (4 2)) list:firstRest ((5 5) ((5 3) (4 2))) . },
+    { ((5 5) (5 3) (4 2)) polygon:area -6 . },
+    { (4 5) math:product 20 . },
+    { (6 5) math:product 30 . },
+    { (20 30) math:difference -10 . },
+    { (-10 2) math:quotient -5 . },
+    { (-5 -6) math:sum -11 . }.
+
+{ ((5 5) (5 3) (4 2)) list:firstRest ((5 5) ((5 3) (4 2))) . }
+  pe:builtin list:firstRest.
+
+{ ((5 5) (5 3) (4 2)) polygon:area -6 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "AREA"; pe:value -6 ],
+    [ pe:var "AREA1"; pe:value -1 ],
+    [ pe:var "POINTS"; pe:value ((5 5) (5 3) (4 2)) ],
+    [ pe:var "POINTS1"; pe:value ((5 3) (4 2)) ],
+    [ pe:var "POINTS2"; pe:value ((4 2)) ],
+    [ pe:var "X1"; pe:value 5 ],
+    [ pe:var "X2"; pe:value 5 ],
+    [ pe:var "Y1"; pe:value 5 ],
+    [ pe:var "Y2"; pe:value 3 ],
+    [ pe:var "Z1"; pe:value 15 ],
+    [ pe:var "Z2"; pe:value 25 ],
+    [ pe:var "Z3"; pe:value -10 ],
+    [ pe:var "Z4"; pe:value -5 ];
+  pe:uses
+    { ((5 5) (5 3) (4 2)) list:firstRest ((5 5) ((5 3) (4 2))) . },
+    { ((5 3) (4 2)) list:firstRest ((5 3) ((4 2))) . },
+    { ((5 3) (4 2)) polygon:area -1 . },
+    { (5 3) math:product 15 . },
+    { (5 5) math:product 25 . },
+    { (15 25) math:difference -10 . },
+    { (-10 2) math:quotient -5 . },
+    { (-5 -1) math:sum -6 . }.
+
+{ ((5 3) (4 2)) list:firstRest ((5 3) ((4 2))) . }
+  pe:builtin list:firstRest.
+
+{ ((5 3) (4 2)) polygon:area -1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "AREA"; pe:value -1 ],
+    [ pe:var "AREA1"; pe:value 0 ],
+    [ pe:var "POINTS"; pe:value ((5 3) (4 2)) ],
+    [ pe:var "POINTS1"; pe:value ((4 2)) ],
+    [ pe:var "POINTS2"; pe:value () ],
+    [ pe:var "X1"; pe:value 5 ],
+    [ pe:var "X2"; pe:value 4 ],
+    [ pe:var "Y1"; pe:value 3 ],
+    [ pe:var "Y2"; pe:value 2 ],
+    [ pe:var "Z1"; pe:value 10 ],
+    [ pe:var "Z2"; pe:value 12 ],
+    [ pe:var "Z3"; pe:value -2 ],
+    [ pe:var "Z4"; pe:value -1 ];
+  pe:uses
+    { ((5 3) (4 2)) list:firstRest ((5 3) ((4 2))) . },
+    { ((4 2)) list:firstRest ((4 2) ()) . },
+    { ((4 2)) polygon:area 0 . },
+    { (5 2) math:product 10 . },
+    { (3 4) math:product 12 . },
+    { (10 12) math:difference -2 . },
+    { (-2 2) math:quotient -1 . },
+    { (-1 0) math:sum -1 . }.
+
+{ ((4 2)) list:firstRest ((4 2) ()) . }
+  pe:builtin list:firstRest.
+
+{ ((4 2)) polygon:area 0 . }
+  pe:rule 1;
+  pe:binding [ pe:var "POINT"; pe:value (4 2) ].
+
+{ (5 2) math:product 10 . }
+  pe:builtin math:product.
+
+{ (3 4) math:product 12 . }
+  pe:builtin math:product.
+
+{ (10 12) math:difference -2 . }
+  pe:builtin math:difference.
+
+{ (-2 2) math:quotient -1 . }
+  pe:builtin math:quotient.
+
+{ (-1 0) math:sum -1 . }
+  pe:builtin math:sum.
+
+{ (5 3) math:product 15 . }
+  pe:builtin math:product.
+
+{ (5 5) math:product 25 . }
+  pe:builtin math:product.
+
+{ (15 25) math:difference -10 . }
+  pe:builtin math:difference.
+
+{ (-10 2) math:quotient -5 . }
+  pe:builtin math:quotient.
+
+{ (-5 -1) math:sum -6 . }
+  pe:builtin math:sum.
+
+{ (4 5) math:product 20 . }
+  pe:builtin math:product.
+
+{ (6 5) math:product 30 . }
+  pe:builtin math:product.
+
+{ (20 30) math:difference -10 . }
+  pe:builtin math:difference.
+
+{ (-5 -6) math:sum -11 . }
+  pe:builtin math:sum.
+
+{ (7 6) math:product 42 . }
+  pe:builtin math:product.
+
+{ (6 4) math:product 24 . }
+  pe:builtin math:product.
+
+{ (42 24) math:difference 18 . }
+  pe:builtin math:difference.
+
+{ (18 2) math:quotient 9 . }
+  pe:builtin math:quotient.
+
+{ (9 -11) math:sum -2 . }
+  pe:builtin math:sum.
+
+{ (6 6) math:product 36 . }
+  pe:builtin math:product.
+
+{ (2 7) math:product 14 . }
+  pe:builtin math:product.
+
+{ (36 14) math:difference 22 . }
+  pe:builtin math:difference.
+
+{ (22 2) math:quotient 11 . }
+  pe:builtin math:quotient.
+
+{ (11 -2) math:sum 9 . }
+  pe:builtin math:sum.
+
+{ (4 2) math:product 8 . }
+  pe:builtin math:product.
+
+{ (2 6) math:product 12 . }
+  pe:builtin math:product.
+
+{ (8 12) math:difference -4 . }
+  pe:builtin math:difference.
+
+{ (-4 2) math:quotient -2 . }
+  pe:builtin math:quotient.
+
+{ (-2 9) math:sum 7 . }
+  pe:builtin math:sum.

@@ -1,0 +1,40 @@
+# checked: 103 steps, 103 verified, 0 trusted
+@prefix : <http://example.org/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:sequence :padovan (0 0) .
+:sequence :padovan (1 1) .
+:sequence :padovan (2 1) .
+:sequence :padovan (3 1) .
+:sequence :padovan (4 2) .
+:sequence :padovan (5 2) .
+:sequence :padovan (6 3) .
+:sequence :padovan (7 4) .
+:sequence :padovan (8 5) .
+:sequence :padovan (9 7) .
+:sequence :padovan (10 9) .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/padovan.n3";
+    pe:source "examples/padovan.n3";
+    pe:verdict pe:checked;
+    pe:steps 103;
+    pe:verified 103;
+    pe:trusted 0;
+    pe:builtinSteps 34;
+    pe:ruleSteps 69;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 69; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 103; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 103; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 188; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 34; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 114; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 69; pe:failed 0 ].

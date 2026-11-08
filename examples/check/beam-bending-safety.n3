@@ -1,0 +1,42 @@
+# checked: 71 steps, 71 verified, 0 trusted
+@prefix : <http://example.org/beam#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:ShelfLight :bendingStress 8333.333333333334 .
+:FloorBase :bendingStress 11249.999999999996 .
+:FloorOverload :bendingStress 22499.999999999993 .
+:FloorTall :bendingStress 5000.000000000001 .
+:ShelfLight :safetyFactor 1.44 .
+:FloorBase :safetyFactor 1.066666666666667 .
+:FloorOverload :safetyFactor 0.5333333333333335 .
+:FloorTall :safetyFactor 2.3999999999999995 .
+:ShelfLight :isSafe true .
+:FloorBase :isSafe true .
+:FloorTall :isSafe true .
+:FloorOverload :isSafe false .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/beam-bending-safety.n3";
+    pe:source "examples/beam-bending-safety.n3";
+    pe:verdict pe:checked;
+    pe:steps 71;
+    pe:verified 71;
+    pe:trusted 0;
+    pe:builtinSteps 27;
+    pe:factSteps 24;
+    pe:ruleSteps 20;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 44; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 71; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 71; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 104; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 27; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 83; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 112; pe:failed 0 ].

@@ -151,9 +151,9 @@ pub fn run_sources(
     let merged = parse_sources(opt, sources, capture_proof)?;
     if let Some(path) = &opt.check_proof {
         let proof = load_proof(path)?;
-        let report = crate::proof_check_n3::check_proof_document(&merged, &proof)
+        let (report, text) = crate::proof_check_n3::check_proof_report(&merged, &proof, Some(path), &source_labels(sources))
             .map_err(|err| EyeronError::new(err.with_source_location(&proof, path)))?;
-        emit(&proof_check_report(path, sources, &report))?;
+        emit(&text)?;
         if !report.valid() {
             return Err(EyeronError::new(format!("{} is not a valid proof for the given program", path)));
         }
@@ -173,8 +173,8 @@ pub fn run_sources(
     }
     if opt.prove_and_check {
         let proof = proof_to_n3(&merged.prefixes, &result);
-        let report = crate::proof_check_n3::check_proof_document(&merged, &proof)?;
-        emit(&proof_check_report("<generated>", sources, &report))?;
+        let (report, text) = crate::proof_check_n3::check_proof_report(&merged, &proof, None, &source_labels(sources))?;
+        emit(&text)?;
         if !report.valid() {
             return Err(EyeronError::new("<generated> is not a valid proof for the given program"));
         }
@@ -456,51 +456,9 @@ fn run_one_message(
     Ok(())
 }
 
-pub fn proof_check_report(path: &str, sources: &[Source], report: &crate::proof_check::Report) -> String {
-    let mut out = String::new();
-    writeln!(out, "Proof: {}", path).unwrap();
-    writeln!(out, "Source program: {}", sources.iter().map(Source::label).collect::<Vec<_>>().join(", ")).unwrap();
-    writeln!(out, "{}", report.verdict()).unwrap();
-    if !report.counts.is_empty() {
-        writeln!(out, "Step kinds:").unwrap();
-    }
-    for (kind, count) in &report.counts {
-        let description = match *kind {
-            "rule" => "rule applications",
-            "fact" => "source facts",
-            "builtin" => "built-ins",
-            "absent" => "absence checks",
-            "collected" => "collections",
-            "unproven" => "unproven steps",
-            other => other,
-        };
-        writeln!(out, "  {}: {}", description, count).unwrap();
-    }
-    writeln!(out, "Conditions:").unwrap();
-    for (id, name, checked, failed) in report.conditions() {
-        writeln!(out, "  {} {}: {} checked, {} failed", id, name, checked, failed).unwrap();
-    }
-    if !report.obligations.is_empty() {
-        writeln!(out, "Trust obligations (accepted without verifying their truth):").unwrap();
-    }
-    for obligation in &report.obligations {
-        writeln!(out, "  {}:", obligation.kind).unwrap();
-        for line in obligation.conclusion.lines() {
-            writeln!(out, "    {}", line).unwrap();
-        }
-    }
-    if !report.failures.is_empty() {
-        writeln!(out, "Failures:").unwrap();
-    }
-    for failure in &report.failures {
-        let name = crate::proof_check::CONDITIONS.iter().find(|(id, _)| *id == failure.condition).map_or("", |(_, name)| name);
-        writeln!(out, "  [{}: {}]", failure.condition, name).unwrap();
-        for line in failure.conclusion.lines() {
-            writeln!(out, "    {}", line).unwrap();
-        }
-        writeln!(out, "    {}", failure.detail).unwrap();
-    }
-    out
+/// The labels of the source inputs a check report names.
+fn source_labels(sources: &[Source]) -> Vec<String> {
+    sources.iter().map(|source| source.label().to_string()).collect()
 }
 
 pub fn help() -> String {

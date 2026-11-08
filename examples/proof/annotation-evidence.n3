@@ -1,0 +1,64 @@
+@prefix : <http://example/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:test :hasStatement true .
+:test :hasNamedStatement :claim .
+:test :statementAuthor :bob .
+:test :statementDate "2021-07-07"^^xsd:date .
+
+{ :test :hasStatement true . }
+  pe:rule 1;
+  pe:uses { :alice :name "Alice" . }.
+
+{ :alice :name "Alice" . }
+  pe:fact "annotation-evidence.n3".
+
+{ :test :hasNamedStatement :claim . }
+  pe:rule 2;
+  pe:binding [ pe:var "claim"; pe:value :claim ];
+  pe:uses
+    {
+        :claim :statement {
+            :alice :name "Alice" .
+        } .
+    }.
+
+{
+  :claim :statement {
+      :alice :name "Alice" .
+  } .
+}
+  pe:fact "annotation-evidence.n3".
+
+{ :test :statementAuthor :bob . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "claim"; pe:value :claim ],
+    [ pe:var "who"; pe:value :bob ];
+  pe:uses
+    {
+        :claim :statement {
+            :alice :name "Alice" .
+        } .
+    },
+    { :claim :statedBy :bob . }.
+
+{ :claim :statedBy :bob . }
+  pe:fact "annotation-evidence.n3".
+
+{ :test :statementDate "2021-07-07"^^xsd:date . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "claim"; pe:value :claim ],
+    [ pe:var "date"; pe:value "2021-07-07"^^xsd:date ];
+  pe:uses
+    {
+        :claim :statement {
+            :alice :name "Alice" .
+        } .
+    },
+    { :claim :recorded "2021-07-07"^^xsd:date . }.
+
+{ :claim :recorded "2021-07-07"^^xsd:date . }
+  pe:fact "annotation-evidence.n3".

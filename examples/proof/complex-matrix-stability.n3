@@ -1,0 +1,381 @@
+@prefix : <https://example.org/complex-matrix-stability#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:A_unstable :spectralRadius 2 .
+:A_stable :spectralRadius 1 .
+:A_damped :spectralRadius 0 .
+:A_unstable :classification :unstable .
+:A_stable :classification :stable .
+:A_damped :classification :damped .
+
+{ :A_unstable :spectralRadius 2 . }
+  pe:rule 7;
+  pe:binding [ pe:var "M"; pe:value :A_unstable ];
+  pe:uses { :A_unstable :spectralRadiusSq 4 . }.
+
+{ :A_unstable :spectralRadiusSq 4 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "A1"; pe:value 2 ],
+    [ pe:var "A2"; pe:value 4 ],
+    [ pe:var "L1"; pe:value :c_1_1 ],
+    [ pe:var "L2"; pe:value :c_2_0 ],
+    [ pe:var "M"; pe:value :A_unstable ];
+  pe:uses
+    { :A_unstable :eigenvalue1 :c_1_1 . },
+    { :A_unstable :eigenvalue2 :c_2_0 . },
+    { :c_1_1 :abs2 2 . },
+    { :c_2_0 :abs2 4 . },
+    { 4 math:greaterThan 2 . }.
+
+{ :A_unstable :eigenvalue1 :c_1_1 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L1"; pe:value :c_1_1 ],
+    [ pe:var "L2"; pe:value :c_2_0 ],
+    [ pe:var "M"; pe:value :A_unstable ],
+    [ pe:var "Z1"; pe:value :c_0_0 ],
+    [ pe:var "Z2"; pe:value :c_0_0 ];
+  pe:uses
+    { :A_unstable :a11 :c_1_1 . },
+    { :A_unstable :a12 :c_0_0 . },
+    { :A_unstable :a21 :c_0_0 . },
+    { :A_unstable :a22 :c_2_0 . },
+    { :c_0_0 :isZero true . },
+    { :c_0_0 :isZero true . }.
+
+{ :A_unstable :a11 :c_1_1 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_unstable :a12 :c_0_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_unstable :a21 :c_0_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_unstable :a22 :c_2_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :c_0_0 :isZero true . }
+  pe:rule 2;
+  pe:binding [ pe:var "Z"; pe:value :c_0_0 ];
+  pe:uses
+    { :c_0_0 :re 0 . },
+    { :c_0_0 :im 0 . }.
+
+{ :c_0_0 :re 0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :c_0_0 :im 0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_unstable :eigenvalue2 :c_2_0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L1"; pe:value :c_1_1 ],
+    [ pe:var "L2"; pe:value :c_2_0 ],
+    [ pe:var "M"; pe:value :A_unstable ],
+    [ pe:var "Z1"; pe:value :c_0_0 ],
+    [ pe:var "Z2"; pe:value :c_0_0 ];
+  pe:uses
+    { :A_unstable :a11 :c_1_1 . },
+    { :A_unstable :a12 :c_0_0 . },
+    { :A_unstable :a21 :c_0_0 . },
+    { :A_unstable :a22 :c_2_0 . },
+    { :c_0_0 :isZero true . },
+    { :c_0_0 :isZero true . }.
+
+{ :c_1_1 :abs2 2 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A2"; pe:value 2 ],
+    [ pe:var "I"; pe:value 1 ],
+    [ pe:var "I2"; pe:value 1 ],
+    [ pe:var "R"; pe:value 1 ],
+    [ pe:var "R2"; pe:value 1 ],
+    [ pe:var "Z"; pe:value :c_1_1 ];
+  pe:uses
+    { :c_1_1 :re 1 . },
+    { :c_1_1 :im 1 . },
+    { (1 1) math:product 1 . },
+    { (1 1) math:product 1 . },
+    { (1 1) math:sum 2 . }.
+
+{ :c_1_1 :re 1 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :c_1_1 :im 1 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ (1 1) math:product 1 . }
+  pe:builtin math:product.
+
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ :c_2_0 :abs2 4 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A2"; pe:value 4 ],
+    [ pe:var "I"; pe:value 0 ],
+    [ pe:var "I2"; pe:value 0 ],
+    [ pe:var "R"; pe:value 2 ],
+    [ pe:var "R2"; pe:value 4 ],
+    [ pe:var "Z"; pe:value :c_2_0 ];
+  pe:uses
+    { :c_2_0 :re 2 . },
+    { :c_2_0 :im 0 . },
+    { (2 2) math:product 4 . },
+    { (0 0) math:product 0 . },
+    { (4 0) math:sum 4 . }.
+
+{ :c_2_0 :re 2 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :c_2_0 :im 0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ (2 2) math:product 4 . }
+  pe:builtin math:product.
+
+{ (0 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ (4 0) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ 4 math:greaterThan 2 . }
+  pe:builtin math:greaterThan.
+
+{ :A_stable :spectralRadius 1 . }
+  pe:rule 8;
+  pe:binding [ pe:var "M"; pe:value :A_stable ];
+  pe:uses { :A_stable :spectralRadiusSq 1 . }.
+
+{ :A_stable :spectralRadiusSq 1 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A1"; pe:value 1 ],
+    [ pe:var "A2"; pe:value 1 ],
+    [ pe:var "L1"; pe:value :c_1_0 ],
+    [ pe:var "L2"; pe:value :c_m1_0 ],
+    [ pe:var "M"; pe:value :A_stable ];
+  pe:uses
+    { :A_stable :eigenvalue1 :c_1_0 . },
+    { :A_stable :eigenvalue2 :c_m1_0 . },
+    { :c_1_0 :abs2 1 . },
+    { :c_m1_0 :abs2 1 . },
+    { 1 math:notLessThan 1 . }.
+
+{ :A_stable :eigenvalue1 :c_1_0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L1"; pe:value :c_1_0 ],
+    [ pe:var "L2"; pe:value :c_m1_0 ],
+    [ pe:var "M"; pe:value :A_stable ],
+    [ pe:var "Z1"; pe:value :c_0_0 ],
+    [ pe:var "Z2"; pe:value :c_0_0 ];
+  pe:uses
+    { :A_stable :a11 :c_1_0 . },
+    { :A_stable :a12 :c_0_0 . },
+    { :A_stable :a21 :c_0_0 . },
+    { :A_stable :a22 :c_m1_0 . },
+    { :c_0_0 :isZero true . },
+    { :c_0_0 :isZero true . }.
+
+{ :A_stable :a11 :c_1_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_stable :a12 :c_0_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_stable :a21 :c_0_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_stable :a22 :c_m1_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_stable :eigenvalue2 :c_m1_0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L1"; pe:value :c_1_0 ],
+    [ pe:var "L2"; pe:value :c_m1_0 ],
+    [ pe:var "M"; pe:value :A_stable ],
+    [ pe:var "Z1"; pe:value :c_0_0 ],
+    [ pe:var "Z2"; pe:value :c_0_0 ];
+  pe:uses
+    { :A_stable :a11 :c_1_0 . },
+    { :A_stable :a12 :c_0_0 . },
+    { :A_stable :a21 :c_0_0 . },
+    { :A_stable :a22 :c_m1_0 . },
+    { :c_0_0 :isZero true . },
+    { :c_0_0 :isZero true . }.
+
+{ :c_1_0 :abs2 1 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A2"; pe:value 1 ],
+    [ pe:var "I"; pe:value 0 ],
+    [ pe:var "I2"; pe:value 0 ],
+    [ pe:var "R"; pe:value 1 ],
+    [ pe:var "R2"; pe:value 1 ],
+    [ pe:var "Z"; pe:value :c_1_0 ];
+  pe:uses
+    { :c_1_0 :re 1 . },
+    { :c_1_0 :im 0 . },
+    { (1 1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . }.
+
+{ :c_1_0 :re 1 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :c_1_0 :im 0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ (1 0) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ :c_m1_0 :abs2 1 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A2"; pe:value 1 ],
+    [ pe:var "I"; pe:value 0 ],
+    [ pe:var "I2"; pe:value 0 ],
+    [ pe:var "R"; pe:value -1 ],
+    [ pe:var "R2"; pe:value 1 ],
+    [ pe:var "Z"; pe:value :c_m1_0 ];
+  pe:uses
+    { :c_m1_0 :re -1 . },
+    { :c_m1_0 :im 0 . },
+    { (-1 -1) math:product 1 . },
+    { (0 0) math:product 0 . },
+    { (1 0) math:sum 1 . }.
+
+{ :c_m1_0 :re -1 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :c_m1_0 :im 0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ (-1 -1) math:product 1 . }
+  pe:builtin math:product.
+
+{ 1 math:notLessThan 1 . }
+  pe:builtin math:notLessThan.
+
+{ :A_damped :spectralRadius 0 . }
+  pe:rule 9;
+  pe:binding [ pe:var "M"; pe:value :A_damped ];
+  pe:uses { :A_damped :spectralRadiusSq 0 . }.
+
+{ :A_damped :spectralRadiusSq 0 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "A1"; pe:value 0 ],
+    [ pe:var "A2"; pe:value 0 ],
+    [ pe:var "L1"; pe:value :c_0_0 ],
+    [ pe:var "L2"; pe:value :c_0_0 ],
+    [ pe:var "M"; pe:value :A_damped ];
+  pe:uses
+    { :A_damped :eigenvalue1 :c_0_0 . },
+    { :A_damped :eigenvalue2 :c_0_0 . },
+    { :c_0_0 :abs2 0 . },
+    { :c_0_0 :abs2 0 . },
+    { 0 math:notLessThan 0 . }.
+
+{ :A_damped :eigenvalue1 :c_0_0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "L1"; pe:value :c_0_0 ],
+    [ pe:var "L2"; pe:value :c_0_0 ],
+    [ pe:var "M"; pe:value :A_damped ],
+    [ pe:var "Z1"; pe:value :c_0_0 ],
+    [ pe:var "Z2"; pe:value :c_0_0 ];
+  pe:uses
+    { :A_damped :a11 :c_0_0 . },
+    { :A_damped :a12 :c_0_0 . },
+    { :A_damped :a21 :c_0_0 . },
+    { :A_damped :a22 :c_0_0 . },
+    { :c_0_0 :isZero true . },
+    { :c_0_0 :isZero true . }.
+
+{ :A_damped :a11 :c_0_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_damped :a12 :c_0_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_damped :a21 :c_0_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_damped :a22 :c_0_0 . }
+  pe:fact "complex-matrix-stability.n3".
+
+{ :A_damped :eigenvalue2 :c_0_0 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "L1"; pe:value :c_0_0 ],
+    [ pe:var "L2"; pe:value :c_0_0 ],
+    [ pe:var "M"; pe:value :A_damped ],
+    [ pe:var "Z1"; pe:value :c_0_0 ],
+    [ pe:var "Z2"; pe:value :c_0_0 ];
+  pe:uses
+    { :A_damped :a11 :c_0_0 . },
+    { :A_damped :a12 :c_0_0 . },
+    { :A_damped :a21 :c_0_0 . },
+    { :A_damped :a22 :c_0_0 . },
+    { :c_0_0 :isZero true . },
+    { :c_0_0 :isZero true . }.
+
+{ :c_0_0 :abs2 0 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A2"; pe:value 0 ],
+    [ pe:var "I"; pe:value 0 ],
+    [ pe:var "I2"; pe:value 0 ],
+    [ pe:var "R"; pe:value 0 ],
+    [ pe:var "R2"; pe:value 0 ],
+    [ pe:var "Z"; pe:value :c_0_0 ];
+  pe:uses
+    { :c_0_0 :re 0 . },
+    { :c_0_0 :im 0 . },
+    { (0 0) math:product 0 . },
+    { (0 0) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (0 0) math:sum 0 . }
+  pe:builtin math:sum.
+
+{ 0 math:notLessThan 0 . }
+  pe:builtin math:notLessThan.
+
+{ :A_unstable :classification :unstable . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "M"; pe:value :A_unstable ],
+    [ pe:var "R2"; pe:value 4 ];
+  pe:uses
+    { :A_unstable :spectralRadiusSq 4 . },
+    { 4 math:greaterThan 1 . }.
+
+{ 4 math:greaterThan 1 . }
+  pe:builtin math:greaterThan.
+
+{ :A_stable :classification :stable . }
+  pe:rule 11;
+  pe:binding [ pe:var "M"; pe:value :A_stable ];
+  pe:uses { :A_stable :spectralRadiusSq 1 . }.
+
+{ :A_damped :classification :damped . }
+  pe:rule 12;
+  pe:binding
+    [ pe:var "M"; pe:value :A_damped ],
+    [ pe:var "R2"; pe:value 0 ];
+  pe:uses
+    { :A_damped :spectralRadiusSq 0 . },
+    { 0 math:lessThan 1 . }.
+
+{ 0 math:lessThan 1 . }
+  pe:builtin math:lessThan.

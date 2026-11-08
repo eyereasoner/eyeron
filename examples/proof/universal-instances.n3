@@ -1,0 +1,29 @@
+@prefix : <http://example.org/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:universalInstance :holds true .
+:bob :mother _:__q2_30797a27509bec94 .
+:liz :mother _:__q2_2745a2109baeb890 .
+
+{ :universalInstance :holds true . }
+  pe:rule 1;
+  pe:uses { :s :p :o . }.
+
+{ :s :p :o . }
+  pe:fact "universal-instances.n3".
+
+{ :bob :mother _:__q2_30797a27509bec94 . }
+  pe:rule 2;
+  pe:binding [ pe:var "mother"; pe:value _:__q2_30797a27509bec94 ];
+  pe:uses { :bob :hasMother _:__q2_30797a27509bec94 . }.
+
+{ :bob :hasMother _:__q2_30797a27509bec94 . }
+  pe:fact "universal-instances.n3".
+
+{ :liz :mother _:__q2_2745a2109baeb890 . }
+  pe:rule 3;
+  pe:binding [ pe:var "mother"; pe:value _:__q2_2745a2109baeb890 ];
+  pe:uses { :liz :hasMother _:__q2_2745a2109baeb890 . }.
+
+{ :liz :hasMother _:__q2_2745a2109baeb890 . }
+  pe:fact "universal-instances.n3".

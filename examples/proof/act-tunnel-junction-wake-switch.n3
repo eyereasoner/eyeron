@@ -1,0 +1,128 @@
+@prefix : <http://example.org/act/tunnel-junction/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:tunnelJunction :can :QuantumBarrierTransfer .
+:tunnelJunction :can :SubThresholdCurrent .
+:tunnelJunction :can :NegativeDifferentialResponse .
+:tunnelJunction :can :UltraLowBiasSwitching .
+:ordinaryJunction :cannot :QuantumBarrierTransfer .
+:ordinaryJunction :cannot :SubThresholdCurrent .
+:ordinaryJunction :cannot :UltraLowBiasSwitching .
+:tunnelJunction :can :ServeLeakAlarmWakeCircuit .
+:ordinaryJunction :cannot :NegativeDifferentialResponse .
+:ordinaryJunction :cannot :ServeLeakAlarmWakeCircuit .
+
+{ :tunnelJunction :can :QuantumBarrierTransfer . }
+  pe:rule 1;
+  pe:binding [ pe:var "J"; pe:value :tunnelJunction ];
+  pe:uses
+    { :tunnelJunction a :PNJunction . },
+    { :tunnelJunction :doping :Heavy . },
+    { :tunnelJunction :depletionWidth :Narrow . },
+    { :tunnelJunction :stateAlignment :Overlap . }.
+
+{ :tunnelJunction a :PNJunction . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :tunnelJunction :doping :Heavy . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :tunnelJunction :depletionWidth :Narrow . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :tunnelJunction :stateAlignment :Overlap . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :tunnelJunction :can :SubThresholdCurrent . }
+  pe:rule 2;
+  pe:binding [ pe:var "J"; pe:value :tunnelJunction ];
+  pe:uses
+    { :tunnelJunction :can :QuantumBarrierTransfer . },
+    { :tunnelJunction :biasRegime :LowForwardBias . }.
+
+{ :tunnelJunction :biasRegime :LowForwardBias . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :tunnelJunction :can :NegativeDifferentialResponse . }
+  pe:rule 3;
+  pe:binding [ pe:var "J"; pe:value :tunnelJunction ];
+  pe:uses
+    { :tunnelJunction :can :QuantumBarrierTransfer . },
+    { :tunnelJunction :scanProfile :PeakToValley . }.
+
+{ :tunnelJunction :scanProfile :PeakToValley . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :tunnelJunction :can :UltraLowBiasSwitching . }
+  pe:rule 4;
+  pe:binding [ pe:var "J"; pe:value :tunnelJunction ];
+  pe:uses
+    { :tunnelJunction :can :SubThresholdCurrent . },
+    { :tunnelJunction :deviceRole :WakeSwitch . }.
+
+{ :tunnelJunction :deviceRole :WakeSwitch . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :ordinaryJunction :cannot :QuantumBarrierTransfer . }
+  pe:rule 6;
+  pe:binding [ pe:var "J"; pe:value :ordinaryJunction ];
+  pe:uses
+    { :ordinaryJunction a :PNJunction . },
+    { :ordinaryJunction :doping :Standard . },
+    { :ordinaryJunction :depletionWidth :Wide . },
+    { :ordinaryJunction :stateAlignment :NoOverlap . }.
+
+{ :ordinaryJunction a :PNJunction . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :ordinaryJunction :doping :Standard . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :ordinaryJunction :depletionWidth :Wide . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :ordinaryJunction :stateAlignment :NoOverlap . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :ordinaryJunction :cannot :SubThresholdCurrent . }
+  pe:rule 7;
+  pe:binding [ pe:var "J"; pe:value :ordinaryJunction ];
+  pe:uses
+    { :ordinaryJunction :cannot :QuantumBarrierTransfer . },
+    { :ordinaryJunction :biasRegime :LowForwardBias . }.
+
+{ :ordinaryJunction :biasRegime :LowForwardBias . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :ordinaryJunction :cannot :UltraLowBiasSwitching . }
+  pe:rule 9;
+  pe:binding [ pe:var "J"; pe:value :ordinaryJunction ];
+  pe:uses
+    { :ordinaryJunction :cannot :SubThresholdCurrent . },
+    { :ordinaryJunction :deviceRole :WakeSwitch . }.
+
+{ :ordinaryJunction :deviceRole :WakeSwitch . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :tunnelJunction :can :ServeLeakAlarmWakeCircuit . }
+  pe:rule 5;
+  pe:binding [ pe:var "J"; pe:value :tunnelJunction ];
+  pe:uses
+    { :tunnelJunction :can :UltraLowBiasSwitching . },
+    { :leakAlarmNode :needs :MicrowattWakeSwitching . }.
+
+{ :leakAlarmNode :needs :MicrowattWakeSwitching . }
+  pe:fact "act-tunnel-junction-wake-switch.n3".
+
+{ :ordinaryJunction :cannot :NegativeDifferentialResponse . }
+  pe:rule 8;
+  pe:binding [ pe:var "J"; pe:value :ordinaryJunction ];
+  pe:uses { :ordinaryJunction :cannot :QuantumBarrierTransfer . }.
+
+{ :ordinaryJunction :cannot :ServeLeakAlarmWakeCircuit . }
+  pe:rule 10;
+  pe:binding [ pe:var "J"; pe:value :ordinaryJunction ];
+  pe:uses
+    { :ordinaryJunction :cannot :UltraLowBiasSwitching . },
+    { :leakAlarmNode :needs :MicrowattWakeSwitching . }.

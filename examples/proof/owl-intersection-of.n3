@@ -1,0 +1,104 @@
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:alice a :Student .
+:alice a :Worker .
+:WorkingStudent rdfs:subClassOf :Student .
+:WorkingStudent rdfs:subClassOf :Worker .
+:bob a :WorkingStudent .
+
+{ :alice a :Student . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :WorkingStudent ],
+    [ pe:var "D"; pe:value :Student ],
+    [ pe:var "L"; pe:value (:Student :Worker) ],
+    [ pe:var "X"; pe:value :alice ];
+  pe:uses
+    { :WorkingStudent owl:intersectionOf (:Student :Worker) . },
+    { :alice a :WorkingStudent . },
+    { :Student list:in (:Student :Worker) . }.
+
+{ :WorkingStudent owl:intersectionOf (:Student :Worker) . }
+  pe:fact "owl-intersection-of.n3".
+
+{ :alice a :WorkingStudent . }
+  pe:fact "owl-intersection-of.n3".
+
+{ :Student list:in (:Student :Worker) . }
+  pe:builtin list:in.
+
+{ :alice a :Worker . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "C"; pe:value :WorkingStudent ],
+    [ pe:var "D"; pe:value :Worker ],
+    [ pe:var "L"; pe:value (:Student :Worker) ],
+    [ pe:var "X"; pe:value :alice ];
+  pe:uses
+    { :WorkingStudent owl:intersectionOf (:Student :Worker) . },
+    { :alice a :WorkingStudent . },
+    { :Worker list:in (:Student :Worker) . }.
+
+{ :Worker list:in (:Student :Worker) . }
+  pe:builtin list:in.
+
+{ :WorkingStudent rdfs:subClassOf :Student . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :WorkingStudent ],
+    [ pe:var "D"; pe:value :Student ],
+    [ pe:var "L"; pe:value (:Student :Worker) ];
+  pe:uses
+    { :WorkingStudent owl:intersectionOf (:Student :Worker) . },
+    { :Student list:in (:Student :Worker) . }.
+
+{ :WorkingStudent rdfs:subClassOf :Worker . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :WorkingStudent ],
+    [ pe:var "D"; pe:value :Worker ],
+    [ pe:var "L"; pe:value (:Student :Worker) ];
+  pe:uses
+    { :WorkingStudent owl:intersectionOf (:Student :Worker) . },
+    { :Worker list:in (:Student :Worker) . }.
+
+{ :bob a :WorkingStudent . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :WorkingStudent ],
+    [ pe:var "First"; pe:value :Student ],
+    [ pe:var "L"; pe:value (:Student :Worker) ],
+    [ pe:var "SCOPE"; pe:value _:forAllIn ],
+    [ pe:var "X"; pe:value :bob ];
+  pe:uses
+    { :WorkingStudent owl:intersectionOf (:Student :Worker) . },
+    { (:Student :Worker) list:first :Student . },
+    { :bob a :Student . },
+    {
+        ({
+            ?D list:in (:Student :Worker) .
+        } {
+            :bob a ?D .
+        }) log:forAllIn _:forAllIn .
+    }.
+
+{ (:Student :Worker) list:first :Student . }
+  pe:builtin list:first.
+
+{ :bob a :Student . }
+  pe:fact "owl-intersection-of.n3".
+
+{
+  ({
+      ?D list:in (:Student :Worker) .
+  } {
+      :bob a ?D .
+  }) log:forAllIn _:forAllIn .
+}
+  pe:builtin log:forAllIn.

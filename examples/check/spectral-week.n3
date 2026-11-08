@@ -1,0 +1,44 @@
+# checked: 46 steps, 46 verified, 0 trusted
+@prefix : <http://example.org/spectral-week#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:Greenhouse :redEnergy "960"^^xsd:decimal .
+:Greenhouse :blueEnergy "400"^^xsd:decimal .
+:Shade :redEnergy "180"^^xsd:decimal .
+:Shade :blueEnergy "80"^^xsd:decimal .
+:Sunflower :absorbedRed "816"^^xsd:decimal .
+:Sunflower :absorbedBlue 220.00000000000003 .
+:Fern :absorbedRed "72"^^xsd:decimal .
+:Fern :absorbedBlue "60"^^xsd:decimal .
+:Sunflower :absorbedEnergy "1036"^^xsd:decimal .
+:Fern :absorbedEnergy "132"^^xsd:decimal .
+:Sunflower :dailyStored "259"^^xsd:decimal .
+:Fern :dailyStored "33"^^xsd:decimal .
+:Sunflower :weeklyStored "1813"^^xsd:decimal .
+:Fern :weeklyStored "231"^^xsd:decimal .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/spectral-week.n3";
+    pe:source "examples/spectral-week.n3";
+    pe:verdict pe:checked;
+    pe:steps 46;
+    pe:verified 46;
+    pe:trusted 0;
+    pe:builtinSteps 14;
+    pe:factSteps 18;
+    pe:ruleSteps 14;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 32; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 46; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 46; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 62; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 14; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 60; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 14; pe:failed 0 ].

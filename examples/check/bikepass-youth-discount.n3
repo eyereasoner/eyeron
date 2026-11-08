@@ -1,0 +1,47 @@
+# checked with obligations: 18 steps, 16 verified, 2 trusted
+@prefix ex: <https://example.org/bikepass#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Conditional answers: these follow from the source program if the obligations below hold.
+ex:APP-BP-01 ex:eligible true .
+ex:APP-BP-01 ex:status ex:Approved .
+ex:APP-BP-01 ex:approvedPrice 12 .
+_:pass_ce2f55ce9d7b5da6 a ex:BikePass .
+ex:APP-BP-01 ex:issuedPass _:pass_ce2f55ce9d7b5da6 .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/bikepass-youth-discount.n3";
+    pe:source "examples/bikepass-youth-discount.n3";
+    pe:verdict pe:checkedWithObligations;
+    pe:steps 18;
+    pe:verified 16;
+    pe:trusted 2;
+    pe:builtinSteps 7;
+    pe:factSteps 6;
+    pe:ruleSteps 5;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 11; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 18; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 18; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 48; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 7; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 1; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 23; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 2; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 5; pe:failed 0 ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            _:pass_ce2f55ce9d7b5da6 a ex:BikePass .
+        }
+    ];
+    pe:obligation [
+        pe:kind "unsatisfied";
+        pe:statement {
+            ex:APP-BP-01 ex:issuedPass _:pass_ce2f55ce9d7b5da6 .
+        }
+    ].

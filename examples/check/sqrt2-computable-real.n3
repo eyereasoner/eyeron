@@ -1,0 +1,95 @@
+# checked: 274 steps, 274 verified, 0 trusted
+@prefix : <http://example.org/kronecker#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:result :interval (0 1.0 2.0) .
+:result :width (0 "1"^^xsd:decimal) .
+:result :eps (0 "1"^^xsd:decimal) .
+:result :midpoint (0 1.5 0.5) .
+:result :interval (1 1.0 1.5) .
+:result :width (1 0.5) .
+:result :eps (1 0.5) .
+:result :midpoint (1 1.25 0.25) .
+:result :interval (2 1.25 1.5) .
+:result :width (2 0.25) .
+:result :eps (2 0.25) .
+:result :midpoint (2 1.375 0.125) .
+:result :interval (3 1.375 1.5) .
+:result :width (3 0.125) .
+:result :eps (3 0.125) .
+:result :midpoint (3 1.4375 0.0625) .
+:result :interval (4 1.375 1.4375) .
+:result :width (4 0.0625) .
+:result :eps (4 0.0625) .
+:result :midpoint (4 1.40625 0.03125) .
+:result :interval (5 1.40625 1.4375) .
+:result :width (5 0.03125) .
+:result :eps (5 0.03125) .
+:result :midpoint (5 1.421875 0.015625) .
+:result :interval (6 1.40625 1.421875) .
+:result :width (6 0.015625) .
+:result :eps (6 0.015625) .
+:result :midpoint (6 1.4140625 0.0078125) .
+:result :interval (7 1.4140625 1.421875) .
+:result :width (7 0.0078125) .
+:result :eps (7 0.0078125) .
+:result :midpoint (7 1.41796875 0.00390625) .
+:result :interval (8 1.4140625 1.41796875) .
+:result :width (8 0.00390625) .
+:result :eps (8 0.00390625) .
+:result :midpoint (8 1.416015625 0.001953125) .
+:result :interval (9 1.4140625 1.416015625) .
+:result :width (9 0.001953125) .
+:result :eps (9 0.001953125) .
+:result :midpoint (9 1.4150390625 0.0009765625) .
+:result :interval (10 1.4140625 1.4150390625) .
+:result :width (10 0.0009765625) .
+:result :eps (10 0.0009765625) .
+:result :midpoint (10 1.41455078125 0.00048828125) .
+:result :interval (11 1.4140625 1.41455078125) .
+:result :width (11 0.00048828125) .
+:result :eps (11 0.00048828125) .
+:result :midpoint (11 1.414306640625 0.000244140625) .
+:result :interval (12 1.4140625 1.414306640625) .
+:result :width (12 0.000244140625) .
+:result :eps (12 0.000244140625) .
+:result :midpoint (12 1.4141845703125 0.0001220703125) .
+:result :containsSqrt2 (0 true) .
+:result :containsSqrt2 (1 true) .
+:result :containsSqrt2 (2 true) .
+:result :containsSqrt2 (3 true) .
+:result :containsSqrt2 (4 true) .
+:result :containsSqrt2 (5 true) .
+:result :containsSqrt2 (6 true) .
+:result :containsSqrt2 (7 true) .
+:result :containsSqrt2 (8 true) .
+:result :containsSqrt2 (9 true) .
+:result :containsSqrt2 (10 true) .
+:result :containsSqrt2 (11 true) .
+:result :containsSqrt2 (12 true) .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/sqrt2-computable-real.n3";
+    pe:source "examples/sqrt2-computable-real.n3";
+    pe:verdict pe:checked;
+    pe:steps 274;
+    pe:verified 274;
+    pe:trusted 0;
+    pe:builtinSteps 130;
+    pe:factSteps 2;
+    pe:ruleSteps 142;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 144; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 274; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 274; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 720; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 130; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 339; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 862; pe:failed 0 ].

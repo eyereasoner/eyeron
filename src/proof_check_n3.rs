@@ -14,7 +14,7 @@ use crate::ast::{Term, Triple};
 use crate::error::{EyeronError, Result};
 use crate::reasoner::Bindings;
 
-use crate::proof_check::{check, Checked, Document as ProofDocument, Kind, Report, Resolution, StepCheck};
+use crate::proof_check::{check, Checked, Closure, Document as ProofDocument, Kind, Report, Resolution, StepCheck};
 
 const PE: &str = "https://eyereasoner.github.io/pe#";
 const MAX_PROOF_MATCHES: usize = 200_000;
@@ -64,6 +64,135 @@ pub(crate) fn current_graph_test(triple: &Triple) -> Option<&'static str> {
         LOG_COLLECT_ALL_IN | LOG_FOR_ALL_IN if open(&triple.o) => Some("collected"),
         _ => None,
     }
+}
+
+/// The predicates a search certificate must list for `test`, a negation,
+/// collection or universal test over the current graph, to be settled
+/// (§9.6.1): every predicate its clause consults that a forward rule
+/// concludes, and those the bodies of such rules consult in turn. `None`
+/// when no certificate can settle it: it consults a predicate a backward
+/// rule or a general source statement gives, a variable predicate, rules as
+/// data, or an external read; a rule may generate rules or unquote its
+/// conclusion; or it is a collection over derived facts, whose order a
+/// certificate cannot establish.
+pub(crate) fn certificate_needs(rules: &[crate::ast::Rule], facts: &[Triple], test: &Triple) -> Option<BTreeSet<Term>> {
+    let forward: Vec<&crate::ast::Rule> = rules.iter().filter(|rule| rule.is_forward && !rule.is_query && !rule.is_fuse).collect();
+    let generative = |triple: &Triple| matches!(&triple.p, Term::Iri(name)
+        if matches!(name.as_str(), crate::ast::LOG_IMPLIES | crate::ast::LOG_IMPLIED_BY | crate::ast::EYERON_UNQUOTE));
+    if forward.iter().any(|rule| rule.conclusion.iter().any(generative)) { return None; }
+    let mut clauses = Vec::new();
+    consulted(&test_scope_clauses(test)?, true, &mut clauses)?;
+    let mut pending: Vec<Term> = clauses.iter().map(|(triple, _)| triple.p.clone()).collect();
+    let mut needs = BTreeSet::new();
+    let mut seen = BTreeSet::new();
+    while let Some(predicate) = pending.pop() {
+        if !seen.insert(predicate.clone()) { continue; }
+        let concludes = |rule: &crate::ast::Rule| rule.conclusion.iter().any(|head| head.p == predicate || matches!(head.p, Term::Var(_)));
+        if rules.iter().any(|rule| !rule.is_forward && !rule.is_query && concludes(rule))
+            || facts.iter().any(|fact| !fact.is_ground() && (fact.p == predicate || matches!(fact.p, Term::Var(_)))) {
+            return None;
+        }
+        for rule in forward.iter().filter(|rule| concludes(rule)) {
+            needs.insert(predicate.clone());
+            let mut found = Vec::new();
+            consulted(&rule.premise, false, &mut found)?;
+            // An existential conclusion is closed when its whole piece is
+            // found, so the piece's other predicates are listed too.
+            for piece in crate::reasoner::existential_pieces(&rule.conclusion) {
+                if piece.iter().any(|&head| rule.conclusion[head].p == predicate || matches!(rule.conclusion[head].p, Term::Var(_))) {
+                    consulted(&piece.iter().map(|&head| rule.conclusion[head].clone()).collect::<Vec<_>>(), false, &mut found)?;
+                }
+            }
+            pending.extend(found.into_iter().map(|(triple, _)| triple.p));
+        }
+    }
+    if test.p == Term::iri(LOG_COLLECT_ALL_IN) && !needs.is_empty() { return None; }
+    stratified(&forward, &clauses).then_some(needs)
+}
+
+/// Whether the forward rules the test's `clauses` can reach are free of a
+/// negation inside a cycle, which more than one current graph can satisfy:
+/// a stratified program has a single closure for a certificate to show. A
+/// body triple depends on a rule when one of the rule's heads can match it,
+/// so `?p a :Student` does not depend on a rule concluding `?q a :Person`.
+fn stratified(forward: &[&crate::ast::Rule], clauses: &[(Triple, bool)]) -> bool {
+    let concluding = |pattern: &Triple| -> Vec<usize> {
+        (0..forward.len()).filter(|&rule| forward[rule].conclusion.iter().any(|head| unifiable(head, pattern))).collect()
+    };
+    let mut reached: BTreeSet<usize> = clauses.iter().flat_map(|(pattern, _)| concluding(pattern)).collect();
+    let mut pending: Vec<usize> = reached.iter().copied().collect();
+    let mut edges: Vec<(usize, usize, bool)> = Vec::new();
+    while let Some(rule) = pending.pop() {
+        let mut body = Vec::new();
+        if consulted(&forward[rule].premise, false, &mut body).is_none() { return false; }
+        for (pattern, negative) in body {
+            for next in concluding(&pattern) {
+                edges.push((rule, next, negative));
+                if reached.insert(next) { pending.push(next); }
+            }
+        }
+    }
+    let reaches = |from: usize, to: usize| {
+        let mut seen = BTreeSet::from([from]);
+        let mut pending = vec![from];
+        while let Some(rule) = pending.pop() {
+            if rule == to { return true; }
+            for &(_, next, _) in edges.iter().filter(|(source, _, _)| *source == rule) {
+                if seen.insert(next) { pending.push(next); }
+            }
+        }
+        false
+    };
+    !edges.iter().any(|&(from, to, negative)| negative && reaches(to, from))
+}
+
+/// Whether a rule head and a body triple can match: their constants agree
+/// wherever neither has a variable, a blank, a list or a quoted graph.
+fn unifiable(head: &Triple, pattern: &Triple) -> bool {
+    let open = |term: &Term| matches!(term, Term::Var(_) | Term::Blank(_) | Term::List(_) | Term::Formula(_));
+    [(&head.s, &pattern.s), (&head.p, &pattern.p), (&head.o, &pattern.o)].iter()
+        .all(|(left, right)| open(left) || open(right) || left == right)
+}
+
+/// The clauses a current-graph test runs: `None` for any other triple.
+fn test_scope_clauses(test: &Triple) -> Option<Vec<Triple>> {
+    current_graph_test(test)?;
+    let Term::Iri(name) = &test.p else { return None };
+    let graph = |term: &Term| match term { Term::Formula(graph) => Some(graph.triples.clone()), _ => None };
+    match (name.as_str(), &test.s) {
+        (LOG_NOT_INCLUDES | LOG_INCLUDES, _) => graph(&test.o),
+        (LOG_COLLECT_ALL_IN, Term::List(parts)) if parts.len() == 3 => graph(&parts[1]),
+        (LOG_FOR_ALL_IN, Term::List(parts)) if parts.len() == 2 => Some(graph(&parts[0])?.into_iter().chain(graph(&parts[1])?).collect()),
+        _ => None,
+    }
+}
+
+/// Add the triples `triples` match in the current graph to `out`, each
+/// marked `negative` when a negation, collection or universal test matches
+/// it: `None` if one has a variable predicate, is a rule as data, or reads
+/// outside the proof.
+fn consulted(triples: &[Triple], negative: bool, out: &mut Vec<(Triple, bool)>) -> Option<()> {
+    for triple in triples {
+        let Term::Iri(name) = &triple.p else { return None };
+        if matches!(name.as_str(), crate::ast::LOG_IMPLIES | crate::ast::LOG_IMPLIED_BY) || reads_outside_proof(triple) {
+            return None;
+        }
+        if crate::reasoner::is_builtin_iri(name) {
+            if let Some(kind) = current_graph_test(triple) {
+                consulted(&test_scope_clauses(triple)?, negative || kind != "current graph", out)?;
+            }
+            continue;
+        }
+        out.push((triple.clone(), negative));
+    }
+    Some(())
+}
+
+/// Whether `triple` is a test a search certificate may settle: a negation,
+/// collection or universal test over the current graph that reads nothing
+/// outside the proof.
+pub(crate) fn certifiable_test(triple: &Triple) -> bool {
+    matches!(current_graph_test(triple), Some("absent" | "collected")) && !reads_outside_proof(triple)
 }
 
 /// Negative tests over the current graph, collections, and universal tests
@@ -144,12 +273,19 @@ pub struct N3Proof {
     /// Premises of the source's inference fuses, `{ ... } => false`.
     fuses: Vec<crate::ast::Graph>,
     steps: Vec<Step>,
+    /// The search certificate: for each listed predicate, every fact the
+    /// run derived with it, in the order listed (§9.6.1).
+    listings: Listings,
     claims: Vec<Triple>,
     index: BTreeMap<Triple, usize>,
     /// Steps whose conclusion has free variables, which each conclude every
     /// instance of itself.
     general_steps: Vec<usize>,
 }
+
+/// A search certificate's listings: each predicate with the facts listed
+/// for it, in the order listed (§9.6.1).
+type Listings = Vec<(Term, Vec<Triple>)>;
 
 /// A firing is identified by its rule and complete recorded assignment,
 /// including existential patterns in its premises.
@@ -243,6 +379,97 @@ pub fn check_proof_document(source: &crate::ast::Document, proof: &str) -> Resul
     Ok(check(&document))
 }
 
+/// As `check_proof_document`, with the report written as N3: the claims,
+/// then the check of them (`report_to_n3`).
+pub fn check_proof_report(source: &crate::ast::Document, proof: &str, proof_label: Option<&str>, source_labels: &[String]) -> Result<(Report, String)> {
+    let document = N3Proof::read_document(source, proof)?;
+    let report = check(&document);
+    let text = report_to_n3(&source.prefixes, &document.claims, proof_label, source_labels, &report);
+    Ok((report, text))
+}
+
+/// A check report as an N3 document (specification §9.9). Its plain
+/// statements are the proof's claims, introduced by a comment saying what
+/// the check established about them; one `pe:Check` resource then records
+/// the proof and sources checked, the verdict, the step counts, each
+/// condition, and every obligation and failure. A first comment line gives
+/// the verdict in words.
+pub fn report_to_n3(prefixes: &BTreeMap<String, String>, claims: &[Triple], proof_label: Option<&str>, source_labels: &[String], report: &Report) -> String {
+    let mut prefixes = prefixes.clone();
+    prefixes.entry("pe".to_string()).or_insert_with(|| PE.to_string());
+    let statements: Vec<Option<Triple>> = report.obligations.iter().map(|obligation| &obligation.conclusion)
+        .chain(report.failures.iter().map(|failure| &failure.conclusion))
+        .map(|text| crate::parser::parse_n3(text, None).ok()
+            .and_then(|parsed| (parsed.facts.len() == 1 && parsed.rules.is_empty()).then(|| parsed.facts[0].clone())))
+        .collect();
+    let mut mentioned: Vec<Triple> = claims.to_vec();
+    mentioned.extend(statements.iter().flatten().cloned());
+    mentioned.push(Triple::new(pe("Check"), pe("verdict"), pe("checked")));
+    let string = |text: &str| crate::printing::term_to_n3_object(&Term::literal(text), &prefixes);
+    let number = |count: usize| count.to_string();
+    // A statement goes in a quoted graph; one that does not read as a
+    // single triple stays the text the checker described it with.
+    let statement = |position: usize, text: &str| match &statements[position] {
+        Some(triple) => crate::printing::term_to_n3_object(&Term::formula(vec![triple.clone()]), &prefixes),
+        None => string(text),
+    };
+
+    let mut out = format!("# {}\n", report.verdict());
+    for prefix in crate::printing::used_prefixes(&prefixes, &mentioned) {
+        if let Some(base) = prefixes.get(&prefix) {
+            out.push_str(&format!("@prefix {}: <{}> .\n", prefix, base));
+        }
+    }
+    out.push('\n');
+    out.push_str(if !report.valid() {
+        "# Unverified answers: this proof does not establish them.\n"
+    } else if !report.obligations.is_empty() {
+        "# Conditional answers: these follow from the source program if the obligations below hold.\n"
+    } else {
+        "# Checked answers: these follow from the source program.\n"
+    });
+    for claim in claims {
+        out.push_str(crate::printing::triple_to_n3(&prefixes, claim).trim_end());
+        out.push('\n');
+    }
+
+    let mut properties = Vec::new();
+    properties.push("a pe:Check".to_string());
+    if let Some(label) = proof_label { properties.push(format!("pe:proof {}", string(label))); }
+    for label in source_labels { properties.push(format!("pe:source {}", string(label))); }
+    let verdict = if !report.valid() { "invalid" } else if report.obligations.is_empty() { "checked" } else { "checkedWithObligations" };
+    properties.push(format!("pe:verdict pe:{verdict}"));
+    properties.push(format!("pe:steps {}", number(report.steps)));
+    properties.push(format!("pe:verified {}", number(report.verified)));
+    properties.push(format!("pe:trusted {}", number(report.obligations.len())));
+    for (kind, count) in &report.counts {
+        properties.push(format!("pe:{kind}Steps {}", number(*count)));
+    }
+    for (id, name, checked, failed) in report.conditions() {
+        properties.push(format!("pe:condition [ pe:id {}; pe:name {}; pe:checked {}; pe:failed {} ]",
+            string(id), string(name), number(checked), number(failed)));
+    }
+    for (position, obligation) in report.obligations.iter().enumerate() {
+        properties.push(format!("pe:obligation [\n        pe:kind {};\n        pe:statement {}\n    ]",
+            string(obligation.kind), indent_continuation(&statement(position, &obligation.conclusion))));
+    }
+    for (position, failure) in report.failures.iter().enumerate() {
+        properties.push(format!("pe:failure [\n        pe:id {};\n        pe:statement {};\n        pe:detail {}\n    ]",
+            string(failure.condition), indent_continuation(&statement(report.obligations.len() + position, &failure.conclusion)), string(&failure.detail)));
+    }
+    out.push_str("\n# The check of these answers against the source program. Its verdict covers\n");
+    out.push_str("# the answers above; it does not establish that they are all the answers.\n");
+    out.push_str(&format!("[]\n    {}.\n", properties.join(";\n    ")));
+    out
+}
+
+/// A multi-line term placed after a property, indented to stay inside its
+/// enclosing `[ ]`.
+fn indent_continuation(text: &str) -> String {
+    text.lines().enumerate().map(|(index, line)| if index == 0 { line.to_string() } else { format!("        {line}") })
+        .collect::<Vec<_>>().join("\n")
+}
+
 impl N3Proof {
     pub fn read_document(document: &crate::ast::Document, proof: &str) -> Result<Self> {
         // `reason` numbers the rules it was given, having dropped the query
@@ -271,7 +498,7 @@ impl N3Proof {
         let parsed = crate::parser::parse_n3(proof, None)?;
         // A step is a formula subject carrying the `pe:` vocabulary; what
         // the document claims is written plainly alongside.
-        let steps = read_steps(&parsed.facts)?;
+        let (steps, listings) = read_steps(&parsed.facts)?;
         let mut claims: Vec<Triple> = parsed
             .facts
             .iter()
@@ -287,7 +514,7 @@ impl N3Proof {
         let general_steps = (0..steps.len()).filter(|&position| !steps[position].conclusion.is_ground()).collect();
         Ok(Self {
             rules, given, rule_statements, general, query_rules, queries: document.rules.iter().filter(|rule| rule.is_query).cloned().collect(), query_patterns, source_blanks,
-            facts: document.facts.clone(), fuses, steps, claims, index, general_steps,
+            facts: document.facts.clone(), fuses, steps, listings, claims, index, general_steps,
         })
     }
 
@@ -471,45 +698,7 @@ impl N3Proof {
 
     /// §9.5.1: re-perform the one rule application this step records.
     fn rule_applications(&self, step: &Step) -> std::result::Result<Vec<Application>, String> {
-        // A generated rule is carried by the step; a written one is taken
-        // from the source, never from the document.
-        let (premise, conclusion, number, identity) = match &step.carried {
-            Some((premise, conclusion, statement)) => {
-                // The carried rule has to be justified too, or a step could
-                // invent any rule it liked.
-                if matches!(self.resolve_rule(statement), Resolution::Unresolved(_)) {
-                    return Err("carries a generated rule that nothing in the proof derives".to_string());
-                }
-                (premise.clone(), conclusion.clone(), "the generated rule it carries".to_string(), describe(statement))
-            }
-            None => {
-                let number = step.rule.ok_or_else(|| "cites no rule".to_string())?;
-                let rule = self.rules.get(number.wrapping_sub(1)).ok_or_else(|| format!("cites rule {}, which the source does not have", number))?;
-                (rule.premise.clone(), rule.conclusion.clone(), format!("rule {}", number), format!("rule {}", number))
-            }
-        };
-
-        let mut bindings = self.recorded_bindings(step)?;
-        // Existentials outside the rule's two sides denote existing
-        // individuals. Only blanks bound by a premise or head may match.
-        for free in premise.free_variables().into_iter().chain(conclusion.free_variables()) {
-            if let Term::Blank(name) = &free {
-                bindings.insert(format!("_:{}", name).into(), free.clone());
-            }
-        }
-
-        if premise.len() != step.uses.len() {
-            return Err(format!("uses {} premise(s), but {} has {}", step.uses.len(), number, premise.len()));
-        }
-        // One environment across every premise and the conclusion, so a
-        // variable the bindings did not mention is still forced to take one
-        // consistent value (§9.5.1). Only the rule's own variables bind: the
-        // step may not instantiate itself to meet the rule halfway.
-        for (position, (premise, used)) in premise.iter().zip(step.uses.iter()).enumerate() {
-            if !match_triple(premise, used, &mut bindings) {
-                return Err(format!("premise {} is {}, but {} requires {}", position + 1, describe(used), number, describe(premise)));
-            }
-        }
+        let (conclusion, number, identity, bindings) = self.matched_premises(step)?;
         // Resolve unquoting after the premises: a partial recorded binding
         // list need not repeat the graph value a premise already supplies.
         let conclusion = unquoted_conclusion(&conclusion, &bindings).unwrap_or(conclusion);
@@ -537,6 +726,86 @@ impl N3Proof {
             return Err(format!("does not follow from {}: it concludes none of what this step claims", number));
         }
         Ok(applications)
+    }
+
+    /// The rule a step applies, and the bindings its recorded premises give
+    /// that rule: its conclusion, how to name it, the identity of its
+    /// firings, and the bindings.
+    fn matched_premises(&self, step: &Step) -> std::result::Result<(crate::ast::Graph, String, String, Bindings), String> {
+        let (premise, conclusion, number, identity) = self.applied_rule(step)?;
+        let mut bindings = self.recorded_bindings(step)?;
+        // Existentials outside the rule's two sides denote existing
+        // individuals. Only blanks bound by a premise or head may match.
+        for free in premise.free_variables().into_iter().chain(conclusion.free_variables()) {
+            if let Term::Blank(name) = &free {
+                bindings.insert(format!("_:{}", name).into(), free.clone());
+            }
+        }
+
+        if premise.len() != step.uses.len() {
+            return Err(format!("uses {} premise(s), but {} has {}", step.uses.len(), number, premise.len()));
+        }
+        // One environment across every premise and the conclusion, so a
+        // variable the bindings did not mention is still forced to take one
+        // consistent value (§9.5.1). Only the rule's own variables bind: the
+        // step may not instantiate itself to meet the rule halfway.
+        for (position, (premise, used)) in premise.iter().zip(step.uses.iter()).enumerate() {
+            if !match_triple(premise, used, &mut bindings) {
+                return Err(format!("premise {} is {}, but {} requires {}", position + 1, describe(used), number, describe(premise)));
+            }
+        }
+        Ok((conclusion, number, identity, bindings))
+    }
+
+    /// The premise and conclusion of the rule a step applies, how to name
+    /// it, and the identity its firings share.
+    fn applied_rule(&self, step: &Step) -> std::result::Result<(crate::ast::Graph, crate::ast::Graph, String, String), String> {
+        // A generated rule is carried by the step; a written one is taken
+        // from the source, never from the document.
+        match &step.carried {
+            Some((premise, conclusion, statement)) => {
+                // The carried rule has to be justified too, or a step could
+                // invent any rule it liked.
+                if matches!(self.resolve_rule(statement), Resolution::Unresolved(_)) {
+                    return Err("carries a generated rule that nothing in the proof derives".to_string());
+                }
+                Ok((premise.clone(), conclusion.clone(), "the generated rule it carries".to_string(), describe(statement)))
+            }
+            None => {
+                let number = step.rule.ok_or_else(|| "cites no rule".to_string())?;
+                let rule = self.rules.get(number.wrapping_sub(1)).ok_or_else(|| format!("cites rule {}, which the source does not have", number))?;
+                Ok((rule.premise.clone(), rule.conclusion.clone(), format!("rule {}", number), format!("rule {}", number)))
+            }
+        }
+    }
+
+    /// C10 for one rule step: each negative, collecting or universal test
+    /// among its premises is the call the rule makes. A variable that only
+    /// test clauses mention is local to its test, which the reasoner runs
+    /// once the rule's other premises have bound theirs, so it must stay a
+    /// variable: binding it would turn "no `?x` has this" into "this one
+    /// does not".
+    fn called_tests(&self, step: &Step) -> std::result::Result<(), String> {
+        let Ok((premise, _, number, _)) = self.applied_rule(step) else { return Ok(()) };
+        let local = local_test_variables(&premise);
+        if local.is_empty() { return Ok(()); }
+        // C1 reports a step whose premises do not match its rule.
+        let Ok((_, _, _, bindings)) = self.matched_premises(step) else { return Ok(()) };
+        let mut renamed = BTreeMap::new();
+        for name in &local {
+            match bindings.get(name.as_str()) {
+                None => {}
+                Some(Term::Var(other)) => {
+                    if let Some(first) = renamed.insert(other.clone(), name.clone()) {
+                        return Err(format!("merges the local variables ?{} and ?{} of a test in {}", first, name, number));
+                    }
+                }
+                Some(value) => return Err(format!(
+                    "binds ?{}, which only a test clause of {} mentions, to {}; the rule tests that clause with ?{} unbound",
+                    name, number, crate::printing::term_to_n3_object(value, &BTreeMap::new()), name)),
+            }
+        }
+        Ok(())
     }
 
     fn source_instance(&self, statement: &Triple) -> Option<Application> {
@@ -652,6 +921,89 @@ impl N3Proof {
             }
         }
         false
+    }
+
+    /// The steps whose tests a search certificate may settle: negations,
+    /// collections and universal tests over the current graph that read
+    /// nothing outside the proof.
+    fn certifiable(&self, step: &Step) -> bool {
+        step.kind == Kind::Builtin && step.builtin.as_ref() == Some(&step.conclusion.p) && certifiable_test(&step.conclusion)
+    }
+
+    /// Whether `test` holds with `evidence` as the current graph: `None`
+    /// when that cannot decide it — a collection whose list differs only
+    /// in what a certificate cannot establish, or a search over budget.
+    fn decide(&self, evidence: &crate::reasoner::Evidence, test: &Triple) -> Option<bool> {
+        // Re-evaluating a test gives a solution exactly when it holds.
+        let scope = Term::blank("current_graph");
+        match &test.p {
+            Term::Iri(name) if name.as_str() == LOG_NOT_INCLUDES =>
+                Some(!evidence.try_evaluate(&Triple::new(scope, test.p.clone(), test.o.clone())).ok()?.is_empty()),
+            Term::Iri(name) if name.as_str() == LOG_FOR_ALL_IN =>
+                Some(!evidence.try_evaluate(&Triple::new(test.s.clone(), test.p.clone(), scope)).ok()?.is_empty()),
+            Term::Iri(name) if name.as_str() == LOG_COLLECT_ALL_IN => {
+                let Term::List(parts) = &test.s else { return None };
+                let [template, condition, collected] = parts.as_slice() else { return None };
+                let retest = Triple::new(Term::List(vec![template.clone(), condition.clone(), Term::var("__collected")]), test.p.clone(), scope);
+                let found = evidence.try_evaluate(&retest).ok()?.into_iter().find_map(|bindings| bindings.get("__collected").cloned());
+                // The order of a collection over the current graph is not
+                // the certificate's to establish, so a list that differs is
+                // left to C6 rather than refuted here.
+                (found.as_ref().and_then(list_items) == list_items(collected)).then_some(true)
+            }
+            _ => None,
+        }
+    }
+
+    /// Whether `facts`, the certificate's listing of `predicate`, is closed:
+    /// every solution of a forward rule's premise over `evidence` gives
+    /// conclusions with that predicate that are listed or given, and
+    /// satisfies each existential piece that has one. `Err(None)` when the
+    /// checker could not finish.
+    fn listing_closed(&self, evidence: &crate::reasoner::Evidence, predicate: &Term, facts: &BTreeSet<&Triple>, listed: &BTreeSet<&Term>)
+        -> std::result::Result<(), Option<String>> {
+        for (number, rule) in self.rules.iter().enumerate() {
+            if !rule.is_forward || rule.is_fuse { continue; }
+            let heads: Vec<usize> = (0..rule.conclusion.len())
+                .filter(|&head| rule.conclusion[head].p == *predicate || matches!(rule.conclusion[head].p, Term::Var(_))).collect();
+            if heads.is_empty() { continue; }
+            let pieces = crate::reasoner::existential_pieces(&rule.conclusion);
+            for solution in evidence.try_solutions(&rule.premise).map_err(|_| None)? {
+                let mapping: BTreeMap<Term, Term> = solution.iter().map(|(name, value)| (Term::Var(name.clone()), value.clone())).collect();
+                for &head in &heads {
+                    let instance = |triple: &Triple, mapping: &BTreeMap<Term, Term>|
+                        Triple::new(replace_terms(&triple.s, mapping), replace_terms(&triple.p, mapping), replace_terms(&triple.o, mapping));
+                    if let Some(piece) = pieces.iter().find(|piece| piece.contains(&head)) {
+                        // An existential conclusion holds when some
+                        // individual satisfies its whole piece.
+                        let mut open = mapping.clone();
+                        for label in &rule.conclusion.existentials {
+                            open.insert(Term::Blank(label.clone()), Term::var(format!("__exists_{}", label)));
+                        }
+                        let pattern: Vec<Triple> = piece.iter().map(|&position| instance(&rule.conclusion[position], &open)).collect();
+                        // A piece over a derived predicate the certificate
+                        // does not list cannot be looked for in it.
+                        if pattern.iter().any(|triple| !matches!(triple.p, Term::Iri(_)) || (!listed.contains(&triple.p)
+                            && self.rules.iter().any(|rule| !rule.is_query && !rule.is_fuse
+                                && rule.conclusion.iter().any(|head| head.p == triple.p || matches!(head.p, Term::Var(_)))))) {
+                            return Err(None);
+                        }
+                        if evidence.satisfying(&pattern).is_empty() {
+                            return Err(Some(format!("is not closed: rule {} requires {}, which the certificate does not contain",
+                                number + 1, describe(&pattern[0]))));
+                        }
+                        continue;
+                    }
+                    let derived = instance(&rule.conclusion[head], &mapping);
+                    if derived.p != *predicate { continue; }
+                    if !derived.is_ground() { return Err(None); }
+                    if !facts.contains(&derived) && !self.given.contains(&derived) {
+                        return Err(Some(format!("is not closed: rule {} derives {}, which it does not list", number + 1, describe(&derived))));
+                    }
+                }
+            }
+        }
+        Ok(())
     }
 
     fn check_fact(&self, step: &Step) -> Verdict {
@@ -922,6 +1274,41 @@ fn replace_terms(term: &Term, mapping: &BTreeMap<Term, Term>) -> Term {
 
 /// A variable outside any graph term: a built-in step has to state the
 /// values it was evaluated on, not leave them open.
+/// The scoped tests a rule runs on a clause rather than matching: the
+/// clause terms of `log:notIncludes`, `log:collectAllIn` (template and
+/// condition) and `log:forAllIn`. Other positions, such as a scope or a
+/// collection's result, bind as ordinary terms.
+fn test_clauses(triple: &Triple) -> Option<Vec<&Term>> {
+    let Term::Iri(name) = &triple.p else { return None };
+    match (name.as_str(), &triple.s) {
+        (LOG_NOT_INCLUDES, _) => Some(vec![&triple.o]),
+        (LOG_COLLECT_ALL_IN, Term::List(parts)) if parts.len() == 3 => Some(vec![&parts[0], &parts[1]]),
+        (LOG_FOR_ALL_IN, Term::List(parts)) => Some(parts.iter().collect()),
+        _ => None,
+    }
+}
+
+/// The variables of a rule's premise that only its test clauses mention,
+/// so that each test runs with them unbound.
+fn local_test_variables(premise: &crate::ast::Graph) -> BTreeSet<crate::ast::Name> {
+    let mut inside = BTreeSet::new();
+    let mut outside = BTreeSet::new();
+    for triple in premise.iter() {
+        let clauses = test_clauses(triple).unwrap_or_default();
+        let is_clause = |term: &Term| clauses.iter().any(|clause| std::ptr::eq(*clause, term));
+        for term in [&triple.s, &triple.p, &triple.o] {
+            match term {
+                _ if is_clause(term) => free_universals(term, &mut inside),
+                Term::List(parts) if !clauses.is_empty() => for part in parts {
+                    free_universals(part, if is_clause(part) { &mut inside } else { &mut outside });
+                },
+                _ => free_universals(term, &mut outside),
+            }
+        }
+    }
+    inside.difference(&outside).cloned().collect()
+}
+
 fn has_open_variable(term: &Term) -> bool {
     match term {
         Term::Var(_) => true,
@@ -1006,8 +1393,9 @@ fn describe(triple: &Triple) -> String {
 }
 
 /// Lift a proof document's triples into steps, grouping by the
-/// formula subject each step is about.
-fn read_steps(body: &[Triple]) -> Result<Vec<Step>> {
+/// formula subject each step is about, and its search certificate into
+/// listings, grouping by the predicate each lists.
+fn read_steps(body: &[Triple]) -> Result<(Vec<Step>, Listings)> {
     #[derive(Default)]
     struct Binding<'a> {
         name: Option<&'a str>,
@@ -1017,6 +1405,8 @@ fn read_steps(body: &[Triple]) -> Result<Vec<Step>> {
     let mut bindings: BTreeMap<&Term, Binding<'_>> = BTreeMap::new();
     let mut order = Vec::new();
     let mut grouped: BTreeMap<&Term, Vec<&Triple>> = BTreeMap::new();
+    let mut listings: Listings = Vec::new();
+    let mut listed = BTreeSet::new();
     for triple in body {
         if !is_proof_vocabulary(&triple.p) { continue; }
         let Term::Iri(predicate) = &triple.p else { unreachable!() };
@@ -1034,6 +1424,26 @@ fn read_steps(body: &[Triple]) -> Result<Vec<Step>> {
                     }
                 } else if binding.value.replace(&triple.o).is_some() {
                     return Err(metadata_error(&triple.s, "a binding must have exactly one pe:value"));
+                }
+            }
+            "derived" => {
+                if !matches!(triple.s, Term::Iri(_)) {
+                    return Err(metadata_error(&triple.s, "pe:derived requires the predicate it lists as its subject"));
+                }
+                // `{}` lists a predicate the run derived nothing with.
+                let fact = match &triple.o {
+                    Term::Formula(graph) if graph.is_empty() => None,
+                    _ => Some(formula_triple(&triple.o).filter(|fact| fact.p == triple.s).ok_or_else(||
+                        metadata_error(&triple.s, "pe:derived must wrap exactly one triple with the listed predicate, or none"))?),
+                };
+                if let Some(fact) = fact {
+                    if !listed.insert(fact.clone()) {
+                        return Err(metadata_error(&triple.s, &format!("pe:derived lists {} twice", describe(fact))));
+                    }
+                }
+                match listings.iter_mut().find(|(predicate, _)| *predicate == triple.s) {
+                    Some((_, facts)) => facts.extend(fact.cloned()),
+                    None => listings.push((triple.s.clone(), fact.into_iter().cloned().collect())),
                 }
             }
             "rule" | "fact" | "builtin" | "unproven" | "uses" | "binding" => {
@@ -1123,7 +1533,7 @@ fn read_steps(body: &[Triple]) -> Result<Vec<Step>> {
             return Err(metadata_error(node, "binding metadata is not referenced by any step"));
         }
     }
-    Ok(steps)
+    Ok((steps, listings))
 }
 
 fn metadata_error(subject: &Term, detail: &str) -> EyeronError {
@@ -1271,6 +1681,104 @@ impl ProofDocument for N3Proof {
         (tests.len() + self.fuses.len() + examined_introductions, contradictions)
     }
 
+    fn search_closure(&self) -> Closure {
+        let mut closure = Closure::default();
+        let tests: Vec<usize> = (0..self.steps.len()).filter(|&index| self.certifiable(&self.steps[index])).collect();
+        if tests.is_empty() && self.listings.is_empty() { return closure; }
+        // Each listed fact is a fact the proof supports, and no query answer.
+        let mut supported: BTreeMap<&Term, Vec<usize>> = BTreeMap::new();
+        let mut broken = BTreeSet::new();
+        for (predicate, facts) in &self.listings {
+            closure.examined += 1;
+            let steps = supported.entry(predicate).or_default();
+            for fact in facts {
+                let failure = match self.resolve(fact) {
+                    _ if has_free_universal(&fact.s) || has_free_universal(&fact.o) => Some("which is not a fact: it has a variable"),
+                    Resolution::Step(target) if self.answers_query(&self.steps[target]) => Some("which is a query answer, not a derived fact"),
+                    Resolution::Step(target) => { steps.push(target); None }
+                    Resolution::Given => None,
+                    Resolution::Unresolved(_) => Some("which no step concludes and the source does not give"),
+                };
+                if let Some(failure) = failure {
+                    closure.failures.push((describe(fact), format!("the search certificate lists {}, {}", describe(fact), failure)));
+                    broken.insert(predicate);
+                }
+            }
+        }
+        let listed: BTreeSet<&Term> = self.listings.iter().map(|(predicate, _)| predicate).collect();
+        let evidence = crate::reasoner::Evidence::new(self.facts.iter().cloned()
+            .chain(self.listings.iter().flat_map(|(_, facts)| facts.iter().cloned())).collect());
+        let mut undecided = BTreeSet::new();
+        for (predicate, facts) in &self.listings {
+            if broken.contains(predicate) { continue; }
+            let facts: BTreeSet<&Triple> = facts.iter().collect();
+            match self.listing_closed(&evidence, predicate, &facts, &listed) {
+                Ok(()) => {}
+                Err(Some(detail)) => {
+                    closure.failures.push((describe(&Triple::new(predicate.clone(), pe("derived"), Term::formula(Vec::new()))),
+                        format!("the search certificate's listing of this predicate {}", detail)));
+                    broken.insert(predicate);
+                }
+                Err(None) => { undecided.insert(predicate); }
+            }
+        }
+        // Whether a test can rest on the certificate, and whether it holds
+        // over it; decided once per step.
+        let mut decided: BTreeMap<usize, Option<bool>> = BTreeMap::new();
+        let mut decide = |index: usize, closure: &mut Closure| -> Option<bool> {
+            if let Some(outcome) = decided.get(&index) { return *outcome; }
+            let test = &self.steps[index].conclusion;
+            let outcome = certificate_needs(&self.rules, &self.facts, test)
+                .filter(|needs| needs.iter().all(|predicate| listed.contains(predicate)))
+                .and_then(|needs| {
+                    for predicate in &needs {
+                        for &target in &supported[predicate] { closure.serves.push((index, target)); }
+                    }
+                    if needs.iter().any(|predicate| broken.contains(predicate) || undecided.contains(predicate)) { return None; }
+                    self.decide(&evidence, test)
+                });
+            decided.insert(index, outcome);
+            outcome
+        };
+        for &index in &tests {
+            closure.examined += 1;
+            match decide(index, &mut closure) {
+                Some(true) => {}
+                Some(false) => {
+                    let detail = if self.steps[index].conclusion.p == Term::iri(LOG_NOT_INCLUDES) {
+                        "assumes the current graph lacks this, but the search certificate includes it"
+                    } else {
+                        "does not hold over the search certificate"
+                    };
+                    closure.failures.push((describe(&self.steps[index].conclusion), detail.into()));
+                    continue;
+                }
+                None => continue,
+            }
+            // The listed facts are the current graph only if each was
+            // derived under tests that the same graph upholds.
+            let Some(needs) = certificate_needs(&self.rules, &self.facts, &self.steps[index].conclusion) else { continue };
+            let mut pending: Vec<usize> = needs.iter().flat_map(|predicate| supported[predicate].iter().copied()).collect();
+            let mut seen: BTreeSet<usize> = pending.iter().copied().collect();
+            let mut upheld = true;
+            while let Some(step) = pending.pop() {
+                if self.certifiable(&self.steps[step]) && decide(step, &mut closure) != Some(true) {
+                    upheld = false;
+                    break;
+                }
+                for dependency in ProofDocument::dependencies(self, step) {
+                    if let Resolution::Step(next) = dependency {
+                        if seen.insert(next) { pending.push(next); }
+                    }
+                }
+            }
+            if upheld { closure.settled.push(index); }
+        }
+        closure.serves.sort_unstable();
+        closure.serves.dedup();
+        closure
+    }
+
     fn claim_relevance(&self, index: usize) -> std::result::Result<(), String> {
         // A program with queries asks for their answers, and its output is
         // those answers alone. That the claim was derived is C4's concern.
@@ -1351,10 +1859,17 @@ impl ProofDocument for N3Proof {
         (examined, Vec::new())
     }
 
-    fn query_isolation(&self) -> (usize, Vec<(String, String)>) {
-        if self.query_rules.is_empty() { return (0, Vec::new()); }
+    fn call_fidelity(&self) -> (usize, Vec<(String, String)>) {
         let mut failures = Vec::new();
-        let mut examined = self.claims.len();
+        let mut examined = 0;
+        for step in self.steps.iter().filter(|step| step.kind == Kind::Rule) {
+            examined += 1;
+            if let Err(detail) = self.called_tests(step) {
+                failures.push((describe(&step.conclusion), detail));
+            }
+        }
+        if self.query_rules.is_empty() { return (examined, failures); }
+        examined += self.claims.len();
         for (index, step) in self.steps.iter().enumerate() {
             for dependency in self.dependencies(index) {
                 examined += 1;

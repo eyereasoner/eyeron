@@ -1,0 +1,90 @@
+@prefix food: <http://www.w3.org/2002/03owlt/miscellaneous/consistent002#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+_:g a food:SweetFruit .
+_:cnd a food:Dessert .
+_:pwlcs a food:PastaWithWhiteSauce .
+_:m a food:ConsumableThing .
+_:g a food:EdibleThing .
+_:cnd a food:EdibleThing .
+_:pwlcs a food:Pasta .
+_:g a food:ConsumableThing .
+_:cnd a food:ConsumableThing .
+_:pwlcs a food:EdibleThing .
+_:pwlcs a food:ConsumableThing .
+_:g a food:Grape .
+_:cnd a food:CheeseNutsDessert .
+_:pwlcs a food:PastaWithLightCreamSauce .
+_:ct a food:ConsumableThing .
+_:m a food:Meal .
+
+{ _:g a food:SweetFruit . }
+  pe:rule 4;
+  pe:binding [ pe:var "U_3"; pe:value _:g ];
+  pe:uses { _:g a food:Grape . }.
+
+{ _:g a food:Grape . }
+  pe:fact "preduction-food-direct.n3".
+
+{ _:cnd a food:Dessert . }
+  pe:rule 28;
+  pe:binding [ pe:var "U_27"; pe:value _:cnd ];
+  pe:uses { _:cnd a food:CheeseNutsDessert . }.
+
+{ _:cnd a food:CheeseNutsDessert . }
+  pe:fact "preduction-food-direct.n3".
+
+{ _:pwlcs a food:PastaWithWhiteSauce . }
+  pe:rule 10;
+  pe:binding [ pe:var "U_9"; pe:value _:pwlcs ];
+  pe:uses { _:pwlcs a food:PastaWithLightCreamSauce . }.
+
+{ _:pwlcs a food:PastaWithLightCreamSauce . }
+  pe:fact "preduction-food-direct.n3".
+
+{ _:m a food:ConsumableThing . }
+  pe:rule 21;
+  pe:binding [ pe:var "U_20"; pe:value _:m ];
+  pe:uses { _:m a food:Meal . }.
+
+{ _:m a food:Meal . }
+  pe:fact "preduction-food-direct.n3".
+
+{ _:g a food:EdibleThing . }
+  pe:rule 25;
+  pe:binding [ pe:var "U_24"; pe:value _:g ];
+  pe:uses { _:g a food:SweetFruit . }.
+
+{ _:cnd a food:EdibleThing . }
+  pe:rule 24;
+  pe:binding [ pe:var "U_23"; pe:value _:cnd ];
+  pe:uses { _:cnd a food:Dessert . }.
+
+{ _:pwlcs a food:Pasta . }
+  pe:rule 6;
+  pe:binding [ pe:var "U_5"; pe:value _:pwlcs ];
+  pe:uses { _:pwlcs a food:PastaWithWhiteSauce . }.
+
+{ _:g a food:ConsumableThing . }
+  pe:rule 1;
+  pe:binding [ pe:var "U_0"; pe:value _:g ];
+  pe:uses { _:g a food:EdibleThing . }.
+
+{ _:cnd a food:ConsumableThing . }
+  pe:rule 1;
+  pe:binding [ pe:var "U_0"; pe:value _:cnd ];
+  pe:uses { _:cnd a food:EdibleThing . }.
+
+{ _:pwlcs a food:EdibleThing . }
+  pe:rule 5;
+  pe:binding [ pe:var "U_4"; pe:value _:pwlcs ];
+  pe:uses { _:pwlcs a food:Pasta . }.
+
+{ _:pwlcs a food:ConsumableThing . }
+  pe:rule 1;
+  pe:binding [ pe:var "U_0"; pe:value _:pwlcs ];
+  pe:uses { _:pwlcs a food:EdibleThing . }.
+
+{ _:ct a food:ConsumableThing . }
+  pe:fact "preduction-food-direct.n3".

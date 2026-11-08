@@ -1,0 +1,137 @@
+@prefix : <http://example.org/act/photosynthesis/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:tunedAntenna :can :CoherentPathwaySampling .
+:tunedAntenna :can :VibronicallyAssistedTransfer .
+:tunedAntenna :can :ShortLivedQuantumAssistance .
+:tunedAntenna :can :EfficientExcitonTransfer .
+:tunedAntenna :can :DeliverExcitationToReactionCenter .
+:detunedAntenna :cannot :CoherentPathwaySampling .
+:detunedAntenna :cannot :VibronicallyAssistedTransfer .
+:detunedAntenna :cannot :DirectedReactionCenterTransfer .
+:detunedAntenna :cannot :EfficientExcitonTransfer .
+:detunedAntenna :cannot :DeliverExcitationToReactionCenter .
+
+{ :tunedAntenna :can :CoherentPathwaySampling . }
+  pe:rule 1;
+  pe:binding [ pe:var "C"; pe:value :tunedAntenna ];
+  pe:uses
+    { :tunedAntenna a :LightHarvestingComplex . },
+    { :tunedAntenna :excitonCoupling :Strong . },
+    { :tunedAntenna :stateDelocalization :Present . }.
+
+{ :tunedAntenna a :LightHarvestingComplex . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :tunedAntenna :excitonCoupling :Strong . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :tunedAntenna :stateDelocalization :Present . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :tunedAntenna :can :VibronicallyAssistedTransfer . }
+  pe:rule 2;
+  pe:binding [ pe:var "C"; pe:value :tunedAntenna ];
+  pe:uses
+    { :tunedAntenna a :LightHarvestingComplex . },
+    { :tunedAntenna :vibronicBridge :Tuned . },
+    { :tunedAntenna :dephasing :Moderate . }.
+
+{ :tunedAntenna :vibronicBridge :Tuned . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :tunedAntenna :dephasing :Moderate . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :tunedAntenna :can :ShortLivedQuantumAssistance . }
+  pe:rule 3;
+  pe:binding [ pe:var "C"; pe:value :tunedAntenna ];
+  pe:uses
+    { :tunedAntenna a :LightHarvestingComplex . },
+    { :tunedAntenna :electronicCoherenceLifetime :Short . },
+    { :tunedAntenna :energyLandscape :DownhillToReactionCenter . }.
+
+{ :tunedAntenna :electronicCoherenceLifetime :Short . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :tunedAntenna :energyLandscape :DownhillToReactionCenter . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :tunedAntenna :can :EfficientExcitonTransfer . }
+  pe:rule 4;
+  pe:binding [ pe:var "C"; pe:value :tunedAntenna ];
+  pe:uses
+    { :tunedAntenna :can :CoherentPathwaySampling . },
+    { :tunedAntenna :can :VibronicallyAssistedTransfer . },
+    { :tunedAntenna :can :ShortLivedQuantumAssistance . },
+    { :tunedAntenna :energyLandscape :DownhillToReactionCenter . }.
+
+{ :tunedAntenna :can :DeliverExcitationToReactionCenter . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "C"; pe:value :tunedAntenna ],
+    [ pe:var "RC"; pe:value :reactionCenter ];
+  pe:uses
+    { :tunedAntenna :can :EfficientExcitonTransfer . },
+    { :tunedAntenna :connectedTo :reactionCenter . },
+    { :reactionCenter a :ReactionCenter . }.
+
+{ :tunedAntenna :connectedTo :reactionCenter . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :reactionCenter a :ReactionCenter . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :detunedAntenna :cannot :CoherentPathwaySampling . }
+  pe:rule 6;
+  pe:binding [ pe:var "C"; pe:value :detunedAntenna ];
+  pe:uses
+    { :detunedAntenna a :LightHarvestingComplex . },
+    { :detunedAntenna :excitonCoupling :Weak . },
+    { :detunedAntenna :stateDelocalization :Absent . }.
+
+{ :detunedAntenna a :LightHarvestingComplex . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :detunedAntenna :excitonCoupling :Weak . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :detunedAntenna :stateDelocalization :Absent . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :detunedAntenna :cannot :VibronicallyAssistedTransfer . }
+  pe:rule 7;
+  pe:binding [ pe:var "C"; pe:value :detunedAntenna ];
+  pe:uses
+    { :detunedAntenna a :LightHarvestingComplex . },
+    { :detunedAntenna :vibronicBridge :Absent . },
+    { :detunedAntenna :dephasing :Strong . }.
+
+{ :detunedAntenna :vibronicBridge :Absent . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :detunedAntenna :dephasing :Strong . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :detunedAntenna :cannot :DirectedReactionCenterTransfer . }
+  pe:rule 8;
+  pe:binding [ pe:var "C"; pe:value :detunedAntenna ];
+  pe:uses
+    { :detunedAntenna a :LightHarvestingComplex . },
+    { :detunedAntenna :energyLandscape :TrappingMismatch . }.
+
+{ :detunedAntenna :energyLandscape :TrappingMismatch . }
+  pe:fact "act-photosynthetic-exciton-transfer.n3".
+
+{ :detunedAntenna :cannot :EfficientExcitonTransfer . }
+  pe:rule 9;
+  pe:binding [ pe:var "C"; pe:value :detunedAntenna ];
+  pe:uses
+    { :detunedAntenna :cannot :CoherentPathwaySampling . },
+    { :detunedAntenna :cannot :VibronicallyAssistedTransfer . }.
+
+{ :detunedAntenna :cannot :DeliverExcitationToReactionCenter . }
+  pe:rule 10;
+  pe:binding [ pe:var "C"; pe:value :detunedAntenna ];
+  pe:uses { :detunedAntenna :cannot :DirectedReactionCenterTransfer . }.

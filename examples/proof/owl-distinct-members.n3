@@ -1,0 +1,120 @@
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:red owl:differentFrom :green .
+:red owl:differentFrom :blue .
+:green owl:differentFrom :red .
+:green owl:differentFrom :blue .
+:blue owl:differentFrom :red .
+:blue owl:differentFrom :green .
+
+{ :red owl:differentFrom :green . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :colours ],
+    [ pe:var "L"; pe:value (:red :green :blue) ],
+    [ pe:var "X"; pe:value :red ],
+    [ pe:var "Y"; pe:value :green ];
+  pe:uses
+    { :colours owl:distinctMembers (:red :green :blue) . },
+    { :red list:in (:red :green :blue) . },
+    { :green list:in (:red :green :blue) . },
+    { :red log:notEqualTo :green . }.
+
+{ :colours owl:distinctMembers (:red :green :blue) . }
+  pe:fact "owl-distinct-members.n3".
+
+{ :red list:in (:red :green :blue) . }
+  pe:builtin list:in.
+
+{ :green list:in (:red :green :blue) . }
+  pe:builtin list:in.
+
+{ :red log:notEqualTo :green . }
+  pe:builtin log:notEqualTo.
+
+{ :red owl:differentFrom :blue . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :colours ],
+    [ pe:var "L"; pe:value (:red :green :blue) ],
+    [ pe:var "X"; pe:value :red ],
+    [ pe:var "Y"; pe:value :blue ];
+  pe:uses
+    { :colours owl:distinctMembers (:red :green :blue) . },
+    { :red list:in (:red :green :blue) . },
+    { :blue list:in (:red :green :blue) . },
+    { :red log:notEqualTo :blue . }.
+
+{ :blue list:in (:red :green :blue) . }
+  pe:builtin list:in.
+
+{ :red log:notEqualTo :blue . }
+  pe:builtin log:notEqualTo.
+
+{ :green owl:differentFrom :red . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :colours ],
+    [ pe:var "L"; pe:value (:red :green :blue) ],
+    [ pe:var "X"; pe:value :green ],
+    [ pe:var "Y"; pe:value :red ];
+  pe:uses
+    { :colours owl:distinctMembers (:red :green :blue) . },
+    { :green list:in (:red :green :blue) . },
+    { :red list:in (:red :green :blue) . },
+    { :green log:notEqualTo :red . }.
+
+{ :green log:notEqualTo :red . }
+  pe:builtin log:notEqualTo.
+
+{ :green owl:differentFrom :blue . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :colours ],
+    [ pe:var "L"; pe:value (:red :green :blue) ],
+    [ pe:var "X"; pe:value :green ],
+    [ pe:var "Y"; pe:value :blue ];
+  pe:uses
+    { :colours owl:distinctMembers (:red :green :blue) . },
+    { :green list:in (:red :green :blue) . },
+    { :blue list:in (:red :green :blue) . },
+    { :green log:notEqualTo :blue . }.
+
+{ :green log:notEqualTo :blue . }
+  pe:builtin log:notEqualTo.
+
+{ :blue owl:differentFrom :red . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :colours ],
+    [ pe:var "L"; pe:value (:red :green :blue) ],
+    [ pe:var "X"; pe:value :blue ],
+    [ pe:var "Y"; pe:value :red ];
+  pe:uses
+    { :colours owl:distinctMembers (:red :green :blue) . },
+    { :blue list:in (:red :green :blue) . },
+    { :red list:in (:red :green :blue) . },
+    { :blue log:notEqualTo :red . }.
+
+{ :blue log:notEqualTo :red . }
+  pe:builtin log:notEqualTo.
+
+{ :blue owl:differentFrom :green . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value :colours ],
+    [ pe:var "L"; pe:value (:red :green :blue) ],
+    [ pe:var "X"; pe:value :blue ],
+    [ pe:var "Y"; pe:value :green ];
+  pe:uses
+    { :colours owl:distinctMembers (:red :green :blue) . },
+    { :blue list:in (:red :green :blue) . },
+    { :green list:in (:red :green :blue) . },
+    { :blue log:notEqualTo :green . }.
+
+{ :blue log:notEqualTo :green . }
+  pe:builtin log:notEqualTo.

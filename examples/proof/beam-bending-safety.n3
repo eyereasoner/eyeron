@@ -1,0 +1,438 @@
+@prefix : <http://example.org/beam#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:ShelfLight :bendingStress 8333.333333333334 .
+:FloorBase :bendingStress 11249.999999999996 .
+:FloorOverload :bendingStress 22499.999999999993 .
+:FloorTall :bendingStress 5000.000000000001 .
+:ShelfLight :safetyFactor 1.44 .
+:FloorBase :safetyFactor 1.066666666666667 .
+:FloorOverload :safetyFactor 0.5333333333333335 .
+:FloorTall :safetyFactor 2.3999999999999995 .
+:ShelfLight :isSafe true .
+:FloorBase :isSafe true .
+:FloorTall :isSafe true .
+:FloorOverload :isSafe false .
+
+{ :ShelfLight :bendingStress 8333.333333333334 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value :ShelfLight ],
+    [ pe:var "M"; pe:value 0.2 ],
+    [ pe:var "S"; pe:value 0.000024 ],
+    [ pe:var "sigma"; pe:value 8333.333333333334 ];
+  pe:uses
+    { :ShelfLight :maxMoment 0.2 . },
+    { :ShelfLight :sectionModulus 0.000024 . },
+    { (0.2 0.000024) math:quotient 8333.333333333334 . }.
+
+{ :ShelfLight :maxMoment 0.2 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "B"; pe:value :ShelfLight ],
+    [ pe:var "L"; pe:value 0.8 ],
+    [ pe:var "M"; pe:value 0.2 ],
+    [ pe:var "P"; pe:value 1.0 ],
+    [ pe:var "PL"; pe:value 0.8 ];
+  pe:uses
+    { :ShelfLight a :BeamDesign . },
+    { :ShelfLight :span 0.8 . },
+    { :ShelfLight :pointLoad 1.0 . },
+    { (1.0 0.8) math:product 0.8 . },
+    { (0.8 4.0) math:quotient 0.2 . }.
+
+{ :ShelfLight a :BeamDesign . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :ShelfLight :span 0.8 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :ShelfLight :pointLoad 1.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (1.0 0.8) math:product 0.8 . }
+  pe:builtin math:product.
+
+{ (0.8 4.0) math:quotient 0.2 . }
+  pe:builtin math:quotient.
+
+{ :ShelfLight :sectionModulus 0.000024 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "B"; pe:value :ShelfLight ],
+    [ pe:var "S"; pe:value 0.000024 ],
+    [ pe:var "b"; pe:value 0.04 ],
+    [ pe:var "bh2"; pe:value 0.000144 ],
+    [ pe:var "h"; pe:value 0.06 ],
+    [ pe:var "h2"; pe:value 0.0036 ];
+  pe:uses
+    { :ShelfLight a :BeamDesign . },
+    { :ShelfLight :width 0.04 . },
+    { :ShelfLight :height 0.06 . },
+    { (0.06 2) math:exponentiation 0.0036 . },
+    { (0.04 0.0036) math:product 0.000144 . },
+    { (0.000144 6.0) math:quotient 0.000024 . }.
+
+{ :ShelfLight :width 0.04 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :ShelfLight :height 0.06 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (0.06 2) math:exponentiation 0.0036 . }
+  pe:builtin math:exponentiation.
+
+{ (0.04 0.0036) math:product 0.000144 . }
+  pe:builtin math:product.
+
+{ (0.000144 6.0) math:quotient 0.000024 . }
+  pe:builtin math:quotient.
+
+{ (0.2 0.000024) math:quotient 8333.333333333334 . }
+  pe:builtin math:quotient.
+
+{ :FloorBase :bendingStress 11249.999999999996 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorBase ],
+    [ pe:var "M"; pe:value 3.75 ],
+    [ pe:var "S"; pe:value 0.00033333333333333343 ],
+    [ pe:var "sigma"; pe:value 11249.999999999996 ];
+  pe:uses
+    { :FloorBase :maxMoment 3.75 . },
+    { :FloorBase :sectionModulus 0.00033333333333333343 . },
+    { (3.75 0.00033333333333333343) math:quotient 11249.999999999996 . }.
+
+{ :FloorBase :maxMoment 3.75 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorBase ],
+    [ pe:var "L"; pe:value 3.0 ],
+    [ pe:var "M"; pe:value 3.75 ],
+    [ pe:var "P"; pe:value 5.0 ],
+    [ pe:var "PL"; pe:value "15"^^xsd:decimal ];
+  pe:uses
+    { :FloorBase a :BeamDesign . },
+    { :FloorBase :span 3.0 . },
+    { :FloorBase :pointLoad 5.0 . },
+    { (5.0 3.0) math:product "15"^^xsd:decimal . },
+    { ("15"^^xsd:decimal 4.0) math:quotient 3.75 . }.
+
+{ :FloorBase a :BeamDesign . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :FloorBase :span 3.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :FloorBase :pointLoad 5.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (5.0 3.0) math:product "15"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ("15"^^xsd:decimal 4.0) math:quotient 3.75 . }
+  pe:builtin math:quotient.
+
+{ :FloorBase :sectionModulus 0.00033333333333333343 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorBase ],
+    [ pe:var "S"; pe:value 0.00033333333333333343 ],
+    [ pe:var "b"; pe:value 0.05 ],
+    [ pe:var "bh2"; pe:value 0.0020000000000000005 ],
+    [ pe:var "h"; pe:value 0.2 ],
+    [ pe:var "h2"; pe:value 0.04000000000000001 ];
+  pe:uses
+    { :FloorBase a :BeamDesign . },
+    { :FloorBase :width 0.05 . },
+    { :FloorBase :height 0.2 . },
+    { (0.2 2) math:exponentiation 0.04000000000000001 . },
+    { (0.05 0.04000000000000001) math:product 0.0020000000000000005 . },
+    { (0.0020000000000000005 6.0) math:quotient 0.00033333333333333343 . }.
+
+{ :FloorBase :width 0.05 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :FloorBase :height 0.2 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (0.2 2) math:exponentiation 0.04000000000000001 . }
+  pe:builtin math:exponentiation.
+
+{ (0.05 0.04000000000000001) math:product 0.0020000000000000005 . }
+  pe:builtin math:product.
+
+{ (0.0020000000000000005 6.0) math:quotient 0.00033333333333333343 . }
+  pe:builtin math:quotient.
+
+{ (3.75 0.00033333333333333343) math:quotient 11249.999999999996 . }
+  pe:builtin math:quotient.
+
+{ :FloorOverload :bendingStress 22499.999999999993 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorOverload ],
+    [ pe:var "M"; pe:value 7.5 ],
+    [ pe:var "S"; pe:value 0.00033333333333333343 ],
+    [ pe:var "sigma"; pe:value 22499.999999999993 ];
+  pe:uses
+    { :FloorOverload :maxMoment 7.5 . },
+    { :FloorOverload :sectionModulus 0.00033333333333333343 . },
+    { (7.5 0.00033333333333333343) math:quotient 22499.999999999993 . }.
+
+{ :FloorOverload :maxMoment 7.5 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorOverload ],
+    [ pe:var "L"; pe:value 3.0 ],
+    [ pe:var "M"; pe:value 7.5 ],
+    [ pe:var "P"; pe:value 10.0 ],
+    [ pe:var "PL"; pe:value "30"^^xsd:decimal ];
+  pe:uses
+    { :FloorOverload a :BeamDesign . },
+    { :FloorOverload :span 3.0 . },
+    { :FloorOverload :pointLoad 10.0 . },
+    { (10.0 3.0) math:product "30"^^xsd:decimal . },
+    { ("30"^^xsd:decimal 4.0) math:quotient 7.5 . }.
+
+{ :FloorOverload a :BeamDesign . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :FloorOverload :span 3.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :FloorOverload :pointLoad 10.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (10.0 3.0) math:product "30"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ("30"^^xsd:decimal 4.0) math:quotient 7.5 . }
+  pe:builtin math:quotient.
+
+{ :FloorOverload :sectionModulus 0.00033333333333333343 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorOverload ],
+    [ pe:var "S"; pe:value 0.00033333333333333343 ],
+    [ pe:var "b"; pe:value 0.05 ],
+    [ pe:var "bh2"; pe:value 0.0020000000000000005 ],
+    [ pe:var "h"; pe:value 0.2 ],
+    [ pe:var "h2"; pe:value 0.04000000000000001 ];
+  pe:uses
+    { :FloorOverload a :BeamDesign . },
+    { :FloorOverload :width 0.05 . },
+    { :FloorOverload :height 0.2 . },
+    { (0.2 2) math:exponentiation 0.04000000000000001 . },
+    { (0.05 0.04000000000000001) math:product 0.0020000000000000005 . },
+    { (0.0020000000000000005 6.0) math:quotient 0.00033333333333333343 . }.
+
+{ :FloorOverload :width 0.05 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :FloorOverload :height 0.2 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (7.5 0.00033333333333333343) math:quotient 22499.999999999993 . }
+  pe:builtin math:quotient.
+
+{ :FloorTall :bendingStress 5000.000000000001 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorTall ],
+    [ pe:var "M"; pe:value 3.75 ],
+    [ pe:var "S"; pe:value 0.0007499999999999999 ],
+    [ pe:var "sigma"; pe:value 5000.000000000001 ];
+  pe:uses
+    { :FloorTall :maxMoment 3.75 . },
+    { :FloorTall :sectionModulus 0.0007499999999999999 . },
+    { (3.75 0.0007499999999999999) math:quotient 5000.000000000001 . }.
+
+{ :FloorTall :maxMoment 3.75 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorTall ],
+    [ pe:var "L"; pe:value 3.0 ],
+    [ pe:var "M"; pe:value 3.75 ],
+    [ pe:var "P"; pe:value 5.0 ],
+    [ pe:var "PL"; pe:value "15"^^xsd:decimal ];
+  pe:uses
+    { :FloorTall a :BeamDesign . },
+    { :FloorTall :span 3.0 . },
+    { :FloorTall :pointLoad 5.0 . },
+    { (5.0 3.0) math:product "15"^^xsd:decimal . },
+    { ("15"^^xsd:decimal 4.0) math:quotient 3.75 . }.
+
+{ :FloorTall a :BeamDesign . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :FloorTall :span 3.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :FloorTall :pointLoad 5.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :FloorTall :sectionModulus 0.0007499999999999999 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorTall ],
+    [ pe:var "S"; pe:value 0.0007499999999999999 ],
+    [ pe:var "b"; pe:value 0.05 ],
+    [ pe:var "bh2"; pe:value 0.0045 ],
+    [ pe:var "h"; pe:value 0.3 ],
+    [ pe:var "h2"; pe:value 0.09 ];
+  pe:uses
+    { :FloorTall a :BeamDesign . },
+    { :FloorTall :width 0.05 . },
+    { :FloorTall :height 0.3 . },
+    { (0.3 2) math:exponentiation 0.09 . },
+    { (0.05 0.09) math:product 0.0045 . },
+    { (0.0045 6.0) math:quotient 0.0007499999999999999 . }.
+
+{ :FloorTall :width 0.05 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ :FloorTall :height 0.3 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (0.3 2) math:exponentiation 0.09 . }
+  pe:builtin math:exponentiation.
+
+{ (0.05 0.09) math:product 0.0045 . }
+  pe:builtin math:product.
+
+{ (0.0045 6.0) math:quotient 0.0007499999999999999 . }
+  pe:builtin math:quotient.
+
+{ (3.75 0.0007499999999999999) math:quotient 5000.000000000001 . }
+  pe:builtin math:quotient.
+
+{ :ShelfLight :safetyFactor 1.44 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "B"; pe:value :ShelfLight ],
+    [ pe:var "allow"; pe:value 12000.0 ],
+    [ pe:var "sf"; pe:value 1.44 ],
+    [ pe:var "sigma"; pe:value 8333.333333333334 ];
+  pe:uses
+    { :ShelfLight :bendingStress 8333.333333333334 . },
+    { :ShelfLight :allowableStress 12000.0 . },
+    { (12000.0 8333.333333333334) math:quotient 1.44 . }.
+
+{ :ShelfLight :allowableStress 12000.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (12000.0 8333.333333333334) math:quotient 1.44 . }
+  pe:builtin math:quotient.
+
+{ :FloorBase :safetyFactor 1.066666666666667 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorBase ],
+    [ pe:var "allow"; pe:value 12000.0 ],
+    [ pe:var "sf"; pe:value 1.066666666666667 ],
+    [ pe:var "sigma"; pe:value 11249.999999999996 ];
+  pe:uses
+    { :FloorBase :bendingStress 11249.999999999996 . },
+    { :FloorBase :allowableStress 12000.0 . },
+    { (12000.0 11249.999999999996) math:quotient 1.066666666666667 . }.
+
+{ :FloorBase :allowableStress 12000.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (12000.0 11249.999999999996) math:quotient 1.066666666666667 . }
+  pe:builtin math:quotient.
+
+{ :FloorOverload :safetyFactor 0.5333333333333335 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorOverload ],
+    [ pe:var "allow"; pe:value 12000.0 ],
+    [ pe:var "sf"; pe:value 0.5333333333333335 ],
+    [ pe:var "sigma"; pe:value 22499.999999999993 ];
+  pe:uses
+    { :FloorOverload :bendingStress 22499.999999999993 . },
+    { :FloorOverload :allowableStress 12000.0 . },
+    { (12000.0 22499.999999999993) math:quotient 0.5333333333333335 . }.
+
+{ :FloorOverload :allowableStress 12000.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (12000.0 22499.999999999993) math:quotient 0.5333333333333335 . }
+  pe:builtin math:quotient.
+
+{ :FloorTall :safetyFactor 2.3999999999999995 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorTall ],
+    [ pe:var "allow"; pe:value 12000.0 ],
+    [ pe:var "sf"; pe:value 2.3999999999999995 ],
+    [ pe:var "sigma"; pe:value 5000.000000000001 ];
+  pe:uses
+    { :FloorTall :bendingStress 5000.000000000001 . },
+    { :FloorTall :allowableStress 12000.0 . },
+    { (12000.0 5000.000000000001) math:quotient 2.3999999999999995 . }.
+
+{ :FloorTall :allowableStress 12000.0 . }
+  pe:fact "beam-bending-safety.n3".
+
+{ (12000.0 5000.000000000001) math:quotient 2.3999999999999995 . }
+  pe:builtin math:quotient.
+
+{ :ShelfLight :isSafe true . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "B"; pe:value :ShelfLight ],
+    [ pe:var "allow"; pe:value 12000.0 ],
+    [ pe:var "sigma"; pe:value 8333.333333333334 ];
+  pe:uses
+    { :ShelfLight :bendingStress 8333.333333333334 . },
+    { :ShelfLight :allowableStress 12000.0 . },
+    { 8333.333333333334 math:notGreaterThan 12000.0 . }.
+
+{ 8333.333333333334 math:notGreaterThan 12000.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :FloorBase :isSafe true . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorBase ],
+    [ pe:var "allow"; pe:value 12000.0 ],
+    [ pe:var "sigma"; pe:value 11249.999999999996 ];
+  pe:uses
+    { :FloorBase :bendingStress 11249.999999999996 . },
+    { :FloorBase :allowableStress 12000.0 . },
+    { 11249.999999999996 math:notGreaterThan 12000.0 . }.
+
+{ 11249.999999999996 math:notGreaterThan 12000.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :FloorTall :isSafe true . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorTall ],
+    [ pe:var "allow"; pe:value 12000.0 ],
+    [ pe:var "sigma"; pe:value 5000.000000000001 ];
+  pe:uses
+    { :FloorTall :bendingStress 5000.000000000001 . },
+    { :FloorTall :allowableStress 12000.0 . },
+    { 5000.000000000001 math:notGreaterThan 12000.0 . }.
+
+{ 5000.000000000001 math:notGreaterThan 12000.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :FloorOverload :isSafe false . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "B"; pe:value :FloorOverload ],
+    [ pe:var "allow"; pe:value 12000.0 ],
+    [ pe:var "sigma"; pe:value 22499.999999999993 ];
+  pe:uses
+    { :FloorOverload :bendingStress 22499.999999999993 . },
+    { :FloorOverload :allowableStress 12000.0 . },
+    { 22499.999999999993 math:greaterThan 12000.0 . }.
+
+{ 22499.999999999993 math:greaterThan 12000.0 . }
+  pe:builtin math:greaterThan.

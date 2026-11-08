@@ -1,0 +1,38 @@
+@prefix : <http://example.org/#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:TEST :PASS 1.1 .
+:TEST :PASS 1.2 .
+:TEST :PASS 1.3 .
+:TEST :PASS 1.4 .
+
+{ :TEST :PASS 1.1 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "o"; pe:value :c ],
+    [ pe:var "s"; pe:value :a ];
+  pe:uses { :a :B :c . }.
+
+{ :a :B :c . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "o"; pe:value :c ],
+    [ pe:var "s"; pe:value :a ];
+  pe:uses { :a :b :c . }.
+
+{ :a :b :c . }
+  pe:fact "backward-rule-matching.n3".
+
+{ :TEST :PASS 1.2 . }
+  pe:rule 3;
+  pe:uses { :a :B :c . }.
+
+{ :TEST :PASS 1.3 . }
+  pe:rule 4;
+  pe:binding [ pe:var "o"; pe:value :c ];
+  pe:uses { :a :B :c . }.
+
+{ :TEST :PASS 1.4 . }
+  pe:rule 5;
+  pe:binding [ pe:var "s"; pe:value :a ];
+  pe:uses { :a :B :c . }.

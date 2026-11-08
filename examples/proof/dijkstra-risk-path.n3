@@ -1,0 +1,157 @@
+@prefix : <https://eyereasoner.github.io/eyeling/examples/dijkstra-risk-path#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+
+:Case :notes :riskCanOutweighRawCost .
+:Case :selectedPath :pathB .
+:Case :trustGate :noEnumeratedPathIsLower .
+:dijkstraRiskPath log:outputString "# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : ClinicA -> DepotB -> LabD -> HubZ\nraw cost : 10.00\nrisk sum : 0.55\nrisk-adjusted score : 11.10\nedges in selected path : 3\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." .
+:dijkstraRiskPath :selects :pathB .
+
+{ :Case :notes :riskCanOutweighRawCost . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Best"; pe:value 11.1 ],
+    [ pe:var "BestRaw"; pe:value 10 ],
+    [ pe:var "Risk"; pe:value 1.6 ],
+    [ pe:var "ViaCScore"; pe:value 11.2 ],
+    [ pe:var "ViaRaw"; pe:value 8 ];
+  pe:uses
+    { :pathViaC :rawCost 8 . },
+    { :pathViaC :score 11.2 . },
+    { :pathViaC :riskSum 1.6 . },
+    { :pathB :rawCost 10 . },
+    { :pathB :score 11.1 . },
+    { 8 math:lessThan 10 . },
+    { 11.1 math:lessThan 11.2 . }.
+
+{ :pathViaC :rawCost 8 . }
+  pe:fact "<unknown>".
+
+{ :pathViaC :score 11.2 . }
+  pe:fact "<unknown>".
+
+{ :pathViaC :riskSum 1.6 . }
+  pe:fact "<unknown>".
+
+{ :pathB :rawCost 10 . }
+  pe:fact "<unknown>".
+
+{ :pathB :score 11.1 . }
+  pe:fact "<unknown>".
+
+{ 8 math:lessThan 10 . }
+  pe:builtin math:lessThan.
+
+{ 11.1 math:lessThan 11.2 . }
+  pe:builtin math:lessThan.
+
+{ :Case :selectedPath :pathB . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Best"; pe:value 11.1 ],
+    [ pe:var "CScore"; pe:value 11.3 ],
+    [ pe:var "DirectCScore"; pe:value 11.6 ],
+    [ pe:var "RelayScore"; pe:value 11.7 ],
+    [ pe:var "ViaCScore"; pe:value 11.2 ];
+  pe:uses
+    { :pathB :score 11.1 . },
+    { :pathC :score 11.3 . },
+    { :pathRelay :score 11.7 . },
+    { :pathDirectC :score 11.6 . },
+    { :pathViaC :score 11.2 . },
+    { 11.1 math:lessThan 11.3 . },
+    { 11.1 math:lessThan 11.7 . },
+    { 11.1 math:lessThan 11.6 . },
+    { 11.1 math:lessThan 11.2 . }.
+
+{ :pathC :score 11.3 . }
+  pe:fact "<unknown>".
+
+{ :pathRelay :score 11.7 . }
+  pe:fact "<unknown>".
+
+{ :pathDirectC :score 11.6 . }
+  pe:fact "<unknown>".
+
+{ 11.1 math:lessThan 11.3 . }
+  pe:builtin math:lessThan.
+
+{ 11.1 math:lessThan 11.7 . }
+  pe:builtin math:lessThan.
+
+{ 11.1 math:lessThan 11.6 . }
+  pe:builtin math:lessThan.
+
+{ :Case :trustGate :noEnumeratedPathIsLower . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Best"; pe:value 11.1 ],
+    [ pe:var "CScore"; pe:value 11.3 ],
+    [ pe:var "DirectCScore"; pe:value 11.6 ],
+    [ pe:var "RelayScore"; pe:value 11.7 ],
+    [ pe:var "ViaCScore"; pe:value 11.2 ];
+  pe:uses
+    { :pathB :score 11.1 . },
+    { :pathC :score 11.3 . },
+    { :pathRelay :score 11.7 . },
+    { :pathDirectC :score 11.6 . },
+    { :pathViaC :score 11.2 . },
+    { 11.1 math:lessThan 11.3 . },
+    { 11.1 math:lessThan 11.7 . },
+    { 11.1 math:lessThan 11.6 . },
+    { 11.1 math:lessThan 11.2 . }.
+
+{ :dijkstraRiskPath log:outputString "# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : ClinicA -> DepotB -> LabD -> HubZ\nraw cost : 10.00\nrisk sum : 0.55\nrisk-adjusted score : 11.10\nedges in selected path : 3\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Block"; pe:value "# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : ClinicA -> DepotB -> LabD -> HubZ\nraw cost : 10.00\nrisk sum : 0.55\nrisk-adjusted score : 11.10\nedges in selected path : 3\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." ],
+    [ pe:var "Edges"; pe:value 3 ],
+    [ pe:var "Raw"; pe:value 10 ],
+    [ pe:var "Risk"; pe:value 0.55 ],
+    [ pe:var "Route"; pe:value "ClinicA -> DepotB -> LabD -> HubZ" ],
+    [ pe:var "Score"; pe:value 11.1 ];
+  pe:uses
+    { :Case :selectedPath :pathB . },
+    { :Case :trustGate :noEnumeratedPathIsLower . },
+    { :Case :notes :riskCanOutweighRawCost . },
+    { :pathB :routeText "ClinicA -> DepotB -> LabD -> HubZ" . },
+    { :pathB :rawCost 10 . },
+    { :pathB :riskSum 0.55 . },
+    { :pathB :score 11.1 . },
+    { :pathB :edgeCount 3 . },
+    { ("# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : %s\nraw cost : %.2f\nrisk sum : %.2f\nrisk-adjusted score : %.2f\nedges in selected path : %d\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." "ClinicA -> DepotB -> LabD -> HubZ" 10 0.55 11.1 3) string:format "# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : ClinicA -> DepotB -> LabD -> HubZ\nraw cost : 10.00\nrisk sum : 0.55\nrisk-adjusted score : 11.10\nedges in selected path : 3\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." . }.
+
+{ :pathB :routeText "ClinicA -> DepotB -> LabD -> HubZ" . }
+  pe:fact "<unknown>".
+
+{ :pathB :riskSum 0.55 . }
+  pe:fact "<unknown>".
+
+{ :pathB :edgeCount 3 . }
+  pe:fact "<unknown>".
+
+{ ("# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : %s\nraw cost : %.2f\nrisk sum : %.2f\nrisk-adjusted score : %.2f\nedges in selected path : %d\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." "ClinicA -> DepotB -> LabD -> HubZ" 10 0.55 11.1 3) string:format "# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : ClinicA -> DepotB -> LabD -> HubZ\nraw cost : 10.00\nrisk sum : 0.55\nrisk-adjusted score : 11.10\nedges in selected path : 3\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." . }
+  pe:builtin string:format.
+
+{ :dijkstraRiskPath :selects :pathB . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Block"; pe:value "# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : ClinicA -> DepotB -> LabD -> HubZ\nraw cost : 10.00\nrisk sum : 0.55\nrisk-adjusted score : 11.10\nedges in selected path : 3\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." ],
+    [ pe:var "Edges"; pe:value 3 ],
+    [ pe:var "Raw"; pe:value 10 ],
+    [ pe:var "Risk"; pe:value 0.55 ],
+    [ pe:var "Route"; pe:value "ClinicA -> DepotB -> LabD -> HubZ" ],
+    [ pe:var "Score"; pe:value 11.1 ];
+  pe:uses
+    { :Case :selectedPath :pathB . },
+    { :Case :trustGate :noEnumeratedPathIsLower . },
+    { :Case :notes :riskCanOutweighRawCost . },
+    { :pathB :routeText "ClinicA -> DepotB -> LabD -> HubZ" . },
+    { :pathB :rawCost 10 . },
+    { :pathB :riskSum 0.55 . },
+    { :pathB :score 11.1 . },
+    { :pathB :edgeCount 3 . },
+    { ("# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : %s\nraw cost : %.2f\nrisk sum : %.2f\nrisk-adjusted score : %.2f\nedges in selected path : %d\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." "ClinicA -> DepotB -> LabD -> HubZ" 10 0.55 11.1 3) string:format "# dijkstra-risk-path\n\n## Source files\n\n- [N3 rules](../dijkstra-risk-path.n3)\n- [Input TriG](../input/dijkstra-risk-path.trig)\n\n## Answer\nselected path : ClinicA -> DepotB -> LabD -> HubZ\nraw cost : 10.00\nrisk sum : 0.55\nrisk-adjusted score : 11.10\nedges in selected path : 3\n\n## Explanation\nEach edge contributes its delivery cost plus the configured risk penalty. The N3 source enumerates the small graph's simple route candidates and compares the selected route against each alternative score. The selected route balances cost and risk through DepotB and LabD, while the apparently cheaper DepotC path is rejected once risk is priced in." . }.

@@ -1,0 +1,54 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/incompleteness/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <http://schema.org/> .
+
+ex:rebeccaGoldstein foaf:made ex:book2005 .
+ex:kurtGodel schema:subjectOf ex:book2005 .
+ex:book2005 dct:subject ex:mathematicalLogic .
+ex:book2005 ex:recommendedFor ex:logicLearnerEn .
+
+{ ex:rebeccaGoldstein foaf:made ex:book2005 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "book"; pe:value ex:book2005 ],
+    [ pe:var "person"; pe:value ex:rebeccaGoldstein ];
+  pe:uses { ex:book2005 schema:author ex:rebeccaGoldstein . }.
+
+{ ex:book2005 schema:author ex:rebeccaGoldstein . }
+  pe:fact "godel-incompleteness.n3".
+
+{ ex:kurtGodel schema:subjectOf ex:book2005 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "book"; pe:value ex:book2005 ],
+    [ pe:var "person"; pe:value ex:kurtGodel ];
+  pe:uses
+    { ex:book2005 schema:about ex:kurtGodel . },
+    { ex:kurtGodel a foaf:Person . }.
+
+{ ex:book2005 schema:about ex:kurtGodel . }
+  pe:fact "godel-incompleteness.n3".
+
+{ ex:kurtGodel a foaf:Person . }
+  pe:fact "godel-incompleteness.n3".
+
+{ ex:book2005 dct:subject ex:mathematicalLogic . }
+  pe:rule 3;
+  pe:binding [ pe:var "book"; pe:value ex:book2005 ];
+  pe:uses { ex:book2005 schema:about ex:godelIncompletenessTheorems . }.
+
+{ ex:book2005 schema:about ex:godelIncompletenessTheorems . }
+  pe:fact "godel-incompleteness.n3".
+
+{ ex:book2005 ex:recommendedFor ex:logicLearnerEn . }
+  pe:rule 4;
+  pe:binding [ pe:var "book"; pe:value ex:book2005 ];
+  pe:uses
+    { ex:book2005 dct:subject ex:mathematicalLogic . },
+    { ex:book2005 schema:inLanguage "en" . }.
+
+{ ex:book2005 schema:inLanguage "en" . }
+  pe:fact "godel-incompleteness.n3".

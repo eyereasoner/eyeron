@@ -1,0 +1,72 @@
+# checked: 143 steps, 143 verified, 0 trusted
+@prefix : <http://example.org/act/barley/cancant/> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:mainGenome :can :GenomeCopyUnderNoDesignLaws .
+:fragileGenome :can :GenomeCopyUnderNoDesignLaws .
+:coatlessGenome :can :GenomeCopyUnderNoDesignLaws .
+:staticGenome :can :GenomeCopyUnderNoDesignLaws .
+:analogGenome :cannot :AccurateGenomeCopyUnderNoDesignLaws .
+:mainLine :can :AccurateSelfReproduction .
+:coatlessLine :can :AccurateSelfReproduction .
+:staticLine :can :AccurateSelfReproduction .
+:mainSeed :can :Germinate .
+:analogSeed :can :Germinate .
+:fragileSeed :can :Germinate .
+:coatlessSeed :can :Germinate .
+:staticSeed :can :Germinate .
+:mainAdult :can :PropaguleProduction .
+:analogAdult :can :PropaguleProduction .
+:fragileAdult :can :PropaguleProduction .
+:coatlessAdult :can :PropaguleProduction .
+:staticAdult :can :PropaguleProduction .
+:mainSeed :can :ProtectedDormancy .
+:mainLine :can :LineageClosure .
+:mainLine :can :HeritableVariation .
+:mainLine :can :AdaptivePersistence .
+:analogSeed :can :ProtectedDormancy .
+:analogLine :can :LineageClosure .
+:analogLine :can :HeritableVariation .
+:analogLine :cannot :AccurateSelfReproduction .
+:fragileSeed :can :ProtectedDormancy .
+:fragileLine :can :LineageClosure .
+:fragileLine :can :HeritableVariation .
+:fragileLine :cannot :ReliableDamageCorrection .
+:coatlessLine :can :HeritableVariation .
+:coatlessLine :can :AdaptivePersistence .
+:coatlessLine :cannot :ProtectedDormancy .
+:staticSeed :can :ProtectedDormancy .
+:staticLine :can :LineageClosure .
+:staticLine :cannot :AdaptiveEvolution .
+:mainLine a :EvolvableLineage .
+:analogLine :cannot :EvolvableLineage .
+:fragileLine :cannot :AccurateSelfReproduction .
+:coatlessLine :cannot :LineageClosure .
+:staticLine :cannot :AdaptivePersistence .
+:fragileLine :cannot :EvolvableLineage .
+:coatlessLine :cannot :EvolvableLineage .
+:staticLine :cannot :EvolvableLineage .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/act-barley-seed-lineage.n3";
+    pe:source "examples/act-barley-seed-lineage.n3";
+    pe:verdict pe:checked;
+    pe:steps 143;
+    pe:verified 143;
+    pe:trusted 0;
+    pe:factSteps 99;
+    pe:ruleSteps 44;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 143; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 143; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 143; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 267; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 187; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 267; pe:failed 0 ].

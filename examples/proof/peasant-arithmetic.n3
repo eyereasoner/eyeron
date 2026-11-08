@@ -1,0 +1,841 @@
+@prefix : <http://example.org/> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:arithmetic :product (3 0 0) .
+:arithmetic :product (5 6 30) .
+:arithmetic :product (238 13 3094) .
+:arithmetic :power (3 0 1) .
+:arithmetic :power (5 6 15625) .
+:arithmetic :power (238 13 7861409907565911395902147452928) .
+:arithmetic :power (2 64 18446744073709551616) .
+
+{ :arithmetic :product (3 0 0) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "Result"; pe:value 0 ],
+    [ pe:var "X"; pe:value 3 ],
+    [ pe:var "Y"; pe:value 0 ];
+  pe:uses
+    { ((3 0) (5 6) (238 13)) list:member (3 0) . },
+    { (3 0) :product 0 . }.
+
+{ ((3 0) (5 6) (238 13)) list:member (3 0) . }
+  pe:builtin list:member.
+
+{ (3 0) :product 0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Double"; pe:value 0 ],
+    [ pe:var "Half"; pe:value 1 ],
+    [ pe:var "Partial"; pe:value 0 ],
+    [ pe:var "Result"; pe:value 0 ],
+    [ pe:var "X"; pe:value 3 ],
+    [ pe:var "Y"; pe:value 0 ];
+  pe:uses
+    { 3 math:greaterThan 0 . },
+    { (3 2) math:remainder 1 . },
+    { (3 2) math:integerQuotient 1 . },
+    { (0 0) math:sum 0 . },
+    { (1 0) :product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ 3 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (3 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ (3 2) math:integerQuotient 1 . }
+  pe:builtin math:integerQuotient.
+
+{ (0 0) math:sum 0 . }
+  pe:builtin math:sum.
+
+{ (1 0) :product 0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Double"; pe:value 0 ],
+    [ pe:var "Half"; pe:value 0 ],
+    [ pe:var "Partial"; pe:value 0 ],
+    [ pe:var "Result"; pe:value 0 ],
+    [ pe:var "X"; pe:value 1 ],
+    [ pe:var "Y"; pe:value 0 ];
+  pe:uses
+    { 1 math:greaterThan 0 . },
+    { (1 2) math:remainder 1 . },
+    { (1 2) math:integerQuotient 0 . },
+    { (0 0) math:sum 0 . },
+    { (0 0) :product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ 1 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (1 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ (1 2) math:integerQuotient 0 . }
+  pe:builtin math:integerQuotient.
+
+{ (0 0) :product 0 . }
+  pe:rule 1;
+  pe:binding [ pe:var "Y"; pe:value 0 ].
+
+{ :arithmetic :product (5 6 30) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "Result"; pe:value 30 ],
+    [ pe:var "X"; pe:value 5 ],
+    [ pe:var "Y"; pe:value 6 ];
+  pe:uses
+    { ((3 0) (5 6) (238 13)) list:member (5 6) . },
+    { (5 6) :product 30 . }.
+
+{ ((3 0) (5 6) (238 13)) list:member (5 6) . }
+  pe:builtin list:member.
+
+{ (5 6) :product 30 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Double"; pe:value 12 ],
+    [ pe:var "Half"; pe:value 2 ],
+    [ pe:var "Partial"; pe:value 24 ],
+    [ pe:var "Result"; pe:value 30 ],
+    [ pe:var "X"; pe:value 5 ],
+    [ pe:var "Y"; pe:value 6 ];
+  pe:uses
+    { 5 math:greaterThan 0 . },
+    { (5 2) math:remainder 1 . },
+    { (5 2) math:integerQuotient 2 . },
+    { (6 6) math:sum 12 . },
+    { (2 12) :product 24 . },
+    { (24 6) math:sum 30 . }.
+
+{ 5 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (5 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ (5 2) math:integerQuotient 2 . }
+  pe:builtin math:integerQuotient.
+
+{ (6 6) math:sum 12 . }
+  pe:builtin math:sum.
+
+{ (2 12) :product 24 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Double"; pe:value 24 ],
+    [ pe:var "Half"; pe:value 1 ],
+    [ pe:var "Result"; pe:value 24 ],
+    [ pe:var "X"; pe:value 2 ],
+    [ pe:var "Y"; pe:value 12 ];
+  pe:uses
+    { 2 math:greaterThan 0 . },
+    { (2 2) math:remainder 0 . },
+    { (2 2) math:integerQuotient 1 . },
+    { (12 12) math:sum 24 . },
+    { (1 24) :product 24 . }.
+
+{ 2 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (2 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (2 2) math:integerQuotient 1 . }
+  pe:builtin math:integerQuotient.
+
+{ (12 12) math:sum 24 . }
+  pe:builtin math:sum.
+
+{ (1 24) :product 24 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Double"; pe:value 48 ],
+    [ pe:var "Half"; pe:value 0 ],
+    [ pe:var "Partial"; pe:value 0 ],
+    [ pe:var "Result"; pe:value 24 ],
+    [ pe:var "X"; pe:value 1 ],
+    [ pe:var "Y"; pe:value 24 ];
+  pe:uses
+    { 1 math:greaterThan 0 . },
+    { (1 2) math:remainder 1 . },
+    { (1 2) math:integerQuotient 0 . },
+    { (24 24) math:sum 48 . },
+    { (0 48) :product 0 . },
+    { (0 24) math:sum 24 . }.
+
+{ (24 24) math:sum 48 . }
+  pe:builtin math:sum.
+
+{ (0 48) :product 0 . }
+  pe:rule 1;
+  pe:binding [ pe:var "Y"; pe:value 48 ].
+
+{ (0 24) math:sum 24 . }
+  pe:builtin math:sum.
+
+{ (24 6) math:sum 30 . }
+  pe:builtin math:sum.
+
+{ :arithmetic :product (238 13 3094) . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "Result"; pe:value 3094 ],
+    [ pe:var "X"; pe:value 238 ],
+    [ pe:var "Y"; pe:value 13 ];
+  pe:uses
+    { ((3 0) (5 6) (238 13)) list:member (238 13) . },
+    { (238 13) :product 3094 . }.
+
+{ ((3 0) (5 6) (238 13)) list:member (238 13) . }
+  pe:builtin list:member.
+
+{ (238 13) :product 3094 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Double"; pe:value 26 ],
+    [ pe:var "Half"; pe:value 119 ],
+    [ pe:var "Result"; pe:value 3094 ],
+    [ pe:var "X"; pe:value 238 ],
+    [ pe:var "Y"; pe:value 13 ];
+  pe:uses
+    { 238 math:greaterThan 0 . },
+    { (238 2) math:remainder 0 . },
+    { (238 2) math:integerQuotient 119 . },
+    { (13 13) math:sum 26 . },
+    { (119 26) :product 3094 . }.
+
+{ 238 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (238 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (238 2) math:integerQuotient 119 . }
+  pe:builtin math:integerQuotient.
+
+{ (13 13) math:sum 26 . }
+  pe:builtin math:sum.
+
+{ (119 26) :product 3094 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Double"; pe:value 52 ],
+    [ pe:var "Half"; pe:value 59 ],
+    [ pe:var "Partial"; pe:value 3068 ],
+    [ pe:var "Result"; pe:value 3094 ],
+    [ pe:var "X"; pe:value 119 ],
+    [ pe:var "Y"; pe:value 26 ];
+  pe:uses
+    { 119 math:greaterThan 0 . },
+    { (119 2) math:remainder 1 . },
+    { (119 2) math:integerQuotient 59 . },
+    { (26 26) math:sum 52 . },
+    { (59 52) :product 3068 . },
+    { (3068 26) math:sum 3094 . }.
+
+{ 119 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (119 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ (119 2) math:integerQuotient 59 . }
+  pe:builtin math:integerQuotient.
+
+{ (26 26) math:sum 52 . }
+  pe:builtin math:sum.
+
+{ (59 52) :product 3068 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Double"; pe:value 104 ],
+    [ pe:var "Half"; pe:value 29 ],
+    [ pe:var "Partial"; pe:value 3016 ],
+    [ pe:var "Result"; pe:value 3068 ],
+    [ pe:var "X"; pe:value 59 ],
+    [ pe:var "Y"; pe:value 52 ];
+  pe:uses
+    { 59 math:greaterThan 0 . },
+    { (59 2) math:remainder 1 . },
+    { (59 2) math:integerQuotient 29 . },
+    { (52 52) math:sum 104 . },
+    { (29 104) :product 3016 . },
+    { (3016 52) math:sum 3068 . }.
+
+{ 59 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (59 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ (59 2) math:integerQuotient 29 . }
+  pe:builtin math:integerQuotient.
+
+{ (52 52) math:sum 104 . }
+  pe:builtin math:sum.
+
+{ (29 104) :product 3016 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Double"; pe:value 208 ],
+    [ pe:var "Half"; pe:value 14 ],
+    [ pe:var "Partial"; pe:value 2912 ],
+    [ pe:var "Result"; pe:value 3016 ],
+    [ pe:var "X"; pe:value 29 ],
+    [ pe:var "Y"; pe:value 104 ];
+  pe:uses
+    { 29 math:greaterThan 0 . },
+    { (29 2) math:remainder 1 . },
+    { (29 2) math:integerQuotient 14 . },
+    { (104 104) math:sum 208 . },
+    { (14 208) :product 2912 . },
+    { (2912 104) math:sum 3016 . }.
+
+{ 29 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (29 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ (29 2) math:integerQuotient 14 . }
+  pe:builtin math:integerQuotient.
+
+{ (104 104) math:sum 208 . }
+  pe:builtin math:sum.
+
+{ (14 208) :product 2912 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "Double"; pe:value 416 ],
+    [ pe:var "Half"; pe:value 7 ],
+    [ pe:var "Result"; pe:value 2912 ],
+    [ pe:var "X"; pe:value 14 ],
+    [ pe:var "Y"; pe:value 208 ];
+  pe:uses
+    { 14 math:greaterThan 0 . },
+    { (14 2) math:remainder 0 . },
+    { (14 2) math:integerQuotient 7 . },
+    { (208 208) math:sum 416 . },
+    { (7 416) :product 2912 . }.
+
+{ 14 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (14 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (14 2) math:integerQuotient 7 . }
+  pe:builtin math:integerQuotient.
+
+{ (208 208) math:sum 416 . }
+  pe:builtin math:sum.
+
+{ (7 416) :product 2912 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Double"; pe:value 832 ],
+    [ pe:var "Half"; pe:value 3 ],
+    [ pe:var "Partial"; pe:value 2496 ],
+    [ pe:var "Result"; pe:value 2912 ],
+    [ pe:var "X"; pe:value 7 ],
+    [ pe:var "Y"; pe:value 416 ];
+  pe:uses
+    { 7 math:greaterThan 0 . },
+    { (7 2) math:remainder 1 . },
+    { (7 2) math:integerQuotient 3 . },
+    { (416 416) math:sum 832 . },
+    { (3 832) :product 2496 . },
+    { (2496 416) math:sum 2912 . }.
+
+{ 7 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (7 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ (7 2) math:integerQuotient 3 . }
+  pe:builtin math:integerQuotient.
+
+{ (416 416) math:sum 832 . }
+  pe:builtin math:sum.
+
+{ (3 832) :product 2496 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Double"; pe:value 1664 ],
+    [ pe:var "Half"; pe:value 1 ],
+    [ pe:var "Partial"; pe:value 1664 ],
+    [ pe:var "Result"; pe:value 2496 ],
+    [ pe:var "X"; pe:value 3 ],
+    [ pe:var "Y"; pe:value 832 ];
+  pe:uses
+    { 3 math:greaterThan 0 . },
+    { (3 2) math:remainder 1 . },
+    { (3 2) math:integerQuotient 1 . },
+    { (832 832) math:sum 1664 . },
+    { (1 1664) :product 1664 . },
+    { (1664 832) math:sum 2496 . }.
+
+{ (832 832) math:sum 1664 . }
+  pe:builtin math:sum.
+
+{ (1 1664) :product 1664 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "Double"; pe:value 3328 ],
+    [ pe:var "Half"; pe:value 0 ],
+    [ pe:var "Partial"; pe:value 0 ],
+    [ pe:var "Result"; pe:value 1664 ],
+    [ pe:var "X"; pe:value 1 ],
+    [ pe:var "Y"; pe:value 1664 ];
+  pe:uses
+    { 1 math:greaterThan 0 . },
+    { (1 2) math:remainder 1 . },
+    { (1 2) math:integerQuotient 0 . },
+    { (1664 1664) math:sum 3328 . },
+    { (0 3328) :product 0 . },
+    { (0 1664) math:sum 1664 . }.
+
+{ (1664 1664) math:sum 3328 . }
+  pe:builtin math:sum.
+
+{ (0 3328) :product 0 . }
+  pe:rule 1;
+  pe:binding [ pe:var "Y"; pe:value 3328 ].
+
+{ (0 1664) math:sum 1664 . }
+  pe:builtin math:sum.
+
+{ (1664 832) math:sum 2496 . }
+  pe:builtin math:sum.
+
+{ (2496 416) math:sum 2912 . }
+  pe:builtin math:sum.
+
+{ (2912 104) math:sum 3016 . }
+  pe:builtin math:sum.
+
+{ (3016 52) math:sum 3068 . }
+  pe:builtin math:sum.
+
+{ (3068 26) math:sum 3094 . }
+  pe:builtin math:sum.
+
+{ :arithmetic :power (3 0 1) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Result"; pe:value 1 ],
+    [ pe:var "X"; pe:value 3 ],
+    [ pe:var "Y"; pe:value 0 ];
+  pe:uses
+    { ((3 0) (5 6) (238 13) (2 64)) list:member (3 0) . },
+    { (3 0) :power 1 . }.
+
+{ ((3 0) (5 6) (238 13) (2 64)) list:member (3 0) . }
+  pe:builtin list:member.
+
+{ (3 0) :power 1 . }
+  pe:rule 4;
+  pe:binding [ pe:var "X"; pe:value 3 ].
+
+{ :arithmetic :power (5 6 15625) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Result"; pe:value 15625 ],
+    [ pe:var "X"; pe:value 5 ],
+    [ pe:var "Y"; pe:value 6 ];
+  pe:uses
+    { ((3 0) (5 6) (238 13) (2 64)) list:member (5 6) . },
+    { (5 6) :power 15625 . }.
+
+{ ((3 0) (5 6) (238 13) (2 64)) list:member (5 6) . }
+  pe:builtin list:member.
+
+{ (5 6) :power 15625 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Half"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 15625 ],
+    [ pe:var "Squared"; pe:value 25 ],
+    [ pe:var "X"; pe:value 5 ],
+    [ pe:var "Y"; pe:value 6 ];
+  pe:uses
+    { 6 math:greaterThan 0 . },
+    { (6 2) math:remainder 0 . },
+    { (5 5) math:product 25 . },
+    { (6 2) math:integerQuotient 3 . },
+    { (25 3) :power 15625 . }.
+
+{ 6 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (6 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (5 5) math:product 25 . }
+  pe:builtin math:product.
+
+{ (6 2) math:integerQuotient 3 . }
+  pe:builtin math:integerQuotient.
+
+{ (25 3) :power 15625 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Half"; pe:value 1 ],
+    [ pe:var "Partial"; pe:value 625 ],
+    [ pe:var "Result"; pe:value 15625 ],
+    [ pe:var "Squared"; pe:value 625 ],
+    [ pe:var "X"; pe:value 25 ],
+    [ pe:var "Y"; pe:value 3 ];
+  pe:uses
+    { 3 math:greaterThan 0 . },
+    { (3 2) math:remainder 1 . },
+    { (25 25) math:product 625 . },
+    { (3 2) math:integerQuotient 1 . },
+    { (625 1) :power 625 . },
+    { (625 25) math:product 15625 . }.
+
+{ (25 25) math:product 625 . }
+  pe:builtin math:product.
+
+{ (625 1) :power 625 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Half"; pe:value 0 ],
+    [ pe:var "Partial"; pe:value 1 ],
+    [ pe:var "Result"; pe:value 625 ],
+    [ pe:var "Squared"; pe:value 390625 ],
+    [ pe:var "X"; pe:value 625 ],
+    [ pe:var "Y"; pe:value 1 ];
+  pe:uses
+    { 1 math:greaterThan 0 . },
+    { (1 2) math:remainder 1 . },
+    { (625 625) math:product 390625 . },
+    { (1 2) math:integerQuotient 0 . },
+    { (390625 0) :power 1 . },
+    { (1 625) math:product 625 . }.
+
+{ (625 625) math:product 390625 . }
+  pe:builtin math:product.
+
+{ (390625 0) :power 1 . }
+  pe:rule 4;
+  pe:binding [ pe:var "X"; pe:value 390625 ].
+
+{ (1 625) math:product 625 . }
+  pe:builtin math:product.
+
+{ (625 25) math:product 15625 . }
+  pe:builtin math:product.
+
+{ :arithmetic :power (238 13 7861409907565911395902147452928) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Result"; pe:value 7861409907565911395902147452928 ],
+    [ pe:var "X"; pe:value 238 ],
+    [ pe:var "Y"; pe:value 13 ];
+  pe:uses
+    { ((3 0) (5 6) (238 13) (2 64)) list:member (238 13) . },
+    { (238 13) :power 7861409907565911395902147452928 . }.
+
+{ ((3 0) (5 6) (238 13) (2 64)) list:member (238 13) . }
+  pe:builtin list:member.
+
+{ (238 13) :power 7861409907565911395902147452928 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Half"; pe:value 6 ],
+    [ pe:var "Partial"; pe:value 33031134065402989058412384256 ],
+    [ pe:var "Result"; pe:value 7861409907565911395902147452928 ],
+    [ pe:var "Squared"; pe:value 56644 ],
+    [ pe:var "X"; pe:value 238 ],
+    [ pe:var "Y"; pe:value 13 ];
+  pe:uses
+    { 13 math:greaterThan 0 . },
+    { (13 2) math:remainder 1 . },
+    { (238 238) math:product 56644 . },
+    { (13 2) math:integerQuotient 6 . },
+    { (56644 6) :power 33031134065402989058412384256 . },
+    { (33031134065402989058412384256 238) math:product 7861409907565911395902147452928 . }.
+
+{ 13 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (13 2) math:remainder 1 . }
+  pe:builtin math:remainder.
+
+{ (238 238) math:product 56644 . }
+  pe:builtin math:product.
+
+{ (13 2) math:integerQuotient 6 . }
+  pe:builtin math:integerQuotient.
+
+{ (56644 6) :power 33031134065402989058412384256 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Half"; pe:value 3 ],
+    [ pe:var "Result"; pe:value 33031134065402989058412384256 ],
+    [ pe:var "Squared"; pe:value 3208542736 ],
+    [ pe:var "X"; pe:value 56644 ],
+    [ pe:var "Y"; pe:value 6 ];
+  pe:uses
+    { 6 math:greaterThan 0 . },
+    { (6 2) math:remainder 0 . },
+    { (56644 56644) math:product 3208542736 . },
+    { (6 2) math:integerQuotient 3 . },
+    { (3208542736 3) :power 33031134065402989058412384256 . }.
+
+{ (56644 56644) math:product 3208542736 . }
+  pe:builtin math:product.
+
+{ (3208542736 3) :power 33031134065402989058412384256 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Half"; pe:value 1 ],
+    [ pe:var "Partial"; pe:value 10294746488738365696 ],
+    [ pe:var "Result"; pe:value 33031134065402989058412384256 ],
+    [ pe:var "Squared"; pe:value 10294746488738365696 ],
+    [ pe:var "X"; pe:value 3208542736 ],
+    [ pe:var "Y"; pe:value 3 ];
+  pe:uses
+    { 3 math:greaterThan 0 . },
+    { (3 2) math:remainder 1 . },
+    { (3208542736 3208542736) math:product 10294746488738365696 . },
+    { (3 2) math:integerQuotient 1 . },
+    { (10294746488738365696 1) :power 10294746488738365696 . },
+    { (10294746488738365696 3208542736) math:product 33031134065402989058412384256 . }.
+
+{ (3208542736 3208542736) math:product 10294746488738365696 . }
+  pe:builtin math:product.
+
+{ (10294746488738365696 1) :power 10294746488738365696 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Half"; pe:value 0 ],
+    [ pe:var "Partial"; pe:value 1 ],
+    [ pe:var "Result"; pe:value 10294746488738365696 ],
+    [ pe:var "Squared"; pe:value 105981805267390909456056535197029564416 ],
+    [ pe:var "X"; pe:value 10294746488738365696 ],
+    [ pe:var "Y"; pe:value 1 ];
+  pe:uses
+    { 1 math:greaterThan 0 . },
+    { (1 2) math:remainder 1 . },
+    { (10294746488738365696 10294746488738365696) math:product 105981805267390909456056535197029564416 . },
+    { (1 2) math:integerQuotient 0 . },
+    { (105981805267390909456056535197029564416 0) :power 1 . },
+    { (1 10294746488738365696) math:product 10294746488738365696 . }.
+
+{ (10294746488738365696 10294746488738365696) math:product 105981805267390909456056535197029564416 . }
+  pe:builtin math:product.
+
+{ (105981805267390909456056535197029564416 0) :power 1 . }
+  pe:rule 4;
+  pe:binding [ pe:var "X"; pe:value 105981805267390909456056535197029564416 ].
+
+{ (1 10294746488738365696) math:product 10294746488738365696 . }
+  pe:builtin math:product.
+
+{ (10294746488738365696 3208542736) math:product 33031134065402989058412384256 . }
+  pe:builtin math:product.
+
+{ (33031134065402989058412384256 238) math:product 7861409907565911395902147452928 . }
+  pe:builtin math:product.
+
+{ :arithmetic :power (2 64 18446744073709551616) . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "Result"; pe:value 18446744073709551616 ],
+    [ pe:var "X"; pe:value 2 ],
+    [ pe:var "Y"; pe:value 64 ];
+  pe:uses
+    { ((3 0) (5 6) (238 13) (2 64)) list:member (2 64) . },
+    { (2 64) :power 18446744073709551616 . }.
+
+{ ((3 0) (5 6) (238 13) (2 64)) list:member (2 64) . }
+  pe:builtin list:member.
+
+{ (2 64) :power 18446744073709551616 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Half"; pe:value 32 ],
+    [ pe:var "Result"; pe:value 18446744073709551616 ],
+    [ pe:var "Squared"; pe:value 4 ],
+    [ pe:var "X"; pe:value 2 ],
+    [ pe:var "Y"; pe:value 64 ];
+  pe:uses
+    { 64 math:greaterThan 0 . },
+    { (64 2) math:remainder 0 . },
+    { (2 2) math:product 4 . },
+    { (64 2) math:integerQuotient 32 . },
+    { (4 32) :power 18446744073709551616 . }.
+
+{ 64 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (64 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (2 2) math:product 4 . }
+  pe:builtin math:product.
+
+{ (64 2) math:integerQuotient 32 . }
+  pe:builtin math:integerQuotient.
+
+{ (4 32) :power 18446744073709551616 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Half"; pe:value 16 ],
+    [ pe:var "Result"; pe:value 18446744073709551616 ],
+    [ pe:var "Squared"; pe:value 16 ],
+    [ pe:var "X"; pe:value 4 ],
+    [ pe:var "Y"; pe:value 32 ];
+  pe:uses
+    { 32 math:greaterThan 0 . },
+    { (32 2) math:remainder 0 . },
+    { (4 4) math:product 16 . },
+    { (32 2) math:integerQuotient 16 . },
+    { (16 16) :power 18446744073709551616 . }.
+
+{ 32 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (32 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (4 4) math:product 16 . }
+  pe:builtin math:product.
+
+{ (32 2) math:integerQuotient 16 . }
+  pe:builtin math:integerQuotient.
+
+{ (16 16) :power 18446744073709551616 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Half"; pe:value 8 ],
+    [ pe:var "Result"; pe:value 18446744073709551616 ],
+    [ pe:var "Squared"; pe:value 256 ],
+    [ pe:var "X"; pe:value 16 ],
+    [ pe:var "Y"; pe:value 16 ];
+  pe:uses
+    { 16 math:greaterThan 0 . },
+    { (16 2) math:remainder 0 . },
+    { (16 16) math:product 256 . },
+    { (16 2) math:integerQuotient 8 . },
+    { (256 8) :power 18446744073709551616 . }.
+
+{ 16 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (16 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (16 16) math:product 256 . }
+  pe:builtin math:product.
+
+{ (16 2) math:integerQuotient 8 . }
+  pe:builtin math:integerQuotient.
+
+{ (256 8) :power 18446744073709551616 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Half"; pe:value 4 ],
+    [ pe:var "Result"; pe:value 18446744073709551616 ],
+    [ pe:var "Squared"; pe:value 65536 ],
+    [ pe:var "X"; pe:value 256 ],
+    [ pe:var "Y"; pe:value 8 ];
+  pe:uses
+    { 8 math:greaterThan 0 . },
+    { (8 2) math:remainder 0 . },
+    { (256 256) math:product 65536 . },
+    { (8 2) math:integerQuotient 4 . },
+    { (65536 4) :power 18446744073709551616 . }.
+
+{ 8 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (8 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (256 256) math:product 65536 . }
+  pe:builtin math:product.
+
+{ (8 2) math:integerQuotient 4 . }
+  pe:builtin math:integerQuotient.
+
+{ (65536 4) :power 18446744073709551616 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Half"; pe:value 2 ],
+    [ pe:var "Result"; pe:value 18446744073709551616 ],
+    [ pe:var "Squared"; pe:value 4294967296 ],
+    [ pe:var "X"; pe:value 65536 ],
+    [ pe:var "Y"; pe:value 4 ];
+  pe:uses
+    { 4 math:greaterThan 0 . },
+    { (4 2) math:remainder 0 . },
+    { (65536 65536) math:product 4294967296 . },
+    { (4 2) math:integerQuotient 2 . },
+    { (4294967296 2) :power 18446744073709551616 . }.
+
+{ 4 math:greaterThan 0 . }
+  pe:builtin math:greaterThan.
+
+{ (4 2) math:remainder 0 . }
+  pe:builtin math:remainder.
+
+{ (65536 65536) math:product 4294967296 . }
+  pe:builtin math:product.
+
+{ (4 2) math:integerQuotient 2 . }
+  pe:builtin math:integerQuotient.
+
+{ (4294967296 2) :power 18446744073709551616 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "Half"; pe:value 1 ],
+    [ pe:var "Result"; pe:value 18446744073709551616 ],
+    [ pe:var "Squared"; pe:value 18446744073709551616 ],
+    [ pe:var "X"; pe:value 4294967296 ],
+    [ pe:var "Y"; pe:value 2 ];
+  pe:uses
+    { 2 math:greaterThan 0 . },
+    { (2 2) math:remainder 0 . },
+    { (4294967296 4294967296) math:product 18446744073709551616 . },
+    { (2 2) math:integerQuotient 1 . },
+    { (18446744073709551616 1) :power 18446744073709551616 . }.
+
+{ (4294967296 4294967296) math:product 18446744073709551616 . }
+  pe:builtin math:product.
+
+{ (18446744073709551616 1) :power 18446744073709551616 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "Half"; pe:value 0 ],
+    [ pe:var "Partial"; pe:value 1 ],
+    [ pe:var "Result"; pe:value 18446744073709551616 ],
+    [ pe:var "Squared"; pe:value 340282366920938463463374607431768211456 ],
+    [ pe:var "X"; pe:value 18446744073709551616 ],
+    [ pe:var "Y"; pe:value 1 ];
+  pe:uses
+    { 1 math:greaterThan 0 . },
+    { (1 2) math:remainder 1 . },
+    { (18446744073709551616 18446744073709551616) math:product 340282366920938463463374607431768211456 . },
+    { (1 2) math:integerQuotient 0 . },
+    { (340282366920938463463374607431768211456 0) :power 1 . },
+    { (1 18446744073709551616) math:product 18446744073709551616 . }.
+
+{ (18446744073709551616 18446744073709551616) math:product 340282366920938463463374607431768211456 . }
+  pe:builtin math:product.
+
+{ (340282366920938463463374607431768211456 0) :power 1 . }
+  pe:rule 4;
+  pe:binding [ pe:var "X"; pe:value 340282366920938463463374607431768211456 ].
+
+{ (1 18446744073709551616) math:product 18446744073709551616 . }
+  pe:builtin math:product.

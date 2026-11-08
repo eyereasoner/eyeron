@@ -1,0 +1,19 @@
+@prefix : <http://example.org/#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+5 :isIndeedMoreInterestingThan 3 .
+
+{ 5 :isIndeedMoreInterestingThan 3 . }
+  pe:rule 2;
+  pe:uses { 5 :moreInterestingThan 3 . }.
+
+{ 5 :moreInterestingThan 3 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "X"; pe:value 5 ],
+    [ pe:var "Y"; pe:value 3 ];
+  pe:uses { 5 math:greaterThan 3 . }.
+
+{ 5 math:greaterThan 3 . }
+  pe:builtin math:greaterThan.

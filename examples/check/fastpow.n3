@@ -1,0 +1,37 @@
+# checked: 66 steps, 66 verified, 0 trusted
+@prefix : <http://example.org/fastpow#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+:test :is {
+    (2 10) :pow 1024 .
+    (2 10) :powSlow 1024 .
+    (2 10000) :powMod1e6 709376 .
+    (3 10000) :powMod1e6 200001 .
+    (2 4) :tower 65536 .
+    (2 5) :towerMod1e6 156736 .
+} .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/fastpow.n3";
+    pe:source "examples/fastpow.n3";
+    pe:verdict pe:checked;
+    pe:steps 66;
+    pe:verified 66;
+    pe:trusted 0;
+    pe:builtinSteps 42;
+    pe:ruleSteps 24;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 24; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 66; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 66; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 78; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 42; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 67; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 24; pe:failed 0 ].

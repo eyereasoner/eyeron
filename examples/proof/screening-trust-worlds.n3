@@ -1,0 +1,436 @@
+@prefix : <http://example.org/screening#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:HighRiskClinic :trustsPositiveInWorld :W0 .
+:CommonMassGoodTest :trustsPositiveInWorld :W0 .
+:RareMassScreening :trustsPositiveInWorld :W1 .
+:HighRiskClinic :trustsPositiveInWorld :W1 .
+:CommonMassGoodTest :trustsPositiveInWorld :W1 .
+:CommonMassLowSpec :trustsPositiveInWorld :W1 .
+:HighRiskClinic :trustsPositiveInWorld :W2 .
+:CommonMassGoodTest :trustsPositiveInWorld :W2 .
+:HighRiskClinic :trustsPositiveInWorld :W3 .
+:RareMassScreening :rejectsPositiveInWorld :W0 .
+:CommonMassLowSpec :rejectsPositiveInWorld :W0 .
+:RareMassScreening :rejectsPositiveInWorld :W2 .
+:CommonMassLowSpec :rejectsPositiveInWorld :W2 .
+:RareMassScreening :rejectsPositiveInWorld :W3 .
+:CommonMassGoodTest :rejectsPositiveInWorld :W3 .
+:CommonMassLowSpec :rejectsPositiveInWorld :W3 .
+
+{ :HighRiskClinic :trustsPositiveInWorld :W0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.9166666666666666 ],
+    [ pe:var "S"; pe:value :HighRiskClinic ];
+  pe:uses
+    { :HighRiskClinic :ppv_Bayes 0.9166666666666666 . },
+    { 0.9166666666666666 math:notLessThan 0.9 . }.
+
+{ :HighRiskClinic :ppv_Bayes 0.9166666666666666 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.9166666666666666 ],
+    [ pe:var "S"; pe:value :HighRiskClinic ],
+    [ pe:var "Se"; pe:value 0.99 ],
+    [ pe:var "Sp"; pe:value 0.99 ],
+    [ pe:var "denom"; pe:value 0.10800000000000001 ],
+    [ pe:var "fp"; pe:value 0.009000000000000008 ],
+    [ pe:var "fpr"; pe:value 0.010000000000000009 ],
+    [ pe:var "num"; pe:value 0.099 ],
+    [ pe:var "p"; pe:value 0.10 ],
+    [ pe:var "pNeg"; pe:value 0.9 ];
+  pe:uses
+    { :HighRiskClinic a :Scenario . },
+    { :HighRiskClinic :prevalence 0.10 . },
+    { :HighRiskClinic :sensitivity 0.99 . },
+    { :HighRiskClinic :specificity 0.99 . },
+    { (0.99 0.10) math:product 0.099 . },
+    { (1.0 0.10) math:difference 0.9 . },
+    { (1.0 0.99) math:difference 0.010000000000000009 . },
+    { (0.010000000000000009 0.9) math:product 0.009000000000000008 . },
+    { (0.099 0.009000000000000008) math:sum 0.10800000000000001 . },
+    { (0.099 0.10800000000000001) math:quotient 0.9166666666666666 . }.
+
+{ :HighRiskClinic a :Scenario . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :HighRiskClinic :prevalence 0.10 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :HighRiskClinic :sensitivity 0.99 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :HighRiskClinic :specificity 0.99 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ (0.99 0.10) math:product 0.099 . }
+  pe:builtin math:product.
+
+{ (1.0 0.10) math:difference 0.9 . }
+  pe:builtin math:difference.
+
+{ (1.0 0.99) math:difference 0.010000000000000009 . }
+  pe:builtin math:difference.
+
+{ (0.010000000000000009 0.9) math:product 0.009000000000000008 . }
+  pe:builtin math:product.
+
+{ (0.099 0.009000000000000008) math:sum 0.10800000000000001 . }
+  pe:builtin math:sum.
+
+{ (0.099 0.10800000000000001) math:quotient 0.9166666666666666 . }
+  pe:builtin math:quotient.
+
+{ 0.9166666666666666 math:notLessThan 0.9 . }
+  pe:builtin math:notLessThan.
+
+{ :CommonMassGoodTest :trustsPositiveInWorld :W0 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.9134615384615384 ],
+    [ pe:var "S"; pe:value :CommonMassGoodTest ];
+  pe:uses
+    { :CommonMassGoodTest :ppv_Bayes 0.9134615384615384 . },
+    { 0.9134615384615384 math:notLessThan 0.9 . }.
+
+{ :CommonMassGoodTest :ppv_Bayes 0.9134615384615384 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.9134615384615384 ],
+    [ pe:var "S"; pe:value :CommonMassGoodTest ],
+    [ pe:var "Se"; pe:value 0.95 ],
+    [ pe:var "Sp"; pe:value 0.97 ],
+    [ pe:var "denom"; pe:value 0.26 ],
+    [ pe:var "fp"; pe:value 0.02250000000000002 ],
+    [ pe:var "fpr"; pe:value 0.030000000000000027 ],
+    [ pe:var "num"; pe:value 0.2375 ],
+    [ pe:var "p"; pe:value 0.25 ],
+    [ pe:var "pNeg"; pe:value 0.75 ];
+  pe:uses
+    { :CommonMassGoodTest a :Scenario . },
+    { :CommonMassGoodTest :prevalence 0.25 . },
+    { :CommonMassGoodTest :sensitivity 0.95 . },
+    { :CommonMassGoodTest :specificity 0.97 . },
+    { (0.95 0.25) math:product 0.2375 . },
+    { (1.0 0.25) math:difference 0.75 . },
+    { (1.0 0.97) math:difference 0.030000000000000027 . },
+    { (0.030000000000000027 0.75) math:product 0.02250000000000002 . },
+    { (0.2375 0.02250000000000002) math:sum 0.26 . },
+    { (0.2375 0.26) math:quotient 0.9134615384615384 . }.
+
+{ :CommonMassGoodTest a :Scenario . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :CommonMassGoodTest :prevalence 0.25 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :CommonMassGoodTest :sensitivity 0.95 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :CommonMassGoodTest :specificity 0.97 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ (0.95 0.25) math:product 0.2375 . }
+  pe:builtin math:product.
+
+{ (1.0 0.25) math:difference 0.75 . }
+  pe:builtin math:difference.
+
+{ (1.0 0.97) math:difference 0.030000000000000027 . }
+  pe:builtin math:difference.
+
+{ (0.030000000000000027 0.75) math:product 0.02250000000000002 . }
+  pe:builtin math:product.
+
+{ (0.2375 0.02250000000000002) math:sum 0.26 . }
+  pe:builtin math:sum.
+
+{ (0.2375 0.26) math:quotient 0.9134615384615384 . }
+  pe:builtin math:quotient.
+
+{ 0.9134615384615384 math:notLessThan 0.9 . }
+  pe:builtin math:notLessThan.
+
+{ :RareMassScreening :trustsPositiveInWorld :W1 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "S"; pe:value :RareMassScreening ],
+    [ pe:var "Se"; pe:value 0.99 ];
+  pe:uses
+    { :RareMassScreening :sensitivity 0.99 . },
+    { 0.99 math:notLessThan 0.9 . }.
+
+{ :RareMassScreening :sensitivity 0.99 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ 0.99 math:notLessThan 0.9 . }
+  pe:builtin math:notLessThan.
+
+{ :HighRiskClinic :trustsPositiveInWorld :W1 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "S"; pe:value :HighRiskClinic ],
+    [ pe:var "Se"; pe:value 0.99 ];
+  pe:uses
+    { :HighRiskClinic :sensitivity 0.99 . },
+    { 0.99 math:notLessThan 0.9 . }.
+
+{ :CommonMassGoodTest :trustsPositiveInWorld :W1 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "S"; pe:value :CommonMassGoodTest ],
+    [ pe:var "Se"; pe:value 0.95 ];
+  pe:uses
+    { :CommonMassGoodTest :sensitivity 0.95 . },
+    { 0.95 math:notLessThan 0.9 . }.
+
+{ 0.95 math:notLessThan 0.9 . }
+  pe:builtin math:notLessThan.
+
+{ :CommonMassLowSpec :trustsPositiveInWorld :W1 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "S"; pe:value :CommonMassLowSpec ],
+    [ pe:var "Se"; pe:value 0.95 ];
+  pe:uses
+    { :CommonMassLowSpec :sensitivity 0.95 . },
+    { 0.95 math:notLessThan 0.9 . }.
+
+{ :CommonMassLowSpec :sensitivity 0.95 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :HighRiskClinic :trustsPositiveInWorld :W2 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "S"; pe:value :HighRiskClinic ],
+    [ pe:var "Se"; pe:value 0.99 ],
+    [ pe:var "Sp"; pe:value 0.99 ],
+    [ pe:var "p"; pe:value 0.10 ];
+  pe:uses
+    { :HighRiskClinic :prevalence 0.10 . },
+    { :HighRiskClinic :sensitivity 0.99 . },
+    { :HighRiskClinic :specificity 0.99 . },
+    { 0.10 math:notLessThan 0.05 . },
+    { 0.99 math:notLessThan 0.9 . },
+    { 0.99 math:notLessThan 0.95 . }.
+
+{ 0.10 math:notLessThan 0.05 . }
+  pe:builtin math:notLessThan.
+
+{ 0.99 math:notLessThan 0.95 . }
+  pe:builtin math:notLessThan.
+
+{ :CommonMassGoodTest :trustsPositiveInWorld :W2 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "S"; pe:value :CommonMassGoodTest ],
+    [ pe:var "Se"; pe:value 0.95 ],
+    [ pe:var "Sp"; pe:value 0.97 ],
+    [ pe:var "p"; pe:value 0.25 ];
+  pe:uses
+    { :CommonMassGoodTest :prevalence 0.25 . },
+    { :CommonMassGoodTest :sensitivity 0.95 . },
+    { :CommonMassGoodTest :specificity 0.97 . },
+    { 0.25 math:notLessThan 0.05 . },
+    { 0.95 math:notLessThan 0.9 . },
+    { 0.97 math:notLessThan 0.95 . }.
+
+{ 0.25 math:notLessThan 0.05 . }
+  pe:builtin math:notLessThan.
+
+{ 0.97 math:notLessThan 0.95 . }
+  pe:builtin math:notLessThan.
+
+{ :HighRiskClinic :trustsPositiveInWorld :W3 . }
+  pe:rule 10;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.9166666666666666 ],
+    [ pe:var "S"; pe:value :HighRiskClinic ];
+  pe:uses
+    { :HighRiskClinic :ppv_Bayes 0.9166666666666666 . },
+    { 0.9166666666666666 math:notLessThan 0.915 . }.
+
+{ 0.9166666666666666 math:notLessThan 0.915 . }
+  pe:builtin math:notLessThan.
+
+{ :RareMassScreening :rejectsPositiveInWorld :W0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.09016393442622944 ],
+    [ pe:var "S"; pe:value :RareMassScreening ];
+  pe:uses
+    { :RareMassScreening :ppv_Bayes 0.09016393442622944 . },
+    { 0.09016393442622944 math:lessThan 0.9 . }.
+
+{ :RareMassScreening :ppv_Bayes 0.09016393442622944 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.09016393442622944 ],
+    [ pe:var "S"; pe:value :RareMassScreening ],
+    [ pe:var "Se"; pe:value 0.99 ],
+    [ pe:var "Sp"; pe:value 0.99 ],
+    [ pe:var "denom"; pe:value 0.010980000000000009 ],
+    [ pe:var "fp"; pe:value 0.00999000000000001 ],
+    [ pe:var "fpr"; pe:value 0.010000000000000009 ],
+    [ pe:var "num"; pe:value 0.00099 ],
+    [ pe:var "p"; pe:value 0.001 ],
+    [ pe:var "pNeg"; pe:value 0.999 ];
+  pe:uses
+    { :RareMassScreening a :Scenario . },
+    { :RareMassScreening :prevalence 0.001 . },
+    { :RareMassScreening :sensitivity 0.99 . },
+    { :RareMassScreening :specificity 0.99 . },
+    { (0.99 0.001) math:product 0.00099 . },
+    { (1.0 0.001) math:difference 0.999 . },
+    { (1.0 0.99) math:difference 0.010000000000000009 . },
+    { (0.010000000000000009 0.999) math:product 0.00999000000000001 . },
+    { (0.00099 0.00999000000000001) math:sum 0.010980000000000009 . },
+    { (0.00099 0.010980000000000009) math:quotient 0.09016393442622944 . }.
+
+{ :RareMassScreening a :Scenario . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :RareMassScreening :prevalence 0.001 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :RareMassScreening :specificity 0.99 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ (0.99 0.001) math:product 0.00099 . }
+  pe:builtin math:product.
+
+{ (1.0 0.001) math:difference 0.999 . }
+  pe:builtin math:difference.
+
+{ (0.010000000000000009 0.999) math:product 0.00999000000000001 . }
+  pe:builtin math:product.
+
+{ (0.00099 0.00999000000000001) math:sum 0.010980000000000009 . }
+  pe:builtin math:sum.
+
+{ (0.00099 0.010980000000000009) math:quotient 0.09016393442622944 . }
+  pe:builtin math:quotient.
+
+{ 0.09016393442622944 math:lessThan 0.9 . }
+  pe:builtin math:lessThan.
+
+{ :CommonMassLowSpec :rejectsPositiveInWorld :W0 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.76 ],
+    [ pe:var "S"; pe:value :CommonMassLowSpec ];
+  pe:uses
+    { :CommonMassLowSpec :ppv_Bayes 0.76 . },
+    { 0.76 math:lessThan 0.9 . }.
+
+{ :CommonMassLowSpec :ppv_Bayes 0.76 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.76 ],
+    [ pe:var "S"; pe:value :CommonMassLowSpec ],
+    [ pe:var "Se"; pe:value 0.95 ],
+    [ pe:var "Sp"; pe:value 0.90 ],
+    [ pe:var "denom"; pe:value 0.3125 ],
+    [ pe:var "fp"; pe:value 0.07499999999999998 ],
+    [ pe:var "fpr"; pe:value 0.09999999999999998 ],
+    [ pe:var "num"; pe:value 0.2375 ],
+    [ pe:var "p"; pe:value 0.25 ],
+    [ pe:var "pNeg"; pe:value 0.75 ];
+  pe:uses
+    { :CommonMassLowSpec a :Scenario . },
+    { :CommonMassLowSpec :prevalence 0.25 . },
+    { :CommonMassLowSpec :sensitivity 0.95 . },
+    { :CommonMassLowSpec :specificity 0.90 . },
+    { (0.95 0.25) math:product 0.2375 . },
+    { (1.0 0.25) math:difference 0.75 . },
+    { (1.0 0.90) math:difference 0.09999999999999998 . },
+    { (0.09999999999999998 0.75) math:product 0.07499999999999998 . },
+    { (0.2375 0.07499999999999998) math:sum 0.3125 . },
+    { (0.2375 0.3125) math:quotient 0.76 . }.
+
+{ :CommonMassLowSpec a :Scenario . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :CommonMassLowSpec :prevalence 0.25 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ :CommonMassLowSpec :specificity 0.90 . }
+  pe:fact "screening-trust-worlds.n3".
+
+{ (1.0 0.90) math:difference 0.09999999999999998 . }
+  pe:builtin math:difference.
+
+{ (0.09999999999999998 0.75) math:product 0.07499999999999998 . }
+  pe:builtin math:product.
+
+{ (0.2375 0.07499999999999998) math:sum 0.3125 . }
+  pe:builtin math:sum.
+
+{ (0.2375 0.3125) math:quotient 0.76 . }
+  pe:builtin math:quotient.
+
+{ 0.76 math:lessThan 0.9 . }
+  pe:builtin math:lessThan.
+
+{ :RareMassScreening :rejectsPositiveInWorld :W2 . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "S"; pe:value :RareMassScreening ],
+    [ pe:var "p"; pe:value 0.001 ];
+  pe:uses
+    { :RareMassScreening :prevalence 0.001 . },
+    { 0.001 math:lessThan 0.05 . }.
+
+{ 0.001 math:lessThan 0.05 . }
+  pe:builtin math:lessThan.
+
+{ :CommonMassLowSpec :rejectsPositiveInWorld :W2 . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "S"; pe:value :CommonMassLowSpec ],
+    [ pe:var "Sp"; pe:value 0.90 ];
+  pe:uses
+    { :CommonMassLowSpec :specificity 0.90 . },
+    { 0.90 math:lessThan 0.95 . }.
+
+{ 0.90 math:lessThan 0.95 . }
+  pe:builtin math:lessThan.
+
+{ :RareMassScreening :rejectsPositiveInWorld :W3 . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.09016393442622944 ],
+    [ pe:var "S"; pe:value :RareMassScreening ];
+  pe:uses
+    { :RareMassScreening :ppv_Bayes 0.09016393442622944 . },
+    { 0.09016393442622944 math:lessThan 0.915 . }.
+
+{ 0.09016393442622944 math:lessThan 0.915 . }
+  pe:builtin math:lessThan.
+
+{ :CommonMassGoodTest :rejectsPositiveInWorld :W3 . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.9134615384615384 ],
+    [ pe:var "S"; pe:value :CommonMassGoodTest ];
+  pe:uses
+    { :CommonMassGoodTest :ppv_Bayes 0.9134615384615384 . },
+    { 0.9134615384615384 math:lessThan 0.915 . }.
+
+{ 0.9134615384615384 math:lessThan 0.915 . }
+  pe:builtin math:lessThan.
+
+{ :CommonMassLowSpec :rejectsPositiveInWorld :W3 . }
+  pe:rule 11;
+  pe:binding
+    [ pe:var "PPV"; pe:value 0.76 ],
+    [ pe:var "S"; pe:value :CommonMassLowSpec ];
+  pe:uses
+    { :CommonMassLowSpec :ppv_Bayes 0.76 . },
+    { 0.76 math:lessThan 0.915 . }.
+
+{ 0.76 math:lessThan 0.915 . }
+  pe:builtin math:lessThan.

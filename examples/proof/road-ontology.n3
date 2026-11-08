@@ -1,0 +1,105 @@
+@prefix : <http://www.agfa.com/w3c/euler/graph.axiom#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:paris :path :nantes .
+
+{ :paris :path :nantes . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "O"; pe:value :nantes ],
+    [ pe:var "P"; pe:value :path ],
+    [ pe:var "S"; pe:value :paris ],
+    [ pe:var "X"; pe:value :angers ];
+  pe:uses
+    { :path a owl:TransitiveProperty . },
+    { :angers :path :nantes . },
+    { :paris :path :angers . }.
+
+{ :path a owl:TransitiveProperty . }
+  pe:fact "road-ontology.n3".
+
+{ :angers :path :nantes . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "O"; pe:value :nantes ],
+    [ pe:var "P"; pe:value :oneway ],
+    [ pe:var "R"; pe:value :path ],
+    [ pe:var "S"; pe:value :angers ];
+  pe:uses
+    { :oneway rdfs:subPropertyOf :path . },
+    { :angers :oneway :nantes . }.
+
+{ :oneway rdfs:subPropertyOf :path . }
+  pe:fact "road-ontology.n3".
+
+{ :angers :oneway :nantes . }
+  pe:fact "road-ontology.n3".
+
+{ :paris :path :angers . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "O"; pe:value :angers ],
+    [ pe:var "P"; pe:value :path ],
+    [ pe:var "S"; pe:value :paris ],
+    [ pe:var "X"; pe:value :chartres ];
+  pe:uses
+    { :path a owl:TransitiveProperty . },
+    { :chartres :path :angers . },
+    { :paris :path :chartres . }.
+
+{ :chartres :path :angers . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "O"; pe:value :angers ],
+    [ pe:var "P"; pe:value :path ],
+    [ pe:var "S"; pe:value :chartres ],
+    [ pe:var "X"; pe:value :lemans ];
+  pe:uses
+    { :path a owl:TransitiveProperty . },
+    { :lemans :path :angers . },
+    { :chartres :path :lemans . }.
+
+{ :lemans :path :angers . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "O"; pe:value :angers ],
+    [ pe:var "P"; pe:value :oneway ],
+    [ pe:var "R"; pe:value :path ],
+    [ pe:var "S"; pe:value :lemans ];
+  pe:uses
+    { :oneway rdfs:subPropertyOf :path . },
+    { :lemans :oneway :angers . }.
+
+{ :lemans :oneway :angers . }
+  pe:fact "road-ontology.n3".
+
+{ :chartres :path :lemans . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "O"; pe:value :lemans ],
+    [ pe:var "P"; pe:value :oneway ],
+    [ pe:var "R"; pe:value :path ],
+    [ pe:var "S"; pe:value :chartres ];
+  pe:uses
+    { :oneway rdfs:subPropertyOf :path . },
+    { :chartres :oneway :lemans . }.
+
+{ :chartres :oneway :lemans . }
+  pe:fact "road-ontology.n3".
+
+{ :paris :path :chartres . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "O"; pe:value :chartres ],
+    [ pe:var "P"; pe:value :oneway ],
+    [ pe:var "R"; pe:value :path ],
+    [ pe:var "S"; pe:value :paris ];
+  pe:uses
+    { :oneway rdfs:subPropertyOf :path . },
+    { :paris :oneway :chartres . }.
+
+{ :paris :oneway :chartres . }
+  pe:fact "road-ontology.n3".

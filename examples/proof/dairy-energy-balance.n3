@@ -1,0 +1,502 @@
+@prefix : <http://example.org/dairy#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:EarlyLactDeficit :energyBalance -43.5 .
+:MidLactBalanced :energyBalance 7.049999999999983 .
+:LateLactPositive :energyBalance 20.400000000000006 .
+:PastureLowEnergy :energyBalance -8.000000000000014 .
+:EarlyLactDeficit :energyStatus "negative" .
+:MidLactBalanced :energyStatus "near" .
+:PastureLowEnergy :energyStatus "near" .
+:LateLactPositive :energyStatus "positive" .
+:EarlyLactDeficit :milkSupported 26.40625 .
+:MidLactBalanced :milkSupported 30.203125 .
+:LateLactPositive :milkSupported 24.375 .
+:PastureLowEnergy :milkSupported 11.499999999999998 .
+
+{ :EarlyLactDeficit :energyBalance -43.5 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "C"; pe:value :EarlyLactDeficit ],
+    [ pe:var "EB"; pe:value -43.5 ],
+    [ pe:var "Req"; pe:value "180"^^xsd:decimal ],
+    [ pe:var "Sup"; pe:value 136.5 ];
+  pe:uses
+    { :EarlyLactDeficit :energySupply 136.5 . },
+    { :EarlyLactDeficit :energyReq "180"^^xsd:decimal . },
+    { (136.5 "180"^^xsd:decimal) math:difference -43.5 . }.
+
+{ :EarlyLactDeficit :energySupply 136.5 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :EarlyLactDeficit ],
+    [ pe:var "DMI"; pe:value 21.0 ],
+    [ pe:var "NEL"; pe:value 6.5 ],
+    [ pe:var "Sup"; pe:value 136.5 ];
+  pe:uses
+    { :EarlyLactDeficit :nelDensity 6.5 . },
+    { :EarlyLactDeficit :dmi 21.0 . },
+    { (6.5 21.0) math:product 136.5 . }.
+
+{ :EarlyLactDeficit :nelDensity 6.5 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ :EarlyLactDeficit :dmi 21.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (6.5 21.0) math:product 136.5 . }
+  pe:builtin math:product.
+
+{ :EarlyLactDeficit :energyReq "180"^^xsd:decimal . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :EarlyLactDeficit ],
+    [ pe:var "Req"; pe:value "180"^^xsd:decimal ],
+    [ pe:var "mNEL"; pe:value "52"^^xsd:decimal ],
+    [ pe:var "milkE"; pe:value "128"^^xsd:decimal ];
+  pe:uses
+    { :EarlyLactDeficit :maintenanceNEL "52"^^xsd:decimal . },
+    { :EarlyLactDeficit :milkNEL "128"^^xsd:decimal . },
+    { ("52"^^xsd:decimal "128"^^xsd:decimal) math:sum "180"^^xsd:decimal . }.
+
+{ :EarlyLactDeficit :maintenanceNEL "52"^^xsd:decimal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "BW"; pe:value 650.0 ],
+    [ pe:var "C"; pe:value :EarlyLactDeficit ],
+    [ pe:var "mNEL"; pe:value "52"^^xsd:decimal ];
+  pe:uses
+    { :EarlyLactDeficit a :Cow . },
+    { :EarlyLactDeficit :bodyWeight 650.0 . },
+    { (650.0 0.08) math:product "52"^^xsd:decimal . }.
+
+{ :EarlyLactDeficit a :Cow . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ :EarlyLactDeficit :bodyWeight 650.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (650.0 0.08) math:product "52"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :EarlyLactDeficit :milkNEL "128"^^xsd:decimal . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :EarlyLactDeficit ],
+    [ pe:var "MY"; pe:value 40.0 ],
+    [ pe:var "milkE"; pe:value "128"^^xsd:decimal ];
+  pe:uses
+    { :EarlyLactDeficit a :Cow . },
+    { :EarlyLactDeficit :milkYield 40.0 . },
+    { (40.0 3.2) math:product "128"^^xsd:decimal . }.
+
+{ :EarlyLactDeficit :milkYield 40.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (40.0 3.2) math:product "128"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ ("52"^^xsd:decimal "128"^^xsd:decimal) math:sum "180"^^xsd:decimal . }
+  pe:builtin math:sum.
+
+{ (136.5 "180"^^xsd:decimal) math:difference -43.5 . }
+  pe:builtin math:difference.
+
+{ :MidLactBalanced :energyBalance 7.049999999999983 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "C"; pe:value :MidLactBalanced ],
+    [ pe:var "EB"; pe:value 7.049999999999983 ],
+    [ pe:var "Req"; pe:value 139.20000000000002 ],
+    [ pe:var "Sup"; pe:value 146.25 ];
+  pe:uses
+    { :MidLactBalanced :energySupply 146.25 . },
+    { :MidLactBalanced :energyReq 139.20000000000002 . },
+    { (146.25 139.20000000000002) math:difference 7.049999999999983 . }.
+
+{ :MidLactBalanced :energySupply 146.25 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :MidLactBalanced ],
+    [ pe:var "DMI"; pe:value 22.5 ],
+    [ pe:var "NEL"; pe:value 6.5 ],
+    [ pe:var "Sup"; pe:value 146.25 ];
+  pe:uses
+    { :MidLactBalanced :nelDensity 6.5 . },
+    { :MidLactBalanced :dmi 22.5 . },
+    { (6.5 22.5) math:product 146.25 . }.
+
+{ :MidLactBalanced :nelDensity 6.5 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ :MidLactBalanced :dmi 22.5 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (6.5 22.5) math:product 146.25 . }
+  pe:builtin math:product.
+
+{ :MidLactBalanced :energyReq 139.20000000000002 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :MidLactBalanced ],
+    [ pe:var "Req"; pe:value 139.20000000000002 ],
+    [ pe:var "mNEL"; pe:value 49.6 ],
+    [ pe:var "milkE"; pe:value 89.60000000000001 ];
+  pe:uses
+    { :MidLactBalanced :maintenanceNEL 49.6 . },
+    { :MidLactBalanced :milkNEL 89.60000000000001 . },
+    { (49.6 89.60000000000001) math:sum 139.20000000000002 . }.
+
+{ :MidLactBalanced :maintenanceNEL 49.6 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "BW"; pe:value 620.0 ],
+    [ pe:var "C"; pe:value :MidLactBalanced ],
+    [ pe:var "mNEL"; pe:value 49.6 ];
+  pe:uses
+    { :MidLactBalanced a :Cow . },
+    { :MidLactBalanced :bodyWeight 620.0 . },
+    { (620.0 0.08) math:product 49.6 . }.
+
+{ :MidLactBalanced a :Cow . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ :MidLactBalanced :bodyWeight 620.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (620.0 0.08) math:product 49.6 . }
+  pe:builtin math:product.
+
+{ :MidLactBalanced :milkNEL 89.60000000000001 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :MidLactBalanced ],
+    [ pe:var "MY"; pe:value 28.0 ],
+    [ pe:var "milkE"; pe:value 89.60000000000001 ];
+  pe:uses
+    { :MidLactBalanced a :Cow . },
+    { :MidLactBalanced :milkYield 28.0 . },
+    { (28.0 3.2) math:product 89.60000000000001 . }.
+
+{ :MidLactBalanced :milkYield 28.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (28.0 3.2) math:product 89.60000000000001 . }
+  pe:builtin math:product.
+
+{ (49.6 89.60000000000001) math:sum 139.20000000000002 . }
+  pe:builtin math:sum.
+
+{ (146.25 139.20000000000002) math:difference 7.049999999999983 . }
+  pe:builtin math:difference.
+
+{ :LateLactPositive :energyBalance 20.400000000000006 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "C"; pe:value :LateLactPositive ],
+    [ pe:var "EB"; pe:value 20.400000000000006 ],
+    [ pe:var "Req"; pe:value 109.6 ],
+    [ pe:var "Sup"; pe:value "130"^^xsd:decimal ];
+  pe:uses
+    { :LateLactPositive :energySupply "130"^^xsd:decimal . },
+    { :LateLactPositive :energyReq 109.6 . },
+    { ("130"^^xsd:decimal 109.6) math:difference 20.400000000000006 . }.
+
+{ :LateLactPositive :energySupply "130"^^xsd:decimal . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :LateLactPositive ],
+    [ pe:var "DMI"; pe:value 20.0 ],
+    [ pe:var "NEL"; pe:value 6.5 ],
+    [ pe:var "Sup"; pe:value "130"^^xsd:decimal ];
+  pe:uses
+    { :LateLactPositive :nelDensity 6.5 . },
+    { :LateLactPositive :dmi 20.0 . },
+    { (6.5 20.0) math:product "130"^^xsd:decimal . }.
+
+{ :LateLactPositive :nelDensity 6.5 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ :LateLactPositive :dmi 20.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (6.5 20.0) math:product "130"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :LateLactPositive :energyReq 109.6 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :LateLactPositive ],
+    [ pe:var "Req"; pe:value 109.6 ],
+    [ pe:var "mNEL"; pe:value "52"^^xsd:decimal ],
+    [ pe:var "milkE"; pe:value 57.6 ];
+  pe:uses
+    { :LateLactPositive :maintenanceNEL "52"^^xsd:decimal . },
+    { :LateLactPositive :milkNEL 57.6 . },
+    { ("52"^^xsd:decimal 57.6) math:sum 109.6 . }.
+
+{ :LateLactPositive :maintenanceNEL "52"^^xsd:decimal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "BW"; pe:value 650.0 ],
+    [ pe:var "C"; pe:value :LateLactPositive ],
+    [ pe:var "mNEL"; pe:value "52"^^xsd:decimal ];
+  pe:uses
+    { :LateLactPositive a :Cow . },
+    { :LateLactPositive :bodyWeight 650.0 . },
+    { (650.0 0.08) math:product "52"^^xsd:decimal . }.
+
+{ :LateLactPositive a :Cow . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ :LateLactPositive :bodyWeight 650.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ :LateLactPositive :milkNEL 57.6 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :LateLactPositive ],
+    [ pe:var "MY"; pe:value 18.0 ],
+    [ pe:var "milkE"; pe:value 57.6 ];
+  pe:uses
+    { :LateLactPositive a :Cow . },
+    { :LateLactPositive :milkYield 18.0 . },
+    { (18.0 3.2) math:product 57.6 . }.
+
+{ :LateLactPositive :milkYield 18.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (18.0 3.2) math:product 57.6 . }
+  pe:builtin math:product.
+
+{ ("52"^^xsd:decimal 57.6) math:sum 109.6 . }
+  pe:builtin math:sum.
+
+{ ("130"^^xsd:decimal 109.6) math:difference 20.400000000000006 . }
+  pe:builtin math:difference.
+
+{ :PastureLowEnergy :energyBalance -8.000000000000014 . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "C"; pe:value :PastureLowEnergy ],
+    [ pe:var "EB"; pe:value -8.000000000000014 ],
+    [ pe:var "Req"; pe:value 92.80000000000001 ],
+    [ pe:var "Sup"; pe:value 84.8 ];
+  pe:uses
+    { :PastureLowEnergy :energySupply 84.8 . },
+    { :PastureLowEnergy :energyReq 92.80000000000001 . },
+    { (84.8 92.80000000000001) math:difference -8.000000000000014 . }.
+
+{ :PastureLowEnergy :energySupply 84.8 . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "C"; pe:value :PastureLowEnergy ],
+    [ pe:var "DMI"; pe:value 16.0 ],
+    [ pe:var "NEL"; pe:value 5.3 ],
+    [ pe:var "Sup"; pe:value 84.8 ];
+  pe:uses
+    { :PastureLowEnergy :nelDensity 5.3 . },
+    { :PastureLowEnergy :dmi 16.0 . },
+    { (5.3 16.0) math:product 84.8 . }.
+
+{ :PastureLowEnergy :nelDensity 5.3 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ :PastureLowEnergy :dmi 16.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (5.3 16.0) math:product 84.8 . }
+  pe:builtin math:product.
+
+{ :PastureLowEnergy :energyReq 92.80000000000001 . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "C"; pe:value :PastureLowEnergy ],
+    [ pe:var "Req"; pe:value 92.80000000000001 ],
+    [ pe:var "mNEL"; pe:value "48"^^xsd:decimal ],
+    [ pe:var "milkE"; pe:value 44.800000000000004 ];
+  pe:uses
+    { :PastureLowEnergy :maintenanceNEL "48"^^xsd:decimal . },
+    { :PastureLowEnergy :milkNEL 44.800000000000004 . },
+    { ("48"^^xsd:decimal 44.800000000000004) math:sum 92.80000000000001 . }.
+
+{ :PastureLowEnergy :maintenanceNEL "48"^^xsd:decimal . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "BW"; pe:value 600.0 ],
+    [ pe:var "C"; pe:value :PastureLowEnergy ],
+    [ pe:var "mNEL"; pe:value "48"^^xsd:decimal ];
+  pe:uses
+    { :PastureLowEnergy a :Cow . },
+    { :PastureLowEnergy :bodyWeight 600.0 . },
+    { (600.0 0.08) math:product "48"^^xsd:decimal . }.
+
+{ :PastureLowEnergy a :Cow . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ :PastureLowEnergy :bodyWeight 600.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (600.0 0.08) math:product "48"^^xsd:decimal . }
+  pe:builtin math:product.
+
+{ :PastureLowEnergy :milkNEL 44.800000000000004 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "C"; pe:value :PastureLowEnergy ],
+    [ pe:var "MY"; pe:value 14.0 ],
+    [ pe:var "milkE"; pe:value 44.800000000000004 ];
+  pe:uses
+    { :PastureLowEnergy a :Cow . },
+    { :PastureLowEnergy :milkYield 14.0 . },
+    { (14.0 3.2) math:product 44.800000000000004 . }.
+
+{ :PastureLowEnergy :milkYield 14.0 . }
+  pe:fact "dairy-energy-balance.n3".
+
+{ (14.0 3.2) math:product 44.800000000000004 . }
+  pe:builtin math:product.
+
+{ ("48"^^xsd:decimal 44.800000000000004) math:sum 92.80000000000001 . }
+  pe:builtin math:sum.
+
+{ (84.8 92.80000000000001) math:difference -8.000000000000014 . }
+  pe:builtin math:difference.
+
+{ :EarlyLactDeficit :energyStatus "negative" . }
+  pe:rule 7;
+  pe:binding
+    [ pe:var "C"; pe:value :EarlyLactDeficit ],
+    [ pe:var "EB"; pe:value -43.5 ];
+  pe:uses
+    { :EarlyLactDeficit :energyBalance -43.5 . },
+    { -43.5 math:lessThan -10.0 . }.
+
+{ -43.5 math:lessThan -10.0 . }
+  pe:builtin math:lessThan.
+
+{ :MidLactBalanced :energyStatus "near" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "C"; pe:value :MidLactBalanced ],
+    [ pe:var "EB"; pe:value 7.049999999999983 ];
+  pe:uses
+    { :MidLactBalanced :energyBalance 7.049999999999983 . },
+    { 7.049999999999983 math:notLessThan -10.0 . },
+    { 7.049999999999983 math:notGreaterThan 10.0 . }.
+
+{ 7.049999999999983 math:notLessThan -10.0 . }
+  pe:builtin math:notLessThan.
+
+{ 7.049999999999983 math:notGreaterThan 10.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :PastureLowEnergy :energyStatus "near" . }
+  pe:rule 8;
+  pe:binding
+    [ pe:var "C"; pe:value :PastureLowEnergy ],
+    [ pe:var "EB"; pe:value -8.000000000000014 ];
+  pe:uses
+    { :PastureLowEnergy :energyBalance -8.000000000000014 . },
+    { -8.000000000000014 math:notLessThan -10.0 . },
+    { -8.000000000000014 math:notGreaterThan 10.0 . }.
+
+{ -8.000000000000014 math:notLessThan -10.0 . }
+  pe:builtin math:notLessThan.
+
+{ -8.000000000000014 math:notGreaterThan 10.0 . }
+  pe:builtin math:notGreaterThan.
+
+{ :LateLactPositive :energyStatus "positive" . }
+  pe:rule 9;
+  pe:binding
+    [ pe:var "C"; pe:value :LateLactPositive ],
+    [ pe:var "EB"; pe:value 20.400000000000006 ];
+  pe:uses
+    { :LateLactPositive :energyBalance 20.400000000000006 . },
+    { 20.400000000000006 math:greaterThan 10.0 . }.
+
+{ 20.400000000000006 math:greaterThan 10.0 . }
+  pe:builtin math:greaterThan.
+
+{ :EarlyLactDeficit :milkSupported 26.40625 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "C"; pe:value :EarlyLactDeficit ],
+    [ pe:var "Eabove"; pe:value 84.5 ],
+    [ pe:var "MS"; pe:value 26.40625 ],
+    [ pe:var "Sup"; pe:value 136.5 ],
+    [ pe:var "mNEL"; pe:value "52"^^xsd:decimal ];
+  pe:uses
+    { :EarlyLactDeficit :energySupply 136.5 . },
+    { :EarlyLactDeficit :maintenanceNEL "52"^^xsd:decimal . },
+    { (136.5 "52"^^xsd:decimal) math:difference 84.5 . },
+    { (84.5 3.2) math:quotient 26.40625 . }.
+
+{ (136.5 "52"^^xsd:decimal) math:difference 84.5 . }
+  pe:builtin math:difference.
+
+{ (84.5 3.2) math:quotient 26.40625 . }
+  pe:builtin math:quotient.
+
+{ :MidLactBalanced :milkSupported 30.203125 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "C"; pe:value :MidLactBalanced ],
+    [ pe:var "Eabove"; pe:value 96.65 ],
+    [ pe:var "MS"; pe:value 30.203125 ],
+    [ pe:var "Sup"; pe:value 146.25 ],
+    [ pe:var "mNEL"; pe:value 49.6 ];
+  pe:uses
+    { :MidLactBalanced :energySupply 146.25 . },
+    { :MidLactBalanced :maintenanceNEL 49.6 . },
+    { (146.25 49.6) math:difference 96.65 . },
+    { (96.65 3.2) math:quotient 30.203125 . }.
+
+{ (146.25 49.6) math:difference 96.65 . }
+  pe:builtin math:difference.
+
+{ (96.65 3.2) math:quotient 30.203125 . }
+  pe:builtin math:quotient.
+
+{ :LateLactPositive :milkSupported 24.375 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "C"; pe:value :LateLactPositive ],
+    [ pe:var "Eabove"; pe:value "78"^^xsd:decimal ],
+    [ pe:var "MS"; pe:value 24.375 ],
+    [ pe:var "Sup"; pe:value "130"^^xsd:decimal ],
+    [ pe:var "mNEL"; pe:value "52"^^xsd:decimal ];
+  pe:uses
+    { :LateLactPositive :energySupply "130"^^xsd:decimal . },
+    { :LateLactPositive :maintenanceNEL "52"^^xsd:decimal . },
+    { ("130"^^xsd:decimal "52"^^xsd:decimal) math:difference "78"^^xsd:decimal . },
+    { ("78"^^xsd:decimal 3.2) math:quotient 24.375 . }.
+
+{ ("130"^^xsd:decimal "52"^^xsd:decimal) math:difference "78"^^xsd:decimal . }
+  pe:builtin math:difference.
+
+{ ("78"^^xsd:decimal 3.2) math:quotient 24.375 . }
+  pe:builtin math:quotient.
+
+{ :PastureLowEnergy :milkSupported 11.499999999999998 . }
+  pe:rule 6;
+  pe:binding
+    [ pe:var "C"; pe:value :PastureLowEnergy ],
+    [ pe:var "Eabove"; pe:value 36.8 ],
+    [ pe:var "MS"; pe:value 11.499999999999998 ],
+    [ pe:var "Sup"; pe:value 84.8 ],
+    [ pe:var "mNEL"; pe:value "48"^^xsd:decimal ];
+  pe:uses
+    { :PastureLowEnergy :energySupply 84.8 . },
+    { :PastureLowEnergy :maintenanceNEL "48"^^xsd:decimal . },
+    { (84.8 "48"^^xsd:decimal) math:difference 36.8 . },
+    { (36.8 3.2) math:quotient 11.499999999999998 . }.
+
+{ (84.8 "48"^^xsd:decimal) math:difference 36.8 . }
+  pe:builtin math:difference.
+
+{ (36.8 3.2) math:quotient 11.499999999999998 . }
+  pe:builtin math:quotient.

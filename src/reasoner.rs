@@ -2320,7 +2320,7 @@ fn is_builtin_premise(triple: &Triple) -> bool {
     is_builtin_iri(iri)
 }
 
-fn is_builtin_iri(iri: &str) -> bool {
+pub(crate) fn is_builtin_iri(iri: &str) -> bool {
     matches!(iri,
         LOG_EQUAL_TO | LOG_NOT_EQUAL_TO | LOG_COLLECT_ALL_IN | LOG_FOR_ALL_IN
         | LOG_CONCLUSION | LOG_CONJUNCTION | LOG_INCLUDES | LOG_NOT_INCLUDES | LOG_URI

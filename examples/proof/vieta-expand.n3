@@ -1,0 +1,1184 @@
+@prefix : <http://example.org/#> .
+@prefix complex: <https://eyereasoner.github.io/eye/complex#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:poly1 :verified true .
+:poly2 :verified true .
+
+{ :poly1 :verified true . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "C"; pe:value ((1 0) (-10 0) (35 0) (-50 0) (24 0)) ],
+    [ pe:var "P"; pe:value :poly1 ];
+  pe:uses
+    { :poly1 :coeffsGiven ((1 0) (-10 0) (35 0) (-50 0) (24 0)) . },
+    { :poly1 :coeffsComputed ((1 0) (-10 0) (35 0) (-50 0) (24 0)) . }.
+
+{ :poly1 :coeffsGiven ((1 0) (-10 0) (35 0) (-50 0) (24 0)) . }
+  pe:fact "vieta-expand.n3".
+
+{ :poly1 :coeffsComputed ((1 0) (-10 0) (35 0) (-50 0) (24 0)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A0"; pe:value (24 0) ],
+    [ pe:var "A1"; pe:value (-50 0) ],
+    [ pe:var "A2"; pe:value (35 0) ],
+    [ pe:var "A3"; pe:value (-10 0) ],
+    [ pe:var "P"; pe:value :poly1 ],
+    [ pe:var "P12"; pe:value (2 0) ],
+    [ pe:var "P13"; pe:value (3 0) ],
+    [ pe:var "P14"; pe:value (4 0) ],
+    [ pe:var "P23"; pe:value (6 0) ],
+    [ pe:var "P24"; pe:value (8 0) ],
+    [ pe:var "P34"; pe:value (12 0) ],
+    [ pe:var "R1"; pe:value (1 0) ],
+    [ pe:var "R2"; pe:value (2 0) ],
+    [ pe:var "R3"; pe:value (3 0) ],
+    [ pe:var "R4"; pe:value (4 0) ],
+    [ pe:var "S1"; pe:value (10 0) ],
+    [ pe:var "S12"; pe:value (3 0) ],
+    [ pe:var "S123"; pe:value (6 0) ],
+    [ pe:var "S3"; pe:value (50 0) ],
+    [ pe:var "T1"; pe:value (5 0) ],
+    [ pe:var "T123"; pe:value (6 0) ],
+    [ pe:var "T124"; pe:value (8 0) ],
+    [ pe:var "T134"; pe:value (12 0) ],
+    [ pe:var "T2"; pe:value (9 0) ],
+    [ pe:var "T234"; pe:value (24 0) ],
+    [ pe:var "T3"; pe:value (15 0) ],
+    [ pe:var "T4"; pe:value (23 0) ],
+    [ pe:var "U1"; pe:value (14 0) ],
+    [ pe:var "U2"; pe:value (26 0) ];
+  pe:uses
+    { :poly1 :roots ((1 0) (2 0) (3 0) (4 0)) . },
+    { ((1 0) (2 0)) complex:sum (3 0) . },
+    { ((3 0) (3 0)) complex:sum (6 0) . },
+    { ((6 0) (4 0)) complex:sum (10 0) . },
+    { (10 0) complex:negation (-10 0) . },
+    { ((1 0) (2 0)) complex:product (2 0) . },
+    { ((1 0) (3 0)) complex:product (3 0) . },
+    { ((1 0) (4 0)) complex:product (4 0) . },
+    { ((2 0) (3 0)) complex:product (6 0) . },
+    { ((2 0) (4 0)) complex:product (8 0) . },
+    { ((3 0) (4 0)) complex:product (12 0) . },
+    { ((2 0) (3 0)) complex:sum (5 0) . },
+    { ((5 0) (4 0)) complex:sum (9 0) . },
+    { ((9 0) (6 0)) complex:sum (15 0) . },
+    { ((15 0) (8 0)) complex:sum (23 0) . },
+    { ((23 0) (12 0)) complex:sum (35 0) . },
+    { ((2 0) (3 0)) complex:product (6 0) . },
+    { ((2 0) (4 0)) complex:product (8 0) . },
+    { ((3 0) (4 0)) complex:product (12 0) . },
+    { ((6 0) (4 0)) complex:product (24 0) . },
+    { ((6 0) (8 0)) complex:sum (14 0) . },
+    { ((14 0) (12 0)) complex:sum (26 0) . },
+    { ((26 0) (24 0)) complex:sum (50 0) . },
+    { (50 0) complex:negation (-50 0) . },
+    { ((2 0) (12 0)) complex:product (24 0) . }.
+
+{ :poly1 :roots ((1 0) (2 0) (3 0) (4 0)) . }
+  pe:fact "vieta-expand.n3".
+
+{ ((1 0) (2 0)) complex:sum (3 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 3 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (1 2) math:sum 3 . },
+    { (0 0) math:sum 0 . }.
+
+{ (1 2) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ (0 0) math:sum 0 . }
+  pe:builtin math:sum.
+
+{ ((3 0) (3 0)) complex:sum (6 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 3 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 6 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (3 3) math:sum 6 . },
+    { (0 0) math:sum 0 . }.
+
+{ (3 3) math:sum 6 . }
+  pe:builtin math:sum.
+
+{ ((6 0) (4 0)) complex:sum (10 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 6 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 4 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 10 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (6 4) math:sum 10 . },
+    { (0 0) math:sum 0 . }.
+
+{ (6 4) math:sum 10 . }
+  pe:builtin math:sum.
+
+{ (10 0) complex:negation (-10 0) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 10 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "E"; pe:value -10 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { 10 math:negation -10 . },
+    { 0 math:negation 0 . }.
+
+{ 10 math:negation -10 . }
+  pe:builtin math:negation.
+
+{ 0 math:negation 0 . }
+  pe:builtin math:negation.
+
+{ ((1 0) (2 0)) complex:product (2 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "AC"; pe:value 2 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "BC"; pe:value 0 ],
+    [ pe:var "BD"; pe:value 0 ],
+    [ pe:var "C"; pe:value 2 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 2 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (1 2) math:product 2 . },
+    { (0 0) math:product 0 . },
+    { (2 0) math:difference 2 . },
+    { (1 0) math:product 0 . },
+    { (0 2) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (1 2) math:product 2 . }
+  pe:builtin math:product.
+
+{ (0 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ (2 0) math:difference 2 . }
+  pe:builtin math:difference.
+
+{ (1 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ (0 2) math:product 0 . }
+  pe:builtin math:product.
+
+{ ((1 0) (3 0)) complex:product (3 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "AC"; pe:value 3 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "BC"; pe:value 0 ],
+    [ pe:var "BD"; pe:value 0 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 3 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (1 3) math:product 3 . },
+    { (0 0) math:product 0 . },
+    { (3 0) math:difference 3 . },
+    { (1 0) math:product 0 . },
+    { (0 3) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (1 3) math:product 3 . }
+  pe:builtin math:product.
+
+{ (3 0) math:difference 3 . }
+  pe:builtin math:difference.
+
+{ (0 3) math:product 0 . }
+  pe:builtin math:product.
+
+{ ((1 0) (4 0)) complex:product (4 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "AC"; pe:value 4 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "BC"; pe:value 0 ],
+    [ pe:var "BD"; pe:value 0 ],
+    [ pe:var "C"; pe:value 4 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 4 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (1 4) math:product 4 . },
+    { (0 0) math:product 0 . },
+    { (4 0) math:difference 4 . },
+    { (1 0) math:product 0 . },
+    { (0 4) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (1 4) math:product 4 . }
+  pe:builtin math:product.
+
+{ (4 0) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ (0 4) math:product 0 . }
+  pe:builtin math:product.
+
+{ ((2 0) (3 0)) complex:product (6 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "AC"; pe:value 6 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "BC"; pe:value 0 ],
+    [ pe:var "BD"; pe:value 0 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 6 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (2 3) math:product 6 . },
+    { (0 0) math:product 0 . },
+    { (6 0) math:difference 6 . },
+    { (2 0) math:product 0 . },
+    { (0 3) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (2 3) math:product 6 . }
+  pe:builtin math:product.
+
+{ (6 0) math:difference 6 . }
+  pe:builtin math:difference.
+
+{ (2 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ ((2 0) (4 0)) complex:product (8 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "AC"; pe:value 8 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "BC"; pe:value 0 ],
+    [ pe:var "BD"; pe:value 0 ],
+    [ pe:var "C"; pe:value 4 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 8 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (2 4) math:product 8 . },
+    { (0 0) math:product 0 . },
+    { (8 0) math:difference 8 . },
+    { (2 0) math:product 0 . },
+    { (0 4) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (2 4) math:product 8 . }
+  pe:builtin math:product.
+
+{ (8 0) math:difference 8 . }
+  pe:builtin math:difference.
+
+{ ((3 0) (4 0)) complex:product (12 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 3 ],
+    [ pe:var "AC"; pe:value 12 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "BC"; pe:value 0 ],
+    [ pe:var "BD"; pe:value 0 ],
+    [ pe:var "C"; pe:value 4 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 12 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (3 4) math:product 12 . },
+    { (0 0) math:product 0 . },
+    { (12 0) math:difference 12 . },
+    { (3 0) math:product 0 . },
+    { (0 4) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (3 4) math:product 12 . }
+  pe:builtin math:product.
+
+{ (12 0) math:difference 12 . }
+  pe:builtin math:difference.
+
+{ (3 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ ((2 0) (3 0)) complex:sum (5 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 5 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (2 3) math:sum 5 . },
+    { (0 0) math:sum 0 . }.
+
+{ (2 3) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ ((5 0) (4 0)) complex:sum (9 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 5 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 4 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 9 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (5 4) math:sum 9 . },
+    { (0 0) math:sum 0 . }.
+
+{ (5 4) math:sum 9 . }
+  pe:builtin math:sum.
+
+{ ((9 0) (6 0)) complex:sum (15 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 9 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 6 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 15 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (9 6) math:sum 15 . },
+    { (0 0) math:sum 0 . }.
+
+{ (9 6) math:sum 15 . }
+  pe:builtin math:sum.
+
+{ ((15 0) (8 0)) complex:sum (23 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 15 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 8 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 23 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (15 8) math:sum 23 . },
+    { (0 0) math:sum 0 . }.
+
+{ (15 8) math:sum 23 . }
+  pe:builtin math:sum.
+
+{ ((23 0) (12 0)) complex:sum (35 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 23 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 12 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 35 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (23 12) math:sum 35 . },
+    { (0 0) math:sum 0 . }.
+
+{ (23 12) math:sum 35 . }
+  pe:builtin math:sum.
+
+{ ((6 0) (4 0)) complex:product (24 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 6 ],
+    [ pe:var "AC"; pe:value 24 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "BC"; pe:value 0 ],
+    [ pe:var "BD"; pe:value 0 ],
+    [ pe:var "C"; pe:value 4 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 24 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (6 4) math:product 24 . },
+    { (0 0) math:product 0 . },
+    { (24 0) math:difference 24 . },
+    { (6 0) math:product 0 . },
+    { (0 4) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (6 4) math:product 24 . }
+  pe:builtin math:product.
+
+{ (24 0) math:difference 24 . }
+  pe:builtin math:difference.
+
+{ (6 0) math:product 0 . }
+  pe:builtin math:product.
+
+{ ((6 0) (8 0)) complex:sum (14 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 6 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 8 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 14 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (6 8) math:sum 14 . },
+    { (0 0) math:sum 0 . }.
+
+{ (6 8) math:sum 14 . }
+  pe:builtin math:sum.
+
+{ ((14 0) (12 0)) complex:sum (26 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 14 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 12 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 26 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (14 12) math:sum 26 . },
+    { (0 0) math:sum 0 . }.
+
+{ (14 12) math:sum 26 . }
+  pe:builtin math:sum.
+
+{ ((26 0) (24 0)) complex:sum (50 0) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 26 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "C"; pe:value 24 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 50 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (26 24) math:sum 50 . },
+    { (0 0) math:sum 0 . }.
+
+{ (26 24) math:sum 50 . }
+  pe:builtin math:sum.
+
+{ (50 0) complex:negation (-50 0) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 50 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "E"; pe:value -50 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { 50 math:negation -50 . },
+    { 0 math:negation 0 . }.
+
+{ 50 math:negation -50 . }
+  pe:builtin math:negation.
+
+{ ((2 0) (12 0)) complex:product (24 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 2 ],
+    [ pe:var "AC"; pe:value 24 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 0 ],
+    [ pe:var "BC"; pe:value 0 ],
+    [ pe:var "BD"; pe:value 0 ],
+    [ pe:var "C"; pe:value 12 ],
+    [ pe:var "D"; pe:value 0 ],
+    [ pe:var "E"; pe:value 24 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (2 12) math:product 24 . },
+    { (0 0) math:product 0 . },
+    { (24 0) math:difference 24 . },
+    { (2 0) math:product 0 . },
+    { (0 12) math:product 0 . },
+    { (0 0) math:sum 0 . }.
+
+{ (2 12) math:product 24 . }
+  pe:builtin math:product.
+
+{ (0 12) math:product 0 . }
+  pe:builtin math:product.
+
+{ :poly2 :verified true . }
+  pe:rule 5;
+  pe:binding
+    [ pe:var "C"; pe:value ((1 0) (-9 -5) (14 33) (24 -44) (-26 0)) ],
+    [ pe:var "P"; pe:value :poly2 ];
+  pe:uses
+    { :poly2 :coeffsGiven ((1 0) (-9 -5) (14 33) (24 -44) (-26 0)) . },
+    { :poly2 :coeffsComputed ((1 0) (-9 -5) (14 33) (24 -44) (-26 0)) . }.
+
+{ :poly2 :coeffsGiven ((1 0) (-9 -5) (14 33) (24 -44) (-26 0)) . }
+  pe:fact "vieta-expand.n3".
+
+{ :poly2 :coeffsComputed ((1 0) (-9 -5) (14 33) (24 -44) (-26 0)) . }
+  pe:rule 4;
+  pe:binding
+    [ pe:var "A0"; pe:value (-26 0) ],
+    [ pe:var "A1"; pe:value (24 -44) ],
+    [ pe:var "A2"; pe:value (14 33) ],
+    [ pe:var "A3"; pe:value (-9 -5) ],
+    [ pe:var "P"; pe:value :poly2 ],
+    [ pe:var "P12"; pe:value (-1 1) ],
+    [ pe:var "P13"; pe:value (-2 3) ],
+    [ pe:var "P14"; pe:value (-1 5) ],
+    [ pe:var "P23"; pe:value (1 5) ],
+    [ pe:var "P24"; pe:value (4 6) ],
+    [ pe:var "P34"; pe:value (13 13) ],
+    [ pe:var "R1"; pe:value (0 1) ],
+    [ pe:var "R2"; pe:value (1 1) ],
+    [ pe:var "R3"; pe:value (3 2) ],
+    [ pe:var "R4"; pe:value (5 1) ],
+    [ pe:var "S1"; pe:value (9 5) ],
+    [ pe:var "S12"; pe:value (1 2) ],
+    [ pe:var "S123"; pe:value (4 4) ],
+    [ pe:var "S3"; pe:value (-24 44) ],
+    [ pe:var "T1"; pe:value (-3 4) ],
+    [ pe:var "T123"; pe:value (-5 1) ],
+    [ pe:var "T124"; pe:value (-6 4) ],
+    [ pe:var "T134"; pe:value (-13 13) ],
+    [ pe:var "T2"; pe:value (-4 9) ],
+    [ pe:var "T234"; pe:value (0 26) ],
+    [ pe:var "T3"; pe:value (-3 14) ],
+    [ pe:var "T4"; pe:value (1 20) ],
+    [ pe:var "U1"; pe:value (-11 5) ],
+    [ pe:var "U2"; pe:value (-24 18) ];
+  pe:uses
+    { :poly2 :roots ((0 1) (1 1) (3 2) (5 1)) . },
+    { ((0 1) (1 1)) complex:sum (1 2) . },
+    { ((1 2) (3 2)) complex:sum (4 4) . },
+    { ((4 4) (5 1)) complex:sum (9 5) . },
+    { (9 5) complex:negation (-9 -5) . },
+    { ((0 1) (1 1)) complex:product (-1 1) . },
+    { ((0 1) (3 2)) complex:product (-2 3) . },
+    { ((0 1) (5 1)) complex:product (-1 5) . },
+    { ((1 1) (3 2)) complex:product (1 5) . },
+    { ((1 1) (5 1)) complex:product (4 6) . },
+    { ((3 2) (5 1)) complex:product (13 13) . },
+    { ((-1 1) (-2 3)) complex:sum (-3 4) . },
+    { ((-3 4) (-1 5)) complex:sum (-4 9) . },
+    { ((-4 9) (1 5)) complex:sum (-3 14) . },
+    { ((-3 14) (4 6)) complex:sum (1 20) . },
+    { ((1 20) (13 13)) complex:sum (14 33) . },
+    { ((-1 1) (3 2)) complex:product (-5 1) . },
+    { ((-1 1) (5 1)) complex:product (-6 4) . },
+    { ((-2 3) (5 1)) complex:product (-13 13) . },
+    { ((1 5) (5 1)) complex:product (0 26) . },
+    { ((-5 1) (-6 4)) complex:sum (-11 5) . },
+    { ((-11 5) (-13 13)) complex:sum (-24 18) . },
+    { ((-24 18) (0 26)) complex:sum (-24 44) . },
+    { (-24 44) complex:negation (24 -44) . },
+    { ((-1 1) (13 13)) complex:product (-26 0) . }.
+
+{ :poly2 :roots ((0 1) (1 1) (3 2) (5 1)) . }
+  pe:fact "vieta-expand.n3".
+
+{ ((0 1) (1 1)) complex:sum (1 2) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "D"; pe:value 1 ],
+    [ pe:var "E"; pe:value 1 ],
+    [ pe:var "F"; pe:value 2 ];
+  pe:uses
+    { (0 1) math:sum 1 . },
+    { (1 1) math:sum 2 . }.
+
+{ (0 1) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (1 1) math:sum 2 . }
+  pe:builtin math:sum.
+
+{ ((1 2) (3 2)) complex:sum (4 4) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "D"; pe:value 2 ],
+    [ pe:var "E"; pe:value 4 ],
+    [ pe:var "F"; pe:value 4 ];
+  pe:uses
+    { (1 3) math:sum 4 . },
+    { (2 2) math:sum 4 . }.
+
+{ (1 3) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ (2 2) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ ((4 4) (5 1)) complex:sum (9 5) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 4 ],
+    [ pe:var "B"; pe:value 4 ],
+    [ pe:var "C"; pe:value 5 ],
+    [ pe:var "D"; pe:value 1 ],
+    [ pe:var "E"; pe:value 9 ],
+    [ pe:var "F"; pe:value 5 ];
+  pe:uses
+    { (4 5) math:sum 9 . },
+    { (4 1) math:sum 5 . }.
+
+{ (4 5) math:sum 9 . }
+  pe:builtin math:sum.
+
+{ (4 1) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ (9 5) complex:negation (-9 -5) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value 9 ],
+    [ pe:var "B"; pe:value 5 ],
+    [ pe:var "E"; pe:value -9 ],
+    [ pe:var "F"; pe:value -5 ];
+  pe:uses
+    { 9 math:negation -9 . },
+    { 5 math:negation -5 . }.
+
+{ 9 math:negation -9 . }
+  pe:builtin math:negation.
+
+{ 5 math:negation -5 . }
+  pe:builtin math:negation.
+
+{ ((0 1) (1 1)) complex:product (-1 1) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "AC"; pe:value 0 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "BC"; pe:value 1 ],
+    [ pe:var "BD"; pe:value 1 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "D"; pe:value 1 ],
+    [ pe:var "E"; pe:value -1 ],
+    [ pe:var "F"; pe:value 1 ];
+  pe:uses
+    { (0 1) math:product 0 . },
+    { (1 1) math:product 1 . },
+    { (0 1) math:difference -1 . },
+    { (0 1) math:product 0 . },
+    { (1 1) math:product 1 . },
+    { (0 1) math:sum 1 . }.
+
+{ (0 1) math:product 0 . }
+  pe:builtin math:product.
+
+{ (1 1) math:product 1 . }
+  pe:builtin math:product.
+
+{ (0 1) math:difference -1 . }
+  pe:builtin math:difference.
+
+{ ((0 1) (3 2)) complex:product (-2 3) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "AC"; pe:value 0 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "BC"; pe:value 3 ],
+    [ pe:var "BD"; pe:value 2 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "D"; pe:value 2 ],
+    [ pe:var "E"; pe:value -2 ],
+    [ pe:var "F"; pe:value 3 ];
+  pe:uses
+    { (0 3) math:product 0 . },
+    { (1 2) math:product 2 . },
+    { (0 2) math:difference -2 . },
+    { (0 2) math:product 0 . },
+    { (1 3) math:product 3 . },
+    { (0 3) math:sum 3 . }.
+
+{ (0 2) math:difference -2 . }
+  pe:builtin math:difference.
+
+{ (0 3) math:sum 3 . }
+  pe:builtin math:sum.
+
+{ ((0 1) (5 1)) complex:product (-1 5) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 0 ],
+    [ pe:var "AC"; pe:value 0 ],
+    [ pe:var "AD"; pe:value 0 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "BC"; pe:value 5 ],
+    [ pe:var "BD"; pe:value 1 ],
+    [ pe:var "C"; pe:value 5 ],
+    [ pe:var "D"; pe:value 1 ],
+    [ pe:var "E"; pe:value -1 ],
+    [ pe:var "F"; pe:value 5 ];
+  pe:uses
+    { (0 5) math:product 0 . },
+    { (1 1) math:product 1 . },
+    { (0 1) math:difference -1 . },
+    { (0 1) math:product 0 . },
+    { (1 5) math:product 5 . },
+    { (0 5) math:sum 5 . }.
+
+{ (0 5) math:product 0 . }
+  pe:builtin math:product.
+
+{ (1 5) math:product 5 . }
+  pe:builtin math:product.
+
+{ (0 5) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ ((1 1) (3 2)) complex:product (1 5) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "AC"; pe:value 3 ],
+    [ pe:var "AD"; pe:value 2 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "BC"; pe:value 3 ],
+    [ pe:var "BD"; pe:value 2 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "D"; pe:value 2 ],
+    [ pe:var "E"; pe:value 1 ],
+    [ pe:var "F"; pe:value 5 ];
+  pe:uses
+    { (1 3) math:product 3 . },
+    { (1 2) math:product 2 . },
+    { (3 2) math:difference 1 . },
+    { (1 2) math:product 2 . },
+    { (1 3) math:product 3 . },
+    { (2 3) math:sum 5 . }.
+
+{ (3 2) math:difference 1 . }
+  pe:builtin math:difference.
+
+{ ((1 1) (5 1)) complex:product (4 6) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "AC"; pe:value 5 ],
+    [ pe:var "AD"; pe:value 1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "BC"; pe:value 5 ],
+    [ pe:var "BD"; pe:value 1 ],
+    [ pe:var "C"; pe:value 5 ],
+    [ pe:var "D"; pe:value 1 ],
+    [ pe:var "E"; pe:value 4 ],
+    [ pe:var "F"; pe:value 6 ];
+  pe:uses
+    { (1 5) math:product 5 . },
+    { (1 1) math:product 1 . },
+    { (5 1) math:difference 4 . },
+    { (1 1) math:product 1 . },
+    { (1 5) math:product 5 . },
+    { (1 5) math:sum 6 . }.
+
+{ (5 1) math:difference 4 . }
+  pe:builtin math:difference.
+
+{ (1 5) math:sum 6 . }
+  pe:builtin math:sum.
+
+{ ((3 2) (5 1)) complex:product (13 13) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 3 ],
+    [ pe:var "AC"; pe:value 15 ],
+    [ pe:var "AD"; pe:value 3 ],
+    [ pe:var "B"; pe:value 2 ],
+    [ pe:var "BC"; pe:value 10 ],
+    [ pe:var "BD"; pe:value 2 ],
+    [ pe:var "C"; pe:value 5 ],
+    [ pe:var "D"; pe:value 1 ],
+    [ pe:var "E"; pe:value 13 ],
+    [ pe:var "F"; pe:value 13 ];
+  pe:uses
+    { (3 5) math:product 15 . },
+    { (2 1) math:product 2 . },
+    { (15 2) math:difference 13 . },
+    { (3 1) math:product 3 . },
+    { (2 5) math:product 10 . },
+    { (3 10) math:sum 13 . }.
+
+{ (3 5) math:product 15 . }
+  pe:builtin math:product.
+
+{ (2 1) math:product 2 . }
+  pe:builtin math:product.
+
+{ (15 2) math:difference 13 . }
+  pe:builtin math:difference.
+
+{ (3 1) math:product 3 . }
+  pe:builtin math:product.
+
+{ (2 5) math:product 10 . }
+  pe:builtin math:product.
+
+{ (3 10) math:sum 13 . }
+  pe:builtin math:sum.
+
+{ ((-1 1) (-2 3)) complex:sum (-3 4) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value -1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value -2 ],
+    [ pe:var "D"; pe:value 3 ],
+    [ pe:var "E"; pe:value -3 ],
+    [ pe:var "F"; pe:value 4 ];
+  pe:uses
+    { (-1 -2) math:sum -3 . },
+    { (1 3) math:sum 4 . }.
+
+{ (-1 -2) math:sum -3 . }
+  pe:builtin math:sum.
+
+{ ((-3 4) (-1 5)) complex:sum (-4 9) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value -3 ],
+    [ pe:var "B"; pe:value 4 ],
+    [ pe:var "C"; pe:value -1 ],
+    [ pe:var "D"; pe:value 5 ],
+    [ pe:var "E"; pe:value -4 ],
+    [ pe:var "F"; pe:value 9 ];
+  pe:uses
+    { (-3 -1) math:sum -4 . },
+    { (4 5) math:sum 9 . }.
+
+{ (-3 -1) math:sum -4 . }
+  pe:builtin math:sum.
+
+{ ((-4 9) (1 5)) complex:sum (-3 14) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value -4 ],
+    [ pe:var "B"; pe:value 9 ],
+    [ pe:var "C"; pe:value 1 ],
+    [ pe:var "D"; pe:value 5 ],
+    [ pe:var "E"; pe:value -3 ],
+    [ pe:var "F"; pe:value 14 ];
+  pe:uses
+    { (-4 1) math:sum -3 . },
+    { (9 5) math:sum 14 . }.
+
+{ (-4 1) math:sum -3 . }
+  pe:builtin math:sum.
+
+{ (9 5) math:sum 14 . }
+  pe:builtin math:sum.
+
+{ ((-3 14) (4 6)) complex:sum (1 20) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value -3 ],
+    [ pe:var "B"; pe:value 14 ],
+    [ pe:var "C"; pe:value 4 ],
+    [ pe:var "D"; pe:value 6 ],
+    [ pe:var "E"; pe:value 1 ],
+    [ pe:var "F"; pe:value 20 ];
+  pe:uses
+    { (-3 4) math:sum 1 . },
+    { (14 6) math:sum 20 . }.
+
+{ (-3 4) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ (14 6) math:sum 20 . }
+  pe:builtin math:sum.
+
+{ ((1 20) (13 13)) complex:sum (14 33) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "B"; pe:value 20 ],
+    [ pe:var "C"; pe:value 13 ],
+    [ pe:var "D"; pe:value 13 ],
+    [ pe:var "E"; pe:value 14 ],
+    [ pe:var "F"; pe:value 33 ];
+  pe:uses
+    { (1 13) math:sum 14 . },
+    { (20 13) math:sum 33 . }.
+
+{ (1 13) math:sum 14 . }
+  pe:builtin math:sum.
+
+{ (20 13) math:sum 33 . }
+  pe:builtin math:sum.
+
+{ ((-1 1) (3 2)) complex:product (-5 1) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value -1 ],
+    [ pe:var "AC"; pe:value -3 ],
+    [ pe:var "AD"; pe:value -2 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "BC"; pe:value 3 ],
+    [ pe:var "BD"; pe:value 2 ],
+    [ pe:var "C"; pe:value 3 ],
+    [ pe:var "D"; pe:value 2 ],
+    [ pe:var "E"; pe:value -5 ],
+    [ pe:var "F"; pe:value 1 ];
+  pe:uses
+    { (-1 3) math:product -3 . },
+    { (1 2) math:product 2 . },
+    { (-3 2) math:difference -5 . },
+    { (-1 2) math:product -2 . },
+    { (1 3) math:product 3 . },
+    { (-2 3) math:sum 1 . }.
+
+{ (-1 3) math:product -3 . }
+  pe:builtin math:product.
+
+{ (-3 2) math:difference -5 . }
+  pe:builtin math:difference.
+
+{ (-1 2) math:product -2 . }
+  pe:builtin math:product.
+
+{ (-2 3) math:sum 1 . }
+  pe:builtin math:sum.
+
+{ ((-1 1) (5 1)) complex:product (-6 4) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value -1 ],
+    [ pe:var "AC"; pe:value -5 ],
+    [ pe:var "AD"; pe:value -1 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "BC"; pe:value 5 ],
+    [ pe:var "BD"; pe:value 1 ],
+    [ pe:var "C"; pe:value 5 ],
+    [ pe:var "D"; pe:value 1 ],
+    [ pe:var "E"; pe:value -6 ],
+    [ pe:var "F"; pe:value 4 ];
+  pe:uses
+    { (-1 5) math:product -5 . },
+    { (1 1) math:product 1 . },
+    { (-5 1) math:difference -6 . },
+    { (-1 1) math:product -1 . },
+    { (1 5) math:product 5 . },
+    { (-1 5) math:sum 4 . }.
+
+{ (-1 5) math:product -5 . }
+  pe:builtin math:product.
+
+{ (-5 1) math:difference -6 . }
+  pe:builtin math:difference.
+
+{ (-1 1) math:product -1 . }
+  pe:builtin math:product.
+
+{ (-1 5) math:sum 4 . }
+  pe:builtin math:sum.
+
+{ ((-2 3) (5 1)) complex:product (-13 13) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value -2 ],
+    [ pe:var "AC"; pe:value -10 ],
+    [ pe:var "AD"; pe:value -2 ],
+    [ pe:var "B"; pe:value 3 ],
+    [ pe:var "BC"; pe:value 15 ],
+    [ pe:var "BD"; pe:value 3 ],
+    [ pe:var "C"; pe:value 5 ],
+    [ pe:var "D"; pe:value 1 ],
+    [ pe:var "E"; pe:value -13 ],
+    [ pe:var "F"; pe:value 13 ];
+  pe:uses
+    { (-2 5) math:product -10 . },
+    { (3 1) math:product 3 . },
+    { (-10 3) math:difference -13 . },
+    { (-2 1) math:product -2 . },
+    { (3 5) math:product 15 . },
+    { (-2 15) math:sum 13 . }.
+
+{ (-2 5) math:product -10 . }
+  pe:builtin math:product.
+
+{ (-10 3) math:difference -13 . }
+  pe:builtin math:difference.
+
+{ (-2 1) math:product -2 . }
+  pe:builtin math:product.
+
+{ (-2 15) math:sum 13 . }
+  pe:builtin math:sum.
+
+{ ((1 5) (5 1)) complex:product (0 26) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value 1 ],
+    [ pe:var "AC"; pe:value 5 ],
+    [ pe:var "AD"; pe:value 1 ],
+    [ pe:var "B"; pe:value 5 ],
+    [ pe:var "BC"; pe:value 25 ],
+    [ pe:var "BD"; pe:value 5 ],
+    [ pe:var "C"; pe:value 5 ],
+    [ pe:var "D"; pe:value 1 ],
+    [ pe:var "E"; pe:value 0 ],
+    [ pe:var "F"; pe:value 26 ];
+  pe:uses
+    { (1 5) math:product 5 . },
+    { (5 1) math:product 5 . },
+    { (5 5) math:difference 0 . },
+    { (1 1) math:product 1 . },
+    { (5 5) math:product 25 . },
+    { (1 25) math:sum 26 . }.
+
+{ (5 1) math:product 5 . }
+  pe:builtin math:product.
+
+{ (5 5) math:difference 0 . }
+  pe:builtin math:difference.
+
+{ (5 5) math:product 25 . }
+  pe:builtin math:product.
+
+{ (1 25) math:sum 26 . }
+  pe:builtin math:sum.
+
+{ ((-5 1) (-6 4)) complex:sum (-11 5) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value -5 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "C"; pe:value -6 ],
+    [ pe:var "D"; pe:value 4 ],
+    [ pe:var "E"; pe:value -11 ],
+    [ pe:var "F"; pe:value 5 ];
+  pe:uses
+    { (-5 -6) math:sum -11 . },
+    { (1 4) math:sum 5 . }.
+
+{ (-5 -6) math:sum -11 . }
+  pe:builtin math:sum.
+
+{ (1 4) math:sum 5 . }
+  pe:builtin math:sum.
+
+{ ((-11 5) (-13 13)) complex:sum (-24 18) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value -11 ],
+    [ pe:var "B"; pe:value 5 ],
+    [ pe:var "C"; pe:value -13 ],
+    [ pe:var "D"; pe:value 13 ],
+    [ pe:var "E"; pe:value -24 ],
+    [ pe:var "F"; pe:value 18 ];
+  pe:uses
+    { (-11 -13) math:sum -24 . },
+    { (5 13) math:sum 18 . }.
+
+{ (-11 -13) math:sum -24 . }
+  pe:builtin math:sum.
+
+{ (5 13) math:sum 18 . }
+  pe:builtin math:sum.
+
+{ ((-24 18) (0 26)) complex:sum (-24 44) . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "A"; pe:value -24 ],
+    [ pe:var "B"; pe:value 18 ],
+    [ pe:var "C"; pe:value 0 ],
+    [ pe:var "D"; pe:value 26 ],
+    [ pe:var "E"; pe:value -24 ],
+    [ pe:var "F"; pe:value 44 ];
+  pe:uses
+    { (-24 0) math:sum -24 . },
+    { (18 26) math:sum 44 . }.
+
+{ (-24 0) math:sum -24 . }
+  pe:builtin math:sum.
+
+{ (18 26) math:sum 44 . }
+  pe:builtin math:sum.
+
+{ (-24 44) complex:negation (24 -44) . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "A"; pe:value -24 ],
+    [ pe:var "B"; pe:value 44 ],
+    [ pe:var "E"; pe:value 24 ],
+    [ pe:var "F"; pe:value -44 ];
+  pe:uses
+    { -24 math:negation 24 . },
+    { 44 math:negation -44 . }.
+
+{ -24 math:negation 24 . }
+  pe:builtin math:negation.
+
+{ 44 math:negation -44 . }
+  pe:builtin math:negation.
+
+{ ((-1 1) (13 13)) complex:product (-26 0) . }
+  pe:rule 3;
+  pe:binding
+    [ pe:var "A"; pe:value -1 ],
+    [ pe:var "AC"; pe:value -13 ],
+    [ pe:var "AD"; pe:value -13 ],
+    [ pe:var "B"; pe:value 1 ],
+    [ pe:var "BC"; pe:value 13 ],
+    [ pe:var "BD"; pe:value 13 ],
+    [ pe:var "C"; pe:value 13 ],
+    [ pe:var "D"; pe:value 13 ],
+    [ pe:var "E"; pe:value -26 ],
+    [ pe:var "F"; pe:value 0 ];
+  pe:uses
+    { (-1 13) math:product -13 . },
+    { (1 13) math:product 13 . },
+    { (-13 13) math:difference -26 . },
+    { (-1 13) math:product -13 . },
+    { (1 13) math:product 13 . },
+    { (-13 13) math:sum 0 . }.
+
+{ (-1 13) math:product -13 . }
+  pe:builtin math:product.
+
+{ (1 13) math:product 13 . }
+  pe:builtin math:product.
+
+{ (-13 13) math:difference -26 . }
+  pe:builtin math:difference.
+
+{ (-13 13) math:sum 0 . }
+  pe:builtin math:sum.

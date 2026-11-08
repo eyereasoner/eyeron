@@ -1,0 +1,64 @@
+# checked: 41 steps, 41 verified, 0 trusted
+@prefix anpr: <http://example.org/taxonomy/anpr/> .
+@prefix ex: <http://example.org/#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix ref: <http://example.org/taxonomy/ref/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix tel: <http://example.org/taxonomy/telraam/> .
+
+# Checked answers: these follow from the source program.
+ref:Car ex:narrowerOrEqualOf ref:Car .
+tel:Car ex:narrowerOrEqualOf tel:Car .
+tel:HeavyVehicle ex:narrowerOrEqualOf tel:HeavyVehicle .
+anpr:VehicleWithPlate ex:narrowerOrEqualOf anpr:VehicleWithPlate .
+anpr:PassengerCar ex:narrowerOrEqualOf anpr:PassengerCar .
+anpr:VehicleWithPlate skos:narrower anpr:PassengerCar .
+anpr:PassengerCar skos:broaderTransitive anpr:VehicleWithPlate .
+tel:Car skos:broader ref:Car .
+tel:HeavyVehicle skos:broader ref:Car .
+anpr:VehicleWithPlate skos:broader ref:Car .
+ref:Car ex:rollsUpTo ref:Car .
+anpr:VehicleWithPlate skos:narrowerTransitive anpr:PassengerCar .
+anpr:PassengerCar ex:narrowerOrEqualOf anpr:VehicleWithPlate .
+ref:Car skos:narrower tel:Car .
+tel:Car skos:broaderTransitive ref:Car .
+ref:Car skos:narrower tel:HeavyVehicle .
+tel:HeavyVehicle skos:broaderTransitive ref:Car .
+ref:Car skos:narrower anpr:VehicleWithPlate .
+anpr:VehicleWithPlate skos:broaderTransitive ref:Car .
+ref:Car skos:narrowerTransitive tel:Car .
+tel:Car ex:narrowerOrEqualOf ref:Car .
+ref:Car skos:narrowerTransitive tel:HeavyVehicle .
+tel:HeavyVehicle ex:narrowerOrEqualOf ref:Car .
+ref:Car skos:narrowerTransitive anpr:VehicleWithPlate .
+anpr:PassengerCar skos:broaderTransitive ref:Car .
+anpr:VehicleWithPlate ex:narrowerOrEqualOf ref:Car .
+tel:Car ex:rollsUpTo ref:Car .
+tel:HeavyVehicle ex:rollsUpTo ref:Car .
+ref:Car skos:narrowerTransitive anpr:PassengerCar .
+anpr:PassengerCar ex:narrowerOrEqualOf ref:Car .
+anpr:VehicleWithPlate ex:rollsUpTo ref:Car .
+anpr:PassengerCar ex:rollsUpTo ref:Car .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/alignment-demo.n3";
+    pe:source "examples/alignment-demo.n3";
+    pe:verdict pe:checked;
+    pe:steps 41;
+    pe:verified 41;
+    pe:trusted 0;
+    pe:factSteps 9;
+    pe:ruleSteps 32;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 41; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 41; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 41; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 66; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 73; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 32; pe:failed 0 ].

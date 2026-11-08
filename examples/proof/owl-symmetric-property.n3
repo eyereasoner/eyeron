@@ -1,0 +1,22 @@
+@prefix : <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:bob :knows :alice .
+
+{ :bob :knows :alice . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "O"; pe:value :bob ],
+    [ pe:var "P"; pe:value :knows ],
+    [ pe:var "S"; pe:value :alice ];
+  pe:uses
+    { :knows a owl:SymmetricProperty . },
+    { :alice :knows :bob . }.
+
+{ :knows a owl:SymmetricProperty . }
+  pe:fact "owl-symmetric-property.n3".
+
+{ :alice :knows :bob . }
+  pe:fact "owl-symmetric-property.n3".

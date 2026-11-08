@@ -1,12 +1,14 @@
 //! Generates every packaged example's proof and checks it against the
 //! program it was produced from, using the specification's reference
-//! implementation of the validity conditions C1–C9.
+//! implementation of the validity conditions C1–C10.
 //!
 //! This is the suite that says what a proof is worth. Each proof is checked
 //! as the document it is, read back from its N3 text: every recorded
 //! inference re-performed against the source rule, every premise resolved,
 //! the derivation graph tested for cycles, and every claim accounted for.
-//! No proof is stored; each run checks the proof the engine writes now.
+//! Each proof and its N3 check report are goldens, `examples/proof/` and
+//! `examples/check/`: an ordinary run only reads them, and
+//! `EYERON_UPDATE_GOLDENS=1` rewrites those that changed.
 //!
 //! Uses a custom harness (`harness = false`), like the other example
 //! suites, so each example prints its own line.
@@ -27,6 +29,43 @@ use report::{green, progress_line, red};
 /// the program no longer makes -- and would keep passing while saying
 /// nothing.
 const AUDITED: &str = "verifiable-decision";
+
+/// Examples whose proof records the clock, so that no two runs write the
+/// same proof or report: their proofs are checked, but kept as no golden.
+const CLOCK_EXAMPLES: &[(&str, &str)] = &[("age", "time:localTime gives the time of the run")];
+
+fn updating_goldens() -> bool {
+    std::env::var_os("EYERON_UPDATE_GOLDENS").is_some_and(|value| value == "1")
+}
+
+/// Compare `text` with the golden at `relative`, or rewrite it when asked.
+fn golden(relative: &str, text: &str) -> Result<(), String> {
+    let path = manifest_dir().join(relative);
+    if std::fs::read_to_string(&path).is_ok_and(|saved| saved == text) {
+        return Ok(());
+    }
+    if updating_goldens() {
+        std::fs::create_dir_all(path.parent().expect("a golden has a directory")).map_err(|err| err.to_string())?;
+        std::fs::write(&path, text).map_err(|err| format!("cannot update {relative}: {err}"))?;
+        eprintln!("updated {relative}");
+        return Ok(());
+    }
+    Err(format!("{relative} {}; review the change, then run EYERON_UPDATE_GOLDENS=1 cargo test --release --test proof_checking",
+        if path.exists() { "changed" } else { "is missing" }))
+}
+
+/// The inputs an example is checked against, as a report names them.
+fn source_labels(name: &str) -> Vec<String> {
+    let mut labels = vec![format!("examples/{name}.n3")];
+    for extension in ["n3", "trig"] {
+        let companion = format!("examples/input/{name}.{extension}");
+        if manifest_dir().join(&companion).exists() {
+            labels.push(companion);
+            break;
+        }
+    }
+    labels
+}
 
 enum Outcome {
     Checked(Report),
@@ -57,7 +96,12 @@ fn check(name: &str) -> Result<Outcome, String> {
                 write `eyeron -p examples/{AUDITED}.n3` over it so the audit is of the decision this program makes now"));
         }
     }
-    eyeron::proof_check_n3::check_proof_document(&doc, &proof).map(Outcome::Checked).map_err(|e| e.message)
+    let clock = CLOCK_EXAMPLES.iter().any(|(listed, _)| *listed == name);
+    if !clock { golden(&format!("examples/proof/{name}.n3"), &proof)?; }
+    let (report, text) = eyeron::proof_check_n3::check_proof_report(&doc, &proof, Some(&format!("examples/proof/{name}.n3")), &source_labels(name))
+        .map_err(|e| e.message)?;
+    if !clock { golden(&format!("examples/check/{name}.n3"), &text)?; }
+    Ok(Outcome::Checked(report))
 }
 
 fn main() {
@@ -69,9 +113,21 @@ fn main() {
     let mut verified = 0usize;
     let mut trusted = 0usize;
 
-    for (name, _) in NO_PROOF_EXAMPLES {
+    for (name, _) in NO_PROOF_EXAMPLES.iter().chain(CLOCK_EXAMPLES) {
         assert!(manifest_dir().join(format!("examples/{name}.n3")).exists(),
-            "NO_PROOF_EXAMPLES names {name:?}, which does not exist under examples/");
+            "{name:?} is listed as an exception but does not exist under examples/");
+    }
+    // Every golden belongs to an example that has a proof to keep.
+    for kind in ["proof", "check"] {
+        let Ok(entries) = std::fs::read_dir(manifest_dir().join("examples").join(kind)) else { continue };
+        for entry in entries {
+            let file = entry.expect("read a golden").file_name().to_string_lossy().into_owned();
+            let name = file.strip_suffix(".n3").unwrap_or(&file).to_string();
+            let kept = manifest_dir().join(format!("examples/{name}.n3")).exists()
+                && !PARSE_ONLY_EXAMPLES.contains(&name.as_str())
+                && !NO_PROOF_EXAMPLES.iter().chain(CLOCK_EXAMPLES).any(|(listed, _)| *listed == name);
+            assert!(kept, "examples/{kind}/{file} belongs to no example with a proof to keep");
+        }
     }
 
     let names = sorted_n3_files(&manifest_dir().join("examples")).into_iter()

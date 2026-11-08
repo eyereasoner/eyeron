@@ -1,0 +1,90 @@
+# checked: 98 steps, 98 verified, 0 trusted
+@prefix : <https://eyereasoner.github.io/eyeling/examples/rdf-message-flow#> .
+@prefix flow: <https://eyereasoner.github.io/eyeling/examples/rdf-message-flow/vocab#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Checked answers: these follow from the source program.
+<urn:eyeron:rdf-message-stream:1:envelope:1> :atStage :ingest .
+<urn:eyeron:rdf-message-stream:1:envelope:1> :atStage :validate .
+<urn:eyeron:rdf-message-stream:1:envelope:1> flow:boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1:envelope:1> :atStage :interpret .
+:temperatureFlow :highThreshold 26 .
+<urn:eyeron:rdf-message-stream:1:envelope:1> flow:payloadResult 21 .
+<urn:eyeron:rdf-message-stream:1:envelope:1> :atStage :route .
+<urn:eyeron:rdf-message-stream:1:envelope:1> :route :archiveSink .
+<urn:eyeron:rdf-message-stream:1:envelope:1> :atStage :sink .
+:archiveSink :received <urn:eyeron:rdf-message-stream:1:envelope:1> .
+<urn:eyeron:rdf-message-stream:1:envelope:1> :releases <urn:eyeron:rdf-message-stream:1:envelope:2> .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :atStage :ingest .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :atStage :validate .
+<urn:eyeron:rdf-message-stream:1:envelope:2> flow:boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :atStage :interpret .
+<urn:eyeron:rdf-message-stream:1:envelope:2> flow:payloadResult 22 .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :atStage :route .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :route :archiveSink .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :atStage :sink .
+:archiveSink :received <urn:eyeron:rdf-message-stream:1:envelope:2> .
+<urn:eyeron:rdf-message-stream:1:envelope:2> :releases <urn:eyeron:rdf-message-stream:1:envelope:3> .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :atStage :ingest .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :atStage :validate .
+<urn:eyeron:rdf-message-stream:1:envelope:3> flow:boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :atStage :interpret .
+<urn:eyeron:rdf-message-stream:1:envelope:3> flow:emptyMessageAllowed true .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :atStage :route .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :route :heartbeatSink .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :atStage :sink .
+:heartbeatSink :received <urn:eyeron:rdf-message-stream:1:envelope:3> .
+<urn:eyeron:rdf-message-stream:1:envelope:3> :releases <urn:eyeron:rdf-message-stream:1:envelope:4> .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :atStage :ingest .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :atStage :validate .
+<urn:eyeron:rdf-message-stream:1:envelope:4> flow:boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :atStage :interpret .
+<urn:eyeron:rdf-message-stream:1:envelope:4> flow:payloadResult 28 .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :atStage :route .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :route :alertSink .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :atStage :sink .
+:alertSink :received <urn:eyeron:rdf-message-stream:1:envelope:4> .
+<urn:eyeron:rdf-message-stream:1:envelope:4> :releases <urn:eyeron:rdf-message-stream:1:envelope:5> .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :atStage :ingest .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :atStage :validate .
+<urn:eyeron:rdf-message-stream:1:envelope:5> flow:boundaryExplicit true .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :atStage :interpret .
+<urn:eyeron:rdf-message-stream:1:envelope:5> flow:payloadResult 29 .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :atStage :route .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :route :alertSink .
+<urn:eyeron:rdf-message-stream:1:envelope:5> :atStage :sink .
+:alertSink :received <urn:eyeron:rdf-message-stream:1:envelope:5> .
+:rdfMessageFlowExample log:outputString "# rdf-message-flow\n\n## Source files\n\n- [N3 rules](../rdf-message-flow.n3)\n- [Input RDF Message Log](../input/rdf-message-flow.trig)\n\n## Answer\nContinuous RDF Message flow accepted: 5 ordered parser-replayed message envelopes moved through the ingest → validate → interpret → route → sink pipeline. The threshold was 26, so results 21 and 22 were archived, the empty heartbeat kept the stream alive, and results 28 and 29 were emitted as alerts.\n\n## Explanation\nThe input sidecar is now a true RDF Message Log using VERSION \\\"1.2-messages\\\" and MESSAGE delimiters. Eyeron parses the log internally into an eymsg: replay view with ordered envelopes, offsets, next-envelope links, and one payload graph per non-empty message. Only the first replayed envelope starts at ingress; each envelope must reach :sink before the continuous-flow rule releases its eymsg:nextEnvelope. Observation payloads are inspected with log:includes inside their own message formula, and the delimiter-only third message is replayed as an empty heartbeat. This keeps message boundaries in the parser/runtime instead of modeling them by hand in the TriG sidecar." .
+:rdfMessageFlowExample :demonstrates :ContinuousFlow .
+:rdfMessageFlowExample :demonstrates :BackPressureRelease .
+:rdfMessageFlowExample :demonstrates :AtomicMessageContext .
+:rdfMessageFlowExample :demonstrates :HeartbeatInFlow .
+:rdfMessageFlowExample :demonstrates :ThresholdRouting .
+:rdfMessageFlowExample :demonstrates :RDFMessageLogReplay .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/rdf-message-flow.n3";
+    pe:source "examples/rdf-message-flow.n3";
+    pe:source "examples/input/rdf-message-flow.trig";
+    pe:verdict pe:checked;
+    pe:steps 98;
+    pe:verified 98;
+    pe:trusted 0;
+    pe:builtinSteps 11;
+    pe:factSteps 30;
+    pe:ruleSteps 57;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 87; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 98; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 98; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 422; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 11; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 155; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 57; pe:failed 0 ].

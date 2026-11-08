@@ -1,0 +1,61 @@
+@prefix : <https://example.org/wind-turbine#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+:turbine1 :requires :gearboxMaintenance .
+:turbine1 :requires :urgentInspection .
+
+{ :turbine1 :requires :gearboxMaintenance . }
+  pe:rule 4;
+  pe:binding [ pe:var "T"; pe:value :turbine1 ];
+  pe:uses { :turbine1 :gearboxStatus :degraded . }.
+
+{ :turbine1 :gearboxStatus :degraded . }
+  pe:fact "wind-turbine.n3".
+
+{ :turbine1 :requires :urgentInspection . }
+  pe:rule 3;
+  pe:binding [ pe:var "T"; pe:value :turbine1 ];
+  pe:uses
+    { :turbine1 :hasAnomaly :highVibration . },
+    { :turbine1 :hasAnomaly :highTemperature . }.
+
+{ :turbine1 :hasAnomaly :highVibration . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "T"; pe:value :turbine1 ],
+    [ pe:var "V"; pe:value 0.42 ],
+    [ pe:var "VT"; pe:value 0.35 ];
+  pe:uses
+    { :turbine1 :vibration 0.42 . },
+    { :highVibrationThreshold :value 0.35 . },
+    { 0.42 math:greaterThan 0.35 . }.
+
+{ :turbine1 :vibration 0.42 . }
+  pe:fact "wind-turbine.n3".
+
+{ :highVibrationThreshold :value 0.35 . }
+  pe:fact "wind-turbine.n3".
+
+{ 0.42 math:greaterThan 0.35 . }
+  pe:builtin math:greaterThan.
+
+{ :turbine1 :hasAnomaly :highTemperature . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "T"; pe:value :turbine1 ],
+    [ pe:var "TT"; pe:value "75"^^xsd:decimal ],
+    [ pe:var "Temp"; pe:value "78"^^xsd:decimal ];
+  pe:uses
+    { :turbine1 :temperature "78"^^xsd:decimal . },
+    { :highTemperatureThreshold :value "75"^^xsd:decimal . },
+    { "78"^^xsd:decimal math:greaterThan "75"^^xsd:decimal . }.
+
+{ :turbine1 :temperature "78"^^xsd:decimal . }
+  pe:fact "wind-turbine.n3".
+
+{ :highTemperatureThreshold :value "75"^^xsd:decimal . }
+  pe:fact "wind-turbine.n3".
+
+{ "78"^^xsd:decimal math:greaterThan "75"^^xsd:decimal . }
+  pe:builtin math:greaterThan.

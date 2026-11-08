@@ -1,0 +1,149 @@
+@prefix ex: <https://example.org/bikepass#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:APP-BP-01 ex:eligible true .
+ex:APP-BP-01 ex:status ex:Approved .
+ex:APP-BP-01 ex:approvedPrice 12 .
+_:pass_ce2f55ce9d7b5da6 a ex:BikePass .
+ex:APP-BP-01 ex:issuedPass _:pass_ce2f55ce9d7b5da6 .
+
+{ ex:APP-BP-01 ex:eligible true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "age"; pe:value 17 ],
+    [ pe:var "app"; pe:value ex:APP-BP-01 ],
+    [ pe:var "p"; pe:value ex:Zoe ],
+    [ pe:var "t"; pe:value 5 ];
+  pe:uses
+    { ex:APP-BP-01 ex:appliesFor ex:YouthDiscount . },
+    { ex:APP-BP-01 ex:hasApplicant ex:Zoe . },
+    { ex:Zoe ex:hasAge 17 . },
+    { ex:Zoe ex:tripsPerWeek 5 . },
+    { 12 math:notGreaterThan 17 . },
+    { 17 math:lessThan 26 . },
+    { 3 math:notGreaterThan 5 . }.
+
+{ ex:APP-BP-01 ex:appliesFor ex:YouthDiscount . }
+  pe:fact "bikepass-youth-discount.n3".
+
+{ ex:APP-BP-01 ex:hasApplicant ex:Zoe . }
+  pe:fact "bikepass-youth-discount.n3".
+
+{ ex:Zoe ex:hasAge 17 . }
+  pe:fact "bikepass-youth-discount.n3".
+
+{ ex:Zoe ex:tripsPerWeek 5 . }
+  pe:fact "bikepass-youth-discount.n3".
+
+{ 12 math:notGreaterThan 17 . }
+  pe:builtin math:notGreaterThan.
+
+{ 17 math:lessThan 26 . }
+  pe:builtin math:lessThan.
+
+{ 3 math:notGreaterThan 5 . }
+  pe:builtin math:notGreaterThan.
+
+{ ex:APP-BP-01 ex:status ex:Approved . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "age"; pe:value 17 ],
+    [ pe:var "app"; pe:value ex:APP-BP-01 ],
+    [ pe:var "bp"; pe:value 30 ],
+    [ pe:var "discAmt"; pe:value 18 ],
+    [ pe:var "p"; pe:value ex:Zoe ],
+    [ pe:var "price"; pe:value 12 ],
+    [ pe:var "tmp"; pe:value 1800 ];
+  pe:uses
+    { ex:APP-BP-01 ex:eligible true . },
+    { ex:APP-BP-01 ex:status ex:Submitted . },
+    { ex:APP-BP-01 ex:baseMonthlyPrice 30 . },
+    { ex:APP-BP-01 ex:hasApplicant ex:Zoe . },
+    { ex:Zoe ex:hasAge 17 . },
+    { 17 math:lessThan 18 . },
+    { (30 60) math:product 1800 . },
+    { (1800 100) math:quotient 18 . },
+    { (30 18) math:difference 12 . }.
+
+{ ex:APP-BP-01 ex:status ex:Submitted . }
+  pe:fact "bikepass-youth-discount.n3".
+
+{ ex:APP-BP-01 ex:baseMonthlyPrice 30 . }
+  pe:fact "bikepass-youth-discount.n3".
+
+{ 17 math:lessThan 18 . }
+  pe:builtin math:lessThan.
+
+{ (30 60) math:product 1800 . }
+  pe:builtin math:product.
+
+{ (1800 100) math:quotient 18 . }
+  pe:builtin math:quotient.
+
+{ (30 18) math:difference 12 . }
+  pe:builtin math:difference.
+
+{ ex:APP-BP-01 ex:approvedPrice 12 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "age"; pe:value 17 ],
+    [ pe:var "app"; pe:value ex:APP-BP-01 ],
+    [ pe:var "bp"; pe:value 30 ],
+    [ pe:var "discAmt"; pe:value 18 ],
+    [ pe:var "p"; pe:value ex:Zoe ],
+    [ pe:var "price"; pe:value 12 ],
+    [ pe:var "tmp"; pe:value 1800 ];
+  pe:uses
+    { ex:APP-BP-01 ex:eligible true . },
+    { ex:APP-BP-01 ex:status ex:Submitted . },
+    { ex:APP-BP-01 ex:baseMonthlyPrice 30 . },
+    { ex:APP-BP-01 ex:hasApplicant ex:Zoe . },
+    { ex:Zoe ex:hasAge 17 . },
+    { 17 math:lessThan 18 . },
+    { (30 60) math:product 1800 . },
+    { (1800 100) math:quotient 18 . },
+    { (30 18) math:difference 12 . }.
+
+{ _:pass_ce2f55ce9d7b5da6 a ex:BikePass . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "age"; pe:value 17 ],
+    [ pe:var "app"; pe:value ex:APP-BP-01 ],
+    [ pe:var "bp"; pe:value 30 ],
+    [ pe:var "discAmt"; pe:value 18 ],
+    [ pe:var "p"; pe:value ex:Zoe ],
+    [ pe:var "price"; pe:value 12 ],
+    [ pe:var "tmp"; pe:value 1800 ];
+  pe:uses
+    { ex:APP-BP-01 ex:eligible true . },
+    { ex:APP-BP-01 ex:status ex:Submitted . },
+    { ex:APP-BP-01 ex:baseMonthlyPrice 30 . },
+    { ex:APP-BP-01 ex:hasApplicant ex:Zoe . },
+    { ex:Zoe ex:hasAge 17 . },
+    { 17 math:lessThan 18 . },
+    { (30 60) math:product 1800 . },
+    { (1800 100) math:quotient 18 . },
+    { (30 18) math:difference 12 . }.
+
+{ ex:APP-BP-01 ex:issuedPass _:pass_ce2f55ce9d7b5da6 . }
+  pe:rule 2;
+  pe:binding
+    [ pe:var "age"; pe:value 17 ],
+    [ pe:var "app"; pe:value ex:APP-BP-01 ],
+    [ pe:var "bp"; pe:value 30 ],
+    [ pe:var "discAmt"; pe:value 18 ],
+    [ pe:var "p"; pe:value ex:Zoe ],
+    [ pe:var "price"; pe:value 12 ],
+    [ pe:var "tmp"; pe:value 1800 ];
+  pe:uses
+    { ex:APP-BP-01 ex:eligible true . },
+    { ex:APP-BP-01 ex:status ex:Submitted . },
+    { ex:APP-BP-01 ex:baseMonthlyPrice 30 . },
+    { ex:APP-BP-01 ex:hasApplicant ex:Zoe . },
+    { ex:Zoe ex:hasAge 17 . },
+    { 17 math:lessThan 18 . },
+    { (30 60) math:product 1800 . },
+    { (1800 100) math:quotient 18 . },
+    { (30 18) math:difference 12 . }.

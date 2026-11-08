@@ -1,0 +1,35 @@
+# checked: 62 steps, 62 verified, 0 trusted
+@prefix : <http://www.agfa.com/w3c/euler/gedcom-facts#> .
+@prefix pe: <https://eyereasoner.github.io/pe#> .
+
+# Checked answers: these follow from the source program.
+:Jos :testRelationship :Bart .
+:Geert :testRelationship :Bart .
+:Dirk :testRelationship :Bart .
+:Jos :testRelationship :Tom .
+:Geert :testRelationship :Tom .
+:Dirk :testRelationship :Tom .
+
+# The check of these answers against the source program. Its verdict covers
+# the answers above; it does not establish that they are all the answers.
+[]
+    a pe:Check;
+    pe:proof "examples/proof/gedcom.n3";
+    pe:source "examples/gedcom.n3";
+    pe:verdict pe:checked;
+    pe:steps 62;
+    pe:verified 62;
+    pe:trusted 0;
+    pe:builtinSteps 6;
+    pe:factSteps 18;
+    pe:ruleSteps 38;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 56; pe:failed 0 ];
+    pe:condition [ pe:id "C2"; pe:name "well-foundedness"; pe:checked 62; pe:failed 0 ];
+    pe:condition [ pe:id "C3"; pe:name "justification"; pe:checked 62; pe:failed 0 ];
+    pe:condition [ pe:id "C4"; pe:name "coverage"; pe:checked 106; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 6; pe:failed 0 ];
+    pe:condition [ pe:id "C6"; pe:name "boundary consistency"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C7"; pe:name "relevance"; pe:checked 68; pe:failed 0 ];
+    pe:condition [ pe:id "C8"; pe:name "witness integrity"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C9"; pe:name "search closure"; pe:checked 0; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 144; pe:failed 0 ].

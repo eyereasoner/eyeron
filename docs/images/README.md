@@ -1,6 +1,6 @@
-# Guide illustrations
+# README illustrations
 
-These original cartoons accompany [`GUIDE.md`](../../GUIDE.md):
+These original cartoons accompany [`README.md`](../../README.md):
 
 | File | Story |
 | --- | --- |
@@ -12,7 +12,7 @@ These original cartoons accompany [`GUIDE.md`](../../GUIDE.md):
 The illustrations were generated with the built-in imagegen tool. The exact
 prompts are saved in [`guide-artwork.json`](guide-artwork.json). All four use
 the same recurring characters and the project's green, coral, cyan, and yellow
-palette. They are visual metaphors; the guide's text and code give the precise
+palette. They are visual metaphors; the README's text and code give the precise
 behavior.
 
 The 1536 × 1024 originals were encoded as WebP at quality 85 without cropping
