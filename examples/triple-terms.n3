@@ -9,6 +9,8 @@ VERSION "1.2"
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# Read the required device evidence from the companion input before
+# producing the derived action graph.
 {
     ?observation rdf:reifies {
         ?device :reports ?condition .
@@ -26,7 +28,8 @@ VERSION "1.2"
     ?observation :entails ?entailment
 } .
 
-# Markdown rendering via log:outputString.
+# A fixed text sample is also queried for display. Its content is supplied text,
+# not a rendering of the bindings returned by the entailment query.
 :__md_output :text "# triple-terms\n\n## Source files\n\n- [N3 rules](../triple-terms.n3)\n- [Input TriG](../input/triple-terms.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/triple_terms#> .\n\n:observation :entails <<( :sensor :needs :inspection )>> .\n" .
 {
     :__md_output :text ?text

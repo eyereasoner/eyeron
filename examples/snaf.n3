@@ -1,15 +1,18 @@
 # Checking absence within a reasoning scope
 #
-# Alice loves Bob, and Bob is a person. An N3 rule combines that person
-# fact with a scoped absence test for a hate statement and derives the
-# example's explicit Nobody conclusion.
+# Alice loves Bob, and Bob is a person. One rule looks for a person Alice
+# is not stated to hate; Bob is one, so it concludes :Alice :hates :Nobody.
+# It shows scoped negation as failure (SNAF): log:notIncludes tests that a
+# statement is absent from the graph, once the rule has found Bob.
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example.org/> .
 
+# The facts: nothing says Alice hates anyone.
 :Alice :loves :Bob .
 :Bob a :Person .
 
+# If some person X is not hated by Alice, conclude that Alice hates nobody.
 {
     ?SCOPE log:notIncludes {
         :Alice :hates ?X

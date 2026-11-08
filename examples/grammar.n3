@@ -7,6 +7,7 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/grammar#> .
 
+# A verb consumes the first word and returns the remaining input.
 {
     ?input :verbMatch (:open ?rest)
 } <= {
@@ -19,6 +20,7 @@
     ?input list:firstRest (:close ?rest) .
 } .
 
+# The noun rules work the same way for door and window.
 {
     ?input :nounMatch (:door ?rest)
 } <= {
@@ -31,6 +33,7 @@
     ?input list:firstRest (:window ?rest) .
 } .
 
+# Parse a verb followed by a noun, threading the unconsumed list between them.
 {
     (?input ?rest) :sentence (:command ?verb ?object)
 } <= {
@@ -38,6 +41,7 @@
     ?middle :nounMatch (?object ?rest) .
 } .
 
+# An empty remainder requires the whole two-word command to be consumed.
 {
     ((:open :door) ()) :sentence ?ast
 } => {

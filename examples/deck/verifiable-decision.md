@@ -1,12 +1,14 @@
 # A decision with reasons you can check
 
+[verifiable-decision.n3](https://github.com/eyereasoner/eyeron/blob/main/examples/verifiable-decision.n3) · [output](https://github.com/eyereasoner/eyeron/blob/main/examples/output/verifiable-decision.n3) · [proof](https://github.com/eyereasoner/eyeron/blob/main/examples/proof/verifiable-decision.n3) · [check](https://github.com/eyereasoner/eyeron/blob/main/examples/check/verifiable-decision.n3) · [try it in the playground](https://eyereasoner.github.io/eyeron/playground#example=verifiable-decision)
+
 How Eyeron makes a decision, records its reasons, and lets another program inspect what it depends on.
 
 This deck follows two examples: [the decision](../verifiable-decision.n3) and [the audit](../verifiable-decision-audit.n3).
 
 ---
 
-## The story: a request for research data
+## The question
 
 Dr Okafor asks to use a dataset called **cohort B** for secondary research.
 
@@ -230,3 +232,137 @@ The two examples make three questions visible:
 1. **Decision:** does the request meet the supplied rules?
 2. **Proof:** do the recorded steps support the answer?
 3. **Audit:** which sources does the answer rely on, and are they acceptable to us?
+
+---
+
+## What we tell Eyeron
+
+The following excerpts use the prefixes declared in the linked source.
+These are excerpts; the linked file contains the complete program.
+
+```n3
+# Intake: the request proposes one use, by one researcher, for one purpose.
+:request-42 a odrl:Request ;
+    odrl:profile :research-profile ;
+    odrl:permission :research-use-42 .
+
+# Check 1: the requesting researcher holds an approval for this data and purpose.
+{
+    ?request a odrl:Request ;
+        odrl:permission ?use .
+    ?use odrl:assignee ?who ;
+        odrl:target ?data ;
+        odrl:constraint ?constraint .
+    ?constraint a odrl:Constraint ;
+        odrl:leftOperand odrl:purpose ;
+        odrl:operator odrl:eq ;
+        odrl:rightOperand ?purpose .
+    ?who :holdsApproval ?approval .
+    ?approval dpv:hasData ?data ;
+        dpv:hasPurpose ?purpose .
+} => {
+    ?use dpv:hasJustification ?approval .
+} .
+```
+
+`{ … } => { … }` reads “when the left side holds, conclude the right side.”
+Names beginning with `?` are variables: they stand for the values that make
+the conditions match.
+
+---
+
+## What Eyeron concludes
+
+This is an excerpt of the saved conclusions.
+
+```n3
+:research-use-42 dpv:hasJustification :eth-2026-118 .
+:research-use-42 dpv:hasLegalBasis :consent-b .
+:agreement-42 odrl:permission :research-use-42 .
+:request-42 dpv:hasOutcome :agreement-42 .
+:research-use-42 dpv:hasTechnicalOrganisationalMeasure dpv:Deidentification .
+:agreement-42 a odrl:Agreement .
+```
+
+---
+
+## The proof, step by step
+
+`eyeron -p` records why the conclusions follow. This excerpt is one recorded
+step from the saved proof:
+
+```n3
+{ :research-use-42 dpv:hasJustification :eth-2026-118 . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "approval"; pe:value :eth-2026-118 ],
+    [ pe:var "constraint"; pe:value :purpose-42 ],
+    [ pe:var "data"; pe:value :cohort-b ],
+    [ pe:var "purpose"; pe:value dpv:ScientificResearch ],
+    [ pe:var "request"; pe:value :request-42 ],
+    [ pe:var "use"; pe:value :research-use-42 ],
+    [ pe:var "who"; pe:value :dr-okafor ];
+  pe:uses
+    { :request-42 a odrl:Request . },
+    { :request-42 odrl:permission :research-use-42 . },
+    { :research-use-42 odrl:assignee :dr-okafor . },
+    { :research-use-42 odrl:target :cohort-b . },
+    { :research-use-42 odrl:constraint :purpose-42 . },
+    { :purpose-42 a odrl:Constraint . },
+    { :purpose-42 odrl:leftOperand odrl:purpose . },
+    { :purpose-42 odrl:operator odrl:eq . },
+    { :purpose-42 odrl:rightOperand dpv:ScientificResearch . },
+    { :dr-okafor :holdsApproval :eth-2026-118 . },
+    { :eth-2026-118 dpv:hasData :cohort-b . },
+    { :eth-2026-118 dpv:hasPurpose dpv:ScientificResearch . }.
+```
+
+`pe:rule 1` identifies the source rule used by this step. `pe:binding` records the values substituted for variables; `pe:uses` lists the premises the step depends on. Those premises have their own supporting steps in the full proof.
+
+---
+
+## Checked: what the report says
+
+The saved check report gives this verdict and these selected conditions:
+
+```n3
+# checked: 30 steps, 30 verified, 0 trusted
+    pe:verdict pe:checked;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 30; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 9; pe:failed 0 ].
+```
+
+Resolution checks that the recorded facts and rule applications match the
+source program.
+
+Call fidelity checks the answer against the question as it was called.
+
+The verdict is **checked** for the recorded claims. It does not establish that
+every possible answer was found.
+
+---
+
+## Try it
+
+```sh
+eyeron examples/verifiable-decision.n3
+eyeron -p examples/verifiable-decision.n3
+eyeron -c examples/verifiable-decision.n3
+```
+
+---
+
+## References
+
+[Source reference 1](https://www.w3.org/TR/odrl-model/)
+
+[Source reference 2](https://www.w3.org/TR/odrl-vocab/)
+
+[Source reference 3](https://w3id.org/dpv/2.3)
+
+---
+
+## Takeaway
+
+A decision's recorded derivation can be checked against the source and then
+inspected as data by a separate audit program.

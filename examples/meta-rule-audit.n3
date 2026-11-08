@@ -1,14 +1,18 @@
 # Auditing a quoted theory's rules
 #
-# A quoted theory contains forward and backward rules together with facts.
-# N3 graph patterns inspect the rules and test which bodies are supported,
-# producing an audit of the selected theory.
+# A theory is given as a quoted graph: rules and facts that are described,
+# not run. Eyeron's rules read that graph as data. They sort its rules into
+# forward-only, backward-only, and pairs written both ways, and report which
+# rule bodies the theory's own facts already satisfy. It shows rules about
+# rules, using log:includes and log:notIncludes on a quoted graph.
 
 @prefix : <http://example.org/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# The theory under audit. Inside the braces nothing is asserted: the rules
+# below are not run, only inspected.
 <> :theory {
 
     # Bidirectional pair
@@ -49,7 +53,8 @@
     :acme :employs :carol .
 } .
 
-# Audit the quoted theory for forward/backward pairs
+# A rule written both forward (=>) and backward (<=) with the same body and
+# head is bidirectional.
 {
     ?W :theory ?F .
     ?F log:includes {
@@ -63,6 +68,7 @@
     ?B :ruleHead ?H .
 } .
 
+# A forward rule with no backward twin is forward-only.
 {
     ?W :theory ?F .
     ?F log:includes {
@@ -76,6 +82,7 @@
     ?B :ruleHead ?H .
 } .
 
+# A backward rule with no forward twin is backward-only.
 {
     ?W :theory ?F .
     ?F log:includes {
@@ -89,7 +96,9 @@
     ?B :ruleHead ?H .
 } .
 
-# Check which rule bodies are active now
+# Check which rule bodies are active now: matching a body against the
+# theory's facts binds its variables, and the matched instance is reported,
+# first for forward rules, then for backward ones.
 {
     ?W :theory ?F .
     ?F log:includes {

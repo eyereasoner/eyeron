@@ -7,9 +7,12 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix : <http://example/> .
 
+# Alice knows someone without a global name, described in [ ... ].
 :alice :knows [ :name "Bob" ; :tag "friend" ] .
+# The team's members, in order.
 :team :members (:alice :bob :carol) .
 
+# Follow a contact, named or not, to its name.
 {
     ?person :knows ?node .
     ?node :name ?name
@@ -17,6 +20,7 @@
     ?person :knowsNamed ?name
 } .
 
+# Split the member list into its first member and the rest.
 {
     :team :members ?members .
     ?members list:firstRest (?first ?rest)

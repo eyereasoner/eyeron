@@ -1,13 +1,18 @@
 # What a yeast culture needs to reproduce
 #
 # A yeast starter is modeled with a genome, cell machinery, and nutrients.
-# N3 rules derive possible reproduction tasks and identify the conditions
-# that block the contrast cultures.
+# N3 rules derive which reproduction tasks are possible for it, and which
+# are impossible for a contrast culture whose heredity is not stored
+# digitally. Both "can" and "cannot" are positive facts, in the style of the
+# constructor theory of life; log:query rules select them as the output.
+#
+# See <https://doi.org/10.1098/rsif.2014.1226>
 
 @prefix : <http://example.org/act/yeast/> .
 @prefix arc: <https://example.org/arc#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# The question this case answers, recorded as data.
 :case a arc:Case ;
     arc:question "Can a yeast starter culture self-reproduce accurately under no-design laws, and what exactly can't happen for a non-digital contrast lineage?" .
 
@@ -95,7 +100,8 @@
     :SelfReproduction a :PossibleTask .
 } .
 
-# Variation plus a selection environment makes natural selection possible.
+# A source of mutations makes heritable variation possible for every
+# replicator.
 {
     ?Genome a :Replicator .
     :mutationSource a :VariationSource .
@@ -104,6 +110,8 @@
     :HeritableVariation a :PossibleTask .
 } .
 
+# Self-reproduction plus variation plus a selection environment makes
+# natural selection possible.
 {
     ?Cell :hasReplicator ?Genome .
     ?Cell :can :SelfReproduce .
@@ -114,6 +122,8 @@
     :NaturalSelection a :PossibleTask .
 } .
 
+# In such a lineage, a genome whose variant the fermenter favours is
+# selected there. (This is derived but not printed: no query asks for it.)
 {
     ?Cell :hasReplicator ?Genome .
     ?Cell :can :NaturalSelectionLineage .
@@ -151,7 +161,7 @@
     ?Cell :cannot :NaturalSelectionLineage .
 } .
 
-# Query answer
+# Query answer: print every :can and :cannot statement, and nothing else.
 {
     ?Subject :can ?Value .
 } log:query {

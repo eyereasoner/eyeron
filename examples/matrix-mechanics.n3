@@ -1,14 +1,18 @@
 # Comparing two matrix multiplication orders
 #
-# Two small matrices supply a toy matrix-mechanics calculation. N3
-# arithmetic rules derive a trace, determinant, matrix products, and their
-# commutator, showing that multiplication order matters.
+# In matrix mechanics, quantities are matrices, and multiplying them in a
+# different order can give a different result. Two 2x2 matrices, H and X,
+# stand in for an energy and a swap. N3 arithmetic rules derive H's trace
+# and determinant, the products HX, XH and XX, and the commutator HX - XH,
+# which is not zero: the order matters. Rules ending in false guard the
+# calculation, and log:query picks the answer to print.
 
 @prefix : <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 
-# Facts
+# The matrices, entry by entry (aRC is row R, column C).
+# H = [[1 0] [0 2]] is diagonal; X = [[0 1] [1 0]] swaps the two entries.
 :H :a11 1 ;
     :a12 0 ;
     :a21 0 ;
@@ -18,7 +22,6 @@
     :a21 1 ;
     :a22 0 .
 
-# Logic
 # trace(H) = H11 + H22
 {
     :H :a11 ?h11 ;
@@ -158,7 +161,8 @@
         :a22 ?c22 .
 } .
 
-# Summary facts
+# Summary facts: H has trace 3 and determinant 2, so its eigenvalues are
+# 1 and 2; X times X is the identity; the commutator has a nonzero entry.
 {
     :H :trace 3 ;
         :det 2 .
@@ -203,7 +207,8 @@
     :C :nonzero "yes" .
 } .
 
-# Checks (fail hard if the algebra is wrong)
+# Checks: each rule concludes false, which stops the run with an error, if
+# a computed value is not what the algebra says it must be.
 {
     :H :trace ?tr .
     ?tr math:notEqualTo 3 .
@@ -241,7 +246,7 @@
         :a22 0 .
 } => false .
 
-# Query answer
+# Query: print H's trace and determinant and every entry of the commutator.
 {
     :H :trace ?Trace ;
         :det ?Determinant .

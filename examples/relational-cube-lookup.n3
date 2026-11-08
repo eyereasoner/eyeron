@@ -7,6 +7,7 @@
 @prefix : <https://eyereasoner.github.io/eyepl/examples/relational-cube-lookup#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# Each tuple has three keys and one value; this table contains 3,375 facts.
 (:a0 :b0 :c0) :relation :v0_0 .
 (:a0 :b31 :c1) :relation :v0_1 .
 (:a0 :b62 :c2) :relation :v0_2 .
@@ -3383,6 +3384,8 @@
 (:a224 :b223 :c13) :relation :v224_13 .
 (:a224 :b254 :c14) :relation :v224_14 .
 
+# A backward answer requires all 2,000 lookups below to succeed.
+# Each lookup fixes its first and third key and binds the second and the value.
 {
     :case :lookupResult :passed .
 } <= {
@@ -5388,6 +5391,7 @@
     (:a206 ?b1999 :c5) :relation ?v1999 .
 } .
 
+# Report the lookup result with the stated size of the workload.
 {
     :case :lookupResult ?result .
 } log:query {

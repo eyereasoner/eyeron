@@ -1,44 +1,29 @@
 # Checking a beam's bending stress
 #
-# A beam design supplies dimensions, load, and allowable stress. N3
-# arithmetic rules derive bending quantities and check whether the supplied
-# design satisfies the modeled safety limit.
+# Four designs of a simply supported rectangular beam carry a point load at
+# mid-span. Backward rules (<=) compute each beam's bending moment, section
+# modulus, bending stress and safety factor, and compare the stress with the
+# allowable stress. eyeron answers three queries: three designs are safe and
+# the overloaded floor beam is not. It shows backward rules with N3 math
+# built-ins, and log:query to choose what is printed.
 
 @base <https://eyereasoner.github.io/eye/reasoning/beam-bending-safety/beam-bending-safety.n3> .
 
-# beam-bending-safety.n3
-#
-# Case study: bending safety of rectangular beams under a
-# mid-span point load, for a simply supported beam.
-#
-# For each beam design B we have:
-# - span L          (meters)
-# - mid-span load P (kN, treated numerically)
-# - width  b        (meters)
-# - height h        (meters)
-# - allowableStress sigma_allow (arbitrary units)
+# For each beam design we have:
+# - span L          (metres)
+# - mid-span load P (kN)
+# - width  b        (metres)
+# - height h        (metres)
+# - allowable stress sigma_allow (kN/m², given these units)
 #
 # Mechanics:
-# - Maximum bending moment:
-# M_max = P * L / 4
-# - Section modulus for a rectangular section:
-# S = b * h^2 / 6
-# - Bending stress:
-# sigma = M_max / S
+# - maximum bending moment: M_max = P * L / 4
+# - section modulus of a rectangle: S = b * h^2 / 6
+# - bending stress: sigma = M_max / S
+# - safety factor: sigma_allow / sigma
 #
-# A design is considered:
-# - safe if sigma ≤ sigma_allow
-# - failing if sigma > sigma_allow
-#
-# We also derive a safety factor:
-# safetyFactor = sigma_allow / sigma
-#
-# Example designs:
-# - ShelfLight        : short, lightly loaded shelf.
-# - FloorBase         : base floor beam under moderate load.
-# - FloorOverload     : same beam with roughly double the load.
-# - FloorTall         : same load as FloorBase but a taller beam.
-#
+# A design is safe if sigma ≤ sigma_allow and failing otherwise.
+
 @prefix : <http://example.org/beam#> .
 @prefix beam: <http://example.org/beam#> .
 @prefix thm: <http://example.org/theorem#> .
@@ -51,32 +36,26 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-# Beam designs and mechanical properties
+# The vocabulary: a class of beam designs, the given quantities (span L,
+# pointLoad P, width b, height h, allowableStress sigma_allow) and the
+# derived ones (maxMoment M_max, sectionModulus S, bendingStress sigma,
+# safetyFactor, isSafe as a boolean).
 :BeamDesign a rdfs:Class .
 
 :span a rdf:Property .
-# L
 :pointLoad a rdf:Property .
-# P
 :width a rdf:Property .
-# b
 :height a rdf:Property .
-# h
 :allowableStress a rdf:Property .
 
-# sigma_allow
 :maxMoment a rdf:Property .
-# M_max
 :sectionModulus a rdf:Property .
-# S
 :bendingStress a rdf:Property .
-# sigma
 :safetyFactor a rdf:Property .
-# sigma_allow / sigma
 :isSafe a rdf:Property .
 
-# xsd:boolean
-# Backward rules for derived quantities
+# Backward rules for derived quantities: each is computed when asked for.
+
 # Maximum bending moment for simply supported beam with mid-span load:
 # M_max = P * L / 4
 {
@@ -144,23 +123,18 @@
     ?sigma math:greaterThan ?allow .
 } .
 
-# Example beam designs
-#
-# All designs use the same allowableStress (value 12000 units).
-#
-# Numerical values are chosen for interesting comparisons:
-# - FloorOverload has about twice the bending stress of FloorBase.
-# - FloorTall has substantially less stress than FloorBase.
+# Example beam designs, all with the same allowable stress of 12000:
+# - ShelfLight: a short, lightly loaded shelf.
+# - FloorBase: a floor beam under its design load, just within the limit.
+# - FloorOverload: the same beam with double the load, so double the stress.
+# - FloorTall: the base load on a beam 0.3 m instead of 0.2 m tall; stress
+#   falls with the square of the height.
 :ShelfLight a :BeamDesign ;
     :description "short wall-mounted shelf with light load" ;
     :span 0.8 ;
-    # meters
     :pointLoad 1.0 ;
-    # kN
     :width 0.04 ;
-    # meters
     :height 0.06 ;
-    # meters
     :allowableStress 12000.0 .
 
 :FloorBase a :BeamDesign ;
@@ -185,10 +159,9 @@
     :pointLoad 5.0 ;
     :width 0.05 ;
     :height 0.3 ;
-    # taller section
     :allowableStress 12000.0 .
 
-# Query answer
+# Queries: print each design's bending stress, safety factor and verdict.
 {
     ?Subject :bendingStress ?Value .
 } log:query {

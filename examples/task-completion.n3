@@ -7,10 +7,13 @@
 @prefix : <http://example.org/test#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# Two composite tasks in the main graph.
 :task1 a :CompositeTask .
 
 :task2 a :CompositeTask .
 
+# A quoted document listing each task's subtasks and which are completed.
+# Task 2's second subtask is not marked completed.
 :subtasks :graph {
 
     :task1 :subTask :subtask1 .
@@ -30,6 +33,9 @@
     # :subtask5 a :Completed.
 } .
 
+# A task is completed when, inside the quoted document, every subtask it
+# lists is marked completed: log:forAllIn checks the second pattern for
+# every match of the first.
 {
     ?Task a :CompositeTask .
     :subtasks :graph ?Graph .

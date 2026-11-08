@@ -9,6 +9,8 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix string: <http://www.w3.org/2000/10/swap/string#> .
 
+# The companion input supplies fuel indices and travel times. Recommend
+# the alternative only if it saves fuel and stays within the delay limit.
 {
     :currentRoute :fuelIndex ?Current ;
         :etaMinutes ?CurrentEta .
@@ -28,6 +30,8 @@
         :estimatedSaving ?Saving .
 } .
 
+# Render the selected insight with its audience, use and expiry. Envelope
+# fields are supplied data; this rule does not verify the signature.
 {
     :Insight :status "issue" ;
         :showEcoBanner ?Show ;

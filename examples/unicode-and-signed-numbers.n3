@@ -1,21 +1,25 @@
 # Matching Unicode escapes and a negative number
 #
-# A string contains a Unicode escape, and a temperature change is negative.
-# N3 rules recognize the decoded text and use a numeric comparison to
-# derive a below-zero classification.
+# A string is written with a Unicode escape, and a temperature change is
+# negative. One rule matches the string by its decoded text "ABC"; another
+# compares the number with 0 and classifies the change as below zero. It
+# shows that \U escapes and signed numbers are read as values, not as text.
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/unicode-and-signed-numbers#> .
 
+# \U00000043 is the letter C, so the text is "ABC".
 :sample :text "AB\U00000043" .
 :thermo :delta -12 .
 
+# The text matches "ABC" because the escape is decoded when it is read.
 {
     :sample :text "ABC"
 } => {
     :sample a :UnicodeDecoded
 } .
 
+# A negative change is below zero.
 {
     :thermo :delta ?d .
     ?d math:lessThan 0 .

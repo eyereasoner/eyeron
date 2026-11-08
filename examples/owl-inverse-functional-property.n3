@@ -1,8 +1,10 @@
 # Equating people who share an identifying account
 #
-# An account property is declared inverse functional, and two person names
-# share one account. An explicit N3 rule derives equality between those
-# names from the common value.
+# An account belongs to only one person (the property is
+# owl:InverseFunctionalProperty), yet two person names, :alice and
+# :aliceAlias, have the same account. An N3 rule concludes that the two
+# names denote the same person (owl:sameAs). A second rule is an inference
+# fuse (=> false) for the case that the two were stated to be different.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,14 +12,16 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# An inverse functional property, and two subjects sharing a value
 :account a owl:InverseFunctionalProperty .
 :alice :account :shared .
 :aliceAlias :account :shared .
 
-# Inference rules
+# Rules for owl:InverseFunctionalProperty
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
+# Two subjects with the same value are the same thing. X and Y may also
+# match the same subject, so each is the same as itself.
 {
     ?P a owl:InverseFunctionalProperty .
     ?X ?P ?O .
@@ -26,6 +30,7 @@
     ?X owl:sameAs ?Y
 } .
 
+# Fuse: two subjects stated to be different would be a contradiction.
 {
     ?P a owl:InverseFunctionalProperty .
     ?X ?P ?O .

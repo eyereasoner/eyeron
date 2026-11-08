@@ -7,10 +7,13 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/negation-orphan#> .
 
+# Alice has a recorded parent; Bob has none in this dataset.
 :alice a :Person .
 :bob a :Person .
 :alice :childOf :carol .
 
+# Bind the person before testing absence. Orphan means no childOf link
+# was found here; it does not establish a real-world family circumstance.
 {
     ?x a :Person .
     ?SCOPE log:notIncludes {

@@ -1,14 +1,18 @@
 # Fresh witnesses in generated rules
 #
-# Koko's animal classification causes two new rules to be generated. Their
-# blank nodes produce distinct cat and shorthair witnesses, and another N3
-# rule checks that they differ.
+# Koko is an animal, and a rule turns that into two new rules. Each new rule
+# says that some individual exists, a cat or a British shorthair, with a
+# blank node. Eyeron introduces two distinct individuals, and a last rule
+# confirms that they differ. It shows rules that conclude rules.
 
 @prefix : <https://eyereasoner.github.io/ns#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
 :Koko a :Animal .
 
+# A rule whose conclusion is two more rules. Each says: if Koko is an animal,
+# some individual (_:x) is a cat, or a British shorthair. The two _:x are in
+# different formulas, so they are different blank nodes.
 {
     :Koko a :Animal
 } => {
@@ -24,6 +28,7 @@
     } .
 } .
 
+# Succeeds when the cat and the shorthair are different individuals.
 {
     ?X a :Cat .
     ?Y a :BritishShortHair .

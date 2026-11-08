@@ -2,17 +2,22 @@
 #
 # Bobo's type is an unnamed node that is itself classified as a monkey. An
 # N3 rule derives an animal classification for that node, and another rule
-# checks the combined evidence.
+# checks the combined evidence. It shows how a blank node, written [ ... ],
+# takes part in rules like any named resource; note that the rules classify
+# Bobo's type, not Bobo.
 
 @prefix : <https://eyereasoner.github.io/ns#> .
 
 :Bobo a [ a :Monkey ] .
+
+# Every monkey is an animal.
 {
     ?X a :Monkey
 } => {
     ?X a :Animal
 } .
 
+# Something that is both a monkey and an animal passes the test.
 {
     ?X a :Monkey .
     ?X a :Animal

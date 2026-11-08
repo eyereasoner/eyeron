@@ -1,21 +1,25 @@
 # Deriving ancestors in a small family
 #
-# Three parent links describe two family branches. Recursive forward N3
-# rules derive direct and indirect ancestors, making the inferred
-# relationships available as output.
+# Three parent links describe two family branches. Two forward N3 rules, one
+# of them recursive, derive direct and indirect ancestors. The program has no
+# log:query, so eyeron outputs every statement it derived: the four ancestor
+# relationships.
 
 @prefix : <https://eyereasoner.github.io/eyepl/examples/query#> .
 
+# The family: alice -> bob -> carol, and dora -> emma
 :alice :parentOf :bob .
 :bob :parentOf :carol .
 :dora :parentOf :emma .
 
+# A parent is an ancestor
 {
     ?x :parentOf ?y
 } => {
     ?x :ancestorOf ?y
 } .
 
+# A parent of an ancestor is an ancestor too (the recursive rule)
 {
     ?x :parentOf ?y .
     ?y :ancestorOf ?z

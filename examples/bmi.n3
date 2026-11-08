@@ -1,15 +1,20 @@
 # Calculating an illustrative body mass index
 #
-# A sample weight and height are converted into body mass index and an
-# adult category. N3 arithmetic also derives a weight band for that height;
+# A sample weight (72 kg) and height (178 cm) are turned into a body mass
+# index of about 22.72, which falls in the adult category "normal". The same
+# arithmetic gives the weight band, about 58.6 to 78.9 kg, that counts as
+# healthy for that height. It shows N3 math built-ins on decimal numbers;
 # this is an example, not medical advice.
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <http://example/> .
 
+# The measurements: weight in kilograms, height in centimetres.
 :input :weight 72.0 ;
     :height 178.0 .
 
+# BMI is weight divided by the square of the height in metres. The healthy
+# band is the weight that gives a BMI from 18.5 to 24.9 at this height.
 {
     :input :weight ?weight ;
         :height ?heightCm .
@@ -24,6 +29,7 @@
         :healthyMax ?healthyMax
 } .
 
+# Round the BMI to two decimals: scale by 100, round, scale back.
 {
     :case :bmi ?bmi .
     (?bmi 100.0) math:product ?bmiScaled .
@@ -33,6 +39,7 @@
     :case :bmiRounded ?bmiRounded
 } .
 
+# Round both ends of the healthy band to one decimal.
 {
     :case :healthyMin ?min .
     (?min 10.0) math:product ?minScaled .
@@ -51,6 +58,8 @@
     :case :healthyMaxRounded ?maxRounded
 } .
 
+# The adult categories: each rule tests one half-open range of the BMI, so
+# exactly one of them applies.
 {
     :case :bmi ?bmi .
     ?bmi math:lessThan 18.5

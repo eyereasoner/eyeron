@@ -1,8 +1,11 @@
 # Deriving a shared observation and flow view
 #
-# Local sensor terms are linked to shared vocabularies. N3 rules apply
-# class and property mappings to derive observation facts and a small local
-# flow-and-policy view.
+# A temperature reading arrives in a team's own local terms. The local terms
+# are mapped to the shared SOSA sensor vocabulary with subclass, subproperty
+# and equivalent-property links. Generic N3 rules use those links to restate
+# the reading in shared terms, record for each mapped term that a streaming
+# runtime could copy it directly, and attach the reading to a flow step that
+# is trusted through its sensor.
 
 @prefix : <https://example.org/knowledge-engineering-alignment-flow#> .
 @prefix fpv: <https://example.org/fpv#> .
@@ -31,6 +34,7 @@
 :probe7 a :TemperatureProbe .
 
 # Generic rules over vocabulary primitives. They never mention the source classes directly.
+# Whatever is in a class is also in each of its superclasses.
 {
     ?thing a ?class .
     ?class rdfs:subClassOf ?super .
@@ -38,6 +42,7 @@
     ?thing a ?super .
 } .
 
+# A statement with a property also holds with each of its superproperties.
 {
     ?subject ?property ?object .
     ?property rdfs:subPropertyOf ?superProperty .
@@ -45,6 +50,7 @@
     ?subject ?superProperty ?object .
 } .
 
+# Equivalent properties carry the same statements, in both directions.
 {
     ?p owl:equivalentProperty ?q .
     ?s ?p ?o .

@@ -10,11 +10,12 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix polygon: <https://eyereasoner.github.io/eye/reasoning/polygon#> .
 
-# calculating the area of a polygon
+# A one-point tail contributes no area to the adjacent-edge sum.
 {
     (?POINT) polygon:area 0
 } <= true .
 
+# For each adjacent pair add half of X1*Y2 - Y1*X2, then process the tail.
 {
     ?POINTS polygon:area ?AREA
 } <= {
@@ -28,7 +29,7 @@
     (?Z4 ?AREA1) math:sum ?AREA .
 } .
 
-# test
+# The last vertex repeats the first, closing the polygon for the edge sum.
 {
     ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area ?AREA
 } => {

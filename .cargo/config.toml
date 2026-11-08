@@ -1,2 +1,9 @@
 [alias]
 playground = "run --release --bin eyeron-playground-build --"
+
+# Report totals for ordinary native Cargo test invocations too.
+[build]
+rustdoc = "scripts/test-rustdoc"
+
+[target.'cfg(unix)']
+runner = ["bash", "scripts/test-runner"]

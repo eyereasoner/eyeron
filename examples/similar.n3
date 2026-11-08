@@ -1,21 +1,26 @@
 # Finding a shared property value
 #
 # Alice and Bob are both human. A backward N3 rule calls two subjects
-# similar when they share a predicate and object, allowing a forward rule
-# to confirm their similarity.
+# similar when they share a predicate and object, so a forward rule that asks
+# whether Alice is similar to Bob concludes :test :is true. It shows a
+# backward rule with a variable predicate, used only when asked.
 
 @prefix : <https://eyereasoner.github.io/ns#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# Two facts with the same predicate and object.
 :Alice a :Human .
 :Bob a :Human .
 
+# The test: if Alice is similar to Bob, record that the test passed.
 {
     :Alice :similar :Bob .
 } => {
     :test :is true .
 } .
 
+# A is similar to B when some statement about A, with the same predicate and
+# object, is also true of B.
 {
     ?A :similar ?B .
 } <= {

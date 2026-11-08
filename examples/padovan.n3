@@ -9,12 +9,14 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# Start the moving window at P(0)=0, P(1)=1 and P(2)=1.
 {
     ?N :padovan ?Result
 } <= {
     (?N 0 1 1) :padovanTail ?Result
 } .
 
+# The three base cases select the requested entry from the current window.
 {
     (0 ?A ?B ?C) :padovanTail ?A
 } <= true .
@@ -27,6 +29,7 @@
     (2 ?A ?B ?C) :padovanTail ?C
 } <= true .
 
+# Advance (A, B, C) to (B, C, A+B), reducing the remaining index by one.
 {
     (?N ?A ?B ?C) :padovanTail ?Result
 } <= {
@@ -36,6 +39,7 @@
     (?Previous ?B ?C ?Next) :padovanTail ?Result .
 } .
 
+# Request just the first eleven values, from index 0 through 10.
 {
     (0 1 2 3 4 5 6 7 8 9 10) list:member ?N .
     ?N :padovan ?Result

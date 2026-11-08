@@ -9,11 +9,14 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix : <http://example.org/socrates#> .
 
+# The Human statement is inside a graph value; it is not a top-level fact.
 :we :have {
     :Socrates rdf:type :Human .
 } .
 :Human rdfs:subClassOf :Mortal .
 
+# Match the quoted type, follow its subclass link and produce another
+# quoted statement under have, keeping it apart from asserted data.
 {
     ?A rdfs:subClassOf ?B .
     :we :have {

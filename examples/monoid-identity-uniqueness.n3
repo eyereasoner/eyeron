@@ -1,8 +1,13 @@
 # Comparing identity elements in a monoid
 #
-# A finite multiplication model includes an identity and a candidate
-# identity. N3 rules combine the supplied multiplication laws to derive
-# that the two identity terms agree.
+# The monoid laws are written as N3 rules: associativity, an identity :e on
+# both sides, and a candidate ?e2 that acts as a left identity, together with
+# the classic argument that e2 = e2 * e = e. The program states no elements,
+# so none of these rules fires. The query asks which ?e2 is log:equalTo :e,
+# and that built-in, which holds only for identical terms, answers :e itself.
+# Adding elements and a candidate :e2 makes the uniqueness rule conclude
+# :e2 log:equalTo :e, which eyeron rejects as a false built-in statement,
+# because two different names are not identical terms.
 
 @prefix : <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .

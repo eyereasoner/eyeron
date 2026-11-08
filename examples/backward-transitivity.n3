@@ -1,14 +1,18 @@
 # Following candidate comparisons
 #
-# Candidate comparisons can come from scores, awards, or existing links.
-# Backward N3 rules extend these comparisons transitively and make the
-# resulting answers available to the query.
+# Candidates can be more interesting than others because of a higher score,
+# an award, a stated comparison, or a chain of such comparisons. The question
+# here is whether A is more interesting than C. No single fact says so: A beats
+# B on score, and B is stated to beat C, so the recursive backward rule chains
+# the two. A log:query selects that answer as the output.
 
 @prefix : <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+# The candidates. The log:table statement is a hint some reasoners use to
+# remember answers to recursive questions; no rule here reads it.
 _:b1 log:table :moreInterestingThan .
 :A :score 8 .
 :B :score 5 .
@@ -16,6 +20,7 @@ _:b1 log:table :moreInterestingThan .
 :D :hasAward true .
 :B :boring true .
 
+# Backward rule 1: X is more interesting than Y when X has the higher score.
 {
     ?X :moreInterestingThan ?Y .
 } <= {
@@ -24,6 +29,8 @@ _:b1 log:table :moreInterestingThan .
     ?SX math:greaterThan ?SY .
 } .
 
+# Backward rule 2: a candidate with an award is more interesting than a
+# boring one.
 {
     ?X :moreInterestingThan ?Y .
 } <= {
@@ -31,6 +38,8 @@ _:b1 log:table :moreInterestingThan .
     ?Y :boring true .
 } .
 
+# Backward rule 3: the comparison is transitive. If X beats Y and Y beats Z,
+# then X beats Z.
 {
     ?X :moreInterestingThan ?Z .
 } <= {
@@ -38,12 +47,14 @@ _:b1 log:table :moreInterestingThan .
     ?Y :moreInterestingThan ?Z .
 } .
 
+# Forward rule: ask the question and record the answer.
 {
     :A :moreInterestingThan :C .
 } => {
     :A :moreInterestingThan :C .
 } .
 
+# Query: select that answer as the output.
 {
     :A :moreInterestingThan :C .
 } log:query {

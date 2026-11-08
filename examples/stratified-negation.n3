@@ -1,30 +1,37 @@
 # Checking eligibility after blocking is derived
 #
-# Direct blocks and flagged people both lead to a blocked classification.
-# N3 rules derive those consequences before scoped absence tests select
-# eligible people, even when a producer rule appears later in the file.
+# Alice, Bob and Carol are people; Alice is directly blocked and Carol is
+# flagged. Two rules make both of them blocked, and a third calls a person
+# eligible when no statement says they are blocked. Eyeron finishes deriving
+# blocks before it tests for their absence, so only Bob is eligible. It shows
+# stratified negation with log:notIncludes.
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/stratified-negation#> .
 
+# Three people, one directly blocked and one flagged.
 :alice a :Person .
 :bob a :Person .
 :carol a :Person .
 :alice a :DirectlyBlocked .
 :carol a :Flagged .
 
+# A directly blocked person is blocked.
 {
     ?x a :DirectlyBlocked
 } => {
     ?x a :Blocked
 } .
 
+# A flagged person is blocked too.
 {
     ?x a :Flagged
 } => {
     ?x a :Blocked
 } .
 
+# A person is eligible when the graph does not say they are blocked. This
+# only makes sense once every block has been derived, which Eyeron ensures.
 {
     ?x a :Person .
     ?SCOPE log:notIncludes {

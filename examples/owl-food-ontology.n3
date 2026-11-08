@@ -1,12 +1,15 @@
 # Classifying foods with explicit vocabulary rules
 #
-# A small food vocabulary describes classes and restrictions alongside
-# sample foods. N3 rules interpret those declarations to derive
-# classifications and relationships for the supplied food instances.
+# Five unnamed sample foods each have one type, and a food class hierarchy
+# from the OWL Guide's food ontology says which classes fall under which.
+# Four RDF Schema rules, written in N3, follow rdfs:subClassOf upward, and
+# a log:query asks for every type each food ends up with: a grape, for
+# instance, is also a sweet fruit, an edible thing and a consumable thing.
 
 @base <https://eyereasoner.github.io/eye/reasoning/rpo/food-example.n3> .
 @prefix food: <http://www.w3.org/2002/03owlt/miscellaneous/consistent002#> .
 
+# The sample foods, as blank nodes: things with no name of their own
 _:g a food:Grape .
 _:cnd a food:CheeseNutsDessert .
 _:pwlcs a food:PastaWithLightCreamSauce .
@@ -16,6 +19,8 @@ _:m a food:Meal .
 @base <https://eyereasoner.github.io/eye/reasoning/rpo/food.n3> .
 
 # Food example - Examples from the OWL Guide
+# The class hierarchy: each line says every member of the first class is
+# also a member of the second.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix food: <http://www.w3.org/2002/03owlt/miscellaneous/consistent002#> .
 
@@ -58,6 +63,7 @@ food:EatingGrape rdfs:subClassOf food:Grape .
 @base <https://eyereasoner.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
+# A member of a class is a member of its superclass.
 {
     ?C rdfs:subClassOf ?D .
     ?X a ?C
@@ -65,6 +71,7 @@ food:EatingGrape rdfs:subClassOf food:Grape .
     ?X a ?D
 } .
 
+# Subclass is transitive.
 {
     ?C rdfs:subClassOf ?D .
     ?D rdfs:subClassOf ?E
@@ -72,6 +79,8 @@ food:EatingGrape rdfs:subClassOf food:Grape .
     ?C rdfs:subClassOf ?E
 } .
 
+# Domains and ranges widen to superclasses; this vocabulary declares none,
+# so these two rules never fire here.
 {
     ?C rdfs:subClassOf ?D .
     ?P rdfs:domain ?C
@@ -86,7 +95,7 @@ food:EatingGrape rdfs:subClassOf food:Grape .
     ?P rdfs:range ?D
 } .
 
-# Query
+# Query: report every type of every thing, given or derived
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
 {

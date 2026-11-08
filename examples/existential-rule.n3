@@ -7,11 +7,12 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix : <http://example.org/socrates#> .
 
-# facts
+# Facts: two humans.
 :Socrates a :Human .
 :Plato a :Human .
 
-# subclass rule
+# Every human is something: the blank node _:B in the conclusion is
+# existential, so each firing introduces a fresh individual.
 {
     ?S a :Human .
 } => {

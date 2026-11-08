@@ -1,24 +1,29 @@
 # Checking an access policy
 #
-# A request must satisfy required fields, include an allowed option, and
-# avoid forbidden fields. Eyeron checks these conditions with backward
-# rules and scoped tests over the request facts.
+# A request names a policy and lists the fields it has. The policy says which
+# fields are all required, which fields at least one of must be present, and
+# which fields must be absent. Eyeron concludes that the request passes all
+# three tests, so the policy is satisfied. The tests are backward rules (`<=`)
+# that use log:forAllIn and log:collectAllIn to look over the current facts.
 
 @base <https://eyereasoner.github.io/eye/reasoning/access-control-policy/acp.n3> .
 
-# Access control policy example
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example.org/#> .
 
+# The request: test1 is checked against PolicyX and has fields A, B and C.
 :test1 :policy :PolicyX ;
     :has :A, :B, :C .
 
+# The policy: A and B are both required, C is an allowed option of which at
+# least one must be present, and D is forbidden.
 :PolicyX a :Policy ;
     :allOf :A, :B ;
     :anyOf :C ;
     :noneOf :D .
 
+# All of: every field the policy lists under allOf is one the request has.
 {
     ?Pol :pass :allOfTest .
 } <= {
@@ -34,6 +39,7 @@
     ) log:forAllIn ?X .
 } .
 
+# Any of: collect the anyOf fields the request has; the list is not empty.
 {
     ?Pol :pass :anyOfTest .
 } <= {
@@ -50,6 +56,7 @@
     ?L log:notEqualTo 0 .
 } .
 
+# None of: collect the noneOf fields the request has; the list is empty.
 {
     ?Pol :pass :noneOfTest .
 } <= {
@@ -66,7 +73,7 @@
     ?L log:equalTo 0 .
 } .
 
-# Query
+# Query: report each policy that passes all three tests.
 @prefix : <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .

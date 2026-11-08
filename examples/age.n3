@@ -10,10 +10,12 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://example.org/#> .
 
-# person data
+# A person and their date of birth.
 :patH :birthDay "1944-08-21"^^xsd:date .
 
-# is the age of a person above some duration?
+# A backward rule: S's age is above A when the time between S's birth date
+# and the current local time is longer than the duration A. Because the rule
+# reads the clock, its answer can change from one run to the next.
 {
     ?S :ageAbove ?A
 } <= {
@@ -23,7 +25,7 @@
     ?F math:greaterThan ?A .
 } .
 
-# test
+# Ask whether :patH is older than 80 years, and record the answer.
 {
     ?S :ageAbove "P80Y"^^xsd:duration .
 } => {

@@ -1,14 +1,17 @@
 # Combining and reversing parent links
 #
-# Two parent facts form a short family chain. Ordinary N3 rules join two
-# links to derive a grandparent and reverse a link to derive a has-parent
-# relationship.
+# Two parent facts form a short family chain: a is the parent of b, and b of
+# c. Two ordinary N3 rules play the part of SPARQL property paths: one
+# follows two parent links in a row to derive that a is the grandparent of
+# c, the other follows a link backwards to derive who has which parent.
 
 @prefix : <http://example/> .
 
+# The family chain
 :a :parentOf :b .
 :b :parentOf :c .
 
+# A sequence path: a parent of a parent is a grandparent
 {
     ?x :parentOf ?y .
     ?y :parentOf ?z
@@ -16,6 +19,7 @@
     ?x :grandparentOf ?z
 } .
 
+# An inverse path: the parent link read backwards
 {
     ?x :parentOf ?y
 } => {

@@ -8,8 +8,11 @@
 @prefix time: <http://www.w3.org/2000/10/swap/time#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+# One fixed moment: 1 April 2023, 18:06:04 in UTC.
 :Let :dt "2023-04-01T18:06:04Z"^^xsd:dateTime .
 
+# Take the moment apart with the time built-ins, one per component, and
+# report each part. The hour is not asked for.
 {
     :Let :dt ?d .
     ?d time:year ?y ;

@@ -7,18 +7,22 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/policy#> .
 
+# Alice is already blocked; Carol is flagged; Bob has neither classification.
 :alice a :Person .
 :bob a :Person .
 :carol a :Person .
 :alice a :Blocked .
 :carol a :Flagged .
 
+# Settle the positive blocking consequences before absence is considered.
 {
     ?x a :Flagged
 } => {
     ?x a :Blocked
 } .
 
+# A person is eligible only when no Blocked classification can be found.
+# Carol is excluded by the earlier rule, so only Bob qualifies.
 {
     ?x a :Person .
     ?SCOPE log:notIncludes {

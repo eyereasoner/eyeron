@@ -8,11 +8,14 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example.com/> .
 
+# The workflow and its two completed members are supplied facts.
 :workflowA a :Workflow ;
     :includes :taskA, :taskB .
 :taskA a :Completed .
 :taskB a :Completed .
 
+# Bind one workflow first, then collect just its completed members.
+# The resulting list belongs to that workflow.
 {
     ?workflow a :Workflow .
     (

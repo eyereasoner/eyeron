@@ -1,8 +1,9 @@
 # Following a parent relationship in reverse
 #
-# Parent-of and child-of are declared inverse properties. Explicit N3 rules
-# derive reverse-direction statements and the symmetric inverse declaration
-# from the supplied family links.
+# Parent-of and child-of are declared inverse properties (owl:inverseOf):
+# A is the parent of B exactly when B is the child of A. N3 rules turn each
+# family link around, in both directions, and also derive that the inverse
+# declaration holds the other way round.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,14 +11,15 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# The inverse declaration, and one link with each property
 :parentOf owl:inverseOf :childOf .
 :alice :parentOf :bob .
 :carol :childOf :dave .
 
-# Inference rules
+# Rules for owl:inverseOf
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
+# A statement with P gives the reverse statement with Q ...
 {
     ?P owl:inverseOf ?Q .
     ?S ?P ?O
@@ -25,6 +27,7 @@
     ?O ?Q ?S
 } .
 
+# ... and a statement with Q gives the reverse statement with P.
 {
     ?P owl:inverseOf ?Q .
     ?S ?Q ?O
@@ -32,6 +35,7 @@
     ?O ?P ?S
 } .
 
+# Being inverses is symmetric.
 {
     ?P owl:inverseOf ?Q
 } => {

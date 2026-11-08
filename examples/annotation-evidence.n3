@@ -1,25 +1,31 @@
 # Finding the source of a quoted statement
 #
-# A claim records a statement, its author, and a date. N3 rules inspect the
-# quoted graph and its metadata to derive which claim and source support
-# the statement.
+# Alice's name is "Alice", and a claim records that same statement as a
+# quoted graph, together with who stated it (Bob) and when (7 July 2021).
+# Four rules check that the statement holds, find the claim that quotes it,
+# and read the claim's author and date. The example shows N3 quoted graphs
+# { ... } used as values, so statements can carry their own metadata.
 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example/> .
 
 :alice :name "Alice" .
+
+# A claim quoting the statement, with its author and recording date.
 :claim :statement {
     :alice :name "Alice"
 } ;
     :statedBy :bob ;
     :recorded "2021-07-07"^^xsd:date .
 
+# The statement itself holds.
 {
     :alice :name "Alice"
 } => {
     :test :hasStatement true
 } .
 
+# Find the claim that quotes the statement.
 {
     ?claim :statement {
         :alice :name "Alice"
@@ -28,6 +34,7 @@
     :test :hasNamedStatement ?claim
 } .
 
+# Who stated it.
 {
     ?claim :statement {
         :alice :name "Alice"
@@ -37,6 +44,7 @@
     :test :statementAuthor ?who
 } .
 
+# When it was recorded.
 {
     ?claim :statement {
         :alice :name "Alice"

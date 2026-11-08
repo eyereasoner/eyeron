@@ -1,12 +1,14 @@
 # RDF Message Logs in Eyeron — from stream to reasoning
 
+[rdf-message-flow.n3](https://github.com/eyereasoner/eyeron/blob/main/examples/rdf-message-flow.n3) · [input](https://github.com/eyereasoner/eyeron/blob/main/examples/input/rdf-message-flow.trig) · [output](https://github.com/eyereasoner/eyeron/blob/main/examples/output/rdf-message-flow.md) · [proof](https://github.com/eyereasoner/eyeron/blob/main/examples/proof/rdf-message-flow.n3) · [check](https://github.com/eyereasoner/eyeron/blob/main/examples/check/rdf-message-flow.n3) · [try it in the playground](https://eyereasoner.github.io/eyeron/playground#example=rdf-message-flow)
+
 This deck reads alongside the [rules](../rdf-message-flow.n3) and the replayed [message log input](../input/rdf-message-flow.trig): the [golden output](../output/rdf-message-flow.md) shows what Eyeron derives once `-r` has exposed the RDF Message envelopes and payload graphs.
 
 The goal is to show, in plain language, how Eyeron can now read an RDF Message Log directly instead of asking the example data to describe its own message envelopes by hand.
 
 ---
 
-## The everyday problem
+## The question
 
 Many real systems do not receive one big dataset.
 
@@ -262,7 +264,7 @@ You can replay the stream, reason over each message atomically, and explain what
 
 ---
 
-## The takeaway
+## Why the message boundaries matter
 
 `MESSAGE` is the boundary.
 
@@ -271,3 +273,96 @@ Eyeron turns those boundaries into ordered replay envelopes.
 The N3 rules consume the replay and focus on the domain logic.
 
 That makes the example shorter, clearer, and closer to how a real pub/sub channel would be processed.
+
+---
+
+## What we tell Eyeron
+
+The following excerpts use the prefixes declared in the linked source.
+These are excerpts; the linked file contains the complete program.
+
+```n3
+# Eyeron's parser-level replay exposes the first envelope; that starts the
+# consumer-visible flow. Later envelopes are released only by the sink rule.
+{
+    ?Stream a eymsg:RDFMessageStream ;
+        eymsg:firstEnvelope ?Envelope .
+} => {
+    ?Envelope :atStage :ingest .
+} .
+```
+
+`{ … } => { … }` reads “when the left side holds, conclude the right side.”
+Names beginning with `?` are variables: they stand for the values that make
+the conditions match. The companion input supplies additional facts; load it
+together with the rules in the commands below.
+
+---
+
+## What Eyeron concludes
+
+An excerpt of the saved text report:
+
+```text
+Continuous RDF Message flow accepted: 5 ordered parser-replayed message envelopes moved through the ingest → validate → interpret → route → sink pipeline. The threshold was 26, so results 21 and 22 were archived, the empty heartbeat kept the stream alive, and results 28 and 29 were emitted as alerts.
+```
+
+---
+
+## The proof, step by step
+
+`eyeron -p` records why the conclusions follow. This excerpt is one recorded
+step from the saved proof:
+
+```n3
+{ <urn:eyeron:rdf-message-stream:1:envelope:1> :atStage :ingest . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Envelope"; pe:value <urn:eyeron:rdf-message-stream:1:envelope:1> ],
+    [ pe:var "Stream"; pe:value <urn:eyeron:rdf-message-stream:1> ];
+  pe:uses
+    { <urn:eyeron:rdf-message-stream:1> a eymsg:RDFMessageStream . },
+    { <urn:eyeron:rdf-message-stream:1> eymsg:firstEnvelope <urn:eyeron:rdf-message-stream:1:envelope:1> . }.
+```
+
+`pe:rule 1` identifies the source rule used by this step. `pe:binding` records the values substituted for variables; `pe:uses` lists the premises the step depends on. Those premises have their own supporting steps in the full proof.
+
+---
+
+## Checked: what the report says
+
+The saved check report gives this verdict and these selected conditions:
+
+```n3
+# checked: 98 steps, 98 verified, 0 trusted
+    pe:verdict pe:checked;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 87; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 11; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 57; pe:failed 0 ].
+```
+
+Resolution checks that the recorded facts and rule applications match the
+source program.
+
+Re-decision recomputes the recorded built-in operations.
+
+Call fidelity checks the answer against the question as it was called.
+
+The verdict is **checked** for the recorded claims. It does not establish that
+every possible answer was found.
+
+---
+
+## Try it
+
+```sh
+eyeron -r examples/rdf-message-flow.n3 examples/input/rdf-message-flow.trig
+eyeron -p -r examples/rdf-message-flow.n3 examples/input/rdf-message-flow.trig
+eyeron -c -r examples/rdf-message-flow.n3 examples/input/rdf-message-flow.trig
+```
+
+---
+
+## Takeaway
+
+RDF Message replay exposes ordering and boundaries that the rules can inspect.

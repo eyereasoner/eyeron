@@ -1,8 +1,10 @@
 # Deriving cousins from family links
 #
-# A multigeneration family includes explicit branch information. N3 rules
-# combine parent relationships and branch distinctions to derive the family
-# relationships requested by the example.
+# A four-generation family tree descends from Adam through his two children,
+# Bob and Carol, whose families are labelled as two branches. Rules number the
+# generations with math:sum, pass the branch label down to descendants, and
+# call two people cousins when they are in the same generation but in
+# different branches: first cousins in generation 2, second cousins in 3.
 
 @prefix : <http://example.org/family#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
@@ -15,18 +17,20 @@
 :Eve :parentOf :Ivan .
 :Frank :parentOf :Judy .
 
-# Seed "branch" labels at generation 2 (so gen-1 siblings won't become cousins)
+# Branch labels, given to Adam's grandchildren: b for Bob's children, c for
+# Carol's. Bob and Carol themselves get none, so as siblings they do not
+# become cousins.
 :Dave :branch :b .
 :Eve :branch :b .
 :Frank :branch :c .
 :Grace :branch :c .
 
-# Declare branch difference (so we can avoid any inequality built-in)
+# The two branches are different; stating it as facts avoids an inequality
+# built-in.
 :b :differentFrom :c .
 :c :differentFrom :b .
 
-# Rules (generation, branch, cousins)
-# Root generation
+# Adam is generation 0: a rule with an empty condition always fires.
 {} => {
     :Adam :generation 0
 } .

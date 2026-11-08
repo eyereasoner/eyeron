@@ -9,10 +9,12 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# Stop at one. Each recursive case below prepends its starting value.
 {
     1 :collatz (1)
 } <= true .
 
+# For an even number above one, halve it and continue.
 {
     ?N :collatz ?Sequence
 } <= {
@@ -24,6 +26,7 @@
     ?Sequence list:firstRest (?N ?Tail) .
 } .
 
+# For an odd number above one, continue from three times it plus one.
 {
     ?N :collatz ?Sequence
 } <= {
@@ -36,6 +39,7 @@
     ?Sequence list:firstRest (?N ?Tail) .
 } .
 
+# Ask only for these nine starts; this does not test the general conjecture.
 {
     (1 2 3 4 5 6 8 10 16) list:member ?N .
     ?N :collatz ?Sequence

@@ -6,6 +6,8 @@
 
 @prefix : <http://example.org/> .
 
+# Alice likes pasta, and Bob says two things as quoted graphs: one about
+# Alice, one about someone unnamed who likes pizza and pasta.
 :alice :likes :pasta .
 :bob :says {
     :alice :likes :pizza, :pasta
@@ -16,18 +18,21 @@
     _:x :likes :pasta
 } .
 
+# Whoever likes pasta likes spaghetti.
 {
     ?x :likes :pasta
 } => {
     ?x :likes :spaghetti
 } .
 
+# Unquoting: whatever Bob says is taken as true. The conclusion is the
+# variable ?x itself, so the quoted graph it stands for is asserted.
 {
     :bob :says ?x
 } => ?x .
 
-# Applying the unquoting rule yields Alice's likes for pasta and pizza.
-# This is the corresponding instantiated implication.
+# The unquoting rule written out for Bob's statement about Alice. It
+# derives nothing the general rule does not already derive.
 {
     :bob :says {
         :alice :likes :pasta, :pizza

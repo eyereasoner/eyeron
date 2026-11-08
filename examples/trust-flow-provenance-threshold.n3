@@ -11,6 +11,7 @@
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix risk: <https://w3id.org/dpv/risk#> .
 
+# Each message names its publisher, transformation, signature and receiver.
 :messageA a fpv:Message ;
     prov:wasAttributedTo :PublisherA ;
     prov:wasGeneratedBy :TransformA ;
@@ -23,6 +24,8 @@
     fpv:hasSignature :SignatureB ;
     fpv:receiver :ReceiverApp .
 
+# The confidence factors and receiver threshold are supplied scores.
+# Signature strength is a number here, not the result of verification.
 :PublisherA fpv:publisherTrust 0.95 .
 :PublisherB fpv:publisherTrust 0.70 .
 :SignatureA fpv:signatureStrength 0.98 .
@@ -31,6 +34,7 @@
 :TransformB fpv:qualityScore 0.80 .
 :ReceiverApp fpv:acceptanceThreshold 0.85 .
 
+# Multiply publisher trust, signature strength and transformation quality.
 {
     ?message a fpv:Message ;
         prov:wasAttributedTo ?publisher ;
@@ -45,6 +49,7 @@
     ?message fpv:confidence ?confidence .
 } .
 
+# A score at or above the threshold is accepted; a lower score is quarantined.
 {
     ?message fpv:confidence ?confidence ;
         fpv:receiver ?receiver .

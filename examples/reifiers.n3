@@ -6,6 +6,7 @@
 
 @prefix : <http://example/> .
 
+# The claim nodes link quoted statements to their sources.
 :claim1 :statement {
     :alice :says "hello"
 } .
@@ -17,6 +18,8 @@
 
 :claim2 :source :email .
 
+# The same claim variable joins its graph and source, so metadata cannot
+# be borrowed from the other claim.
 {
     ?claim :statement {
         ?speaker :says ?object

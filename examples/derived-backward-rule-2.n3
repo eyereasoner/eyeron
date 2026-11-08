@@ -7,6 +7,8 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix : <http://example.org/socrates#> .
 
+# An unconditional forward rule whose conclusion is two backward rules,
+# each stating a fact that holds with no conditions.
 true => {
     {
         :Socrates a :Human .
@@ -16,6 +18,7 @@ true => {
     } <= true .
 } .
 
+# Whatever belongs to a class also belongs to its superclasses.
 {
     ?S a ?A .
     ?A rdfs:subClassOf ?B .
@@ -23,6 +26,7 @@ true => {
     ?S a ?B .
 } .
 
+# The test: Socrates is mortal.
 {
     :Socrates a :Mortal .
 } => {

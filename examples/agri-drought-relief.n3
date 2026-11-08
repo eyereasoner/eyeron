@@ -2,11 +2,18 @@
 #
 # A farm applies for drought relief. N3 rules connect the application facts
 # to eligibility and payment conclusions, keeping the policy conditions and
-# their consequences explicit.
+# their consequences explicit. Eyeron finds the application eligible and
+# approves it, creating a new payment for it. The example shows math
+# built-ins as policy thresholds and a blank node in a rule's conclusion,
+# which stands for a new individual: the payment.
+#
+# The file has four parts: a vocabulary, SHACL shapes describing complete
+# applications, the policy rules, and the application data. The shapes are
+# kept as plain data: Eyeron does not validate against them.
 
 @base <https://eyereasoner.github.io/eye/reasoning/four-types-of-specification/agri-drought-relief.n3> .
 
-# 1) VOCAB_TTL ###
+# Vocabulary: the classes and properties applications are described with.
 @prefix ex: <https://example.org/agri#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -74,7 +81,8 @@ ex:Approved a skos:Concept ;
 ex:Rejected a skos:Concept ;
     skos:prefLabel "Rejected" .
 
-# 2) PROFILE_SHACL_TTL ###
+# Profile: SHACL shapes saying what a complete application and farm record
+# contain. They document the expected input; no rule below uses them.
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix ex: <https://example.org/agri#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -124,11 +132,10 @@ ex:FarmShape a sh:NodeShape ;
         sh:datatype xsd:integer ;
     ] .
 
-# 3) RULES_N3 ###
-# Interaction pattern: Drought Relief Grant
-# States: Submitted -> (Eligible?) -> Approved/Rejected
-# Preconditions: Application conforms to DroughtApplicationShape; Farm conforms to FarmShape
-# Abstract messages: submitApplication, validate, decide, notify
+# Rules: the drought-relief policy.
+# An application moves from Submitted to Approved or Rejected, depending on
+# whether it is eligible. Approval adds the Approved status; since facts are
+# never retracted, the Submitted status stays as well.
 @prefix ex: <https://example.org/agri#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
@@ -151,6 +158,8 @@ ex:FarmShape a sh:NodeShape ;
 } .
 
 # R2: Approve — eligible true AND status Submitted → status Approved + payment issuance
+# The blank node _:pay stands for a new payment, created once for each
+# approved application.
 {
     ?app ex:eligible true .
     ?app ex:status ex:Submitted .
@@ -161,6 +170,8 @@ ex:FarmShape a sh:NodeShape ;
 } .
 
 # R3: Reject — eligible false AND status Submitted → status Rejected
+# No rule concludes eligible false, so this rule fires only when that fact
+# is given; an ineligible application otherwise stays Submitted.
 {
     ?app ex:eligible false .
     ?app ex:status ex:Submitted .
@@ -168,7 +179,7 @@ ex:FarmShape a sh:NodeShape ;
     ?app ex:status ex:Rejected .
 } .
 
-# DATA (Turtle from FACTS) ###
+# Data: one application, with its evidence, and the applicant farm.
 @prefix ex: <https://example.org/agri#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .

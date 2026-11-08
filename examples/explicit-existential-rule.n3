@@ -6,6 +6,8 @@
 
 @prefix : <http://example.org/> .
 
+# :x is declared universal, so the rule applies to every human. Inside the
+# conclusion, @forSome makes :y existential: each firing gets a fresh mother.
 @forAll :x .
 {
     :x a :Human
@@ -14,10 +16,13 @@
     :x :hasMother :y
 } .
 
+# The only human.
 :tom a :Human .
 
-# Derives :tom :hasMother _:witness.
-# Substituting :tom for the free variable preserves the local existential.
+# Two quoted graphs, stored as data and not used as rules: the rule as
+# written, and its instance for :tom. Substituting :tom for :x leaves the
+# local existential :y in place, so the instance still says that Tom has
+# some mother, which is what the rule derives: :tom :hasMother _:witness.
 :universalRule :graph {
     {
         :x a :Human

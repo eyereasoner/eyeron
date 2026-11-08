@@ -33,6 +33,23 @@ pub const NO_PROOF_EXAMPLES: &[(&str, &str)] = &[
     ("variable-predicate-dependency", "its negative cycle invalidates an absence assumption and trips an inference fuse"),
 ];
 
+/// Examples whose proof records the clock, so that no two runs write the
+/// same proof or report: their proofs are checked, but kept as no golden.
+pub const CLOCK_EXAMPLES: &[(&str, &str)] = &[("age", "time:localTime gives the time of the run")];
+
+/// The inputs an example is checked against, as a report names them.
+pub fn source_labels(name: &str) -> Vec<String> {
+    let mut labels = vec![format!("examples/{name}.n3")];
+    for extension in ["n3", "trig"] {
+        let companion = format!("examples/input/{name}.{extension}");
+        if manifest_dir().join(&companion).exists() {
+            labels.push(companion);
+            break;
+        }
+    }
+    labels
+}
+
 pub fn manifest_dir() -> &'static Path {
     Path::new(env!("CARGO_MANIFEST_DIR"))
 }
@@ -181,4 +198,15 @@ pub fn run_cases<T: Send + 'static>(
             report(name, outcome, elapsed);
         }
     });
+}
+
+/// Example names passed to custom harnesses, excluding Cargo's colour option.
+pub fn example_filters() -> Vec<String> {
+    let mut args = std::env::args().skip(1);
+    let mut names = Vec::new();
+    while let Some(arg) = args.next() {
+        if arg == "--color" { args.next(); }
+        else if !arg.starts_with('-') { names.push(arg); }
+    }
+    names
 }

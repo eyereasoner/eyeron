@@ -7,6 +7,7 @@
 @prefix : <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# The composite task and its three subtasks, each marked completed.
 :c a :CompositeTask ;
     :subTask :s1, :s2, :s3 .
 
@@ -14,6 +15,9 @@
 :s2 :state :Completed .
 :s3 :state :Completed .
 
+# For a composite task, log:forAllIn takes a pair of formulas: for every way
+# the first matches (each listed subtask ?s), the second must hold as well
+# (?s is completed). Only then is the result true.
 {
     ?c a :CompositeTask .
     (

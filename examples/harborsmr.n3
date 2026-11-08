@@ -13,7 +13,7 @@
 @prefix string: <http://www.w3.org/2000/10/swap/string#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Facts
+# The insight, reserve conditions, request and dispatch plan are supplied data.
 :case a arc:Case ;
     :caseName "harborsmr" ;
     arc:question "May the port hydrogen hub use a temporary SMR flexible-export insight to schedule electrolysis for the next four-hour balancing window?" ;
@@ -78,7 +78,9 @@
         ]
     ] .
 
-# Authorization conditions
+# Require the reserve and cooling margins, no outage, the export cap and
+# the supplied use policy. Check expiry and that both plans name the same load.
+# The text and boolean checks inspect the declared omission of raw telemetry.
 {
     :secureAggregate :reserveMarginMW ?ReserveMarginMW .
     ?ReserveMarginMW math:greaterThan 19 .
@@ -130,7 +132,8 @@
         :outcome "Allowed" .
 } .
 
-# Fail-loud checks
+# Trip a fuse if a Permit coexists with an excessive request, an outage,
+# an expired authorization or a mismatched load.
 {
     :case :decision :Permit .
     :electrolyzerRequest :requestedMW ?req .

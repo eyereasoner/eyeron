@@ -1,13 +1,15 @@
 # An unbound rule conclusion
 #
-# A rule recognizes that Alice knows Bob but leaves its conclusion's person
-# variable unbound. Eyeron derives no new fact, illustrating how this
-# unsafe conclusion is handled.
+# A rule fires when Alice knows Bob, but its conclusion mentions a variable,
+# ?someone, that no premise binds. Such a rule cannot name anyone in
+# particular, so Eyeron derives no new fact: the output is empty.
 
 @prefix : <https://eyereasoner.github.io/eyepl/examples/check-unsafe#> .
 
 :alice :knows :bob .
 
+# The premise holds, but ?someone appears only in the conclusion. To say that
+# some individual is seen, the conclusion would use a blank node instead.
 {
     :alice :knows :bob
 } => {

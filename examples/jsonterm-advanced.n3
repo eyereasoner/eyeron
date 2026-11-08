@@ -7,6 +7,9 @@
 @prefix ex: <https://example.org/#> .
 @prefix j: <https://example.org/json#> .
 
+# The user document: a profile with a nested address, an array of roles,
+# preferences with an array of languages, and an array of two orders, the
+# second with a null coupon.
 [
     j:id "user-101" ;
     j:profile [
@@ -38,6 +41,8 @@
     )
 ] ex:kind j:UserDocument .
 
+# An active profile with a Belgian address makes the user eligible for review
+# and exposes the name. Only the fields named here need to match.
 {
     ?Doc ex:kind j:UserDocument .
     ?Doc j:profile [
@@ -50,6 +55,7 @@
     ?Doc ex:eligibleForReview true .
 } .
 
+# Preferences match only with exactly these languages in this order.
 {
     ?Doc j:preferences [
         j:languages ("nl" "fr" "en") ;
@@ -60,6 +66,8 @@
     ?Doc ex:profileTag "multilingual-dark-profile" .
 } .
 
+# The orders array must have exactly two orders of this shape; the order ids
+# are left open.
 {
     ?Doc j:orders (
         [ j:id ?FirstId ; j:total 125 ; j:items ("book" "pen") ]
@@ -70,6 +78,7 @@
     ?Doc ex:hasCouponlessFollowup true .
 } .
 
+# The test passes when all three earlier rules have fired for the document.
 {
     ?Doc ex:eligibleForReview true .
     ?Doc ex:profileTag "multilingual-dark-profile" .

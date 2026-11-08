@@ -21,6 +21,7 @@
 :highTemperatureThreshold :value "75"^^xsd:decimal .
 :criticalRPM :value "1800"^^xsd:decimal .
 
+# Test each supplied reading against its own limit before combining anomalies.
 {
     ?T :vibration ?V .
     :highVibrationThreshold :value ?VT .
@@ -37,6 +38,7 @@
     ?T :hasAnomaly :highTemperature .
 } .
 
+# Both high vibration and high temperature are required for urgent inspection.
 {
     ?T :hasAnomaly :highVibration .
     ?T :hasAnomaly :highTemperature .
@@ -44,6 +46,7 @@
     ?T :requires :urgentInspection .
 } .
 
+# The recorded degraded gearbox independently requires maintenance.
 {
     ?T :gearboxStatus :degraded .
 } => {

@@ -1,15 +1,19 @@
 # Constructing consequences from finite data
 #
-# People, memberships, and parent links supply a finite reasoning problem.
-# N3 rules derive linked consequences, with additional examples of
-# arithmetic, generated witnesses, and explicitly scoped graph tests.
+# Three people, a team inside an organisation, and two projects. Rules
+# derive who is an adult, who is whose ancestor, who belongs to the
+# organisation, who can read which project and why, and they create new,
+# unnamed people: a manager for the project that needs one and a supervisor
+# for every manager. A log:query prints the whole resulting graph. It shows
+# a comparison built-in, recursive rules, and rules that introduce blank
+# nodes, which Eyeron names with Skolem terms so the run still terminates.
 
 @prefix ex: <https://example.org/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 
-# DATA (finite ground facts)
+# The people, the team and organisation, and the projects.
 ex:Alice a ex:Person ;
     ex:age "29"^^xsd:integer ;
     ex:memberOf ex:TeamA ;
@@ -33,8 +37,7 @@ ex:Proj2 a ex:Project ;
     ex:ownedBy ex:OrgX ;
     ex:needsManager true .
 
-# SECTION A — "Kronecker-friendly" core rules
-# A1) Adult classification (computable, witness-free)
+# Anyone older than 17 is an adult.
 {
     ?p ex:age ?n .
     ?n math:greaterThan "17"^^xsd:integer
@@ -42,7 +45,7 @@ ex:Proj2 a ex:Project ;
     ?p a ex:Adult .
 } .
 
-# A2) Ancestor closure (finite on finite parent facts)
+# A parent is an ancestor, and so is any ancestor of a parent.
 {
     ?x ex:parent ?y
 } => {
@@ -56,7 +59,7 @@ ex:Proj2 a ex:Project ;
     ?x ex:ancestor ?z
 } .
 
-# A3) Membership propagates up the org tree
+# A member of a team is also a member of the organisation it is part of.
 {
     ?p ex:memberOf ?team .
     ?team ex:partOf ?org
@@ -64,7 +67,7 @@ ex:Proj2 a ex:Project ;
     ?p ex:memberOf ?org
 } .
 
-# A4) Authorization: Org members can read Org-owned projects
+# Members of an organisation can read the projects it owns.
 {
     ?p ex:memberOf ?org .
     ?proj a ex:Project ;
@@ -73,7 +76,7 @@ ex:Proj2 a ex:Project ;
     ?p ex:canRead ?proj
 } .
 
-# A5) Explanation breadcrumb
+# Record why each read access holds, as a new, unnamed reason.
 {
     ?p ex:canRead ?proj .
     ?proj ex:ownedBy ?org .
@@ -86,9 +89,9 @@ ex:Proj2 a ex:Project ;
     ] .
 } .
 
-# SECTION B — Engineering add-ons (safe / terminating)
-# B1) Auto-manager creation (terminating)
-# If a project needs a manager, assign a deterministic "AutoManager" IRI.
+# A project that needs a manager gets a new, unnamed person with the role
+# "AutoManager". The blank node becomes a Skolem term, the same one each time
+# the rule fires for that project, so it adds only one manager.
 {
     ?proj a ex:Project ;
         ex:needsManager true .
@@ -99,9 +102,8 @@ ex:Proj2 a ex:Project ;
     ] .
 } .
 
-# B2) Supervisor (safe, depth-1, still terminating)
-# Create at most one supervisor per manager, and DO NOT make the supervisor
-# itself a manager (so no infinite chain).
+# Every manager gets one new supervisor. The supervisor is not made a
+# manager of anything, so no chain of supervisors of supervisors follows.
 {
     ?proj ex:hasManager ?m .
 } => {
@@ -112,7 +114,7 @@ ex:Proj2 a ex:Project ;
     ] .
 } .
 
-# query
+# Print every statement of the final graph, given and derived.
 {
     ?S ?P ?O
 } log:query {

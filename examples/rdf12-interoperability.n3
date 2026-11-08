@@ -7,22 +7,27 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <https://example/> .
 
+# These literals retain datatype, language and writing-direction information.
 :alice :name "Alice"^^xsd:string .
 :alice :label "Bonjour"@fr .
 :alice :age 42 .
 :document :title "HTML و CSS"@ar--rtl .
 
+# The anonymous claim links a quoted statement to a source; quoting alone
+# does not assert that Alice knows Bob.
 [ ] :statement {
     :alice :knows :bob
 } ;
     :source :chat .
 
+# Copy the whole label, retaining its language tag.
 {
     ?person :label ?label
 } => {
     ?person :displayName ?label
 } .
 
+# Expose the typed name and the direction-tagged title without changing them.
 {
     ?person :name ?text
 } => {
@@ -36,6 +41,7 @@
     :test :title ?title
 } .
 
+# Match inside the claim graph and return the named parties and source.
 {
     ?claim :statement {
         ?s :knows ?o

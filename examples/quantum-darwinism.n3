@@ -1,8 +1,15 @@
 # Comparing observers in a toy quantum model
 #
-# Sample states have amplitudes, entanglement links, and pointer-state
-# annotations. N3 rules derive modeled decoherence and observability, then
-# compare the observers' amplitude estimates for agreement or disagreement.
+# A toy model loosely inspired by quantum Darwinism, the idea that the
+# environment selects stable "pointer" states that many observers can then
+# agree on. It is not physics: amplitudes are plain numbers. Four states have
+# amplitudes, two are pointer states, and two pairs are entangled. Rules mark
+# pointer states as decohered and observable, let four observers estimate
+# the amplitude of the state they measure, and compare observers of
+# entangled states: eyeron derives that alice agrees with bob and carol
+# disagrees with dave. States also evolve, inheriting amplitude, pointer
+# status and entanglement. Shows chained forward rules, log:notEqualTo and
+# log:notIncludes.
 
 @base <https://eyereasoner.github.io/eye/reasoning/quantum-darwinism/quantum-darwinism.n3> .
 
@@ -25,7 +32,8 @@
 :state1 :entangledWith :state3 .
 :state2 :entangledWith :state4 .
 
-# Decoherence
+# Decoherence: pointer states decohere, decoherence spreads along
+# entanglement, and decohered states are observable
 {
     ?S a :QuantumState ;
         :isPointerState true
@@ -61,7 +69,8 @@
 } .
 
 # Observer Agreement / Disagreement
-# Agreement only if both have decohered
+# Agreement: observers of entangled states, with the same estimate, and both
+# states decohered
 {
     ?O1 :measures ?S1 .
     ?O2 :measures ?S2 .
@@ -86,7 +95,8 @@
     ?O1 :disagreesWith ?O2 .
 } .
 
-# Disagreement if amplitudes match but decoherence hasn't occurred
+# Disagreement if amplitudes match but decoherence hasn't occurred: the
+# current graph does not include both decoherence statements
 {
     ?O1 :measures ?S1 .
     ?O2 :measures ?S2 .
@@ -139,7 +149,8 @@
     ?S :selectedByEnvironment true
 } .
 
-# Filter: suppress non-pointer states (optional)
+# Filter: states marked as non-pointer states are not selected; no state
+# here is marked so, so this rule never fires
 {
     ?S a :QuantumState ;
         :isPointerState false

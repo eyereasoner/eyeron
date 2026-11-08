@@ -8,9 +8,12 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <https://eyereasoner.github.io/ns#> .
 
+# Who owns which dogs.
 :alice :hasDog :dog1, :dog2, :dog3, :dog4, :dog5 .
 :bob :hasDog :dog6, :dog7 .
 
+# For each owner, collect a 1 for every dog, add them up, and require a
+# license when the total is more than four.
 {
     ?Subject :hasDog ?Any .
     (

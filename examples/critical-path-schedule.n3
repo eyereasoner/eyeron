@@ -9,6 +9,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example/> .
 
+# Task durations use the same arbitrary time unit; staffing is unlimited.
 :requirements :duration 2 .
 :architecture :duration 3 .
 :api_design :duration 2 .
@@ -21,6 +22,7 @@
 :load_test :duration 2 .
 :launch :duration 1 .
 
+# A dependsOn link says that the target must finish before the task starts.
 :architecture :dependsOn :requirements .
 :api_design :dependsOn :requirements .
 :database :dependsOn :architecture .
@@ -36,6 +38,7 @@
 :launch :dependsOn :security_review .
 :launch :dependsOn :load_test .
 
+# A task without prerequisites has a one-task path and finishes at its duration.
 {
     ?task :durationPath ((?task) ?d)
 } <= {
@@ -45,6 +48,7 @@
     }
 } .
 
+# Extend each prerequisite path by this task and add its duration.
 {
     ?task :durationPath (?path ?finish)
 } <= {
@@ -55,6 +59,7 @@
     ?path list:firstRest (?task ?prevPath) .
 } .
 
+# Collect all path durations for a task; its longest path gives its finish.
 {
     ?task :duration ?_ .
     (
@@ -69,6 +74,7 @@
     ?task :finish ?maxFinish
 } .
 
+# Subtract the task duration to recover its earliest start.
 {
     ?task :duration ?finish0 .
     ?task :finish ?finish .
@@ -77,6 +83,7 @@
     ?task :schedule (?start ?finish)
 } .
 
+# The latest task finish is the project completion time.
 {
     (
         ?candidate {
@@ -90,6 +97,7 @@
     :test :projectFinish ?projectFinish
 } .
 
+# Every task on a path of that length is critical, including tied paths.
 {
     :test :projectFinish ?pf .
     ?anyTask :durationPath (?path ?pf) .

@@ -6,6 +6,8 @@
 @base <https://eyereasoner.github.io/eye/reasoning/issue141/test1.n3> .
 @prefix : <http://www.example.com/ns/ex#> .
 
+# For each reflexive property, generate two backward rules: one for each
+# endpoint of an existing link. The inner variables belong to those rules.
 {
     ?p a :Reflexive
 } => {
@@ -21,4 +23,5 @@
     } .
 } .
 
+# This declaration enables the generator for p.
 :p a :Reflexive .

@@ -1,13 +1,17 @@
 # Reasoning with a quoted belief
 #
-# Einstein is represented as stating a quoted rule about glitter and gold.
-# N3 rules expose the statement as a belief, activate its contents, and
-# derive a consequence for the north star.
+# Einstein says "not all that glitters is gold", written as a quoted rule.
+# Everyone believes what Einstein says, and what he says is true. eyeron
+# derives that Fabian believes the quoted rule, and, by applying that rule
+# once it is asserted, that the north star is not necessarily gold. Shows
+# quoted formulas as values of variables, a rule whose conclusion is a
+# variable (=> ?phi), and a backward rule (<=) answered on demand.
 
 @base <https://eyereasoner.github.io/eye/reasoning/qiana/qiana.n3> .
 @prefix : <https://eyereasoner.github.io/ns#> .
 
 # forall phi, x: says(Einstein, phi) => believes(x, phi)
+# A backward rule: it is used only when a query asks who believes what
 {
     ?x :believes ?phi
 } <= {
@@ -15,6 +19,7 @@
 } .
 
 # forall phi: says(Einstein, phi) => phi
+# The quoted formula itself is asserted, so a quoted rule becomes a live rule
 {
     :Einstein :says ?phi
 } => ?phi .
@@ -28,10 +33,10 @@
     }
 } .
 
-# example
+# The north star glitters
 :northStar a :glitter .
 
-# Query
+# Queries: what Fabian believes, and what is not necessarily what
 @prefix : <https://eyereasoner.github.io/ns#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 

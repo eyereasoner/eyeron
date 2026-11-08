@@ -8,6 +8,8 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example/> .
 
+# Each four-item tuple records subject, predicate, object and graph.
+# The graph names link the data, signature description and its metadata.
 (:bob :name "Bob" :g0) :quad true .
 (:g0 :proof :dataSignature :g1) :quad true .
 (:signature1 :type :DataIntegrityProof :g1) :quad true .
@@ -18,6 +20,8 @@
 (:signature2 :type :DataIntegrityProof :g3) :quad true .
 (:signature2 :proofPurpose "assertionMethod" :g3) :quad true .
 
+# Join every signature field within the same signature graph, then follow
+# that graph's metadata link. These are metadata checks, not cryptography.
 {
     (:bob :name "Bob" ?dataGraph) :quad true .
     (?dataGraph :proof ?dataSignature ?signatureGraph) :quad true .
@@ -33,6 +37,7 @@
     (:bob ?dataGraph ?signatureGraph ?metadataGraph "ecdsa-rdfc-2019" ?issuer) :association true
 } .
 
+# Bob's name belongs to g0, so a search for that name in g1 must fail.
 {
     ?SCOPE log:notIncludes {
         (:bob :name "Bob" :g1) :quad true

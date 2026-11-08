@@ -8,7 +8,9 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix : <https://eyereasoner.github.io/eye/reasoning#> .
 
-# ?M is the sequence of moves to move ?N disks from ?X to ?Y using ?Z as intermediary
+# ?M is the sequence of moves to move ?N disks from ?X to ?Y using ?Z as
+# intermediary: move N-1 disks out of the way to ?Z, move the largest disk
+# to ?Y, then move the N-1 disks from ?Z onto it.
 {
     (?N ?X ?Y ?Z) :moves ?M
 } <= {
@@ -19,10 +21,12 @@
     (?M1 ((?X ?Y)) ?M2) list:append ?M .
 } .
 
+# A single disk moves directly.
 {
     (1 ?X ?Y ?Z) :moves ((?X ?Y))
 } <= true .
 
+# Ask for the moves of three disks from the left to the right peg.
 {
     (3 :left :right :center) :moves ?M
 } => {

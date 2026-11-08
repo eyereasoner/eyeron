@@ -9,6 +9,8 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix string: <http://www.w3.org/2000/10/swap/string#> .
 
+# The companion input supplies the decay bound. At each candidate index,
+# raise that bound to the index and multiply by the initial voltage.
 {
     :case :initialVoltage ?Initial ;
         :decayUpper ?DecayUpper ;
@@ -20,6 +22,7 @@
     ?Step :upperVoltage ?Voltage .
 } .
 
+# Classify sampled upper voltages on either side of the strict tolerance.
 {
     :case :tolerance ?Tolerance .
     ?Step :upperVoltage ?Voltage .
@@ -36,6 +39,8 @@
     ?Step :notBelowTolerance true .
 } .
 
+# Select a below-tolerance step whose supplied predecessor is not below.
+# The first-step claim relies on those candidate and predecessor records.
 {
     :case :maxStep ?MaxStep .
     ?Step :index ?Index ;
@@ -47,6 +52,7 @@
     :case :firstBelowToleranceStep ?Step .
 } .
 
+# Convert the selected index to seconds using the supplied sample period.
 {
     :case :samplePeriod ?Period ;
         :firstBelowToleranceStep ?Step .
@@ -56,6 +62,8 @@
     ?Step :timeSeconds ?Time .
 } .
 
+# Print the supplied decay interval and the computed envelope result.
+# The rules use the interval; they do not prove its bound on exp(-1/4).
 {
     :case :exactDecaySymbol ?Symbol ;
         :decayLower ?Lower ;

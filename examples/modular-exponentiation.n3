@@ -1,12 +1,18 @@
 # Calculating powers modulo an integer
 #
-# A modular-power query is reduced by repeatedly squaring and splitting
-# even and odd exponents. Recursive backward N3 rules combine integer
-# arithmetic to derive the sample remainders.
+# What is the remainder of b to the power e, divided by m? Backward N3 rules
+# answer by squaring: an even exponent halves, an odd one first takes out one
+# factor of b, and every intermediate value is reduced modulo m. Eyeron
+# derives 7^13 mod 97 and 7^1000000000 mod 1000003 with exact integer
+# arithmetic, in about 30 halvings instead of a billion multiplications.
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <http://example.org/modular-exponentiation#> .
 
+# (b e m) :modPow r means b^e mod m = r. These are backward rules (<=): they
+# are used when a :modPow goal is asked, not run on their own.
+
+# Exponent 0: b^0 = 1, reduced modulo m.
 {
     (?b 0 ?m) :modPow ?r
 } <= {
@@ -14,6 +20,7 @@
     (1 ?m) math:remainder ?r
 } .
 
+# Exponent 1: b itself, reduced modulo m.
 {
     (?b 1 ?m) :modPow ?r
 } <= {
@@ -21,6 +28,7 @@
     (?b ?m) math:remainder ?r
 } .
 
+# Even exponent: b^e = (b*b)^(e/2).
 {
     (?b ?e ?m) :modPow ?r
 } <= {
@@ -33,6 +41,7 @@
     (?squared ?half ?m) :modPow ?r .
 } .
 
+# Odd exponent: b^e = b * (b*b)^((e-1)/2).
 {
     (?b ?e ?m) :modPow ?r
 } <= {
@@ -48,6 +57,7 @@
     (?bt ?m) math:remainder ?r .
 } .
 
+# Two questions: a small one to check by hand, and a large one.
 {
     (7 13 97) :modPow ?r
 } => {

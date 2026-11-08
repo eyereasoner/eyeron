@@ -1,8 +1,10 @@
 # Deriving grandparents from a property chain
 #
-# Grandparent is declared as a chain of two parent links. N3 rules traverse
-# the declared property list and derive the corresponding grandparent
-# relationships in the sample family.
+# Grandparent is declared as a chain of two parent links
+# (owl:propertyChainAxiom). A forward rule starts each chain with its first
+# property, and two backward rules (<=) follow the rest of the chain, one
+# link per list item. In a family of four generations Eyeron derives the
+# two grandparent links.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,13 +12,15 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# The chain declaration, and four generations
 :grandparent owl:propertyChainAxiom (:parent :parent) .
 :alice :parent :bob .
 :bob :parent :carol .
 :carol :parent :dave .
 
 # Inference rules
+# Take the first link of a declared chain, then follow the rest of it; the
+# start and the end of the whole chain are related by the chain's property.
 {
     ?P owl:propertyChainAxiom ?L .
     ?L list:firstRest (?First ?Rest) .
@@ -26,10 +30,14 @@
     ?S ?P ?O
 } .
 
+# Backward rules for (Properties Start) :followChain End. An empty chain
+# ends where it starts ...
 {
     (() ?Node) :followChain ?Node
 } <= true .
 
+# ... and a nonempty one takes one link with its first property and follows
+# the rest from there.
 {
     (?Properties ?Start) :followChain ?End
 } <= {

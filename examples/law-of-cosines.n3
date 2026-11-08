@@ -1,8 +1,9 @@
 # Solving triangle sides with the law of cosines
 #
-# Sample triangles supply two sides and their included angle in radians.
-# N3 arithmetic rules calculate the missing side; queries return the side
-# values and identify which side was solved.
+# Six triangles each come with two sides and the angle between them, in
+# radians. One rule per side applies the law of cosines with N3 math
+# built-ins to compute the third side, and two log:query statements print
+# each answer (which side, and its length) and which formula was used.
 
 @base <https://eyereasoner.github.io/eye/reasoning/law-of-cosines/law-of-cosines.n3> .
 @prefix : <http://example.org/cosine#> .
@@ -12,24 +13,22 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Law of Cosines (radians):
+# Law of cosines, with the angle A opposite side a, and so on:
 # a^2 = b^2 + c^2 - 2 b c cos(A)
 # b^2 = c^2 + a^2 - 2 c a cos(B)
 # c^2 = a^2 + b^2 - 2 a b cos(C)
+
 # Vocabulary
 :Triangle a rdfs:Class .
 :Side a rdfs:Class .
 
-# Triangle data
+# Triangle data: sides a, b, c and angles A, B, C, the angles in radians
 :a a rdf:Property .
 :b a rdf:Property .
 :c a rdf:Property .
 :A a rdf:Property .
-# radians
 :B a rdf:Property .
-# radians
 :C a rdf:Property .
-# radians
 :answer a rdf:Property .
 :why a rdf:Property .
 :status a rdf:Property .
@@ -43,7 +42,8 @@
 :cosAngle a rdf:Property .
 :rhs a rdf:Property .
 
-# Solve side c from a, b, C
+# Solve side c from a, b, C. The answer and the intermediate values are new
+# blank nodes; a negative c^2 (an impossible triangle) gives no answer.
 {
     ?t a :Triangle ;
         :a ?a ;
@@ -115,8 +115,7 @@
         :status "solve-b" .
 } .
 
-# HARNESS
-# Angles are in radians.
+# The test triangles. Angles are in radians.
 # H1: Right triangle (3,4,?) with C = pi/2 → c = 5
 :T1 a :Triangle ;
     :a 3 ;
@@ -135,13 +134,13 @@
     :c 6 ;
     :A 1.0471975511965976 .
 
-# H4: Solve b from a=2, c=3, B = pi/6
+# H4: Solve b from a=2, c=3, B = pi/6 → b ≈ 1.61484
 :T4 a :Triangle ;
     :a 2 ;
     :c 3 ;
     :B 0.5235987755982988 .
 
-# H5: a=8, b=15, C = 75° = 1.3089969389957472 → c ≈ 15.06438
+# H5: a=8, b=15, C = 75° = 1.3089969389957472 → c ≈ 15.06265
 :T5 a :Triangle ;
     :a 8 ;
     :b 15 ;
@@ -153,7 +152,7 @@
     :c 12 ;
     :A 1.5707963267948966 .
 
-# Query answer
+# Print each answer with its properties, and each triangle's status.
 {
     ?Case :answer ?Answer .
     ?Answer ?Property ?Value .

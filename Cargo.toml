@@ -1,6 +1,6 @@
 [package]
 name = "eyeron"
-version = "0.9.0"
+version = "0.9.1"
 edition = "2021"
 default-run = "eyeron"
 authors = ["Jos De Roo"]
@@ -39,6 +39,11 @@ harness = false
 [[test]]
 name = "examples"
 path = "tests/examples.rs"
+harness = false
+
+[[test]]
+name = "artifacts"
+path = "tests/artifacts.rs"
 harness = false
 
 [[test]]
@@ -83,3 +88,8 @@ incremental = true
 # Rust emits WebAssembly bulk-memory and nontrapping float-to-int instructions.
 # Tell wasm-opt/Binaryen to accept those features during release optimization.
 wasm-opt = ["-Oz", "--enable-bulk-memory", "--enable-nontrapping-float-to-int"]
+
+[[test]]
+name = "decks"
+path = "tests/decks.rs"
+harness = false

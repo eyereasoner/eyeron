@@ -6,6 +6,7 @@
 
 @prefix : <http://example.org/ns#> .
 
+# Store a cat-to-animal rule inside a quoted graph.
 :a :b {
     {
         ?X a :Cat
@@ -14,12 +15,15 @@
     } .
 } .
 
+# Using the bound graph as the rule head activates its contents.
 {
     :a :b ?C .
 } => ?C .
 
+# Once the rule is active, this cat can be classified as an animal.
 :c a :Cat .
 
+# Report that the activated rule produced the expected classification.
 {
     :c a :Animal
 } => {

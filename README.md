@@ -5,7 +5,7 @@
 
 Eyeron is a Rust reasoner for **Notation3 (N3)**. It derives conclusions from facts and rules, writes N3 proofs, and checks those proofs. It runs as a command-line program, a Rust library, and a browser application. RDF formats can supply data to its N3 rules.
 
-[Playground](https://eyereasoner.github.io/eyeron/playground#example=socrates) · [Specification](SPEC.md) · [Examples](examples/)
+[Playground](https://eyereasoner.github.io/eyeron/playground#example=socrates) · [Specification](SPEC.md) · [Examples](https://eyereasoner.github.io/eyeron/examples/)
 
 The specification defines how Eyeron reads and evaluates N3, what a run outputs, and the C1–C10 proof contract; the language itself is the W3C N3 Community Group's [Notation3 Language](https://w3c-cg.github.io/N3/spec/).
 
@@ -224,17 +224,17 @@ An inference fuse, `{ … } => false .`, stops reasoning when its premise matche
 
 ## Examples and the playground
 
-| Example | What to look for |
-| --- | --- |
-| [Socrates](examples/socrates.n3) | A short chain from facts to a conclusion. |
-| [Control system](examples/control-system.n3) | Arithmetic and backward helpers producing two actuator commands. |
-| [Dog license](examples/dog-license.n3) | A scoped collection and a count, which the proof settles. |
-| [Explicit existential rule](examples/explicit-existential-rule.n3) | A fresh unnamed witness rather than an invented named individual. |
-| [Examiners](examples/examiners.n3) | An existential that a known examiner already satisfies, so none is invented. |
-| [Graph terms](examples/graph-terms.n3) | Quoted statements used as values. |
-| [Zebra puzzle](examples/zebra.n3) | A larger constraint problem. |
+| Example (deck) | Source | What to look for |
+| --- | --- | --- |
+| [Socrates](https://eyereasoner.github.io/eyeron/examples/deck/socrates) | [socrates.n3](examples/socrates.n3) | A short chain from facts to a conclusion. |
+| [Control system](https://eyereasoner.github.io/eyeron/examples/deck/control-system) | [control-system.n3](examples/control-system.n3) | Arithmetic and backward helpers producing two actuator commands. |
+| [Dog license](https://eyereasoner.github.io/eyeron/examples/deck/dog-license) | [dog-license.n3](examples/dog-license.n3) | A scoped collection and a count, which the proof settles. |
+| [Explicit existential rule](https://eyereasoner.github.io/eyeron/examples/deck/explicit-existential-rule) | [explicit-existential-rule.n3](examples/explicit-existential-rule.n3) | A fresh unnamed witness rather than an invented named individual. |
+| [Examiners](https://eyereasoner.github.io/eyeron/examples/deck/examiners) | [examiners.n3](examples/examiners.n3) | An existential that a known examiner already satisfies, so none is invented. |
+| [Graph terms](https://eyereasoner.github.io/eyeron/examples/deck/graph-terms) | [graph-terms.n3](examples/graph-terms.n3) | Quoted statements used as values. |
+| [Zebra puzzle](https://eyereasoner.github.io/eyeron/examples/deck/zebra) | [zebra.n3](examples/zebra.n3) | A larger constraint problem. |
 
-Each example keeps its [expected output](examples/output/), its [proof](examples/proof/) and its [check report](examples/check/); compare them with a run of your own. The `deep-taxonomy-*` and `kaprekar-6174` examples are large workloads; redirect their proofs to a file.
+Every example has a card deck that explains it for a wide audience, and the [catalog](https://eyereasoner.github.io/eyeron/examples/) lists them all. Each example also keeps its [expected output](examples/output/), its [proof](examples/proof/) and its [check report](examples/check/); compare them with a run of your own. The `deep-taxonomy-*` and `kaprekar-6174` examples are large workloads; redirect their proofs to a file.
 
 The [playground](https://eyereasoner.github.io/eyeron/playground#example=socrates) runs the same engine as WebAssembly. Choose an example, edit it, pick an **Output** (conclusions, proof, generate-and-check, or check a saved proof pasted into **Proof to check**) and press **Run**; **Stop** cancels. RDF data goes in **RDF 1.2 input** with its format. **Share link** copies the experiment into the URL, and **Create Gist share** uploads it to an unlisted GitHub Gist with a token you supply. To build it locally, install `wasm-pack` and the `wasm32-unknown-unknown` target, run `cargo playground`, and serve the checkout over HTTP; the build updates the committed `pkg/`.
 
@@ -297,14 +297,23 @@ fn main() -> eyeron::Result<()> {
 ## Development
 
 ```bash
+cargo test --release
 ./scripts/test-all
 cargo test --release --test examples
 cargo test --release --test proof_checking
+cargo test --release --test artifacts
+cargo test --release --test decks
 cargo clippy --release --all-targets
 node --experimental-vm-modules --test tests/playground_loading.mjs tests/playground_sharing.mjs
 ```
 
-`scripts/test-all` runs every suite with the optimized `test-fast` profile and ends with `Tests: N run; P% OK; Ts total`; `EYERON_TEST_JOBS` sets how many example proofs it checks at once, and `EYERON_TEST_JOBS=1 ./scripts/test-all --release` is the setting for performance measurements. The example harness compares each example's output with its golden in `examples/output/`; the proof-checking harness generates every example's proof, requires it to check under C1–C10, and compares the proof and its check report with the goldens in `examples/proof/` and `examples/check/`. After an intentional change, run `EYERON_UPDATE_GOLDENS=1 cargo test --release --test examples` and `EYERON_UPDATE_GOLDENS=1 cargo test --release --test proof_checking`, and review the diff. A new example needs an output golden and a place in the playground's bundled lists; see [AGENTS.md](AGENTS.md) for the working conventions.
+On Unix, `cargo test --release` prints a cumulative `Tests: N run; P% OK; Ts total`
+after each suite and after the doctests. On Linux the elapsed time starts with
+Cargo, including compilation; on other Unix hosts it starts with the first
+suite. The counters belong to that Cargo process, so separate invocations have
+separate totals. `cargo run` and `cargo bench` keep their normal output.
+
+`scripts/test-all` runs every suite with the optimized `test-fast` profile and ends with `Tests: N run; P% OK; Ts total`; `EYERON_TEST_JOBS` sets how many example proofs it checks at once, and `EYERON_TEST_JOBS=1 ./scripts/test-all --release` is the setting for performance measurements. The example harness compares each example's output with its golden in `examples/output/`; the proof-checking harness generates every example's proof, requires it to check under C1–C10, and compares the proof and its check report with the goldens in `examples/proof/` and `examples/check/`. The artifact harness reads each saved proof without running the reasoner, checks it against its source, rejects an unsupported extra claim in proofs under 1 MB, reproduces the saved check report, and compares the report's answers with the output golden. It also requires both artifact directories to cover exactly the examples that keep proofs. The deck harness checks every program, conclusion, proof and report excerpt, the stated verdict, the documented command arguments and input files, and the catalog. After an intentional change, run `EYERON_UPDATE_GOLDENS=1 cargo test --release --test examples` and `EYERON_UPDATE_GOLDENS=1 cargo test --release --test proof_checking`, and review the diff. A new example needs an output golden and a place in the playground's bundled lists; see [AGENTS.md](AGENTS.md) for the working conventions.
 
 ### Releases
 

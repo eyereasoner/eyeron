@@ -1,18 +1,22 @@
 # Collecting values from a scoped graph pattern
 #
-# Three parameter facts supply values for collection. N3 rules use
-# log:collectAllIn to build result lists, including values embedded in
-# larger terms and additional filter conditions.
+# Three facts name Huey, Dewey and Louie. One rule gathers their names into
+# lists with log:collectAllIn, the N3 built-in that collects every solution
+# of a pattern: all names, each name wrapped in a list of its own, and only
+# the names that sort before "Louie". The _:x scope means the current graph.
 
 @prefix : <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix string: <http://www.w3.org/2000/10/swap/string#> .
 
+# The values to collect.
 :Let :param "Huey" .
 :Let :param "Dewey" .
 :Let :param "Louie" .
 
+# Each call reads (what to collect, the pattern, the resulting list).
 {
+    # Collect every name.
     (
         ?param {
             :Let :param ?param
@@ -20,7 +24,7 @@
         ?allParams
     ) log:collectAllIn _:x .
 
-    # Variable to be collected can also be part of a list or graph term
+    # What is collected can also be a larger term, here a one-item list.
     (
         (?param)
         {
@@ -29,7 +33,7 @@
         ?nestedParams
     ) log:collectAllIn _:x .
 
-    # Add some extra criteria on variable values to be collected
+    # Extra conditions in the pattern filter what is collected.
     (
         ?param {
             :Let :param ?param .

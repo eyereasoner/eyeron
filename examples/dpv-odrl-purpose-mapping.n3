@@ -9,6 +9,7 @@
 @prefix dpv-odrl: <https://w3id.org/dpv/mappings/odrl#> .
 @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 
+# A DPV process describes who uses which data, for what purpose and basis.
 :AlphaCareProcess a dpv:Process ;
     dpv:hasDataController :HospitalA ;
     dpv:hasRecipient :ResearchPartner ;
@@ -17,11 +18,13 @@
     dpv:hasPurpose dpv:Healthcare ;
     dpv:hasLegalBasis dpv:Consent .
 
+# Supply names for the policy nodes so the mappings can reuse them.
 :AlphaPolicy :representsProcess :AlphaCareProcess ;
     :permissionNode :AlphaPermission ;
     :purposeConstraint :AlphaPurposeConstraint ;
     :basisConstraint :AlphaBasisConstraint .
 
+# Copy the parties, data and processing action into an ODRL permission.
 {
     ?policy :representsProcess ?process ;
         :permissionNode ?permission .
@@ -41,6 +44,7 @@
         :derivedFromProcess ?process .
 } .
 
+# Represent the stated purpose as a constraint; this does not grant access.
 {
     ?policy :representsProcess ?process ;
         :permissionNode ?permission ;
@@ -54,6 +58,7 @@
         odrl:rightOperand ?purpose .
 } .
 
+# Represent the stated legal basis as a separate constraint.
 {
     ?policy :representsProcess ?process ;
         :permissionNode ?permission ;

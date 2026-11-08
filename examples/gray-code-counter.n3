@@ -7,6 +7,7 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix : <https://eyereasoner.github.io/eye/reasoning#> .
 
+# Truth tables of the AND and OR gates, and of an inverter.
 (0 0) :and 0 .
 (0 1) :and 0 .
 (1 0) :and 0 .
@@ -20,6 +21,8 @@
 0 :inv 1 .
 1 :inv 0 .
 
+# A D flip-flop, written (D C Q): with clock C at 0 it keeps its state Q,
+# with C at 1 it takes the input D.
 {
     (?D 0 ?Q) :dff ?Q
 } <= true .
@@ -28,6 +31,7 @@
     (?D 1 ?Q) :dff ?D
 } <= true .
 
+# Next-state logic for the last bit: 1 exactly when A and B are equal.
 {
     (?A ?B) :neta ?Q
 } <= {
@@ -38,6 +42,7 @@
     (?T1 ?T2) :or ?Q .
 } .
 
+# Next-state logic for the first two bits, from the current bits A, B, C.
 {
     (?A ?B ?C) :netb (?Q1 ?Q2)
 } <= {
@@ -50,6 +55,8 @@
     (?T2 ?T3) :or ?Q2 .
 } .
 
+# One clock tick of the counter: compute the next-state inputs and pass
+# each through its flip-flop.
 {
     (?C (?Qa ?Qb ?Qc)) :gcc (?Za ?Zb ?Zc)
 } <= {
@@ -60,6 +67,8 @@
     (?D3 ?C ?Qc) :dff ?Zc .
 } .
 
+# Run a list of clock values from state S, collecting the states after each
+# tick; an empty clock list gives an empty list of states.
 {
     (() ?S) :testgcc ()
 } <= true .
@@ -73,7 +82,7 @@
     (?Cs ?N) :testgcc ?Ns .
 } .
 
-# test
+# Run nine ticks with the clock at 1, starting from state (0 0 0).
 {
     ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc ?Q
 } => {

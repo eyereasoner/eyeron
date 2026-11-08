@@ -8,6 +8,9 @@
 #
 # Run with the remote input:
 # eyeron -r --stream-messages examples/alma-rdf-messages.n3 https://ugent-lib-opendata-prd.s3.ugent.be/alma-rdf/rdf-messages.20260404.nt
+#
+# or with a one-record sample from the repository:
+# eyeron -r --stream-messages examples/alma-rdf-messages.n3 tests/input/alma-rdf-messages-small.nt
 
 @prefix : <http://example.org/ns#> .
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
@@ -17,7 +20,13 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix marc: <https://codeberg.org/phochste/marcattacks#> .
 
-# Helper functions (backward rules)
+# Each record is a list of MARC fields, and each field a list: the tag, two
+# indicators, then subfield codes and values in pairs, such as
+# ("245" "0" "0" "a" "Young's Market Company, LLC SWOT Analysis").
+# Control fields use "_" as their subfield code.
+
+# Helper functions (backward rules). Only marc:id and marc:map are used by
+# the extraction rules below; the others are available for further rules.
 # marc:splice - drop the first ?Idx members of a list (here: the tag + indicators)
 {
     (?List ?Idx) marc:splice ?Result
@@ -146,7 +155,8 @@
     (?T ?Field ?Acc) marc:field ?Result .
 } .
 
-# marc:map - join all values of (tag, subfield) into one string
+# marc:map - the value of each field with the given tag whose first subfield
+# has the given code; a record with several such fields gives several answers
 {
     (?Record ?Tag ?Subfield) marc:map ?Result
 } <= {

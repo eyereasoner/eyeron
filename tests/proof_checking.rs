@@ -20,7 +20,7 @@ mod report;
 
 use eyeron::proof_check::Report;
 use eyeron::{proof_to_n3, reason_document, ReasonerOptions};
-use examples::{example_jobs, manifest_dir, parse_document, read, run_cases, sorted_n3_files, NO_PROOF_EXAMPLES, PARSE_ONLY_EXAMPLES};
+use examples::{example_jobs, manifest_dir, parse_document, read, run_cases, sorted_n3_files, source_labels, CLOCK_EXAMPLES, NO_PROOF_EXAMPLES, PARSE_ONLY_EXAMPLES};
 use report::{green, progress_line, red};
 
 /// verifiable-decision-audit.n3 audits the proof of verifiable-decision.n3,
@@ -29,10 +29,6 @@ use report::{green, progress_line, red};
 /// the program no longer makes -- and would keep passing while saying
 /// nothing.
 const AUDITED: &str = "verifiable-decision";
-
-/// Examples whose proof records the clock, so that no two runs write the
-/// same proof or report: their proofs are checked, but kept as no golden.
-const CLOCK_EXAMPLES: &[(&str, &str)] = &[("age", "time:localTime gives the time of the run")];
 
 fn updating_goldens() -> bool {
     std::env::var_os("EYERON_UPDATE_GOLDENS").is_some_and(|value| value == "1")
@@ -52,19 +48,6 @@ fn golden(relative: &str, text: &str) -> Result<(), String> {
     }
     Err(format!("{relative} {}; review the change, then run EYERON_UPDATE_GOLDENS=1 cargo test --release --test proof_checking",
         if path.exists() { "changed" } else { "is missing" }))
-}
-
-/// The inputs an example is checked against, as a report names them.
-fn source_labels(name: &str) -> Vec<String> {
-    let mut labels = vec![format!("examples/{name}.n3")];
-    for extension in ["n3", "trig"] {
-        let companion = format!("examples/input/{name}.{extension}");
-        if manifest_dir().join(&companion).exists() {
-            labels.push(companion);
-            break;
-        }
-    }
-    labels
 }
 
 enum Outcome {

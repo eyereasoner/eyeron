@@ -7,12 +7,15 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example.com/> .
 
+# The two subtask links define which completions the parent needs.
 :taskA a :CompositeTask ;
     :subtask :taskA1 ;
     :subtask :taskA2 .
 :taskA1 a :Completed .
 :taskA2 a :Completed .
 
+# For every subtask of this task, require a Completed fact in this scope.
+# This is a universal test; it does not count the subtasks.
 {
     ?task a :CompositeTask .
     (

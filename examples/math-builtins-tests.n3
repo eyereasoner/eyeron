@@ -9,7 +9,8 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Simple test vocabulary
+# Test vocabulary: the class of tests, the properties a record uses, and
+# the one status a record can have
 :MathBuiltinTest a :TestCaseClass .
 
 :builtin a :TestProperty .
@@ -21,6 +22,11 @@
 
 :pass a :TestStatus .
 
+# Each rule below is one test: it runs a built-in on a fixed input, compares
+# the result with the expected value, and only when they agree records the
+# test with status :pass. A failing test leaves no record at all.
+
+# math:absoluteValue
 {
     -2 math:absoluteValue ?abs .
     ?abs math:equalTo 2 .

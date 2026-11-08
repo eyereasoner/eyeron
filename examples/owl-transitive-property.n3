@@ -10,13 +10,13 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# Three direct ancestor links form a chain; ancestor is declared transitive.
 :ancestor a owl:TransitiveProperty .
 :alice :ancestor :bob .
 :bob :ancestor :carol .
 :carol :ancestor :dave .
 
-# Inference rules
+# Join adjacent links of a transitive property. New links can be used again.
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
 {

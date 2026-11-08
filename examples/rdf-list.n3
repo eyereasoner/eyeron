@@ -8,8 +8,10 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix : <http://example.org/ns#> .
 
+# The list contains the integers one and two.
 :X :val (1 2) .
 
+# Backward helpers expose the first item and the list that remains.
 {
     ?X :head ?Y
 } <= {
@@ -22,6 +24,7 @@
     ?X rdf:rest ?Y
 } .
 
+# Check both projections: the head is 1 and the tail is the one-item list (2).
 {
     ?X :val ?Y .
     ?Y :head ?H .

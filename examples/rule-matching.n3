@@ -2,10 +2,12 @@
 #
 # An N3 rule pattern asks whether an implication is present. Matching that
 # quoted rule structure derives a result, showing that rules can themselves
-# be inspected by rules.
+# be inspected by rules. The only implication in this program is the rule
+# itself, so the rule finds itself.
 
 @prefix : <https://eyereasoner.github.io/ns#> .
 
+# If any rule is present, with any premise ?A and conclusion ?B, say so.
 {
     ?A => ?B .
 } => {

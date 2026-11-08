@@ -7,6 +7,8 @@
 @prefix pe: <https://eyereasoner.github.io/pe#> .
 @prefix pa: <http://example.org/proof-audit#> .
 
+# Load the companion proof as data. Copy direct dependencies, then follow
+# their transitive closure to find indirect dependencies.
 {
     ?step pe:uses ?dep
 } => {
@@ -20,12 +22,14 @@
     ?a pa:dependsOn ?c
 } .
 
+# Mark proof steps that cite source facts.
 {
     ?step pe:fact ?src
 } => {
     ?step pa:sourceFact true
 } .
 
+# A source fact supports itself; dependent steps inherit that support.
 {
     ?step pa:sourceFact true
 } => {
@@ -39,6 +43,7 @@
     ?step pa:supportedBy ?anc
 } .
 
+# Select rule applications as audit roots and report their dependencies.
 {
     ?root pe:rule ?ruleName
 } => {
@@ -59,6 +64,8 @@
     pa:test pa:support ?fact
 } .
 
+# Expose the variable names and values recorded for each root.
+# These audit rules inspect a proof; they do not replace the proof checker.
 {
     ?root pe:binding ?bindingNode .
     ?bindingNode pe:var ?name .

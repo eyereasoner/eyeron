@@ -1,8 +1,10 @@
 # Matching people by a declared key
 #
-# People have given names and birth dates, and those properties form a
-# declared key. An N3 rule uses a scoped universal test to identify
-# matching key values and derive equality.
+# A person is identified by given name and birth date together
+# (owl:hasKey). Three person records share the given name Alice; two also
+# share the birth date. An N3 rule uses log:forAllIn, a universal test over
+# the current graph, to check that two records agree on every key property,
+# and concludes that those two are the same person (owl:sameAs).
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,7 +12,7 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# The key, and three person records
 :Person owl:hasKey (:givenName :birthDate) .
 :alice a :Person ;
     :givenName "Alice" ;
@@ -22,7 +24,8 @@
     :givenName "Alice" ;
     :birthDate "1991-03-04" .
 
-# Inference rules
+# Two different members of a keyed class that have the same value for every
+# key property are the same individual.
 {
     ?C owl:hasKey ?L .
     ?X a ?C .

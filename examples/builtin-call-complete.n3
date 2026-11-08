@@ -8,8 +8,12 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix : <http://example/> .
 
+# The list of numbers to work on.
 :numbers :values (-3.7 7 2) .
 
+# One rule asks four built-ins for their answers: the absolute value of -3.7,
+# 9 to the power 0.5 (a square root), and the length and sorted order of the
+# list. Each built-in binds its variable, and the rule reports all four.
 {
     :numbers :values ?values .
     -3.7 math:absoluteValue ?absolute .

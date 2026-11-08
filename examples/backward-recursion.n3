@@ -1,21 +1,27 @@
 # Finding ancestors on demand
 #
-# Three parent links connect four people. Recursive backward N3 rules
-# answer ancestor questions, and a forward rule records everyone reachable
-# from the first person.
+# Three parent links connect four people in a line: a, b, c, d. Two backward
+# rules define an ancestor as a parent, or a parent of an ancestor. A forward
+# rule asks who a's ancestors are and records each one it finds: b, c and d.
+# The example shows a recursive backward rule answering a question with an
+# open variable.
 
 @prefix : <urn:example#> .
 
+# The parent links.
 :a :parent :b .
 :b :parent :c .
 :c :parent :d .
 
+# Backward rule: a parent is an ancestor.
 {
     ?x :ancestor ?y
 } <= {
     ?x :parent ?y
 } .
 
+# Backward rule: a parent of an ancestor is an ancestor too. It calls itself
+# one generation further on.
 {
     ?x :ancestor ?z
 } <= {
@@ -23,6 +29,7 @@
     ?y :ancestor ?z
 } .
 
+# Forward rule: everyone who is an ancestor of a is reached from a.
 {
     :a :ancestor ?who
 } => {

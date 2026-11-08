@@ -1,25 +1,29 @@
 # Inferring a restriction from a quoted rule
 #
-# Property-restriction facts accompany a rule about values reached from one
-# subject. An N3 rule matches that implication and derives a more general
-# restriction rule together with a class membership.
+# Class :aaa is an OWL restriction: everything whose :bbb values are all
+# :ccc. A rule in the program says exactly that of :xxx. A second rule reads
+# that first rule as data, recognizes the restriction, and concludes
+# :xxx a :aaa (and a rule linking :aaa back to :ccc). It shows rules that
+# match other rules, and a log:query choosing what to print.
 
 @base <https://eyereasoner.github.io/eye/reasoning/slide33/slide33.n3> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix : <http://example.org/#> .
 
-# owl restriction
+# :aaa is the class of things whose :bbb values are all :ccc.
 :aaa owl:onProperty :bbb .
 :aaa owl:allValuesFrom :ccc .
 
-# the following should entail :xxx a :aaa.
+# Every :bbb value of :xxx is a :ccc, so :xxx should be an :aaa.
 {
     :xxx :bbb ?y .
 } => {
     ?y a :ccc .
 } .
 
-# owl:allValuseFrom description logic
+# owl:allValuesFrom: when a rule says every b value of x is a c, and a is
+# the restriction (b only c), conclude that x is an a, and add the rule
+# "if x is an a, its b values are c".
 {
     ?a owl:onProperty ?b .
     ?a owl:allValuesFrom ?c .
@@ -38,7 +42,7 @@
     ?x a ?a .
 } .
 
-# Query
+# Print every type statement.
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
 {

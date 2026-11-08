@@ -1,18 +1,27 @@
 # Composing a path of described web requests
 #
-# An initial relation supplies a starting point for service descriptions.
-# N3 rules generate request and response descriptions and compose them into
-# a derived path; the requests are represented as data.
+# A chain of nine rules, each modelling a call to a web API: from links of
+# one kind (ex:rel1 up to ex:rel9) a rule describes an HTTP GET request with
+# its response and yields a link of the next kind. Starting from one ex:rel1
+# link from x to y, a log:query asks whether x reaches y by ex:relGoal, and
+# eyeron confirms it through all nine calls. The request descriptions use
+# variables that no premise binds (?request, ?resp, ?a2, ...); eyeron derives
+# only the conclusion triples whose variables the premises bind, so what it
+# concludes and proves is the chain of links.
 
 @base <https://eyereasoner.github.io/eye/reasoning/restpath/initial.n3> .
 @prefix ex: <http://example.org/#> .
 
+# The starting link. Relative IRIs resolve against @base, so <x> is the IRI
+# .../restpath/x.
 <x> ex:rel1 <y> .
 
 @base <https://eyereasoner.github.io/eye/reasoning/restpath/path-9-3.n3> .
 @prefix ex: <http://example.org/#> .
 @prefix http: <http://www.w3.org/2011/http#> .
 
+# The first call: a GET request on ?a1 whose response body is ?b1 turns a
+# rel1 link into a rel2 link.
 {
     ?a1 ex:rel1 ?b1 .
 } => {
@@ -25,6 +34,8 @@
     ?a3 ex:rel2 ?b3 .
 } .
 
+# Each further call takes three links of one kind and yields links of the
+# next kind. Here the three premises may all match the same link.
 {
     ?a1 ex:rel2 ?b1 .
     ?a2 ex:rel2 ?b2 .
@@ -123,6 +134,7 @@
     ?a3 ex:rel9 ?b3 .
 } .
 
+# The last call also yields the goal link.
 {
     ?a1 ex:rel9 ?b1 .
     ?a2 ex:rel9 ?b2 .
@@ -138,7 +150,7 @@
     ?a1 ex:relGoal ?b1 .
 } .
 
-# Query
+# Query: does x reach y by the goal link?
 @prefix ex: <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 

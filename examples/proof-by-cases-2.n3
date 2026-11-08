@@ -1,8 +1,11 @@
 # Finding a conclusion shared by possible cases
 #
-# Water is assigned solid, liquid, and gas as alternative cases, each
-# implying observability. N3 rules represent the case list and test the
-# common conclusion within those alternatives.
+# Water is an inorganic compound, and every inorganic compound is solid,
+# liquid or gas, without saying which. Each of the three states makes a thing
+# observable, so whichever case holds, water is observable. eyeron derives
+# exactly that, by proof by cases: log:allPossibleCases records the list of
+# alternatives, and log:forAllIn checks each case against the rules that
+# lead to the common conclusion.
 
 @base <https://eyereasoner.github.io/eye/reasoning/proof-by-cases/example2.n3> .
 
@@ -50,7 +53,10 @@
     ?A :is :observable
 } .
 
-# proof by cases
+# proof by cases: for every alternative ?A :is ?C in the case list,
+# log:forAllIn looks in the program for a rule from ?A :is ?C to
+# observability; if the test passes, ?A is observable, even though no single
+# case is known to hold
 {
     (?A) log:allPossibleCases ?B .
     (
@@ -71,7 +77,7 @@
     ?A :is :observable .
 } .
 
-# Query
+# Query: show every :is statement derived
 @prefix : <https://eyereasoner.github.io/ns#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 

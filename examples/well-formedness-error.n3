@@ -7,8 +7,11 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/well-formedness-error#> .
 
+# The score fact supplies the comparison input.
 :alice :score 10 .
 
+# Despite the filename, this is accepted: Eyeron binds score from the
+# second premise before applying the first premise's numeric comparison.
 {
     ?score math:greaterThan 5 .
     :alice :score ?score .

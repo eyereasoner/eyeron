@@ -6,6 +6,7 @@
 
 @prefix : <http://example/> .
 
+# Alice's statement is asserted separately from its claim record.
 :alice :says :hello .
 [ ] :statement {
     :alice :says :hello
@@ -13,11 +14,14 @@
     :source :chat ;
     :certainty 0.9 .
 
+# Bob's statement is only quoted; it is still available for provenance inspection.
 :bobClaim :statement {
     :bob :says :hi
 } ;
     :source :email .
 
+# For each claim, match its quoted speaker and copy the source.
+# The result records provenance without asserting the quoted statement.
 {
     ?claim :statement {
         ?speaker :says ?object

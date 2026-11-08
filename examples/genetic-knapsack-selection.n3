@@ -1,14 +1,17 @@
 # Checking a knapsack selection's local optimum
 #
-# A bounded item-selection problem is explored through deterministic one-
-# bit changes. N3 rules check capacity and neighboring values, then report
-# the supported local stopping point.
+# A companion dataset records a local search over item selections and its
+# neighbor summary. N3 rules check the final weight and supplied best-neighbor
+# value, then report that stopping point alongside a supplied global optimum.
+# The rules do not run the search or prove global optimality.
 
 @prefix : <https://eyereasoner.github.io/eyeling/examples/genetic-knapsack-selection#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix string: <http://www.w3.org/2000/10/swap/string#> .
 
+# The companion input supplies the final candidate and neighbor summary.
+# Check capacity and the claimed best neighbor; no mutation loop runs here.
 {
     :Run :capacity ?Capacity .
     :FinalLocal :weight ?Weight ;
@@ -21,6 +24,8 @@
     :Run :localSearchStopsAt :FinalLocal .
 } .
 
+# Report the supplied local result alongside the supplied exhaustive optimum.
+# The arithmetic checks above do not prove global optimality.
 {
     :Run :capacity ?Capacity ;
         :localSearchStopsAt :FinalLocal .

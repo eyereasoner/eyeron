@@ -1,11 +1,14 @@
 # Trying several built-in operations
 #
-# Arithmetic, text, lists, hashing, time, and logic are exercised in one N3
-# program. Eyeron derives result facts from the built-in calls so their
-# behavior can be inspected together.
+# One rule calls built-ins for arithmetic, text, lists, hashing, time and
+# formulas, and would report every result. Four of its calls,
+# string:length, string:charAt, string:setCharAt and crypto:sha256, are not
+# built-ins Eyeron provides, so the rule never fires: the only output is a
+# short Markdown note listing the example's files.
 
 @prefix : <urn:example#> .
 
+# One rule with many built-in calls; it fires only if every call succeeds.
 {
     (2 3 4) math:sum ?sum .
     (2 3 4) math:product ?product .
@@ -74,6 +77,7 @@
         :formula ?formula .
 } .
 
+# Ask for every result the rule reports.
 {
     :assurance ?p ?o
 } log:query {

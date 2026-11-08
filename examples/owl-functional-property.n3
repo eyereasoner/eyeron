@@ -1,8 +1,10 @@
 # Equating values of a functional property
 #
-# Alice has two names for her birthplace, which is declared functional. An
-# explicit N3 rule derives that the two places are owl:sameAs and includes
-# a fuse for a stated difference.
+# Alice's birthplace is recorded twice, as :Ghent and as :Gent, and a
+# person has only one birthplace (the property is owl:FunctionalProperty).
+# An N3 rule concludes that the two names denote the same place
+# (owl:sameAs). A second rule is an inference fuse (=> false): it stops the
+# run if the data also said the two places were different.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,13 +12,15 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# A functional property, and two values for it
 :birthplace a owl:FunctionalProperty .
 :alice :birthplace :Ghent, :Gent .
 
-# Inference rules
+# Rules for owl:FunctionalProperty
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
+# Two values of a functional property for one subject are the same thing.
+# X and Y may also match the same value, so each value is the same as itself.
 {
     ?P a owl:FunctionalProperty .
     ?S ?P ?X .
@@ -25,6 +29,7 @@
     ?X owl:sameAs ?Y
 } .
 
+# Fuse: two values stated to be different would be a contradiction.
 {
     ?P a owl:FunctionalProperty .
     ?S ?P ?X .

@@ -1,19 +1,23 @@
 # Inferring types for small expression terms
 #
-# Expressions and environments are represented with nested lists. Backward
-# N3 rules look up variables and propagate type relationships to derive
-# types for the supplied concrete examples.
+# A tiny functional language has integer literals, variables, functions
+# (lambdas) and function application, all written as nested lists, with an
+# environment listing (name type) pairs. Backward rules give the typing
+# rules, and eyeron infers that applying the identity function to 42 has
+# type :int. It shows backward rules (<=) that recurse over list terms.
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/type-inference#> .
 
+# Looking a name up: found in the first pair of the environment...
 {
     (?name ?env) :lookup ?type
 } <= {
     ?env list:firstRest ((?name ?type) ?_) .
 } .
 
+# ...or, when the first pair names something else, in the rest.
 {
     (?name ?env) :lookup ?type
 } <= {
@@ -23,16 +27,20 @@
     (?name ?rest) :lookup ?type .
 } .
 
+# An integer literal has type :int.
 {
     (?env (:intLit ?n)) :typeOf :int
 } <= true .
 
+# A variable has the type the environment gives it.
 {
     (?env (:var ?name)) :typeOf ?type
 } <= {
     (?name ?env) :lookup ?type
 } .
 
+# A function from ?name has type (:fun arg result) when its body has type
+# result in the environment extended with (?name arg).
 {
     (?env (:lam ?name ?body)) :typeOf (:fun ?arg ?result)
 } <= {
@@ -40,6 +48,8 @@
     (?newEnv ?body) :typeOf ?result .
 } .
 
+# Applying a function of type (:fun input result) to an argument of type
+# input gives a result.
 {
     (?env (:app ?fn ?arg)) :typeOf ?result
 } <= {
@@ -47,6 +57,8 @@
     (?env ?arg) :typeOf ?input .
 } .
 
+# The question: the type of the identity function applied to 42, in an
+# empty environment.
 {
     (() (:app (:lam :x (:var :x)) (:intLit 42))) :typeOf ?t
 } => {

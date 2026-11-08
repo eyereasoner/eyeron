@@ -10008,7 +10008,8 @@
 :i48 :i89 :i48 .
 :i26 :i42 :i54 .
 
-# cycle detection
+# Follow ten links with the same predicate. Reusing ?X at both ends
+# requires the walk to return to its own starting node.
 {
     :i42 :cycle (?D0 ?D1 ?D2 ?D3 ?D4 ?D5 ?D6 ?D7 ?D8 ?D9 ?D0)
 } <= {
@@ -10024,7 +10025,7 @@
     ?D9 :i42 ?D0 .
 } .
 
-# test
+# Ask for each supported cycle and report its bound starting point and property.
 {
     :i42 :cycle ?C .
 } => {

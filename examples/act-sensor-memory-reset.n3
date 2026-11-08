@@ -2,12 +2,18 @@
 #
 # A radiation sensor needs its one-bit alarm memory reset before reuse. N3
 # rules compare a battery-assisted reset with an ambient-bath-only attempt
-# under the model's resource assumptions.
+# under the model's resource assumptions. Eyeron derives what each resource
+# can and cannot do, in the style of constructor theory, where impossible
+# tasks are stated as positive facts; log:query rules select those
+# conclusions as the output.
+#
+# See <https://www.constructortheory.org/>
 
 @prefix : <http://example.org/act/memory-reset/> .
 @prefix arc: <https://example.org/arc#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# The question this case answers, recorded as data.
 :case a arc:Case ;
     arc:question "Can a radiation sensor's alarm memory be reliably reset with a battery pack, and can the same reset be done using only an ambient heat bath?" .
 
@@ -110,7 +116,7 @@
     ?H :cannot :ReconstructChargedWorkMediumByItself .
 } .
 
-# Query answer
+# Query answer: print every :can and :cannot statement, and nothing else.
 {
     ?Subject :can ?Value .
 } log:query {

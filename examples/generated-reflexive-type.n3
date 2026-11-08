@@ -7,6 +7,8 @@
 @base <https://eyereasoner.github.io/eye/reasoning/issue141/test2.n3> .
 @prefix : <http://www.example.com/ns/ex#> .
 
+# Capture the property and its associated class in a new backward rule.
+# The rule can answer a self-link question for any member of that class.
 {
     ?p a :Reflexive .
     ?p :range-include ?C
@@ -18,6 +20,7 @@
     } .
 } .
 
+# Enable the rule for like and Human; Socrates supplies a class member.
 :like a :Reflexive ;
     :range-include :Human .
 :Socrates a :Human .

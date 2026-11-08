@@ -1,8 +1,9 @@
 # Extending equality links
 #
-# Three names are connected through owl:sameAs statements. Explicit N3
-# rules derive symmetric and transitive equality links and include a fuse
-# for a contradictory difference statement.
+# Bob is the same as Robert, and Robert the same as Rob (owl:sameAs). N3
+# rules make sameAs symmetric and transitive, so Eyeron links all three
+# names to each other and to themselves. A third rule is an inference fuse
+# (=> false) for things stated to be both the same and different.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,19 +11,21 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# Two identity statements
 :bob owl:sameAs :robert .
 :robert owl:sameAs :rob .
 
-# Inference rules
+# Rules for owl:sameAs
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
+# Symmetry.
 {
     ?X owl:sameAs ?Y
 } => {
     ?Y owl:sameAs ?X
 } .
 
+# Transitivity; with symmetry it also makes each name the same as itself.
 {
     ?X owl:sameAs ?Y .
     ?Y owl:sameAs ?Z
@@ -30,6 +33,7 @@
     ?X owl:sameAs ?Z
 } .
 
+# Fuse: the same and different at once is a contradiction.
 {
     ?X owl:sameAs ?Y .
     ?X owl:differentFrom ?Y

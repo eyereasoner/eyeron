@@ -1,13 +1,15 @@
 # Delegating one parcel pickup
 #
 # A parcel owner authorizes a friend to collect one parcel at one locker.
-# N3 rules check the modeled person, parcel, place, and time limits and
-# derive a limited pickup decision.
+# N3 rules match the person, parcel, locker, action, purpose and token state
+# to derive a limited pickup decision. SingleUse is a recorded condition;
+# the rules do not consume the token.
 
 @prefix : <https://example.org/parcellocker#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Facts
+# Maya owns the parcel; Noah has an active, single-use pickup token.
+# The request names the same parcel, locker, action and purpose.
 :maya a :Person ;
     :name "Maya" .
 :noah a :Person ;
@@ -39,7 +41,8 @@
     :action :CollectParcel ;
     :purpose :PickupOnly .
 
-# Authorization conditions
+# Shared variables require every requested field to match the token.
+# Also require ready-for-pickup status and the token's restricted capabilities.
 {
     :pickupToken :delegate ?who .
     :pickupRequest :requester ?who .
@@ -60,7 +63,8 @@
     :case :decision :Permit .
 } .
 
-# Fail-loud checks
+# If a Permit has been concluded, any conflicting field or token condition
+# trips a fuse instead of leaving that decision in the output.
 {
     :case :decision :Permit .
     :pickupRequest :requester ?r .

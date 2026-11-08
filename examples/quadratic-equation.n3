@@ -1,8 +1,10 @@
 # Solving quadratic equations
 #
-# Sample equations supply their quadratic, linear, and constant coefficients.
-# N3 arithmetic rules calculate real or complex roots. Queries return the
-# roots, including the multiplicity of a repeated root, and each case's status.
+# Six sample equations ax^2 + bx + c = 0 give their coefficients a, b and c.
+# Three rules, one for each sign of the discriminant b^2 - 4ac, use the math:
+# built-ins to compute two real roots, one double root, or two complex
+# conjugate roots. Each root is a new blank node. Queries return the roots,
+# including the multiplicity of a double root, and each equation's status.
 
 @base <https://eyereasoner.github.io/eye/reasoning/quadratic-equation/quadratic-equation.n3> .
 @prefix : <http://example.org/quad#> .
@@ -18,14 +20,13 @@
 :RealRoot a rdfs:Class .
 :ComplexRoot a rdfs:Class .
 
-# Properties on a quadratic instance:
+# Properties on a quadratic instance: its coefficients, its root nodes (real
+# or complex), the intermediate values that explain them, and its status
 :a a rdf:Property .
 :b a rdf:Property .
 :c a rdf:Property .
 :answer a rdf:Property .
-# links a Q to root nodes (real or complex)
 :why a rdf:Property .
-# links a Q to check results
 :status a rdf:Property .
 
 # Properties used in reasoning/explanation:
@@ -39,11 +40,11 @@
 :multiplicity a rdf:Property .
 :val a rdf:Property .
 
-# Global numeric tolerance for plug-back checks
+# A numeric tolerance of 1e-9; no rule uses it
 :eps :val 0.000000001 .
 
-# 1e-9
-# Core math facts shared by all branches
+# Core math facts shared by all branches, kept as an explanation: the
+# discriminant, the denominator 2a and -b
 {
     ?q a :Quadratic ;
         :a ?a ;
@@ -144,8 +145,7 @@
         :status "complex-roots" .
 } .
 
-# HARNESS
-# ≥5 independent quadratics to exercise all branches
+# Six sample quadratics that exercise all three branches
 # H1: Two distinct real roots: x^2 - 3x + 2 = 0 → {1, 2}
 :Q1 a :Quadratic ;
     :a 1 ;
@@ -164,7 +164,7 @@
     :b 0 ;
     :c 1 .
 
-# H4: Non-integer coefficients: 2x^2 + 10x + 8 = 0 → { -4, -1 }
+# H4: Leading coefficient other than 1: 2x^2 + 10x + 8 = 0 → { -4, -1 }
 :Q4 a :Quadratic ;
     :a 2 ;
     :b 10 ;
@@ -182,7 +182,7 @@
     :b -12 ;
     :c 9 .
 
-# Query answer
+# Query: the roots of each equation, with their properties
 {
     ?Case :answer ?Answer .
     ?Answer ?Property ?Value .
@@ -191,6 +191,7 @@
     ?Answer ?Property ?Value .
 } .
 
+# Query: which branch applied to each equation
 {
     ?Case :status ?Status .
 } log:query {

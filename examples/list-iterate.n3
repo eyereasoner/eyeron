@@ -1,31 +1,33 @@
 # Enumerating a list with positions
 #
-# A list contains three names. N3 rules use list:iterate to derive indexed
-# entries and test a specific name at its zero-based position.
+# A list holds three names: Huey, Dewey and Louie. Eyeron pairs every name
+# with its position, counting from 0, finds that Dewey is at position 1, and
+# then confirms a test. It shows the list:iterate built-in, which can list
+# all (index, value) pairs, check one pair, or find the index of a value.
 
 @prefix : <urn:example:> .
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 
 :Let :param ("Huey" "Dewey" "Louie") .
 
+# For the list, record every (index, value) pair and the index of "Dewey".
 {
     :Let :param ?X .
 
-    # For each in list X generate a new triple
-    # ?X a list
-    # ?Y variable or any
+    # With ?Y unbound, this succeeds once for each (index, value) pair.
     ?X list:iterate ?Y .
 
-    # E.g. this evaluates to true
+    # With both parts given, it only checks that "Dewey" is at index 1.
     ?X list:iterate (1 "Dewey") .
 
-    # We even capture the index
+    # With the index unbound, it finds the position of "Dewey".
     ?X list:iterate (?Z "Dewey") .
 } => {
     ?X :iterate ?Y .
     "Dewey" :hasIndex ?Z .
 } .
 
+# The test passes when some pair was recorded and Dewey is at index 1.
 {
     ?X :iterate ?Y .
     "Dewey" :hasIndex 1 .

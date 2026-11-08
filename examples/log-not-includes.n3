@@ -1,14 +1,18 @@
 # Testing absence after generated rules run
 #
-# An arithmetic condition introduces a fact and another rule. A scoped
-# absence test asks whether a later conclusion is missing, illustrating how
-# N3 negation interacts with newly generated consequences.
+# A rule whose condition always holds adds a fact and a new rule, and that
+# new rule then derives :a :b :c. A second rule would conclude
+# :test :is false only if :a :b :c were absent. Because the generated rule
+# produces it, the absence test fails and :test :is false is not derived.
+# It shows that log:notIncludes is judged after generated rules have run.
 
 @prefix : <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 
+# A condition that always holds; its conclusion is a fact together with a
+# rule, which eyeron adds to the program and runs.
 {
     1 math:equalTo 1 .
 } => {
@@ -21,6 +25,7 @@
     } .
 } .
 
+# Conclude :test :is false only if :a :b :c is not in the current graph.
 {
     ?SCOPE log:notIncludes {
         :a :b :c

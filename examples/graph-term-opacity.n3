@@ -7,12 +7,15 @@
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
+# Superman and Clark Kent are the same person, and Lois knows a quoted
+# statement that names only Superman.
 :superman owl:sameAs :clarkKent .
 :loisLane :knows {
     :superman :can :fly
 } .
 
-# Explicitly transfer the statement about Superman to Clark Kent.
+# Explicitly transfer the statement about Superman to Clark Kent. The
+# pattern { ?x ?q ?r } matches a quoted graph holding exactly one statement.
 {
     ?x owl:sameAs ?y .
     ?s ?p {

@@ -1,17 +1,21 @@
 # Using predicate and object lists
 #
-# Alice knows two people and has a score; Bob has another score. N3 rules
-# filter the scores and derive relationship facts, while the data
-# illustrates semicolon and comma shortcuts.
+# Alice knows two people and has a score; Bob has another score. One rule
+# passes a score of at least 5 on to the people its holder knows, so Bob
+# and Carol are each known by Alice and scored for 8. The example shows the
+# Turtle shortcuts: a comma repeats subject and predicate, a semicolon
+# repeats the subject, in the data and in the rule's conclusion alike.
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <http://example/> .
 
+# Alice knows Bob and Carol, and scores 8; Bob scores 3.
 :alice :knows :bob, :carol ;
     :score 8 .
 
 :bob :score 3 .
 
+# Someone scoring at least 5 vouches for each person they know.
 {
     ?person :knows ?friend .
     ?person :score ?score .

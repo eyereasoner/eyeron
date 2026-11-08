@@ -9,6 +9,7 @@
 @prefix sudoku: <https://eyereasoner.github.io/eyeling/vocab/sudoku#> .
 @prefix : <http://example.org/eyeling/sudoku#> .
 
+# Map digit characters returned by the solver to their numeric values.
 :digit1 :char "1" ;
     :digitValue 1 .
 :digit2 :char "2" ;
@@ -28,6 +29,7 @@
 :digit9 :char "9" ;
     :digitValue 9 .
 
+# Cells are numbered 1 through 81 in row order.
 :r1c1 :position 1 .
 :r1c2 :position 2 .
 :r1c3 :position 3 .
@@ -110,8 +112,10 @@
 :r9c8 :position 80 .
 :r9c9 :position 81 .
 
+# The 81-character puzzle uses zero for an empty cell.
 :case :puzzle "100007090030020008009600500005300900010080002600004000300000010040000007007000300" .
 
+# Ask the Sudoku built-in for a solution satisfying the puzzle constraints.
 {
     :case :puzzle ?puzzle .
     ?puzzle sudoku:solve ?solution .
@@ -119,6 +123,7 @@
     :case :solution ?solution
 } .
 
+# For each cell, extract the character at its position and look up its value.
 {
     :case :solution ?solution .
     ?cell :position ?p .

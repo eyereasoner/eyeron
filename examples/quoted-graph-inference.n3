@@ -7,6 +7,7 @@
 @base <https://eyereasoner.github.io/eye/reasoning/n3gl/example.n3> .
 @prefix : <https://eyereasoner.github.io/eye/reasoning#> .
 
+# Reverse an asserted relationship when its property is declared symmetric.
 {
     ?p a :SymetricRelation .
     ?s ?p ?o
@@ -14,6 +15,8 @@
     ?o ?p ?s
 } .
 
+# Reverse the relationship inside quoted evidence too, copying its metadata
+# predicate and value to the new graph.
 {
     ?p a :SymetricRelation .
     {
@@ -25,6 +28,7 @@
     } ?p2 ?o2
 } .
 
+# The example supplies both an asserted marriage and a quoted one with a date.
 :marriedTo a :SymetricRelation .
 
 :alice :marriedTo :bob .
@@ -32,6 +36,7 @@
     :alice :marriedTo :bob
 } :since "1999" .
 
+# The three checks report the reversed fact, its dated graph and the original graph.
 {
     :bob :marriedTo :alice
 } => {

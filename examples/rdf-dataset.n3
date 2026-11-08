@@ -9,6 +9,8 @@ VERSION "1.2"
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
+# Read the required device evidence from the companion input before
+# producing the derived action graph.
 {
     :sensor :reports ?condition .
     ?condition :requires ?action .
@@ -33,7 +35,8 @@ VERSION "1.2"
     } .
 } .
 
-# Markdown rendering via log:outputString.
+# A fixed text sample is also queried for display. Its content is supplied text,
+# not a rendering of the bindings returned by the entailment query.
 :__md_output :text "# rdf-dataset\n\n## Source files\n\n- [N3 rules](../rdf-dataset.n3)\n- [Input TriG](../input/rdf-dataset.trig)\n\nVERSION \"1.2\"\n\n@prefix : <https://eyereasoner.github.io/eyeling/examples/rdf-dataset#> .\n\n:workOrder :entails <<( :sensor :needs :inspection )>> .\n" .
 {
     :__md_output :text ?text

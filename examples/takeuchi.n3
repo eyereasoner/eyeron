@@ -1,15 +1,18 @@
 # Calculating the Takeuchi function
 #
-# A three-number input starts a recursive calculation with nested subcalls.
-# Forward N3 rules derive the needed calls and their results until the
-# requested Takeuchi value becomes available.
+# The Takeuchi function tak(x, y, z) is a small recursive function with
+# deeply nested calls, long used to benchmark recursion. Starting from the
+# one call tak(34, 13, 8), forward N3 rules derive which calls are needed and
+# their results, until tak(34, 13, 8) = 13 is known. It shows recursion
+# written as forward rules over list terms with math built-ins.
 #
-# See <https://en.wikipedia.org/wiki/Tak_(function>
+# See <https://en.wikipedia.org/wiki/Tak_(function)>
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <https://eyereasoner.github.io/eye/reasoning#> .
 
 # Forward/tabling style: compute only what’s reachable from :needTak.
+# Each call is a list (X Y Z); each result is stored once and reused.
 # Seed: only the call we want
 (34 13 8) :needTak true .
 

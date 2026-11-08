@@ -1,18 +1,24 @@
 # An inference fuse involving a quoted rule
 #
-# The example states that a liar classification would imply false and also
-# rejects that very rule. Matching the quoted implication triggers an N3
-# inference fuse and stops the run.
+# The program contains a rule saying "if Alice is a liar, that is a
+# contradiction", and a second rule saying "that first rule itself leads to a
+# contradiction". The second rule's premise is a quoted rule, which matches
+# the first rule as stated, so it fires and concludes false: an inference
+# fuse. Eyeron stops, reports the fired rule and exits with code 65. It shows
+# rules whose premise is a quoted rule, and the fuse (=> false).
 #
 # expect-exit: 65
 
 @prefix : <https://eyereasoner.github.io/ns#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# If Alice is a liar, that is a contradiction.
 {
     :Alice a :Liar
 } => false .
 
+# Having the rule above is itself a contradiction. That rule is in the
+# program, so this premise holds and the fuse fires.
 {
     {
         :Alice a :Liar

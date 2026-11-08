@@ -8,10 +8,12 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example/> .
 
+# The samples include a negative value and a literal with language and direction.
 :n1 :value -3.5 .
 :n2 :value 7 .
 :msg :text "bonjour"@fr--ltr .
 
+# Only n1 passes the numeric test; n2 is positive.
 {
     ?x :value ?v .
     ?v math:lessThan 0
@@ -19,6 +21,7 @@
     ?x :negative true
 } .
 
+# Match the whole literal, including its French tag and left-to-right direction.
 {
     :msg :text ?text .
     ?text log:equalTo "bonjour"@fr--ltr

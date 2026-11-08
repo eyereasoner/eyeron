@@ -9,14 +9,18 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/aggregation#> .
 
+# Three readings; two sensors report the same value, 10.
 :sensor_a :reading 10 .
 :sensor_b :reading 15 .
 :sensor_c :reading 10 .
 
+# The total of an empty list is 0.
 {
     () :total 0
 } <= true .
 
+# The total of a non-empty list is its first value plus the total of the
+# rest. The rule calls itself on ever shorter lists until it reaches ().
 {
     ?list :total ?total
 } <= {
@@ -25,6 +29,8 @@
     (?first ?tail) math:sum ?total .
 } .
 
+# Collect every reading in the current graph into one list, keeping
+# duplicates, then report how many readings there are and their total.
 {
     (
         ?value {

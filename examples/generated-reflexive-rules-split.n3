@@ -7,6 +7,7 @@
 @base <https://eyereasoner.github.io/eye/reasoning/issue141/test3.n3> .
 @prefix : <http://www.example.com/ns/ex#> .
 
+# Generate a backward self-link rule for the subject of an existing link.
 {
     ?p a :Reflexive
 } => {
@@ -17,6 +18,7 @@
     } .
 } .
 
+# A separate generator supplies the corresponding rule for the object.
 {
     ?p a :Reflexive
 } => {
@@ -27,4 +29,6 @@
     } .
 } .
 
+# Mark p reflexive; the output contains generated rules, not an enumeration
+# of every self-link they could answer.
 :p a :Reflexive .

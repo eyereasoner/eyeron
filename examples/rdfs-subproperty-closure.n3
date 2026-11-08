@@ -10,14 +10,15 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# Alice is Bob's mother; motherOf is below parentOf and ancestorOf.
 :motherOf rdfs:subPropertyOf :parentOf .
 :parentOf rdfs:subPropertyOf :ancestorOf ;
     rdfs:domain :Person ;
     rdfs:range :Person .
 :alice :motherOf :bob .
 
-# Inference rules
+# Pass statements to broader properties and join subproperty links.
+# The last two rules inherit domain and range from the broader property.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 {

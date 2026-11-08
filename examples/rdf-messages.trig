@@ -1,6 +1,13 @@
+# Replaying two readings with an empty heartbeat
+#
+# Two sensor readings are separated by an empty heartbeat message. The RDF
+# Message Log preserves their order and keeps the reused blank-node label
+# local to each message; the companion N3 example demonstrates inspection.
+
 VERSION "1.2-messages"
 PREFIX : <http://example/messages#>
 
+# The first message records sensor s1 at 21; a later message records s2 at 22.
 _:reading :sensor :s1 ; :value 21 .
 
 MESSAGE

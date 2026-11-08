@@ -1,25 +1,29 @@
 # Matching nested lists
 #
-# A list contains a number, a two-item term, and another list. N3 rule
-# patterns match each structure and derive the values found at the
-# different nesting levels.
+# A list contains a number, a two-item list, and a one-item list. Rule
+# patterns written as lists match each structure and pick out the values
+# found at the different nesting levels.
 
 @prefix : <http://example/> .
 
+# A nested list: 1, then the list (:node :q), then the list (2).
 :root :nested (1 (:node :q) (2)) .
 
+# A three-item pattern binds each member, whatever it is.
 {
     :root :nested (?first ?second ?third)
 } => {
     :test :first ?first
 } .
 
+# The second member must be a two-item list starting with :node.
 {
     :root :nested (?first (:node ?value) ?third)
 } => {
     :test :secondProperty ?value
 } .
 
+# The third member must be a one-item list; take its item.
 {
     :root :nested (?first ?second (?value))
 } => {

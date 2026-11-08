@@ -1,8 +1,10 @@
 # Recognizing a working student
 #
-# WorkingStudent is defined as the intersection of student and worker
-# classes. Explicit N3 rules traverse the class list to derive its
-# component memberships and recognize a person who has both.
+# A working student is defined as someone who is both a student and a
+# worker (owl:intersectionOf). Alice is said to be a working student; Bob is
+# said to be a student and a worker. N3 rules for owl:intersectionOf derive
+# that Alice is a student and a worker, and, with a log:forAllIn test over
+# the class list, that Bob is a working student.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,18 +12,19 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# The definition, and one person for each direction
 :WorkingStudent owl:intersectionOf (:Student :Worker) .
 :alice a :WorkingStudent .
 :bob a :Student, :Worker .
 
-# Inference rules
+# Rules for owl:intersectionOf
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#> .
 
+# A member of the intersection is a member of every class in the list.
 {
     ?C owl:intersectionOf ?L .
     ?X a ?C .
@@ -30,6 +33,7 @@
     ?X a ?D
 } .
 
+# The intersection is a subclass of each class in the list.
 {
     ?C owl:intersectionOf ?L .
     ?D list:in ?L
@@ -37,6 +41,8 @@
     ?C rdfs:subClassOf ?D
 } .
 
+# A member of every class in the list is a member of the intersection. The
+# first class gives a candidate; log:forAllIn then checks all of them.
 {
     ?C owl:intersectionOf ?L .
     ?L list:first ?First .

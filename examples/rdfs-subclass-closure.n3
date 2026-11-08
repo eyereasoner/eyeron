@@ -10,13 +10,14 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# Milo is a cat; Cat is below Mammal, which is below Animal.
 :Cat rdfs:subClassOf :Mammal .
 :Mammal rdfs:subClassOf :Animal .
 :milo a :Cat .
 :pet rdfs:range :Cat .
 
-# Inference rules
+# Pass membership to superclasses and join subclass links. The last two
+# rules also extend the supplied domain and range declarations.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 {

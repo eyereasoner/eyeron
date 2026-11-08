@@ -1,8 +1,11 @@
 # The Ackermann function
 #
-# A small recursive calculation illustrates how quickly the Ackermann
-# function grows. Eyeron computes the requested values with backward rules,
-# arithmetic, and list operations.
+# The Ackermann function is a classic recursive function that grows faster
+# than any function computed with ordinary bounded loops: A(4, 2) already has
+# 19,729 digits. Eyeron computes twelve values, A(3, 1000) and A(4, 2)
+# among them, with backward rules and exact integer arithmetic. The rules
+# turn A(x, y) into a ladder of operations on 2: successor, addition,
+# multiplication, exponentiation, then repeated exponentiation.
 #
 # See <https://en.wikipedia.org/wiki/Ackermann_function>
 
@@ -10,7 +13,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/ns#> .
 
-# ackermann(x, y)
+# A(x, y) = H(x, y + 3, 2) - 3, where H is the three-argument ladder below.
 {
     (?X ?Y) :ackermann ?A .
 } <= {
@@ -19,42 +22,44 @@
     (?C 3) math:difference ?A .
 } .
 
-# ackermann(x, y, z)
-# succ (x=0)
+# H(x, y, z), step x of the ladder. Step 0 is the successor: y + 1.
 {
     (0 ?Y ?Z) :ackermann ?A .
 } <= {
     (?Y 1) math:sum ?A .
 } .
 
-# sum (x=1)
+# Step 1 is addition: y + z.
 {
     (1 ?Y ?Z) :ackermann ?A .
 } <= {
     (?Y ?Z) math:sum ?A .
 } .
 
-# product (x=2)
+# Step 2 is multiplication: y * z.
 {
     (2 ?Y ?Z) :ackermann ?A .
 } <= {
     (?Y ?Z) math:product ?A .
 } .
 
-# exponentiation (x=3) — use BigInt-capable math:exponentiation to avoid blow-up
+# Step 3 is exponentiation: z to the power y, computed directly as an exact
+# integer rather than by repeated multiplication.
 {
     (3 ?Y ?Z) :ackermann ?A .
 } <= {
     (?Z ?Y) math:exponentiation ?A .
 } .
 
-# exponentiation (x=3), tetration (x=4), pentation (x=5), hexation (x=6), etc
+# Steps above 3 are tetration, pentation and so on. Each starts at
+# H(x, 0, z) = 1 ...
 {
     (?X 0 ?Z) :ackermann 1 .
 } <= {
     ?X math:greaterThan 3 .
 } .
 
+# ... and repeats the step below it: H(x, y, z) = H(x - 1, H(x, y - 1, z), z).
 {
     (?X ?Y ?Z) :ackermann ?A .
 } <= {
@@ -66,7 +71,7 @@
     (?D ?C ?Z) :ackermann ?A .
 } .
 
-# test
+# Ask for twelve values and gather them in one answer.
 {
     (0 0) :ackermann ?A0 .
     (0 6) :ackermann ?A1 .

@@ -6,9 +6,11 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example/> .
 
+# The timestamp is a fixed tuple, so this example does not read the clock.
 :msg :text "bonjour"@fr .
 :clock :event (2026 5 15 10 20 30) .
 
+# Equality includes the language tag, not just the greeting text.
 {
     ?msg :text ?text .
     ?text log:equalTo "bonjour"@fr
@@ -16,6 +18,7 @@
     ?msg :sameLanguageAs true
 } .
 
+# Match the six date-time positions and copy the first as the year.
 {
     ?event :event (?year ?month ?day ?hour ?minute ?second)
 } => {

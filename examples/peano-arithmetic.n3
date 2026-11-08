@@ -6,6 +6,8 @@
 
 @prefix : <http://example/> .
 
+# Adding zero leaves a number unchanged; adding a successor wraps the sum
+# in one more (:s ...) list. No numeric built-in is needed.
 {
     (?a :zero) :peanoAdd ?a
 } <= true .
@@ -16,6 +18,7 @@
     (?a ?b) :peanoAdd ?c
 } .
 
+# Multiplication is repeated addition, with zero as its base case.
 {
     (?a :zero) :peanoMultiply :zero
 } <= true .
@@ -27,6 +30,7 @@
     (?a ?d) :peanoAdd ?c
 } .
 
+# The factorial helper carries a running product; stopping returns it.
 {
     (:zero ?a) :fac ?a
 } <= true .
@@ -38,12 +42,15 @@
     (?a ?d) :fac ?c
 } .
 
+# Begin factorial with the product one, represented by (:s :zero).
 {
     ?a :factorialValue ?b
 } <= {
     (?a (:s :zero)) :fac ?b
 } .
 
+# The names two and three are variables: 1*1 gives one, adding two gives
+# three, and its factorial is six. The output retains the successor structure.
 {
     ((:s :zero) (:s :zero)) :peanoMultiply ?two .
     (?two (:s (:s :zero))) :peanoAdd ?three .

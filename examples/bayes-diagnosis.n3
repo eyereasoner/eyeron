@@ -1,12 +1,17 @@
 # Scoring illustrative diagnoses
 #
-# Sample priors and symptom likelihoods are combined into diagnostic
-# scores. N3 arithmetic rules derive unnormalized scores and threshold
-# labels; this is an illustrative model, not medical guidance.
+# A patient has fever, cough, a smell symptom, shortness of breath and no
+# sneezing. For four candidate conditions, a prior (how common it is) is
+# multiplied by the likelihood of each finding, as in naive Bayes. eyeron
+# derives each condition's unnormalized score and ranks it by thresholds:
+# COVID-19 comes out "high" and screened in, the others "low". It shows N3
+# math built-ins on decimals; an illustrative model, not medical guidance.
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <http://example/> .
 
+# For each condition: its prior, then the probability of each of the
+# patient's findings given that condition.
 :COVID19 :prior 0.05 ;
     :fever 0.70 ;
     :cough 0.65 ;
@@ -32,6 +37,8 @@
     :noSneezing 0.95 ;
     :breath 0.60 .
 
+# The score multiplies the prior by every finding's likelihood. It is not
+# divided by the total over all conditions, so only the comparison counts.
 {
     ?d :prior ?prior ;
         :fever ?fever ;
@@ -48,6 +55,7 @@
     ?d :score ?score
 } .
 
+# A condition with a score of at least 0.001 is screened in for follow-up.
 {
     ?d :score ?score .
     ?score math:notLessThan 0.001
@@ -55,6 +63,7 @@
     ?d :screenedIn true
 } .
 
+# Rank each score as high, medium or low; the ranges do not overlap.
 {
     ?d :score ?score .
     ?score math:notLessThan 0.0015

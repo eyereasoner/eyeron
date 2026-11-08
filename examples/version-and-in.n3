@@ -1,8 +1,10 @@
 # Selecting priority levels with alternative rules
 #
-# People hold gold, bronze, or platinum levels. Two N3 rules recognize
-# priority levels, and a scoped absence test derives the nonpriority
-# classification for the remaining case.
+# Alice holds a gold level, Bob bronze and Carol platinum. Two rules give
+# priority to gold and to platinum, two alternatives for one conclusion. A
+# third rule marks as ordinary anyone with a level who has no priority, so
+# Alice and Carol have priority and Bob is ordinary. It shows alternative
+# rules and a scoped absence test (log:notIncludes) for the remaining case.
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example/> .
@@ -11,6 +13,7 @@
 :bob :level "bronze" .
 :carol :level "platinum" .
 
+# Gold and platinum each give priority.
 {
     ?x :level "gold"
 } => {
@@ -23,6 +26,7 @@
     ?x :priority true
 } .
 
+# Anyone else with a level is ordinary.
 {
     ?x :level ?level .
     ?SCOPE log:notIncludes {

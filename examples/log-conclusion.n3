@@ -1,12 +1,14 @@
 # Reasoning inside a quoted graph
 #
-# A quoted graph contains a cat fact and a rule that cats say meow. The
-# log:conclusion built-in computes that graph's consequences, and an N3
-# rule returns the resulting graph.
+# A quoted graph contains a fact, Felix is a cat, and a rule, cats say
+# "Meow". The log:conclusion built-in reasons inside that graph alone and
+# returns it together with everything that follows from it, here that Felix
+# says "Meow". It shows quoted graphs as data and reasoning about them.
 
 @prefix : <http://example.org/> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# A small knowledge base held as one quoted graph, not asserted.
 :let :param {
     :Felix a :Cat .
     {
@@ -16,6 +18,7 @@
     } .
 } .
 
+# Compute the deductive closure of that graph and report it.
 {
     :let :param ?param .
     ?param log:conclusion ?conclusion .

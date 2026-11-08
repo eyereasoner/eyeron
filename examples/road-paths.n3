@@ -1,11 +1,14 @@
 # Building routes between cities
 #
-# One-way road links connect a small city network. Backward N3 rules follow
-# those links and construct path lists for the requested trips.
+# One-way road links connect a small network of French cities. Two forward
+# rules turn each link into a path and chain paths together, and a log:query
+# asks which cities have a path to Nantes: Angers, Le Mans, Chartres and
+# Paris. It shows a transitive closure with a query selecting the answers.
 
 @prefix : <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# The one-way road links.
 :paris :oneway :orleans .
 :paris :oneway :chartres .
 :paris :oneway :amiens .
@@ -17,12 +20,14 @@
 :lemans :oneway :tours .
 :angers :oneway :nantes .
 
+# A road link is a path.
 {
     ?A :oneway ?B .
 } => {
     ?A :path ?B .
 } .
 
+# Two paths end to end make a path.
 {
     ?A :path ?B .
     ?B :path ?C .
@@ -30,12 +35,14 @@
     ?A :path ?C .
 } .
 
+# A path to Nantes restates itself; this rule adds nothing new.
 {
     ?A :path :nantes .
 } => {
     ?A :path :nantes .
 } .
 
+# Report only the cities with a path to Nantes.
 {
     ?A :path :nantes .
 } log:query {

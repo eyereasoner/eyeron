@@ -1,15 +1,19 @@
 # Following a negative dependency cycle
 #
-# One rule derives a classification when a blocked label is absent, and
-# another derives that blocked label from the classification. The N3
-# example trips an inference fuse because the derived blocked label
-# contradicts the absence assumption used to derive the classification.
+# The item :a comes from a blocked source. One rule marks an item :Derived
+# as long as it is not known to be :Blocked; another marks every :Derived
+# item :Blocked. Deriving :a a :Derived therefore leads to :a a :Blocked,
+# which contradicts the absence the first rule relied on, so eyeron trips
+# an inference fuse and returns no conclusions. It shows a negative
+# dependency cycle through scoped negation (log:notIncludes).
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/variable-predicate-dependency#> .
 
 :a :source :blocked .
 
+# An item from a blocked source is derived while it is not known to be
+# blocked.
 {
     ?x :source :blocked .
     ?SCOPE log:notIncludes {
@@ -19,6 +23,7 @@
     ?x a :Derived
 } .
 
+# Every derived item is blocked.
 {
     ?x a :Derived
 } => {

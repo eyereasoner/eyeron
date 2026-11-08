@@ -1,8 +1,15 @@
 # An entanglement witness for a mediator
 #
-# Two quantum sensors interact only through a mediator. Under the stated
-# locality and information assumptions, N3 rules distinguish a nonclassical
-# mediator from a classical model that cannot produce the witness.
+# Two quantum sensors can interact only through gravity. If they become
+# entangled anyway, and locality holds, then gravity cannot be purely
+# classical: this is the argument of Marletto and Vedral for testing quantum
+# gravity in the lab. Eyeron applies it to two experiment runs: one that
+# passed the entanglement witness, so its mediator is non-classical, and a
+# contrast run with a purely classical mediator, which cannot support that
+# conclusion. It shows plain forward rules chaining conclusions, and
+# log:query choosing what to report.
+#
+# See <https://arxiv.org/abs/1707.06036>
 
 @prefix : <http://example.org/act-gravity/> .
 @prefix arc: <https://example.org/arc#> .
@@ -15,7 +22,8 @@
 :leftSensor a :QuantumSystem .
 :rightSensor a :QuantumSystem .
 
-# Positive mediator and positive run
+# The run under test: the sensors interact only through a gravitational
+# mediator, and the entanglement witness passed.
 :gravityMediator a :Mediator ;
     :couplingMode :Gravitational ;
     :mediatorModel :NonClassicalCandidate .
@@ -31,7 +39,8 @@
     :probeStatus :LocalProbeReadoutPresent ;
     :controlStatus :CopyLikeControlPresent .
 
-# Contrast mediator and contrast run
+# A contrast run with the same setup, but a purely classical mediator model.
+# Its observation is recorded, but no rule uses it.
 :classicalGravityMediator a :Mediator ;
     :couplingMode :Gravitational ;
     :mediatorModel :PurelyClassical .
@@ -60,6 +69,7 @@
 } .
 
 # Interoperability plus copy-like control gives an information-transfer interface.
+# This and the next rule describe the runs; no answer depends on them.
 {
     ?R a :ExperimentRun ;
         :assumes :Interoperability ;
@@ -76,9 +86,9 @@
     ?R :supports :LocalReadoutInterface .
 } .
 
-# Core ACT witness rule:
-# locality + interoperability + mediator-only interaction + observed entanglement
-# imply a non-classical mediator.
+# The witness rule: locality, interoperability, interaction only through the
+# mediator, and observed entanglement together imply a non-classical mediator.
+# It looks at what was observed, not at the mediator's declared model.
 {
     ?R a :ExperimentRun ;
         :assumes :Locality ;
@@ -132,7 +142,7 @@
     ?R :cannot :SupportMediatorNonClassicalConclusion .
 } .
 
-# Query answer
+# Query: report every can, cannot, supported conclusion and ruled-out model.
 {
     ?Subject :can ?Value .
 } log:query {

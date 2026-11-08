@@ -1,22 +1,28 @@
 # Instantiating universally quantified statements
 #
-# Explicit quantifiers describe a general property and a mother
-# relationship. N3 rules request concrete instances and expose how
-# existential witnesses depend on the universally quantified subject.
+# Two statements are made about everything: everything has property :p
+# with value :o, and everything has some mother. Rules then ask about
+# particular things: :s has :p :o, and Bob and Liz each have a mother, each
+# a separate unnamed individual. It shows the explicit quantifiers @forAll
+# and @forSome, and how a "some" inside an "all" gives each thing its own
+# witness.
 
 @prefix : <http://example.org/> .
 
+# For all x there is some y: x has :p :o, and y is x's mother.
 @forAll :x .
 @forSome :y .
 :x :p :o .
 :x :hasMother :y .
 
+# :s is one instance of the universal statement.
 {
     :s :p :o
 } => {
     :universalInstance :holds true
 } .
 
+# Bob's and Liz's mothers, whoever they are.
 {
     :bob :hasMother ?mother
 } => {

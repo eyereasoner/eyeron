@@ -1,8 +1,8 @@
 # Classifying an enumerated set of colors
 #
-# A class is defined by a list containing red, green, and blue. An explicit
-# N3 rule enumerates that list and derives a class membership for every
-# listed color.
+# The class PrimaryColour is defined by listing its members: red, green
+# and blue (owl:oneOf). An N3 rule walks the list with the list:in built-in
+# and derives that each listed colour is a primary colour.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,10 +10,10 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# A class given by the list of its members
 :PrimaryColour owl:oneOf (:red :green :blue) .
 
-# Inference rules
+# Every item of a oneOf list is a member of the class.
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 

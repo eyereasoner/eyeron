@@ -9,6 +9,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/four-queens#> .
 
+# Row choices are 1 through 4; each new list item occupies the next column.
 :r1 a :Row ;
     :n 1 .
 :r2 a :Row ;
@@ -18,10 +19,13 @@
 :r4 a :Row ;
     :n 4 .
 
+# No previously placed queen means there is no conflict to check.
 {
     (?row () ?distance) :safe true
 } <= true .
 
+# Reject the same row or a row difference equal to the column distance;
+# then check the rest of the placed queens one column farther away.
 {
     (?row ?placed ?distance) :safe true
 } <= {
@@ -34,10 +38,12 @@
     (?row ?rest ?next) :safe true .
 } .
 
+# When no columns remain, the accumulated placement is a solution.
 {
     (0 ?placed) :place ?placed
 } <= true .
 
+# Try a row, check it against the current placement and recurse.
 {
     (?remaining ?placed) :place ?rows
 } <= {
@@ -50,6 +56,7 @@
     (?next ?newPlaced) :place ?rows .
 } .
 
+# Start with four empty columns and report every complete safe placement.
 {
     (4 ()) :place ?rows
 } => {

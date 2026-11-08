@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Print the aggregate count and elapsed time for a captured test run.
+set -eu
+script_dir=$(cd -- "$(dirname -- "$0")" && pwd)
+log=$1
+status=$2
+elapsed=$3
+totals=$(sed -E 's/\x1b\[[0-9;]*m//g' "$log" | awk -f "$script_dir/test-counts.awk")
+read -r run percent_ok missing <<< "$totals"
+printf '\nTests: %s run; %s%% OK; %ss total' "$run" "$percent_ok" "$elapsed"
+if [[ "$status" -ne 0 ]]; then printf ' (FAILED)'; fi
+if [[ -n "$missing" ]]; then printf '\nNo result (not counted): %s' "$missing"; fi
+printf '\n'

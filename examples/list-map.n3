@@ -1,34 +1,41 @@
 # Mapping a property over list members
 #
-# Several subjects have values for the same property. N3 rules use list:map
-# to gather those values in list order, including multiple values and cases
-# with no matches.
+# Several subjects have values for the property :p1. Four tests use
+# list:map to collect, for a list of subjects, all their :p1 values in list
+# order: one value each, several values for one subject, a subject with no
+# values, and a property nobody has. Eyeron concludes that all four pass.
+# list:map reads the current graph, so the check takes its answers on trust.
 
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix : <http://example.org/#> .
 
+# The data: :s3 has two values, :s4 has none.
 :s1 :p1 :o1 .
 :s2 :p1 :o2 .
 :s3 :p1 :o3, :o4 .
 
+# One value per subject, gathered in list order.
 {
     ((:s1 :s2) :p1) list:map (:o1 :o2)
 } => {
     :test1 :is true
 } .
 
+# A subject with two values contributes both.
 {
     ((:s1 :s2 :s3) :p1) list:map (:o1 :o2 :o3 :o4)
 } => {
     :test2 :is true
 } .
 
+# A subject with no values gives the empty list.
 {
     ((:s4) :p1) list:map ()
 } => {
     :test3 :is true
 } .
 
+# So does a property that no subject has.
 {
     ((:s1) :p2) list:map ()
 } => {

@@ -1,14 +1,18 @@
 # Counting with a backward rule
 #
-# Alice can count to one. A recursive backward rule reduces a larger
-# counting goal to smaller goals, and a forward rule records that she can
-# count to ten.
+# Alice can count to one. A recursive backward rule says she can count to a
+# number above one if she can count to the number before it. Asked whether
+# she can count to ten, the rule works down 10, 9, ... to the fact 1, and a
+# forward rule records the passing test. The example shows recursion with
+# arithmetic built-ins (math:greaterThan, math:difference).
 
 @base <https://eyereasoner.github.io/eye/reasoning/bcrule/example4.n3> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <http://example.org/#> .
 
 :alice :canCountTo 1 .
+
+# Backward rule: to count to s, where s is above 1, count to n = s - 1.
 {
     ?x :canCountTo ?s .
 } <= {
@@ -17,6 +21,7 @@
     ?x :canCountTo ?n .
 } .
 
+# Forward rule: the test passes when Alice can count to ten.
 {
     :alice :canCountTo 10
 } => {

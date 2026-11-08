@@ -6,14 +6,15 @@
 
 @base <https://eyereasoner.github.io/eye/reasoning/iq/iq-extra.n3> .
 
-# implicit quantification
-# extra cases
 @prefix : <http://example.org/test#> .
 
+# The fact: the object of :a :b is a quoted graph, a formula in braces.
 :a :b {
     :c :d :e
 } .
 
+# The rule: its conclusion is the variable ?y itself, so whatever graph ?y
+# is bound to becomes the set of derived statements.
 {
     ?x :b ?y
 } => ?y .

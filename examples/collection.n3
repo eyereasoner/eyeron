@@ -1,11 +1,13 @@
 # Representing a nested collection
 #
-# A collection contains numbers, a blank node, and a nested list. The N3
-# source and companion RDF input show these structures and produce a short
-# report linking the example files.
+# A list holds a number, a blank node and a nested list, and is the subject of
+# a statement. The example shows that such a collection is read correctly;
+# its only output is a short Markdown note listing the example's files.
 
 @prefix : <https://eyereasoner.github.io/eyeron/examples/collection#> .
 
+# A list as the subject of a statement. Its second member is the blank node
+# _:b2, which the next statement describes; its third member is a list.
 (1 _:b2 (2)) :p2 :q2 .
 _:b2 :p :q .
 

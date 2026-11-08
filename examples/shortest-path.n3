@@ -1,14 +1,18 @@
 # Finding a shortest path in a directed graph
 #
-# A weighted directed graph includes a cycle. Backward N3 rules use a
-# sorted priority queue and a visited list to derive a least-cost path
-# without repeatedly exploring completed nodes.
+# Six weighted one-way roads connect four places, with a cycle between a
+# and c. Backward N3 rules search from a with a cost-sorted queue and a list
+# of visited places, so the cycle cannot trap them. The forward rule collects
+# every cost they find from a to d (5, 7 and 9), sorts them, and reports the
+# cheapest: cost 5 along a, b, c, d. It shows recursive backward rules,
+# list built-ins and log:collectAllIn.
 
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example/> .
 
+# The roads: (from to) :edge cost.
 (:a :b) :edge 2 .
 (:a :c) :edge 5 .
 (:b :c) :edge 1 .
@@ -16,6 +20,8 @@
 (:c :d) :edge 2 .
 (:c :a) :edge 1 .
 
+# A path from Start to Goal: search from a queue holding the single entry
+# (0 Start), with nothing visited yet, then turn the reversed path around.
 {
     (?Start ?Goal) :shortest (?Path ?Cost)
 } <= {
@@ -23,6 +29,8 @@
     ?RevPath list:reverse ?Path .
 } .
 
+# Queue entries are (Cost Node ...earlier nodes), cheapest first. When the
+# first entry has reached the goal, its cost and reversed path are an answer.
 {
     (?L1 ?Goal ?L2) :shortest2 (?L3 ?Cost)
 } <= {
@@ -31,6 +39,10 @@
     ?L3 list:firstRest (?Goal ?Path) .
 } .
 
+# Otherwise expand the first entry: collect a new entry for every road out
+# of its node to a place not yet visited, add them to the rest of the queue,
+# sort by cost, mark the node visited and search on. This rule also applies
+# when the first entry is at the goal, so more expensive paths are found too.
 {
     (?L1 ?Goal ?Visited) :shortest2 (?ResultPath ?ResultCost)
 } <= {
@@ -54,6 +66,8 @@
     (?SortedQueue ?Goal ?L7) :shortest2 (?ResultPath ?ResultCost) .
 } .
 
+# Collect the cost of every path found from a to d, take the smallest, and
+# report it with its path.
 {
     (
         ?cost {

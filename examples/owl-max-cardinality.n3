@@ -1,8 +1,11 @@
 # Applying a maximum-one restriction
 #
-# A parent class permits at most one child, while Alice has two child
-# names. Explicit N3 rules derive equality between those names and include
-# checks for contradictory cardinality facts.
+# The class OnlyChildParent allows at most one child (owl:maxCardinality
+# 1), yet Alice, a member, has two recorded children, :bob and :robert. An
+# N3 rule concludes that these two names denote the same child (owl:sameAs).
+# Two inference fuses (=> false) stop the run on contradictory cardinality
+# data: a value for a property restricted to none, or two values stated to
+# be different under a maximum of one.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,15 +13,17 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# The restriction, and a member with two values for its property
 :OnlyChildParent owl:maxCardinality 1 ;
     owl:onProperty :child .
 :alice a :OnlyChildParent ;
     :child :bob, :robert .
 
-# Inference rules
+# Rules for owl:maxCardinality
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
+# Under a maximum of one, any two values are the same thing (each value is
+# also the same as itself).
 {
     ?C owl:maxCardinality 1 .
     ?C owl:onProperty ?P .
@@ -29,6 +34,7 @@
     ?Y owl:sameAs ?Z
 } .
 
+# Fuse: a maximum of zero allows no value at all.
 {
     ?C owl:maxCardinality 0 .
     ?C owl:onProperty ?P .
@@ -36,6 +42,8 @@
     ?X a ?C
 } => false .
 
+# Fuse: under a maximum of one, two values stated to be different are a
+# contradiction.
 {
     ?C owl:maxCardinality 1 .
     ?C owl:onProperty ?P .

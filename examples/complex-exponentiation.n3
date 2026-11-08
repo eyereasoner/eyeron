@@ -9,6 +9,7 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+# Add complex pairs component by component: (real imaginary).
 {
     ((?A ?B) (?C ?D)) complex:sum (?E ?F) .
 } <= {
@@ -16,6 +17,8 @@
     (?B ?D) math:sum ?F .
 } .
 
+# Compute a complex power from the base radius and angle. The constants
+# for e and pi and the trigonometric operations give approximate results.
 {
     ((?A ?B) (?C ?D)) complex:exponentiation (?E ?F) .
 } <= {
@@ -34,6 +37,7 @@
     (?Z1 ?Z4 ?Z10) math:product ?F .
 } .
 
+# The radius is sqrt(X*X + Y*Y); dial selects the angle quadrant.
 {
     (?X ?Y) complex:polar (?R ?Tp) .
 } <= {
@@ -47,6 +51,7 @@
     (?X ?Y ?T) complex:dial ?Tp .
 } .
 
+# Four sign cases place the angle in [0, 2*pi).
 {
     (?X ?Y ?T) complex:dial ?Tp .
 } <= {
@@ -80,6 +85,7 @@
     (?Z1 ?T) math:difference ?Tp .
 } .
 
+# Evaluate e^(i*pi), then add one; rounding can leave a tiny residual.
 {
     ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (?A ?B) .
     ((?A ?B) (1 0)) complex:sum (?C ?D) .

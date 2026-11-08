@@ -1,8 +1,9 @@
 # Connecting two customer vocabularies
 #
-# Two applications describe customers and purchases differently. N3 mapping
-# rules derive a shared customer view and use it to support a concrete
-# business conclusion.
+# Three applications (commerce, billing and marketing) describe the same
+# customer in their own vocabularies. N3 mapping rules translate each into a
+# shared vocabulary, link the records by email address, and derive a concrete
+# business action, which log:outputString prints as a Markdown report.
 
 @prefix : <https://example.org/demo#> .
 @prefix a: <https://example.org/appA#> .
@@ -13,9 +14,10 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# The report header; log:outputString strings are printed in key order.
 "000" log:outputString "# interop-demo\n\n## Source files\n\n- [N3 rules](../interop-demo.n3)\n\n" .
 
-# 1) Three independent apps (different schemas)
+# Three independent applications, each with its own schema.
 # App A (commerce)
 :aliceA a a:Buyer ;
     a:email "alice@example.com" ;
@@ -36,7 +38,7 @@
     c:marketingOptIn "true"^^xsd:boolean ;
     c:preferredChannel c:Email .
 
-# 2) Cross-app semantic interop (mappings -> shared vocabulary)
+# Mappings from each application to the shared vocabulary ex:.
 # Map App A -> shared model
 {
     ?p a a:Buyer .
@@ -102,7 +104,8 @@
     ?p ex:preferredChannel ?ch .
 } .
 
-# Identity bridging across apps (same email -> same customer)
+# Identity bridging: customers with the same email are the same customer.
+# This also links each record to itself.
 {
     ?x a ex:Customer .
     ?x ex:email ?e .
@@ -145,8 +148,9 @@
     ?canon ex:preferredChannel ?ch .
 } .
 
-# 3) Pragmatic interop: derive an actionable conclusion
-# If lifetime spend > 1000 and there is an open invoice and marketing is allowed:
+# The business rule: a customer with lifetime spend above 1000 euro, an open
+# invoice and marketing opt-in gets the gold discount and an invoice reminder.
+# Only the canonical App A record has all three after the bridging above.
 {
     ?c a ex:Customer ;
         ex:lifetimeSpendEur ?s ;

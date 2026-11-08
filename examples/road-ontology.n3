@@ -1,17 +1,19 @@
 # Deriving connections in a road network
 #
-# One-way road facts describe links between cities. N3 rules interpret the
-# supplied road vocabulary and derive the connections requested by the
-# example.
+# Ten one-way roads link French cities. No rule is written for roads: two
+# ontology statements say that a one-way road is a kind of path and that
+# paths are transitive, and a general rule set for RDF Schema and OWL does
+# the rest. The query asks whether Paris reaches Nantes, and eyeron proves
+# that it does. It shows a reusable ontology rule set at work on plain data.
 
 @base <https://eyereasoner.github.io/eye/reasoning/graph/graph.axiom.n3> .
 
-# $Id: graph.axiom.n3,v 1.14 2006/05/27 12:16:38 amdus Exp $
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix : <http://www.agfa.com/w3c/euler/graph.axiom#> .
 
+# The one-way roads.
 :paris :oneway :orleans .
 :paris :oneway :chartres .
 :paris :oneway :amiens .
@@ -23,6 +25,8 @@
 :lemans :oneway :tours .
 :angers :oneway :nantes .
 
+# What the road words mean: every one-way road is a path, and a path
+# followed by a path is a path.
 :oneway rdfs:subPropertyOf :path .
 :path a owl:TransitiveProperty .
 
@@ -36,7 +40,8 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix : <http://eulersharp.sourceforge.net/2003/03swap/rpo-rules#> .
 
-# RDF plus OWL rules
+# RDF plus OWL rules. First, what the built-in RDF, RDFS and OWL properties
+# mean: their domains and ranges, and which are symmetric or transitive.
 rdf:first a rdf:Property ;
     rdfs:domain rdf:List .
 rdf:rest a rdf:Property ;
@@ -91,6 +96,8 @@ owl:complementOf a rdf:Property ;
 :inSomeOf a rdf:Property ;
     rdfs:range rdf:List .
 
+# A property's domain types its subjects. (The commented rule would type
+# every predicate as a property; it is not enabled.)
 # {?S ?P ?O} => {?P a rdf:Property}.
 {
     ?P rdfs:domain ?C .
@@ -99,6 +106,7 @@ owl:complementOf a rdf:Property ;
     ?S a ?C
 } .
 
+# A property's range types its objects.
 {
     ?P rdfs:range ?C .
     ?S ?P ?O
@@ -106,6 +114,7 @@ owl:complementOf a rdf:Property ;
     ?O a ?C
 } .
 
+# A member of a class is a member of its superclasses.
 {
     ?A rdfs:subClassOf ?B .
     ?S a ?A
@@ -113,6 +122,7 @@ owl:complementOf a rdf:Property ;
     ?S a ?B
 } .
 
+# A statement with a property also holds with its superproperties.
 {
     ?P rdfs:subPropertyOf ?R .
     ?S ?P ?O
@@ -120,6 +130,8 @@ owl:complementOf a rdf:Property ;
     ?S ?R ?O
 } .
 
+# Inverse properties swap subject and object. (The commented owl:sameAs
+# rules are not enabled.)
 # {?X owl:sameAs ?Y. ?P a rdf:Property. ?X ?P ?O} => {?Y ?P ?O}.
 # {?X owl:sameAs ?Y. ?X a rdf:Property. ?Y a rdf:Property. ?S ?X ?O} => {?S ?Y ?O}.
 # {?X owl:sameAs ?Y. ?P a rdf:Property. ?S ?P ?X} => {?S ?P ?Y}.
@@ -130,6 +142,7 @@ owl:complementOf a rdf:Property ;
     ?O ?Q ?S
 } .
 
+# A symmetric property holds both ways.
 {
     ?P a owl:SymmetricProperty .
     ?S ?P ?O
@@ -137,6 +150,7 @@ owl:complementOf a rdf:Property ;
     ?O ?P ?S
 } .
 
+# A transitive property chains: S to X and X to O give S to O.
 {
     ?P a owl:TransitiveProperty .
     ?X ?P ?O .
@@ -145,6 +159,7 @@ owl:complementOf a rdf:Property ;
     ?S ?P ?O
 } .
 
+# Two values of a functional property are the same thing.
 {
     ?P a owl:FunctionalProperty .
     ?S ?P ?X .
@@ -153,6 +168,8 @@ owl:complementOf a rdf:Property ;
     ?X owl:sameAs ?Y
 } .
 
+# Two subjects sharing a value of an inverse-functional property are the
+# same thing.
 {
     ?P a owl:InverseFunctionalProperty .
     ?X ?P ?O .
@@ -161,6 +178,7 @@ owl:complementOf a rdf:Property ;
     ?X owl:sameAs ?Y
 } .
 
+# The members of an owl:AllDifferent list differ pairwise.
 {
     ?A owl:distinctMembers ?D .
     ?D rdf:rest ?R
@@ -178,6 +196,7 @@ owl:complementOf a rdf:Property ;
     ?X owl:differentFrom ?Y
 } .
 
+# Class membership from enumerations, intersections and unions.
 {
     ?C owl:oneOf ?L .
     ?X :in ?L
@@ -199,14 +218,15 @@ owl:complementOf a rdf:Property ;
     ?X a ?C
 } .
 
-# integrity constraints
+# Integrity constraints, not enabled here.
 # {?Y owl:disjointWith ?Z. ?X a ?Y. ?X a ?Z} => false.
 # {?P a owl:FunctionalProperty. ?S ?P ?X, ?Y. ?X owl:differentFrom ?Y} => false.
 # {?P a owl:InverseFunctionalProperty. ?X ?P ?O. ?Y ?P ?O. ?X owl:differentFrom ?Y} => false.
 # {?R owl:onProperty ?P; owl:maxCardinality ?M. ?M math:equalTo 0. ?X ?P ?Y; a ?R} => false.
 # {?R owl:onProperty ?P; owl:maxCardinality ?M. ?M math:equalTo 1. ?X ?P ?Y1, ?Y2; a ?R. ?Y2 owl:differentFrom ?Y1} => false.
 # {?R owl:onProperty ?P; owl:hasValue ?V. ?X ?P ?Y; a ?R. ?V owl:differentFrom ?Y} => false.
-# support
+# Support: list membership (:in), sublists, and membership in all
+# (:inAllOf) or some (:inSomeOf) of the classes in a list.
 {
     ?L rdf:first ?I ;
         a rdf:List
@@ -271,7 +291,7 @@ owl:complementOf a rdf:Property ;
     ?X :inSomeOf ?L
 } .
 
-# Query
+# Query: can one drive from Paris to Nantes?
 @prefix : <http://www.agfa.com/w3c/euler/graph.axiom#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 

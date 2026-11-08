@@ -7,18 +7,23 @@
 @prefix : <https://eyereasoner.github.io/ns#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# Every predicate used in any statement goes into the answer. Rules are
+# statements too, so their conclusions are inspected in turn.
 {
     ?X ?Y ?Z
 } => {
     :answer :contains ?Y
 } .
 
+# If any rule is present, log:implies (the predicate behind =>) is in the
+# answer.
 {
     ?X => ?Z
 } => {
     :answer :contains log:implies .
 } .
 
+# The test passes when the answer names both :contains and log:implies.
 {
     :answer :contains :contains, log:implies .
 } => {

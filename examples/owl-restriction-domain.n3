@@ -1,8 +1,9 @@
 # Deriving a class from a property's domain
 #
-# A pet-owner class has a fixed-value restriction on a property whose
-# domain is Person. An explicit N3 rule follows the linked restriction
-# structure to derive a subclass relationship.
+# Every pet owner has some unnamed property with the value :milo (an
+# owl:hasValue restriction), and that property's domain is Person: whatever
+# has it is a person. An N3 rule follows this nest of blank nodes and
+# derives that PetOwner is a subclass of Person.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,13 +11,14 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# A class under a restriction on an unnamed property with domain Person
 :PetOwner rdfs:subClassOf [
     owl:onProperty [ rdfs:domain :Person ] ;
     owl:hasValue :milo
 ] .
 
-# Inference rules
+# Members of a hasValue restriction all have the property, so they are in
+# its domain; a subclass of the restriction is a subclass of that domain.
 {
     ?C rdfs:subClassOf ?Restriction .
     ?Restriction owl:onProperty ?Property ;

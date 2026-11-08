@@ -14,6 +14,8 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example.org/#> .
 
+# The airport corpus includes labels and directed outbound connections.
+# The route rules appear after the data.
 res:AIRLINE_10 rdfs:label "40-Mile Air" .
 res:AIRLINE_1006 rdfs:label "Air Astana" .
 res:AIRLINE_1008 rdfs:label "Albanian Airlines" .
@@ -96436,7 +96438,8 @@ res:AIRPORT_N nepo:hasOutboundRouteTo res:AIRPORT_9229 .
 res:AIRPORT_N nepo:hasOutboundRouteTo res:AIRPORT_94 .
 res:AIRPORT_N nepo:hasOutboundRouteTo res:AIRPORT_N .
 
-# connectivity
+# Backward route search carries the visited airports and stopover count.
+# A direct link ends the route; recursion adds an unvisited intermediate stop.
 {
     (?from ?to ?visited ?length ?max) :route (?from ?to)
 } <= {

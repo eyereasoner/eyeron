@@ -6,16 +6,20 @@
 
 @prefix : <https://eyereasoner.github.io/eyepl/examples/ancestor#> .
 
+# A chain of parents: Alice is Bob's parent, Bob is Carol's, Carol is Dana's.
 :alice :parent :bob .
 :bob :parent :carol .
 :carol :parent :dana .
 
+# A parent is an ancestor.
 {
     ?x :parent ?y
 } => {
     ?x :ancestor ?y
 } .
 
+# A parent of an ancestor is an ancestor too. The rule uses its own
+# conclusions, so the chain is followed as far as it goes.
 {
     ?x :parent ?y .
     ?y :ancestor ?z

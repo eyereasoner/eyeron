@@ -8,9 +8,12 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# The two records have different object names and the same quantity.
 :Alice :has (:Book 1) .
 :Bob :has (:Table 1) .
 
+# The comparison is written before its inputs. Eyeron first finds bindings
+# from the has facts, then tests whether the two object names differ.
 {
     ?O1 log:notEqualTo ?O2 .
 

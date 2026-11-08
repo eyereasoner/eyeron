@@ -1,8 +1,11 @@
 # Propagating equivalent property statements
 #
-# Three parent-related properties are linked by equivalence declarations.
-# Explicit N3 rules extend the equivalence links and derive equivalent
-# statements about the sample parent relationship.
+# Three names for the same relationship (parent, hasChild, child) are
+# declared equivalent in a chain. Plain N3 rules spell out what OWL's
+# owl:equivalentProperty means: equivalence is symmetric and transitive, it
+# amounts to two-way rdfs:subPropertyOf, and a statement made with one
+# property also holds with every equivalent one. Eyeron derives that Alice
+# is related to Bob under all three names.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,15 +13,16 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# Two equivalence declarations and one statement using the first name
 :parent owl:equivalentProperty :hasChild .
 :hasChild owl:equivalentProperty :child .
 :alice :parent :bob .
 
-# Inference rules
+# Rules giving owl:equivalentProperty its meaning
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
+# A statement with P also holds with an equivalent Q ...
 {
     ?P owl:equivalentProperty ?Q .
     ?S ?P ?O
@@ -26,6 +30,7 @@
     ?S ?Q ?O
 } .
 
+# ... and a statement with Q also holds with P.
 {
     ?P owl:equivalentProperty ?Q .
     ?S ?Q ?O
@@ -33,12 +38,15 @@
     ?S ?P ?O
 } .
 
+# Equivalence is symmetric.
 {
     ?P owl:equivalentProperty ?Q
 } => {
     ?Q owl:equivalentProperty ?P
 } .
 
+# Equivalence is transitive; with symmetry this also makes each property
+# equivalent to itself.
 {
     ?P owl:equivalentProperty ?Q .
     ?Q owl:equivalentProperty ?R
@@ -46,6 +54,7 @@
     ?P owl:equivalentProperty ?R
 } .
 
+# Equivalent properties are subproperties of each other ...
 {
     ?P owl:equivalentProperty ?Q
 } => {
@@ -53,6 +62,7 @@
     ?Q rdfs:subPropertyOf ?P
 } .
 
+# ... and mutual subproperties are equivalent.
 {
     ?P rdfs:subPropertyOf ?Q .
     ?Q rdfs:subPropertyOf ?P

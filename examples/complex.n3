@@ -11,6 +11,8 @@
 @prefix complex: <https://eyereasoner.github.io/eye/complex#> .
 @prefix : <http://example.org/#> .
 
+# Compute a power using the base radius and angle. Trigonometry and the
+# finite constants for e and pi make these approximate numerical results.
 {
     ((?A ?B) (?C ?D)) complex:exponentiation (?E ?F) .
 } <= {
@@ -29,6 +31,8 @@
     (?Z1 ?Z4 ?Z10) math:product ?F .
 } .
 
+# Inverse sine is defined here by distances to the points -1 and 1,
+# then by real inverse sine and a logarithm expressed through exponentiation.
 {
     (?A ?B) complex:asin (?C ?D) .
 } <= {
@@ -53,6 +57,7 @@
     (2.718281828459045 ?D) math:exponentiation ?Z15 .
 } .
 
+# Inverse cosine uses the same distances with the opposite imaginary sign.
 {
     (?A ?B) complex:acos (?C ?D) .
 } <= {
@@ -78,6 +83,7 @@
     ?U math:negation ?D .
 } .
 
+# Convert a pair to radius and angle; the dial rules choose its quadrant.
 {
     (?X ?Y) complex:polar (?R ?Tp) .
 } <= {
@@ -124,7 +130,7 @@
     (?Z1 ?T) math:difference ?Tp .
 } .
 
-# test
+# Evaluate six sample complex functions and collect the results in one graph.
 {
     ((-1 0) (0.5 0)) complex:exponentiation ?C1 .
     ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation ?C2 .

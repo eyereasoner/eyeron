@@ -23,73 +23,11 @@ done
 # Run every suite even after one fails, so the count covers all of them.
 # Two proof workers overlap independent examples without unbounded memory use.
 started=$EPOCHREALTIME
-EYERON_TEST_JOBS="${EYERON_TEST_JOBS:-2}" CARGO_TERM_COLOR=always cargo test "${profile[@]}" --no-fail-fast --color always "$@" -- --color always 2>&1 | tee "$log"
+EYERON_TEST_SUMMARY=0 EYERON_TEST_JOBS="${EYERON_TEST_JOBS:-2}" CARGO_TERM_COLOR=always cargo test "${profile[@]}" --no-fail-fast --color always "$@" -- --color always 2>&1 | tee "$log"
 status=${PIPESTATUS[0]}
 elapsed=$(awk -v s="$started" -v e="$EPOCHREALTIME" 'BEGIN { printf "%.2f", e - s }')
 
-# Each suite reports its own result. Expand suites that also report individual
-# conformance counts, rather than adding both the cases and their wrappers.
-# Cargo announces each suite; one that ends without a result line crashed or
-# panicked before reporting, so name it rather than leave it out of the count.
-totals=$(sed -E 's/\x1b\[[0-9;]*m//g' "$log" | awk '
-  function close_suite() {
-    if (suite != "") missing = missing (missing ? ", " : "") suite
-    suite = ""
-    cases_run = cases_ok = expanded = 0
-  }
-  /^ *(Running|Doc-tests) / {
-    close_suite()
-    suite = $0
-    sub(/^ *(Running )?/, "", suite)
-    sub(/ \(.*$/, "", suite)
-  }
-  /^w3c cases: / {
-    cases_run += $3
-    cases_ok += $5
-    expanded = 1
-  }
-  # Unsupported builtins are an accepted outcome, so they count as OK.
-  /notation3tests score: / {
-    score = $0
-    sub(/^.*\(/, "", score)
-    split(score, counts, /[\/)]/)
-    unsupported = $0
-    sub(/^.*unsupported:/, "", unsupported)
-    cases_ok += counts[1] + unsupported
-    cases_run += counts[2]
-    expanded = 1
-  }
-  /^[A-Za-z0-9_]+ result: / {
-    passed = failed = 0
-    for (i = 1; i <= NF; i++) {
-      if ($i == "passed;") passed = $(i - 1)
-      if ($i == "failed;") failed = $(i - 1)
-    }
-    if (expanded) {
-      run += cases_run
-      ok += cases_ok
-    } else {
-      run += passed + failed
-      ok += passed
-    }
-    suite = ""
-    cases_run = cases_ok = expanded = 0
-  }
-  END {
-    close_suite()
-    # Round down, so a single failure never reads as 100.0% OK.
-    printf "%d %.1f %s", run, run ? int(1000 * ok / run) / 10 : 0, missing
-  }
-')
-read -r run percent_ok missing <<< "$totals"
-
-printf '\nTests: %s run; %s%% OK; %ss total' "$run" "$percent_ok" "$elapsed"
-if [[ "$status" -ne 0 ]]; then
-  printf ' (FAILED)'
-fi
-if [[ -n "$missing" ]]; then
-  printf '\nNo result (not counted): %s' "$missing"
-fi
-printf '\n'
+# The direct Cargo runner is disabled above so this invocation has one footer.
+bash "$repo_root/scripts/test-summary" "$log" "$status" "$elapsed"
 
 exit "$status"

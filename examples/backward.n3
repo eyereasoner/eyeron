@@ -1,8 +1,10 @@
 # A simple backward rule
 #
-# The numbers five and three are compared using a relation defined by a
-# backward rule. When the numeric comparison succeeds, a forward rule
-# records the answer.
+# Is five more interesting than three? A backward rule defines "more
+# interesting" as "greater than", so the question is answered on demand by a
+# numeric comparison. A forward rule asks it and records the answer. The
+# example shows how a backward rule (<=) and a forward rule (=>) work
+# together.
 #
 # See <https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf>
 
@@ -10,14 +12,15 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example.org/#> .
 
-# something is more interesting if it is greater
+# Backward rule: X is more interesting than Y when X is greater than Y. It is
+# used only when some other rule asks a :moreInterestingThan question.
 {
     ?X :moreInterestingThan ?Y .
 } <= {
     ?X math:greaterThan ?Y .
 } .
 
-# derivation (forward)
+# Forward rule: ask whether 5 is more interesting than 3, and record it.
 {
     5 :moreInterestingThan 3 .
 } => {

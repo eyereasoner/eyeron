@@ -7,6 +7,9 @@
 @prefix ex: <https://example.org/#> .
 @prefix j: <https://example.org/json#> .
 
+# The data: one statement whose subject is a user object, whose predicate is
+# the list ("likes" 1) and whose object is a place object. Lists are terms in
+# N3, so they can stand in any position, even as a predicate.
 [
     j:user "alice" ;
     j:roles ("admin" j:null)
@@ -15,6 +18,7 @@
     j:coords (2.35 48.85)
 ] .
 
+# The test: the same shape, with the user name left open, must match.
 {
     [
         j:user ?U ;

@@ -1,8 +1,15 @@
 # Propagating a docking abort signal
 #
-# A spacecraft docking bay must distribute an emergency signal and record
-# it for audit. N3 rules combine permitted information tasks and show why
-# the modeled quantum seal cannot support unrestricted copying.
+# A spacecraft docking bay must spread an abort signal across a lamp, a flight
+# controller, a radio frame and an audit display, all carrying the same bit.
+# Eyeron derives which tasks are possible: flipping, cloning, copying and
+# measuring the bit, and chaining copies and measurements into serial and
+# parallel networks. A quantum authenticity seal, by contrast, cannot be
+# universally cloned. Each task is a new, unnamed resource introduced with a
+# blank node (`[ ... ]`), and rules match tasks by their description. The
+# vocabulary follows the constructor theory of information.
+#
+# See <https://arxiv.org/abs/1405.5563>
 
 @prefix : <http://example.org/docking-abort/> .
 @prefix arc: <https://example.org/arc#> .
@@ -32,7 +39,8 @@
     :zeroState :DisplayOK ;
     :oneState :DisplayABORT .
 
-# Contrast substrate with superinformation-like behavior
+# For contrast, a quantum seal: a superinformation medium, whose states cannot
+# all be cloned.
 :quantumSeal a :SuperinformationMedium ;
     :encodes :SealVariable .
 
@@ -67,7 +75,8 @@
     ] .
 } .
 
-# Interoperability-like copying across unlike media carrying the same variable.
+# Copying between any two media that carry the same variable. The rule matches
+# every pair, including a medium paired with itself.
 {
     ?A a :InformationMedium ;
         :encodes ?V .
@@ -175,7 +184,7 @@
     ?M :cannot :UnrestrictedAuditFanOut .
 } .
 
-# Query answer
+# Query: report every can and cannot statement.
 {
     ?Subject :can ?Value .
 } log:query {
@@ -199,6 +208,8 @@
     (?From ?To) :canCopy ?Variable .
 } .
 
+# Report only that some serial and some parallel network is possible, not
+# which media they connect.
 {
     ?Task a :PossibleTask ;
         :kind :SerialNetwork .

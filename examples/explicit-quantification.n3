@@ -1,8 +1,10 @@
 # Reading explicit and implicit quantifier scopes
 #
-# Quoted graphs contain universal and existential variables in several
-# scope arrangements. N3 rules test their relationships, illustrating
-# inherited bindings, local declarations, and shadowing.
+# A catalog of quoted graphs writes universal (@forAll, ?x) and existential
+# (@forSome, _:x) variables in several scope arrangements: inherited
+# bindings, local declarations, shadowing and self-reference. One rule asks
+# whether a graph written with different variable names is the same graph;
+# eyeron concludes that renaming the quantified variables preserves identity.
 
 @prefix : <http://example.org/> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
@@ -27,6 +29,7 @@
     :x :loves _:y
 } .
 
+# Someone likes pasta: an existential with no declaration.
 :existentialLikes :graph {
     _:x :likes :pasta
 } .
@@ -49,10 +52,13 @@
     } .
 } .
 
+# The same two likes, said of a blank node instead of a declared existential.
 :renamedExistential :graph {
     _:y :likes :pizza, :pasta
 } .
 
+# A speaker talking about itself: as a universal, a constant, an existential,
+# and, last, a universal speaker whose statement is about someone else.
 :universalSelfReference :graph {
     @forAll :x .
     :x :says {
@@ -112,4 +118,4 @@
     :liz :hasMother :z .
 } .
 
-# The shared-mother candidate is quoted for comparison, not asserted.
+# Both candidates are quoted for comparison; neither content is asserted.

@@ -1,13 +1,16 @@
 # Comparing two quoted rule sets
 #
 # A base theory and a candidate theory are stored as quoted graphs. N3
-# rules inspect forward and backward implications and report missing rules
-# or changed conclusions.
+# rules inspect the forward (=>) and backward (<=) rules inside them and
+# report which rules the candidate is missing and which it adds. Rules are
+# data here: they are compared, never run.
 
 @prefix : <http://example.org/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# The base theory: a subclass rule, a parent/child rule and a backward rule
+# for worksFor.
 <> :base {
     {
         ?X a ?C .
@@ -29,6 +32,8 @@
     } .
 } .
 
+# The candidate theory keeps the subclass rule, turns the worksFor rule
+# into a forward rule, drops the parent/child rule and adds a mentor rule.
 <> :candidate {
     {
         ?X a ?C .
@@ -50,7 +55,8 @@
     } .
 } .
 
-# Missing in candidate
+# Missing in candidate: a forward rule (log:implies) of the base that the
+# candidate does not contain.
 {
     ?W :base ?Base .
     ?W :candidate ?Cand .
@@ -64,6 +70,7 @@
     ?B :missingForwardRule ?H .
 } .
 
+# A backward rule (log:impliedBy) of the base missing from the candidate.
 {
     ?W :base ?Base .
     ?W :candidate ?Cand .
@@ -77,7 +84,7 @@
     ?B :missingBackwardRule ?H .
 } .
 
-# Extra in candidate
+# Extra in candidate: a forward rule the base does not contain.
 {
     ?W :base ?Base .
     ?W :candidate ?Cand .
@@ -91,6 +98,7 @@
     ?B :extraForwardRule ?H .
 } .
 
+# A backward rule of the candidate that the base does not contain.
 {
     ?W :base ?Base .
     ?W :candidate ?Cand .

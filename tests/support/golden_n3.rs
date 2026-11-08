@@ -1,5 +1,5 @@
-//! N3-specific golden-document comparison, used only by `tests/examples.rs`
-//! via `#[path = "support/golden_n3.rs"] mod golden_n3;`. Kept in its own
+//! N3-specific golden-document comparison for the example and saved-artifact
+//! harnesses via `#[path = "support/golden_n3.rs"] mod golden_n3;`. Kept in its own
 //! file rather than a shared `tests/support/mod.rs` so other `harness =
 //! false` test binaries that only need `tests/support/report.rs`'s
 //! progress-printing helpers can `#[path = "support/report.rs"] mod
@@ -45,7 +45,7 @@ fn stable_report_lines(text: &str) -> impl Iterator<Item = &str> {
     text.lines().map(str::trim).filter(|line| !line.is_empty() && !line.starts_with('#') && !line.starts_with("- ["))
 }
 
-fn document_triples(doc: &Document) -> Vec<Triple> {
+pub fn document_triples(doc: &Document) -> Vec<Triple> {
     let mut triples = doc.facts.clone();
     triples.extend(doc.rules.iter().map(rule_triple));
     triples

@@ -14,7 +14,7 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix : <http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#> .
 
-# measurement data
+# Image landmark coordinates in centimetres for one sample measurement.
 :meas47 a :Measurement ;
     :p1xCm 10.1 ;
     :p1yCm 7.8 ;
@@ -25,7 +25,8 @@
     :p4xCm 54.7 ;
     :p4yCm 28.5 .
 
-# measurement axioms
+# Points p5 and p6 are projections onto L1 along perpendicular lines.
+# The declarations below name the geometry and its intermediate quantities.
 :p1 a :Point ;
     :incident :L1 .
 :p2 a :Point ;
@@ -145,7 +146,8 @@
 :dCm rdfs:domain :Measurement ;
     rdfs:range :Quantity .
 
-# measurement implications
+# Work from coordinate differences to projections and squared distances,
+# then take square roots to compare the two measured lengths.
 {
     ?M a :Measurement ;
         :p1xCm ?X ;
@@ -462,6 +464,7 @@
     ?M :d64Cm ?Z
 } .
 
+# Subtract the two projected lengths to obtain the signed discrepancy in cm.
 {
     ?M a :Measurement ;
         :d53Cm ?X ;
@@ -471,6 +474,7 @@
     ?M :dCm ?Z
 } .
 
+# Flag a discrepancy outside the illustrative range -1.25 to 1.25 cm.
 {
     ?M a :Measurement ;
         :dCm ?X .

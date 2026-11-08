@@ -1,12 +1,14 @@
 # RDF Message window repair — fixing an open/closed door conflict
 
+[rdf-message-window-repair.n3](https://github.com/eyereasoner/eyeron/blob/main/examples/rdf-message-window-repair.n3) · [input](https://github.com/eyereasoner/eyeron/blob/main/examples/input/rdf-message-window-repair.trig) · [output](https://github.com/eyereasoner/eyeron/blob/main/examples/output/rdf-message-window-repair.md) · [proof](https://github.com/eyereasoner/eyeron/blob/main/examples/proof/rdf-message-window-repair.n3) · [check](https://github.com/eyereasoner/eyeron/blob/main/examples/check/rdf-message-window-repair.n3) · [try it in the playground](https://eyereasoner.github.io/eyeron/playground#example=rdf-message-window-repair)
+
 This deck follows a small RDF Message window where one door is reported both open and closed. The [rules](../rdf-message-window-repair.n3) inspect the replayed [message log input](../input/rdf-message-window-repair.trig), the [golden output](../output/rdf-message-window-repair.md) shows the repaired conclusion.
 
 The goal is to show how Eyeron can reason over a replayed RDF Message Log, keep message boundaries visible, detect an inconsistency in a sliding window, and materialize a repaired conclusion instead of blindly merging contradictory facts.
 
 ---
 
-## The story
+## The question
 
 A building automation system receives RDF messages about a fire door.
 
@@ -173,3 +175,102 @@ That makes it possible to explain conclusions in terms of:
 - whether it expired, was retained, or entered,
 - whether it conflicted with another message,
 - and why one assertion was preferred over another.
+
+---
+
+## What we tell Eyeron
+
+The following excerpts use the prefixes declared in the linked source.
+These are excerpts; the linked file contains the complete program.
+
+```n3
+# Eyeron's parser-level replay gives a static view of the message log: an
+# ordered list, explicit offsets, and next-envelope links.
+{
+    ?Stream a eymsg:RDFMessageStream ;
+        eymsg:envelope ?Message .
+    ?Message a eymsg:MessageEnvelope ;
+        eymsg:offset ?Offset .
+} => {
+    ?Message :boundaryExplicit true .
+    ?Message :offset ?Offset .
+} .
+```
+
+`{ … } => { … }` reads “when the left side holds, conclude the right side.”
+Names beginning with `?` are variables: they stand for the values that make
+the conditions match. The companion input supplies additional facts; load it
+together with the rules in the commands below.
+
+---
+
+## What Eyeron concludes
+
+An excerpt of the saved text report:
+
+```text
+Sliding-window RDF Message repair accepted: 5 parser-replayed messages produced two overlapping 3-message ABox windows. The current window retained two envelopes from the previous window, expired one old door reading, and added one new safety-controller reading. Its raw graph-level materialization was inconsistent because doorA was both open and closed. The preferred repair kept the priority-3 assertion from safety-controller, resolved the door state to closed, and materialized the action: mark the fire compartment as sealed.
+```
+
+---
+
+## The proof, step by step
+
+`eyeron -p` records why the conclusions follow. This excerpt is one recorded
+step from the saved proof:
+
+```n3
+{ <urn:eyeron:rdf-message-stream:1:envelope:1> :boundaryExplicit true . }
+  pe:rule 1;
+  pe:binding
+    [ pe:var "Message"; pe:value <urn:eyeron:rdf-message-stream:1:envelope:1> ],
+    [ pe:var "Offset"; pe:value 0 ],
+    [ pe:var "Stream"; pe:value <urn:eyeron:rdf-message-stream:1> ];
+  pe:uses
+    { <urn:eyeron:rdf-message-stream:1> a eymsg:RDFMessageStream . },
+    { <urn:eyeron:rdf-message-stream:1> eymsg:envelope <urn:eyeron:rdf-message-stream:1:envelope:1> . },
+    { <urn:eyeron:rdf-message-stream:1:envelope:1> a eymsg:MessageEnvelope . },
+    { <urn:eyeron:rdf-message-stream:1:envelope:1> eymsg:offset 0 . }.
+```
+
+`pe:rule 1` identifies the source rule used by this step. `pe:binding` records the values substituted for variables; `pe:uses` lists the premises the step depends on. Those premises have their own supporting steps in the full proof.
+
+---
+
+## Checked: what the report says
+
+The saved check report gives this verdict and these selected conditions:
+
+```n3
+# checked: 104 steps, 104 verified, 0 trusted
+    pe:verdict pe:checked;
+    pe:condition [ pe:id "C1"; pe:name "resolution"; pe:checked 95; pe:failed 0 ];
+    pe:condition [ pe:id "C5"; pe:name "re-decision"; pe:checked 9; pe:failed 0 ];
+    pe:condition [ pe:id "C10"; pe:name "call fidelity"; pe:checked 63; pe:failed 0 ].
+```
+
+Resolution checks that the recorded facts and rule applications match the
+source program.
+
+Re-decision recomputes the recorded built-in operations.
+
+Call fidelity checks the answer against the question as it was called.
+
+The verdict is **checked** for the recorded claims. It does not establish that
+every possible answer was found.
+
+---
+
+## Try it
+
+```sh
+eyeron -r examples/rdf-message-window-repair.n3 examples/input/rdf-message-window-repair.trig
+eyeron -p -r examples/rdf-message-window-repair.n3 examples/input/rdf-message-window-repair.trig
+eyeron -c -r examples/rdf-message-window-repair.n3 examples/input/rdf-message-window-repair.trig
+```
+
+---
+
+## Takeaway
+
+A stated repair policy selects the evidence used by the final action rules.

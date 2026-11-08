@@ -1,19 +1,24 @@
 # Selecting an adult with an English name
 #
-# People have language-tagged names and numeric ages. N3 rules unpack each
-# name's language tag and check the age threshold to identify an adult with
-# an English name.
+# People have names tagged with a language and numeric ages. One rule takes
+# each name apart into its text and language tag with log:langlit and checks
+# the age, so eyeron concludes that Alice (22, English name) is an adult;
+# Bob (17, Dutch name) is not selected.
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <http://example/> .
 
+# Two people, each with a language-tagged name and an age.
 :alice :name "Alice Smith"@en ;
     :age 22 .
 :bob :name "Bob"@nl ;
     :age 17 .
 
+# A person is an adult when the name's language tag is "en" and the age is at
+# least 18. log:langlit relates the pair (text tag) to the tagged literal, and
+# list:firstRest takes that pair apart.
 {
     ?person :name ?name .
     ?person :age ?age .

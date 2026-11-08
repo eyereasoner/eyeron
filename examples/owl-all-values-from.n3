@@ -10,7 +10,7 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# Alice is a cat owner with the pet Milo; cats are animals.
 :CatOwner owl:onProperty :hasPet ;
     owl:allValuesFrom :Cat .
 :alice a :CatOwner ;
@@ -19,7 +19,8 @@
 :AnimalOwner owl:onProperty :hasPet ;
     owl:allValuesFrom :Animal .
 
-# Inference rules
+# Apply the all-values type to each linked pet. The later rules relate
+# restrictions through the stated class and property hierarchies.
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 

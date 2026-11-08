@@ -1,8 +1,12 @@
 # Calculating sides of right triangles
 #
-# Sample right triangles supply two side lengths. N3 arithmetic rules apply
-# the Pythagorean relation to derive the missing hypotenuse or leg. Queries
-# return the calculated lengths and identify the solved sides.
+# Six sample right triangles each give two side lengths. Three rules apply
+# Pythagoras' theorem a^2 + b^2 = c^2 with the math: built-ins
+# (exponentiation, sum, difference; a square root is the power 0.5) to
+# compute the missing hypotenuse or leg. Each answer is a new blank node
+# with the computed value, plus a status saying which side was solved and
+# the intermediate squares that explain it. Queries show the answers and
+# statuses.
 
 @base <https://eyereasoner.github.io/eye/reasoning/pythagorean-theorem/pythagorean-theorem.n3> .
 @prefix : <http://example.org/pyth#> .
@@ -18,7 +22,7 @@
 :Hypotenuse a rdfs:Class .
 :Leg a rdfs:Class .
 
-# Triangle data
+# Properties for the sides and the answers
 :a a rdf:Property .
 :b a rdf:Property .
 :c a rdf:Property .
@@ -80,8 +84,7 @@
         :status "solve-b" .
 } .
 
-# HARNESS
-# Sample triangles
+# Sample triangles, each missing one side
 # H1: Solve c — classic 3-4-5
 :T1 a :RightTriangle ;
     :a 3 ;
@@ -112,7 +115,7 @@
     :a 2.5 ;
     :b 6 .
 
-# Query answer
+# Query: the answer for each triangle, with its properties
 {
     ?Case :answer ?Answer .
     ?Answer ?Property ?Value .
@@ -121,8 +124,10 @@
     ?Answer ?Property ?Value .
 } .
 
+# Query: which side was solved for each triangle
 {
     ?Case :status ?Status .
-} log:query {
+} log:query # Query: which side was solved for each triangle
+{
     ?Case :status ?Status .
 } .

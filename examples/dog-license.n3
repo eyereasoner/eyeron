@@ -9,9 +9,12 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <http://example/> .
 
+# Who owns which dogs.
 :alice :hasDog :dog1, :dog2, :dog3, :dog4, :dog5 .
 :bob :hasDog :dog6, :dog7 .
 
+# Count each owner's dogs: collect every dog the person has into a list,
+# then take the list's length. The first premise picks the owners.
 {
     ?person :hasDog ?anyDog .
     (
@@ -25,6 +28,7 @@
     ?person :dogCount ?count
 } .
 
+# More than four dogs requires a license.
 {
     ?person :dogCount ?count .
     ?count math:greaterThan 4

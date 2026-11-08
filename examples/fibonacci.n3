@@ -1,12 +1,14 @@
 # Calculating the thirtieth Fibonacci number
 #
-# Two base cases and a recursive backward rule define the Fibonacci
-# sequence. A forward N3 rule asks for the thirtieth value and records the
-# computed answer.
+# Each Fibonacci number is the sum of the two before it, starting from 0 and
+# 1. Two base cases and a recursive backward rule (<=) define the sequence,
+# and a forward rule asks for the thirtieth value: 832040. It shows recursion
+# through backward rules and arithmetic built-ins.
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/fibonacci#> .
 
+# The first two numbers, true without any condition.
 {
     (0) :fib 0
 } <= true .
@@ -15,6 +17,7 @@
     (1) :fib 1
 } <= true .
 
+# Beyond them, fib(n) = fib(n - 1) + fib(n - 2).
 {
     (?n) :fib ?f
 } <= {
@@ -26,6 +29,7 @@
     (?a ?b) math:sum ?f .
 } .
 
+# The question: the thirtieth Fibonacci number.
 {
     (30) :fib ?value
 } => {

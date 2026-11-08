@@ -6,9 +6,12 @@
 
 @prefix : <https://eyereasoner.github.io/eyepl/examples/graph-join#> .
 
+# These are records of statements, with graph names stored as ordinary fields.
 [ :subject :alice ; :predicate :role ; :object :reviewer ; :graph :staff ] a :Quad .
 [ :subject :alice ; :predicate :approved ; :object :claim1 ; :graph :reviews ] a :Quad .
 
+# The shared person must be a reviewer in staff and approve the claim in
+# reviews; the graph fields keep the roles of the two records distinct.
 {
     ?q1 :subject ?person ;
         :predicate :role ;

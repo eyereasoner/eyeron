@@ -1,14 +1,18 @@
 # Reading statement annotations
 #
-# A statement is associated with its author and recording date. The example
-# combines N3 facts with companion RDF input. A query returns the statement
-# and its annotation metadata as N3.
+# The statement "a's name is Alice" is given the name :t, and :t carries who
+# stated it and when it was recorded. A companion TriG file states the same
+# facts in RDF 1.2 style, with :t as a named graph. A query returns the named
+# statement and its metadata. The example shows log:nameOf, which names a
+# quoted graph, and reading N3 together with TriG input.
 
 @prefix : <https://eyereasoner.github.io/eyeling/examples/annotation#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 :a :name "Alice" .
+
+# :t names the quoted statement; its author and date annotate it.
 :t log:nameOf {
     :a :name "Alice" .
 } .
@@ -16,7 +20,7 @@
 :t :statedBy :bob .
 :t :recorded "2021-07-07"^^xsd:date .
 
-# Query answer
+# Query: the named statement with its author and date.
 {
     :t log:nameOf ?Statement ;
         :statedBy ?Author ;

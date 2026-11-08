@@ -8,16 +8,18 @@
 
 @prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#> .
 
-# fact
+# Start the individual in the first class of the chain.
 :ind a :N0 .
 
-# rules
+# The final test depends on reaching A2 at the far end of the chain.
 {
     :ind a :A2
 } => {
     :test :is true
 } .
 
+# Each level adds the next N class and two side labels. Only N continues
+# the chain; the I and J labels do not lead to the final test.
 {
     ?X a :N0
 } => {
@@ -6018,6 +6020,7 @@
     ?X a :N1000, :I1000, :J1000
 } .
 
+# Reaching the last N class enables the A2 classification.
 {
     ?X a :N1000
 } => {
@@ -6026,7 +6029,7 @@
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Query answer
+# Report only the final test result, keeping the long classification output out.
 {
     :test :is ?Result .
 } log:query {

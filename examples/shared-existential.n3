@@ -1,17 +1,21 @@
 # One witness shared by universal statements
 #
 # A top-level existential denotes someone loved by everyone. Explicit N3
-# quantifiers keep that witness shared when rules ask for Bob's and Liz's
-# beloved.
+# quantifiers (@forSome, @forAll) keep that witness shared when rules ask for
+# Bob's and Liz's beloved: eyeron concludes that both love the same unnamed
+# someone.
 
 @prefix : <http://example.org/> .
 
+# There is some :y that everyone loves. The rule has an empty premise, so its
+# universal statement holds unconditionally.
 @forSome :y .
 {} => {
     @forAll :x .
     :x :loves :y
 } .
 
+# Ask whom Bob loves, and whom Liz loves.
 {
     :bob :loves ?beloved
 } => {

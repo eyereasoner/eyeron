@@ -1,15 +1,18 @@
 # Building a passing grade
 #
-# Alice and Bob have different scores. A numeric condition selects passing
-# scores, and an N3 rule constructs a list containing the pass label and
-# the original score.
+# Alice scored 7 and Bob scored 3; a score of at least 5 passes. A rule
+# gives each passing student a grade written as a list, (:pass 7), holding
+# the label and the score. Only Alice gets one. The example shows a numeric
+# comparison built-in and a rule that builds a list in its conclusion.
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/assignment#> .
 
+# The scores.
 :alice :score 7 .
 :bob :score 3 .
 
+# A score of 5 or more earns the grade (:pass score).
 {
     ?x :score ?score .
     ?score math:notLessThan 5 .

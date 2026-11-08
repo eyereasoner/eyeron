@@ -1,15 +1,17 @@
 # Applying an encoded finiteness theorem
 #
 # A sample curve is described as genus two over the rationals. An N3 rule
-# encodes Faltings' finiteness implication and derives the corresponding
-# conclusion; it does not prove the theorem itself.
+# states Faltings' theorem as an implication (genus at least two over a number
+# field means finitely many rational points), and eyeron applies it to the
+# curve. The rule uses the theorem; it does not prove it.
+# See https://en.wikipedia.org/wiki/Faltings%27s_theorem
 
 @prefix : <http://example.org/faltings#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-# the example curve
+# The example curve, of genus two since its right-hand side has degree five.
 :C a :Curve ;
     :equation "y^2 = x(x+1)(x-2)(x+2)(x-3)" ;
     :definedOver :Q ;
@@ -24,7 +26,8 @@
 
 :Finite a :CardinalityClass .
 
-# some explicit rational points on the curve
+# Five rational points on the curve, where the right-hand side is zero. They
+# are listed for the reader; no rule uses them.
 :P0 a :RationalPoint ;
     :onCurve :C ;
     :x 0 ;
@@ -46,7 +49,8 @@
     :x 3 ;
     :y 0 .
 
-# emulation of Faltings' theorem
+# Faltings' theorem: a curve of genus at least two over a number field has
+# finitely many rational points.
 {
     ?curve a :Curve ;
         :definedOver ?field ;
@@ -58,7 +62,7 @@
         :hasRationalPointsCardinality :Finite .
 } .
 
-# optional derived statement
+# The same conclusion said the other way round.
 {
     ?curve :hasRationalPointsCardinality :Finite .
 } => {

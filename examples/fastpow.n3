@@ -1,8 +1,10 @@
 # Calculating powers through backward rules
 #
-# Backward N3 relations wrap exponentiation and repeated multiplication.
-# The sample queries calculate powers and towers, showing how arithmetic
-# calls can be composed into reusable rule definitions.
+# Backward rules (<=) define powers two ways: directly with the
+# math:exponentiation built-in, and slowly by repeated multiplication. Others
+# build power towers (2^2^2^2) and keep huge results short by taking them
+# modulo a million. One test rule computes six results, showing how
+# arithmetic built-ins compose into reusable relations over exact integers.
 
 @prefix : <http://example.org/fastpow#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
@@ -52,7 +54,7 @@
     (?B ?Prev) math:exponentiation ?R .
 } .
 
-# “Projection” helpers to keep output small
+# Helpers that keep the output small by keeping only the last six digits
 # powMod1e6(base, exp) = (base^exp) mod 1,000,000
 {
     (?B ?E) :powMod1e6 ?M .
@@ -69,7 +71,7 @@
     (?R 1000000) math:remainder ?M .
 } .
 
-# test
+# The test: six calculations, gathered into one quoted graph.
 {
 
     # small sanity: fast and slow should agree

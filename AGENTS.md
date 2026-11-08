@@ -32,9 +32,10 @@ user-facing text direct.
   (`.n3` or `.md`), `examples/input/` companion inputs loaded with the
   example of the same stem (`.n3`, else `.trig`), `examples/proof/` and
   `examples/check/` each example's proof and its N3 check report, and
-  `examples/deck/` Markdown walkthroughs.
-- `tests/`: integration tests. `examples.rs`, `proof_checking.rs`, and
-  `w3c_rdf.rs` are custom harnesses (`harness = false`); `regressions.rs` and
+  `examples/deck/` a card deck per example; `examples/README.md` is the
+  catalog of all of them.
+- `tests/`: integration tests. `examples.rs`, `proof_checking.rs`,
+  `artifacts.rs`, `decks.rs`, and `w3c_rdf.rs` are custom harnesses (`harness = false`); `regressions.rs` and
   `quantification.rs` hold focused behavior tests; `proof_validation.rs`
   holds forged proofs the checker must reject; `notation3tests/` and
   `w3c_rdf/rdf-tests/` are vendored conformance suites.
@@ -57,11 +58,22 @@ cargo build --release
 ./target/release/eyeron -a examples/socrates.n3      # parsed AST
 cargo test --release --test regressions
 cargo test --release --test examples
+cargo test --release --test artifacts
+cargo test --release --test decks
 ./scripts/test-all
 cargo clippy --release --all-targets
 cargo playground
 git diff --check
 ```
+
+On Unix, direct `cargo test` invocations use `scripts/test-runner` and
+`scripts/test-rustdoc` to print cumulative case counts and elapsed time after
+each suite, including doctests. `scripts/test-summary` and
+`scripts/test-counts.awk` provide the same counting for `scripts/test-all`,
+which suppresses the per-suite cumulative footers and prints one at the end.
+The saved-artifact harness checks `examples/proof/` from disk without calling
+the engine, reproduces `examples/check/`, compares reported answers with the
+output goldens, and rejects unsupported added claims in proofs under 1 MB.
 
 `./scripts/test-all` uses the optimized `test-fast` profile, enables incremental
 builds, and checks two example proofs concurrently (`EYERON_TEST_JOBS` overrides
@@ -106,7 +118,11 @@ parts rather than flooding the terminal.
   under C1–C10, and compares the proof and its check report with their
   goldens (`age` reads the clock and keeps none). When adding an example, add it to `bundledExamplesN3` in
   `playground.html`; a companion input goes in `examples/input/` and in
-  `bundledCompanionInputs`. `tests/playground.rs` checks both lists.
+  `bundledCompanionInputs`. `tests/playground.rs` checks both lists. Write
+  its deck in `examples/deck/` in the shape of `examples/deck/socrates.md`
+  and add its row to `examples/README.md`; `tests/decks.rs` checks that every
+  deck quotes the program, the output, the proof and the check report as
+  they are.
 - Ordinary test runs only read goldens. After an intentional output change,
   `EYERON_UPDATE_GOLDENS=1 cargo test --release --test examples` rewrites the
   output (`.n3`) goldens that no longer match, exactly as the harness

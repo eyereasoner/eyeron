@@ -10,6 +10,7 @@
 @prefix fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#> .
 @prefix : <http://eulersharp.sourceforge.net/2006/02swap/med#> .
 
+# The supplied scores are illustrative membership values between zero and one.
 (:Ann :Fever) fl:mu 0.8 .
 (:Ann :AllergyForAspirin) fl:mu 0.001 .
 (:Joe :AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -18,6 +19,7 @@
 (:Joe :SevereAsthma) fl:mu 0.001 .
 (:Joe :ChronicObstructivePumonaryDisease) fl:mu 0.001 .
 
+# The toy rulebook lists indications and exclusions separately.
 :aspirinHighDose :prescribedFor :Fever .
 :aspirinLowDose :prescribedFor :AcuteMyocardialInfarction .
 :betaBlocker :prescribedFor :AcuteMyocardialInfarction .
@@ -29,6 +31,8 @@
 :betaBlocker :excludedFor :SevereAsthma .
 :betaBlocker :excludedFor :ChronicObstructivePumonaryDisease .
 
+# Require an indication above 0.7 and every listed exclusion at or below
+# 0.01. The resulting labels describe this toy model only.
 {
     ?Medication :prescribedFor ?Diagnosis .
     (?Who ?Diagnosis) fl:mu ?Membership .

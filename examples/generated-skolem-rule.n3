@@ -8,15 +8,19 @@
 @prefix : <http:/example.org/> .
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/d983461b-11b7-4e52-89c1-328e91bf1de1#> .
 
+# The copy already has a supplied IRI; this rule does not invent its name.
 :s :value 1 .
 :s :copy skolem:bn_5 .
 
+# Any subject whose value can be found is classified as a Success.
 {
     ?s :value ?value
 } => {
     ?s a :Success
 } .
 
+# Capture the copy IRI in a backward rule that reads the source value.
+# That new definition also lets the Success rule recognize the copy.
 {
     :s :copy ?o
 } => {

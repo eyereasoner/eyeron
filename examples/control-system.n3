@@ -2,14 +2,14 @@
 #
 # Sensor readings, targets, and disturbances describe a small control
 # problem. N3 arithmetic rules derive commands that anticipate a
-# disturbance and correct the remaining error. A query returns the commands.
+# Disturbance readings provide the anticipatory correction for actuator 1. and correct the remaining error. A query returns the commands.
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <https://example.org/control-system#> .
 
-# Facts
-# input
+# Measurements feed the command formulas; some supplied observations are unused.
+# A pair is converted by the backward measurement10 rules below.
 :input1 :measurement1 (6 11) .
 :input2 :measurement2 true .
 :input3 :measurement3 56967 .
@@ -18,16 +18,17 @@
 :disturbance1 :measurement3 35766 .
 :disturbance2 :measurement1 (45 39) .
 
-# state
+# Observations include the earlier value used by actuator 2.
 :state1 :observation1 80 .
 :state2 :observation2 false .
 :state3 :observation3 22 .
 
-# output
+# The current output and target determine actuator 2's error.
 :output2 :measurement4 24 .
 :output2 :target2 29 .
 
-# control logic
+# Actuator 1 scales the derived input and subtracts log10 of disturbance1.
+# The exponentiation relation is called with its exponent still unknown.
 {
     :input1 :measurement10 ?M1 .
     :input2 :measurement2 true .
@@ -39,6 +40,8 @@
     :actuator1 :control1 ?C .
 } .
 
+# Actuator 2 combines proportional error and a correction from the earlier
+# observation. It divides by the error, which is nonzero in this dataset.
 {
     :input3 :measurement3 ?M3 .
     :state3 :observation3 ?P3 .
@@ -54,6 +57,8 @@
     :actuator2 :control1 ?C .
 } .
 
+# For a rising measurement pair use sqrt(second - first); otherwise the
+# second clause returns the first value unchanged.
 {
     ?I :measurement10 ?M .
 } <= {

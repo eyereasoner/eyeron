@@ -6,9 +6,11 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/filter-town#> .
 
+# The two population figures fall on opposite sides of the threshold.
 :town1 :population 1000 .
 :town2 :population 2000 .
 
+# Use a strict comparison: a population of exactly 1,500 would not qualify.
 {
     ?x :population ?p .
     ?p math:greaterThan 1500 .

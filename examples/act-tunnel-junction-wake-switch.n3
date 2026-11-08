@@ -2,12 +2,15 @@
 #
 # A remote alarm must wake under a small forward bias. N3 rules compare a
 # tunnel junction with an ordinary junction and derive which modeled device
-# meets the wake-up conditions.
+# meets the wake-up conditions. Chains of forward rules state what each
+# junction can and cannot do, both as positive facts; log:query rules select
+# those conclusions as the output.
 
 @prefix : <http://example.org/act/tunnel-junction/> .
 @prefix arc: <https://example.org/arc#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# The question this case answers, recorded as data.
 :case a arc:Case ;
     arc:question "Can a tunnel-junction wake switch trigger a low-bias leak alarm in a regime where a conventional PN junction cannot?" .
 
@@ -139,7 +142,7 @@
     ?J :cannot :ServeLeakAlarmWakeCircuit .
 } .
 
-# Query answer
+# Query answer: print every :can and :cannot statement, and nothing else.
 {
     ?Subject :can ?Value .
 } log:query {

@@ -1,15 +1,19 @@
 # Deriving descent from parent facts
 #
-# Father and mother facts describe a small family. Forward N3 rules derive
-# child relationships and recursively extend them into direct and indirect
-# descent.
+# Father and mother facts describe a small family: X has parents A and B, and
+# A's mother is C. Forward rules turn parenthood into child relationships and
+# then into descent, recursively, so that X turns out to descend from its
+# grandmother C as well. It shows a recursive rule computing a transitive
+# relation.
 
 @prefix : <http://example/> .
 
+# The family: A is X's father, B is X's mother, and C is A's mother.
 :A :fatherOf :X .
 :B :motherOf :X .
 :C :motherOf :A .
 
+# A child of a father or of a mother is a child of that parent.
 {
     ?y :fatherOf ?x
 } => {
@@ -22,12 +26,15 @@
     ?x :childOf ?y
 } .
 
+# A child descends from its parent.
 {
     ?x :childOf ?y
 } => {
     ?x :descendedFrom ?y
 } .
 
+# And from everyone that parent descends from: this rule uses its own
+# conclusions, so descent reaches back any number of generations.
 {
     ?x :childOf ?z .
     ?z :descendedFrom ?y

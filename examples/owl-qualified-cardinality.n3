@@ -1,8 +1,10 @@
 # Restricting the number of cat pets
 #
-# A class permits at most one cat pet, and Alice has two cat names plus a
-# dog. An explicit N3 rule applies the qualified restriction to equate the
-# cat names.
+# A single-cat owner has at most one pet that is a cat
+# (owl:maxQualifiedCardinality 1 on :pet with owl:onClass :Cat). Alice is
+# one, and has the pets Milo and Felix, both cats, and Fido, a dog. An N3
+# rule counts only the pets of the qualifying class, so it concludes that
+# Milo and Felix are the same cat (owl:sameAs) and leaves Fido alone.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,7 +12,7 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# The qualified restriction, a member, and her pets
 :SingleCatOwner owl:maxQualifiedCardinality 1 ;
     owl:onProperty :pet ;
     owl:onClass :Cat .
@@ -20,9 +22,11 @@
 :felix a :Cat .
 :fido a :Dog .
 
-# Inference rules
+# Rules for qualified maximum cardinality
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
+# Under a maximum of one, any two values in the qualifying class are the
+# same thing (each is also the same as itself).
 {
     ?C owl:maxQualifiedCardinality 1 .
     ?C owl:onProperty ?P .
@@ -36,6 +40,7 @@
     ?Y owl:sameAs ?Z
 } .
 
+# With owl:Thing as the class, every value qualifies.
 {
     ?C owl:maxQualifiedCardinality 1 .
     ?C owl:onProperty ?P .
@@ -47,6 +52,9 @@
     ?Y owl:sameAs ?Z
 } .
 
+# Fuse for a maximum of zero. As written it uses ?C for both the restricted
+# class and the qualifying class, so it only fires for a restriction that is
+# its own owl:onClass.
 {
     ?C owl:maxQualifiedCardinality 0 .
     ?C owl:onProperty ?P .
@@ -56,6 +64,7 @@
     ?Y a ?C
 } => false .
 
+# Fuse: with owl:Thing as the class, a maximum of zero allows no value.
 {
     ?C owl:maxQualifiedCardinality 0 .
     ?C owl:onProperty ?P .

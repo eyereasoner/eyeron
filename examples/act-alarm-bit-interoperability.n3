@@ -1,8 +1,15 @@
 # Sharing a harbor alarm bit
 #
-# An alarm must travel between an optical beacon and a relay register. N3
-# rules derive which copying tasks the stated model allows and contrast
-# them with a quantum token that cannot be universally cloned.
+# A harbor alarm is one bit, shown by an optical beacon (blue or red lamp) and
+# held in a relay register (low or high voltage). Eyeron derives which tasks
+# are possible: flipping the bit on each medium, and copying it from either
+# medium to either medium. It contrasts this with a quantum-like token whose
+# states cannot all be cloned. Rules introduce each task as a new, unnamed
+# resource with a blank node (`[ ... ]`) in their conclusion, and log:query
+# picks out the answers. The vocabulary of possible and impossible tasks
+# follows the constructor theory of information of Deutsch and Marletto.
+#
+# See <https://arxiv.org/abs/1405.5563>
 
 @prefix : <http://example.org/alarm-bit/> .
 @prefix arc: <https://example.org/arc#> .
@@ -22,7 +29,8 @@
     :zeroState :LowVoltage ;
     :oneState :HighVoltage .
 
-# Contrast substrate with superinformation-like behavior
+# For contrast, a quantum-like token with four polarization states. It is a
+# superinformation medium: its states cannot all be cloned.
 :quantumToken a :SuperinformationMedium ;
     :encodes :PolarizationVariable ;
     :state :Horizontal ;
@@ -49,7 +57,10 @@
     ] .
 } .
 
-# Two unlike information media that encode the same variable can interoperate.
+# Two information media that encode the same variable can interoperate, and
+# the variable can be copied from one to the other. The rule matches every
+# pair, including a medium paired with itself, so copies within one medium
+# are listed too.
 {
     ?A a :InformationMedium ;
         :encodes ?V .
@@ -90,7 +101,7 @@
     ?M :cannot :UnrestrictedStateFanOut .
 } .
 
-# Query answer
+# Query: report every can and cannot statement.
 {
     ?Subject :can ?Value .
 } log:query {

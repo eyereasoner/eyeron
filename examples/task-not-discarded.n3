@@ -7,10 +7,13 @@
 @prefix : <http://example.org/test#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# Two composite tasks in the main graph.
 :task1 a :CompositeTask .
 
 :task2 a :CompositeTask .
 
+# A quoted document of tasks. It says nothing about any task being
+# discarded.
 :tasks :graph {
 
     :task1 a :CompositeTask .
@@ -18,6 +21,9 @@
     :task2 a :CompositeTask .
 } .
 
+# A composite task is not discarded when the quoted document does not
+# contain a statement that it is. log:notIncludes looks only inside that
+# one document, so the answer cannot change as other facts are derived.
 {
     ?Task a :CompositeTask .
     :tasks :graph ?Graph .

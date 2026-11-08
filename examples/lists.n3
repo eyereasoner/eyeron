@@ -1,12 +1,15 @@
 # Appending lists and finding members
 #
-# Lists of named items supply two small queries. A recursive backward N3
-# rule appends lists, while a membership built-in enumerates the values in
-# another list.
+# Two small list questions: what do you get by joining the list (:a) to the
+# list (:b), and which values occur in the list (:a :b :a)? Eyeron derives
+# the joined list (:a :b) and the members :a and :b. It shows a recursive
+# backward N3 rule (<=) that appends lists, and the list:member built-in.
 
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/lists#> .
 
+# Appending a non-empty list: take off its first item, append the rest, and
+# put the first item back in front of the result.
 {
     (?xs ?ys) :append ?zs
 } <= {
@@ -15,16 +18,19 @@
     ?zs list:firstRest (?x ?zsrest) .
 } .
 
+# Appending to the empty list gives the other list unchanged.
 {
     (() ?ys) :append ?ys
 } <= true .
 
+# Ask for (:a) appended with (:b); the backward rules above answer it.
 {
     ((:a) (:b)) :append ?result
 } => {
     :query :appendResult ?result
 } .
 
+# List each member of (:a :b :a); :a occurs twice but is concluded once.
 {
     (:a :b :a) list:member ?x
 } => {

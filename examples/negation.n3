@@ -7,10 +7,13 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/negation#> .
 
+# Alice and Bob are people; only Bob has an explicit Blocked classification.
 :alice a :Person .
 :bob a :Person .
 :bob a :Blocked .
 
+# For each known person, test that this scope has no Blocked fact for them.
+# Only Alice passes with the supplied data.
 {
     ?x a :Person .
     ?SCOPE log:notIncludes {

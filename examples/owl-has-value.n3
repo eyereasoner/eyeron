@@ -1,8 +1,9 @@
 # Connecting class membership to a fixed value
 #
-# Belgian is represented by a citizenship restriction with the value
-# Belgium. Explicit N3 rules derive the fixed citizenship from membership
-# and recognize membership from that value.
+# The class Belgian is defined as the things whose citizenship is Belgium
+# (an owl:hasValue restriction). Alice is said to be Belgian and Bob to have
+# Belgian citizenship. N3 rules for owl:hasValue work in both directions:
+# Eyeron derives Alice's citizenship and that Bob is Belgian.
 
 @prefix : <http://example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -10,16 +11,17 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# The restriction, and one fact for each direction
 :Belgian owl:onProperty :citizenship ;
     owl:hasValue :Belgium .
 :alice a :Belgian .
 :bob :citizenship :Belgium .
 
-# Inference rules
+# Rules for owl:hasValue restrictions
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
+# A member of the class has the fixed value.
 {
     ?C owl:hasValue ?V .
     ?C owl:onProperty ?P .
@@ -28,6 +30,7 @@
     ?U ?P ?V
 } .
 
+# Anything with the fixed value is a member of the class.
 {
     ?C owl:hasValue ?V .
     ?C owl:onProperty ?P .
@@ -36,6 +39,8 @@
     ?U a ?C
 } .
 
+# A restriction on a subproperty is a subclass of the same restriction on
+# the superproperty (no subproperties are declared here).
 {
     ?C owl:hasValue ?V .
     ?C owl:onProperty ?P .
@@ -46,6 +51,8 @@
     ?C rdfs:subClassOf ?D
 } .
 
+# Fuse: a member with a value stated to differ from the fixed one is a
+# contradiction.
 {
     ?C owl:hasValue ?V .
     ?C owl:onProperty ?P .

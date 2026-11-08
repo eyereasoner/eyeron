@@ -1,14 +1,19 @@
 # Exploring a cycle of absence tests
 #
-# Two N3 rules each derive a classification when the other is absent. The
-# example exposes eyeron's behavior for this negative cycle using scoped
-# negation as failure.
+# Alice is a person. One rule puts a person :In when they are not known to
+# be :Out; the other puts them :Out when they are not known to be :In. Each
+# rule depends on the absence of what the other derives, so there is no
+# order in which to settle them. Eyeron fires the first rule, concludes
+# that Alice is :In, and the second rule is then blocked. It shows scoped
+# negation (log:notIncludes) in a negative cycle, whose proof keeps the
+# absence as an obligation.
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/unstratified-negation#> .
 
 :alice a :Person .
 
+# A person not known to be out is in.
 {
     ?x a :Person .
     ?SCOPE log:notIncludes {
@@ -18,6 +23,7 @@
     ?x a :In
 } .
 
+# A person not known to be in is out.
 {
     ?x a :Person .
     ?SCOPE log:notIncludes {

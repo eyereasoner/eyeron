@@ -1,14 +1,17 @@
 # Deriving and reporting a product
 #
-# A companion input supplies two numbers. N3 arithmetic rules calculate
-# their product, test that it is positive, and format a readable report
-# from the derived value.
+# A companion TriG input supplies two numbers, 6 and 7. One rule multiplies
+# them and keeps the product only if it is positive; a second rule formats a
+# short Markdown report around it. Because the program uses
+# log:outputString, eyeron prints that report (product = 42) instead of
+# triples. It shows math built-ins, string:format and log:outputString.
 
 @prefix : <https://example.org/see/smoke#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix string: <http://www.w3.org/2000/10/swap/string#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# Multiply the two input numbers, and record the product when it is positive.
 {
     :Input :x ?X ;
         :y ?Y .
@@ -18,6 +21,7 @@
     :Case :product ?Product .
 } .
 
+# Put the product into a Markdown template, to be printed as output.
 {
     :Case :product ?Product .
     (

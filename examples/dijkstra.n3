@@ -8,7 +8,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/ns#> .
 
-# edges
+# Nonnegative edge costs; the next rule makes every connection two-way.
 (:a :b) :edge 4 .
 (:a :c) :edge 2 .
 (:b :c) :edge 1 .
@@ -25,7 +25,8 @@
     (?B ?A) :edge ?C .
 } .
 
-# Dijkstra's algorithm
+# Start the priority queue with cost zero and reverse the returned path
+# into travel order. Queue entries hold a cost followed by a reversed path.
 {
     (?Start ?Goal) :dijkstra (?Path ?Cost)
 } <= {
@@ -33,6 +34,7 @@
     ?RevPath list:reverse ?Path .
 } .
 
+# The cheapest queued route already reaches the goal: return it.
 {
     (?L1 ?Goal ?L2) :dijkstra2 (?L3 ?Cost)
 } <= {
@@ -41,6 +43,8 @@
     ?L3 list:firstRest (?Goal ?Path) .
 } .
 
+# Expand the cheapest route, collect unvisited neighbors and their costs,
+# then sort the enlarged queue before taking the next step.
 {
     (?L1 ?Goal ?Visited) :dijkstra2 (?ResultPath ?ResultCost)
 } <= {
@@ -64,7 +68,7 @@
     (?SortedQueue ?Goal ?L7) :dijkstra2 (?ResultPath ?ResultCost) .
 } .
 
-# find the paths
+# Request the least-cost route from a to f.
 {
     (:a :f) :dijkstra (?Path ?Cost) .
 } => {

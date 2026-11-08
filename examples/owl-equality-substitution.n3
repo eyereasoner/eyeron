@@ -10,13 +10,14 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# Sample data
+# Bob and Robert name the same individual; likes and enjoys are also equated.
 :bob owl:sameAs :robert .
 :bob :likes :pizza .
 :alice :knows :bob .
 :likes owl:sameAs :enjoys .
 
-# Inference rules
+# Substitute a sameAs-linked name in the subject, predicate and object
+# positions, one rule for each position.
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
 {

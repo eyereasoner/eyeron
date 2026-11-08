@@ -1,14 +1,17 @@
 # Approximating pi with Fibonacci numbers
 #
-# A finite list of indices selects terms in a Fibonacci-based arctangent
-# series. N3 arithmetic rules derive the required Fibonacci values,
-# calculate the partial sum, and report the approximation.
+# The angles atan(1/F3), atan(1/F5), atan(1/F7), ..., where Fk is the k-th
+# Fibonacci number, add up to pi/4. Eyeron computes just the Fibonacci
+# numbers this needs, sums the first 15 angles, and compares four times that
+# sum with pi. It shows N3 arithmetic built-ins, rules that compute only what
+# is asked for, and log:collectAllIn gathering results into a list.
 
 @prefix : <http://example.org/matiyasevich#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
+# Use the first 15 terms of the series, n = 1 to 15.
 :run :ns (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) .
 
 # Determine which Fibonacci indices are needed: k = 2n+1
@@ -35,6 +38,7 @@
 } .
 
 # Fibonacci facts, computed only for indices requested via :need :fibIndex
+# The two starting values, F0 = 0 and F1 = 1.
 {
     :need :fibIndex 0 .
 } => {
@@ -47,6 +51,7 @@
     1 :fib 1 .
 } .
 
+# Every other needed value is the sum of the two before it.
 {
     :need :fibIndex ?nF .
     ?nF math:greaterThan 1 .

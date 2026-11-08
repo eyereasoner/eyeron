@@ -1,18 +1,24 @@
 # Recognizing a symbolic Pythagorean relation
 #
-# Symbolic square and addition facts describe three quantities. N3 rules
-# combine those relations to derive and check the corresponding Pythagorean
-# statement.
+# Three quantities a, b and c are described only by symbolic facts: each has
+# a square, and the squares of a and b add up to the square of c. No numbers
+# are involved. An N3 rule recognizes that pattern and concludes that a, b
+# and c satisfy Pythagoras' relation; a query then asks for that statement
+# about this particular triple. Shows a rule joining four facts and a
+# statement about a list (:a :b :c).
 
 @prefix : <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+# The symbolic facts: names for the squares, and how they add up
 :a :Square :a2 .
 :b :Square :b2 .
 :c :Square :c2 .
 (:a2 :b2) :Add :c2 .
 
+# Any three quantities whose first two squares add up to the third square
+# stand in Pythagoras' relation
 {
     ?A :Square ?A2 .
     ?B :Square ?B2 .
@@ -22,12 +28,15 @@
     (?A ?B ?C) :Pythagoras true .
 } .
 
+# A rule whose premise and conclusion are the same statement: it derives
+# nothing new, and the proof does not need it
 {
     (:a :b :c) :Pythagoras true .
 } => {
     (:a :b :c) :Pythagoras true .
 } .
 
+# Query: do a, b and c satisfy Pythagoras' relation?
 {
     (:a :b :c) :Pythagoras true .
 } log:query {

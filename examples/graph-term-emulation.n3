@@ -7,6 +7,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <http://example/> .
 
+# The contents of these graph values are quoted data, not asserted facts.
 :g1 :graphTerm {
     :alice :knows :bob .
     :bob :knows :carol
@@ -18,6 +19,7 @@
 
 :note1 :aboutGraphTerm :g1 .
 
+# A quoted knows statement is enough to classify its containing graph.
 {
     ?g :graphTerm ?formula .
     ?formula log:includes {
@@ -27,6 +29,7 @@
     ?g a :SocialGraphTerm
 } .
 
+# Record subjects mentioned inside each graph.
 {
     ?g :graphTerm ?formula .
     ?formula log:includes {
@@ -36,6 +39,7 @@
     ?g :mentions ?s
 } .
 
+# Record objects too; inspecting the graph does not assert its contents.
 {
     ?g :graphTerm ?formula .
     ?formula log:includes {

@@ -9,6 +9,7 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+# The dataset records purposes, stated bases, retention and processor evidence.
 :jane_smith a :DataSubject .
 :john_doe a :DataSubject .
 :john_doe :hasPersonalData :email .
@@ -50,6 +51,8 @@ _:b6 :days 365 .
 :jane_smith :exercisedRight :access .
 :jane_smith :exercisedRight :rectify .
 
+# A purpose is labelled lawful when a basis node names that purpose.
+# This rule does not validate the basis against external law.
 {
     ?S :hasProcessingPurpose ?P .
     ?S :hasLawfulBasis ?Premise0_b7 .
@@ -59,6 +62,7 @@ _:b6 :days 365 .
     ?S :lawfulPurpose ?P .
 } .
 
+# The example accepts a retention period of at most 730 days.
 {
     ?S :hasRetention ?Premise1_b8 .
     ?Premise1_b8 :purpose ?P .
@@ -68,6 +72,7 @@ _:b6 :days 365 .
     ?S :retentionOKFor ?P .
 } .
 
+# Require an explicit minimization statement for this purpose.
 {
     ?S :hasProcessingPurpose ?P .
     ?S :isMinimalFor ?P .
@@ -75,6 +80,7 @@ _:b6 :days 365 .
     ?S :minimizationOKFor ?P .
 } .
 
+# A recorded signed agreement supports each person processed by that processor.
 {
     ?P a :Processor .
     ?P :signedDPA true .
@@ -83,6 +89,7 @@ _:b6 :days 365 .
     ?S :processorOK true .
 } .
 
+# Both access and rectification must be recorded.
 {
     ?S :exercisedRight :access .
     ?S :exercisedRight :rectify .
@@ -90,6 +97,8 @@ _:b6 :days 365 .
     ?S :rightsOK true .
 } .
 
+# Combine the modeled checks for a matching purpose. One passing purpose
+# is enough here; the label is not a complete GDPR compliance assessment.
 {
     ?S a :DataSubject .
     ?S :lawfulPurpose ?P .
@@ -107,6 +116,7 @@ _:b6 :days 365 .
     ?S a :GDPRCompliant .
 } .
 
+# Report the supported classification for each qualifying person.
 {
     ?S a :GDPRCompliant .
 } log:query {

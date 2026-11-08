@@ -7,6 +7,7 @@
 @base <https://eyereasoner.github.io/eye/reasoning/preduction/food-example.n3> .
 @prefix food: <http://www.w3.org/2002/03owlt/miscellaneous/consistent002#> .
 
+# Five unnamed individuals supply the starting food classifications.
 _:g a food:Grape .
 _:cnd a food:CheeseNutsDessert .
 _:pwlcs a food:PastaWithLightCreamSauce .
@@ -16,6 +17,8 @@ _:m a food:Meal .
 @base <https://eyereasoner.github.io/eye/reasoning/preduction/food2.n3> .
 @prefix food: <http://www.w3.org/2002/03owlt/miscellaneous/consistent002#> .
 
+# Each implication states one classification consequence directly.
+# Repeated firings carry a food through the applicable category chains.
 {
     ?U_0 a food:EdibleThing .
 } => {
@@ -226,7 +229,7 @@ _:m a food:Meal .
     ?U_34 a food:Grape .
 } .
 
-# Query
+# Report every supported type statement, including the starting facts.
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
 {

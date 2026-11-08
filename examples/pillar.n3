@@ -7,26 +7,31 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix : <http://example.org/socrates#> .
 
+# This given fact anchors the mutually recursive definitions.
 :Post :to :Pillar .
 
+# Reverse a link into the pillar to answer what the pillar points to.
 {
     :Pillar :to ?What
 } <= {
     ?What :to :Pillar
 } .
 
+# The converse rule can call back into the first; it adds no independent evidence.
 {
     ?What :to :Pillar
 } <= {
     :Pillar :to ?What
 } .
 
+# The forward question reports Post, supported by the given link.
 {
     :Pillar :to ?What
 } => {
     :result :is ?What
 } .
 
+# Record that the expected answer was found.
 {
     :result :is :Post
 } => {

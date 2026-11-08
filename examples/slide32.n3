@@ -1,22 +1,23 @@
 # Classifying a city as a human community
 #
 # Ghent is described as a city. One forward N3 rule derives that every city
-# is a human community, and a query returns the resulting classifications.
+# is a human community, so Ghent is one too. A log:query then selects what
+# to print: every type statement, the given one and the derived one.
 
 @base <https://eyereasoner.github.io/eye/reasoning/slide32/slide32.n3> .
 @prefix : <http://example.org/#> .
 
-# Ghent is a city
+# Ghent is a city.
 :Ghent a :City .
 
-# every city is a human community
+# Every city is a human community.
 {
     ?x a :City .
 } => {
     ?x a :HumanCommunity .
 } .
 
-# Query
+# Print every type statement, given or derived.
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
 {

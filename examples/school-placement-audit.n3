@@ -1,14 +1,17 @@
 # Auditing a school-placement route
 #
 # Sample students, schools, walking distances, and policy limits describe a
-# placement problem. N3 rules compare provisional and audited choices and
-# flag placements that violate the modeled route conditions.
+# placement problem. N3 rules compare the supplied provisional and audited
+# choices and flag excessive walking or a mismatch. They report the supplied
+# audit results rather than computing routes or school assignments.
 
 @prefix : <https://eyereasoner.github.io/eyeling/examples/school-placement-audit#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix string: <http://www.w3.org/2000/10/swap/string#> .
 
+# The companion input supplies provisional and audited choices.
+# Flag a recorded walking distance above the policy limit.
 {
     ?Student :provisional ?Provisional ;
         :auditedBest ?Audited ;
@@ -19,6 +22,7 @@
     ?Student :auditFlag :walkingLimitExceeded .
 } .
 
+# Also flag a provisional school that differs from the supplied audited best.
 {
     ?Student :provisional ?Provisional ;
         :auditedBest ?Audited .
@@ -27,6 +31,8 @@
     ?Student :auditFlag :assignmentDiffersFromAuditedBest .
 } .
 
+# Summarize the three named flagged students and compare their supplied
+# detours. The suggested assignments in the head are fixed text.
 {
     :Ada :auditFlag ?AdaFlag .
     :Bjorn :auditFlag ?BjornFlag .
@@ -43,6 +49,8 @@
         :recommendedAssignments "Ada -> Lindholmen; Björn -> Backa; Clara -> Haga; Davi -> Haga" .
 } .
 
+# Render the audit summary. These rules do not recompute candidate routes;
+# they check and report records already provided by the companion input.
 {
     :Audit :result ?Result ;
         :affectedChildren ?Affected ;

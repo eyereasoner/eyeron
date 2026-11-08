@@ -1,26 +1,31 @@
 # Differentiating symbolic expressions
 #
 # Constants, variables, sums, and products are represented as nested lists.
-# Recursive backward N3 rules apply differentiation rules and derive a
-# symbolic derivative for each requested expression.
+# Recursive backward N3 rules apply the rules of differentiation and derive
+# the derivative of x times x with respect to x. The result is left
+# unsimplified: (1 times x) plus (x times 1).
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <https://eyereasoner.github.io/eyepl/examples/derivative#> .
 
+# The derivative of a constant is 0.
 {
     ((:const ?n) ?x) :derivative (:const 0)
 } <= true .
 
+# The derivative of x with respect to x itself is 1.
 {
     ((:var ?x) ?x) :derivative (:const 1)
 } <= true .
 
+# Any other variable counts as a constant, so its derivative is 0.
 {
     ((:var ?y) ?x) :derivative (:const 0)
 } <= {
     ?y log:notEqualTo ?x
 } .
 
+# Sum rule: the derivative of u + v is du + dv.
 {
     ((:add ?u ?v) ?x) :derivative (:add ?du ?dv)
 } <= {
@@ -28,6 +33,7 @@
     (?v ?x) :derivative ?dv .
 } .
 
+# Product rule: the derivative of u * v is du * v + u * dv.
 {
     ((:mul ?u ?v) ?x) :derivative (:add (:mul ?du ?v) (:mul ?u ?dv))
 } <= {
@@ -35,6 +41,7 @@
     (?v ?x) :derivative ?dv .
 } .
 
+# The question: the derivative of x * x with respect to x.
 {
     ((:mul (:var :x) (:var :x)) :x) :derivative ?d
 } => {
