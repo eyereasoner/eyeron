@@ -353,11 +353,11 @@ function __wbg_get_imports() {
         __wbg___wbindgen_throw_4c88d8bf264fd984: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
-        __wbg_call_1dfc9489d81ec75e: function() { return handleError(function (arg0, arg1, arg2, arg3) {
+        __wbg_call_134aef2abbc72927: function() { return handleError(function (arg0, arg1, arg2, arg3) {
             const ret = arg0.call(arg1, getStringFromWasm0(arg2, arg3));
             return ret;
         }, arguments); },
-        __wbg_now_3405b9ce3873a6da: function() {
+        __wbg_now_1d0df9c21e8eb829: function() {
             const ret = Date.now();
             return ret;
         },
