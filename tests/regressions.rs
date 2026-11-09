@@ -2151,12 +2151,9 @@ fn the_reason_str_convenience_wrapper_still_derives_correctly_without_explicit()
 fn writing_a_proof_is_linear_in_the_number_of_steps_it_explains() {
     // `explain_backward` built a fact index from scratch on every call, and
     // writing a proof calls it once per premise it has to justify -- so the
-    // cost was the number of premises times the number of facts. Measured on
-    // a search of all 10,000 four-digit Kaprekar chains at that version: 8
-    // minutes without finishing, against eyeling's 8.7s; reduced to a
-    // six-digit alphabet it took 46.5s, and halving the alphabet again took
-    // 7.7s -- quadratic, not linear. With the index built once per proof the
-    // same two take 0.57s and 0.29s, and the full search 14.8s.
+    // cost was the number of premises times the number of facts: quadratic,
+    // not linear, so a proof of ten thousand steps did not finish in
+    // minutes. With the index built once per proof it takes seconds.
     //
     // This program derives ~1,100 facts, each justified by ten built-in
     // premises, which is the shape that made the product large. Measured
