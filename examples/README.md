@@ -13,7 +13,7 @@ eyeron --check-proof examples/proof/socrates.n3 examples/socrates.n3
 
 Every N3 example starts with an introduction to its situation, conclusions and
 language features. Body comments explain the data, rules and questions where
-they are used. The table links all 340 examples to their decks and sources.
+they are used. The table links all 339 examples to their decks and sources.
 
 Most examples keep expected conclusions in `output/`, a proof in `proof/` and
 an N3 check report in `check/`, with matching names. A fuse stops without an
@@ -192,7 +192,6 @@ share their names with the N3 examples whose decks explain them.
 | [jade-eigen-loom](https://eyereasoner.github.io/eyeron/examples/deck/jade-eigen-loom) | [jade-eigen-loom.n3](https://github.com/eyereasoner/eyeron/blob/main/examples/jade-eigen-loom.n3) | Calculating principal directions in two dimensions |
 | [jsonterm-advanced](https://eyereasoner.github.io/eyeron/examples/deck/jsonterm-advanced) | [jsonterm-advanced.n3](https://github.com/eyereasoner/eyeron/blob/main/examples/jsonterm-advanced.n3) | Querying nested JSON-shaped data |
 | [jsonterm](https://eyereasoner.github.io/eyeron/examples/deck/jsonterm) | [jsonterm.n3](https://github.com/eyereasoner/eyeron/blob/main/examples/jsonterm.n3) | Representing JSON-shaped structures in N3 |
-| [kaprekar-6174](https://eyereasoner.github.io/eyeron/examples/deck/kaprekar-6174) | [kaprekar-6174.n3](https://github.com/eyereasoner/eyeron/blob/main/examples/kaprekar-6174.n3) | Exploring the four-digit Kaprekar routine |
 | [knowledge-engineering-alignment-flow](https://eyereasoner.github.io/eyeron/examples/deck/knowledge-engineering-alignment-flow) | [knowledge-engineering-alignment-flow.n3](https://github.com/eyereasoner/eyeron/blob/main/examples/knowledge-engineering-alignment-flow.n3) | Deriving a shared observation and flow view |
 | [kronecker](https://eyereasoner.github.io/eyeron/examples/deck/kronecker) | [kronecker.n3](https://github.com/eyereasoner/eyeron/blob/main/examples/kronecker.n3) | Constructing consequences from finite data |
 | [law-of-cosines](https://eyereasoner.github.io/eyeron/examples/deck/law-of-cosines) | [law-of-cosines.n3](https://github.com/eyereasoner/eyeron/blob/main/examples/law-of-cosines.n3) | Solving triangle sides with the law of cosines |

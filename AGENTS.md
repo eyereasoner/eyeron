@@ -86,8 +86,7 @@ one-time `cargo install --locked cargo-deny`; CI runs it on every push.
 `EYERON_W3C_RDF_REFRESH=1` refreshes the local W3C mirror; the suite is
 local-only otherwise.
 
-Large examples such as `deep-taxonomy-100000` and `kaprekar-6174` produce very
-large proofs. Redirect full output to a temporary file and inspect focused
+Large examples such as `deep-taxonomy-100000` produce very large proofs. Redirect full output to a temporary file and inspect focused
 parts rather than flooding the terminal.
 
 ## Language and examples
@@ -133,8 +132,8 @@ parts rather than flooding the terminal.
   produces them (with no base IRI), and
   `EYERON_UPDATE_GOLDENS=1 cargo test --release --test proof_checking` does
   the same for the proof and check goldens. Review the diff: no golden should
-  change unless intended. `kaprekar-6174` and `deep-taxonomy-100000` have
-  very large proofs; inspect focused parts of their diffs.
+  change unless intended. `deep-taxonomy-100000` has a very large proof;
+  inspect focused parts of its diff.
 
 - Query examples return their answers directly. `-p` explains them and `-c`
   verifies that explanation under C1–C10, so an example never prints a

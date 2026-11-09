@@ -104,14 +104,7 @@ pub fn parse_document(source_path: &Path, name: &str) -> Document {
 /// slower than a developer machine here, so an example needs its limit set
 /// against that, not against the local number.
 pub fn example_timeout(name: &str) -> Duration {
-    if name == "kaprekar-6174" {
-        // Searches every 4-digit number for its Kaprekar chain, and proves
-        // all 10,000 of them. The remaining gap with eyeling is the seven
-        // unrolled chain rules, each re-joined by the agenda for every one
-        // of the 10,000 kap:step facts; that is worth closing, not a reason
-        // to leave the example out.
-        Duration::from_secs(240)
-    } else if name.starts_with("deep-taxonomy-")
+    if name.starts_with("deep-taxonomy-")
         || name.starts_with("rdf-message-")
         || name == "dining-philosophers"
         // Takeuchi's function, checked with a proof: about 1.5s here.

@@ -1425,9 +1425,9 @@ fn reason_with_plan(
             // Matching a rule body is a function of the closure, the rule set
             // and whether the closure is saturated. Re-running one against the
             // same three answers the same question again and derives nothing
-            // but duplicates -- and the question is not cheap: kaprekar-6174's
-            // digit rule joins ten thousand solutions, and used to do it three
-            // more times against a closure that had stopped growing.
+            // but duplicates -- and the question is not cheap: a rule joining
+            // ten thousand solutions used to do it three more times against a
+            // closure that had stopped growing.
             let state = (closure.len(), active_rules.len(), closure_saturated);
             if last_slow_run[idx] == Some(state) { continue; }
             last_slow_run[idx] = Some(state);
@@ -2924,8 +2924,8 @@ fn bindings_progress(before: &Bindings, after: &Bindings) -> bool {
 /// Such a premise constrains nothing further: it contributes exactly one
 /// continuation and binds nothing, so the search can drop it and carry the
 /// bindings on. Materialising that continuation copies the whole binding map,
-/// and a rule body of guards -- kaprekar-6174's chains carry thirteen apiece
-/// -- spends most of its time doing exactly that.
+/// and a rule body of guards -- some carry a dozen or more -- spends most of
+/// its time doing exactly that.
 /// Whether a premise is written with any of these variables.
 fn premise_mentions_any(premise: &Triple, names: &[Name]) -> bool {
     fn walk(term: &Term, names: &[Name]) -> bool {
