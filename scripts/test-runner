@@ -18,8 +18,12 @@ fi
 
 # A target runner also receives cargo run and bench commands. Only a direct
 # cargo test invocation gets totals; test-all supplies its own final footer.
+# `cargo run` replaces itself with this runner, so the parent is then
+# whatever started Cargo; only a parent that is Cargo itself counts.
 cargo_args=$(ps -o args= -p "$PPID" 2>/dev/null || true)
-if [[ "${EYERON_TEST_SUMMARY:-1}" == 0 || ! "$cargo_args" =~ cargo[[:space:]]+test([[:space:]]|$) ]]; then
+cargo_comm=$(ps -o comm= -p "$PPID" 2>/dev/null || true)
+if [[ "${EYERON_TEST_SUMMARY:-1}" == 0 || "$cargo_comm" != cargo
+      || ! "$cargo_args" =~ cargo[[:space:]]+test([[:space:]]|$) ]]; then
   exec "${command[@]}"
 fi
 

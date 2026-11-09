@@ -74,12 +74,20 @@ mod totals {
             path
         }
 
-        fn cargo(&self, body: &str, subcommand: &str) -> Output {
+        /// Runs `body` as a process named `program`, as Cargo would run the
+        /// runner; the runner only counts when its parent is named `cargo`.
+        fn launch(&self, program: &str, body: &str, args: &str) -> Output {
+            use std::os::unix::fs::PermissionsExt;
             self.write("suite", "printf '\\ntest result: ok. %s passed; 0 failed; finished in 0.01s\\n' \"$1\"\nexit \"${2:-0}\"\n");
-            let cargo = self.write("cargo", body);
-            Command::new("bash").arg(cargo).arg(subcommand).current_dir(&self.0)
+            // A direct interpreter path keeps the process named after the script;
+            // `env` would exec bash again and rename it.
+            let path = self.write(program, &format!("#!/bin/bash\n{body}"));
+            fs::set_permissions(&path, fs::Permissions::from_mode(0o755)).unwrap();
+            Command::new(path).args(args.split_whitespace()).current_dir(&self.0)
                 .env("EYERON_TEST_SUMMARY", "1").output().unwrap()
         }
+
+        fn cargo(&self, body: &str, subcommand: &str) -> Output { self.launch("cargo", body, subcommand) }
     }
 
     impl Drop for Fixture {
@@ -155,5 +163,17 @@ mod totals {
         assert!(text.contains("## Slowest tests\n\n| Suite | Test | Time |"), "{text}");
         assert!(text.contains("| bash | 3 | ✅ ok | 0.01 s |"), "{text}");
         assert!(text.contains("| **Total** | **5** | **100.0% OK** |"), "{text}");
+    }
+
+    #[test]
+    fn a_program_cargo_run_replaced_itself_with_is_not_a_cargo_test() {
+        // `cargo run` execs its runner, so the runner's parent is whatever
+        // started Cargo, such as a release script whose message names
+        // `cargo test --release`.
+        let fixture = Fixture::new();
+        let output = fixture.launch("release", "bash scripts/test-runner bash suite 2\n", "from cargo test --release");
+        assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
+        assert!(!stdout(&output).contains("Tests:"), "{}", stdout(&output));
+        assert!(!fixture.0.join("REPORT.md").exists());
     }
 }
