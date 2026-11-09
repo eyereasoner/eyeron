@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Write REPORT.md from a captured `cargo test --release` run: one row per
+# suite, then the slowest individual cases.
+set -eu
+script_dir=$(cd -- "$(dirname -- "$0")" && pwd)
+log=$1
+status=$2
+elapsed=$3
+report=$4
+plain=$(sed -E 's/\x1b\[[0-9;]*m//g' "$log")
+{
+  printf '# Test report\n\n## Suites\n\n'
+  printf '| Suite | Cases | Result | Time |\n| --- | ---: | --- | ---: |\n'
+  awk -v table=1 -v elapsed="$elapsed" -f "$script_dir/test-counts.awk" <<< "$plain"
+  # Only the example harnesses time single cases; libtest prints no times.
+  # An artifact pair is timed once and printed on its proof and check lines.
+  printf '\n## Slowest tests\n\n'
+  printf '| Suite | Test | Time |\n| --- | --- | ---: |\n'
+  awk '
+    $3 != "..." { next }
+    $1 == "example" { suite = "examples" }
+    $1 == "proof" { suite = "proof_checking" }
+    $1 == "artifact" && $2 ~ /^examples\/proof\// { suite = "artifacts" }
+    $1 != "example" && $1 != "proof" && !($1 == "artifact" && $2 ~ /^examples\/proof\//) { next }
+    match($0, /[0-9.]+s( per pair)?\)$/) {
+      seconds = substr($0, RSTART, RLENGTH)
+      sub(/s.*/, "", seconds)
+      test = $2
+      if (suite == "artifacts") sub(/^examples\/proof\//, "examples/", test)
+      printf "%s\t%s\t%s\n", seconds, suite, test
+    }
+  ' <<< "$plain" | sort -t "$(printf '\t')" -k1,1 -rn | head -n 10 \
+    | awk -F '\t' '{ printf "| %s | %s | %.2f s |\n", $2, $3, $1 }'
+} > "$report.tmp"
+mv "$report.tmp" "$report"

@@ -11,6 +11,8 @@ The specification defines how Eyeron reads and evaluates N3, what a run outputs,
 
 ![A curious learner and a small robot welcome a philosopher to a workshop, combining a blue fact card and a yellow rule card into a green conclusion.](docs/images/guide-welcome.webp)
 
+*A curious learner and a small robot welcome a philosopher to a workshop, combining a blue fact card and a yellow rule card into a green conclusion.*
+
 ## Contents
 
 - [Why Eyeron?](#why-eyeron)
@@ -117,6 +119,8 @@ The query asks the goal, the backward rule finds the human fact, and Socrates is
 
 ![The robot shines a spotlight on one green answer card while other connected fact cards remain on the shelves; the learner receives the selected card.](docs/images/guide-query.webp)
 
+*The robot shines a spotlight on one green answer card while other connected fact cards remain on the shelves; the learner receives the selected card.*
+
 Append this to `/tmp/people.n3` and run it again:
 
 ```n3
@@ -133,6 +137,8 @@ Only Socrates's answer is printed. A query has a matching side and an output sid
 ## Proofs and their limits
 
 ![A detective robot retraces a blue paper trail with a magnifying glass beside a green answer card and a yellow checking clipboard with a check mark and reminder tab.](docs/images/guide-proof.webp)
+
+*A detective robot retraces a blue paper trail with a magnifying glass beside a green answer card and a yellow checking clipboard with a check mark and reminder tab.*
 
 Keep the answer, its proof, and the check of that proof:
 
@@ -205,6 +211,8 @@ Local files and HTTP(S) URLs are accepted, and `-` reads stdin. Relative IRIs us
 ### Keep document scopes straight
 
 ![The robot helps a learner keep blank tags in separate blue and red folders while ordinary cards from both folders join one shared board.](docs/images/guide-scopes.webp)
+
+*The robot helps a learner keep blank tags in separate blue and red folders while ordinary cards from both folders join one shared board.*
 
 Files are parsed separately and merged: `_:contact` in two files names two individuals, and quantifier scopes stay apart. Use the same IRI to refer to one thing across files. A triple quoted in `{ … }` is a value, not a fact, and inside quoted graphs literals keep their lexical identity: `"01"^^xsd:integer` is not `1`. RDF triple terms such as `<<( :s :p :o )>>` belong in RDF input, not N3. See [documents and terms](SPEC.md#2-documents-and-terms).
 
@@ -313,7 +321,16 @@ Cargo, including compilation; on other Unix hosts it starts with the first
 suite. The counters belong to that Cargo process, so separate invocations have
 separate totals. `cargo run` and `cargo bench` keep their normal output.
 
-`scripts/test-all` runs every suite with the optimized `test-fast` profile and ends with `Tests: N run; P% OK; Ts total`; `EYERON_TEST_JOBS` sets how many example proofs it checks at once, and `EYERON_TEST_JOBS=1 ./scripts/test-all --release` is the setting for performance measurements. The example harness compares each example's output with its golden in `examples/output/`; the proof-checking harness generates every example's proof, requires it to check under C1–C10, and compares the proof and its check report with the goldens in `examples/proof/` and `examples/check/`. The artifact harness reads each saved proof without running the reasoner, checks it against its source, rejects an unsupported extra claim in proofs under 1 MB, reproduces the saved check report, and compares the report's answers with the output golden. It also requires both artifact directories to cover exactly the examples that keep proofs. The deck harness checks every program, conclusion, proof and report excerpt, the stated verdict, the documented command arguments and input files, and the catalog. After an intentional change, run `EYERON_UPDATE_GOLDENS=1 cargo test --release --test examples` and `EYERON_UPDATE_GOLDENS=1 cargo test --release --test proof_checking`, and review the diff. A new example needs an output golden and a place in the playground's bundled lists; see [AGENTS.md](AGENTS.md) for the working conventions.
+A full `cargo test --release` (optionally with `--no-fail-fast` or `--quiet`)
+also writes `REPORT.md`: a table with each suite's cases, result (✅ ok or
+❌ FAILED), and time, and the total, timed from the first suite so compilation
+is left out; and a table of the ten slowest single cases the example, proof,
+and artifact harnesses time. It is rewritten after each suite, so it always describes the
+latest run. Runs that select suites or tests, and debug runs, leave it alone.
+Use `--release`: a plain `cargo test` builds the reasoner unoptimized and runs
+the example and proof suites far more slowly.
+
+`scripts/test-all` runs every suite with the optimized `test-fast` profile and ends with `Tests: N run; P% OK; Ts total`; `EYERON_TEST_JOBS` sets how many example proofs it checks at once, and `EYERON_TEST_JOBS=1 ./scripts/test-all --release` is the setting for performance measurements. The example harness compares each example's output with its golden in `examples/output/`; the proof-checking harness generates every example's proof and requires it to be the saved proof in `examples/proof/`, checking only the proofs that keep no golden; with `EYERON_UPDATE_GOLDENS=1` it rewrites changed proofs, checks them, and rewrites their reports in `examples/check/`. The artifact harness is where every saved proof is checked: it reads each one without running the reasoner, checks it under C1–C10 against its source, rejects an unsupported extra claim in proofs under 1 MB, reproduces the saved check report, and compares the report's answers with the output golden. It also requires both artifact directories to cover exactly the examples that keep proofs. The deck harness checks every program, conclusion, proof and report excerpt, the stated verdict, the documented command arguments and input files, and the catalog. After an intentional change, run `EYERON_UPDATE_GOLDENS=1 cargo test --release --test examples` and `EYERON_UPDATE_GOLDENS=1 cargo test --release --test proof_checking`, and review the diff. A new example needs an output golden and a place in the playground's bundled lists; see [AGENTS.md](AGENTS.md) for the working conventions.
 
 ### Releases
 

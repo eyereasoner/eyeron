@@ -1,14 +1,10 @@
-//! Generates every packaged example's proof and checks it against the
-//! program it was produced from, using the specification's reference
-//! implementation of the validity conditions C1–C10.
-//!
-//! This is the suite that says what a proof is worth. Each proof is checked
-//! as the document it is, read back from its N3 text: every recorded
-//! inference re-performed against the source rule, every premise resolved,
-//! the derivation graph tested for cycles, and every claim accounted for.
-//! Each proof and its N3 check report are goldens, `examples/proof/` and
-//! `examples/check/`: an ordinary run only reads them, and
-//! `EYERON_UPDATE_GOLDENS=1` rewrites those that changed.
+//! Generates every packaged example's proof and requires it to be the
+//! saved proof in `examples/proof/`. `tests/artifacts.rs` checks each saved
+//! proof under C1–C10 and reproduces its report in `examples/check/`, so a
+//! generated proof that matches is checked there, once. This suite checks
+//! the proofs that keep no golden (`age` reads the clock), and with
+//! `EYERON_UPDATE_GOLDENS=1` it rewrites the proofs that changed, checks
+//! them, and rewrites their reports.
 //!
 //! Uses a custom harness (`harness = false`), like the other example
 //! suites, so each example prints its own line.
@@ -52,6 +48,8 @@ fn golden(relative: &str, text: &str) -> Result<(), String> {
 
 enum Outcome {
     Checked(Report),
+    /// The proof is the saved one, which the artifacts suite checks.
+    Saved,
     NothingToProve,
 }
 
@@ -80,7 +78,12 @@ fn check(name: &str) -> Result<Outcome, String> {
         }
     }
     let clock = CLOCK_EXAMPLES.iter().any(|(listed, _)| *listed == name);
-    if !clock { golden(&format!("examples/proof/{name}.n3"), &proof)?; }
+    if !clock {
+        golden(&format!("examples/proof/{name}.n3"), &proof)?;
+        // Checking here would repeat the artifacts suite's check of the
+        // same text; only a rewritten proof needs its report rewritten.
+        if !updating_goldens() { return Ok(Outcome::Saved); }
+    }
     let (report, text) = eyeron::proof_check_n3::check_proof_report(&doc, &proof, Some(&format!("examples/proof/{name}.n3")), &source_labels(name))
         .map_err(|e| e.message)?;
     if !clock { golden(&format!("examples/check/{name}.n3"), &text)?; }
@@ -92,6 +95,7 @@ fn main() {
     let mut passed = 0usize;
     let mut failed = 0usize;
     let mut proofs = 0usize;
+    let mut saved = 0usize;
     let mut steps = 0usize;
     let mut verified = 0usize;
     let mut trusted = 0usize;
@@ -125,6 +129,10 @@ fn main() {
                 trusted += report.obligations.len();
                 (report.valid(), report.verdict())
             }
+            Ok(Outcome::Saved) => {
+                saved += 1;
+                (true, format!("matches examples/proof/{name}.n3"))
+            }
             Ok(Outcome::NothingToProve) => (true, "derives nothing to prove".to_string()),
             Err(message) => (false, message.clone()),
         };
@@ -146,7 +154,7 @@ fn main() {
     let elapsed = started.elapsed().as_secs_f64();
     progress_line(&format!(
         "\nproof_checking result: {}. {passed} passed; {failed} failed; finished in {elapsed:.2}s \
-         ({proofs} proofs; {steps} steps, {verified} verified, {trusted} trusted)",
+         ({saved} saved proofs matched; {proofs} checked: {steps} steps, {verified} verified, {trusted} trusted)",
         if failed == 0 { green("ok") } else { red("FAILED") },
     ));
     assert_eq!(failed, 0, "{failed} proof(s) did not check");

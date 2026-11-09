@@ -40,6 +40,8 @@ user-facing text direct.
   holds forged proofs the checker must reject; `notation3tests/` and
   `w3c_rdf/rdf-tests/` are vendored conformance suites.
 - `reports/w3c-rdf-earl.ttl`: EARL report, rewritten by the W3C RDF suite.
+- `REPORT.md`: per-suite results of the latest full `cargo test --release`,
+  written by `scripts/test-report`.
 - `README.md` (the guide: running, N3, proofs, formats, playground, CLI,
   APIs, development; Pages serves it as the site root), `SPEC.md`
   (RFC-style specification: language, evaluation, built-ins, and the
@@ -114,9 +116,11 @@ parts rather than flooding the terminal.
   is the reference. Reformatting is whitespace and comments only, so every
   golden must stay unchanged.
 - Every example has an output golden, and `tests/proof_checking.rs`
-  generates the proof of every example that derives anything, checks it
-  under C1–C10, and compares the proof and its check report with their
-  goldens (`age` reads the clock and keeps none). When adding an example, add it to `bundledExamplesN3` in
+  generates the proof of every example that derives anything and requires
+  it to match its golden; `tests/artifacts.rs` checks every saved proof
+  under C1–C10 and reproduces its check report, so each proof is checked
+  once (`age` reads the clock, keeps no golden, and is checked where it is
+  generated). When adding an example, add it to `bundledExamplesN3` in
   `playground.html`; a companion input goes in `examples/input/` and in
   `bundledCompanionInputs`. `tests/playground.rs` checks both lists. Write
   its deck in `examples/deck/` in the shape of `examples/deck/socrates.md`

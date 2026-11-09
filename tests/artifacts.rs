@@ -1,5 +1,7 @@
 //! Check the saved proofs and reports directly, without generating a new
-//! derivation. Each proof must check, an extra unsupported claim must be
+//! derivation. `tests/proof_checking.rs` requires each generated proof to
+//! be the saved one, so this is where every packaged proof is checked under
+//! C1–C10. Each proof must check, an extra unsupported claim must be
 //! rejected, its report must be reproduced, and its reported answers must
 //! agree with the example's output golden. Directory coverage includes the
 //! documented exceptions for clock readings, fuses and external inputs.
@@ -36,6 +38,7 @@ fn coverage(names: &[String]) {
 }
 
 struct Outcome {
+    report: eyeron::proof_check::Report,
     proof: Result<(), String>,
     check: Result<(), String>,
 }
@@ -64,7 +67,7 @@ fn check(name: &str) -> Result<Outcome, String> {
     } else {
         check_answers(name, &saved_report)
     };
-    Ok(Outcome { proof: proof_check, check: report_check })
+    Ok(Outcome { report, proof: proof_check, check: report_check })
 }
 
 fn check_answers(name: &str, saved_report: &str) -> Result<(), String> {
@@ -89,19 +92,26 @@ fn main() {
     coverage(&names);
     let mut passed = 1;
     let mut failed = 0;
+    let (mut steps, mut verified, mut trusted) = (0, 0, 0);
     progress_line(&format!("artifact directories examples/proof/ and examples/check/ ... {}", green("ok")));
     let wanted = example_filters();
     let names = names.into_iter().filter(|name| wanted.is_empty() || wanted.contains(name)).collect();
     run_cases(names, example_jobs(), check, |name, outcome, elapsed| {
-        let results = match outcome {
-            Ok(outcome) => [outcome.proof, outcome.check],
-            Err(message) => [Err(message.clone()), Err(message)],
+        let (results, verdict) = match outcome {
+            Ok(outcome) => {
+                steps += outcome.report.steps;
+                verified += outcome.report.verified;
+                trusted += outcome.report.obligations.len();
+                ([outcome.proof, outcome.check], outcome.report.verdict())
+            }
+            Err(message) => ([Err(message.clone()), Err(message)], String::new()),
         };
         for (kind, result) in ["proof", "check"].into_iter().zip(results) {
             match result {
                 Ok(()) => {
                     passed += 1;
-                    progress_line(&format!("artifact examples/{kind}/{name}.n3 ... {} ({:.3}s per pair)", green("ok"), elapsed.as_secs_f64()));
+                    let detail = if kind == "proof" { format!("{verdict}; ") } else { String::new() };
+                    progress_line(&format!("artifact examples/{kind}/{name}.n3 ... {} ({detail}{:.3}s per pair)", green("ok"), elapsed.as_secs_f64()));
                 }
                 Err(message) => {
                     failed += 1;
@@ -110,7 +120,8 @@ fn main() {
             }
         }
     });
-    progress_line(&format!("\nartifacts result: {}. {passed} passed; {failed} failed; finished in {:.2}s",
+    progress_line(&format!("\nartifacts result: {}. {passed} passed; {failed} failed; finished in {:.2}s \
+         ({steps} steps, {verified} verified, {trusted} trusted)",
         if failed == 0 { green("ok") } else { red("FAILED") }, started.elapsed().as_secs_f64()));
     assert_eq!(failed, 0, "{failed} saved artifact check(s) failed");
 }

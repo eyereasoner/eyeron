@@ -947,10 +947,11 @@ returns a reader error before a report is constructed; semantic C1–C10 failure
 produce an invalid report.
 
 [tests/proof_checking.rs](tests/proof_checking.rs) generates the proof of
-every packaged example that derives anything, requires it to be nonempty and
-check, and compares the proof and its check report with the goldens in
-`examples/proof/` and `examples/check/`; `age` reads the clock, so its proof
-is checked but kept as no golden. `variable-predicate-dependency` is an intentional negative cycle
+every packaged example that derives anything, requires it to be nonempty, and
+compares it with its golden in `examples/proof/`;
+[tests/artifacts.rs](tests/artifacts.rs) checks each of those saved proofs and
+reproduces its check report in `examples/check/`. `age` reads the clock, so
+its proof is checked where it is generated and kept as no golden. `variable-predicate-dependency` is an intentional negative cycle
 that assumes `:a a :Blocked` is absent and then derives it; it trips an
 inference fuse and has no conclusions to prove.
 [Generation regressions](tests/proof_generation.rs) also check fresh

@@ -1,7 +1,8 @@
 //! Checks every packaged `.n3` example against its output golden,
 //! `examples/output/<name>.n3` (or `.md`), for what it derives. How it is
-//! derived is `tests/proof_checking.rs`'s concern: that suite generates
-//! each example's proof and checks it.
+//! derived is the concern of `tests/proof_checking.rs`, which requires each
+//! generated proof to be the saved one, and `tests/artifacts.rs`, which
+//! checks the saved proofs.
 //!
 //! Uses a custom harness (`harness = false`) so each example prints its own
 //! line as it runs.

@@ -1584,12 +1584,13 @@ fn absurdly_nested_terms_are_a_parse_error_rather_than_a_stack_overflow() {
 #[test]
 fn proof_mode_derives_exactly_what_plain_mode_derives() {
     // `tests/examples.rs` checks each example's output golden from a plain
-    // run, and `tests/proof_checking.rs` checks the proof of a run with
-    // proof collection on. Together they describe one derivation only if
-    // turning proof collection on cannot change what is derived. That is
-    // this test's job, established once here over the machinery the
-    // examples exercise -- forward and backward rules, builtins, rules that
-    // generate rules, negation as failure and scoped aggregation.
+    // run, and `tests/proof_checking.rs` with `tests/artifacts.rs` checks
+    // the proof of a run with proof collection on. Together they describe
+    // one derivation only if turning proof collection on cannot change what
+    // is derived. That is this test's job, established once here over the
+    // machinery the examples exercise -- forward and backward rules,
+    // builtins, rules that generate rules, negation as failure and scoped
+    // aggregation.
     let examples = [
         "socrates",
         "ancestor",

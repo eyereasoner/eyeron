@@ -8,7 +8,7 @@
 //! and conclusion under the step's bindings, and require them to be what
 //! the step recorded.
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 
 use crate::ast::{Term, Triple};
 use crate::error::{EyeronError, Result};
@@ -277,7 +277,7 @@ pub struct N3Proof {
     /// run derived with it, in the order listed (§9.6.1).
     listings: Listings,
     claims: Vec<Triple>,
-    index: BTreeMap<Triple, usize>,
+    index: HashMap<Triple, usize>,
     /// Steps whose conclusion has free variables, which each conclude every
     /// instance of itself.
     general_steps: Vec<usize>,
@@ -507,7 +507,7 @@ impl N3Proof {
             .collect();
         claims.extend(parsed.rules.iter().map(written_rule_statement));
 
-        let mut index = BTreeMap::new();
+        let mut index = HashMap::new();
         for (position, step) in steps.iter().enumerate() {
             index.entry(step.conclusion.clone()).or_insert(position);
         }
@@ -1402,11 +1402,15 @@ fn read_steps(body: &[Triple]) -> Result<(Vec<Step>, Listings)> {
         value: Option<&'a Term>,
         used: bool,
     }
-    let mut bindings: BTreeMap<&Term, Binding<'_>> = BTreeMap::new();
+    // Keyed by whole step formulas, so these are hash maps: an ordered map
+    // compares nested graphs at every level of its search. The vectors keep
+    // the proof's own order for the steps and for error reporting.
+    let mut bindings: HashMap<&Term, Binding<'_>> = HashMap::new();
+    let mut binding_order = Vec::new();
     let mut order = Vec::new();
-    let mut grouped: BTreeMap<&Term, Vec<&Triple>> = BTreeMap::new();
+    let mut grouped: HashMap<&Term, Vec<&Triple>> = HashMap::new();
     let mut listings: Listings = Vec::new();
-    let mut listed = BTreeSet::new();
+    let mut listed = HashSet::new();
     for triple in body {
         if !is_proof_vocabulary(&triple.p) { continue; }
         let Term::Iri(predicate) = &triple.p else { unreachable!() };
@@ -1415,7 +1419,10 @@ fn read_steps(body: &[Triple]) -> Result<(Vec<Step>, Listings)> {
                 if !matches!(triple.s, Term::Blank(_) | Term::Iri(_)) {
                     return Err(metadata_error(&triple.s, "a binding must be identified by a blank node or IRI"));
                 }
-                let binding = bindings.entry(&triple.s).or_default();
+                let binding = bindings.entry(&triple.s).or_insert_with(|| {
+                    binding_order.push(&triple.s);
+                    Binding::default()
+                });
                 if triple.p == pe("var") {
                     let name = plain_string(&triple.o).filter(|name| !name.is_empty())
                         .ok_or_else(|| metadata_error(&triple.s, "pe:var requires a nonempty string"))?;
@@ -1437,7 +1444,7 @@ fn read_steps(body: &[Triple]) -> Result<(Vec<Step>, Listings)> {
                         metadata_error(&triple.s, "pe:derived must wrap exactly one triple with the listed predicate, or none"))?),
                 };
                 if let Some(fact) = fact {
-                    if !listed.insert(fact.clone()) {
+                    if !listed.insert(fact) {
                         return Err(metadata_error(&triple.s, &format!("pe:derived lists {} twice", describe(fact))));
                     }
                 }
@@ -1450,8 +1457,10 @@ fn read_steps(body: &[Triple]) -> Result<(Vec<Step>, Listings)> {
                 if formula_triple(&triple.s).is_none() {
                     return Err(metadata_error(&triple.s, "a step subject must be a graph containing exactly one triple"));
                 }
-                if !grouped.contains_key(&triple.s) { order.push(&triple.s); }
-                grouped.entry(&triple.s).or_default().push(triple);
+                grouped.entry(&triple.s).or_insert_with(|| {
+                    order.push(&triple.s);
+                    Vec::new()
+                }).push(triple);
             }
             _ => return Err(metadata_error(&triple.s, &format!("unknown proof predicate {}", predicate))),
         }
@@ -1528,8 +1537,8 @@ fn read_steps(body: &[Triple]) -> Result<(Vec<Step>, Listings)> {
         }
         steps.push(step);
     }
-    for (node, binding) in bindings {
-        if !binding.used {
+    for node in binding_order {
+        if !bindings[node].used {
             return Err(metadata_error(node, "binding metadata is not referenced by any step"));
         }
     }

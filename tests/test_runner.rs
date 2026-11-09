@@ -62,7 +62,7 @@ mod totals {
             let stamp = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos();
             let root = std::env::temp_dir().join(format!("eyeron-test-totals-{}-{stamp}", std::process::id()));
             fs::create_dir_all(root.join("scripts")).unwrap();
-            for name in ["test-runner", "test-rustdoc", "test-summary", "test-counts.awk"] {
+            for name in ["test-runner", "test-rustdoc", "test-summary", "test-counts.awk", "test-report"] {
                 fs::copy(Path::new(env!("CARGO_MANIFEST_DIR")).join("scripts").join(name), root.join("scripts").join(name)).unwrap();
             }
             Self(root)
@@ -135,5 +135,25 @@ mod totals {
         let output = fixture.cargo("bash scripts/test-runner bash suite 2\nPATH=\"$PWD:$PATH\" bash scripts/test-rustdoc --test src/lib.rs\n", "test");
         assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
         assert!(stdout(&output).contains("Tests: 5 run; 100.0% OK;"), "{}", stdout(&output));
+    }
+
+    #[test]
+    fn full_release_runs_write_one_report_table_and_focused_runs_leave_it_alone() {
+        let fixture = Fixture::new();
+        let report = fixture.0.join("REPORT.md");
+        let suites = "bash scripts/test-runner bash suite 2\nbash scripts/test-runner bash suite 3\n";
+        for subcommand in ["test", "test --release --test examples"] {
+            assert!(fixture.cargo(suites, subcommand).status.success());
+            assert!(!report.exists(), "{subcommand} wrote a report");
+        }
+        let output = fixture.cargo(suites, "test --release --no-fail-fast");
+        assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
+        let text = fs::read_to_string(&report).unwrap();
+        // Two suite rows and the total under their header; the fixture times
+        // no single case, so the slowest-tests table has only its header.
+        assert_eq!(text.lines().filter(|line| line.starts_with("| ")).count(), 7, "{text}");
+        assert!(text.contains("## Slowest tests\n\n| Suite | Test | Time |"), "{text}");
+        assert!(text.contains("| bash | 3 | ✅ ok | 0.01 s |"), "{text}");
+        assert!(text.contains("| **Total** | **5** | **100.0% OK** |"), "{text}");
     }
 }

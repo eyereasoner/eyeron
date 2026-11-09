@@ -25,7 +25,14 @@ fi
 
 # Cargo runs the suites of this package sequentially. A process start stamp
 # keeps separate invocations apart, including reuse of the same process ID.
-stamp=$(ps -o lstart= -p "$PPID" | cksum | awk '{print $1}')
+# On Linux it is the start tick from /proc, which never changes; ps's lstart
+# is recomputed from the boot time and can shift when the clock is adjusted
+# (as on WSL), which would split one run into two.
+if [[ -r "/proc/$PPID/stat" ]]; then
+  stamp=$(awk '{print $22}' "/proc/$PPID/stat")
+else
+  stamp=$(ps -o lstart= -p "$PPID" | cksum | awk '{print $1}')
+fi
 state="$repo_root/target/test-totals/$PPID-$stamp"
 mkdir -p "$state"
 if [[ ! -f "$state/started" ]]; then printf '%s\n' "$EPOCHREALTIME" > "$state/started"; fi
@@ -47,4 +54,24 @@ fi
 aggregate_status=0
 if [[ -f "$state/failed" ]]; then aggregate_status=1; fi
 bash "$script_dir/test-summary" "$state/output" "$aggregate_status" "$elapsed"
+
+# A full `cargo test --release` rewrites REPORT.md after each suite, so the
+# file always holds the latest run. Runs that select suites leave it alone.
+[[ "$cargo_args" =~ cargo[[:space:]]+test(.*)$ ]]
+cargo_options=${BASH_REMATCH[1]}
+release=0
+full=1
+for option in $cargo_options; do
+  case "$option" in
+    --release | -r) release=1 ;;
+    --no-fail-fast | -q | --quiet) ;;
+    *) full=0 ;;
+  esac
+done
+if [[ "$release" == 1 && "$full" == 1 ]]; then
+  # The report times the tests alone, from the first suite's start.
+  read -r started < "$state/started"
+  tested=$(awk -v start="$started" -v end="$EPOCHREALTIME" 'BEGIN {printf "%.2f", end - start}')
+  bash "$script_dir/test-report" "$state/output" "$aggregate_status" "$tested" "$repo_root/REPORT.md"
+fi
 exit "$status"
