@@ -74,15 +74,27 @@ mod totals {
             path
         }
 
+        fn write_executable(&self, name: &str, text: &str) -> PathBuf {
+            let path = self.0.join(name);
+            // Write in a child so a concurrent test launch cannot inherit a
+            // writable descriptor and leave the script temporarily busy.
+            let status = Command::new("sh")
+                .args(["-c", r#"printf '%s' "$2" > "$1" && chmod 755 "$1""#, "sh"])
+                .arg(&path)
+                .arg(text)
+                .status()
+                .unwrap();
+            assert!(status.success(), "could not create {}: {status}", path.display());
+            path
+        }
+
         /// Runs `body` as a process named `program`, as Cargo would run the
         /// runner; the runner only counts when its parent is named `cargo`.
         fn launch(&self, program: &str, body: &str, args: &str) -> Output {
-            use std::os::unix::fs::PermissionsExt;
             self.write("suite", "printf '\\ntest result: ok. %s passed; 0 failed; finished in 0.01s\\n' \"$1\"\nexit \"${2:-0}\"\n");
             // A direct interpreter path keeps the process named after the script;
             // `env` would exec bash again and rename it.
-            let path = self.write(program, &format!("#!/bin/bash\n{body}"));
-            fs::set_permissions(&path, fs::Permissions::from_mode(0o755)).unwrap();
+            let path = self.write_executable(program, &format!("#!/bin/bash\n{body}"));
             Command::new(path).args(args.split_whitespace()).current_dir(&self.0)
                 .env("EYERON_TEST_SUMMARY", "1").output().unwrap()
         }
@@ -136,10 +148,8 @@ mod totals {
 
     #[test]
     fn doctest_results_are_included_in_the_same_cargo_total() {
-        use std::os::unix::fs::PermissionsExt;
         let fixture = Fixture::new();
-        let rustdoc = fixture.write("rustdoc", "#!/usr/bin/env bash\nprintf '\\ntest result: ok. 3 passed; 0 failed; finished in 0.01s\\n'\n");
-        fs::set_permissions(rustdoc, fs::Permissions::from_mode(0o755)).unwrap();
+        fixture.write_executable("rustdoc", "#!/usr/bin/env bash\nprintf '\\ntest result: ok. 3 passed; 0 failed; finished in 0.01s\\n'\n");
         let output = fixture.cargo("bash scripts/test-runner bash suite 2\nPATH=\"$PWD:$PATH\" bash scripts/test-rustdoc --test src/lib.rs\n", "test");
         assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
         assert!(stdout(&output).contains("Tests: 5 run; 100.0% OK;"), "{}", stdout(&output));
